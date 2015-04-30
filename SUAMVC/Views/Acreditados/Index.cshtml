@@ -1,0 +1,100 @@
+﻿@model IEnumerable<SUADATOS.Acreditado>
+@using System.Text;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+
+    sb.Append(grid.GetHtml(
+    columns:
+        grid.Columns(
+            grid.Column("Patrone.registro", "Registro", null, null, true),
+            grid.Column("apellidoPaterno", "Apellido Paterno", null, null, true),
+            grid.Column("apellidoMaterno", "Apellido Materno", null, null, true),
+            grid.Column("nombre", "Nombre", null, null, true),
+            grid.Column("nombreCompleto", "Nombre Completo", style: "white-space:nowrap", canSort: true),
+            grid.Column("curp", "CURP", null, null, true),
+            grid.Column("rfc", "RFC", null, null, true),
+            grid.Column("Cliente.claveCliente", "Cliente/Ubicación", format: @<text> @if (@item.Cliente != null)
+            {@item.Cliente.claveCliente}</text>, canSort: true),
+
+            grid.Column("ocupacion", "Ocupación", null, null, true),
+            grid.Column("Cliente.Grupo_id", "Grupo", format: @<text> @if (@item.Cliente != null)
+            {@item.Cliente.Grupo_id}</text>, canSort: false),
+            grid.Column("numeroAfiliacion", "Numero Afiliación", null, null, true),
+            grid.Column("numeroCredito", "Numero Credito", null, null, true),
+            grid.Column("fechaAlta", "Fecha Alta", format: @<text>@item.fechaAlta.ToString("dd-MM-yyyy")</text>, canSort: true),
+            grid.Column("fechaBaja", "Fecha Baja", format: @<text> @if (@item.fechaBaja !=null) {  @item.fechaBaja.ToString("dd-MM-yyyy") }</text>, canSort: true),
+            grid.Column("fechaInicioDescuento", "Inicio descuento", format: @<text>@if (@item.fechaInicioDescuento != null){ @item.fechaInicioDescuento.ToString("dd-MM-yyyy") }</text>, canSort: true),
+            grid.Column("fechaFinDescuento", "Fin descuento", format: @<text>@if (@item.fechaFinDescuento != null){@item.fechaFinDescuento.ToString("dd-MM-yyyy")}</text>, canSort: true),
+            grid.Column("smdv", "SMDV", format: @<text>@item.smdv.ToString("0.00")</text>, canSort:true),
+            grid.Column("sdi", "SDI", format: @<text>@item.sdi.ToString("0.00")</text>, canSort:true),
+            grid.Column("sd", "SD", format: @<text>@item.sd.ToString("0.00")</text>, canSort:true),
+            grid.Column("vsm", "VSM", format: @<text>@item.vsm.ToString("0.0000")</text>, canSort:true),
+            grid.Column("porcentaje", "Porcentaje", format: @<text>@item.vsm.ToString("% 0.00")</text>, canSort:true),
+            grid.Column("cuotaFija", "Cuota Fija", format: @<text>@item.cuotaFija.ToString("0.00")</text>, canSort:true),
+            grid.Column("descuentoBimestral", "Descuento Bimestral", format: @<text>@item.descuentoBimestral.ToString("0.00")</text>, canSort:true),
+            grid.Column("descuentoMensual", "Descuento Mensual", format: @<text>@item.descuentoMensual.ToString("0.00")</text>, canSort:true),
+            grid.Column("descuentoSemanal", "Descuento Semanal", format: @<text>@item.descuentoSemanal.ToString("0.00")</text>, canSort:true),
+            grid.Column("descuentoCatorcenal", "Descuento Catorcenal", format: @<text>@item.descuentoCatorcenal.ToString("0.00")</text>, canSort:true),
+            grid.Column("descuentoQuincenal", "Descuento Quincenal", format: @<text>@item.descuentoQuincenal.ToString("0.00")</text>, canSort:true),
+            grid.Column("descuentoVeintiochonal", "Descuento Veintiochonal", format: @<text>@item.descuentoVeintiochonal.ToString("0.00")</text>, canSort:true),
+            grid.Column("descuentoDiario", "Descuento Diario", format: @<text>@item.descuentoDiario.ToString("0.00")</text>, canSort:true),
+            grid.Column("Plaza.descripcion", "Plaza", null, null, true)
+                            ),
+
+      tableStyle: "table table-striped tableSua"
+      ));
+
+      sb = sb.Replace("\r\n", string.Empty);
+      sb = sb.Replace("    ", string.Empty);
+      
+      var sb1 = new StringBuilder();
+      sb1.Append(sb.ToString().Trim());
+
+      String footer = "<table><tr><td>Total: &nbsp;" +
+                      + grid.TotalRowCount +
+                      "</td><td><a href=\"/Acreditados/GetExcel\">" + 
+                      "<img src=\"/Content/Images/xls.png\" style=\"border:none;\" width=\"30\" height=\"30\" />" +
+                      "</a></td></tr></table>" + 
+                      "</td></tr></tfoot>";
+
+      sb1 = sb1.Replace("</td></tr></tfoot>", footer);
+
+      tableHtml = sb1.ToString();
+}
+
+@section Menu {
+    <div>Catalogo de Acreditados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+@using (Html.BeginForm())
+{
+    <p>
+        Patron: @Html.DropDownList("patronesId", "Escoja uno")
+        Cliente: @Html.DropDownList("clientesId", "Escoja uno")
+
+        <input type="submit" value="Search" />
+    </p>
+}
+
+@if(!tableHtml.IsEmpty()){
+    @Html.Raw(tableHtml)
+}
+<div class="excel-area">
+    <a href="@Url.Action("GetExcel", "Acreditados")" style="text-align:right">
+        <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
+    </a>
+</div>
+
+
+

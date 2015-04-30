@@ -1,0 +1,42 @@
+﻿@model IEnumerable<SUADATOS.Usuario>
+
+@{
+    ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+}
+
+@section Menu {
+    <div>Catalogo de Usuarios <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+
+@grid.GetHtml(
+    columns:
+        grid.Columns(
+            grid.Column("claveusuario", "Clave Usuario", null, null, true),
+            grid.Column("contrasena", "Contraseña", null, null, true),
+            grid.Column("nombreUsuario","Nombre Usuario",null,null,true),
+            grid.Column("apellidoPaterno", "A. Paterno", null, null, true),
+            grid.Column("apellidoMaterno", "A. Materno", null, null, true),
+            grid.Column("email", "Email", null, null, true),
+            grid.Column("fechaIngreso", "Fecha Ingreso", format: @<text>@item.fechaIngreso.ToString("dd-MM-yyyy")</text>, canSort: true),
+            grid.Column("tipo", "Tipo", null, null, true),
+            grid.Column("estatus", "Estatus", null, null, true),
+            grid.Column(header: "Detalle", format: @<text><a href="@Url.Action("Edit", "Usuarios", new { id = item.id })">
+                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+                </a></text>),
+
+            grid.Column(header: "Listar", format: @<text><a href="@Url.Action("Details", "Usuarios", new { id = item.id })">
+                    <img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" />
+                </a></text>),
+
+            grid.Column(header: "Borrar", format: @<text><a href="@Url.Action("Delete", "Usuarios", new { id = item.id })">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a></text>)
+         ),
+         tableStyle: "table table-striped tableSua"
+    )
+<p>
+    @Html.ActionLink("Agregar Usuario", "Create", "Usuarios", new { @class = "btn btn-success" })
+</p>

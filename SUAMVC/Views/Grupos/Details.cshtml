@@ -1,0 +1,67 @@
+﻿@model SUADATOS.Grupos
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Grupos</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.claveGrupo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.claveGrupo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nombreCorto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombreCorto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.posicion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.posicion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Plaza.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plaza.descripcion)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

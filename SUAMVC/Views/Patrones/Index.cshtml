@@ -1,0 +1,46 @@
+﻿@model IEnumerable<SUADATOS.Patrone>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+}
+
+@section Menu {
+    <div>Catalogo de Patrones <img src="~/Content/Images/boss.png" width="15" height="15" /></div>
+}
+@using (Html.BeginForm())
+{
+    <p>
+        Plaza: @Html.DropDownList("plazaId", "Seleccione")
+
+        <input type="submit" value="Consultar" class="btn btn-success" />
+    </p>
+}
+
+@grid.GetHtml(
+    columns:
+        grid.Columns(
+            grid.Column("registro", "Registro", null, null, true),
+            grid.Column("Plaza.descripcion", "Plaza", null, style: "plaza-col", canSort: true),
+            grid.Column("rfc", "RFC", null, null, true),
+            grid.Column("nombre","Nombre",null,style: "name-col", canSort: true),
+            grid.Column("telefono", "Telefono", null, null, true),
+            grid.Column("domicilio", "Domicilio", null, style: "name-col", canSort: true),
+            grid.Column("zona", "Zona", null, null, true),
+            grid.Column("inicioAfiliacion", "Inicio Afiliacion", null, null, true),
+            grid.Column("STyPS", "STyPS", null, null, true),
+            grid.Column("delegacion", "Delegación", null, null, true),
+            grid.Column("codigoPostal", "Codigo Postal", null, null, true),
+            grid.Column(header: "Detalle", format: @<text><a href="@Url.Action("Details", "Patrones", new { id = item.id })">
+                    <img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" />
+                </a></text>),
+            grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Patrones", new { id = item.id })">
+                                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+                                </a></text>)
+
+                                ),
+                            tableStyle: "table-sua table-striped tableSua"
+            )
+
+

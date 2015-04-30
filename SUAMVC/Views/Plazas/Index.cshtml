@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SUADATOS.Plaza>
+
+@{
+    ViewBag.Title = "Plazas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Menu {
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" />Catalogo de Plazas</div>
+}
+
+
+
+
+<p>
+    @Html.ActionLink("Crear Nueva", "Create", null, new {@class = "btn btn-success"})
+</p>
+<table class="table table-striped" style="font-size:10px; width:100%;">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.descripcion)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.descripcion)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Detalles", "Details", new { id = item.id }) |
+                @Html.ActionLink("Borrar", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>
