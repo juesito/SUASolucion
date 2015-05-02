@@ -216,6 +216,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="descripcion" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="cve" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Usuarios">
           <Key>
@@ -523,8 +524,8 @@
             <End Role="MovimientosAsegurado" EntitySet="MovimientosAseguradoes" />
           </AssociationSet>
           <AssociationSet Name="FK_PlazaPatrone" Association="suaModel.FK_PlazaPatrone">
-            <End Role="Plaza" EntitySet="Plazas" />
-            <End Role="Patrone" EntitySet="Patrones" />
+            <End EntitySet="Plazas" Role="Plaza" />
+            <End EntitySet="Patrones" Role="Patrone" />
           </AssociationSet>
           <EntitySet Name="Asegurados" EntityType="suaModel.Asegurado" />
           <AssociationSet Name="FK_Incapacidades_Asegurados" Association="suaModel.FK_Incapacidades_Asegurados">
@@ -544,8 +545,8 @@
             <End Role="Asegurado" EntitySet="Asegurados" />
           </AssociationSet>
           <AssociationSet Name="FK_PlazaAsegurado" Association="suaModel.FK_PlazaAsegurado">
-            <End Role="Plaza" EntitySet="Plazas" />
-            <End Role="Asegurado" EntitySet="Asegurados" />
+            <End EntitySet="Plazas" Role="Plaza" />
+            <End EntitySet="Asegurados" Role="Asegurado" />
           </AssociationSet>
           <EntitySet Name="Acreditados" EntityType="suaModel.Acreditado" />
           <EntitySet Name="Clientes" EntityType="suaModel.Cliente" />
@@ -558,8 +559,8 @@
             <End Role="Acreditado" EntitySet="Acreditados" />
           </AssociationSet>
           <AssociationSet Name="FK_PlazaAcreditado" Association="suaModel.FK_PlazaAcreditado">
-            <End Role="Plaza" EntitySet="Plazas" />
-            <End Role="Acreditado" EntitySet="Acreditados" />
+            <End EntitySet="Plazas" Role="Plaza" />
+            <End EntitySet="Acreditados" Role="Acreditado" />
           </AssociationSet>
           <AssociationSet Name="FK_Asegurados_Clientes" Association="suaModel.FK_Asegurados_Clientes">
             <End Role="Cliente" EntitySet="Clientes" />
@@ -571,12 +572,12 @@
             <End Role="Cliente" EntitySet="Clientes" />
           </AssociationSet>
           <AssociationSet Name="FK_PlazaClientes" Association="suaModel.FK_PlazaClientes">
-            <End Role="Plaza" EntitySet="Plazas" />
-            <End Role="Cliente" EntitySet="Clientes" />
+            <End EntitySet="Plazas" Role="Plaza" />
+            <End EntitySet="Clientes" Role="Cliente" />
           </AssociationSet>
           <AssociationSet Name="FK_PlazaGrupos" Association="suaModel.FK_PlazaGrupos">
-            <End Role="Plaza" EntitySet="Plazas" />
-            <End Role="Grupos" EntitySet="Grupos" />
+            <End EntitySet="Plazas" Role="Plaza" />
+            <End EntitySet="Grupos" Role="Grupos" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="catalogoMovimiento">
@@ -691,13 +692,14 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="descripcion" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" Type="String" />
           <NavigationProperty Name="Patrones" Relationship="suaModel.FK_PlazaPatrone" FromRole="Plaza" ToRole="Patrone" />
           <NavigationProperty Name="Asegurados" Relationship="suaModel.FK_PlazaAsegurado" FromRole="Plaza" ToRole="Asegurado" />
           <NavigationProperty Name="Acreditados" Relationship="suaModel.FK_PlazaAcreditado" FromRole="Plaza" ToRole="Acreditado" />
           <NavigationProperty Name="Clientes" Relationship="suaModel.FK_PlazaClientes" FromRole="Plaza" ToRole="Cliente" />
           <NavigationProperty Name="Grupos" Relationship="suaModel.FK_PlazaGrupos" FromRole="Plaza" ToRole="Grupos" />
+          <Property Name="cve" Nullable="false" Type="String" />
         </EntityType>
         <Association Name="FK_MovimientosAsegurado_catalogoMovimientos">
           <End Type="suaModel.catalogoMovimiento" Role="catalogoMovimiento" Multiplicity="1" />
@@ -724,8 +726,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PlazaPatrone">
-          <End Type="suaModel.Plaza" Role="Plaza" Multiplicity="1" />
-          <End Type="suaModel.Patrone" Role="Patrone" Multiplicity="*" />
+          <End Type="suaModel.Plaza" Multiplicity="1" Role="Plaza" />
+          <End Type="suaModel.Patrone" Multiplicity="*" Role="Patrone" />
           <ReferentialConstraint>
             <Principal Role="Plaza">
               <PropertyRef Name="id" />
@@ -828,8 +830,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PlazaAsegurado">
-          <End Type="suaModel.Plaza" Role="Plaza" Multiplicity="1" />
-          <End Type="suaModel.Asegurado" Role="Asegurado" Multiplicity="*" />
+          <End Type="suaModel.Plaza" Multiplicity="1" Role="Plaza" />
+          <End Type="suaModel.Asegurado" Multiplicity="*" Role="Asegurado" />
           <ReferentialConstraint>
             <Principal Role="Plaza">
               <PropertyRef Name="id" />
@@ -928,8 +930,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PlazaAcreditado">
-          <End Type="suaModel.Plaza" Role="Plaza" Multiplicity="1" />
-          <End Type="suaModel.Acreditado" Role="Acreditado" Multiplicity="*" />
+          <End Type="suaModel.Plaza" Multiplicity="1" Role="Plaza" />
+          <End Type="suaModel.Acreditado" Multiplicity="*" Role="Acreditado" />
           <ReferentialConstraint>
             <Principal Role="Plaza">
               <PropertyRef Name="id" />
@@ -978,8 +980,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PlazaClientes">
-          <End Type="suaModel.Plaza" Role="Plaza" Multiplicity="1" />
-          <End Type="suaModel.Cliente" Role="Cliente" Multiplicity="*" />
+          <End Type="suaModel.Plaza" Multiplicity="1" Role="Plaza" />
+          <End Type="suaModel.Cliente" Multiplicity="*" Role="Cliente" />
           <ReferentialConstraint>
             <Principal Role="Plaza">
               <PropertyRef Name="id" />
@@ -990,8 +992,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PlazaGrupos">
-          <End Type="suaModel.Plaza" Role="Plaza" Multiplicity="1" />
-          <End Type="suaModel.Grupos" Role="Grupos" Multiplicity="*" />
+          <End Type="suaModel.Plaza" Multiplicity="1" Role="Plaza" />
+          <End Type="suaModel.Grupos" Multiplicity="*" Role="Grupos" />
           <ReferentialConstraint>
             <Principal Role="Plaza">
               <PropertyRef Name="id" />
@@ -1130,8 +1132,9 @@
     <EntitySetMapping Name="Plazas">
       <EntityTypeMapping TypeName="IsTypeOf(suaModel.Plaza)">
         <MappingFragment StoreEntitySet="Plazas">
-          <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="cve" ColumnName="cve" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

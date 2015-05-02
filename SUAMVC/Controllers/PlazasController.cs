@@ -46,7 +46,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,descripcion")] Plaza plaza)
+        public ActionResult Create([Bind(Include = "id,descripcion,cve")] Plaza plaza)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,descripcion")] Plaza plaza)
+        public ActionResult Edit([Bind(Include = "id,descripcion,cve")] Plaza plaza)
         {
             if (ModelState.IsValid)
             {

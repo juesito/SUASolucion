@@ -212,7 +212,8 @@ GO
 -- Creating table 'Plazas'
 CREATE TABLE [dbo].[Plazas] (
     [id] int IDENTITY(1,1) NOT NULL,
-    [descripcion] nchar(50)  NOT NULL
+    [descripcion] nchar(50)  NOT NULL,
+    [cve] nchar(10)  NULL
 );
 GO
 

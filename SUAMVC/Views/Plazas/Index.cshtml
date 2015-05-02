@@ -20,6 +20,9 @@
         <th>
             @Html.DisplayNameFor(model => model.descripcion)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cve)
+        </th>
         <th></th>
     </tr>
 
@@ -28,6 +31,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cve)
             </td>
             <td>
                 @Html.ActionLink("Editar", "Edit", new { id = item.id }) |
