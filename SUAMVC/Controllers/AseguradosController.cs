@@ -308,13 +308,13 @@ namespace SUAMVC.Controllers
         }
 
         // GET: Aseguradoes/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult DeleteMov(int id)
         {
             if (id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Asegurado asegurado = db.Asegurados.Find(id);
+            MovimientosAsegurado asegurado = db.MovimientosAseguradoes.Find(id);
             if (asegurado == null)
             {
                 return HttpNotFound();
@@ -387,17 +387,15 @@ namespace SUAMVC.Controllers
         }
 
         // GET: Aseguradoes/Delete/5
-        public ActionResult DeleteMov(int id)
+        public ActionResult DeleteMovs(int id)
         {
             if (id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             MovimientosAsegurado asegurado = db.MovimientosAseguradoes.Find(id);
-            if (asegurado == null)
-            {
-                return HttpNotFound();
-            }
+            db.MovimientosAseguradoes.Remove(asegurado);
+            db.SaveChanges();
             return View(asegurado);
         }
 

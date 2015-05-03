@@ -10,9 +10,6 @@
 <div>Catalogo de Grupos <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<p>
-    @Html.ActionLink("Crear Nuevo", "Create")
-</p>
 
 @grid.GetHtml(
     columns:
@@ -23,14 +20,17 @@
             grid.Column("Plaza_id", "Plaza", null, null, true),
 
             grid.Column("posicion", "Posicion", null, null, true),
-            grid.Column(header: "Detalle", format: @<text><a href="@Url.Action("Details", "Grupos", new { id = item.id })">
+            grid.Column(header: "Consultar", format: @<text><a href="@Url.Action("Details", "Grupos", new { id = item.id })">
                     <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
                 </a></text>),
             grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Grupos", new { id = item.id })">
                     <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
                 </a></text>),
-            grid.Column(header: "Borrar", format: @<text><a href="@Url.Action("Delete", "Grupos", new { id = item.id })">
+            grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Grupos", new { id = item.id })">
                     <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
                 </a></text>)),
                                         tableStyle: "table table-striped tableSua"
                         )
+<p>
+    @Html.ActionLink("Crear Grupo", "Create", "Grupos", new { @class = "btn btn-success" })
+</p>

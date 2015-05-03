@@ -5,7 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+@section Menu {
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Detalle de Grupo </div>
+     }
 
 <div>
     <h4>Grupos</h4>
@@ -52,7 +54,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Plaza.descripcion)
+            @Html.DisplayNameFor(model => model.Plaza)
         </dt>
 
         <dd>
@@ -62,6 +64,5 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Regresar", "Index")
 </p>

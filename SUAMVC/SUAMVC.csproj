@@ -304,6 +304,8 @@
     <Content Include="Views\Grupos\Edit.cshtml" />
     <Content Include="Views\Grupos\Index.cshtml" />
     <Content Include="Views\Asegurados\DeleteMov.cshtml" />
+    <Content Include="Views\DeleteMovs.cshtml" />
+    <Content Include="Views\Asegurados\DeleteMovs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,32 +1,26 @@
 ﻿@model SUADATOS.Plaza
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Plaza";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+@section Menu {
+    <div>Editar Plaza <img src="~/Content/Images/home.png" width="15" height="15" /></div>
+}
+<h2>Plaza</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Plaza</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.cve, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.cve, "Cve corta:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.cve, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.cve, "", new { @class = "text-danger" })
@@ -34,13 +28,17 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            @Html.LabelFor(model => model.descripcion, "Descripción:", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
             </div>
         </div>
+
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <input type="submit" value="Guardar" class="btn btn-success" /> |
+    @Html.ActionLink("Regresar", "Index")
 </div>

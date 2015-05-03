@@ -6,12 +6,10 @@
 }
 
 @section Menu {
-    <div>Borrar Cliente <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Eliminar Cliente <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Cliente</h4>
+<h3>Confirmación para eliminar el Cliente</h3><div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -60,8 +58,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Eliminar" class="btn btn-success" /> |
+            @Html.ActionLink("Regresar", "Index")
         </div>
     }
 </div>

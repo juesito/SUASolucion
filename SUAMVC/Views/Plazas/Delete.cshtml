@@ -9,35 +9,33 @@
     <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Borrar Plaza </div>
 }
 
-<h3>Esta seguro de borrar la plaza?</h3>
+<h3>Confirmación para eliminar la plaza</h3>
 <div>
-    <h4>Plaza</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.descripcion)
-        </dt>
-
+ 
         <dt>
             @Html.DisplayNameFor(model => model.cve)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.descripcion)
-        </dd>
-
         <dd>
             @Html.DisplayFor(model => model.cve)
         </dd>
 
-    </dl>
+        <dt>
+            @Html.DisplayNameFor(model => model.descripcion)
+        </dt>
+       <dd>
+            @Html.DisplayFor(model => model.descripcion)
+        </dd>
+
+     </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Eliminar" class="btn btn-success" /> |
+            @Html.ActionLink("Regresar", "Index")
         </div>
     }
 </div>

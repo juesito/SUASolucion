@@ -14,24 +14,21 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.descripcion)
-        </dt>
-
-        <dt>
             @Html.DisplayNameFor(model => model.cve)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.descripcion)
-        </dd>
-
         <dd>
             @Html.DisplayFor(model => model.cve)
+        </dd>
+
+       <dt>
+            @Html.DisplayNameFor(model => model.descripcion)
+        </dt>
+       <dd>
+            @Html.DisplayFor(model => model.descripcion)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Regresar", "Index")
 </p>
