@@ -8,7 +8,7 @@
     }
     ViewBag.Title = "Asegurados";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+    var grid = new WebGrid(source: Model, rowsPerPage: 14);
     @functions {
         static IHtmlString ShowPDF(string id)
         {
@@ -17,9 +17,23 @@
     }
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
+    
+    <style type="text/css">
+.webgrid-header
+{
+    padding: 6px 5px;
+    text-align: left;
+    background-color: #3399FF; /*#D8D8D8;*/
+    border-bottom: 2px solid #3966A2;
+    height: 20px;
+    border-top: 1px solid #D6E8FF;
+    border-left: 1px solid #D6E8FF;
+    border-right: 1px solid #D6E8FF;
+}    </style>
 
     sb.Append(grid.GetHtml(
-    columns:
+/*        headerStyle: "webgrid-header",*/
+    columns: 
         grid.Columns(
         grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "Elegir"),
             grid.Column("Patrone.registro", "Registro Patronal",  format: @<text> @if (@item.Patrone != null)
@@ -27,22 +41,21 @@
             grid.Column("numeroAfiliacion", "Num.Afiliacion", null, null, true),
             grid.Column("curp", "CURP", null, null, true),
             grid.Column("rfc", "RFC", null, null, true),
-            grid.Column("nombreTemporal", "Nombre", null, null, true),
-            grid.Column("fechaAlta", "Fecha Alta", format: @<text>@item.fechaAlta.ToString("dd-MM-yyyy")</text>, canSort: true),
-            grid.Column("fechaBaja", "Fecha Baja", format: @<text> @if (@item.fechaBaja != null)
-            {  @item.fechaBaja.ToString("dd-MM-yyyy") }</text>, canSort: true),
+            grid.Column("nombreTemporal", "Nombre", @<text><div style='width: 25em'>@item.nombreTemporal</div></text> ,null,canSort:true),
+            grid.Column("fechaAlta", "Fecha Alta", @<text><div style='width: 6em'>@item.fechaAlta.ToString("dd-MM-yyyy")     </div></text>, null,canSort: true),
+            grid.Column("fechaBaja", "Fecha Baja", @<text><div style='width: 6em'>@if (@item.fechaBaja != null) { @item.fechaBaja.ToString("dd-MM-yyyy")}
+ </div></text>, null, canSort: true),
             grid.Column("salarioImss", "Salario IMSS", format: @<text>@item.salarioImss.ToString("0.00")</text>, canSort: true),
             grid.Column("Cliente.claveCliente", "Ubicación", format: @<text> @if (@item.Cliente != null)
             {@item.Cliente.claveCliente}</text>, canSort: true),
             grid.Column("Cliente.Grupos.nombreCorto", "ID.Grupo", format: @<text> @if (@item.Cliente != null)
             {@item.Cliente.Grupos.nombreCorto}</text>, canSort: true),
-            grid.Column("ocupacion", "Ocupación", null, null, true),
+            grid.Column("ocupacion", "Ocupación",  @<text><div style='width: 12em'>@item.ocupacion </div></text>, null, canSort: true),
             grid.Column("Plaza.cve", "ID.Plaza", null, null, true),
             grid.Column("extranjero", "Extranjero", null, null, true),
-            grid.Column("fechaCreacion", "Fecha Creacion", format: @<text> @if (@item.fechaCreacion != null)
-            {  @item.fechaCreacion.ToString("dd-MM-yyyy hh:mm") }</text>, canSort: true),
-            grid.Column("fechaModificacion", "Fecha Modificación", format: @<text> @if (@item.fechaModificacion != null)
-            {  @item.fechaModificacion.ToString("dd-MM-yyyy hh:mm") }</text>, canSort: true),
+            grid.Column("fechaCreacion", "Fecha Creacion", @<text><div style='width: 12em'>@item.fechaCreacion </div></text>, null,canSort: true),
+            grid.Column("fechaModificacion", "Fecha Modificación", @<text><div style='width: 10em'>  @if (@item.fechaModificacion != null)
+            { @item.fechaModificacion}  </div></text>, null, canSort: true),
             grid.Column(header: "Alta",
                 format:
 
@@ -115,7 +128,7 @@
 
         Grupo: @Html.DropDownList("gruposId", "Seleccione")
 
-        Cliente/Ubicación: @Html.DropDownList("clientesId", "Seleccione")
+        Cliente: @Html.DropDownList("clientesId", "Seleccione")
 
         <input type="submit" value="Consultar" class="btn btn-success" } />
     </p>

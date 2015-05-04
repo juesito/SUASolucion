@@ -34,7 +34,10 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            @Html.ActionLink("Eliminar", "DeleteMovs", "Asegurados",new { id = Model.movimientoId}, new { @class = "btn btn-success" })
-            @Html.ActionLink("Regresar", "Details", new { id = Model.aseguradoId })
+            <div class="form-actions no-color">
+                @Html.ActionLink("Eliminar", "DeleteMovs", "Asegurados", new { id = Model.id }, new { @class = "btn btn-success" })
+                @Html.ActionLink("Regresar", "Details", new { id = Model.aseguradoId })
+            </div>
+
          </div>
 </div>

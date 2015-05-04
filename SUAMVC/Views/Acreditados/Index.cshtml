@@ -9,7 +9,7 @@
     }
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+    var grid = new WebGrid(source: Model, rowsPerPage: 14);
 
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
@@ -20,20 +20,21 @@
             grid.Column("Patrone.registro", "Registro Patronal", null, null, true),
             grid.Column("apellidoPaterno", "Ape. Paterno", null, null, true),
             grid.Column("apellidoMaterno", "Ape. Materno", null, null, true),
-            grid.Column("nombre", "Nombre(s)", null, null, true),
-            grid.Column("nombreCompleto", "Nombre", style: "white-space:nowrap", canSort: true),
+            grid.Column("nombre", "Nombre(s)",  @<text><div style='width: 12em'>@item.nombre</div></text> , null, canSort: true),
+            grid.Column("nombreCompleto", "Nombre", @<text><div style='width: 25em'>@item.nombrecompleto</div></text> , null, canSort: true),
             grid.Column("curp", "CURP", null, null, true),
             grid.Column("rfc", "RFC", null, null, true),
             grid.Column("Cliente.claveCliente", "Ubicación", format: @<text> @if (@item.Cliente != null)
             {@item.Cliente.claveCliente}</text>, canSort: true),
 
-            grid.Column("ocupacion", "Ocupación", null, null, true),
+            grid.Column("ocupacion", "Ocupación", @<text><div style='width: 12em'>@item.ocupacion </div></text>, null, canSort: true),
             grid.Column("Cliente.Grupos.nombreCorto", "ID.Grupo", format: @<text> @if (@item.Cliente != null)
             {@item.Cliente.Grupos.nombreCorto}</text>, canSort: true),
             grid.Column("numeroAfiliacion", "Num.Afiliación", null, null, true),
             grid.Column("numeroCredito", "No.Crédito", null, null, true),
-            grid.Column("fechaAlta", "Fecha Alta", format: @<text>@item.fechaAlta.ToString("dd-MM-yyyy")</text>, canSort: true),
-            grid.Column("fechaBaja", "Fecha Baja", format: @<text> @if (@item.fechaBaja !=null) {  @item.fechaBaja.ToString("dd-MM-yyyy") }</text>, canSort: true),
+            grid.Column("fechaAlta", "Fecha Alta", @<text><div style='width: 6em'>@item.fechaAlta.ToString("dd-MM-yyyy")     </div></text>, null, canSort: true),
+            grid.Column("fechaBaja", "Fecha Baja", @<text><div style='width: 6em'> @if (@item.fechaBaja != null) { @item.fechaBaja.ToString("dd-MM-yyyy")}
+            </div></text>, null, canSort: true),
             grid.Column("fechaInicioDescuento", "F.Ini.Desc.", format: @<text>@if (@item.fechaInicioDescuento != null){ @item.fechaInicioDescuento.ToString("dd-MM-yyyy") }</text>, canSort: true),
             grid.Column("fechaFinDescuento", "F.Fin.Desc.", format: @<text>@if (@item.fechaFinDescuento != null){@item.fechaFinDescuento.ToString("dd-MM-yyyy")}</text>, canSort: true),
             grid.Column("smdv", "SMDF", format: @<text>@item.smdv.ToString("0.00")</text>, canSort:true),
@@ -41,13 +42,13 @@
             grid.Column("sd", "SD", format: @<text>@item.sd.ToString("0.00")</text>, canSort:true),
             grid.Column("vsm", "VSM", format: @<text>@item.vsm.ToString("0.0000")</text>, canSort:true),
             grid.Column("porcentaje", "Porcentaje", format: @<text>@item.vsm.ToString("% 0.00")</text>, canSort:true),
-            grid.Column("cuotaFija", "Cuota Fija", format: @<text>@item.cuotaFija.ToString("0.00")</text>, canSort:true),
-            grid.Column("descuentoBimestral", "Desc. Bimestral", format: @<text>@item.descuentoBimestral.ToString("0.00")</text>, canSort:true),
-            grid.Column("descuentoMensual", "Desc. Mensual", format: @<text>@item.descuentoMensual.ToString("0.00")</text>, canSort:true),
-            grid.Column("descuentoSemanal", "Desc. Semanal", format: @<text>@item.descuentoSemanal.ToString("0.00")</text>, canSort:true),
-            grid.Column("descuentoCatorcenal", "Desc. Catorcenal", format: @<text>@item.descuentoCatorcenal.ToString("0.00")</text>, canSort:true),
-            grid.Column("descuentoQuincenal", "Desc. Quincenal", format: @<text>@item.descuentoQuincenal.ToString("0.00")</text>, canSort:true),
-            grid.Column("descuentoVeintiochonal", "Desc. Veintiochonal", format: @<text>@item.descuentoVeintiochonal.ToString("0.00")</text>, canSort:true),
+            grid.Column("cuotaFija", "Cuota Fija", format: @<text>@item.cuotaFija.ToString("0,000.00")</text>, canSort:true),
+            grid.Column("descuentoBimestral", "Desc. Bimestral", format: @<text>@item.descuentoBimestral.ToString("0,000.00")</text>, canSort:true),
+            grid.Column("descuentoMensual", "Desc. Mensual", format: @<text>@item.descuentoMensual.ToString("0,000.00")</text>, canSort:true),
+            grid.Column("descuentoSemanal", "Desc. Semanal", format: @<text>@item.descuentoSemanal.ToString("0,000.00")</text>, canSort:true),
+            grid.Column("descuentoCatorcenal", "Desc. Catorcenal", format: @<text>@item.descuentoCatorcenal.ToString("0,000.00")</text>, canSort:true),
+            grid.Column("descuentoQuincenal", "Desc. Quincenal", format: @<text>@item.descuentoQuincenal.ToString("0,000.00")</text>, canSort:true),
+            grid.Column("descuentoVeintiochonal", "Desc. Veintiochonal", format: @<text>@item.descuentoVeintiochonal.ToString("0,000.00")</text>, canSort:true),
             grid.Column("descuentoDiario", "Desc. Diario", format: @<text>@item.descuentoDiario.ToString("0.00")</text>, canSort: true),
             grid.Column("Plaza.cve", "ID Plaza", null, null, true),
             grid.Column(header: "Imagen", format: @<text><a href="@Url.Action("UploadFile", "Movimientos", new { id = item.id })">
@@ -90,7 +91,7 @@
 
         Grupo: @Html.DropDownList("gruposId", "Seleccione")
 
-        Cliente/Ubicación: @Html.DropDownList("clientesId", "Seleccione")
+        Cliente: @Html.DropDownList("clientesId", "Seleccione")
 
         <input type="submit" value="Consultar" class="btn btn-success" />
     </p>
