@@ -50,7 +50,7 @@
             grid.Column("descuentoQuincenal", "Desc. Quincenal", format: @<text>@item.descuentoQuincenal.ToString("0,000.00")</text>, canSort:true),
             grid.Column("descuentoVeintiochonal", "Desc. Veintiochonal", format: @<text>@item.descuentoVeintiochonal.ToString("0,000.00")</text>, canSort:true),
             grid.Column("descuentoDiario", "Desc. Diario", format: @<text>@item.descuentoDiario.ToString("0.00")</text>, canSort: true),
-            grid.Column("Plaza.cve", "ID Plaza", null, null, true),
+            grid.Column("Patrone.Plaza.cve", "ID Plaza", null, null, true),
             grid.Column(header: "Imagen", format: @<text><a href="@Url.Action("UploadFile", "Movimientos", new { id = item.id })">
                     <img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" />
                 </a></text>)
@@ -94,6 +94,11 @@
         Cliente: @Html.DropDownList("clientesId", "Seleccione")
 
         <input type="submit" value="Consultar" class="btn btn-success" />
+
+        <a href="@Url.Action("GetExcel", "Acreditados")" style="text-align:right">
+            <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
+        </a>
+
     </p>
 }
 
@@ -101,11 +106,6 @@
     {
         @Html.Raw(tableHtml)
     }
-<div class="excel-area">
-    <a href="@Url.Action("GetExcel", "Acreditados")" style="text-align:right">
-        <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
-    </a>
-</div>
 
 
 

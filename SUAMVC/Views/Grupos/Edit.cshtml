@@ -65,7 +65,7 @@
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.estatus, new SelectList(new List<Object> {new {value = "A", text = "Alta"},
                new {value = "B", text = "Baja"}
-                   }, "value", "text"), new { disabled = false })
+                   }, "value", "text"))
                 @Html.ValidationMessageFor(model => model.estatus, "", new { @class = "text-danger" })
             </div>
         </div>

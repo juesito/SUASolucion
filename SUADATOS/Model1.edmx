@@ -116,7 +116,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="claveGrupo" Type="nchar" MaxLength="15" Nullable="false" />
           <Property Name="nombre" Type="nchar" MaxLength="60" Nullable="false" />
-          <Property Name="nombreCorto" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="nombreCorto" Type="nchar" MaxLength="30" />
           <Property Name="Plaza_id" Type="int" Nullable="false" />
           <Property Name="posicion" Type="nchar" MaxLength="10" />
           <Property Name="estatus" Type="nchar" MaxLength="1" Nullable="false" />
@@ -699,7 +699,7 @@
           <NavigationProperty Name="Acreditados" Relationship="suaModel.FK_PlazaAcreditado" FromRole="Plaza" ToRole="Acreditado" />
           <NavigationProperty Name="Clientes" Relationship="suaModel.FK_PlazaClientes" FromRole="Plaza" ToRole="Cliente" />
           <NavigationProperty Name="Grupos" Relationship="suaModel.FK_PlazaGrupos" FromRole="Plaza" ToRole="Grupos" />
-          <Property Name="cve" Nullable="false" Type="String" />
+          <Property Name="cve" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
         </EntityType>
         <Association Name="FK_MovimientosAsegurado_catalogoMovimientos">
           <End Type="suaModel.catalogoMovimiento" Role="catalogoMovimiento" Multiplicity="1" />
@@ -960,7 +960,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="claveGrupo" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
           <Property Name="nombre" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="nombreCorto" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="nombreCorto" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
           <Property Name="Plaza_id" Type="Int32" Nullable="false" />
           <Property Name="posicion" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="estatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />

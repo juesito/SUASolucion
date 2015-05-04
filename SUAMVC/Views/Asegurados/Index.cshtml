@@ -51,7 +51,7 @@
             grid.Column("Cliente.Grupos.nombreCorto", "ID.Grupo", format: @<text> @if (@item.Cliente != null)
             {@item.Cliente.Grupos.nombreCorto}</text>, canSort: true),
             grid.Column("ocupacion", "Ocupación",  @<text><div style='width: 12em'>@item.ocupacion </div></text>, null, canSort: true),
-            grid.Column("Plaza.cve", "ID.Plaza", null, null, true),
+            grid.Column("Patrone.Plaza.cve", "ID.Plaza", null, null, true),
             grid.Column("extranjero", "Extranjero", null, null, true),
             grid.Column("fechaCreacion", "Fecha Creacion", @<text><div style='width: 12em'>@item.fechaCreacion </div></text>, null,canSort: true),
             grid.Column("fechaModificacion", "Fecha Modificación", @<text><div style='width: 10em'>  @if (@item.fechaModificacion != null)
@@ -131,6 +131,13 @@
         Cliente: @Html.DropDownList("clientesId", "Seleccione")
 
         <input type="submit" value="Consultar" class="btn btn-success" } />
+
+        <input type="submit" value="subir pdfs" class="btn btn-success" />
+
+        <a href="@Url.Action("GetExcel", "Acreditados")" style="text-align:right">
+            <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
+        </a>
+
     </p>
 }
 
@@ -142,9 +149,5 @@
         @Html.Raw(tableHtml)
     }
 
-    <div class="excel-area">
-        <input type="submit" value="subir pdfs" class="btn btn-success" />
-    </div>
-    
-    
+   
 }
