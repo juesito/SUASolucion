@@ -7,11 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
-using System.Data.SqlClient;
 using SUAMVC.Models;
 using System.Web.Security;
-using System.Data.Entity.Validation;
-using System.Text;
 
 namespace SUAMVC.Controllers
 {
@@ -23,7 +20,8 @@ namespace SUAMVC.Controllers
         // GET: Usuarios
         public ActionResult Index()
         {
-            return View(db.Usuarios.ToList());
+            var usuarios = db.Usuarios.Include(u => u.Plaza).Include(u => u.Role);
+            return View(usuarios.ToList());
         }
 
         // GET: Usuarios/Details/5
@@ -44,6 +42,8 @@ namespace SUAMVC.Controllers
         // GET: Usuarios/Create
         public ActionResult Create()
         {
+            ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion");
+            ViewBag.roleId = new SelectList(db.Roles, "id", "descripcion");
             return View();
         }
 
@@ -52,35 +52,17 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,nombreUsuario,contrasena,claveUsuario,email,apellidoMaterno,apellidoPaterno,estatus,fechaIngreso,tipo")] Usuario usuario)
+        public ActionResult Create([Bind(Include = "Id,nombreUsuario,contrasena,claveUsuario,email,apellidoMaterno,apellidoPaterno,estatus,fechaIngreso,roleId,plazaId")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
-                DateTime date = DateTime.Now;
-                usuario.fechaIngreso = date;
-                usuario.estatus = "A";
-
                 db.Usuarios.Add(usuario);
-                try { 
                 db.SaveChanges();
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    StringBuilder sb = new StringBuilder();
-
-                    foreach (var failure in ex.EntityValidationErrors)
-                    {
-                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
-                        foreach (var error in failure.ValidationErrors)
-                        {
-                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
-                            sb.AppendLine();
-                        }
-                    }
-                }
                 return RedirectToAction("Index");
             }
 
+            ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", usuario.plazaId);
+            ViewBag.roleId = new SelectList(db.Roles, "id", "descripcion", usuario.roleId);
             return View(usuario);
         }
 
@@ -96,6 +78,8 @@ namespace SUAMVC.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", usuario.plazaId);
+            ViewBag.roleId = new SelectList(db.Roles, "id", "descripcion", usuario.roleId);
             return View(usuario);
         }
 
@@ -104,7 +88,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,nombreUsuario,contrasena,claveUsuario,email,apellidoMaterno,apellidoPaterno,estatus,fechaIngreso,tipo")] Usuario usuario)
+        public ActionResult Edit([Bind(Include = "Id,nombreUsuario,contrasena,claveUsuario,email,apellidoMaterno,apellidoPaterno,estatus,fechaIngreso,roleId,plazaId")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
@@ -112,6 +96,8 @@ namespace SUAMVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", usuario.plazaId);
+            ViewBag.roleId = new SelectList(db.Roles, "id", "descripcion", usuario.roleId);
             return View(usuario);
         }
 
@@ -130,48 +116,6 @@ namespace SUAMVC.Controllers
             return View(usuario);
         }
 
-        [HttpGet]
-        public ActionResult Login() {
-            
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Login(Models.UsuarioModel user)
-        {
-            Boolean bFounded = false;
-
-            if (ModelState.IsValid) {
-
-                if (user.IsValid(user.UserName, user.Password))
-                {
-                    FormsAuthentication.SetAuthCookie(user.UserName, user.RememberMe);
-                    bFounded = true;
-                }
-                else
-                {
-                    TempData["CustomError"] = "Datos de acceso incorrectos!";
-                    
-                }
-
-            }
-
-            if (bFounded)
-            {
-                return RedirectToAction("Home", "Home");
-            }
-            else {
-                return RedirectToAction("Index", "Home");
-            }
-
-            
-        }
-        public ActionResult Logout()
-        {
-            FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
-        }
-
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -183,6 +127,51 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public ActionResult Login()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(Models.UsuarioModel user)
+        {
+            Boolean bFounded = false;
+
+            if (ModelState.IsValid)
+            {
+
+                if (user.IsValid(user.UserName, user.Password))
+                {
+                    FormsAuthentication.SetAuthCookie(user.UserName, user.RememberMe);
+                    bFounded = true;
+                }
+                else
+                {
+                    TempData["CustomError"] = "Datos de acceso incorrectos!";
+
+                }
+
+            }
+
+            if (bFounded)
+            {
+                return RedirectToAction("Home", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+
+        }
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -191,7 +180,5 @@ namespace SUAMVC.Controllers
             }
             base.Dispose(disposing);
         }
-
-
     }
 }

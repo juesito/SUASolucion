@@ -25,7 +25,6 @@ namespace SUADATOS
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<catalogoMovimiento> catalogoMovimientos { get; set; }
         public virtual DbSet<Incapacidade> Incapacidades { get; set; }
         public virtual DbSet<Movimiento> Movimientos { get; set; }
@@ -37,5 +36,9 @@ namespace SUADATOS
         public virtual DbSet<Acreditado> Acreditados { get; set; }
         public virtual DbSet<Cliente> Clientes { get; set; }
         public virtual DbSet<Grupos> Grupos { get; set; }
+        public virtual DbSet<Modulo> Modulos { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<RoleModulo> RoleModulos { get; set; }
     }
 }

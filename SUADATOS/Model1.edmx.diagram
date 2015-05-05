@@ -4,13 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="abd8d340601a4703b79a83f26a983ce1" Name="Diagram1" ZoomLevel="106">
-        <EntityTypeShape EntityType="suaModel.Usuario" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="false" />
+      <Diagram DiagramId="abd8d340601a4703b79a83f26a983ce1" Name="Diagram1" ZoomLevel="93">
         <EntityTypeShape EntityType="suaModel.catalogoMovimiento" Width="1.5" PointX="8.5" PointY="13" />
         <EntityTypeShape EntityType="suaModel.Incapacidade" Width="1.5" PointX="7.5" PointY="16.625" />
         <EntityTypeShape EntityType="suaModel.Movimiento" Width="1.5" PointX="7.5" PointY="31.625" />
         <EntityTypeShape EntityType="suaModel.MovimientosAsegurado" Width="1.5" PointX="10.75" PointY="21.25" />
-        <EntityTypeShape EntityType="suaModel.Parametro" Width="1.5" PointX="2.75" PointY="2.75" />
+        <EntityTypeShape EntityType="suaModel.Parametro" Width="1.5" PointX="7.375" PointY="3.25" />
         <EntityTypeShape EntityType="suaModel.Patrone" Width="1.5" PointX="3" PointY="32.125" IsExpanded="false" />
         <EntityTypeShape EntityType="suaModel.Plaza" PointX="0.75" PointY="23.875" Width="1.5" />
         <AssociationConnector Association="suaModel.FK_MovimientosAsegurado_catalogoMovimientos" />
@@ -32,6 +31,15 @@
         <AssociationConnector Association="suaModel.FK_GrupoClientes" />
         <AssociationConnector Association="suaModel.FK_PlazaClientes" />
         <AssociationConnector Association="suaModel.FK_PlazaGrupos" />
+        <EntityTypeShape EntityType="suaModel.Modulo" Width="1.5" PointX="2.125" PointY="4.375" />
+        <EntityTypeShape EntityType="suaModel.Role" Width="1.5" PointX="3.75" PointY="12.375" />
+        <EntityTypeShape EntityType="suaModel.Usuario" Width="1.5" PointX="6" PointY="11.625" />
+        <AssociationConnector Association="suaModel.FK_Usuarios_Plazas" />
+        <AssociationConnector Association="suaModel.FK_Usuarios_Usuarios" />
+        <EntityTypeShape EntityType="suaModel.RoleModulo" Width="1.5" PointX="8.25" PointY="6.75" />
+        <AssociationConnector Association="suaModel.FK_RoleModulos_Modulos" />
+        <AssociationConnector Association="suaModel.FK_RoleModulos_Roles" />
+        <AssociationConnector Association="suaModel.FK_RoleModulos_Usuarios" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

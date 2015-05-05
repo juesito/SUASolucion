@@ -12,27 +12,20 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class Usuario
+    public partial class Role
     {
-        public Usuario()
+        public Role()
         {
+            this.Usuarios = new HashSet<Usuario>();
             this.RoleModulos = new HashSet<RoleModulo>();
         }
     
-        public int Id { get; set; }
-        public string nombreUsuario { get; set; }
-        public string contrasena { get; set; }
-        public string claveUsuario { get; set; }
-        public string email { get; set; }
-        public string apellidoMaterno { get; set; }
-        public string apellidoPaterno { get; set; }
+        public int id { get; set; }
+        public string descripcion { get; set; }
+        public System.DateTime fechaCreacion { get; set; }
         public string estatus { get; set; }
-        public System.DateTime fechaIngreso { get; set; }
-        public int roleId { get; set; }
-        public int plazaId { get; set; }
     
-        public virtual Plaza Plaza { get; set; }
-        public virtual Role Role { get; set; }
+        public virtual ICollection<Usuario> Usuarios { get; set; }
         public virtual ICollection<RoleModulo> RoleModulos { get; set; }
     }
 }

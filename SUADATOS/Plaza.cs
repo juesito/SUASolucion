@@ -21,6 +21,7 @@ namespace SUADATOS
             this.Acreditados = new HashSet<Acreditado>();
             this.Clientes = new HashSet<Cliente>();
             this.Grupos = new HashSet<Grupos>();
+            this.Usuarios = new HashSet<Usuario>();
         }
     
         public int id { get; set; }
@@ -32,5 +33,6 @@ namespace SUADATOS
         public virtual ICollection<Acreditado> Acreditados { get; set; }
         public virtual ICollection<Cliente> Clientes { get; set; }
         public virtual ICollection<Grupos> Grupos { get; set; }
+        public virtual ICollection<Usuario> Usuarios { get; set; }
     }
 }
