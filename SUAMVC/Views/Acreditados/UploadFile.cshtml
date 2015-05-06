@@ -17,7 +17,7 @@
             {
                 @Html.EditorFor(model => model.id, new { htmlAttributes = new { @class = "form-control" } })
                 <p>Subir Archivo:</p>
-                @Html.DropDownList("answer", new SelectList(new string[] { "Alta", "Baja", "Modificacion", "Permanente" }))
+                @Html.DropDownList("answer", new SelectList(new string[] { "Modificacion" }))
                 <br />
                 <div class="file">
                     @FileUpload.GetHtml(initialNumberOfFiles: 1,

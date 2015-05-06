@@ -1,12 +1,12 @@
 ﻿@model SUADATOS.Movimiento
 
 @{
-    ViewBag.Title = "UploadFile";
+    ViewBag.Title = "UploadFileAcre";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section Menu {
-    <div>Catalogo Asegurado (PDF) <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Catalogo Acreditados (PDF) <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 <div class="panel panel-primary">
@@ -14,14 +14,14 @@
         Cargar archivo para asegurados
     </div>
     <div class="panel-body">
-        @using (@Html.BeginForm("UploadPDFFile", "Movimientos", FormMethod.Post,
+        @using (@Html.BeginForm("UploadPDFFileAcre", "Movimientos", FormMethod.Post,
             new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
 
             if (!IsPost)
             {
-                @Html.Hidden("aseguradoId", Model.aseguradoId)
+                @Html.Hidden("acreditadoId", Model.Acreditado_id)
                 <table>
                     <tbody>
                         <tr>
@@ -66,42 +66,23 @@
                                 <th>
                                     Nombre
                                 </th>
-                                <th>
-                                    Alta
-                                </th>
-                                <th>
-                                    Baja
-                                </th>
-                                <th>
-                                    Modificación
-                                </th>
-                                <th>
-                                    Autorización permanente
+                               <th>
+                                    Aviso Retensión
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(model => model.Asegurado.numeroAfiliacion)
+                                    @Html.DisplayFor(model => model.Acreditado.numeroAfiliacion)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(model => model.Asegurado.nombreTemporal)
+                                    @Html.DisplayFor(model => model.Acreditado.nombreCompleto)
                                 </td>
                                 <td style="text-align:center;">
                                     @Html.RadioButtonFor(model => model.tipo, "A")
                                 </td>
-                                <td style="text-align:center;">
-                                    @Html.RadioButtonFor(model => model.tipo, "B")
-                                </td>
-                                <td style="text-align:center;">
-                                    @Html.RadioButtonFor(model => model.tipo, "M")
-                                </td>
-                                <td style="text-align:center;">
-                                    @Html.RadioButtonFor(model => model.tipo, "P")
-                                </td>
-
-                            </tr>
+                             </tr>
                         </tbody>
                     </table>
 
@@ -117,5 +98,5 @@
     </div>
 </div>
 <div>
-    @Html.ActionLink("Regresar", "Index", "Asegurados")
+    @Html.ActionLink("Regresar", "Index", "Acreditados")
 </div>

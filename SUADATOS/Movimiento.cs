@@ -20,7 +20,9 @@ namespace SUADATOS
         public System.DateTime fechaTransaccion { get; set; }
         public string tipo { get; set; }
         public string nombreArchivo { get; set; }
+        public int Acreditado_id { get; set; }
     
         public virtual Asegurado Asegurado { get; set; }
+        public virtual Acreditado Acreditado { get; set; }
     }
 }

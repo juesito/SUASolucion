@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="suaModel.catalogoMovimiento" Width="1.5" PointX="8.5" PointY="13" />
         <EntityTypeShape EntityType="suaModel.Incapacidade" Width="1.5" PointX="7.5" PointY="16.625" />
         <EntityTypeShape EntityType="suaModel.Movimiento" Width="1.5" PointX="7.5" PointY="31.625" />
-        <EntityTypeShape EntityType="suaModel.MovimientosAsegurado" Width="1.5" PointX="10.75" PointY="21.25" />
+        <EntityTypeShape EntityType="suaModel.MovimientosAsegurado" Width="1.5" PointX="7.75" PointY="22.875" />
         <EntityTypeShape EntityType="suaModel.Parametro" Width="1.5" PointX="7.375" PointY="3.25" />
         <EntityTypeShape EntityType="suaModel.Patrone" Width="1.5" PointX="3" PointY="32.125" IsExpanded="false" />
         <EntityTypeShape EntityType="suaModel.Plaza" PointX="0.75" PointY="23.875" Width="1.5" />

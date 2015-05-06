@@ -14,6 +14,11 @@ namespace SUADATOS
     
     public partial class Acreditado
     {
+        public Acreditado()
+        {
+            this.Movimientoes = new HashSet<Movimiento>();
+        }
+    
         public int id { get; set; }
         public string apellidoPaterno { get; set; }
         public string apellidoMaterno { get; set; }
@@ -57,5 +62,6 @@ namespace SUADATOS
         public virtual Cliente Cliente { get; set; }
         public virtual Patrone Patrone { get; set; }
         public virtual Plaza Plaza { get; set; }
+        public virtual ICollection<Movimiento> Movimientoes { get; set; }
     }
 }

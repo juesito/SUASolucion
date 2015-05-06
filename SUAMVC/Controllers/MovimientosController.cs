@@ -319,6 +319,79 @@ namespace SUAMVC.Controllers
         }
 
 
+        public ActionResult UploadFileAcre(int id)
+        {
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Acreditado acreditado = db.Acreditados.Find(id);
+            if (acreditado == null)
+            {
+                return HttpNotFound();
+            }
+
+            Movimiento movimiento = new Movimiento();
+            DateTime date = DateTime.Now;
+            movimiento.aseguradoId = id;
+            movimiento.fechaTransaccion = date;
+            movimiento.tipo = "A";
+            ViewBag.Acreditado = acreditado;
+
+
+            return View(movimiento);
+        }
+
+        [HttpPost]
+        public ActionResult UploadPDFFileAcre([Bind(Include = "id,Acreditado_id,lote,fechaTransaccion,tipo,nombreArchivo")] Movimiento movimiento, String acreditadoId)
+        {
+            if (!acreditadoId.Equals(""))
+            {
+                Acreditado acreditado = db.Acreditados.Find(Int32.Parse(acreditadoId));
+                if (Request.Files.Count > 0)
+                {
+                    movimiento.aseguradoId = Int32.Parse(acreditadoId);
+ /*                   movimiento.Acreditado = acreditado;*/
+
+                    var file = Request.Files[0];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        String path = "C:\\SUA\\Acreditados\\" + acreditado.numeroAfiliacion + "\\" + movimiento.tipo + "\\"; //Path.Combine("C:\\SUA\\", uploadModel.subFolder);
+                        if (!System.IO.File.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path);
+                        }
+
+                        //var fileName = Path.GetFileName(file.FileName);
+                        var fileName = file.FileName;
+                        var pathFinal = Path.Combine(path, fileName);
+                        file.SaveAs(pathFinal);
+
+                        movimiento.nombreArchivo = fileName;
+                        //Move();
+                        String answer = movimiento.tipo;
+                        ViewBag.dbUploaded = true;
+
+                        //Validamos la acción realizada
+                        if (answer.Equals("A"))
+                        {
+                            acreditado.alta = "S";
+                        }
+
+                        Movimiento movimiento2 = new Movimiento();
+                        DateTime date = DateTime.Now;
+ 
+                        db.Entry(acreditado).State = EntityState.Modified;
+                        db.Movimientos.Add(movimiento);
+                        db.SaveChanges();
+                    }
+                }
+            }
+
+            return RedirectToAction("Index", "Acreditados");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

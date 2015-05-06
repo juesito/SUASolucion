@@ -54,6 +54,8 @@ namespace SUAMVC.Controllers
                                                      FUllName = s.claveGrupo + " - " + s.nombreCorto
                                                  }), "id", "FullName");
 
+            ViewBag.activos = (from s in db.Acreditados where s.fechaBaja <= DateTime.Now select s).Count();
+
             var acreditados = from s in db.Acreditados
                               join cli in db.Clientes on s.clienteId equals cli.Id
                               select s;
@@ -462,7 +464,6 @@ namespace SUAMVC.Controllers
             Response.Write(gridData);
             Response.End();
         }
-        
 
         protected override void Dispose(bool disposing)
         {
