@@ -333,7 +333,7 @@ namespace SUAMVC.Controllers
 
             Movimiento movimiento = new Movimiento();
             DateTime date = DateTime.Now;
-            movimiento.aseguradoId = id;
+            movimiento.acreditadoId = id;
             movimiento.fechaTransaccion = date;
             movimiento.tipo = "A";
             ViewBag.Acreditado = acreditado;
@@ -343,14 +343,14 @@ namespace SUAMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadPDFFileAcre([Bind(Include = "id,Acreditado_id,lote,fechaTransaccion,tipo,nombreArchivo")] Movimiento movimiento, String acreditadoId)
+        public ActionResult UploadPDFFileAcre([Bind(Include = "id,aseguradoId,AcreditadoId,lote,fechaTransaccion,tipo,nombreArchivo")] Movimiento movimiento, String acreditadoId)
         {
             if (!acreditadoId.Equals(""))
             {
                 Acreditado acreditado = db.Acreditados.Find(Int32.Parse(acreditadoId));
                 if (Request.Files.Count > 0)
                 {
-                    movimiento.aseguradoId = Int32.Parse(acreditadoId);
+                    movimiento.acreditadoId = Int32.Parse(acreditadoId);
  /*                   movimiento.Acreditado = acreditado;*/
 
                     var file = Request.Files[0];
@@ -379,9 +379,6 @@ namespace SUAMVC.Controllers
                             acreditado.alta = "S";
                         }
 
-                        Movimiento movimiento2 = new Movimiento();
-                        DateTime date = DateTime.Now;
- 
                         db.Entry(acreditado).State = EntityState.Modified;
                         db.Movimientos.Add(movimiento);
                         db.SaveChanges();

@@ -27,7 +27,6 @@ namespace SUADATOS
     
         public virtual DbSet<catalogoMovimiento> catalogoMovimientos { get; set; }
         public virtual DbSet<Incapacidade> Incapacidades { get; set; }
-        public virtual DbSet<Movimiento> Movimientos { get; set; }
         public virtual DbSet<MovimientosAsegurado> MovimientosAseguradoes { get; set; }
         public virtual DbSet<Parametro> Parametros { get; set; }
         public virtual DbSet<Patrone> Patrones { get; set; }
@@ -40,5 +39,6 @@ namespace SUADATOS
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<RoleModulo> RoleModulos { get; set; }
+        public virtual DbSet<Movimiento> Movimientos { get; set; }
     }
 }
