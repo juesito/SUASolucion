@@ -618,6 +618,7 @@ namespace SUAMVC.Controllers
 
                 // Descuento tipo porcentaje
                 acreditado.sd = 0;
+                acreditado.cuotaFija = 0;
                 acreditado.smdv = 0.0;
                 acreditado.vsm = 0;
                 acreditado.porcentaje = valueToCalculate;
@@ -633,7 +634,8 @@ namespace SUAMVC.Controllers
             else if (tipoDescuento.Trim().Equals("2"))
             {
                 // Descuento tipo cuota fija
-                acreditado.sd = valueToCalculate;
+                acreditado.sd = 0;
+                acreditado.cuotaFija = valueToCalculate;
                 acreditado.smdv = 0.0;
                 acreditado.vsm = 0;
                 acreditado.porcentaje = 0;
@@ -647,6 +649,7 @@ namespace SUAMVC.Controllers
             {
                 // Descuento tipo VSM
                 acreditado.sd = 0;
+                acreditado.cuotaFija = 0;
                 acreditado.smdv = 0.0;
                 acreditado.vsm = Math.Round(valueToCalculate, 3);
                 acreditado.porcentaje = 0;
