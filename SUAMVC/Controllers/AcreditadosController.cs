@@ -54,8 +54,6 @@ namespace SUAMVC.Controllers
                                                      FUllName = s.claveGrupo + " - " + s.nombreCorto
                                                  }), "id", "FullName");
 
-            ViewBag.activos = (from s in db.Acreditados where s.fechaBaja <= DateTime.Now select s).Count();
-
             var acreditados = from s in db.Acreditados
                               join cli in db.Clientes on s.clienteId equals cli.Id
                               select s;
@@ -200,8 +198,11 @@ namespace SUAMVC.Controllers
                     }
                 }
             }
-            
-            acreditados = acreditados.OrderBy(s => s.nombreCompleto);
+
+            ViewBag.activos = acreditados.Where(s => s.fechaAlta > s.fechaBaja).Count();
+            ViewBag.inactivos = acreditados.Where(s => s.fechaBaja >= s.fechaAlta).Count();
+
+             acreditados = acreditados.OrderBy(s => s.nombreCompleto);
             
             return View(acreditados.ToList());
         }
@@ -279,11 +280,34 @@ namespace SUAMVC.Controllers
             if (carga != null)
             {
                 Acreditado acreditado = db.Acreditados.Find(id);
+                var movtosTemp = from b in db.Movimientos
+                                 where b.acreditadoId.Equals(id)
+                                   && b.tipo.Equals(option)
+                                 orderby b.fechaTransaccion
+                                 select b;
 
-                var fileName = "C:\\SUA\\Acreditados\\" + acreditado.numeroAfiliacion.Trim() + "\\" + option + "\\" + option + "-" + acreditado.numeroAfiliacion.Trim() + ".pdf";
-                FileStream fs = new FileStream(fileName, FileMode.Open);
+                Movimiento movto = new Movimiento();
+                if (movtosTemp != null)
+                {
+                    foreach (var movtosItem in movtosTemp)
+                    {
+                        movto = movtosItem;
+                        break;
+                    }//Definimos los valores para la plaza
+                }
 
-                return File(fs, "application/pdf");
+                var fileName = "C:\\SUA\\Acreditados\\" + acreditado.numeroAfiliacion + "\\" + option + "\\" + movto.nombreArchivo.Trim();
+
+                if (System.IO.File.Exists(fileName))
+                {
+                    FileStream fs = new FileStream(fileName, FileMode.Open);
+
+                    return File(fs, "application/pdf");
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
             else
             {

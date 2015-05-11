@@ -112,7 +112,18 @@
             <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
         </a>
 
+
     </p>
+
+    <div style ="float: right; ">
+        
+        Activos: @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
+
+        Inactivos: @Html.Label("Inactivos: ", Convert.ToString((int)ViewBag.inactivos))
+        
+    </div>
+
+
 }
 @using (Html.BeginForm("UploadFiles", "Movimientos", FormMethod.Post))
 {

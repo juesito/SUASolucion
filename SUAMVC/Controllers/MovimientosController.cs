@@ -343,7 +343,7 @@ namespace SUAMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadPDFFileAcre([Bind(Include = "id,aseguradoId,AcreditadoId,lote,fechaTransaccion,tipo,nombreArchivo")] Movimiento movimiento, String acreditadoId)
+        public ActionResult UploadPDFFileAcre([Bind(Include = "id,acreditadoId,lote,fechaTransaccion,tipo,nombreArchivo")] Movimiento movimiento, String acreditadoId)
         {
             if (!acreditadoId.Equals(""))
             {

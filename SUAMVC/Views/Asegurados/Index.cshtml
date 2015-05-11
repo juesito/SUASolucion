@@ -23,16 +23,16 @@
 {
     padding: 6px 5px;
     text-align: left;
-    background-color: #3399FF; /*#D8D8D8;*/
-    border-bottom: 2px solid #3966A2;
+    background-color: #CFE6AA;    /*#D8D8D8;*/
+    border-bottom: 3px solid #9BC25D;
     height: 20px;
-    border-top: 1px solid #D6E8FF;
-    border-left: 1px solid #D6E8FF;
-    border-right: 1px solid #D6E8FF;
+    border-top: 1px solid #9BC25D;
+    border-left: 1px solid #9BC25D;
+    border-right: 1px solid #9BC25D;
 }    </style>
 
     sb.Append(grid.GetHtml(
-/*        headerStyle: "webgrid-header",*/
+      headerStyle: "webgrid-header",
     columns: 
         grid.Columns(
         grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "Elegir"),
@@ -132,17 +132,25 @@
 
         <input type="submit" value="Consultar" class="btn btn-success" } />
 
-        <input type="submit" value="subir pdfs" class="btn btn-success" />
-
-        <a href="@Url.Action("GetExcel", "Acreditados")" style="text-align:right">
+         <a href="@Url.Action("GetExcel", "Acreditados")" style="text-align:right">
             <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
         </a>
 
     </p>
+
+    <div style="float: right; ">
+
+        Activos: @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
+
+        Inactivos: @Html.Label("Inactivos: ", Convert.ToString((int)ViewBag.inactivos))
+
+    </div>
+
 }
 
 @using (Html.BeginForm("UploadFiles", "Movimientos", FormMethod.Post))
 {
+    <input type="submit" value="subir pdfs" class="btn btn-success" />
 
     if (!tableHtml.IsEmpty())
     {
