@@ -319,6 +319,7 @@
     <Content Include="Views\Usuarios\Index.cshtml" />
     <Content Include="Views\RoleModulos\Index.cshtml" />
     <Content Include="Views\Movimientos\UploadFileAcre.cshtml" />
+    <Content Include="Views\Asegurados\Paginado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

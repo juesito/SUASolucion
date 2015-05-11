@@ -8,7 +8,7 @@
     }
     ViewBag.Title = "Asegurados";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: Model, rowsPerPage: 12);
+    var grid = new WebGrid(source: Model, rowsPerPage: 14);
     @functions {
         static IHtmlString ShowPDF(string id)
         {
@@ -17,21 +17,23 @@
     }
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
-    
+
     sb.Append(grid.GetHtml(
-//      headerStyle: "webgrid-header",
-    columns: 
+        //      headerStyle: "webgrid-header",
+    columns:
         grid.Columns(
         grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "Elegir"),
-            grid.Column("Patrone.registro", "Registro Patronal",  format: @<text> @if (@item.Patrone != null)
-            {  @item.Patrone.registro }</text>, canSort:true),
+            grid.Column("Patrone.registro", "Registro Patronal", format: @<text> @if (@item.Patrone != null)
+            {  @item.Patrone.registro }</text>, canSort: true),
             grid.Column("numeroAfiliacion", "Num.Afiliacion", null, null, true),
             grid.Column("curp", "CURP", null, null, true),
             grid.Column("rfc", "RFC", null, null, true),
-            grid.Column("nombreTemporal", "Nombre", @<text><div style='width: 25em'>@item.nombreTemporal</div></text> ,null,canSort:true),
-            grid.Column("fechaAlta", "Fecha Alta", @<text><div style='width: 6em'>@item.fechaAlta.ToString("dd-MM-yyyy")     </div></text>, null,canSort: true),
-            grid.Column("fechaBaja", "Fecha Baja", @<text><div style='width: 6em'>@if (@item.fechaBaja != null) { @item.fechaBaja.ToString("dd-MM-yyyy")}
- </div></text>, null, canSort: true),
+            grid.Column("nombreTemporal", "Nombre", @<text><div style='width: 25em'>@item.nombreTemporal</div></text> , null, canSort: true),
+            grid.Column("fechaAlta", "Fecha Alta", @<text><div style='width: 6em'>@item.fechaAlta.ToString("dd-MM-yyyy")     </div></text>, null, canSort: true),
+            grid.Column("fechaBaja", "Fecha Baja", @<text><div style='width: 6em'>
+                    @if (@item.fechaBaja != null)
+                    { @item.fechaBaja.ToString("dd-MM-yyyy")}
+        </div></text>, null, canSort: true),
             grid.Column("salarioImss", "Salario IMSS", format: @<text>@item.salarioImss.ToString("0.00")</text>, canSort: true),
             grid.Column("Cliente.claveCliente", "Ubicación", format: @<text> @if (@item.Cliente != null)
             {@item.Cliente.claveCliente}</text>, canSort: true),
@@ -40,16 +42,18 @@
             grid.Column("ocupacion", "Ocupación",  @<text><div style='width: 12em'>@item.ocupacion </div></text>, null, canSort: true),
             grid.Column("Patrone.Plaza.cve", "ID.Plaza", null, null, true),
             grid.Column("extranjero", "Extranjero", null, null, true),
-            grid.Column("fechaCreacion", "Fecha Creacion", @<text><div style='width: 12em'>@item.fechaCreacion </div></text>, null,canSort: true),
-            grid.Column("fechaModificacion", "Fecha Modificación", @<text><div style='width: 10em'>  @if (@item.fechaModificacion != null)
-            { @item.fechaModificacion}  </div></text>, null, canSort: true),
+            grid.Column("fechaCreacion", "Fecha Creacion", @<text><div style='width: 12em'>@item.fechaCreacion </div></text>, null, canSort: true),
+            grid.Column("fechaModificacion", "Fecha Modificación", @<text><div style='width: 10em'>
+                    @if (@item.fechaModificacion != null)
+                    { @item.fechaModificacion}
+                </div></text>, null, canSort: true),
             grid.Column(header: "Alta",
                 format:
 
                 @<text><a href="@Url.Action("ViewAttachment", "Asegurados", new { id = item.id, option = "A", carga = item.alta })" target="_blank">
                         @ShowPDF(item.alta)
                     </a></text>),
-  
+
                     grid.Column(header: "Modificación",
                 format:
 
@@ -90,13 +94,13 @@
     sb1.Append(sb.ToString().Trim());
 
     //<tfoot><tr ><td colspan=\"30\">
-    String footer = "<table><tr> "+
+    String footer = "<table><tr> " +
                     "<td><a href=\"/Asegurados/GetExcel\">" +
                     "<img src=\"/Content/Images/xls.png\" style=\"border:none;\" width=\"30\" height=\"30\" />" +
                     "</a></td></tr></table>" +
                     "</td></tr></tfoot>";
 
-//    sb1 = sb1.Replace("</td></tr></tfoot>", footer);
+    sb1 = sb1.Replace("</td></tr></tfoot>", footer);
 
     tableHtml = sb1.ToString();
 }
@@ -105,7 +109,7 @@
     <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catalogo de Asegurados</div>
 }
 
-@using (Html.BeginForm(null, null, FormMethod.Get))
+@using (Html.BeginForm())
 {
     <p>
         Plaza: @Html.DropDownList("plazasId", "Seleccione")
@@ -118,24 +122,15 @@
 
         <input type="submit" value="Consultar" class="btn btn-success" } />
 
-         <a href="@Url.Action("GetExcel", "Acreditados")" style="text-align:right">
+        <a href="@Url.Action("GetExcel", "Acreditados")" style="text-align:right">
             <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
         </a>
 
-           <fieldset>
-                Opción: @Html.DropDownList("opcion", "Seleccione")
-                @Html.Label("valor", "Valor:")
-                @Html.TextBox("valor")
-               <input type="submit" value="Buscar" class="btn btn-success" } />
+    </p>
 
-            </fieldset>
+    <div style="float: right; ">
 
-
-</p>
-
-    <div style="float: right; column-span:2">
-
-        Registros: @Html.Label("Registros: ", Convert.ToString((int)ViewBag.registros))
+        Registros: @Html.Label("Registros: ", Convert.ToString((int)grid.TotalRowCount))
 
         Activos: @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
 
@@ -152,7 +147,13 @@
         @Html.Raw(tableHtml)
     }
 
-   
+
+}
+
+@using (Html.BeginForm("Index2"))
+{
+    <input type="submit" value="Buscador" class="btn btn-success" />
+
 }
 
 

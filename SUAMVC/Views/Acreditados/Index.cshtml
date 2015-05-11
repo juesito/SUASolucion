@@ -9,7 +9,7 @@
     }
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: Model, rowsPerPage: 14);
+    var grid = new WebGrid(source: Model, rowsPerPage: 12);
     @functions {
         static IHtmlString ShowPDF(string id)
         {
@@ -78,14 +78,13 @@
     var sb1 = new StringBuilder();
     sb1.Append(sb.ToString().Trim());
 
-    String footer = "<table><tr><td>Total: &nbsp;" +
-                    +grid.TotalRowCount +ViewBag.activos+
-                    "</td><td><a href=\"/Acreditados/GetExcel\">" +
+    String footer = "<table><tr>" +
+                    "<td><a href=\"/Acreditados/GetExcel\">" +
                     "<img src=\"/Content/Images/xls.png\" style=\"border:none;\" width=\"30\" height=\"30\" />" +
                     "</a></td></tr></table>" +
                     "</td></tr></tfoot>";
 
-    sb1 = sb1.Replace("</td></tr></tfoot>", footer);
+//    sb1 = sb1.Replace("</td></tr></tfoot>", footer);
 
     tableHtml = sb1.ToString();
 }
@@ -94,7 +93,7 @@
     <div>Catalogo de Acreditados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Get))
 {
     <p>
 
@@ -117,16 +116,12 @@
 
     <div style ="float: right; ">
         
+        Registros: @Html.Label("Registros: ", Convert.ToString((int)ViewBag.registros))
+
         Activos: @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
 
-        Inactivos: @Html.Label("Inactivos: ", Convert.ToString((int)ViewBag.inactivos))
-        
     </div>
 
-
-}
-@using (Html.BeginForm("UploadFiles", "Movimientos", FormMethod.Post))
-{
 
     if (!tableHtml.IsEmpty())
     {

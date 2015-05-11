@@ -15,22 +15,28 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Patrones
-        public ActionResult Index(String plazaId)
+        public ActionResult Index(String plazasId)
         {
             var patrones = from p in db.Patrones
                            select p;
 
-            if (!String.IsNullOrEmpty(plazaId))
+            if (!String.IsNullOrEmpty(plazasId))
             {
-                int plazaIdTemp = int.Parse(plazaId);
-                patrones = patrones.Where(p => p.Plaza.id == plazaIdTemp);
+                int plazaIdTemp = int.Parse(plazasId);
+                patrones = patrones.Where(p => p.Plaza.id.Equals(plazaIdTemp));
             }
             else {
                 patrones = db.Patrones.Include(p => p.Plaza);
             }
 
             patrones.OrderBy(p => p.nombre);
-            ViewBag.PlazaId = new SelectList(db.Plazas, "id", "descripcion");
+            ViewBag.PlazasId = new SelectList((from s in db.Plazas.ToList()
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   FUllName = s.descripcion
+                                               }), "id", "FullName");
             
             return View(patrones.ToList());
         }

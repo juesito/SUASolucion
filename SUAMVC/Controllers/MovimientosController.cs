@@ -333,6 +333,7 @@ namespace SUAMVC.Controllers
 
             Movimiento movimiento = new Movimiento();
             DateTime date = DateTime.Now;
+            movimiento.Acreditado = acreditado;
             movimiento.acreditadoId = id;
             movimiento.fechaTransaccion = date;
             movimiento.tipo = "A";

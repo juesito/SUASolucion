@@ -21,7 +21,7 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Acreditados
-         public ActionResult Index(String plazasId, String patronesId, String clientesId, String gruposId, string currentPlaza,string currentPatron, string currentCliente, string currentGrupo, int? page, String sortOrder, String lastSortOrder)
+         public ActionResult Index(String plazasId, String patronesId, String clientesId, String gruposId, string currentPlaza,string currentPatron, string currentCliente, string currentGrupo, int page = 1, String sortOrder= null, String lastSortOrder = null)
         {
 
             //ViewBag.patronesId = new SelectList(db.Patrones, "id", "nombre");
@@ -199,11 +199,19 @@ namespace SUAMVC.Controllers
                 }
             }
 
-            ViewBag.activos = acreditados.Where(s => s.fechaAlta > s.fechaBaja).Count();
-            ViewBag.inactivos = acreditados.Where(s => s.fechaBaja >= s.fechaAlta).Count();
+            if (page < 1) page = 1;
 
-             acreditados = acreditados.OrderBy(s => s.nombreCompleto);
-            
+            ViewBag.activos = acreditados.Where(s => !s.fechaBaja.HasValue).Count();
+
+            ViewBag.registros = acreditados.Count();
+
+             if (page == 1) {
+                 acreditados = acreditados.OrderBy(s => s.nombre);
+             }
+             else
+                 acreditados = acreditados.OrderBy(s => s.nombre).Skip(page * 12);
+
+              
             return View(acreditados.ToList());
         }
 
