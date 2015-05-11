@@ -144,7 +144,11 @@ namespace SUAMVC.Controllers
 
                 if (user.IsValid(user.UserName, user.Password))
                 {
-                    FormsAuthentication.SetAuthCookie(user.UserName, user.RememberMe);
+                    Usuario usuario = user.extraeUsuario(user.UserName, user.Password);
+                    usuario.contrasena = "XXXXX";
+                    Session["UsuarioData"] = usuario;
+
+                    FormsAuthentication.SetAuthCookie(usuario.nombreUsuario, user.RememberMe);
                     bFounded = true;
                 }
                 else

@@ -6,6 +6,10 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    position: inherit;
+    margin-top: 50px;
+    height: auto;
+    min-height: 500px;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -16,161 +20,149 @@ textarea {
 }
 
 .myDate {
-    width:80px;
+    width: 80px;
 }
 
 .tableSua {
-    font-size:10px;
+    font-size: 10px;
 }
 
-.icon{   /*Some CSS to set the background image (not tested) */
-   padding:0px;
-   width:20px;
-   height:20px;
+.icon { /*Some CSS to set the background image (not tested) */
+    padding: 0px;
+    width: 20px;
+    height: 20px;
 }
 
-.excel-area{   /*Some CSS to set the background image (not tested) */
-   width:100%;
-   text-align:right;
-   height:100px;
-   float:left;
-   
+.excel-area { /*Some CSS to set the background image (not tested) */
+    width: 100%;
+    text-align: right;
+    height: 100px;
+    float: left;
 }
 
 
 .container-sua {
-    padding-top:0px;
-    margin-bottom:0px;
-
+    padding-top: 0px;
+    margin-bottom: 0px;
 }
 
-.body-content {
-    position:inherit;
-    margin-top:50px;
-}
-.logo{   /*Some CSS to set the background image (not tested) */
-   padding:0px;
-   text-align:left;
-   width:21%;
-   height:88px;
-   margin-bottom:0px;
-   margin-left:0px;
-   margin-right:0px;
-   margin-top:2px;
-   border:none;
-   float:left;
-   
+
+.logo { /*Some CSS to set the background image (not tested) */
+    padding: 0px;
+    text-align: left;
+    width: 21%;
+    height: 88px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 2px;
+    border: none;
+    float: left;
 }
 
 .title {
     border-bottom: 2px solid #151E49;
-    height:70px;
-    width:200px;
-    padding:0px;
-    vertical-align:top;
-    float:right;
-    display:inline;
+    height: 70px;
+    width: 200px;
+    padding: 0px;
+    vertical-align: top;
+    float: right;
+    display: inline;
 }
 
     .title h1, h3 {
-    line-height: 2%;
+        line-height: 2%;
     }
 
 .header {
-    width:100%;
-    clear:both;
-    height:145px;
+    width: 100%;
+    clear: both;
+    height: 145px;
     border: 0px;
-    margin:0px auto;
+    margin: 0px auto;
 }
 
 
-.login{   /*Some CSS to set the background image (not tested) */
-   padding:0px;
-   margin-top:2px;
-   text-align:left;
-   width:35%;
-   height:40px;
-   margin-left:0px;
-   margin-right:0px;
-   float:right;
-   border: 0px;
-   display:inline;
-   
+.login { /*Some CSS to set the background image (not tested) */
+    padding: 0px;
+    margin-top: 2px;
+    text-align: left;
+    width: 35%;
+    height: 40px;
+    margin-left: 0px;
+    margin-right: 0px;
+    float: right;
+    border: 0px;
+    display: inline;
 }
 
 .textMenu {
-    float:left;
-    text-align:left;
-    display:inline;
-    padding-top:10px;
-    padding-left:10px;
+    float: left;
+    text-align: left;
+    display: inline;
+    padding-top: 10px;
+    padding-left: 10px;
 }
 
-.body-content {
-    min-height:400px;
-}
+
 
 .footer {
-    width:100%;
-    text-align:right;
-    padding-right:20px;
+    width: 100%;
+    text-align: right;
+    padding-right: 20px;
 }
 
-.logo-login{   /*Some CSS to set the background image (not tested) */
-   padding:0px;
-   width:100%;
-   vertical-align:central;
-   height:auto;
-   text-align:center;
-   margin-left:15px;
-   margin-right:0px;
-   margin-top:0px;
-   
+.logo-login { /*Some CSS to set the background image (not tested) */
+    padding: 0px;
+    width: 100%;
+    vertical-align: central;
+    height: auto;
+    text-align: center;
+    margin-left: 15px;
+    margin-right: 0px;
+    margin-top: 0px;
 }
 
-.logo-login-main{   /*Some CSS to set the background image (not tested) */
-   padding-left:15px;
-   width:100%;
-   margin:0px;
-   margin-left:0px;
-   margin-right:0px;
-   height:95px;
-   border: 0px;
-   border: 0px;
-    
+.logo-login-main { /*Some CSS to set the background image (not tested) */
+    padding-left: 15px;
+    width: 100%;
+    margin: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    height: 95px;
+    border: 0px;
+    border: 0px;
 }
 
 .menu {
-    margin-top:1px;
-    background-color:#2E538A;
-    width:100%;
-    height:40px;
-    color:#ffffff;
-    text-align:left;
-    padding-right:25px;
-    position:absolute;
-    top:120px;  
-    font-weight:bold;
+    margin-top: 1px;
+    background-color: #2E538A;
+    width: 100%;
+    height: 40px;
+    color: #ffffff;
+    text-align: left;
+    padding-right: 25px;
+    position: absolute;
+    top: 120px;
+    font-weight: bold;
 }
 
 
 .navbar-header {
-    margin:0px !important;
-    padding:0px !important;
-    top:1px;
-    position:inherit;
+    margin: 0px !important;
+    padding: 0px !important;
+    top: 1px;
+    position: inherit;
 }
 
 .login-line {
-    margin-top:0px;
-    background-color:#D5E2F3;
-    width:100%;
-    height:20px;
-    color:#2E538A;
-    text-align:right;
-    padding-right:25px;
-    
+    margin-top: 0px;
+    background-color: #D5E2F3;
+    width: 100%;
+    height: 20px;
+    color: #2E538A;
+    text-align: right;
+    padding-right: 25px;
 }
 
 
@@ -181,21 +173,21 @@ textarea {
 
 
 table-sua {
-  width: auto;
-  background-color: transparent;
+    width: auto;
+    background-color: transparent;
 }
 
 .name-col {
-    width:800px !important;
+    width: 800px !important;
 }
 
 .plaza-col {
-    width:250px;
+    width: 250px;
 }
 
 .footer {
-    background-color:#151E49;
-    color:#ffffff;
+    background-color: #151E49;
+    color: #ffffff;
 }
 
 tfoot {
@@ -207,7 +199,130 @@ tfoot {
     font-size: 12px;
 }
 
-tfoot td {
-  border-bottom: 0;
-  border-right: 0;
+    tfoot td {
+        border-bottom: 0;
+        border-right: 0;
+    }
+
+#contenedor {
+    margin-left: 0px;
+    margin-top: 20px;
+    padding: 0 0 0 0;
+    width: 90%;
+    position: inherit;
+    min-height: 450px;
+    border: 1px solid #2A538A;
+    height: auto;
 }
+
+#lcontenedor-interno {
+    width: 100%;
+    overflow: hidden;
+    float: left;
+    clear: left;
+    min-height: 300px;
+    margin-bottom: 1px;
+    padding: 1px;
+}
+
+#lgcontenedor-interno {
+    width: 50%;
+    overflow: hidden;
+    float: left;
+    min-height: 300px;
+    margin-bottom: 1px;
+    position: inherit;
+    margin-top: 10px;
+    margin-left: 10px;
+    height: auto;
+}
+
+#rgcontenedor-interno {
+    width: 40%;
+    overflow: hidden;
+    float: right;
+    min-height: 300px;
+    margin-bottom: 1px;
+    border-left: 1px dotted #2A538A;
+    margin-top: 10px;
+    margin-right: 10px;
+    position: inherit;
+    height: auto;
+}
+
+#bcontenedor-interno {
+    text-align: center;
+}
+
+
+.rarrow_button {
+    background: url(Images/arrow_right.png) no-repeat;
+    background-size: 20px 20px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    border: none;
+}
+
+.larrow_button {
+    background: url(Images/arrow_left.png) no-repeat;
+    background-size: 20px 20px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    border: none;
+}
+/*
+.table-fixed thead {
+  width: 100%;
+}
+.table-fixed tbody {
+  height: 230px;
+  overflow-y: auto;
+  width: 100%;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}
+
+    */
+
+table-fixed {
+    width: 100%;
+}
+
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+    display: block;
+}
+
+.table-fixed  tr:after {
+        content: ' ';
+        display: block;
+        visibility: hidden;
+        clear: both;
+    }
+
+.table-fixed thead th {
+        height: 30px;
+        /*text-align: left;*/
+    }
+
+.table-fixed tbody {
+    height: 230px;
+    overflow-y: auto;
+}
+
+.table-fixed thead {
+    /* fallback */
+}
+
+
+.table-fixed tbody td, .table-fixed thead th {
+        float: left;
+        white-space:nowrap;
+    }
+

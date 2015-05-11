@@ -55,6 +55,22 @@ namespace SUAMVC.Models
             return isExist;
         }
 
+        public Usuario extraeUsuario(string _username, string _password)
+        { 
+            String sSQL = "SELECT * FROM Usuarios WHERE claveUsuario = @username " +
+                " AND contrasena = @pass ";
+
+            SqlParameter pNick = new SqlParameter("username", _username);
+            SqlParameter pPass = new SqlParameter("pass", _password);
+
+            object[] parameters = new object[]{pNick, pPass};
+
+
+            Usuario user = db.Usuarios.SqlQuery(sSQL,parameters).FirstOrDefault();
+
+            return user;
+        }
+
     }
 
 

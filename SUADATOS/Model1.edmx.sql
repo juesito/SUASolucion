@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/05/2015 08:23:57
--- Generated from EDMX file: C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUASolucion\SUADATOS\Model1.edmx
+-- Date Created: 05/10/2015 12:52:38
+-- Generated from EDMX file: C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUADATOS\Model1.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -17,26 +17,29 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_Acreditados_Clientes]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Acreditados] DROP CONSTRAINT [FK_Acreditados_Clientes];
-GO
-IF OBJECT_ID(N'[dbo].[FK_GrupoClientes]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Clientes] DROP CONSTRAINT [FK_GrupoClientes];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Incapacidades_Asegurados]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Incapacidades] DROP CONSTRAINT [FK_Incapacidades_Asegurados];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Movimientos_Asegurados]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Movimientos] DROP CONSTRAINT [FK_Movimientos_Asegurados];
-GO
-IF OBJECT_ID(N'[dbo].[FK_MovimientosAsegurado_Asegurados]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[MovimientosAseguradoes] DROP CONSTRAINT [FK_MovimientosAsegurado_Asegurados];
-GO
 IF OBJECT_ID(N'[dbo].[FK_MovimientosAsegurado_catalogoMovimientos]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MovimientosAseguradoes] DROP CONSTRAINT [FK_MovimientosAsegurado_catalogoMovimientos];
 GO
 IF OBJECT_ID(N'[dbo].[FK_MovimientosAsegurado_Incapacidades]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MovimientosAseguradoes] DROP CONSTRAINT [FK_MovimientosAsegurado_Incapacidades];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PlazaPatrone]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Patrones] DROP CONSTRAINT [FK_PlazaPatrone];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Incapacidades_Asegurados]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Incapacidades] DROP CONSTRAINT [FK_Incapacidades_Asegurados];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MovimientosAsegurado_Asegurados]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[MovimientosAseguradoes] DROP CONSTRAINT [FK_MovimientosAsegurado_Asegurados];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PatroneAsegurado]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Asegurados] DROP CONSTRAINT [FK_PatroneAsegurado];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PlazaAsegurado]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Asegurados] DROP CONSTRAINT [FK_PlazaAsegurado];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Acreditados_Clientes]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Acreditados] DROP CONSTRAINT [FK_Acreditados_Clientes];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PatroneAcreditado]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Acreditados] DROP CONSTRAINT [FK_PatroneAcreditado];
@@ -44,14 +47,23 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_PlazaAcreditado]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Acreditados] DROP CONSTRAINT [FK_PlazaAcreditado];
 GO
+IF OBJECT_ID(N'[dbo].[FK_Asegurados_Clientes]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Asegurados] DROP CONSTRAINT [FK_Asegurados_Clientes];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GrupoClientes]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Clientes] DROP CONSTRAINT [FK_GrupoClientes];
+GO
 IF OBJECT_ID(N'[dbo].[FK_PlazaClientes]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Clientes] DROP CONSTRAINT [FK_PlazaClientes];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PlazaGrupos]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Grupos] DROP CONSTRAINT [FK_PlazaGrupos];
 GO
-IF OBJECT_ID(N'[dbo].[FK_PlazaPatrone]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Patrones] DROP CONSTRAINT [FK_PlazaPatrone];
+IF OBJECT_ID(N'[dbo].[FK_Usuarios_Plazas]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Usuarios] DROP CONSTRAINT [FK_Usuarios_Plazas];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Usuarios_Usuarios]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Usuarios] DROP CONSTRAINT [FK_Usuarios_Usuarios];
 GO
 IF OBJECT_ID(N'[dbo].[FK_RoleModulos_Modulos]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RoleModulos] DROP CONSTRAINT [FK_RoleModulos_Modulos];
@@ -62,40 +74,37 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_RoleModulos_Usuarios]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RoleModulos] DROP CONSTRAINT [FK_RoleModulos_Usuarios];
 GO
-IF OBJECT_ID(N'[dbo].[FK_Usuarios_Plazas]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Usuarios] DROP CONSTRAINT [FK_Usuarios_Plazas];
+IF OBJECT_ID(N'[dbo].[FK_Acreditados_Acreditados]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Acreditados] DROP CONSTRAINT [FK_Acreditados_Acreditados];
 GO
-IF OBJECT_ID(N'[dbo].[FK_Usuarios_Usuarios]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Usuarios] DROP CONSTRAINT [FK_Usuarios_Usuarios];
+IF OBJECT_ID(N'[dbo].[FK_Movimientos_Acreditados]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Movimientos] DROP CONSTRAINT [FK_Movimientos_Acreditados];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Movimientos_Asegurados]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Movimientos] DROP CONSTRAINT [FK_Movimientos_Asegurados];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Funciones_Modulos]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Funcions] DROP CONSTRAINT [FK_Funciones_Modulos];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RoleFunciones_Funciones]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RoleFuncions] DROP CONSTRAINT [FK_RoleFunciones_Funciones];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RoleFunciones_Roles]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RoleFuncions] DROP CONSTRAINT [FK_RoleFunciones_Roles];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RoleFunciones_RoleUsuarios]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RoleFuncions] DROP CONSTRAINT [FK_RoleFunciones_RoleUsuarios];
 GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[Acreditados]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Acreditados];
-GO
-IF OBJECT_ID(N'[dbo].[Asegurados]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Asegurados];
-GO
 IF OBJECT_ID(N'[dbo].[catalogoMovimientos]', 'U') IS NOT NULL
     DROP TABLE [dbo].[catalogoMovimientos];
 GO
-IF OBJECT_ID(N'[dbo].[Clientes]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Clientes];
-GO
-IF OBJECT_ID(N'[dbo].[Grupos]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Grupos];
-GO
 IF OBJECT_ID(N'[dbo].[Incapacidades]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Incapacidades];
-GO
-IF OBJECT_ID(N'[dbo].[Modulos]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Modulos];
-GO
-IF OBJECT_ID(N'[dbo].[Movimientos]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Movimientos];
 GO
 IF OBJECT_ID(N'[dbo].[MovimientosAseguradoes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[MovimientosAseguradoes];
@@ -109,14 +118,38 @@ GO
 IF OBJECT_ID(N'[dbo].[Plazas]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Plazas];
 GO
-IF OBJECT_ID(N'[dbo].[RoleModulos]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[RoleModulos];
+IF OBJECT_ID(N'[dbo].[Asegurados]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Asegurados];
+GO
+IF OBJECT_ID(N'[dbo].[Acreditados]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Acreditados];
+GO
+IF OBJECT_ID(N'[dbo].[Clientes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Clientes];
+GO
+IF OBJECT_ID(N'[dbo].[Grupos]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Grupos];
+GO
+IF OBJECT_ID(N'[dbo].[Modulos]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Modulos];
 GO
 IF OBJECT_ID(N'[dbo].[Roles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Roles];
 GO
 IF OBJECT_ID(N'[dbo].[Usuarios]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Usuarios];
+GO
+IF OBJECT_ID(N'[dbo].[RoleModulos]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RoleModulos];
+GO
+IF OBJECT_ID(N'[dbo].[Movimientos]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Movimientos];
+GO
+IF OBJECT_ID(N'[dbo].[Funcions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Funcions];
+GO
+IF OBJECT_ID(N'[dbo].[RoleFuncions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RoleFuncions];
 GO
 
 -- --------------------------------------------------
@@ -149,17 +182,6 @@ CREATE TABLE [dbo].[Incapacidades] (
     [porcentajeIncapacidad] decimal(10,4)  NOT NULL,
     [indDef] nchar(2)  NOT NULL,
     [fecTer] datetime  NOT NULL
-);
-GO
-
--- Creating table 'Movimientos'
-CREATE TABLE [dbo].[Movimientos] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [aseguradoId] int  NOT NULL,
-    [lote] nchar(50)  NOT NULL,
-    [fechaTransaccion] datetime  NOT NULL,
-    [tipo] nchar(2)  NOT NULL,
-    [nombreArchivo] nchar(100)  NOT NULL
 );
 GO
 
@@ -225,7 +247,7 @@ GO
 CREATE TABLE [dbo].[Plazas] (
     [id] int IDENTITY(1,1) NOT NULL,
     [descripcion] nchar(50)  NOT NULL,
-    [cve] nvarchar(max)  NOT NULL
+    [cve] nchar(10)  NULL
 );
 GO
 
@@ -381,6 +403,42 @@ CREATE TABLE [dbo].[RoleModulos] (
 );
 GO
 
+-- Creating table 'Movimientos'
+CREATE TABLE [dbo].[Movimientos] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [aseguradoId] int  NULL,
+    [acreditadoId] int  NULL,
+    [lote] nchar(50)  NOT NULL,
+    [fechaTransaccion] datetime  NOT NULL,
+    [tipo] nchar(2)  NOT NULL,
+    [nombreArchivo] nchar(100)  NOT NULL
+);
+GO
+
+-- Creating table 'Funcions'
+CREATE TABLE [dbo].[Funcions] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [moduloId] int  NOT NULL,
+    [descripcionCorta] nchar(60)  NOT NULL,
+    [descripcionLarga] nchar(100)  NULL,
+    [accion] nchar(100)  NOT NULL,
+    [controlador] nchar(100)  NOT NULL,
+    [estatus] nchar(2)  NOT NULL,
+    [usuarioId] int  NOT NULL,
+    [fechaCreacion] datetime  NOT NULL
+);
+GO
+
+-- Creating table 'RoleFuncions'
+CREATE TABLE [dbo].[RoleFuncions] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [roleId] int  NOT NULL,
+    [funcionId] int  NOT NULL,
+    [usuarioCreacionId] int  NOT NULL,
+    [fechaCreacion] datetime  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -394,12 +452,6 @@ GO
 -- Creating primary key on [id] in table 'Incapacidades'
 ALTER TABLE [dbo].[Incapacidades]
 ADD CONSTRAINT [PK_Incapacidades]
-    PRIMARY KEY CLUSTERED ([id] ASC);
-GO
-
--- Creating primary key on [id] in table 'Movimientos'
-ALTER TABLE [dbo].[Movimientos]
-ADD CONSTRAINT [PK_Movimientos]
     PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
@@ -475,6 +527,24 @@ ADD CONSTRAINT [PK_RoleModulos]
     PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
+-- Creating primary key on [id] in table 'Movimientos'
+ALTER TABLE [dbo].[Movimientos]
+ADD CONSTRAINT [PK_Movimientos]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'Funcions'
+ALTER TABLE [dbo].[Funcions]
+ADD CONSTRAINT [PK_Funcions]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'RoleFuncions'
+ALTER TABLE [dbo].[RoleFuncions]
+ADD CONSTRAINT [PK_RoleFuncions]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
@@ -536,21 +606,6 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_Incapacidades_Asegurados'
 CREATE INDEX [IX_FK_Incapacidades_Asegurados]
 ON [dbo].[Incapacidades]
-    ([aseguradoId]);
-GO
-
--- Creating foreign key on [aseguradoId] in table 'Movimientos'
-ALTER TABLE [dbo].[Movimientos]
-ADD CONSTRAINT [FK_Movimientos_Asegurados]
-    FOREIGN KEY ([aseguradoId])
-    REFERENCES [dbo].[Asegurados]
-        ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_Movimientos_Asegurados'
-CREATE INDEX [IX_FK_Movimientos_Asegurados]
-ON [dbo].[Movimientos]
     ([aseguradoId]);
 GO
 
@@ -776,6 +831,105 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_RoleModulos_Usuarios'
 CREATE INDEX [IX_FK_RoleModulos_Usuarios]
 ON [dbo].[RoleModulos]
+    ([usuarioCreacionId]);
+GO
+
+-- Creating foreign key on [id] in table 'Acreditados'
+ALTER TABLE [dbo].[Acreditados]
+ADD CONSTRAINT [FK_Acreditados_Acreditados]
+    FOREIGN KEY ([id])
+    REFERENCES [dbo].[Acreditados]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [acreditadoId] in table 'Movimientos'
+ALTER TABLE [dbo].[Movimientos]
+ADD CONSTRAINT [FK_Movimientos_Acreditados]
+    FOREIGN KEY ([acreditadoId])
+    REFERENCES [dbo].[Acreditados]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Movimientos_Acreditados'
+CREATE INDEX [IX_FK_Movimientos_Acreditados]
+ON [dbo].[Movimientos]
+    ([acreditadoId]);
+GO
+
+-- Creating foreign key on [aseguradoId] in table 'Movimientos'
+ALTER TABLE [dbo].[Movimientos]
+ADD CONSTRAINT [FK_Movimientos_Asegurados]
+    FOREIGN KEY ([aseguradoId])
+    REFERENCES [dbo].[Asegurados]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Movimientos_Asegurados'
+CREATE INDEX [IX_FK_Movimientos_Asegurados]
+ON [dbo].[Movimientos]
+    ([aseguradoId]);
+GO
+
+-- Creating foreign key on [moduloId] in table 'Funcions'
+ALTER TABLE [dbo].[Funcions]
+ADD CONSTRAINT [FK_Funciones_Modulos]
+    FOREIGN KEY ([moduloId])
+    REFERENCES [dbo].[Modulos]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Funciones_Modulos'
+CREATE INDEX [IX_FK_Funciones_Modulos]
+ON [dbo].[Funcions]
+    ([moduloId]);
+GO
+
+-- Creating foreign key on [funcionId] in table 'RoleFuncions'
+ALTER TABLE [dbo].[RoleFuncions]
+ADD CONSTRAINT [FK_RoleFunciones_Funciones]
+    FOREIGN KEY ([funcionId])
+    REFERENCES [dbo].[Funcions]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RoleFunciones_Funciones'
+CREATE INDEX [IX_FK_RoleFunciones_Funciones]
+ON [dbo].[RoleFuncions]
+    ([funcionId]);
+GO
+
+-- Creating foreign key on [roleId] in table 'RoleFuncions'
+ALTER TABLE [dbo].[RoleFuncions]
+ADD CONSTRAINT [FK_RoleFunciones_Roles]
+    FOREIGN KEY ([roleId])
+    REFERENCES [dbo].[Roles]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RoleFunciones_Roles'
+CREATE INDEX [IX_FK_RoleFunciones_Roles]
+ON [dbo].[RoleFuncions]
+    ([roleId]);
+GO
+
+-- Creating foreign key on [usuarioCreacionId] in table 'RoleFuncions'
+ALTER TABLE [dbo].[RoleFuncions]
+ADD CONSTRAINT [FK_RoleFunciones_RoleUsuarios]
+    FOREIGN KEY ([usuarioCreacionId])
+    REFERENCES [dbo].[Usuarios]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RoleFunciones_RoleUsuarios'
+CREATE INDEX [IX_FK_RoleFunciones_RoleUsuarios]
+ON [dbo].[RoleFuncions]
     ([usuarioCreacionId]);
 GO
 
