@@ -10,5 +10,6 @@ namespace SUAMVC.Models
     {
         public Role role { get; set; }
         public List<Modulo> modulos {get; set;}
+        public List<Modulo> modulosByRole { get; set; }
     }
 }

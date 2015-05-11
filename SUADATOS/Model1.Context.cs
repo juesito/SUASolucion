@@ -40,5 +40,8 @@ namespace SUADATOS
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<RoleModulo> RoleModulos { get; set; }
         public virtual DbSet<Movimiento> Movimientos { get; set; }
+        public virtual DbSet<Funcion> Funcions { get; set; }
+        public virtual DbSet<RoleFuncion> RoleFuncions { get; set; }
+        public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
     }
 }

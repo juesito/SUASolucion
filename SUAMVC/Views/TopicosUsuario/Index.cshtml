@@ -1,0 +1,119 @@
+﻿@model SUAMVC.Models.TopicosPorUsuarioModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    var vUsuarioId = TempData["vUsuarioId"];
+    var vTopico = TempData["vTopico"];
+
+    var tableHtml = string.Empty;
+    var tableHtml2 = string.Empty;
+    var sb = new System.Text.StringBuilder();
+    var sb2 = new System.Text.StringBuilder();
+    var grid = new WebGrid();
+    var grid2 = new WebGrid();
+
+
+    if (Model != null)
+    {
+        if (Model.topicos != null)
+        {
+            grid = new WebGrid(source: Model.topicos, rowsPerPage: 5);
+            sb.Append(grid.GetHtml(
+        columns:
+            grid.Columns(
+                grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "Elegir"),
+            grid.Column("topico", "Descripcion", null, null, true)
+            ),
+            tableStyle: "table table-striped tableSua"));
+        }
+
+        if (Model.topicosPorUsuario != null)
+        {
+            grid2 = new WebGrid(source: Model.topicosPorUsuario, rowsPerPage: 5);
+            sb2.Append(grid2.GetHtml(
+        columns:
+            grid2.Columns(
+                grid2.Column(format: @<text><input type="checkbox" name="ids2" value="@item.id" /></text>, header: "Elegir"),
+                grid2.Column("topico", "Descripcion", null, null, true)
+            ),
+            tableStyle: "table table-striped tableSua"));
+        }
+
+
+        tableHtml = sb.ToString();
+        tableHtml2 = sb2.ToString();
+    }
+}
+@section Menu {
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Topicos por usuario</div>
+}
+@using (Html.BeginForm())
+{
+    <p>Usuario:@Html.DropDownList("usuarioId", "Seleccione") Topico: @Html.DropDownList("topico", new List<SelectListItem>() { new SelectListItem { Text = "Seleccione", Value = "" }, new SelectListItem { Text = "Cliente", Value = "C" }, new SelectListItem { Text = "Patrones", Value = "B" }, new SelectListItem { Text = "Plaza", Value = "P" } })</p>
+    <input class="btn btn-success" type="submit" value="Buscar" />
+}
+
+<div id="contenedor">
+    @if (!tableHtml.IsEmpty())
+    {
+        using (Html.BeginForm("asignarTopico", "TopicosUsuario", new { usuarioId = @vUsuarioId, topico = @vTopico }, FormMethod.Post))
+        {
+            <div id="lgcontenedor-interno" class="panel panel-default">
+                <div class="panel-heading">
+                @if (@vTopico.Equals("P"))
+                {
+                    <p>Plazas sin Asignar</p>
+                }
+                else if (@vTopico.Equals("C"))
+                {
+                    <p>Clientes sin Asignar</p>
+                }
+                else if (@vTopico.Equals("B"))
+                {
+                    <p>Patrones sin Asignar</p>
+                }
+                </div>
+                <div class="panel-body">
+                    <div id="lcontenedor-interno">
+                        @Html.Raw(tableHtml)
+                    </div>
+                    <div id="bcontenedor-interno" class="panel-footer">
+                        <input type="submit" value="" class="rarrow_button" alt="Asignar Función" />
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    @if (!tableHtml2.IsEmpty())
+    {
+        using (Html.BeginForm("desasignarTopico", "TopicosUsuario", new { usuarioId = @vUsuarioId, topico = @vTopico }, FormMethod.Post))
+        {
+            <div id="rgcontenedor-interno" class="panel panel-default">
+                <div class="panel-heading">
+                @if (@vTopico.Equals("P"))
+                {
+                    <p>Plazas Asignadas</p>
+                }else if(@vTopico.Equals("C")){
+                    <p>Clientes Asignadas</p>
+                }else if(@vTopico.Equals("B")){
+                    <p>Patrones Asignadas</p>
+                }</div>
+                <div class="panel-body">
+                    <div id="lcontenedor-interno">
+                        @Html.Raw(tableHtml2)
+                    </div>
+                    <div id="bcontenedor-interno" class="panel-footer">
+                        <input type="submit" value="" class="larrow_button" alt="Desasignar Función" />
+                    </div>
+                </div>
+            </div>
+
+
+        }
+
+    }
+</div>

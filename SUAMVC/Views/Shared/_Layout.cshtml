@@ -1,4 +1,9 @@
 ﻿@using System.Web.Optimization;
+@using SUADATOS;
+@{
+    Usuario usuario = @Session["UsuarioData"] as Usuario;
+}
+@using SUAMVC.Models;
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +29,7 @@
 <body>
     <div class="header">
         <div class="login-line">
+            
             @if (Request.IsAuthenticated)
             {
                 <strong> @Html.Encode(User.Identity.Name)</strong>
@@ -45,8 +51,6 @@
                 </div>
             </div>
             <div class="login">
-
-
 
             </div>
         </div>
@@ -105,10 +109,13 @@
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
+                                    <li>@Html.ActionLink("Funciones", "Index", "Funciones")</li>
                                     <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
                                     <li>@Html.ActionLink("Modulos", "Index", "Modulos")</li>
                                     <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
                                     <li>@Html.ActionLink("Modulos por Rol", "Index", "RoleModulos")</li>
+                                    <li>@Html.ActionLink("Funciones por Rol", "Index", "RoleFunciones")</li>
+                                    <li>@Html.ActionLink("Topicos Por Usuario", "Index", "TopicosUsuario")</li>
                                 </ul>
                             </div>
                         </div>

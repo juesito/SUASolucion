@@ -99,11 +99,13 @@
 //    sb1 = sb1.Replace("</td></tr></tfoot>", footer);
 
     tableHtml = sb1.ToString();
+
+    var flagMenu = @ViewBag.flagMenus; 
 }
 
 @section Menu {
     <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catalogo de Asegurados</div>
-}
+}   
 
 @using (Html.BeginForm(null, null, FormMethod.Get))
 {
@@ -122,6 +124,7 @@
             <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
         </a>
 
+        @if (flagMenu != null) { 
            <fieldset>
                 Opción: @Html.DropDownList("opcion", "Seleccione")
                 @Html.Label("valor", "Valor:")
@@ -129,7 +132,7 @@
                <input type="submit" value="Buscar" class="btn btn-success" } />
 
             </fieldset>
-
+        }
 
 </p>
 

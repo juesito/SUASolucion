@@ -22,9 +22,9 @@ namespace SUAMVC.Models
             if (count == 0)
             {
                 Plaza plaza = crearPlazas();
-                crearModulos();
                 Role role = crearRoles();
                 usuarioRoot(plaza, role);
+                crearModulos();
             }//existen usuarios dados de alta?
         }
 
@@ -85,7 +85,25 @@ namespace SUAMVC.Models
                 modulo.estatus = "A";
                 modulo.fechaCreacion = date;
 
-                db.Modulos.Add(modulo);
+                modulo = db.Modulos.Add(modulo);
+                db.SaveChanges();
+
+                //Grabamos las funciones de seguridad
+                funcionesSeguridad(modulo.id);
+                RoleModulo rm = new RoleModulo();
+                rm.moduloId = modulo.id;
+
+                //Buscamos el rol de administrador
+                Role role = new Role();
+                role = (from x in db.Roles
+                       where x.descripcion.Equals("Administrador")
+                       select x).FirstOrDefault();
+
+                rm.roleId = role.id;
+                rm.usuarioCreacionId = 1;
+                rm.fechaCreacion = date;
+
+                db.RoleModulos.Add(rm);
                 db.SaveChanges();
 
                 modulo = new Modulo();
@@ -165,6 +183,89 @@ namespace SUAMVC.Models
                 db.Usuarios.Add(usuario);
                 db.SaveChanges();
             }
+        }
+
+        private void funcionesSeguridad(int moduloId) {
+            DateTime date = DateTime.Now;
+
+            //Catalogo de Munciones
+            Funcion funcion = new Funcion();
+            funcion.descripcionCorta = "Funciones";
+            funcion.descripcionLarga = "Catalogo de funciones del SIAP";
+            funcion.moduloId = moduloId;
+            funcion.usuarioId = 1;
+            funcion.controlador = "Funciones";
+            funcion.accion = "Index";
+            funcion.fechaCreacion = date;
+            funcion.estatus = "A";
+
+            db.Funcions.Add(funcion);
+
+            //Catalogo de Modulos
+            funcion = new Funcion();
+            funcion.descripcionCorta = "Modulos";
+            funcion.descripcionLarga = "Catalogo de modulos del SIAP";
+            funcion.moduloId = moduloId;
+            funcion.usuarioId = 1;
+            funcion.controlador = "Modulos";
+            funcion.accion = "Index";
+            funcion.fechaCreacion = date;
+            funcion.estatus = "A";
+
+            db.Funcions.Add(funcion);
+
+            //Catalogo de Usuarios
+            funcion = new Funcion();
+            funcion.descripcionCorta = "Usuarios";
+            funcion.descripcionLarga = "Catalogo de usuarios del SIAP";
+            funcion.moduloId = moduloId;
+            funcion.usuarioId = 1;
+            funcion.controlador = "Usuarios";
+            funcion.accion = "Index";
+            funcion.fechaCreacion = date;
+            funcion.estatus = "A";
+
+            db.Funcions.Add(funcion);
+
+            //Catalogo de Roles
+            funcion = new Funcion();
+            funcion.descripcionCorta = "Roles";
+            funcion.descripcionLarga = "Catalogo de roles del SIAP";
+            funcion.moduloId = moduloId;
+            funcion.usuarioId = 1;
+            funcion.controlador = "Roles";
+            funcion.accion = "Index";
+            funcion.fechaCreacion = date;
+            funcion.estatus = "A";
+
+            db.Funcions.Add(funcion);
+
+            //Modulos por role
+            funcion = new Funcion();
+            funcion.descripcionCorta = "Modulos por Rol";
+            funcion.descripcionLarga = "Modulos por Rol del SIAP";
+            funcion.moduloId = moduloId;
+            funcion.usuarioId = 1;
+            funcion.controlador = "RoleModulos";
+            funcion.accion = "Index";
+            funcion.fechaCreacion = date;
+            funcion.estatus = "A";
+
+            db.Funcions.Add(funcion);
+
+            //Funciones por role
+            funcion = new Funcion();
+            funcion.descripcionCorta = "Funciones por Rol";
+            funcion.descripcionLarga = "Funciones por Rol del SIAP";
+            funcion.moduloId = moduloId;
+            funcion.usuarioId = 1;
+            funcion.controlador = "RoleFunciones";
+            funcion.accion = "Index";
+            funcion.fechaCreacion = date;
+            funcion.estatus = "A";
+
+            db.Funcions.Add(funcion);
+            db.SaveChanges();
         }
     }
 
