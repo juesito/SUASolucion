@@ -25,7 +25,7 @@
             grid.Column("Patrone.registro", "Registro Patronal", null, null, true),
             grid.Column("apellidoPaterno", "Ape. Paterno", null, null, true),
             grid.Column("apellidoMaterno", "Ape. Materno", null, null, true),
-            grid.Column("nombre", "Nombre(s)",  @<text><div style='width: 12em'>@item.nombre</div></text> , null, canSort: true),
+            grid.Column("nombre", "Nombre(s)",  @<text><div style='width: 15em'>@item.nombre</div></text> , null, canSort: true),
             grid.Column("nombreCompleto", "Nombre", @<text><div style='width: 25em'>@item.nombrecompleto</div></text> , null, canSort: true),
             grid.Column("curp", "CURP", null, null, true),
             grid.Column("rfc", "RFC", null, null, true),
@@ -50,11 +50,11 @@
             grid.Column("porcentaje", "Porcentaje", format: @<text>@item.porcentaje.ToString("% 0.00")</text>, canSort:true),
             grid.Column("cuotaFija", "Cuota Fija", format: @<text>@item.cuotaFija.ToString("0,000.00")</text>, canSort:true),
             grid.Column("descuentoBimestral", "Desc. Bimestral", format: @<text>@item.descuentoBimestral.ToString("0,000.00")</text>, canSort:true),
-            grid.Column("descuentoMensual", "Desc. Mensual", format: @<text>@item.descuentoMensual.ToString("0,000.00")</text>, canSort:true),
-            grid.Column("descuentoSemanal", "Desc. Semanal", format: @<text>@item.descuentoSemanal.ToString("0,000.00")</text>, canSort:true),
-            grid.Column("descuentoCatorcenal", "Desc. Catorcenal", format: @<text>@item.descuentoCatorcenal.ToString("0,000.00")</text>, canSort:true),
-            grid.Column("descuentoQuincenal", "Desc. Quincenal", format: @<text>@item.descuentoQuincenal.ToString("0,000.00")</text>, canSort:true),
-            grid.Column("descuentoVeintiochonal", "Desc. Veintiochonal", format: @<text>@item.descuentoVeintiochonal.ToString("0,000.00")</text>, canSort:true),
+            grid.Column("descuentoMensual", "Desc. Mensual", format: @<text>@item.descuentoMensual.ToString("000.00")</text>, canSort:true),
+            grid.Column("descuentoSemanal", "Desc. Semanal", format: @<text>@item.descuentoSemanal.ToString("000.00")</text>, canSort:true),
+            grid.Column("descuentoCatorcenal", "Desc. Catorcenal", format: @<text>@item.descuentoCatorcenal.ToString("000.00")</text>, canSort:true),
+            grid.Column("descuentoQuincenal", "Desc. Quincenal", format: @<text>@item.descuentoQuincenal.ToString("000.00")</text>, canSort:true),
+            grid.Column("descuentoVeintiochonal", "Desc. Veintiochonal", format: @<text>@item.descuentoVeintiochonal.ToString("000.00")</text>, canSort:true),
             grid.Column("descuentoDiario", "Desc. Diario", format: @<text>@item.descuentoDiario.ToString("0.00")</text>, canSort: true),
             grid.Column("Patrone.Plaza.cve", "ID Plaza", null, null, true),
             grid.Column(header: "Aviso Ret.",
@@ -107,7 +107,8 @@
 
         <input type="submit" value="Consultar" class="btn btn-success" />
 
-        <a href="@Url.Action("GetExcel", "Acreditados")" style="text-align:right">
+        <a href="@Url.Action("GetExcel", "Acreditados", new { @ViewBag.plazasId, patronesId=@ViewBag.patronesId, @ViewBag.clientesId, @ViewBag.gruposId, @ViewBag.opcion, @ViewBag.valor })
+})" style="text-align:right">
             <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
         </a>
 

@@ -539,10 +539,10 @@ namespace SUAMVC.Controllers
 
                         if (!bExist)
                         {
-                            acreditado.fechaCreacion = date.Date;
+                            acreditado.fechaCreacion = date;
                         }
                         else {
-                            acreditado.fechaModificacion = date.Date;
+                            acreditado.fechaModificacion = date;
                         }
 
                         //Guardamos el asegurado
@@ -621,11 +621,11 @@ namespace SUAMVC.Controllers
                 acreditado.cuotaFija = 0;
                 acreditado.smdv = 0.0;
                 acreditado.vsm = 0;
-                acreditado.porcentaje = valueToCalculate;
+                acreditado.porcentaje = valueToCalculate / 100;
 
 
                 newValue = (sdi * 60);
-                newValue = newValue * valueToCalculate;
+                newValue = newValue * (valueToCalculate / 100);
                 newValue = newValue + sinfon;
 
                 acreditado.descuentoBimestral = newValue;
@@ -836,11 +836,11 @@ namespace SUAMVC.Controllers
                         DateTime date = DateTime.Now;
                         if (!bExist)
                         {
-                            asegurado.fechaCreacion = date.Date;
+                            asegurado.fechaCreacion = date;
                         }
                         else
                         {
-                            asegurado.fechaModificacion = date.Date;
+                            asegurado.fechaModificacion = date;
                         }
 
 
