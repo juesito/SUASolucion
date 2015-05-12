@@ -1,0 +1,92 @@
+﻿@{
+    var menusList = Session["menuList"] as IEnumerable<SUAMVC.Models.Menu>;
+
+}
+
+@if (menusList != null)
+{
+    <div class="navbar-header">
+        <div class="btn-group" role="group" aria-label="...">
+            <button type="button" class="btn btn-default">@Html.ActionLink("Home", "Home", "Home")</button>
+            @foreach (var modulo in menusList)
+            {
+                <div class="btn-group" role="group">
+
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        @modulo.Name
+                        <span class="caret"></span>
+                    </button>
+                    @if (modulo.MenuItems.Count > 0)
+                    {
+                        <ul class="dropdown-menu" role="menu">
+                            @foreach (var funcion in modulo.MenuItems)
+                            {
+                                <li>@Html.ActionLink(funcion.Name, funcion.ActionName, funcion.ControllerName)</li>
+
+                            }
+                        </ul>
+                    }
+                </div>
+            }
+        </div>
+
+    </div>
+}
+<!--
+<div class="navbar-header">
+    <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-default">@Html.ActionLink("Home", "Home", "Home")</button>
+
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                Catálogos
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>@Html.ActionLink("Plazas", "Index", "Plazas")</li>
+                <li>@Html.ActionLink("Grupos", "Index", "Grupos")</li>
+                <li>@Html.ActionLink("Clientes", "Index", "Clientes")</li>
+                <li>@Html.ActionLink("Movimientos", "Index", "CatalogoMovimientos")</li>
+                <li>@Html.ActionLink("Parametros", "Index", "Parametros")</li>
+            </ul>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                IMSS
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>@Html.ActionLink("Patrones", "Index", "Patrones")</li>
+                <li>@Html.ActionLink("Asegurados", "Index", "Asegurados")</li>
+                <li>@Html.ActionLink("Acreditados", "Index", "Acreditados")</li>
+                <li>@Html.ActionLink("Movimientos", "Index", "Movimientos")</li>
+            </ul>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                Carga
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>@Html.ActionLink("Cargar SUA", "GoAcreditados", "Upload")</li>
+                <li>@Html.ActionLink("Actualizar Patrones", "Index", "Upload")</li>
+            </ul>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                Seguridad
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>@Html.ActionLink("Funciones", "Index", "Funciones")</li>
+                <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
+                <li>@Html.ActionLink("Modulos", "Index", "Modulos")</li>
+                <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
+                <li>@Html.ActionLink("Modulos por Rol", "Index", "RoleModulos")</li>
+                <li>@Html.ActionLink("Funciones por Rol", "Index", "RoleFunciones")</li>
+                <li>@Html.ActionLink("Topicos Por Usuario", "Index", "TopicosUsuario")</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    -->

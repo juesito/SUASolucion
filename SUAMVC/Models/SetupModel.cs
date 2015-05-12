@@ -17,7 +17,8 @@ namespace SUAMVC.Models
          * Creamos la configuración inicial para empezar a trabajar con 
          * el sistema.
          * */
-        public void setUpSystem(){
+        public void setUpSystem()
+        {
             int count = db.Usuarios.Count();
             if (count == 0)
             {
@@ -32,7 +33,8 @@ namespace SUAMVC.Models
         /**
          * Creamos los roles
          * */
-        private Role crearRoles() {
+        private Role crearRoles()
+        {
 
             int count = db.Roles.Count();
             Role role = new Role();
@@ -63,7 +65,8 @@ namespace SUAMVC.Models
 
                 db.SaveChanges();
             }
-            else {
+            else
+            {
                 role = db.Roles.Find(1);
             }
 
@@ -76,10 +79,11 @@ namespace SUAMVC.Models
         {
             int count = db.Modulos.Count();
 
-            if (count == 0) {
+            if (count == 0)
+            {
                 Modulo modulo = new Modulo();
 
-                modulo.descripcionCorta = "SEGURIDAD";
+                modulo.descripcionCorta = "Seguridad";
                 modulo.descripcionLarga = "Administración del Sistema SIAP";
                 DateTime date = DateTime.Now;
                 modulo.estatus = "A";
@@ -96,8 +100,8 @@ namespace SUAMVC.Models
                 //Buscamos el rol de administrador
                 Role role = new Role();
                 role = (from x in db.Roles
-                       where x.descripcion.Equals("Administrador")
-                       select x).FirstOrDefault();
+                        where x.descripcion.Equals("Administrador")
+                        select x).FirstOrDefault();
 
                 rm.roleId = role.id;
                 rm.usuarioCreacionId = 1;
@@ -106,9 +110,12 @@ namespace SUAMVC.Models
                 db.RoleModulos.Add(rm);
                 db.SaveChanges();
 
+                //Damos permisos a funciones de seguridad
+                permisosFuncionesSeguridad(role.id, modulo.id);
+
                 modulo = new Modulo();
 
-                modulo.descripcionCorta = "CATALOGOS";
+                modulo.descripcionCorta = "Catalogos";
                 modulo.descripcionLarga = "Catalogos del Sistema SIAP";
                 modulo.fechaCreacion = date;
                 modulo.estatus = "A";
@@ -127,7 +134,7 @@ namespace SUAMVC.Models
 
                 modulo = new Modulo();
 
-                modulo.descripcionCorta = "CARGA";
+                modulo.descripcionCorta = "Carga";
                 modulo.descripcionLarga = "Carga de Archivos SUA en SIAP";
                 modulo.fechaCreacion = date;
                 modulo.estatus = "A";
@@ -140,7 +147,8 @@ namespace SUAMVC.Models
         /**
          * Creamos las plazas
          * */
-        private Plaza crearPlazas() {
+        private Plaza crearPlazas()
+        {
             int count = db.Plazas.Count();
             Plaza plaza = new Plaza();
             if (count == 0)
@@ -150,7 +158,8 @@ namespace SUAMVC.Models
                 db.Plazas.Add(plaza);
                 db.SaveChanges();
             }
-            else {
+            else
+            {
                 plaza = db.Plazas.Find(1);
             }
             return plaza;
@@ -158,13 +167,15 @@ namespace SUAMVC.Models
         /**
          * Damos de alta al usuario principal
          * */
-        private void usuarioRoot(Plaza plaza, Role role) {
+        private void usuarioRoot(Plaza plaza, Role role)
+        {
 
             var usuarioRoot = from b in db.Usuarios
                               where b.claveUsuario.Equals("root")
                               select b;
 
-            if (usuarioRoot == null || usuarioRoot.Count() == 0) {
+            if (usuarioRoot == null || usuarioRoot.Count() == 0)
+            {
                 DateTime date = DateTime.Now;
                 Usuario usuario = new Usuario();
                 usuario.claveUsuario = "root";
@@ -185,7 +196,8 @@ namespace SUAMVC.Models
             }
         }
 
-        private void funcionesSeguridad(int moduloId) {
+        private void funcionesSeguridad(int moduloId)
+        {
             DateTime date = DateTime.Now;
 
             //Catalogo de Munciones
@@ -267,7 +279,37 @@ namespace SUAMVC.Models
             db.Funcions.Add(funcion);
             db.SaveChanges();
         }
+
+        //Otorgamos permisos a las funciones
+        private void permisosFuncionesSeguridad(int roleId, int moduloId)
+        {
+
+            var funciones = from x in db.Funcions
+                            where x.moduloId.Equals(moduloId)
+                            select x;
+
+            if (funciones.Count() > 0)
+            {
+                DateTime date = DateTime.Now;
+                foreach (Funcion fun in funciones)
+                {
+                    RoleFuncion rf = new RoleFuncion();
+                    rf.funcionId = fun.id;
+                    rf.roleId = roleId;
+                    rf.Funcion = fun;
+                    rf.usuarioCreacionId = 1;
+                    rf.fechaCreacion = date;
+
+                    db.RoleFuncions.Add(rf);
+                    
+                }
+                db.SaveChanges();
+            }
+
+
+
+        }
     }
 
-    
+
 }
