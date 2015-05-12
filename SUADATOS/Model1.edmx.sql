@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/11/2015 10:34:32
--- Generated from EDMX file: C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUASolucion\SUADATOS\Model1.edmx
+-- Date Created: 05/12/2015 16:40:38
+-- Generated from EDMX file: C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUADATOS\Model1.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -17,50 +17,41 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_Acreditados_Acreditados]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Acreditados] DROP CONSTRAINT [FK_Acreditados_Acreditados];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Acreditados_Clientes]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Acreditados] DROP CONSTRAINT [FK_Acreditados_Clientes];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Asegurados_Clientes]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Asegurados] DROP CONSTRAINT [FK_Asegurados_Clientes];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Funciones_Modulos]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Funcions] DROP CONSTRAINT [FK_Funciones_Modulos];
-GO
-IF OBJECT_ID(N'[dbo].[FK_GrupoClientes]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Clientes] DROP CONSTRAINT [FK_GrupoClientes];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Incapacidades_Asegurados]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Incapacidades] DROP CONSTRAINT [FK_Incapacidades_Asegurados];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Movimientos_Acreditados]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Movimientos] DROP CONSTRAINT [FK_Movimientos_Acreditados];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Movimientos_Asegurados]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Movimientos] DROP CONSTRAINT [FK_Movimientos_Asegurados];
-GO
-IF OBJECT_ID(N'[dbo].[FK_MovimientosAsegurado_Asegurados]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[MovimientosAseguradoes] DROP CONSTRAINT [FK_MovimientosAsegurado_Asegurados];
-GO
 IF OBJECT_ID(N'[dbo].[FK_MovimientosAsegurado_catalogoMovimientos]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MovimientosAseguradoes] DROP CONSTRAINT [FK_MovimientosAsegurado_catalogoMovimientos];
 GO
 IF OBJECT_ID(N'[dbo].[FK_MovimientosAsegurado_Incapacidades]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MovimientosAseguradoes] DROP CONSTRAINT [FK_MovimientosAsegurado_Incapacidades];
 GO
-IF OBJECT_ID(N'[dbo].[FK_PatroneAcreditado]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Acreditados] DROP CONSTRAINT [FK_PatroneAcreditado];
+IF OBJECT_ID(N'[dbo].[FK_PlazaPatrone]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Patrones] DROP CONSTRAINT [FK_PlazaPatrone];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Incapacidades_Asegurados]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Incapacidades] DROP CONSTRAINT [FK_Incapacidades_Asegurados];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MovimientosAsegurado_Asegurados]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[MovimientosAseguradoes] DROP CONSTRAINT [FK_MovimientosAsegurado_Asegurados];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PatroneAsegurado]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Asegurados] DROP CONSTRAINT [FK_PatroneAsegurado];
 GO
+IF OBJECT_ID(N'[dbo].[FK_PlazaAsegurado]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Asegurados] DROP CONSTRAINT [FK_PlazaAsegurado];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Acreditados_Clientes]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Acreditados] DROP CONSTRAINT [FK_Acreditados_Clientes];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PatroneAcreditado]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Acreditados] DROP CONSTRAINT [FK_PatroneAcreditado];
+GO
 IF OBJECT_ID(N'[dbo].[FK_PlazaAcreditado]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Acreditados] DROP CONSTRAINT [FK_PlazaAcreditado];
 GO
-IF OBJECT_ID(N'[dbo].[FK_PlazaAsegurado]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Asegurados] DROP CONSTRAINT [FK_PlazaAsegurado];
+IF OBJECT_ID(N'[dbo].[FK_Asegurados_Clientes]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Asegurados] DROP CONSTRAINT [FK_Asegurados_Clientes];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GrupoClientes]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Clientes] DROP CONSTRAINT [FK_GrupoClientes];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PlazaClientes]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Clientes] DROP CONSTRAINT [FK_PlazaClientes];
@@ -68,17 +59,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_PlazaGrupos]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Grupos] DROP CONSTRAINT [FK_PlazaGrupos];
 GO
-IF OBJECT_ID(N'[dbo].[FK_PlazaPatrone]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Patrones] DROP CONSTRAINT [FK_PlazaPatrone];
+IF OBJECT_ID(N'[dbo].[FK_Usuarios_Plazas]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Usuarios] DROP CONSTRAINT [FK_Usuarios_Plazas];
 GO
-IF OBJECT_ID(N'[dbo].[FK_RoleFunciones_Funciones]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[RoleFuncions] DROP CONSTRAINT [FK_RoleFunciones_Funciones];
-GO
-IF OBJECT_ID(N'[dbo].[FK_RoleFunciones_Roles]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[RoleFuncions] DROP CONSTRAINT [FK_RoleFunciones_Roles];
-GO
-IF OBJECT_ID(N'[dbo].[FK_RoleFunciones_RoleUsuarios]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[RoleFuncions] DROP CONSTRAINT [FK_RoleFunciones_RoleUsuarios];
+IF OBJECT_ID(N'[dbo].[FK_Usuarios_Usuarios]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Usuarios] DROP CONSTRAINT [FK_Usuarios_Usuarios];
 GO
 IF OBJECT_ID(N'[dbo].[FK_RoleModulos_Modulos]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RoleModulos] DROP CONSTRAINT [FK_RoleModulos_Modulos];
@@ -89,49 +74,43 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_RoleModulos_Usuarios]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RoleModulos] DROP CONSTRAINT [FK_RoleModulos_Usuarios];
 GO
+IF OBJECT_ID(N'[dbo].[FK_Acreditados_Acreditados]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Acreditados] DROP CONSTRAINT [FK_Acreditados_Acreditados];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Movimientos_Acreditados]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Movimientos] DROP CONSTRAINT [FK_Movimientos_Acreditados];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Movimientos_Asegurados]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Movimientos] DROP CONSTRAINT [FK_Movimientos_Asegurados];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Funciones_Modulos]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Funcions] DROP CONSTRAINT [FK_Funciones_Modulos];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RoleFunciones_Funciones]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RoleFuncions] DROP CONSTRAINT [FK_RoleFunciones_Funciones];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RoleFunciones_Roles]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RoleFuncions] DROP CONSTRAINT [FK_RoleFunciones_Roles];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RoleFunciones_RoleUsuarios]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RoleFuncions] DROP CONSTRAINT [FK_RoleFunciones_RoleUsuarios];
+GO
 IF OBJECT_ID(N'[dbo].[FK_TopicosUsuario_Usuario]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[TopicosUsuario] DROP CONSTRAINT [FK_TopicosUsuario_Usuario];
+    ALTER TABLE [dbo].[TopicosUsuarios] DROP CONSTRAINT [FK_TopicosUsuario_Usuario];
 GO
 IF OBJECT_ID(N'[dbo].[FK_TopicosUsuario_Usuario2]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[TopicosUsuario] DROP CONSTRAINT [FK_TopicosUsuario_Usuario2];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Usuarios_Plazas]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Usuarios] DROP CONSTRAINT [FK_Usuarios_Plazas];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Usuarios_Usuarios]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Usuarios] DROP CONSTRAINT [FK_Usuarios_Usuarios];
+    ALTER TABLE [dbo].[TopicosUsuarios] DROP CONSTRAINT [FK_TopicosUsuario_Usuario2];
 GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[Acreditados]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Acreditados];
-GO
-IF OBJECT_ID(N'[dbo].[Asegurados]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Asegurados];
-GO
 IF OBJECT_ID(N'[dbo].[catalogoMovimientos]', 'U') IS NOT NULL
     DROP TABLE [dbo].[catalogoMovimientos];
 GO
-IF OBJECT_ID(N'[dbo].[Clientes]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Clientes];
-GO
-IF OBJECT_ID(N'[dbo].[Funcions]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Funcions];
-GO
-IF OBJECT_ID(N'[dbo].[Grupos]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Grupos];
-GO
 IF OBJECT_ID(N'[dbo].[Incapacidades]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Incapacidades];
-GO
-IF OBJECT_ID(N'[dbo].[Modulos]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Modulos];
-GO
-IF OBJECT_ID(N'[dbo].[Movimientos]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Movimientos];
 GO
 IF OBJECT_ID(N'[dbo].[MovimientosAseguradoes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[MovimientosAseguradoes];
@@ -145,20 +124,41 @@ GO
 IF OBJECT_ID(N'[dbo].[Plazas]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Plazas];
 GO
-IF OBJECT_ID(N'[dbo].[RoleFuncions]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[RoleFuncions];
+IF OBJECT_ID(N'[dbo].[Asegurados]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Asegurados];
 GO
-IF OBJECT_ID(N'[dbo].[RoleModulos]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[RoleModulos];
+IF OBJECT_ID(N'[dbo].[Acreditados]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Acreditados];
+GO
+IF OBJECT_ID(N'[dbo].[Clientes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Clientes];
+GO
+IF OBJECT_ID(N'[dbo].[Grupos]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Grupos];
+GO
+IF OBJECT_ID(N'[dbo].[Modulos]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Modulos];
 GO
 IF OBJECT_ID(N'[dbo].[Roles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Roles];
 GO
-IF OBJECT_ID(N'[dbo].[TopicosUsuario]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[TopicosUsuario];
-GO
 IF OBJECT_ID(N'[dbo].[Usuarios]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Usuarios];
+GO
+IF OBJECT_ID(N'[dbo].[RoleModulos]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RoleModulos];
+GO
+IF OBJECT_ID(N'[dbo].[Movimientos]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Movimientos];
+GO
+IF OBJECT_ID(N'[dbo].[Funcions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Funcions];
+GO
+IF OBJECT_ID(N'[dbo].[RoleFuncions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RoleFuncions];
+GO
+IF OBJECT_ID(N'[dbo].[TopicosUsuarios]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TopicosUsuarios];
 GO
 
 -- --------------------------------------------------
