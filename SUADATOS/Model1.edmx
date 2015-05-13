@@ -365,7 +365,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="nombreUsuario" Type="nchar" Nullable="false" MaxLength="60" />
     <Property Name="contrasena" Type="nchar" Nullable="false" MaxLength="10" />
-    <Property Name="claveUsuario" Type="nchar" Nullable="false" MaxLength="10" />
+    <Property Name="claveUsuario" Type="nchar" Nullable="false" MaxLength="30" />
     <Property Name="email" Type="nchar" Nullable="true" MaxLength="100" />
     <Property Name="apellidoMaterno" Type="nchar" Nullable="true" MaxLength="60" />
     <Property Name="apellidoPaterno" Type="nchar" Nullable="true" MaxLength="60" />
@@ -1337,7 +1337,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombreUsuario" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
           <Property Name="contrasena" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="claveUsuario" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="claveUsuario" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
           <Property Name="email" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Name="apellidoMaterno" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
           <Property Name="apellidoPaterno" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />

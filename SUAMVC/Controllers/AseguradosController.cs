@@ -570,12 +570,12 @@ namespace SUAMVC.Controllers
 
             string gridData = grid.GetHtml(
                 columns: grid.Columns(
-                        grid.Column("Patrone.registro", "Registro"),
+                        grid.Column("Patrone.registro", "Registro "),
                         grid.Column("numeroAfiliacion", "Numero Afiliacion"),
                         grid.Column("curp", "CURP"),
                         grid.Column("rfc", "RFC"),
                         grid.Column("nombreTemporal", "Nombre"),
-                        grid.Column("fechaAlta", "Fecha Alta", format: '>@item.fechaAlta.ToString("dd-MM-yyyy") ></text>),
+                        grid.Column("fechaAlta", "Fecha Alta"),
                         grid.Column("fechaBaja", "Fecha Baja"),
                         grid.Column("alta", "Alta"),
                         grid.Column("baja", "Baja"),

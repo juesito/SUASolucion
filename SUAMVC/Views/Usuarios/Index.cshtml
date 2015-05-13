@@ -9,33 +9,24 @@
 }
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Crear Usuario", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.nombreUsuario)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.contrasena)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.claveUsuario)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.apellidoMaterno)
+       <th>
+            @Html.DisplayNameFor(model => model.nombreUsuario)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.apellidoPaterno)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.estatus)
+            @Html.DisplayNameFor(model => model.apellidoMaterno)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.fechaIngreso)
+            @Html.DisplayNameFor(model => model.email)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Plaza.descripcion)
@@ -43,40 +34,43 @@
         <th>
             @Html.DisplayNameFor(model => model.Role.descripcion)
         </th>
+       <th>
+            @Html.DisplayNameFor(model => model.estatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaIngreso)
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.nombreUsuario)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.contrasena)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.claveUsuario)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.apellidoMaterno)
+            @Html.DisplayFor(modelItem => item.nombreUsuario)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.apellidoPaterno)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.estatus)
+            @Html.DisplayFor(modelItem => item.apellidoMaterno)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.fechaIngreso)
+            @Html.DisplayFor(modelItem => item.email)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Plaza.descripcion)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Role.descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.estatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaIngreso)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
