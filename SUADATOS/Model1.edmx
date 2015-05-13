@@ -21,9 +21,9 @@
     <EntitySet Name="Usuarios" EntityType="suaModel.Store.Usuarios" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RoleModulos" EntityType="suaModel.Store.RoleModulos" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Movimientos" EntityType="suaModel.Store.Movimientos" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Funcions" EntityType="suaModel.Store.Funcions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RoleFuncions" EntityType="suaModel.Store.RoleFuncions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TopicosUsuarios" EntityType="suaModel.Store.TopicosUsuarios" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Funcions" EntityType="suaModel.Store.Funcions" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_MovimientosAsegurado_catalogoMovimientos" Association="suaModel.Store.FK_MovimientosAsegurado_catalogoMovimientos">
       <End Role="catalogoMovimiento" EntitySet="catalogoMovimientos" />
       <End Role="MovimientosAsegurado" EntitySet="MovimientosAseguradoes" />
@@ -112,14 +112,6 @@
       <End Role="Asegurado" EntitySet="Asegurados" />
       <End Role="Movimiento" EntitySet="Movimientos" />
     </AssociationSet>
-    <AssociationSet Name="FK_Funciones_Modulos" Association="suaModel.Store.FK_Funciones_Modulos">
-      <End Role="Modulo" EntitySet="Modulos" />
-      <End Role="Funcion" EntitySet="Funcions" />
-    </AssociationSet>
-    <AssociationSet Name="FK_RoleFunciones_Funciones" Association="suaModel.Store.FK_RoleFunciones_Funciones">
-      <End Role="Funcion" EntitySet="Funcions" />
-      <End Role="RoleFuncion" EntitySet="RoleFuncions" />
-    </AssociationSet>
     <AssociationSet Name="FK_RoleFunciones_Roles" Association="suaModel.Store.FK_RoleFunciones_Roles">
       <End Role="Role" EntitySet="Roles" />
       <End Role="RoleFuncion" EntitySet="RoleFuncions" />
@@ -135,6 +127,14 @@
     <AssociationSet Name="FK_TopicosUsuario_Usuario2" Association="suaModel.Store.FK_TopicosUsuario_Usuario2">
       <End Role="Usuario" EntitySet="Usuarios" />
       <End Role="TopicosUsuario" EntitySet="TopicosUsuarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Funciones_Modulos" Association="suaModel.Store.FK_Funciones_Modulos">
+      <End Role="Modulo" EntitySet="Modulos" />
+      <End Role="Funcion" EntitySet="Funcions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RoleFunciones_Funciones" Association="suaModel.Store.FK_RoleFunciones_Funciones">
+      <End Role="Funcion" EntitySet="Funcions" />
+      <End Role="RoleFuncion" EntitySet="RoleFuncions" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="catalogoMovimientos">
@@ -396,20 +396,6 @@
     <Property Name="tipo" Type="nchar" Nullable="false" MaxLength="2" />
     <Property Name="nombreArchivo" Type="nchar" Nullable="false" MaxLength="100" />
   </EntityType>
-  <EntityType Name="Funcions">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="moduloId" Type="int" Nullable="false" />
-    <Property Name="descripcionCorta" Type="nchar" Nullable="false" MaxLength="60" />
-    <Property Name="descripcionLarga" Type="nchar" Nullable="true" MaxLength="100" />
-    <Property Name="accion" Type="nchar" Nullable="false" MaxLength="100" />
-    <Property Name="controlador" Type="nchar" Nullable="false" MaxLength="100" />
-    <Property Name="estatus" Type="nchar" Nullable="false" MaxLength="2" />
-    <Property Name="usuarioId" Type="int" Nullable="false" />
-    <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
-  </EntityType>
   <EntityType Name="RoleFuncions">
     <Key>
       <PropertyRef Name="id" />
@@ -430,6 +416,21 @@
     <Property Name="tipo" Type="nchar" Nullable="false" MaxLength="2" />
     <Property Name="usuarioCreacionId" Type="int" Nullable="false" />
     <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Funcions">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="moduloId" Type="int" Nullable="false" />
+    <Property Name="descripcionCorta" Type="nchar" Nullable="false" MaxLength="60" />
+    <Property Name="descripcionLarga" Type="nchar" Nullable="true" MaxLength="100" />
+    <Property Name="accion" Type="nchar" Nullable="false" MaxLength="100" />
+    <Property Name="controlador" Type="nchar" Nullable="false" MaxLength="100" />
+    <Property Name="estatus" Type="nchar" Nullable="false" MaxLength="2" />
+    <Property Name="usuarioId" Type="int" Nullable="false" />
+    <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
+    <Property Name="tipo" Type="nchar" Nullable="false" MaxLength="1" />
   </EntityType>
   <Association Name="FK_MovimientosAsegurado_catalogoMovimientos">
     <End Role="catalogoMovimiento" Type="suaModel.Store.catalogoMovimientos" Multiplicity="1" />
@@ -695,30 +696,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Funciones_Modulos">
-    <End Role="Modulo" Type="suaModel.Store.Modulos" Multiplicity="1" />
-    <End Role="Funcion" Type="suaModel.Store.Funcions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Modulo">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Funcion">
-        <PropertyRef Name="moduloId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_RoleFunciones_Funciones">
-    <End Role="Funcion" Type="suaModel.Store.Funcions" Multiplicity="1" />
-    <End Role="RoleFuncion" Type="suaModel.Store.RoleFuncions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Funcion">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="RoleFuncion">
-        <PropertyRef Name="funcionId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_RoleFunciones_Roles">
     <End Role="Role" Type="suaModel.Store.Roles" Multiplicity="1" />
     <End Role="RoleFuncion" Type="suaModel.Store.RoleFuncions" Multiplicity="*" />
@@ -764,6 +741,30 @@
       </Principal>
       <Dependent Role="TopicosUsuario">
         <PropertyRef Name="usuarioId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Funciones_Modulos">
+    <End Role="Modulo" Type="suaModel.Store.Modulos" Multiplicity="1" />
+    <End Role="Funcion" Type="suaModel.Store.Funcions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Modulo">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Funcion">
+        <PropertyRef Name="moduloId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RoleFunciones_Funciones">
+    <End Role="Funcion" Type="suaModel.Store.Funcions" Multiplicity="1" />
+    <End Role="RoleFuncion" Type="suaModel.Store.RoleFuncions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Funcion">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="RoleFuncion">
+        <PropertyRef Name="funcionId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -875,16 +876,7 @@
             <End Role="Asegurado" EntitySet="Asegurados" />
             <End Role="Movimiento" EntitySet="Movimientos" />
           </AssociationSet>
-          <EntitySet Name="Funcions" EntityType="suaModel.Funcion" />
           <EntitySet Name="RoleFuncions" EntityType="suaModel.RoleFuncion" />
-          <AssociationSet Name="FK_Funciones_Modulos" Association="suaModel.FK_Funciones_Modulos">
-            <End Role="Modulo" EntitySet="Modulos" />
-            <End Role="Funcion" EntitySet="Funcions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoleFunciones_Funciones" Association="suaModel.FK_RoleFunciones_Funciones">
-            <End Role="Funcion" EntitySet="Funcions" />
-            <End Role="RoleFuncion" EntitySet="RoleFuncions" />
-          </AssociationSet>
           <AssociationSet Name="FK_RoleFunciones_Roles" Association="suaModel.FK_RoleFunciones_Roles">
             <End Role="Role" EntitySet="Roles" />
             <End Role="RoleFuncion" EntitySet="RoleFuncions" />
@@ -901,6 +893,15 @@
           <AssociationSet Name="FK_TopicosUsuario_Usuario2" Association="suaModel.FK_TopicosUsuario_Usuario2">
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="TopicosUsuario" EntitySet="TopicosUsuarios" />
+          </AssociationSet>
+          <EntitySet Name="Funcions" EntityType="suaModel.Funcion" />
+          <AssociationSet Name="FK_Funciones_Modulos" Association="suaModel.FK_Funciones_Modulos">
+            <End Role="Modulo" EntitySet="Modulos" />
+            <End Role="Funcion" EntitySet="Funcions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleFunciones_Funciones" Association="suaModel.FK_RoleFunciones_Funciones">
+            <End Role="Funcion" EntitySet="Funcions" />
+            <End Role="RoleFuncion" EntitySet="RoleFuncions" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="catalogoMovimiento">
@@ -1475,22 +1476,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Funcion">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="moduloId" Type="Int32" Nullable="false" />
-          <Property Name="descripcionCorta" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="descripcionLarga" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="accion" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="controlador" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="estatus" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Modulo" Relationship="suaModel.FK_Funciones_Modulos" FromRole="Funcion" ToRole="Modulo" />
-          <NavigationProperty Name="RoleFuncions" Relationship="suaModel.FK_RoleFunciones_Funciones" FromRole="Funcion" ToRole="RoleFuncion" />
-        </EntityType>
         <EntityType Name="RoleFuncion">
           <Key>
             <PropertyRef Name="id" />
@@ -1500,34 +1485,10 @@
           <Property Name="funcionId" Type="Int32" Nullable="false" />
           <Property Name="usuarioCreacionId" Type="Int32" Nullable="false" />
           <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Funcion" Relationship="suaModel.FK_RoleFunciones_Funciones" FromRole="RoleFuncion" ToRole="Funcion" />
           <NavigationProperty Name="Role" Relationship="suaModel.FK_RoleFunciones_Roles" FromRole="RoleFuncion" ToRole="Role" />
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_RoleFunciones_RoleUsuarios" FromRole="RoleFuncion" ToRole="Usuario" />
+          <NavigationProperty Name="Funcion" Relationship="suaModel.FK_RoleFunciones_Funciones" FromRole="RoleFuncion" ToRole="Funcion" />
         </EntityType>
-        <Association Name="FK_Funciones_Modulos">
-          <End Type="suaModel.Modulo" Role="Modulo" Multiplicity="1" />
-          <End Type="suaModel.Funcion" Role="Funcion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Modulo">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Funcion">
-              <PropertyRef Name="moduloId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoleFunciones_Funciones">
-          <End Type="suaModel.Funcion" Role="Funcion" Multiplicity="1" />
-          <End Type="suaModel.RoleFuncion" Role="RoleFuncion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Funcion">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="RoleFuncion">
-              <PropertyRef Name="funcionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_RoleFunciones_Roles">
           <End Type="suaModel.Role" Role="Role" Multiplicity="1" />
           <End Type="suaModel.RoleFuncion" Role="RoleFuncion" Multiplicity="*" />
@@ -1586,6 +1547,47 @@
             </Principal>
             <Dependent Role="TopicosUsuario">
               <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Funcion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="moduloId" Type="Int32" Nullable="false" />
+          <Property Name="descripcionCorta" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="descripcionLarga" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="accion" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="controlador" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="estatus" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="usuarioId" Type="Int32" Nullable="false" />
+          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="tipo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Modulo" Relationship="suaModel.FK_Funciones_Modulos" FromRole="Funcion" ToRole="Modulo" />
+          <NavigationProperty Name="RoleFuncions" Relationship="suaModel.FK_RoleFunciones_Funciones" FromRole="Funcion" ToRole="RoleFuncion" />
+        </EntityType>
+        <Association Name="FK_Funciones_Modulos">
+          <End Type="suaModel.Modulo" Role="Modulo" Multiplicity="1" />
+          <End Type="suaModel.Funcion" Role="Funcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modulo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Funcion">
+              <PropertyRef Name="moduloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleFunciones_Funciones">
+          <End Type="suaModel.Funcion" Role="Funcion" Multiplicity="1" />
+          <End Type="suaModel.RoleFuncion" Role="RoleFuncion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Funcion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RoleFuncion">
+              <PropertyRef Name="funcionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1869,21 +1871,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Funcions">
-      <EntityTypeMapping TypeName="IsTypeOf(suaModel.Funcion)">
-        <MappingFragment StoreEntitySet="Funcions">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="moduloId" ColumnName="moduloId" />
-          <ScalarProperty Name="descripcionCorta" ColumnName="descripcionCorta" />
-          <ScalarProperty Name="descripcionLarga" ColumnName="descripcionLarga" />
-          <ScalarProperty Name="accion" ColumnName="accion" />
-          <ScalarProperty Name="controlador" ColumnName="controlador" />
-          <ScalarProperty Name="estatus" ColumnName="estatus" />
-          <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
-          <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="RoleFuncions">
       <EntityTypeMapping TypeName="IsTypeOf(suaModel.RoleFuncion)">
         <MappingFragment StoreEntitySet="RoleFuncions">
@@ -1904,6 +1891,22 @@
           <ScalarProperty Name="tipo" ColumnName="tipo" />
           <ScalarProperty Name="usuarioCreacionId" ColumnName="usuarioCreacionId" />
           <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Funcions">
+      <EntityTypeMapping TypeName="IsTypeOf(suaModel.Funcion)">
+        <MappingFragment StoreEntitySet="Funcions">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="moduloId" ColumnName="moduloId" />
+          <ScalarProperty Name="descripcionCorta" ColumnName="descripcionCorta" />
+          <ScalarProperty Name="descripcionLarga" ColumnName="descripcionLarga" />
+          <ScalarProperty Name="accion" ColumnName="accion" />
+          <ScalarProperty Name="controlador" ColumnName="controlador" />
+          <ScalarProperty Name="estatus" ColumnName="estatus" />
+          <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
+          <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+          <ScalarProperty Name="tipo" ColumnName="tipo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -42,15 +42,15 @@
         <AssociationConnector Association="suaModel.FK_Acreditados_Acreditados" />
         <AssociationConnector Association="suaModel.FK_Movimientos_Acreditados" />
         <AssociationConnector Association="suaModel.FK_Movimientos_Asegurados" />
-        <EntityTypeShape EntityType="suaModel.Funcion" Width="1.5" PointX="11.25" PointY="10.5" IsExpanded="false" />
         <EntityTypeShape EntityType="suaModel.RoleFuncion" Width="1.5" PointX="11.875" PointY="15.125" IsExpanded="false" />
-        <AssociationConnector Association="suaModel.FK_Funciones_Modulos" />
-        <AssociationConnector Association="suaModel.FK_RoleFunciones_Funciones" />
         <AssociationConnector Association="suaModel.FK_RoleFunciones_Roles" />
         <AssociationConnector Association="suaModel.FK_RoleFunciones_RoleUsuarios" />
         <EntityTypeShape EntityType="suaModel.TopicosUsuario" Width="1.5" PointX="8.875" PointY="11.625" IsExpanded="false" />
         <AssociationConnector Association="suaModel.FK_TopicosUsuario_Usuario" />
         <AssociationConnector Association="suaModel.FK_TopicosUsuario_Usuario2" />
+        <EntityTypeShape EntityType="suaModel.Funcion" Width="1.5" PointX="10.75" PointY="7.5" IsExpanded="false" />
+        <AssociationConnector Association="suaModel.FK_Funciones_Modulos" />
+        <AssociationConnector Association="suaModel.FK_RoleFunciones_Funciones" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

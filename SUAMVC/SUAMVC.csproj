@@ -337,14 +337,14 @@
     <Content Include="Views\Usuarios\Index.cshtml" />
     <Content Include="Views\RoleModulos\Index.cshtml" />
     <Content Include="Views\Movimientos\UploadFileAcre.cshtml" />
+    <Content Include="Views\RoleFunciones\Index.cshtml" />
+    <Content Include="Views\TopicosUsuario\Index.cshtml" />
+    <Content Include="Views\Shared\_MenuLayout.cshtml" />
     <Content Include="Views\Funciones\Create.cshtml" />
     <Content Include="Views\Funciones\Delete.cshtml" />
     <Content Include="Views\Funciones\Details.cshtml" />
     <Content Include="Views\Funciones\Edit.cshtml" />
     <Content Include="Views\Funciones\Index.cshtml" />
-    <Content Include="Views\RoleFunciones\Index.cshtml" />
-    <Content Include="Views\TopicosUsuario\Index.cshtml" />
-    <Content Include="Views\Shared\_MenuLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

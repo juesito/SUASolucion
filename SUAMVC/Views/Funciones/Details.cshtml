@@ -5,9 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section Menu {
-    <div>Detalles de Funcion <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
-}
+<h2>Details</h2>
 
 <div>
     <h4>Funcion</h4>
@@ -67,6 +65,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.fechaCreacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipo)
         </dd>
 
         <dt>
