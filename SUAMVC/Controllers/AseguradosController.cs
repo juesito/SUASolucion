@@ -21,7 +21,7 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Aseguradoes
-        public ActionResult Index2(String plazasId, String patronesId, String clientesId, String gruposId, string currentPlaza, string currentPatron, string currentCliente, string currentGrupo, int page = 1, String sortOrder=null, String lastSortOrder=null)
+        public ActionResult Index2(String plazasId, String patronesId, String clientesId, String gruposId, string currentPlaza, string currentPatron, string currentCliente, string currentGrupo, int page = 1, String sortOrder = null, String lastSortOrder = null)
         {
 
             //ViewBag.patronesId = new SelectList(db.Patrones, "id", "nombre");
@@ -54,7 +54,7 @@ namespace SUAMVC.Controllers
                                                    id = s.Id,
                                                    FUllName = s.claveGrupo + " - " + s.nombreCorto
                                                }), "id", "FullName");
-            
+
             ViewBag.opcion = new SelectList(new List<Object> {
                               "Reg. Patronal",
                               "Num. Afiliación",
@@ -75,6 +75,8 @@ namespace SUAMVC.Controllers
                              select s;
             if (!String.IsNullOrEmpty(plazasId))
             {
+                @ViewBag.pzaId = plazasId;
+
                 if (!String.IsNullOrEmpty(patronesId))
                 {
                     if (!String.IsNullOrEmpty(clientesId))
@@ -215,10 +217,9 @@ namespace SUAMVC.Controllers
                 }
             }
 
-            if (page < 1 ) page = 1;
+            if (page < 1) page = 1;
 
-            ViewBag.activos = asegurados.Where(s => !s.fechaBaja .HasValue).Count();
-
+            ViewBag.activos = asegurados.Where(s => !s.fechaBaja.HasValue).Count();
             ViewBag.registros = asegurados.Count();
 
             if (page == 1)
@@ -226,7 +227,7 @@ namespace SUAMVC.Controllers
                 asegurados = asegurados.OrderBy(s => s.nombre);
             }
             else
-                asegurados = asegurados.OrderBy(s => s.nombreTemporal).Skip(page  * 12 );
+                asegurados = asegurados.OrderBy(s => s.nombreTemporal).Skip(page * 12);
 
             return View(asegurados.ToList());
         }
@@ -251,11 +252,11 @@ namespace SUAMVC.Controllers
             if (carga != null)
             {
                 Asegurado asegurado = db.Asegurados.Find(id);
-                var movtosTemp = from b in db.Movimientos 
+                var movtosTemp = from b in db.Movimientos
                                  where b.aseguradoId.Equals(id)
                                    && b.tipo.Equals(option)
-                                   orderby b.fechaTransaccion
-                                     select b;
+                                 orderby b.fechaTransaccion
+                                 select b;
 
                 Movimiento movto = new Movimiento();
                 if (movtosTemp != null)
@@ -275,11 +276,13 @@ namespace SUAMVC.Controllers
 
                     return File(fs, "application/pdf");
                 }
-                else {
+                else
+                {
                     return RedirectToAction("Index");
                 }
             }
-            else {
+            else
+            {
                 return RedirectToAction("Index");
             }
         }
@@ -365,7 +368,7 @@ namespace SUAMVC.Controllers
         }
 
         [HttpGet]
-        public void GetExcel(String plazasId, String patronesId, String clientesId, String gruposId, string currentPlaza, string currentPatron, string currentCliente, string currentGrupo, string opcion, string valor, int page = 1, String sortOrder=null, String lastSortOrder=null)
+        public void GetExcel(String plazasId, String patronesId, String clientesId, String gruposId, string currentPlaza, string currentPatron, string currentCliente, string currentGrupo, string opcion, string valor, int page = 1, String sortOrder = null, String lastSortOrder = null)
         {
             /*
             ViewBag.CurrentPatron = patronesId;
@@ -615,7 +618,7 @@ namespace SUAMVC.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult Index(String plazasId, String patronesId, String clientesId, String gruposId, string currentPlaza, string currentPatron, string currentCliente, string currentGrupo, string opcion, string valor, int page = 1, String sortOrder=null, String lastSortOrder=null)
+        public ActionResult Index(String plazasId, String patronesId, String clientesId, String gruposId, string currentPlaza, string currentPatron, string currentCliente, string currentGrupo, string opcion, string valor, int page = 1, String sortOrder = null, String lastSortOrder = null)
         {
 
             //ViewBag.patronesId = new SelectList(db.Patrones, "id", "nombre");
@@ -648,7 +651,7 @@ namespace SUAMVC.Controllers
                                                    id = s.Id,
                                                    FUllName = s.claveGrupo + " - " + s.nombreCorto
                                                }), "id", "FullName");
-            
+
             ViewBag.opcion = new SelectList(new List<Object> {
                               "Reg. Patronal",
                               "Num. Afiliación",
@@ -809,14 +812,15 @@ namespace SUAMVC.Controllers
                 }
             }
 
-            if (!String.IsNullOrEmpty(opcion)){
+            if (!String.IsNullOrEmpty(opcion))
+            {
                 switch (opcion)
                 {
                     case "Reg. Patronal":
-                        asegurados = asegurados.Where(s => s.Patrone.registro.Contains(valor) );
+                        asegurados = asegurados.Where(s => s.Patrone.registro.Contains(valor));
                         break;
                     case "Num. Afiliación":
-                        asegurados = asegurados.Where(s => s.numeroAfiliacion.Contains(valor) );
+                        asegurados = asegurados.Where(s => s.numeroAfiliacion.Contains(valor));
                         break;
                     case "CURP":
                         asegurados = asegurados.Where(s => s.CURP.Contains(valor));
@@ -853,9 +857,9 @@ namespace SUAMVC.Controllers
                         break;
                 }
             }
-            if (page < 1 ) page = 1;
+            if (page < 1) page = 1;
 
-            ViewBag.activos = asegurados.Where(s => !s.fechaBaja .HasValue).Count();
+            ViewBag.activos = asegurados.Where(s => !s.fechaBaja.HasValue).Count();
 
             ViewBag.registros = asegurados.Count();
 
@@ -864,7 +868,7 @@ namespace SUAMVC.Controllers
                 asegurados = asegurados.OrderBy(s => s.nombre);
             }
             else
-                asegurados = asegurados.OrderBy(s => s.nombreTemporal).Skip(page  * 12 );
+                asegurados = asegurados.OrderBy(s => s.nombreTemporal).Skip(page * 12);
 
             return View(asegurados.ToList());
         }
