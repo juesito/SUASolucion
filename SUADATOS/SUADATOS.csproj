@@ -152,6 +152,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Model1.edmx.sql" />
+    <Content Include="StoreProcedures\sp_createFunctions.sql" />
+    <Content Include="StoreProcedures\sp_createModules.sql" />
+    <Content Include="StoreProcedures\sp_createRoles.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
