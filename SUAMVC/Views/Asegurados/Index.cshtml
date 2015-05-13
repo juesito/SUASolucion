@@ -33,7 +33,7 @@
             grid.Column("fechaBaja", "Fecha Baja", @<text><div style='width: 6em'>@if (@item.fechaBaja != null) { @item.fechaBaja.ToString("dd-MM-yyyy")}
  </div></text>, null, canSort: true),
             grid.Column("salarioImss", "Salario IMSS", format: @<text>@item.salarioImss.ToString("0.00")</text>, canSort: true),
-            grid.Column("Cliente.claveCliente", "Ubicación", format: @<text> @if (@item.Cliente != null)
+            grid.Column("Cliente.claveCliente", "Ubicación", format: @<text> @if (@item.Cliente !=  null)
             {@item.Cliente.claveCliente}</text>, canSort: true),
             grid.Column("Cliente.Grupos.nombreCorto", "ID.Grupo", format: @<text> @if (@item.Cliente != null)
             {@item.Cliente.Grupos.nombreCorto}</text>, canSort: true),
