@@ -22,7 +22,7 @@
     {
         if (Model.funciones != null)
         {
-            grid = new WebGrid(source: Model.funciones);
+            grid = new WebGrid(source: Model.funciones, canPage: false); 
             sb.Append(grid.GetHtml(
         columns:
             grid.Columns(
@@ -36,7 +36,7 @@
 
         if (Model.funcionesByRole != null)
         {
-            grid2 = new WebGrid(source: Model.funcionesByRole, rowsPerPage: 5);
+            grid2 = new WebGrid(source: Model.funcionesByRole, canPage: false);
             sb2.Append(grid2.GetHtml(
         columns:
             grid2.Columns(

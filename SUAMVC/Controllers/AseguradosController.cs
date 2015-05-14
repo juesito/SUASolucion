@@ -21,11 +21,15 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Aseguradoes
-        public ActionResult Index2(String plazasId, String patronesId, String clientesId, String gruposId, string currentPlaza, string currentPatron, string currentCliente, string currentGrupo, int page = 1, String sortOrder = null, String lastSortOrder = null)
+        public ActionResult Index(String plazasId, String patronesId, String clientesId, String gruposId, string currentPlaza, string currentPatron, string currentCliente, string currentGrupo, string opcion, string valor, int page = 1, String sortOrder = null, String lastSortOrder = null)
         {
 
-            //ViewBag.patronesId = new SelectList(db.Patrones, "id", "nombre");
+            Usuario user = Session["UsuarioData"] as Usuario;
+            //ViewBag.patronesId = new SelectList(db.Patrones, "id", "nombre")
+
             ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
+                                               join top in db.TopicosUsuarios on s.id equals top.topicoId 
+                                               where top.tipo.Trim().Equals("P")   && top.usuarioId.Equals(user.Id)
                                                orderby s.descripcion
                                                select new
                                                {
@@ -34,6 +38,8 @@ namespace SUAMVC.Controllers
                                                }), "id", "FullName");
 
             ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id)
                                                  orderby s.registro
                                                  select new
                                                  {
@@ -41,6 +47,8 @@ namespace SUAMVC.Controllers
                                                      FullName = s.registro + " - " + s.nombre
                                                  }), "id", "FullName", null);
             ViewBag.clientesId = new SelectList((from s in db.Clientes.ToList()
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
                                                  orderby s.descripcion
                                                  select new
                                                  {
@@ -70,19 +78,25 @@ namespace SUAMVC.Controllers
                               "ID Plaza",
                               "Extranjero?" });
 
+ //           if (!String.IsNullOrEmpty(plazasId) || !String.IsNullOrEmpty(patronesId) || !String.IsNullOrEmpty(clientesId) || !String.IsNullOrEmpty(gruposId))
+ //           {
             var asegurados = from s in db.Asegurados
-                             join cli in db.Clientes on s.ClienteId equals cli.Id
                              select s;
+ //           }
+
             if (!String.IsNullOrEmpty(plazasId))
             {
                 @ViewBag.pzaId = plazasId;
-
                 if (!String.IsNullOrEmpty(patronesId))
                 {
                     if (!String.IsNullOrEmpty(clientesId))
                     {
                         if (!String.IsNullOrEmpty(gruposId))
                         {
+                            @ViewBag.pzaId = plazasId;
+                            @ViewBag.patId = patronesId;
+                            @ViewBag.cteId = clientesId;
+                            @ViewBag.gpoId = gruposId;
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idPatron = int.Parse(patronesId.Trim());
                             int idCliente = int.Parse(clientesId.Trim());
@@ -91,6 +105,9 @@ namespace SUAMVC.Controllers
                         }
                         else
                         {
+                            @ViewBag.pzaId = plazasId;
+                            @ViewBag.patId = patronesId;
+                            @ViewBag.cteId = clientesId;
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idPatron = int.Parse(patronesId.Trim());
                             int idCliente = int.Parse(clientesId.Trim());
@@ -102,6 +119,9 @@ namespace SUAMVC.Controllers
                     {
                         if (!String.IsNullOrEmpty(gruposId))
                         {
+                            @ViewBag.pzaId = plazasId;
+                            @ViewBag.patId = patronesId;
+                            @ViewBag.gpoId = gruposId;
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idPatron = int.Parse(patronesId.Trim());
                             int idGrupo = int.Parse(gruposId.Trim());
@@ -109,6 +129,8 @@ namespace SUAMVC.Controllers
                         }
                         else
                         {
+                            @ViewBag.pzaId = plazasId;
+                            @ViewBag.patId = patronesId;
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idPatron = int.Parse(patronesId.Trim());
                             asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron));
@@ -122,6 +144,9 @@ namespace SUAMVC.Controllers
                     {
                         if (!String.IsNullOrEmpty(gruposId))
                         {
+                            @ViewBag.pzaId = plazasId;
+                            @ViewBag.cteId = clientesId;
+                            @ViewBag.gpoId = gruposId;
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idCliente = int.Parse(clientesId.Trim());
                             int idGrupo = int.Parse(gruposId.Trim());
@@ -129,6 +154,8 @@ namespace SUAMVC.Controllers
                         }
                         else
                         {
+                            @ViewBag.pzaId = plazasId;
+                            @ViewBag.cteId = clientesId;
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idCliente = int.Parse(clientesId.Trim());
                             asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente));
@@ -139,12 +166,15 @@ namespace SUAMVC.Controllers
                     {
                         if (!String.IsNullOrEmpty(gruposId))
                         {
+                            @ViewBag.pzaId = plazasId;
+                            @ViewBag.gpoId = gruposId;
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idGrupo = int.Parse(gruposId.Trim());
                             asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Grupo_id.Equals(idGrupo));
                         }
                         else
                         {
+                            @ViewBag.pzaId = plazasId;
                             int idPlaza = int.Parse(plazasId.Trim());
                             asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
                         }
@@ -160,6 +190,9 @@ namespace SUAMVC.Controllers
                     {
                         if (!String.IsNullOrEmpty(gruposId))
                         {
+                            @ViewBag.patId = patronesId;
+                            @ViewBag.cteId = clientesId;
+                            @ViewBag.gpoId = gruposId;
                             int idPatron = int.Parse(patronesId.Trim());
                             int idCliente = int.Parse(clientesId.Trim());
                             int idGrupo = int.Parse(gruposId.Trim());
@@ -167,6 +200,8 @@ namespace SUAMVC.Controllers
                         }
                         else
                         {
+                            @ViewBag.patId = patronesId;
+                            @ViewBag.cteId = clientesId;
                             int idPatron = int.Parse(patronesId.Trim());
                             int idCliente = int.Parse(clientesId.Trim());
                             asegurados = asegurados.Where(s => s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente));
@@ -177,12 +212,15 @@ namespace SUAMVC.Controllers
                     {
                         if (!String.IsNullOrEmpty(gruposId))
                         {
+                            @ViewBag.patId = patronesId;
+                            @ViewBag.gpoId = gruposId;
                             int idPatron = int.Parse(patronesId.Trim());
                             int idGrupo = int.Parse(gruposId.Trim());
                             asegurados = asegurados.Where(s => s.PatroneId.Equals(idPatron) && s.Cliente.Grupo_id.Equals(idGrupo));
                         }
                         else
                         {
+                            @ViewBag.patId = patronesId;
                             int idPatron = int.Parse(patronesId.Trim());
                             asegurados = asegurados.Where(s => s.PatroneId.Equals(idPatron));
                         }
@@ -195,12 +233,15 @@ namespace SUAMVC.Controllers
                     {
                         if (!String.IsNullOrEmpty(gruposId))
                         {
+                            @ViewBag.cteId = clientesId;
+                            @ViewBag.gpoId = gruposId;
                             int idCliente = int.Parse(clientesId.Trim());
                             int idGrupo = int.Parse(gruposId.Trim());
                             asegurados = asegurados.Where(s => s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
                         }
                         else
                         {
+                            @ViewBag.cteId = clientesId;
                             int idCliente = int.Parse(clientesId.Trim());
                             asegurados = asegurados.Where(s => s.Cliente.Id.Equals(idCliente));
                         }
@@ -210,6 +251,7 @@ namespace SUAMVC.Controllers
                     {
                         if (!String.IsNullOrEmpty(gruposId))
                         {
+                            @ViewBag.gpoId = gruposId;
                             int idGrupo = int.Parse(gruposId.Trim());
                             asegurados = asegurados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
                         }
@@ -217,9 +259,57 @@ namespace SUAMVC.Controllers
                 }
             }
 
+            if (!String.IsNullOrEmpty(opcion))
+            {
+                @ViewBag.opBuscador = opcion;
+                @ViewBag.valBuscador = valor;
+                switch (opcion)
+                {
+                    case "Reg. Patronal":
+                        asegurados = asegurados.Where(s => s.Patrone.registro.Contains(valor));
+                        break;
+                    case "Num. Afiliación":
+                        asegurados = asegurados.Where(s => s.numeroAfiliacion.Contains(valor));
+                        break;
+                    case "CURP":
+                        asegurados = asegurados.Where(s => s.CURP.Contains(valor));
+                        break;
+                    case "RFC":
+                        asegurados = asegurados.Where(s => s.RFC.Contains(valor));
+                        break;
+                    case "Nombre":
+                        asegurados = asegurados.Where(s => s.nombre.Contains(valor));
+                        break;
+                    case "Fecha Alta":
+                        asegurados = asegurados.Where(s => s.fechaAlta.ToString().Contains(valor));
+                        break;
+                    case "Fecha Baja":
+                        asegurados = asegurados.Where(s => s.fechaBaja.ToString().Contains(valor));
+                        break;
+                    case "Salario IMMS":
+                        asegurados = asegurados.Where(s => s.salarioImss.ToString().Contains(valor.Trim()));
+                        break;
+                    case "Ubicación":
+                        asegurados = asegurados.Where(s => s.Cliente.claveCliente.Contains(valor));
+                        break;
+                    case "ID Grupo":
+                        asegurados = asegurados.Where(s => s.Cliente.Grupos.nombre.Contains(valor));
+                        break;
+                    case "Ocupación":
+                        asegurados = asegurados.Where(s => s.ocupacion.Contains(valor));
+                        break;
+                    case "ID Plaza":
+                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cve.Contains(valor));
+                        break;
+                    case "Extranjero?":
+                        asegurados = asegurados.Where(s => s.extranjero.Contains(valor));
+                        break;
+                }
+            }
             if (page < 1) page = 1;
 
             ViewBag.activos = asegurados.Where(s => !s.fechaBaja.HasValue).Count();
+
             ViewBag.registros = asegurados.Count();
 
             if (page == 1)
@@ -227,7 +317,7 @@ namespace SUAMVC.Controllers
                 asegurados = asegurados.OrderBy(s => s.nombre);
             }
             else
-                asegurados = asegurados.OrderBy(s => s.nombreTemporal).Skip(page * 12);
+                asegurados = asegurados.OrderBy(s => s.nombreTemporal).Skip((page-1) * 12);
 
             return View(asegurados.ToList());
         }
@@ -368,7 +458,7 @@ namespace SUAMVC.Controllers
         }
 
         [HttpGet]
-        public void GetExcel(String plazasId, String patronesId, String clientesId, String gruposId, string currentPlaza, string currentPatron, string currentCliente, string currentGrupo, string opcion, string valor, int page = 1, String sortOrder = null, String lastSortOrder = null)
+        public void GetExcel(String plazasId, String patronesId, String clientesId, String gruposId, string opcion, string valor)
         {
             /*
             ViewBag.CurrentPatron = patronesId;
@@ -580,6 +670,10 @@ namespace SUAMVC.Controllers
                         grid.Column("nombreTemporal", "Nombre"),
                         grid.Column("fechaAlta", "Fecha Alta"),
                         grid.Column("fechaBaja", "Fecha Baja"),
+                        grid.Column("Cliente.claveCliente", "Cliente"),
+                        grid.Column("Cliente.Grupos.nombreCorto", "Grupo"),
+                        grid.Column("Patrone.Plaza.cve", "Plaza"),
+                        grid.Column("extranjero", "Extranjero"),
                         grid.Column("alta", "Alta"),
                         grid.Column("baja", "Baja"),
                         grid.Column("modificacion", "Modificación"),
@@ -618,260 +712,6 @@ namespace SUAMVC.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult Index(String plazasId, String patronesId, String clientesId, String gruposId, string currentPlaza, string currentPatron, string currentCliente, string currentGrupo, string opcion, string valor, int page = 1, String sortOrder = null, String lastSortOrder = null)
-        {
-
-            //ViewBag.patronesId = new SelectList(db.Patrones, "id", "nombre");
-            ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
-                                               orderby s.descripcion
-                                               select new
-                                               {
-                                                   id = s.id,
-                                                   FUllName = s.descripcion
-                                               }), "id", "FullName");
-
-            ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
-                                                 orderby s.registro
-                                                 select new
-                                                 {
-                                                     id = s.Id,
-                                                     FullName = s.registro + " - " + s.nombre
-                                                 }), "id", "FullName", null);
-            ViewBag.clientesId = new SelectList((from s in db.Clientes.ToList()
-                                                 orderby s.descripcion
-                                                 select new
-                                                 {
-                                                     id = s.Id,
-                                                     FUllName = s.claveCliente + " - " + s.descripcion
-                                                 }), "id", "FullName");
-            ViewBag.gruposId = new SelectList((from s in db.Grupos.ToList()
-                                               orderby s.claveGrupo
-                                               select new
-                                               {
-                                                   id = s.Id,
-                                                   FUllName = s.claveGrupo + " - " + s.nombreCorto
-                                               }), "id", "FullName");
-
-            ViewBag.opcion = new SelectList(new List<Object> {
-                              "Reg. Patronal",
-                              "Num. Afiliación",
-                              "CURP",
-                              "RFC",
-                              "Nombre",
-                              "Fecha Alta",
-                              "Fecha Baja",
-                              "Salario IMMS",
-                              "Ubicación",
-                              "ID Grupo",
-                              "Ocupación",
-                              "ID Plaza",
-                              "Extranjero?" });
-
-            var asegurados = from s in db.Asegurados
-                             join cli in db.Clientes on s.ClienteId equals cli.Id
-                             select s;
-            if (!String.IsNullOrEmpty(plazasId))
-            {
-                if (!String.IsNullOrEmpty(patronesId))
-                {
-                    if (!String.IsNullOrEmpty(clientesId))
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente));
-                        }
-
-                    }
-                    else
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idPatron = int.Parse(patronesId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron));
-                        }
-
-                    }
-                }
-                else
-                {
-                    if (!String.IsNullOrEmpty(clientesId))
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente));
-                        }
-
-                    }
-                    else
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
-                        }
-
-                    }
-                }
-            }
-            else
-            {
-                if (!String.IsNullOrEmpty(patronesId))
-                {
-                    if (!String.IsNullOrEmpty(clientesId))
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            asegurados = asegurados.Where(s => s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente));
-                        }
-
-                    }
-                    else
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.PatroneId.Equals(idPatron) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            int idPatron = int.Parse(patronesId.Trim());
-                            asegurados = asegurados.Where(s => s.PatroneId.Equals(idPatron));
-                        }
-
-                    }
-                }
-                else
-                {
-                    if (!String.IsNullOrEmpty(clientesId))
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            int idCliente = int.Parse(clientesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            int idCliente = int.Parse(clientesId.Trim());
-                            asegurados = asegurados.Where(s => s.Cliente.Id.Equals(idCliente));
-                        }
-
-                    }
-                    else
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                    }
-                }
-            }
-
-            if (!String.IsNullOrEmpty(opcion))
-            {
-                switch (opcion)
-                {
-                    case "Reg. Patronal":
-                        asegurados = asegurados.Where(s => s.Patrone.registro.Contains(valor));
-                        break;
-                    case "Num. Afiliación":
-                        asegurados = asegurados.Where(s => s.numeroAfiliacion.Contains(valor));
-                        break;
-                    case "CURP":
-                        asegurados = asegurados.Where(s => s.CURP.Contains(valor));
-                        break;
-                    case "RFC":
-                        asegurados = asegurados.Where(s => s.RFC.Contains(valor));
-                        break;
-                    case "Nombre":
-                        asegurados = asegurados.Where(s => s.nombre.Contains(valor));
-                        break;
-                    case "Fecha Alta":
-                        asegurados = asegurados.Where(s => s.fechaAlta.ToString().Contains(valor));
-                        break;
-                    case "Fecha Baja":
-                        asegurados = asegurados.Where(s => s.fechaBaja.ToString().Contains(valor));
-                        break;
-                    case "Salario IMMS":
-                        asegurados = asegurados.Where(s => s.salarioImss.ToString().Contains(valor.Trim()));
-                        break;
-                    case "Ubicación":
-                        asegurados = asegurados.Where(s => s.Cliente.claveCliente.Contains(valor));
-                        break;
-                    case "ID Grupo":
-                        asegurados = asegurados.Where(s => s.Cliente.Grupos.nombre.Contains(valor));
-                        break;
-                    case "Ocupación":
-                        asegurados = asegurados.Where(s => s.ocupacion.Contains(valor));
-                        break;
-                    case "ID Plaza":
-                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cve.Contains(valor));
-                        break;
-                    case "Extranjero?":
-                        asegurados = asegurados.Where(s => s.extranjero.Contains(valor));
-                        break;
-                }
-            }
-            if (page < 1) page = 1;
-
-            ViewBag.activos = asegurados.Where(s => !s.fechaBaja.HasValue).Count();
-
-            ViewBag.registros = asegurados.Count();
-
-            if (page == 1)
-            {
-                asegurados = asegurados.OrderBy(s => s.nombre);
-            }
-            else
-                asegurados = asegurados.OrderBy(s => s.nombreTemporal).Skip(page * 12);
-
-            return View(asegurados.ToList());
-        }
 
     }
 }

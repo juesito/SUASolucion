@@ -3,81 +3,33 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var grid = new WebGrid(source: Model, rowsPerPage: 10);
 }
 @section Menu {
-    <div><img src="~/Content/Images/people-b.png" width="15" height="15" />Catalogo de Usuarios</div>
+    <div>Catalogo de Usuarios <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
+@grid.GetHtml(
+    columns:
+        grid.Columns(
+            grid.Column("claveUsuario", "Clave Usuario", null, null, true),
+            grid.Column("nombreUsuario", "Nombre", null, null, true),
+            grid.Column("apellidoPaterno", "Apellido Paterno", null, null, true),
+            grid.Column("apellidoMaterno", "Apellido Materno", null, null, true),
+            grid.Column("email", "Email", null, null, true),
+            grid.Column("plaza.descripcion", "Plaza", null, null, true),
+            grid.Column("role.descripcion", "Perfil", null, null, true),
+            grid.Column("fechaIngreso","Fecha Ingreso", @<text><div style='width: 6em'>@item.fechaIngreso.ToString("dd-MM-yyyy")     </div></text>, null,canSort: true),
+            grid.Column("estatus", "Estatus", null, null, true),
+            grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Usuarios", new { id = item.id })">
+                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+                </a></text>),
+            grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Usuarios", new { id = item.id })">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a></text>)),
+                                            tableStyle: "table table-striped tableSua"
+                            )
 <p>
-    @Html.ActionLink("Crear Usuario", "Create")
+    @Html.ActionLink("Crear Usuario", "Create", "Usuarios", new { @class = "btn btn-success" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.claveUsuario)
-        </th>
-       <th>
-            @Html.DisplayNameFor(model => model.nombreUsuario)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.apellidoPaterno)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.apellidoMaterno)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Plaza.descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Role.descripcion)
-        </th>
-       <th>
-            @Html.DisplayNameFor(model => model.estatus)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fechaIngreso)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.claveUsuario)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.nombreUsuario)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.apellidoPaterno)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.apellidoMaterno)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Plaza.descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Role.descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.estatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaIngreso)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>

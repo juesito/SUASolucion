@@ -120,7 +120,10 @@
 
         <input type="submit" value="Consultar" class="btn btn-success" } />
 
-         <a href="@Url.Action("GetExcel", "Asegurados", new { plazasId = @ViewBag.pzaId })" style="text-align:right">
+         <a href="@Url.Action("GetExcel", "Asegurados", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                                                               clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId,
+                                                             opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador
+             })" style="text-align:right">
             <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
         </a>
 
