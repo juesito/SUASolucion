@@ -170,12 +170,10 @@ namespace SUAMVC.Models
             {
                 result = db.Database.ExecuteSqlCommand("sp_createRoles");
                 
-            }
-
-            count = db.Modulos.Count();
-            if (count == 0)
-            {
                 result = db.Database.ExecuteSqlCommand("sp_createModules");
+                result = db.Database.ExecuteSqlCommand("sp_createCatalogoMovimientos");
+                result = db.Database.ExecuteSqlCommand("sp_createParameters");
+                
             }
 
 
@@ -187,6 +185,7 @@ namespace SUAMVC.Models
             if (count == 0)
             {
                 int result = db.Database.ExecuteSqlCommand("sp_createFunctions @usuarioId", new SqlParameter("@usuarioId", usuarioId));
+                result = db.Database.ExecuteSqlCommand("spCreateActionFunctions @usuarioId", new SqlParameter("@usuarioId", usuarioId));
             }
         }
 

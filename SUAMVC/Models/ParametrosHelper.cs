@@ -18,7 +18,7 @@ namespace SUAMVC.Models
             var smdfParameterTemp = (from b in db.Parametros
                                     where b.parametroId.Equals(key.Trim())
                                     orderby b.fechaCreacion
-                                    select b).First();
+                                    select b).FirstOrDefault();
 
             if (smdfParameterTemp == null)
             {

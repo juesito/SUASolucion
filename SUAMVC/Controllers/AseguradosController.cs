@@ -71,7 +71,7 @@ namespace SUAMVC.Controllers
                               "Extranjero?" });
 
             var asegurados = from s in db.Asegurados
-                             join cli in db.Clientes on s.ClienteId equals cli.Id
+                            // join cli in db.Clientes on s.ClienteId equals cli.Id
                              select s;
             if (!String.IsNullOrEmpty(plazasId))
             {
