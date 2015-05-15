@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<SUADATOS.Acreditado>
 @using System.Text;
-@using SUAMVC.Models
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     if (!WebSecurity.IsAuthenticated)
@@ -92,11 +92,6 @@
 
         <input type="submit" value="Consultar" class="btn btn-success" />
 
-        @Html.ActionLink("Buscar", "ActivaVariable", "Acreditados")
-
-       <a href="@Url.Action("GetExcel", "Acreditados", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
-                                                               clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId,
-                                                             opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador
         @if (SecurityUserModel.verificarPermiso("Acreditados", "Descargar excel"))
         {
             <a href="@Url.Action("GetExcel", "Acreditados", new { plazas = @ViewBag.plazasId, patronesId = @ViewBag.patronesId, clientesId=@ViewBag.clientesId, gruposId = @ViewBag.gruposId, opcion = @ViewBag.opcion, valor = @ViewBag.valor })
