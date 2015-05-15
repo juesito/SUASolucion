@@ -30,6 +30,7 @@ namespace SUAMVC.Controllers
             return View();
         }
 
+        //Creamos el menu del usuario de acuerdo a sus permisos
         public List<Menu> createMenu(Usuario user) {
             List<Menu> menuCompleto = new List<Menu>();
 
@@ -48,6 +49,7 @@ namespace SUAMVC.Controllers
                     var funcionesPorUsuario = (from fu in db.RoleFuncions
                                                    where fu.roleId.Equals(role)
                                                       && fu.Funcion.moduloId.Equals(modulo.id)
+                                                      && fu.Funcion.tipo.Trim().Equals("M")
                                                    select fu.Funcion).ToList();
 
                     if (funcionesPorUsuario.Count > 0) {

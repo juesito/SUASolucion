@@ -148,6 +148,8 @@ namespace SUAMVC.Controllers
                     usuario.contrasena = "XXXXX";
                     Session["UsuarioData"] = usuario;
 
+                    //Llenamos los permisos del usuario
+                    SecurityUserModel.llenarPermisos(usuario.roleId);
                     FormsAuthentication.SetAuthCookie(usuario.nombreUsuario, user.RememberMe);
                     bFounded = true;
                 }
@@ -172,6 +174,8 @@ namespace SUAMVC.Controllers
         }
         public ActionResult Logout()
         {
+            Session["UsuarioData"] = null;
+            SecurityUserModel.limpiarListaDePermisos();
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
