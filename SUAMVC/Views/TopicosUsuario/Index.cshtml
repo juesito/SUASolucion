@@ -21,7 +21,7 @@
     {
         if (Model.topicos != null)
         {
-            grid = new WebGrid(source: Model.topicos, rowsPerPage: 5);
+            grid = new WebGrid(source: Model.topicos, canPage: false); 
             sb.Append(grid.GetHtml(
         columns:
             grid.Columns(
@@ -33,7 +33,7 @@
 
         if (Model.topicosPorUsuario != null)
         {
-            grid2 = new WebGrid(source: Model.topicosPorUsuario, rowsPerPage: 5);
+            grid2 = new WebGrid(source: Model.topicosPorUsuario, canPage: false); 
             sb2.Append(grid2.GetHtml(
         columns:
             grid2.Columns(

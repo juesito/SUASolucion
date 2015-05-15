@@ -8,6 +8,12 @@
         Response.Redirect("~/Home/Index");
     }
     ViewBag.Title = "Index";
+    var buscar = "0";
+    if (TempData["buscador"] != null)
+    {
+        buscar = TempData["buscador"] as String;
+    }
+    
     Layout = "~/Views/Shared/_Layout.cshtml";
     var grid = new WebGrid(source: Model, rowsPerPage: 12);
     @functions {
@@ -16,6 +22,7 @@
             return id != null ? new HtmlString("<img src=\"/Content/Images/pdf.gif\" class=\"icon\" />") : null;
         }
     }
+    
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
 
@@ -85,15 +92,26 @@
 
         <input type="submit" value="Consultar" class="btn btn-success" />
 
+        @Html.ActionLink("Buscar", "ActivaVariable", "Acreditados")
+
+       <a href="@Url.Action("GetExcel", "Acreditados", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                                                               clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId,
+                                                             opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador
         @if (SecurityUserModel.verificarPermiso("Acreditados", "Descargar excel"))
         {
             <a href="@Url.Action("GetExcel", "Acreditados", new { plazas = @ViewBag.plazasId, patronesId = @ViewBag.patronesId, clientesId=@ViewBag.clientesId, gruposId = @ViewBag.gruposId, opcion = @ViewBag.opcion, valor = @ViewBag.valor })
 })" style="text-align:right">
-                <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
-            </a>
+            <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
+        </a>
         }
 
-
+        @if(buscar.Equals("1")){
+        <fieldset>
+            Opción: @Html.DropDownList("opcion", "Seleccione")
+            @Html.Label("valor", "Valor:")
+            @Html.TextBox("valor")
+        </fieldset>
+        }
     </p>
 
     <div style ="float: right; ">
