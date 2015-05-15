@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<SUADATOS.Patrone>
 @using System.Text;
+@using SUAMVC.Models
 
 @{
     if (!WebSecurity.IsAuthenticated)
@@ -8,7 +9,38 @@
     }
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: Model, canPage: false); 
+    var grid = new WebGrid(source: Model, canPage: false);
+
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+
+    //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+    gridColumns.Add(grid.Column("registro", "Registro Patronal", @<text><div style='width: 8em'>@item.registro</div></text> , null, canSort: true));
+    gridColumns.Add(grid.Column("Plaza.cve", "ID Plaza", @<text><div style='width: 4em'>@item.Plaza.cve</div></text> , null, canSort: true));
+    gridColumns.Add(grid.Column("rfc", "RFC", @<text><div style='width: 9em'>@item.rfc</div></text> , null, canSort: true));
+    gridColumns.Add(grid.Column("nombre", "Nombre", @<text><div style='width: 32em'>@item.nombre</div></text> , null, canSort: true));
+    gridColumns.Add(grid.Column("telefono", "Teléfono", @<text><div style='width: 7em'>@item.telefono</div></text> , null, canSort: true));
+    gridColumns.Add(grid.Column("domicilio", "Domicilio", @<text><div style='width: 31em'>@item.domicilio</div></text> , null, canSort: true));
+    gridColumns.Add(grid.Column("zona", "Zona", null, null, true));
+    gridColumns.Add(grid.Column("inicioAfiliacion", "Ini.Afiliación", null, null, true));
+    gridColumns.Add(grid.Column("STyPS", "STyPS", null, null, true));
+    gridColumns.Add(grid.Column("delegacion", "Delegación", null, null, true));
+    gridColumns.Add(grid.Column("codigoPostal", "C. P.", @<text><div style='width: 5em'>@item.codigoPostal</div></text> , null, canSort: true));
+    gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Patrones", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+
+    if (SecurityUserModel.verificarPermiso("Patrones", "Consultar detalle"))
+    { 
+        gridColumns.Add(grid.Column(header: "Detalle", format: @<text><a href="@Url.Action("Details", "Patrones", new { id = item.id })"><img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+
+    sb.Append(grid.GetHtml(
+        columns: grid.Columns(gridColumns.ToArray()),
+                        tableStyle: "table table-striped tableSua"
+                    ));
+
+    tableHtml = sb.ToString().Trim();                                                                                                                                                                                                                             
+
 }
 
 @section Menu {
@@ -23,29 +55,10 @@
     </p>
 }
 
-@grid.GetHtml(
-    columns:
-        grid.Columns(
-            grid.Column("registro", "Registro Patronal", @<text><div style='width: 8em'>@item.registro</div></text> , null, canSort: true),
-            grid.Column("Plaza.cve", "ID Plaza", @<text><div style='width: 4em'>@item.Plaza.cve</div></text> , null, canSort: true),
-            grid.Column("rfc", "RFC", @<text><div style='width: 9em'>@item.rfc</div></text> , null, canSort: true),
-            grid.Column("nombre", "Nombre", @<text><div style='width: 32em'>@item.nombre</div></text> , null, canSort: true),
-            grid.Column("telefono", "Teléfono", @<text><div style='width: 7em'>@item.telefono</div></text> , null, canSort: true),
-            grid.Column("domicilio", "Domicilio", @<text><div style='width: 31em'>@item.domicilio</div></text> , null, canSort: true),
-            grid.Column("zona", "Zona", null, null, true),
-            grid.Column("inicioAfiliacion", "Ini.Afiliación", null, null, true),
-            grid.Column("STyPS", "STyPS", null, null, true),
-            grid.Column("delegacion", "Delegación", null, null, true),
-            grid.Column("codigoPostal", "C. P.", @<text><div style='width: 5em'>@item.codigoPostal</div></text> , null, canSort: true),
-           grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Patrones", new { id = item.id })">
-                                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
-                                </a></text>),
-            grid.Column(header: "Consultar", format: @<text><a href="@Url.Action("Details", "Patrones", new { id = item.id })">
-            <img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" />
-        </a></text>)
+@if (!tableHtml.IsEmpty())
+{
+    @Html.Raw(tableHtml)
+}
 
-                                ),
-                            tableStyle: "table-sua table-striped tableSua"
-            )
 
 
