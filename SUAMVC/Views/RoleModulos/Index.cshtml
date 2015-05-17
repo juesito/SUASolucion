@@ -1,4 +1,35 @@
 ﻿@model SUAMVC.Models.RoleModulosModel
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=slallm]").change(function () {
+            $('#lgcontenedor-interno input[type=checkbox]').each(function () {
+                if ($("input[name=slallm]:checked").length == 1) {
+                    this.checked = true;
+                } else {
+                    this.checked = false;
+                }
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Checkbox
+        $("input[name=slallm2]").change(function () {
+            $('#rgcontenedor-interno input[type=checkbox]').each(function () {
+                if ($("input[name=slallm2]:checked").length == 1) {
+                    this.checked = true;
+                } else {
+                    this.checked = false;
+                }
+            });
+        });
+
+    });
+</script>
+
+
+
 @{
     ViewBag.Title = "Roles y Modulos";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -69,6 +100,7 @@
                 <div class="panel-heading">Modulos sin asignar</div>
                 <div class="panel-body">
                     <div id="lcontenedor-interno">
+                        <input type="checkbox" id="selectAllm" name="slallm" /> Todos
                         @Html.Raw(tableHtml)
                     </div>
                     <div id="bcontenedor-interno">
@@ -86,6 +118,7 @@
                 <div class="panel-heading">Modulos asignados</div>
                 <div class="panel-body">
                     <div id="lcontenedor-interno">
+                        <input type="checkbox" id="selectAllm2" name="slallm2" /> Todos
                         @Html.Raw(tableHtml2)
                     </div>
                     <div id="bcontenedor-interno">
@@ -99,5 +132,4 @@
 
     }
 </div>
-
 

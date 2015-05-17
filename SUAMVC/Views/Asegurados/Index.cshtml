@@ -73,10 +73,7 @@
                     ));
 
 
-    sb = sb.Replace("\r\n", string.Empty);
-    sb = sb.Replace("    ", string.Empty);
-
-    tableHtml = sb.ToString();
+    tableHtml = sb.ToString().Trim();
 
     var flagMenu = @ViewBag.flagMenus;
 }
