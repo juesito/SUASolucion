@@ -25,6 +25,17 @@ namespace SUAMVC.Controllers
         {
 
             Usuario user = Session["UsuarioData"] as Usuario;
+            var plazasAsignadas = (from x in db.TopicosUsuarios
+                                   where x.usuarioId.Equals(user.Id)
+                                   && x.tipo.Equals("P")
+                                   select x.topicoId);
+
+            var clientesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("C")
+                                     select x.topicoId);
+            List<int> tai = clientesAsignados.ToList();
+
             //ViewBag.patronesId = new SelectList(db.Patrones, "id", "nombre")
 
             ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
@@ -38,14 +49,15 @@ namespace SUAMVC.Controllers
                                                }), "id", "FullName");
 
             ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
-                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
-                                                 where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id)
+                                                 join ase in db.Asegurados on s.Id equals ase.PatroneId
+                                                 join top in db.TopicosUsuarios on ase.ClienteId equals top.topicoId
+                                                 where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
                                                  orderby s.registro
                                                  select new
                                                  {
                                                      id = s.Id,
                                                      FullName = s.registro + " - " + s.nombre
-                                                 }), "id", "FullName", null);
+                                                 }).Distinct(), "id", "FullName", null);
             ViewBag.clientesId = new SelectList((from s in db.Clientes.ToList()
                                                  join top in db.TopicosUsuarios on s.Id equals top.topicoId
                                                  where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
@@ -56,6 +68,9 @@ namespace SUAMVC.Controllers
                                                      FUllName = s.claveCliente + " - " + s.descripcion
                                                  }), "id", "FullName");
             ViewBag.gruposId = new SelectList((from s in db.Grupos.ToList()
+                                               join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                               join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                               where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
                                                orderby s.claveGrupo
                                                select new
                                                {
@@ -78,11 +93,11 @@ namespace SUAMVC.Controllers
                               "ID Plaza",
                               "Extranjero?" });
 
- //           if (!String.IsNullOrEmpty(plazasId) || !String.IsNullOrEmpty(patronesId) || !String.IsNullOrEmpty(clientesId) || !String.IsNullOrEmpty(gruposId))
- //           {
             var asegurados = from s in db.Asegurados
-                             select s;
- //           }
+                            join cli in db.Clientes on s.ClienteId equals cli.Id
+                             where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
+                                   clientesAsignados.Contains(s.Cliente.Id)
+                            select s;
 
             if (!String.IsNullOrEmpty(plazasId))
             {
@@ -263,6 +278,8 @@ namespace SUAMVC.Controllers
             {
                 @ViewBag.opBuscador = opcion;
                 @ViewBag.valBuscador = valor;
+                TempData["buscador"] = "0";
+
                 switch (opcion)
                 {
                     case "Reg. Patronal":
@@ -701,6 +718,12 @@ namespace SUAMVC.Controllers
             db.MovimientosAseguradoes.Remove(asegurado);
             db.SaveChanges();
             return View(asegurado);
+        }
+
+        public ActionResult ActivaVariable()
+        {
+            TempData["buscador"] = "1";
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

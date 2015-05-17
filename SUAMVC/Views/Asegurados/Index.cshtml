@@ -9,6 +9,11 @@
         Response.Redirect("~/Home/Index");
     }
     ViewBag.Title = "Asegurados";
+    var buscar = "0";
+    if (TempData["buscador"] != null)
+    {
+        buscar = TempData["buscador"] as String;
+    }
     Layout = "~/Views/Shared/_Layout.cshtml";
     var grid = new WebGrid(source: Model, rowsPerPage: 12);
     @functions {
@@ -93,21 +98,26 @@
 
         <input type="submit" value="Consultar" class="btn btn-success" } />
 
+        @Html.ActionLink("Buscar", "ActivaVariable", "Asegurados")
+
         @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel"))
         {
-            <a href="@Url.Action("GetExcel", "Asegurados", new { plazasId = @ViewBag.pzaId })" style="text-align:right">
+            <a href="@Url.Action("GetExcel", "Asegurados", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                                                               clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId,
+                                                             opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador
+             })" style="text-align:right">
                 <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
             </a>
         }
 
-        <fieldset>
-            Opción: @Html.DropDownList("opcion", "Seleccione")
-            @Html.Label("valor", "Valor:")
-            @Html.TextBox("valor")
-            <input type="submit" value="Buscar" class="btn btn-success" } />
-
-        </fieldset>
-
+        @if (buscar.Equals("1"))
+        {
+            <fieldset>
+                Opción: @Html.DropDownList("opcion", "Seleccione")
+                @Html.Label("valor", "Valor:")
+                @Html.TextBox("valor")
+            </fieldset>
+        }
     </p>
 
     <div style="float: right; column-span:2">
@@ -121,6 +131,7 @@
 }
 
 @using (Html.BeginForm("UploadFiles", "Movimientos", FormMethod.Post))
+
 {
     if (SecurityUserModel.verificarPermiso("Asegurados", "Subir acuse"))
     { 

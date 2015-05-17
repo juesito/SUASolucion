@@ -237,6 +237,7 @@ namespace SUAMVC.Controllers
             {
                 @ViewBag.opBuscador = opcion;
                 @ViewBag.valBuscador = valor;
+                TempData["buscador"] = "0";
                 switch (opcion)
                 {
                     case "Reg. Patronal":
