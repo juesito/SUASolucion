@@ -1,4 +1,6 @@
 ﻿@model SUAMVC.Models.RoleFuncionesModel
+
+
 @{
     ViewBag.Title = "Roles y Modulos";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,7 +8,7 @@
     {
         Response.Redirect("~/Home/Index");
     }
-    
+
     var vRoleId = TempData["vRoleId"];
     var vModuleId = TempData["vModuleId"];
 
@@ -22,7 +24,7 @@
     {
         if (Model.funciones != null)
         {
-            grid = new WebGrid(source: Model.funciones, canPage: false); 
+            grid = new WebGrid(source: Model.funciones, canPage: false);
             sb.Append(grid.GetHtml(
         columns:
             grid.Columns(
@@ -42,8 +44,8 @@
             grid2.Columns(
                 grid2.Column(format: @<text><input type="checkbox" name="ids2" value="@item.id" /></text>, header: "Elegir"),
                 grid2.Column("descripcionCorta", "Descripcion", null, null, true),
-                grid.Column("modulo.descripcionCorta", "Descripcion", null, null, true),
-                grid2.Column("descripcionLarga", "Funcionalidad", null, null, true)
+                grid.Column("modulo.descripcionCorta", "Funcionalidad", null, null, true),
+                grid2.Column("descripcionLarga", "Modulo", null, null, true)
             ),
             tableStyle: "table table-fixed tableSua"));
         }
@@ -60,8 +62,10 @@
 }
 @using (Html.BeginForm())
 {
-    <p>Rol:@Html.DropDownList("roleId", "Seleccione")
-   Modulo:@Html.DropDownList("moduleId", "Seleccione")</p><input class="btn btn-success" type="submit" value="Buscar" />
+    <p>
+        Rol:@Html.DropDownList("roleId", "Seleccione")
+        Modulo:@Html.DropDownList("moduleId", "Seleccione")
+    </p><input class="btn btn-success" type="submit" value="Buscar" />
 }
 
 <div id="contenedor">
@@ -73,6 +77,7 @@
                 <div class="panel-heading">Funciones sin asignar</div>
                 <div class="panel-body">
                     <div id="lcontenedor-interno">
+                        <input type="checkbox" id="selectAll" name="slall" /> Todos
                         @Html.Raw(tableHtml)
                     </div>
                     <div id="bcontenedor-interno" class="panel-footer">
@@ -90,6 +95,7 @@
                 <div class="panel-heading">Funciones asignados</div>
                 <div class="panel-body">
                     <div id="lcontenedor-interno">
+                        <input type="checkbox" id="selectAll2" name="slall2" /> Todos
                         @Html.Raw(tableHtml2)
                     </div>
                     <div id="bcontenedor-interno" class="panel-footer">
@@ -104,4 +110,32 @@
     }
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=slall]").change(function () {
+            $('#lgcontenedor-interno input[type=checkbox]').each(function () {
+                if ($("input[name=slall]:checked").length == 1) {
+                    this.checked = true;
+                } else {
+                    this.checked = false;
+                }
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Checkbox
+        $("input[name=slall2]").change(function () {
+            $('#rgcontenedor-interno input[type=checkbox]').each(function () {
+                if ($("input[name=slall2]:checked").length == 1) {
+                    this.checked = true;
+                } else {
+                    this.checked = false;
+                }
+            });
+        });
+
+    });
+</script>
 

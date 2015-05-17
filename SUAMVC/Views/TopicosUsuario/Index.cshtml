@@ -79,6 +79,7 @@
                 </div>
                 <div class="panel-body">
                     <div id="lcontenedor-interno">
+                        <input type="checkbox" id="selectAllt" name="slallt" /> Todos
                         @Html.Raw(tableHtml)
                     </div>
                     <div id="bcontenedor-interno" class="panel-footer">
@@ -104,6 +105,7 @@
                 }</div>
                 <div class="panel-body">
                     <div id="lcontenedor-interno">
+                        <input type="checkbox" id="selectAllt2" name="slallt2" /> Todos
                         @Html.Raw(tableHtml2)
                     </div>
                     <div id="bcontenedor-interno" class="panel-footer">
@@ -117,3 +119,32 @@
 
     }
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=slallt]").change(function () {
+            $('#lgcontenedor-interno input[type=checkbox]').each(function () {
+                if ($("input[name=slallt]:checked").length == 1) {
+                    this.checked = true;
+                } else {
+                    this.checked = false;
+                }
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Checkbox
+        $("input[name=slallt2]").change(function () {
+            $('#rgcontenedor-interno input[type=checkbox]').each(function () {
+                if ($("input[name=slallt2]:checked").length == 1) {
+                    this.checked = true;
+                } else {
+                    this.checked = false;
+                }
+            });
+        });
+
+    });
+</script>
+
