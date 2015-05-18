@@ -462,7 +462,8 @@ namespace SUAMVC.Controllers
                         {
                             acreditado.Cliente = (Cliente)clienteTemp;
                             acreditado.clienteId = clienteTemp.Id;
-                        }
+                        }else
+                            acreditado.clienteId = 0;
 
                         String nombrePattern = rows["NOM_ASEG"].ToString();
                         nombrePattern = nombrePattern.Replace("$", ",");
@@ -790,7 +791,8 @@ namespace SUAMVC.Controllers
                         if (clienteTemp != null){
                             asegurado.Cliente = (Cliente)clienteTemp;
                             asegurado.ClienteId = clienteTemp.Id;
-                        }
+                        }else
+                            asegurado.ClienteId = 0;
 
                         asegurado.nombreTemporal = rows["TMP_NOM"].ToString();
 

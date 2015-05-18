@@ -10,6 +10,11 @@
         Response.Redirect("~/Home/Index");
     }
     ViewBag.Title = "Asegurados";
+    var buscar = "0";
+    if (TempData["buscador"] != null)
+    {
+        buscar = TempData["buscador"] as String;
+    }
     Layout = "~/Views/Shared/_Layout.cshtml";
     var grid = new WebGrid(source: Model, rowsPerPage: 12);
     @functions {
@@ -57,7 +62,7 @@
                 { @item.fechaModificacion}
             </div></text>, null, canSort: true));
     }
-
+                                                                                                                                                                                     
     gridColumns.Add(grid.Column(header: "Alta", format:@<text><a href="@Url.Action("ViewAttachment", "Asegurados", new { id = item.id, option = "A", carga = item.alta })" target="_blank">@ShowPDF(item.alta)</a></text>));
     gridColumns.Add(grid.Column(header: "Modificación", format:@<text><a href="@Url.Action("ViewAttachment", "Asegurados", new { id = item.id, option = "M", carga = item.modificacion })" target="_blank">@ShowPDF(item.modificacion)</a></text>));
     gridColumns.Add(grid.Column(header: "Baja", format:@<text><a href="@Url.Action("ViewAttachment", "Asegurados", new { id = item.id, option = "B", carga = item.baja })" target="_blank">@ShowPDF(item.baja)</a></text>));
@@ -67,9 +72,9 @@
     {
         gridColumns.Add(grid.Column(header: "Consulta", format: @<text><a href="@Url.Action("Details", "Asegurados", new { id = item.id })"><img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-
+    
     if (SecurityUserModel.verificarPermiso("Asegurados", "Subir acuse"))
-    {
+    {   
         gridColumns.Add(grid.Column(header: "Imagen", format: @<text><a href="@Url.Action("UploadFile", "Movimientos", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
 
@@ -81,7 +86,7 @@
 
     tableHtml = sb.ToString().Trim();
 
-    var flagMenu = @ViewBag.flagMenus;
+//    var flagMenu = @ViewBag.flagMenus;
 }
 
 @section Menu {
@@ -92,34 +97,37 @@
 {
     <p>
         Plaza: @Html.DropDownList("plazasId", "Seleccione")
-
         Patron: @Html.DropDownList("patronesId", "Seleccione")
-
         Grupo: @Html.DropDownList("gruposId", "Seleccione")
-
         Cliente: @Html.DropDownList("clientesId", "Seleccione")
 
         <input type="submit" value="Consultar" class="btn btn-success" } />
 
+        @Html.ActionLink("Buscar", "ActivaVariable", "Asegurados")
+
         @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel"))
         {
-            <a href="@Url.Action("GetExcel", "Asegurados", new { plazasId = @ViewBag.pzaId })" style="text-align:right">
+            <a href="@Url.Action("GetExcel", "Asegurados", new{
+                                        plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                                        clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId,
+                                        opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador,
+                                        statusId = @ViewBag.statusId
+                 })" style="text-align:right">
                 <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
             </a>
         }
 
-
+        @if (buscar.Equals("1"))
+        {
         <fieldset>
             Opción: @Html.FieldsAvailablesToFilter()
             @Html.Label("valor", "Valor:")
             @Html.TextBox("valor")
-            <input type="submit" value="Buscar" class="btn btn-success" } />
-
         </fieldset>
-
+        }
     </p>
 
-    <div style="width:320px; vertical-align:text-top;float: right; column-span:inherit; height:20px;">
+    <div style="width:320px; vertical-align:text-top;float: right; column-span:inherit; height:20px; font-size:10px;">
         <div style="float:left; margin-right:4px;">
             <p style="font-weight:bold">Registros: @Html.Label("Registros: ", Convert.ToString((int)ViewBag.registros))</p>
         </div>
@@ -141,16 +149,16 @@
 }
 
 @using (Html.BeginForm("UploadFiles", "Movimientos", FormMethod.Post))
+
 {
     if (SecurityUserModel.verificarPermiso("Asegurados", "Subir acuse"))
-    {
+    { 
         <input type="submit" value="Subir acuses" class="btn btn-success" />
     }
 
     if (!tableHtml.IsEmpty())
     {
         @Html.Raw(tableHtml)
-
     }
 
 
