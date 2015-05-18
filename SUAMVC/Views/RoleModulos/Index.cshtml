@@ -1,35 +1,4 @@
 ﻿@model SUAMVC.Models.RoleModulosModel
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("input[name=slallm]").change(function () {
-            $('#lgcontenedor-interno input[type=checkbox]').each(function () {
-                if ($("input[name=slallm]:checked").length == 1) {
-                    this.checked = true;
-                } else {
-                    this.checked = false;
-                }
-            });
-        });
-    });
-</script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        //Checkbox
-        $("input[name=slallm2]").change(function () {
-            $('#rgcontenedor-interno input[type=checkbox]').each(function () {
-                if ($("input[name=slallm2]:checked").length == 1) {
-                    this.checked = true;
-                } else {
-                    this.checked = false;
-                }
-            });
-        });
-
-    });
-</script>
-
-
-
 @{
     ViewBag.Title = "Roles y Modulos";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -132,4 +101,31 @@
 
     }
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=slallm]").change(function () {
+            $('#lgcontenedor-interno input[type=checkbox]').each(function () {
+                if ($("input[name=slallm]:checked").length == 1) {
+                    this.checked = true;
+                } else {
+                    this.checked = false;
+                }
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Checkbox
+        $("input[name=slallm2]").change(function () {
+            $('#rgcontenedor-interno input[type=checkbox]').each(function () {
+                if ($("input[name=slallm2]:checked").length == 1) {
+                    this.checked = true;
+                } else {
+                    this.checked = false;
+                }
+            });
+        });
 
+    });
+</script>

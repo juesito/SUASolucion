@@ -2,6 +2,7 @@
 @using SUADATOS
 @using SUAMVC.Models
 @using System.Text;
+@using SUAMVC.Helpers
 
 @{
     if (!WebSecurity.IsAuthenticated)
@@ -24,41 +25,51 @@
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
     gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "Elegir"));
-    gridColumns.Add(grid.Column("Patrone.registro", "Registro Patronal",  format: @<text> @if (@item.Patrone != null){  @item.Patrone.registro }</text>, canSort:true));
+    gridColumns.Add(grid.Column("Patrone.registro", "Registro Patronal", format: @<text> @if (@item.Patrone != null)
+    {  @item.Patrone.registro }</text>, canSort: true));
     gridColumns.Add(grid.Column("numeroAfiliacion", "Num.Afiliacion", null, null, true));
     gridColumns.Add(grid.Column("curp", "CURP", null, null, true));
     gridColumns.Add(grid.Column("rfc", "RFC", null, null, true));
-    gridColumns.Add(grid.Column("nombreTemporal", "Nombre", @<text><div style='width: 25em'>@item.nombreTemporal</div></text> ,null,canSort:true));
-    gridColumns.Add(grid.Column("fechaAlta", "Fecha Alta", @<text><div style='width: 6em'>@item.fechaAlta.ToString("dd-MM-yyyy")     </div></text>, null,canSort: true));
-    gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", @<text><div style='width: 6em'>@if (@item.fechaBaja != null) { @item.fechaBaja.ToString("dd-MM-yyyy")}</div></text>, null, canSort: true));
+    gridColumns.Add(grid.Column("nombreTemporal", "Nombre", @<text><div style='width: 25em'>@item.nombreTemporal</div></text> , null, canSort: true));
+    gridColumns.Add(grid.Column("fechaAlta", "Fecha Alta", @<text><div style='width: 6em'>@item.fechaAlta.ToString("dd-MM-yyyy")     </div></text>, null, canSort: true));
+    gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", @<text><div style='width: 6em'>
+            @if (@item.fechaBaja != null)
+            { @item.fechaBaja.ToString("dd-MM-yyyy")}
+        </div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("salarioImss", "Salario IMSS", format: @<text>@item.salarioImss.ToString("0.00")</text>, canSort: true));
-    gridColumns.Add(grid.Column("Cliente.claveCliente", "Ubicación", format: @<text> @if (@item.Cliente !=  null){@item.Cliente.claveCliente}</text>, canSort: true));
-    gridColumns.Add(grid.Column("Cliente.Grupos.nombreCorto", "ID.Grupo", format: @<text> @if (@item.Cliente != null){@item.Cliente.Grupos.nombreCorto}</text>, canSort: true));
+    gridColumns.Add(grid.Column("Cliente.claveCliente", "Ubicación", format: @<text> @if (@item.Cliente != null)
+    {@item.Cliente.claveCliente}</text>, canSort: true));
+    gridColumns.Add(grid.Column("Cliente.Grupos.nombreCorto", "ID.Grupo", format: @<text> @if (@item.Cliente != null)
+    {@item.Cliente.Grupos.nombreCorto}</text>, canSort: true));
     gridColumns.Add(grid.Column("ocupacion", "Ocupación",  @<text><div style='width: 12em'>@item.ocupacion </div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("Patrone.Plaza.cve", "ID.Plaza", null, null, true));
     gridColumns.Add(grid.Column("extranjero", "Extranjero", null, null, true));
 
-    if(SecurityUserModel.verificarPermiso("Asegurados", "Ver columna creacion")){
-        gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creacion", @<text><div style='width: 12em'>@item.fechaCreacion </div></text>, null,canSort: true));
+    if (SecurityUserModel.verificarPermiso("Asegurados", "Ver columna creacion"))
+    {
+        gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creacion", @<text><div style='width: 12em'>@item.fechaCreacion </div></text>, null, canSort: true));
     }
 
     if (SecurityUserModel.verificarPermiso("Asegurados", "Ver columna modificacion"))
     {
-        gridColumns.Add(grid.Column("fechaModificacion", "Fecha Modificación", @<text><div style='width: 10em'>@if (@item.fechaModificacion != null){ @item.fechaModificacion}</div></text>, null, canSort: true));
+        gridColumns.Add(grid.Column("fechaModificacion", "Fecha Modificación", @<text><div style='width: 10em'>
+                @if (@item.fechaModificacion != null)
+                { @item.fechaModificacion}
+            </div></text>, null, canSort: true));
     }
-                                                                                                                                                                                     
-    gridColumns.Add(grid.Column(header: "Alta",format:@<text><a href="@Url.Action("ViewAttachment", "Asegurados", new { id = item.id, option = "A", carga = item.alta })" target="_blank">@ShowPDF(item.alta)</a></text>));
-    gridColumns.Add(grid.Column(header: "Modificación",format:@<text><a href="@Url.Action("ViewAttachment", "Asegurados", new { id = item.id, option = "M", carga = item.modificacion })" target="_blank">@ShowPDF(item.modificacion)</a></text>));
-    gridColumns.Add(grid.Column(header: "Baja",format:@<text><a href="@Url.Action("ViewAttachment", "Asegurados", new { id = item.id, option = "B", carga = item.baja })" target="_blank">@ShowPDF(item.baja)</a></text>));
-    gridColumns.Add(grid.Column(header: "Permanente",format:@<a href="@Url.Action("ViewAttachment", new { id = item.id, option = "P", carga = item.permanente })" target="_blank">@ShowPDF(item.permanente)</a>));
+
+    gridColumns.Add(grid.Column(header: "Alta", format:@<text><a href="@Url.Action("ViewAttachment", "Asegurados", new { id = item.id, option = "A", carga = item.alta })" target="_blank">@ShowPDF(item.alta)</a></text>));
+    gridColumns.Add(grid.Column(header: "Modificación", format:@<text><a href="@Url.Action("ViewAttachment", "Asegurados", new { id = item.id, option = "M", carga = item.modificacion })" target="_blank">@ShowPDF(item.modificacion)</a></text>));
+    gridColumns.Add(grid.Column(header: "Baja", format:@<text><a href="@Url.Action("ViewAttachment", "Asegurados", new { id = item.id, option = "B", carga = item.baja })" target="_blank">@ShowPDF(item.baja)</a></text>));
+    gridColumns.Add(grid.Column(header: "Permanente", format:@<a href="@Url.Action("ViewAttachment", new { id = item.id, option = "P", carga = item.permanente })" target="_blank">@ShowPDF(item.permanente)</a>));
 
     if (SecurityUserModel.verificarPermiso("Asegurados", "Consultar detalle"))
     {
         gridColumns.Add(grid.Column(header: "Consulta", format: @<text><a href="@Url.Action("Details", "Asegurados", new { id = item.id })"><img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    
+
     if (SecurityUserModel.verificarPermiso("Asegurados", "Subir acuse"))
-    {   
+    {
         gridColumns.Add(grid.Column(header: "Imagen", format: @<text><a href="@Url.Action("UploadFile", "Movimientos", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
 
@@ -97,8 +108,9 @@
             </a>
         }
 
+
         <fieldset>
-            Opción: @Html.DropDownList("opcion", "Seleccione")
+            Opción: @Html.FieldsAvailablesToFilter()
             @Html.Label("valor", "Valor:")
             @Html.TextBox("valor")
             <input type="submit" value="Buscar" class="btn btn-success" } />
@@ -107,12 +119,23 @@
 
     </p>
 
-    <div style="float: right; column-span:2">
+    <div style="width:320px; vertical-align:text-top;float: right; column-span:inherit; height:20px;">
+        <div style="float:left; margin-right:4px;">
+            <p style="font-weight:bold">Registros: @Html.Label("Registros: ", Convert.ToString((int)ViewBag.registros))</p>
+        </div>
+        @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
+        {
+            <div style="float:left; margin-right:4px;">
+                <p style="font-weight:bold">
+                    Activos:
 
-        Registros: @Html.Label("Registros: ", Convert.ToString((int)ViewBag.registros))
-
-        Activos: @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
-
+                    @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
+                    </p>
+</div>
+        }
+        <div style="float:left;">
+            @Html.SearchStatusList()
+        </div>
     </div>
 
 }
@@ -120,13 +143,14 @@
 @using (Html.BeginForm("UploadFiles", "Movimientos", FormMethod.Post))
 {
     if (SecurityUserModel.verificarPermiso("Asegurados", "Subir acuse"))
-    { 
-        <input type="submit" value="subir pdfs" class="btn btn-success" />
+    {
+        <input type="submit" value="Subir acuses" class="btn btn-success" />
     }
 
     if (!tableHtml.IsEmpty())
     {
         @Html.Raw(tableHtml)
+
     }
 
 
