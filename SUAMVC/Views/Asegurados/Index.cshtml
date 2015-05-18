@@ -37,8 +37,7 @@
     gridColumns.Add(grid.Column("rfc", "RFC", null, null, true));
     gridColumns.Add(grid.Column("nombreTemporal", "Nombre", @<text><div style='width: 25em'>@item.nombreTemporal</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("fechaAlta", "Fecha Alta", @<text><div style='width: 6em'>@item.fechaAlta.ToString("dd-MM-yyyy")     </div></text>, null, canSort: true));
-    gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", @<text><div style='width: 6em'>
-            @if (@item.fechaBaja != null)
+    gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", @<text><div style='width: 6em'>@if (@item.fechaBaja != null)
             { @item.fechaBaja.ToString("dd-MM-yyyy")}
         </div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("salarioImss", "Salario IMSS", format: @<text>@item.salarioImss.ToString("0.00")</text>, canSort: true));

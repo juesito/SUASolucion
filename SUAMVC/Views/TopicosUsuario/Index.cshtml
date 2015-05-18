@@ -28,7 +28,7 @@
                 grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "Elegir"),
             grid.Column("topico", "Descripcion", null, null, true)
             ),
-            tableStyle: "table table-striped tableSua"));
+            tableStyle: "table table-fixed tableSua"));
         }
 
         if (Model.topicosPorUsuario != null)
@@ -40,7 +40,7 @@
                 grid2.Column(format: @<text><input type="checkbox" name="ids2" value="@item.id" /></text>, header: "Elegir"),
                 grid2.Column("topico", "Descripcion", null, null, true)
             ),
-            tableStyle: "table table-striped tableSua"));
+            tableStyle: "table table-fixed tableSua"));
         }
 
 

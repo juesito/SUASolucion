@@ -458,24 +458,25 @@ namespace SUAMVC.Controllers
 
             WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
 
+            List<WebGridColumn> gridColumns =  new List<WebGridColumn>();
+            gridColumns.Add(grid.Column("Patrone.registro", "Registro "));
+            gridColumns.Add(grid.Column("numeroAfiliacion", "Numero Afiliacion"));
+            gridColumns.Add(grid.Column("curp", "CURP"));
+            gridColumns.Add(grid.Column("rfc", "RFC"));
+            gridColumns.Add(grid.Column("nombreTemporal", "Nombre"));
+            gridColumns.Add(grid.Column("alta", "Alta", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
+            //gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaBaja)));
+            gridColumns.Add(grid.Column("Cliente.claveCliente", "Cliente"));
+            gridColumns.Add(grid.Column("Cliente.Grupos.nombreCorto", "Grupo"));
+            gridColumns.Add(grid.Column("Patrone.Plaza.cve", "Plaza"));
+            gridColumns.Add(grid.Column("extranjero", "Extranjero"));
+            gridColumns.Add(grid.Column("alta", "Alta"));
+            gridColumns.Add(grid.Column("baja", "Baja"));
+            gridColumns.Add(grid.Column("modificacion", "Modificación"));
+            gridColumns.Add(grid.Column("permanente", "Permanente"));
+
             string gridData = grid.GetHtml(
-                columns: grid.Columns(
-                        grid.Column("Patrone.registro", "Registro "),
-                        grid.Column("numeroAfiliacion", "Numero Afiliacion"),
-                        grid.Column("curp", "CURP"),
-                        grid.Column("rfc", "RFC"),
-                        grid.Column("nombreTemporal", "Nombre"),
-                        grid.Column("fechaAlta", "Fecha Alta"),
-                        grid.Column("fechaBaja", "Fecha Baja"),
-                        grid.Column("Cliente.claveCliente", "Cliente"),
-                        grid.Column("Cliente.Grupos.nombreCorto", "Grupo"),
-                        grid.Column("Patrone.Plaza.cve", "Plaza"),
-                        grid.Column("extranjero", "Extranjero"),
-                        grid.Column("alta", "Alta"),
-                        grid.Column("baja", "Baja"),
-                        grid.Column("modificacion", "Modificación"),
-                        grid.Column("permanente", "Permanente")
-                        )
+                columns: grid.Columns(gridColumns.ToArray())
                     ).ToString();
 
             Response.ClearContent();

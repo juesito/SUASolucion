@@ -79,9 +79,6 @@ namespace SUAMVC.Controllers
                                               select new { t.Id, t.descripcion }).ToList();
                             topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.descripcion)));
 
-                            //    var topicoTemp2 = (from t in db.Clientes
-                            //                       select new { t.Id, t.descripcion }).ToList();
-                            //    topicoTemp2.ToList().ForEach(x => tpum.topicosPorUsuario.Add(new Topico(x.Id, x.descripcion)));
                         }
                         var topicoTemp3 = (from t in db.Clientes
                                        where tai.Contains(t.Id)
@@ -93,7 +90,7 @@ namespace SUAMVC.Controllers
                         if (tai.Count() > 0)
                         {
                             var topicoTemp = (from t in db.Patrones
-                                              where tai.Contains(t.Id)
+                                              where !tai.Contains(t.Id)
                                               select new { t.Id, t.nombre }).ToList();
                             topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.nombre)));
 
