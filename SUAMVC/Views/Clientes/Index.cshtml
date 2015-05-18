@@ -22,10 +22,10 @@
             grid.Column("claveSUA", "Clave SUA", null, null, true),
             grid.Column("rfc", "RFC", null, null, true),
             grid.Column("descripcion", "Descripción", null, null, true),
-            grid.Column("Plaza.descripcion", "Plaza", null, null, true),
+            grid.Column("Plaza.cve", "Plaza", null, null, true),
             grid.Column("Grupos.nombreCorto", "Grupo", null, null, true),
-            
-            grid.Column("ejecutivo", "Ejecutivo", null, null, true),
+
+            grid.Column("ejecutivo", "Ejecutivo", @<text><div style='width: 23em'>@item.ejecutivo</div></text>, null, true),
             grid.Column(header: "Consultar", format: @<text><a href="@Url.Action("Details", "Clientes", new { id = item.id })">
                     <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
                 </a></text>),

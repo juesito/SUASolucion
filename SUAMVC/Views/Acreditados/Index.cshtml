@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<SUADATOS.Acreditado>
+@using SUADATOS
+@using SUAMVC.Models
 @using System.Text;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -92,13 +94,22 @@
 
         <input type="submit" value="Consultar" class="btn btn-success" />
 
-        @if (SecurityUserModel.verificarPermiso("Acreditados", "Descargar excel"))
-        {
-            <a href="@Url.Action("GetExcel", "Acreditados", new { plazas = @ViewBag.plazasId, patronesId = @ViewBag.patronesId, clientesId=@ViewBag.clientesId, gruposId = @ViewBag.gruposId, opcion = @ViewBag.opcion, valor = @ViewBag.valor })
-})" style="text-align:right">
+        @Html.ActionLink("Buscar", "ActivaVariable", "Acreditados")
+
+       @if (SecurityUserModel.verificarPermiso("Acreditados", "Descargar excel"))
+       {
+        <a href="@Url.Action("GetExcel", "Acreditados", new
+                {
+                    plazasId = @ViewBag.pzaId,
+                    patronesId = @ViewBag.patId,
+                    clientesId = @ViewBag.cteId,
+                    gruposId = @ViewBag.gpoId,
+                    opcion = @ViewBag.opBuscador,
+                    valor = @ViewBag.valBuscador
+                })" style="text-align:right">
             <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
         </a>
-        }
+       }
 
         @if(buscar.Equals("1")){
         <fieldset>

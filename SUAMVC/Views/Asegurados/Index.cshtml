@@ -75,7 +75,7 @@
 
     tableHtml = sb.ToString().Trim();
 
-    var flagMenu = @ViewBag.flagMenus;
+//    var flagMenu = @ViewBag.flagMenus;
 }
 
 @section Menu {
@@ -99,10 +99,11 @@
 
         @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel"))
         {
-            <a href="@Url.Action("GetExcel", "Asegurados", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
-                                                               clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId,
-                                                             opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador
-             })" style="text-align:right">
+            <a href="@Url.Action("GetExcel", "Asegurados", new{
+                                        plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                                        clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId,
+                                        opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador
+                 })" style="text-align:right">
                 <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
             </a>
         }
