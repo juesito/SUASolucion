@@ -221,32 +221,32 @@ namespace SUAMVC.Controllers
             if (carga != null)
             {
                 Asegurado asegurado = db.Asegurados.Find(id);
-                var movtosTemp = from b in db.Movimientos
-                                 where b.aseguradoId.Equals(id)
-                                   && b.tipo.Equals(option)
-                                 orderby b.fechaTransaccion
-                                 select b;
+                var movtosTemp = db.Movimientos.Where(x => x.aseguradoId == id
+                                 && x.tipo.Equals(option)).OrderBy(x => x.fechaTransaccion).ToList(); 
 
                 Movimiento movto = new Movimiento();
-                if (movtosTemp != null)
+                if (movtosTemp != null && movtosTemp.Count > 0)
                 {
                     foreach (var movtosItem in movtosTemp)
                     {
                         movto = movtosItem;
                         break;
                     }//Definimos los valores para la plaza
+
+                    var fileName = "C:\\SUA\\Asegurados\\" + asegurado.numeroAfiliacion + "\\" + option + "\\" + movto.nombreArchivo.Trim();
+
+                    if (System.IO.File.Exists(fileName))
+                    {
+                        FileStream fs = new FileStream(fileName, FileMode.Open);
+
+                        return File(fs, "application/pdf");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
-
-                var fileName = "C:\\SUA\\Asegurados\\" + asegurado.numeroAfiliacion + "\\" + option + "\\" + movto.nombreArchivo.Trim();
-
-                if (System.IO.File.Exists(fileName))
-                {
-                    FileStream fs = new FileStream(fileName, FileMode.Open);
-
-                    return File(fs, "application/pdf");
-                }
-                else
-                {
+                else {
                     return RedirectToAction("Index");
                 }
             }
