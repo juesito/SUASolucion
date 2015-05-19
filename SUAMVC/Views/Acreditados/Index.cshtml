@@ -85,11 +85,8 @@
     <p>
 
         Plaza: @Html.DropDownList("plazasId", "Seleccione")
-
         Patron: @Html.DropDownList("patronesId", "Seleccione")
-
         Grupo: @Html.DropDownList("gruposId", "Seleccione")
-
         Cliente: @Html.DropDownList("clientesId", "Seleccione")
 
         <input type="submit" value="Consultar" class="btn btn-success" />
@@ -113,19 +110,32 @@
 
         @if(buscar.Equals("1")){
         <fieldset>
-            Opción: @Html.DropDownList("opcion", "Seleccione")
+            Opción: @Html.FieldsAvailablesToFilterAcreditados()
             @Html.Label("valor", "Valor:")
             @Html.TextBox("valor")
         </fieldset>
         }
     </p>
 
-    <div style ="float: right; ">
-        
-        Registros: @Html.Label("Registros: ", Convert.ToString((int)ViewBag.registros))
-        Activos: @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
-
+    <div style="width:320px; vertical-align:text-top;float: right; column-span:inherit; height:20px; font-size:10px;">
+        <div style="float:left; margin-right:4px;">
+            <p style="font-weight:bold">Registros: @Html.Label("Registros: ", Convert.ToString((int)ViewBag.registros))</p>
+        </div>
+        @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
+        {
+            <div style="float:left; margin-right:4px;">
+                <p style="font-weight:bold">
+                    Activos:
+                    @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
+                </p>
+            </div>
+        }
+        <div style="float:left;">
+            @Html.SearchStatusList()
+        </div>
     </div>
+
+}
 
 
     if (!tableHtml.IsEmpty())

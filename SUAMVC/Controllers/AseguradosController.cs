@@ -351,7 +351,6 @@ namespace SUAMVC.Controllers
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("C")
                                      select x.topicoId);
-            List<int> tai = clientesAsignados.ToList();
 
             List<Asegurado> allCust = new List<Asegurado>();
 
@@ -464,8 +463,8 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("curp", "CURP"));
             gridColumns.Add(grid.Column("rfc", "RFC"));
             gridColumns.Add(grid.Column("nombreTemporal", "Nombre"));
-            gridColumns.Add(grid.Column("alta", "Alta", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
-            //gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaBaja)));
+            gridColumns.Add(grid.Column("fechaAlta", "Alta", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
+            gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) =>string.IsNullOrEmpty(item.fechaBaja)?string.Empty:String.Format("{0:yyyy-MM-dd}", item.fechaBaja)));
             gridColumns.Add(grid.Column("Cliente.claveCliente", "Cliente"));
             gridColumns.Add(grid.Column("Cliente.Grupos.nombreCorto", "Grupo"));
             gridColumns.Add(grid.Column("Patrone.Plaza.cve", "Plaza"));

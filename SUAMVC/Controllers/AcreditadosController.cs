@@ -21,7 +21,10 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Acreditados
-        public ActionResult Index(String plazasId, String patronesId, String clientesId, String gruposId, string currentPlaza, string currentPatron, string currentCliente, string currentGrupo, string opcion, string valor, int page = 1, String sortOrder = null, String lastSortOrder = null)
+        public ActionResult Index(String plazasId, String patronesId, String clientesId, 
+            String gruposId, String currentPlaza, String currentPatron, String currentCliente, 
+            String currentGrupo, String opcion, String valor, String statusId, int page = 1, 
+            String sortOrder = null, String lastSortOrder = null)
         {
 
             Usuario user = Session["UsuarioData"] as Usuario;
@@ -36,7 +39,6 @@ namespace SUAMVC.Controllers
                                      select x.topicoId);
             List<int> tai = clientesAsignados.ToList();
 
-            //ViewBag.patronesId = new SelectList(db.Patrones, "id", "nombre");
            
             ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
                                                join top in db.TopicosUsuarios on s.id equals top.topicoId
@@ -79,20 +81,6 @@ namespace SUAMVC.Controllers
                                                    FUllName = s.claveGrupo + " - " + s.nombreCorto
                                                }).Distinct(), "id", "FullName");
 
-            ViewBag.opcion = new SelectList(new List<Object> {
-                              "Reg. Patronal",
-                              "Num. Afiliación",
-                              "CURP",
-                              "RFC",
-                              "Nombre",
-                              "Fecha Alta",
-                              "Fecha Baja",
-                              "Salario IMMS",
-                              "Ubicación",
-                              "ID Grupo",
-                              "Ocupación",
-                              "ID Plaza"
-                               });
 
             var acreditados = from s in db.Acreditados
                               join cli in db.Clientes on s.clienteId equals cli.Id
@@ -103,192 +91,28 @@ namespace SUAMVC.Controllers
             if (!String.IsNullOrEmpty(plazasId))
             {
                 @ViewBag.pzaId = plazasId;
+                int idPlaza = int.Parse(plazasId.Trim());
+                acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
             }
             if (!String.IsNullOrEmpty(patronesId))
             {
                 @ViewBag.patId = patronesId;
+                int idPatron = int.Parse(patronesId.Trim());
+                acreditados = acreditados.Where(s => s.PatroneId.Equals(idPatron));
             }
+
             if (!String.IsNullOrEmpty(clientesId))
             {
                 @ViewBag.cteId = clientesId;
+                int idCliente = int.Parse(clientesId.Trim());
+                acreditados = acreditados.Where(s => s.Cliente.Id.Equals(idCliente));
             }
+
             if (!String.IsNullOrEmpty(gruposId))
             {
                 @ViewBag.gpoId = gruposId;
-            }
-
-            if (!String.IsNullOrEmpty(plazasId))
-            {
-                if (!String.IsNullOrEmpty(patronesId))
-                {
-                    if (!String.IsNullOrEmpty(clientesId))
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            @ViewBag.patId = patronesId;
-                            @ViewBag.cteId = clientesId;
-                            @ViewBag.gpoId = gruposId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            @ViewBag.patId = patronesId;
-                            @ViewBag.cteId = clientesId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente));
-                        }
-
-                    }
-                    else
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            @ViewBag.patId = patronesId;
-                            @ViewBag.gpoId = gruposId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            @ViewBag.patId = patronesId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idPatron = int.Parse(patronesId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron));
-                        }
-
-                    }
-                }
-                else
-                {
-                    if (!String.IsNullOrEmpty(clientesId))
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            @ViewBag.cteId = clientesId;
-                            @ViewBag.gpoId = gruposId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            @ViewBag.cteId = clientesId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente));
-                        }
-
-                    }
-                    else
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            @ViewBag.gpoId = gruposId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
-                        }
-
-                    }
-                }
-            }
-            else
-            {
-                if (!String.IsNullOrEmpty(patronesId))
-                {
-                    if (!String.IsNullOrEmpty(clientesId))
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.patId = patronesId;
-                            @ViewBag.cteId = clientesId;
-                            @ViewBag.gpoId = gruposId;
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            @ViewBag.patId = patronesId;
-                            @ViewBag.cteId = clientesId;
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            acreditados = acreditados.Where(s => s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente));
-                        }
-
-                    }
-                    else
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.patId = patronesId;
-                            @ViewBag.gpoId = gruposId;
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.PatroneId.Equals(idPatron) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            @ViewBag.patId = patronesId;
-                            int idPatron = int.Parse(patronesId.Trim());
-                            acreditados = acreditados.Where(s => s.PatroneId.Equals(idPatron));
-                        }
-
-                    }
-                }
-                else
-                {
-                    if (!String.IsNullOrEmpty(clientesId))
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.cteId = clientesId;
-                            @ViewBag.gpoId = gruposId;
-                            int idCliente = int.Parse(clientesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            @ViewBag.cteId = clientesId;
-                            int idCliente = int.Parse(clientesId.Trim());
-                            acreditados = acreditados.Where(s => s.Cliente.Id.Equals(idCliente));
-                        }
-
-                    }
-                    else
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.gpoId = gruposId;
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                    }
-                }
+                int idGrupo = int.Parse(gruposId.Trim());
+                acreditados = acreditados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
             }
 
             if (!String.IsNullOrEmpty(opcion))
@@ -298,49 +122,61 @@ namespace SUAMVC.Controllers
                 TempData["buscador"] = "0";
                 switch (opcion)
                 {
-                    case "Reg. Patronal":
+                    case "1":
                         acreditados = acreditados.Where(s => s.Patrone.registro.Contains(valor));
                         break;
-                    case "Num. Afiliación":
+                    case "2":
                         acreditados = acreditados.Where(s => s.numeroAfiliacion.Contains(valor));
                         break;
-                    case "CURP":
+                    case "3":
                         acreditados = acreditados.Where(s => s.CURP.Contains(valor));
                         break;
-                    case "RFC":
+                    case "4":
                         acreditados = acreditados.Where(s => s.RFC.Contains(valor));
                         break;
-                    case "Nombre":
+                    case "5":
                         acreditados = acreditados.Where(s => s.nombreCompleto.Contains(valor));
                         break;
-                    case "Fecha Alta":
+                    case "6":
                         acreditados = acreditados.Where(s => s.fechaAlta.ToString().Contains(valor));
                         break;
-                    case "Fecha Baja":
+                    case "7":
                         acreditados = acreditados.Where(s => s.fechaBaja.ToString().Contains(valor));
                         break;
-                    case "Salario IMMS":
+                    case "8":
                         acreditados = acreditados.Where(s => s.sdi.ToString().Contains(valor));
                         break;
-                    case "Ubicación":
+                    case "9":
                         acreditados = acreditados.Where(s => s.Cliente.claveCliente.Contains(valor));
                         break;
-                    case "ID Grupo":
+                    case "10":
                         acreditados = acreditados.Where(s => s.Cliente.Grupos.nombre.Contains(valor));
                         break;
-                    case "Ocupación":
+                    case "11":
                         acreditados = acreditados.Where(s => s.ocupacion.Contains(valor));
                         break;
-                    case "ID Plaza":
+                    case "12":
                         acreditados = acreditados.Where(s => s.Cliente.Plaza.cve.Contains(valor));
                         break;
                 }
             }
+
+            if (statusId != null)
+            {
+                @ViewBag.statusId = statusId;
+
+                if (statusId.Trim().Equals("A"))
+                {
+                    ViewBag.statusId = statusId;
+                    acreditados = acreditados.Where(s => !s.fechaBaja.HasValue);
+                }
+                else if (statusId.Trim().Equals("B"))
+                {
+                    ViewBag.statusId = statusId;
+                    acreditados = acreditados.Where(s => s.fechaBaja.HasValue);
+                }
+            }
             if (page < 1) page = 1;
-
-            ViewBag.activos = acreditados.Where(s => !s.fechaBaja.HasValue).Count();
-
-            ViewBag.registros = acreditados.Count();
 
             if (page == 1)
             {
@@ -563,7 +399,7 @@ namespace SUAMVC.Controllers
         }
 
         [HttpGet]
-        public void GetExcel(String plazasId, String patronesId, String clientesId, String gruposId, string opcion, string valor)
+        public void GetExcel(String plazasId, String patronesId, String clientesId, String gruposId, string opcion, string valor, String statusId)
         {
 
             Usuario user = Session["UsuarioData"] as Usuario;
@@ -589,192 +425,28 @@ namespace SUAMVC.Controllers
             if (!String.IsNullOrEmpty(plazasId))
             {
                 @ViewBag.pzaId = plazasId;
+                int idPlaza = int.Parse(plazasId.Trim());
+                acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
             }
             if (!String.IsNullOrEmpty(patronesId))
             {
                 @ViewBag.patId = patronesId;
+                int idPatron = int.Parse(patronesId.Trim());
+                acreditados = acreditados.Where(s => s.PatroneId.Equals(idPatron));
             }
+
             if (!String.IsNullOrEmpty(clientesId))
             {
                 @ViewBag.cteId = clientesId;
+                int idCliente = int.Parse(clientesId.Trim());
+                acreditados = acreditados.Where(s => s.Cliente.Id.Equals(idCliente));
             }
+
             if (!String.IsNullOrEmpty(gruposId))
             {
                 @ViewBag.gpoId = gruposId;
-            }
-
-            if (!String.IsNullOrEmpty(plazasId))
-            {
-                if (!String.IsNullOrEmpty(patronesId))
-                {
-                    if (!String.IsNullOrEmpty(clientesId))
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            @ViewBag.patId = patronesId;
-                            @ViewBag.cteId = clientesId;
-                            @ViewBag.gpoId = gruposId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            @ViewBag.patId = patronesId;
-                            @ViewBag.cteId = clientesId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente));
-                        }
-
-                    }
-                    else
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            @ViewBag.patId = patronesId;
-                            @ViewBag.gpoId = gruposId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            @ViewBag.patId = patronesId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idPatron = int.Parse(patronesId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron));
-                        }
-
-                    }
-                }
-                else
-                {
-                    if (!String.IsNullOrEmpty(clientesId))
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            @ViewBag.cteId = clientesId;
-                            @ViewBag.gpoId = gruposId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            @ViewBag.cteId = clientesId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente));
-                        }
-
-                    }
-                    else
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            @ViewBag.gpoId = gruposId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            @ViewBag.pzaId = plazasId;
-                            int idPlaza = int.Parse(plazasId.Trim());
-                            acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
-                        }
-
-                    }
-                }
-            }
-            else
-            {
-                if (!String.IsNullOrEmpty(patronesId))
-                {
-                    if (!String.IsNullOrEmpty(clientesId))
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.patId = patronesId;
-                            @ViewBag.cteId = clientesId;
-                            @ViewBag.gpoId = gruposId;
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            @ViewBag.patId = patronesId;
-                            @ViewBag.cteId = clientesId;
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idCliente = int.Parse(clientesId.Trim());
-                            acreditados = acreditados.Where(s => s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente));
-                        }
-
-                    }
-                    else
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.patId = patronesId;
-                            @ViewBag.gpoId = gruposId;
-                            int idPatron = int.Parse(patronesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.PatroneId.Equals(idPatron) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            @ViewBag.patId = patronesId;
-                            int idPatron = int.Parse(patronesId.Trim());
-                            acreditados = acreditados.Where(s => s.PatroneId.Equals(idPatron));
-                        }
-
-                    }
-                }
-                else
-                {
-                    if (!String.IsNullOrEmpty(clientesId))
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.cteId = clientesId;
-                            @ViewBag.gpoId = gruposId;
-                            int idCliente = int.Parse(clientesId.Trim());
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                        else
-                        {
-                            @ViewBag.cteId = clientesId;
-                            int idCliente = int.Parse(clientesId.Trim());
-                            acreditados = acreditados.Where(s => s.Cliente.Id.Equals(idCliente));
-                        }
-
-                    }
-                    else
-                    {
-                        if (!String.IsNullOrEmpty(gruposId))
-                        {
-                            @ViewBag.gpoId = gruposId;
-                            int idGrupo = int.Parse(gruposId.Trim());
-                            acreditados = acreditados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
-                        }
-                    }
-                }
+                int idGrupo = int.Parse(gruposId.Trim());
+                acreditados = acreditados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
             }
 
             if (!String.IsNullOrEmpty(opcion))
@@ -784,82 +456,99 @@ namespace SUAMVC.Controllers
                 TempData["buscador"] = "0";
                 switch (opcion)
                 {
-                    case "Reg. Patronal":
+                    case "1":
                         acreditados = acreditados.Where(s => s.Patrone.registro.Contains(valor));
                         break;
-                    case "Num. Afiliación":
+                    case "2":
                         acreditados = acreditados.Where(s => s.numeroAfiliacion.Contains(valor));
                         break;
-                    case "CURP":
+                    case "3":
                         acreditados = acreditados.Where(s => s.CURP.Contains(valor));
                         break;
-                    case "RFC":
+                    case "4":
                         acreditados = acreditados.Where(s => s.RFC.Contains(valor));
                         break;
-                    case "Nombre":
-                        acreditados = acreditados.Where(s => s.nombre.Contains(valor));
+                    case "5":
+                        acreditados = acreditados.Where(s => s.nombreCompleto.Contains(valor));
                         break;
-                    case "Fecha Alta":
+                    case "6":
                         acreditados = acreditados.Where(s => s.fechaAlta.ToString().Contains(valor));
                         break;
-                    case "Fecha Baja":
+                    case "7":
                         acreditados = acreditados.Where(s => s.fechaBaja.ToString().Contains(valor));
                         break;
-                    case "Salario IMMS":
+                    case "8":
                         acreditados = acreditados.Where(s => s.sdi.ToString().Contains(valor));
                         break;
-                    case "Ubicación":
+                    case "9":
                         acreditados = acreditados.Where(s => s.Cliente.claveCliente.Contains(valor));
                         break;
-                    case "ID Grupo":
+                    case "10":
                         acreditados = acreditados.Where(s => s.Cliente.Grupos.nombre.Contains(valor));
                         break;
-                    case "Ocupación":
+                    case "11":
                         acreditados = acreditados.Where(s => s.ocupacion.Contains(valor));
                         break;
-                    case "ID Plaza":
+                    case "12":
                         acreditados = acreditados.Where(s => s.Cliente.Plaza.cve.Contains(valor));
                         break;
+                }
+            }
+
+            if (statusId != null)
+            {
+                @ViewBag.statusId = statusId;
+
+                if (statusId.Trim().Equals("A"))
+                {
+                    ViewBag.statusId = statusId;
+                    acreditados = acreditados.Where(s => !s.fechaBaja.HasValue);
+                }
+                else if (statusId.Trim().Equals("B"))
+                {
+                    ViewBag.statusId = statusId;
+                    acreditados = acreditados.Where(s => s.fechaBaja.HasValue);
                 }
             }
 
             allCust = acreditados.ToList();
 
             WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
+            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
+
+            gridColumns.Add(grid.Column("Patrone.registro", "Registro"));
+            gridColumns.Add(grid.Column("apellidoPaterno", "Apellido Paterno"));
+            gridColumns.Add(grid.Column("apellidoMaterno", "Apellido Materno"));
+            gridColumns.Add(grid.Column("nombre", "Nombre"));
+            gridColumns.Add(grid.Column("nombreCompleto", "Nombre Completo"));
+            gridColumns.Add(grid.Column("curp","CURP"));
+            gridColumns.Add(grid.Column("rfc", "RFC"));
+            gridColumns.Add(grid.Column("ocupacion", "Ocupación"));
+            gridColumns.Add(grid.Column("idGrupo", "Grupo"));
+            gridColumns.Add(grid.Column("numeroAfiliacion", "Numero Afiliación"));
+            gridColumns.Add(grid.Column("numeroCredito", "Numero Credito"));
+            gridColumns.Add(grid.Column("fechaAlta", "Alta", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
+            gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => string.IsNullOrEmpty(item.fechaBaja) ? string.Empty : String.Format("{0:yyyy-MM-dd}", item.fechaBaja)));
+            gridColumns.Add(grid.Column("fechaInicioDescuento", "Inicio descuento", format: (item) => string.IsNullOrEmpty(item.fechaInicioDescuento) ? string.Empty : String.Format("{0:yyyy-MM-dd}", item.fechaInicioDescuento)));
+            gridColumns.Add(grid.Column("fechaFinDescuento", "Fin descuento", format: (item) => string.IsNullOrEmpty(item.fechaFinDescuento) ? string.Empty : String.Format("{0:yyyy-MM-dd}", item.fechaFinDescuento)));
+            gridColumns.Add(grid.Column("smdv", "SMDV"));
+            gridColumns.Add(grid.Column("sdi", "SDI"));
+            gridColumns.Add(grid.Column("sd", "SD"));
+            gridColumns.Add(grid.Column("vsm", "VSM"));
+            gridColumns.Add(grid.Column("porcentaje", "Porcentaje"));
+            gridColumns.Add(grid.Column("cuotaFija", "Cuota Fija"));
+            gridColumns.Add(grid.Column("descuentoBimestral", "Descuento Bimestral"));
+            gridColumns.Add(grid.Column("descuentoMensual", "Descuento Mensual"));
+            gridColumns.Add(grid.Column("descuentoSemanal", "Descuento Semanal"));
+            gridColumns.Add(grid.Column("descuentoCatorcenal", "Descuento Catorcenal"));
+            gridColumns.Add(grid.Column("descuentoQuincenal", "Descuento Quincenal"));
+            gridColumns.Add(grid.Column("descuentoVeintiochonal", "Descuento Veintiochonal"));
+            gridColumns.Add(grid.Column("descuentoDiario", "Descuento Diario"));
+            gridColumns.Add(grid.Column("Plaza.descripcion", "Plaza"));
+            /*grid.Column("Cliente.descripcion", "Cliente/Ubicación"),*/
 
             string gridData = grid.GetHtml(
-                columns: grid.Columns(
-                        grid.Column("Patrone.registro", "Registro"),
-            grid.Column("apellidoPaterno", "Apellido Paterno"),
-            grid.Column("apellidoMaterno", "Apellido Materno"),
-            grid.Column("nombre", "Nombre"),
-            grid.Column("nombreCompleto", "Nombre Completo"),
-            grid.Column("curp","CURP"),
-            grid.Column("rfc", "RFC"),
-            /*grid.Column("Cliente.descripcion", "Cliente/Ubicación"),*/
-            grid.Column("ocupacion", "Ocupación"),
-            grid.Column("idGrupo", "Grupo"),
-            grid.Column("numeroAfiliacion", "Numero Afiliación"),
-            grid.Column("numeroCredito", "Numero Credito"),
-            grid.Column("fechaAlta", "Fecha Alta"),
-            grid.Column("fechaBaja", "Fecha Baja"),
-            grid.Column("fechaInicioDescuento", "Inicio descuento"),
-            grid.Column("fechaFinDescuento", "Fin descuento"),
-            grid.Column("smdv", "SMDV"),
-            grid.Column("sdi", "SDI"),
-            grid.Column("sd", "SD"),
-            grid.Column("vsm", "VSM"),
-            grid.Column("porcentaje", "Porcentaje"),
-            grid.Column("cuotaFija", "Cuota Fija"),
-            grid.Column("descuentoBimestral", "Descuento Bimestral"),
-            grid.Column("descuentoMensual", "Descuento Mensual"),
-            grid.Column("descuentoSemanal", "Descuento Semanal"),
-            grid.Column("descuentoCatorcenal", "Descuento Catorcenal"),
-            grid.Column("descuentoQuincenal", "Descuento Quincenal"),
-            grid.Column("descuentoVeintiochonal", "Descuento Veintiochonal"),
-            grid.Column("descuentoDiario", "Descuento Diario"),
-            grid.Column("Plaza.descripcion", "Plaza")
-                        )
+                columns: grid.Columns(gridColumns.ToArray())
                     ).ToString();
 
             Response.ClearContent();
