@@ -11,6 +11,7 @@ namespace SUADATOS
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Movimiento
     {
@@ -18,6 +19,8 @@ namespace SUADATOS
         public Nullable<int> aseguradoId { get; set; }
         public Nullable<int> acreditadoId { get; set; }
         public string lote { get; set; }
+        //[DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime fechaTransaccion { get; set; }
         public string tipo { get; set; }
         public string nombreArchivo { get; set; }

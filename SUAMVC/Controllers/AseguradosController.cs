@@ -37,7 +37,6 @@ namespace SUAMVC.Controllers
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("C")
                                      select x.topicoId);
-            List<int> tai = clientesAsignados.ToList();
 
             //DrownList Plazas
             ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()

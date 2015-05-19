@@ -20,7 +20,7 @@ textarea {
 }
 
 .myDate {
-    width: 80px;
+    width: 100px !important;
 }
 
 .tableSua {

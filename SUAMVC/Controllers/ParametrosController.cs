@@ -50,6 +50,8 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                DateTime date = DateTime.Now;
+                parametro.fechaCreacion = date;
                 db.Parametros.Add(parametro);
                 db.SaveChanges();
                 return RedirectToAction("Index");
