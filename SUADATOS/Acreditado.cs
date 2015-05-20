@@ -11,6 +11,7 @@ namespace SUADATOS
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Acreditado
     {
@@ -31,9 +32,13 @@ namespace SUADATOS
         public string idGrupo { get; set; }
         public string numeroAfiliacion { get; set; }
         public string numeroCredito { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime fechaAlta { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> fechaBaja { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> fechaInicioDescuento { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> fechaFinDescuento { get; set; }
         public double smdv { get; set; }
         public double sdi { get; set; }
@@ -51,7 +56,9 @@ namespace SUADATOS
         public string acuseRetencion { get; set; }
         public int PatroneId { get; set; }
         public int Plaza_id { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> fechaCreacion { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> fechaModificacion { get; set; }
         public string alta { get; set; }
         public string baja { get; set; }
