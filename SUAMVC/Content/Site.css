@@ -217,7 +217,7 @@ tfoot {
     width: 90%;
     position: inherit;
     min-height: 450px;
-    border: 1px solid #2A538A;
+    border: 0px solid #2A538A;
     height: auto;
 }
 
@@ -232,7 +232,7 @@ tfoot {
 }
 
 #lgcontenedor-interno {
-    width: 50%;
+    width: 49%;
     overflow: hidden;
     float: left;
     min-height: 300px;
@@ -244,12 +244,12 @@ tfoot {
 }
 
 #rgcontenedor-interno {
-    width: 40%;
+    width: 49%;
     overflow: hidden;
     float: right;
     min-height: 300px;
     margin-bottom: 1px;
-    border-left: 1px dotted #2A538A;
+    border-left: 0px dotted #2A538A;
     margin-top: 10px;
     margin-right: 10px;
     position: inherit;

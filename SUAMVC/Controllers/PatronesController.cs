@@ -17,26 +17,43 @@ namespace SUAMVC.Controllers
         // GET: Patrones
         public ActionResult Index(String plazasId)
         {
-            var patrones = from p in db.Patrones
-                           select p;
+            Usuario user = Session["UsuarioData"] as Usuario;
 
+            var plazasAsignadas = (from x in db.TopicosUsuarios
+                                   where x.usuarioId.Equals(user.Id)
+                                   && x.tipo.Equals("P")
+                                   select x.topicoId);
+
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
+
+            var patrones = from s in db.Patrones
+                           where plazasAsignadas.Contains(s.Plaza_id) &&
+                                 patronesAsignados.Contains(s.Id)
+                            select s;
+                
             if (!String.IsNullOrEmpty(plazasId))
             {
                 int plazaIdTemp = int.Parse(plazasId);
                 patrones = patrones.Where(p => p.Plaza.id.Equals(plazaIdTemp));
             }
-            else {
-                patrones = db.Patrones.Include(p => p.Plaza);
-            }
+ //           else {
+ //               patrones = db.Patrones.Include(p => p.Plaza);
+ //           }
 
             patrones.OrderBy(p => p.nombre);
+
             ViewBag.PlazasId = new SelectList((from s in db.Plazas.ToList()
+                                               join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                               where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
                                                orderby s.descripcion
                                                select new
                                                {
                                                    id = s.id,
                                                    FUllName = s.descripcion
-                                               }), "id", "FullName");
+                                               }).Distinct(), "id", "FullName");
             
             return View(patrones.ToList());
         }

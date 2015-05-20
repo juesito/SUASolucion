@@ -47,7 +47,7 @@
     gridColumns.Add(grid.Column("Cliente.Grupos.nombreCorto", "ID.Grupo", format: @<text> @if (@item.Cliente != null)
     {@item.Cliente.Grupos.nombreCorto}</text>, canSort: true));
     gridColumns.Add(grid.Column("ocupacion", "Ocupación",  @<text><div style='width: 12em'>@item.ocupacion </div></text>, null, canSort: true));
-    gridColumns.Add(grid.Column("Patrone.Plaza.cve", "ID.Plaza", null, null, true));
+    gridColumns.Add(grid.Column("Cliente.Plaza.cve", "ID.Plaza", null, null, true));
     gridColumns.Add(grid.Column("extranjero", "Extranjero", null, null, true));
 
     if (SecurityUserModel.verificarPermiso("Asegurados", "Ver columna creacion"))
@@ -103,7 +103,9 @@
 
         <input type="submit" value="Consultar" class="btn btn-success" } />
 
-        @Html.ActionLink("Buscar", "ActivaVariable", "Asegurados")
+        <a href="@Url.Action("ActivaVariable", "Asegurados")">
+            <img src="~/Content/Images/buscar.png" alt="" style="border:none;" width="30" height="30" />
+        </a>
 
         @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel"))
         {

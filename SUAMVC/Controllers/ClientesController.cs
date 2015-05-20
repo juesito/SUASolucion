@@ -15,9 +15,35 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Clientes
-        public ActionResult Index()
+        public ActionResult Index(String plazasId)
         {
-            return View(db.Clientes.ToList().OrderBy(p=> p.descripcion));
+            Usuario user = Session["UsuarioData"] as Usuario;
+
+            var plazasAsignadas = (from x in db.TopicosUsuarios
+                                   where x.usuarioId.Equals(user.Id)
+                                   && x.tipo.Equals("P")
+                                   select x.topicoId);
+
+            var clientes = from p in db.Clientes
+                           where plazasAsignadas.Contains(p.Plaza.id)
+                           select p;
+
+            if (!String.IsNullOrEmpty(plazasId))
+            {
+                int plazaIdTemp = int.Parse(plazasId);
+                clientes = clientes.Where(p => p.Plaza.id.Equals(plazaIdTemp));
+            }
+
+            ViewBag.PlazasId = new SelectList((from s in db.Plazas.ToList()
+                                               join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                               where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   FUllName = s.descripcion
+                                               }).Distinct(), "id", "FullName");
+            return View(clientes.ToList().OrderBy(p => p.descripcion));
         }
 
         // GET: Clientes/Details/5
