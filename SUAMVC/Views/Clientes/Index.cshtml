@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<SUADATOS.Cliente>
-
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,8 +12,18 @@
     <div>Catalogo de Clientes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
+
+@using (Html.BeginForm())
+{
+    <p>
+        Plaza: @Html.DropDownList("plazasId", "Seleccione Plaza")
+
+        <input type="submit" value="Consultar" class="btn btn-success" />
+    </p>
+}
+
 <p>
-    @Html.ActionLink("Crear Cliente", "Create", "Clietes", new { @class = "btn btn-success" })
+    @Html.ActionLink("Crear Cliente", "Create", "Clientes", new { @class = "btn btn-success" })
 </p>
 
 
@@ -37,3 +49,4 @@
                 </a></text>)),
                                     tableStyle: "table table-striped tableSua"
                     )
+

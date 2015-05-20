@@ -194,7 +194,7 @@ namespace SUAMVC.Controllers
             }
 
             Movimiento movimiento = new Movimiento();
-            DateTime date = DateTime.Now;
+            DateTime date = DateTime.Today;
             movimiento.Asegurado = asegurado;
             movimiento.aseguradoId = id;
             movimiento.fechaTransaccion = date;
@@ -294,7 +294,7 @@ namespace SUAMVC.Controllers
             if (ids != null)
             {
                 List<Asegurado> allAsegurados = new List<Asegurado>();
-                DateTime date = DateTime.Now;
+                DateTime date = DateTime.Today;
 
                 foreach (String aseguradoId in ids)
                 {

@@ -305,10 +305,38 @@ namespace SUAMVC.Controllers
 
         public ActionResult GoAcreditados() {
 
-            var patrones = db.Patrones
-                .Where(p => !p.direccionArchivo.Trim().Equals(null) && !p.direccionArchivo.Trim().Equals(String.Empty))
-                .Select(p => new{ Id = p.Id, direccionArchivo = p.direccionArchivo, DisplayText = p.registro.ToString() + " " + p.nombre.ToString()})
-                ;
+            Usuario user = Session["UsuarioData"] as Usuario;
+
+            var plazasAsignadas = (from x in db.TopicosUsuarios
+                                   where x.usuarioId.Equals(user.Id)
+                                   && x.tipo.Equals("P")
+                                   select x.topicoId);
+
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
+
+            var patrones = from p in db.Patrones
+                           where plazasAsignadas.Contains(p.Plaza.id) && !p.direccionArchivo.Trim().Equals(null) && !p.direccionArchivo.Trim().Equals(String.Empty)
+                           && patronesAsignados.Contains(p.Id)
+                           select new
+                          {
+                              id = p.Id,
+                              DisplayText = p.registro.ToString() + " " + p.nombre.ToString()
+                          };
+            
+            var plazas = (from s in db.Plazas.ToList()
+                          join top in db.TopicosUsuarios on s.id equals top.topicoId
+                          where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                          orderby s.descripcion
+                          select new
+                          {
+                              id = s.id,
+                              DisplayText = s.descripcion
+                          }).Distinct();
+
+            ViewData["plazasId"] = new SelectList(plazas, "id", "DisplayText");
 
             ViewData["patronesId"] = new SelectList(patrones, "Id", "DisplayText");
             return View("UploadAcreditados");

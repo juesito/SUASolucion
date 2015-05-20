@@ -136,6 +136,7 @@
     <Content Include="Content\code52.i18n\images\flags\fr.png" />
     <Content Include="Content\code52.i18n\images\flags\gb.png" />
     <Content Include="Content\code52.i18n\images\flags\it.png" />
+    <Content Include="Content\Images\buscar.png" />
     <Content Include="Scripts\date_time.js" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\arrow_left.png" />

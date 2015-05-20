@@ -22,14 +22,22 @@
                 @if (!IsPost)
                 {
                 <div class="row">
-                    <div class="col-md-2" style="padding-top:10px; width:100px;">
+                    <div class="col-md-12" style="padding-top:10px; width:80px;">
+                        @Html.Label("Plaza :")
+
+                    </div>
+                    <div class="col-md-3" style="padding-top:10px; width:400px;">
+                        @Html.DropDownList("plazasId", (IEnumerable<SelectListItem>)ViewData["plazasId"])
+                    </div>
+
+                    <div class="col-md-12" style="padding-top:50px; width:100px;">
                         @Html.Label("Patron :")
                         
                     </div>
-                    <div class="col-md-10" style="padding-top:10px; width:400px;">
+                    <div class="col-md-3" style="padding-top:10px; width:800px;">
                         @Html.DropDownList("patronesId", (IEnumerable<SelectListItem>)ViewData["patronesId"])
                     </div>
-                    <div class="file" style="padding-top:100px;">
+                    <div class="file" style="padding-top:80px;">
                         @FileUpload.GetHtml(initialNumberOfFiles: 1,
                             allowMoreFilesToBeAdded: false,
                             includeFormTag: true,

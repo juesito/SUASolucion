@@ -59,7 +59,7 @@
     gridColumns.Add(grid.Column("descuentoQuincenal", "Desc. Quincenal", format: @<text>@item.descuentoQuincenal.ToString("000.00")</text>, canSort:true));
     gridColumns.Add(grid.Column("descuentoVeintiochonal", "Desc. Veintiochonal", format: @<text>@item.descuentoVeintiochonal.ToString("000.00")</text>, canSort:true));
     gridColumns.Add(grid.Column("descuentoDiario", "Desc. Diario", format: @<text>@item.descuentoDiario.ToString("0.00")</text>, canSort: true));
-    gridColumns.Add(grid.Column("Patrone.Plaza.cve", "ID Plaza", null, null, true));
+    gridColumns.Add(grid.Column("Cliente.Plaza.cve", "ID Plaza", null, null, true));
     gridColumns.Add(grid.Column(header: "Aviso Ret.",format:@<text><a href="@Url.Action("ViewAttachment", "Acreditados", new { id = item.id, option = "A", carga = item.alta })" target="_blank">@ShowPDF(item.alta)</a></text>));
 
     if (SecurityUserModel.verificarPermiso("Acreditados", "Subir acuse"))
@@ -94,7 +94,9 @@
 
         <input type="submit" value="Consultar" class="btn btn-success" />
 
-        @Html.ActionLink("Buscar", "ActivaVariable", "Acreditados")
+        <a href="@Url.Action("ActivaVariable", "Acreditados")">
+            <img src="~/Content/Images/buscar.png" alt="" style="border:none;" width="30" height="30" />
+        </a>
 
        @if (SecurityUserModel.verificarPermiso("Acreditados", "Descargar excel"))
        {

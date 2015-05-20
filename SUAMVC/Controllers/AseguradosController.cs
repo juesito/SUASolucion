@@ -36,6 +36,11 @@ namespace SUAMVC.Controllers
                                      select x.topicoId);
             List<int> tai = clientesAsignados.ToList();
 
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
+
             //ViewBag.patronesId = new SelectList(db.Patrones, "id", "nombre")
 
             ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
@@ -49,9 +54,9 @@ namespace SUAMVC.Controllers
                                                }).Distinct(), "id", "FullName");
 
             ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
-                                                 join ase in db.Asegurados on s.Id equals ase.PatroneId
-                                                 join top in db.TopicosUsuarios on ase.ClienteId equals top.topicoId
-                                                 where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+//                                                 join ase in db.Asegurados on s.Id equals ase.PatroneId
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id)
                                                  orderby s.registro
                                                  select new
                                                  {
@@ -96,8 +101,9 @@ namespace SUAMVC.Controllers
 
             var asegurados = from s in db.Asegurados
                             join cli in db.Clientes on s.ClienteId equals cli.Id
-                             where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
-                                   clientesAsignados.Contains(s.Cliente.Id)
+                             where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
+                                   clientesAsignados.Contains(s.Cliente.Id) &&
+                                   patronesAsignados.Contains(s.PatroneId)
                             select s;
 
             if (!String.IsNullOrEmpty(plazasId))
@@ -133,7 +139,7 @@ namespace SUAMVC.Controllers
                             int idPatron = int.Parse(patronesId.Trim());
                             int idCliente = int.Parse(clientesId.Trim());
                             int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
                         }
                         else
                         {
@@ -143,7 +149,7 @@ namespace SUAMVC.Controllers
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idPatron = int.Parse(patronesId.Trim());
                             int idCliente = int.Parse(clientesId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente));
                         }
 
                     }
@@ -157,7 +163,7 @@ namespace SUAMVC.Controllers
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idPatron = int.Parse(patronesId.Trim());
                             int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Grupo_id.Equals(idGrupo));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Grupo_id.Equals(idGrupo));
                         }
                         else
                         {
@@ -165,7 +171,7 @@ namespace SUAMVC.Controllers
                             @ViewBag.patId = patronesId;
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idPatron = int.Parse(patronesId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron));
                         }
 
                     }
@@ -182,7 +188,7 @@ namespace SUAMVC.Controllers
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idCliente = int.Parse(clientesId.Trim());
                             int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
                         }
                         else
                         {
@@ -190,7 +196,7 @@ namespace SUAMVC.Controllers
                             @ViewBag.cteId = clientesId;
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idCliente = int.Parse(clientesId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente));
                         }
 
                     }
@@ -202,13 +208,13 @@ namespace SUAMVC.Controllers
                             @ViewBag.gpoId = gruposId;
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Grupo_id.Equals(idGrupo));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza) && s.Cliente.Grupo_id.Equals(idGrupo));
                         }
                         else
                         {
                             @ViewBag.pzaId = plazasId;
                             int idPlaza = int.Parse(plazasId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
                         }
 
                     }
@@ -351,7 +357,7 @@ namespace SUAMVC.Controllers
                 asegurados = asegurados.OrderBy(s => s.nombre);
             }
             else
-                asegurados = asegurados.OrderBy(s => s.nombreTemporal).Skip((page-1) * 12);
+                asegurados = asegurados.OrderBy(s => s.nombreTemporal);      //.Skip((page-1) * 12);
 
             return View(asegurados.ToList());
         }
@@ -376,29 +382,30 @@ namespace SUAMVC.Controllers
             if (carga != null)
             {
                 Asegurado asegurado = db.Asegurados.Find(id);
-                var movtosTemp = from b in db.Movimientos
-                                 where b.aseguradoId.Equals(id)
-                                   && b.tipo.Equals(option)
-                                 orderby b.fechaTransaccion
-                                 select b;
+                var movtosTemp = db.Movimientos.Where(x => x.aseguradoId == id
+                                 && x.tipo.Equals(option)).OrderBy(x => x.fechaTransaccion).ToList();
 
                 Movimiento movto = new Movimiento();
-                if (movtosTemp != null)
+                if (movtosTemp != null && movtosTemp.Count > 0)
                 {
                     foreach (var movtosItem in movtosTemp)
                     {
                         movto = movtosItem;
                         break;
                     }//Definimos los valores para la plaza
-                }
 
-                var fileName = "C:\\SUA\\Asegurados\\" + asegurado.numeroAfiliacion + "\\" + option + "\\" + movto.nombreArchivo.Trim();
+                    var fileName = "C:\\SUA\\Asegurados\\" + asegurado.numeroAfiliacion + "\\" + option + "\\" + movto.nombreArchivo.Trim();
 
-                if (System.IO.File.Exists(fileName))
-                {
-                    FileStream fs = new FileStream(fileName, FileMode.Open);
+                    if (System.IO.File.Exists(fileName))
+                    {
+                        FileStream fs = new FileStream(fileName, FileMode.Open);
 
-                    return File(fs, "application/pdf");
+                        return File(fs, "application/pdf");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {
@@ -409,9 +416,7 @@ namespace SUAMVC.Controllers
             {
                 return RedirectToAction("Index");
             }
-        }
-
-        // GET: Aseguradoes/Create
+        }        // GET: Aseguradoes/Create
         public ActionResult Create()
         {
             return View();
@@ -511,7 +516,7 @@ namespace SUAMVC.Controllers
 
             var asegurados = from s in db.Asegurados
                               join cli in db.Clientes on s.ClienteId equals cli.Id
-                              where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
+                             where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
                                     clientesAsignados.Contains(s.Cliente.Id)
                               select s;
 
@@ -548,7 +553,7 @@ namespace SUAMVC.Controllers
                             int idPatron = int.Parse(patronesId.Trim());
                             int idCliente = int.Parse(clientesId.Trim());
                             int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
                         }
                         else
                         {
@@ -558,7 +563,7 @@ namespace SUAMVC.Controllers
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idPatron = int.Parse(patronesId.Trim());
                             int idCliente = int.Parse(clientesId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Id.Equals(idCliente));
                         }
 
                     }
@@ -572,7 +577,7 @@ namespace SUAMVC.Controllers
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idPatron = int.Parse(patronesId.Trim());
                             int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Grupo_id.Equals(idGrupo));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron) && s.Cliente.Grupo_id.Equals(idGrupo));
                         }
                         else
                         {
@@ -580,7 +585,7 @@ namespace SUAMVC.Controllers
                             @ViewBag.patId = patronesId;
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idPatron = int.Parse(patronesId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza) && s.PatroneId.Equals(idPatron));
                         }
 
                     }
@@ -597,7 +602,7 @@ namespace SUAMVC.Controllers
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idCliente = int.Parse(clientesId.Trim());
                             int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente) && s.Cliente.Grupo_id.Equals(idGrupo));
                         }
                         else
                         {
@@ -605,7 +610,7 @@ namespace SUAMVC.Controllers
                             @ViewBag.cteId = clientesId;
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idCliente = int.Parse(clientesId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza) && s.Cliente.Id.Equals(idCliente));
                         }
 
                     }
@@ -617,13 +622,13 @@ namespace SUAMVC.Controllers
                             @ViewBag.gpoId = gruposId;
                             int idPlaza = int.Parse(plazasId.Trim());
                             int idGrupo = int.Parse(gruposId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza) && s.Cliente.Grupo_id.Equals(idGrupo));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza) && s.Cliente.Grupo_id.Equals(idGrupo));
                         }
                         else
                         {
                             @ViewBag.pzaId = plazasId;
                             int idPlaza = int.Parse(plazasId.Trim());
-                            asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
+                            asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
                         }
 
                     }

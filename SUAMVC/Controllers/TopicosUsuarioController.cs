@@ -43,6 +43,7 @@ namespace SUAMVC.Controllers
                         {
                             var topicoTemp = (from t in db.Plazas
                                               where !tai.Contains(t.id)
+                                              orderby t.descripcion
                                               select new { t.id, t.descripcion }).ToList();
                             topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.id, x.descripcion)));
 
@@ -57,6 +58,7 @@ namespace SUAMVC.Controllers
                         }
                         var topicoTemp2 = (from t in db.Plazas
                                            where tai.Contains(t.id)
+                                           orderby t.descripcion
                                            select new { t.id, t.descripcion }).ToList();
                         topicoTemp2.ToList().ForEach(x => tpum.topicosPorUsuario.Add(new Topico(x.id, x.descripcion)));
 
@@ -68,6 +70,7 @@ namespace SUAMVC.Controllers
                         {
                             var topicoTemp = (from t in db.Clientes
                                               where !tai.Contains(t.Id)
+                                              orderby t.descripcion
                                               select new { t.Id, t.descripcion }).ToList();
                             topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.descripcion)));
 
@@ -85,6 +88,7 @@ namespace SUAMVC.Controllers
                         }
                         var topicoTemp3 = (from t in db.Clientes
                                        where tai.Contains(t.Id)
+                                       orderby t.descripcion
                                        select new { t.Id, t.descripcion }).ToList();
                         topicoTemp3.ToList().ForEach(x => tpum.topicosPorUsuario.Add(new Topico(x.Id, x.descripcion)));
                         break;
@@ -93,23 +97,25 @@ namespace SUAMVC.Controllers
                         if (tai.Count() > 0)
                         {
                             var topicoTemp = (from t in db.Patrones
-                                              where tai.Contains(t.Id)
-                                              select new { t.Id, t.nombre }).ToList();
-                            topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.nombre)));
+                                              where !tai.Contains(t.Id)
+                                              orderby t.nombre
+                                              select new { t.Id, t.nombre, t.registro }).ToList();
+                            topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.registro+" - "+x.nombre)));
 
 
                         }
                         else
                         {
                             var topicoTemp = (from t in db.Patrones
-                                              select new { t.Id, t.nombre }).ToList();
-                            topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.nombre)));
+                                              select new { t.Id, t.nombre, t.registro}).ToList();
+                            topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.registro+" - "+x.nombre)));
 
                         }
                         var topicoTemp4 = (from t in db.Patrones
                                        where tai.Contains(t.Id)
-                                       select new { t.Id, t.nombre }).ToList();
-                        topicoTemp4.ToList().ForEach(x => tpum.topicosPorUsuario.Add(new Topico(x.Id, x.nombre)));
+                                       orderby t.nombre
+                                       select new { t.Id, t.nombre, t.registro }).ToList();
+                        topicoTemp4.ToList().ForEach(x => tpum.topicosPorUsuario.Add(new Topico(x.Id, x.registro+" - "+x.nombre)));
                         break;
                     default:
                         break;
