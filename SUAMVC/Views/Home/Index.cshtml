@@ -1,7 +1,7 @@
 ﻿@model SUAMVC.Models.UsuarioModel
 @using System.Web.Optimization;
 @{
-    ViewBag.Title = "Inicio";
+    ViewBag.Title = Language.Home_Title;
     Layout = "~/Views/Shared/_Layout_sec.cshtml";
     var message = TempData["CustomError"];
 }
@@ -9,8 +9,7 @@
 @using (Html.BeginForm("Login", "Usuarios", FormMethod.Post))
 {
     <div class="container" style="margin-left:250px;">
-        @Html.ValidationSummary(true, "Login failed. Check your login details.")
-        
+        @Html.ValidationSummary(true, Language.failed_login)
         
         <div id="loginbox" style="margin-top:50px; margin-bottom:150px;" 
              class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
@@ -27,8 +26,8 @@
             <div style="margin-top:10px" class="form-group">
                 <!-- Button -->
                 <div class="col-sm-12 controls">
-                    <input class="btn btn-success" type="submit" value="Ingresar" />
-                    @Html.ActionLink("Cancelar", "Index", "Home", null, new { @class = "btn btn-danger" })
+                    <input class="btn btn-success" type="submit" value="@Language.bt_login" />
+                    @Html.ActionLink(Language.bt_cancel, "Index", "Home", null, new { @class = "btn btn-danger" })
                     @if (TempData["CustomError"] != null)
                     {
                         <p style="color:#ff0000; font-weight:bold; margin-top:15px;">@message</p>

@@ -7,9 +7,10 @@
     padding-left: 15px;
     padding-right: 15px;
     position: inherit;
-    margin-top: 50px;
+    margin-top: 20px;
     height: auto;
     min-height: 500px;
+    /*border:1px solid #ff0000;*/
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -25,6 +26,11 @@ textarea {
 
 .tableSua {
     font-size: 10px;
+}
+
+.table-container {
+    overflow-x:scroll;
+    min-height:380px;
 }
 
 .icon { /*Some CSS to set the background image (not tested) */
@@ -326,3 +332,21 @@ table-fixed {
         white-space:nowrap;
     }
 
+.marqueeFilter {
+    background-color:#93D1EE;
+    min-height:100px;
+    border-spacing:1.0rem;
+    min-height:70px;
+    border:1px #2E538A solid;
+    color: #2E538A;
+    box-shadow: 10px 10px 1px #888888;
+    -moz-border-radius-bottomleft:3px;
+	-webkit-border-bottom-left-radius:3px;
+    border-bottom-left-radius:3px;
+    margin-bottom:10px;
+
+}
+
+    .marqueeFilter table {
+        font-size:10px;    
+    }

@@ -37,8 +37,6 @@ namespace SUAMVC.Controllers
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("C")
                                      select x.topicoId);
-            List<int> tai = clientesAsignados.ToList();
-
            
             ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
                                                join top in db.TopicosUsuarios on s.id equals top.topicoId
@@ -83,9 +81,9 @@ namespace SUAMVC.Controllers
 
 
             var acreditados = from s in db.Acreditados
-                              join cli in db.Clientes on s.clienteId equals cli.Id
-                              where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
-                                    clientesAsignados.Contains(s.Cliente.Id)
+                //              join cli in db.Clientes on s.clienteId equals cli.Id
+                //              where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
+                //                    clientesAsignados.Contains(s.Cliente.Id)
                               select s;
 
             if (!String.IsNullOrEmpty(plazasId))
@@ -176,6 +174,10 @@ namespace SUAMVC.Controllers
                     acreditados = acreditados.Where(s => s.fechaBaja.HasValue);
                 }
             }
+
+            ViewBag.activos = acreditados.Where(s => !s.fechaBaja.HasValue).Count();
+            ViewBag.registros = acreditados.Count();
+
             if (page < 1) page = 1;
 
             if (page == 1)
