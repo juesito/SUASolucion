@@ -37,8 +37,11 @@ namespace SUAMVC.Controllers
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("C")
                                      select x.topicoId);
-            List<int> tai = clientesAsignados.ToList();
 
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId); 
            
             ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
                                                join top in db.TopicosUsuarios on s.id equals top.topicoId
@@ -51,9 +54,8 @@ namespace SUAMVC.Controllers
                                                }).Distinct(), "id", "FullName");
 
             ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
-                                                 join ase in db.Asegurados on s.Id equals ase.PatroneId
-                                                 join top in db.TopicosUsuarios on ase.ClienteId equals top.topicoId
-                                                 where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id)
                                                  orderby s.registro
                                                  select new
                                                  {
@@ -85,14 +87,15 @@ namespace SUAMVC.Controllers
             var acreditados = from s in db.Acreditados
                               join cli in db.Clientes on s.clienteId equals cli.Id
                               where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
-                                    clientesAsignados.Contains(s.Cliente.Id)
+                                    clientesAsignados.Contains(s.Cliente.Id) &&
+                                    patronesAsignados.Contains(s.PatroneId)
                               select s;
 
             if (!String.IsNullOrEmpty(plazasId))
             {
                 @ViewBag.pzaId = plazasId;
                 int idPlaza = int.Parse(plazasId.Trim());
-                acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
+                acreditados = acreditados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
             }
             if (!String.IsNullOrEmpty(patronesId))
             {
@@ -183,7 +186,7 @@ namespace SUAMVC.Controllers
                 acreditados = acreditados.OrderBy(s => s.nombre);
             }
             else
-                acreditados = acreditados.OrderBy(s => s.nombreCompleto).Skip((page-1) * 12);
+                acreditados = acreditados.OrderBy(s => s.nombreCompleto);
 
             return View(acreditados.ToList());
         }
@@ -261,29 +264,30 @@ namespace SUAMVC.Controllers
             if (carga != null)
             {
                 Acreditado acreditado = db.Acreditados.Find(id);
-                var movtosTemp = from b in db.Movimientos
-                                 where b.acreditadoId.Equals(id)
-                                   && b.tipo.Equals(option)
-                                 orderby b.fechaTransaccion
-                                 select b;
+                var movtosTemp = db.Movimientos.Where(x => x.acreditadoId == id
+                                 && x.tipo.Equals(option)).OrderBy(x => x.fechaTransaccion).ToList();
 
                 Movimiento movto = new Movimiento();
-                if (movtosTemp != null)
+                if (movtosTemp != null && movtosTemp.Count > 0)
                 {
                     foreach (var movtosItem in movtosTemp)
                     {
                         movto = movtosItem;
                         break;
                     }//Definimos los valores para la plaza
-                }
 
-                var fileName = "C:\\SUA\\Acreditados\\" + acreditado.numeroAfiliacion + "\\" + option + "\\" + movto.nombreArchivo.Trim();
+                    var fileName = "C:\\SUA\\Acreditados\\" + acreditado.numeroAfiliacion + "\\" + option + "\\" + movto.nombreArchivo.Trim();
 
-                if (System.IO.File.Exists(fileName))
-                {
-                    FileStream fs = new FileStream(fileName, FileMode.Open);
+                    if (System.IO.File.Exists(fileName))
+                    {
+                        FileStream fs = new FileStream(fileName, FileMode.Open);
 
-                    return File(fs, "application/pdf");
+                        return File(fs, "application/pdf");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {
@@ -412,21 +416,26 @@ namespace SUAMVC.Controllers
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("C")
                                      select x.topicoId);
-            List<int> tai = clientesAsignados.ToList();
+
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
 
             List<Acreditado> allCust = new List<Acreditado>();
 
             var acreditados = from s in db.Acreditados
                               join cli in db.Clientes on s.clienteId equals cli.Id
                              where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
-                                   clientesAsignados.Contains(s.Cliente.Id)
+                                   clientesAsignados.Contains(s.Cliente.Id) &&
+                                   patronesAsignados.Contains(s.PatroneId)
                              select s;
 
             if (!String.IsNullOrEmpty(plazasId))
             {
                 @ViewBag.pzaId = plazasId;
                 int idPlaza = int.Parse(plazasId.Trim());
-                acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
+                acreditados = acreditados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
             }
             if (!String.IsNullOrEmpty(patronesId))
             {

@@ -37,6 +37,11 @@ namespace SUAMVC.Controllers
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("C")
                                      select x.topicoId);
+   
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId); 
 
             //DrownList Plazas
             ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
@@ -51,8 +56,7 @@ namespace SUAMVC.Controllers
 
             //DrownList Patrones
             ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
-                                                 join ase in db.Asegurados on s.Id equals ase.PatroneId
-                                                 join top in db.TopicosUsuarios on ase.ClienteId equals top.topicoId
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
                                                  where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id)
                                                  orderby s.registro
                                                  select new
@@ -76,7 +80,7 @@ namespace SUAMVC.Controllers
             ViewBag.gruposId = new SelectList((from s in db.Grupos.ToList()
                                                join cli in db.Clientes on s.Id equals cli.Grupo_id
                                                join top in db.TopicosUsuarios on cli.Id equals top.topicoId
-                                               where top.tipo.Trim().Equals("G") && top.usuarioId.Equals(user.Id)
+                                               where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
                                                orderby s.claveGrupo
                                                select new
                                                {
@@ -88,7 +92,8 @@ namespace SUAMVC.Controllers
             var asegurados = from s in db.Asegurados
                              join cli in db.Clientes on s.ClienteId equals cli.Id
                              where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
-                                   clientesAsignados.Contains(s.Cliente.Id)
+                                   clientesAsignados.Contains(s.Cliente.Id) &&
+                                   patronesAsignados.Contains(s.PatroneId)
                              select s;
 
             //Comenzamos los filtros
@@ -96,7 +101,7 @@ namespace SUAMVC.Controllers
             {
                 @ViewBag.pzaId = plazasId;
                 int idPlaza = int.Parse(plazasId.Trim());
-                asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
+                asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
             }
             if (!String.IsNullOrEmpty(patronesId))
             {
@@ -195,7 +200,7 @@ namespace SUAMVC.Controllers
                 asegurados = asegurados.OrderBy(s => s.nombre);
             }
             else
-                asegurados = asegurados.OrderBy(s => s.nombreTemporal).Skip((page - 1) * 12);
+                asegurados = asegurados.OrderBy(s => s.nombreTemporal);
 
             return View(asegurados.ToList());
         }
@@ -351,19 +356,25 @@ namespace SUAMVC.Controllers
                                      && x.tipo.Equals("C")
                                      select x.topicoId);
 
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
+
             List<Asegurado> allCust = new List<Asegurado>();
 
             var asegurados = from s in db.Asegurados
                              join cli in db.Clientes on s.ClienteId equals cli.Id
                              where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
-                                   clientesAsignados.Contains(s.Cliente.Id)
+                                   clientesAsignados.Contains(s.Cliente.Id) &&
+                                   patronesAsignados.Contains(s.PatroneId)
                              select s;
 
             if (!String.IsNullOrEmpty(plazasId))
             {
                 @ViewBag.pzaId = plazasId;
                 int idPlaza = int.Parse(plazasId.Trim());
-                asegurados = asegurados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
+                asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
             }
             if (!String.IsNullOrEmpty(patronesId))
             {
@@ -466,7 +477,7 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) =>string.IsNullOrEmpty(item.fechaBaja)?string.Empty:String.Format("{0:yyyy-MM-dd}", item.fechaBaja)));
             gridColumns.Add(grid.Column("Cliente.claveCliente", "Cliente"));
             gridColumns.Add(grid.Column("Cliente.Grupos.nombreCorto", "Grupo"));
-            gridColumns.Add(grid.Column("Patrone.Plaza.cve", "Plaza"));
+            gridColumns.Add(grid.Column("Cliente.Plaza.cve", "Plaza"));
             gridColumns.Add(grid.Column("extranjero", "Extranjero"));
             gridColumns.Add(grid.Column("alta", "Alta"));
             gridColumns.Add(grid.Column("baja", "Baja"));
@@ -497,6 +508,12 @@ namespace SUAMVC.Controllers
             db.MovimientosAseguradoes.Remove(asegurado);
             db.SaveChanges();
             return View(asegurado);
+        }
+
+        public ActionResult ActivaVariable()
+        {
+            TempData["buscador"] = "1";
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
