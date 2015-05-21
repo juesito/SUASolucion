@@ -11,6 +11,11 @@
             <li>Languages
                 <ol>
                     <li class="lang">
+                        <div class="language language_MX">
+                            <a id="langOption" title="Spanish" class="es-MX" href="#">Español</a>
+                        </div>
+                    </li>
+                    <li class="lang">
                         <div class="language language_EN">
                             <a id="langOption" title="English" class="en-GB" href="#">English</a>
                         </div>

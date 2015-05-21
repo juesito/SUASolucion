@@ -1,4 +1,6 @@
 ﻿@using System.Web.Optimization;
+@using SUAMVC.Code52.i18n
+
 
 <!DOCTYPE html>
 <html>
@@ -26,32 +28,30 @@
 <body>
     <div class="header">
         <div class="login-line">
-            
+
             @if (Request.IsAuthenticated)
             {
                 <strong> @Html.Encode(User.Identity.Name)</strong>
                 <span id="updateTime"></span>
                 <script type="text/javascript">window.onload = date_time('updateTime');</script>
-                @Html.ActionLink("Salir", "Logout", "Usuarios")
+                @Html.ActionLink(Language.bt_exit, "Logout", "Usuarios")
             }
             else
             {
-                @Html.ActionLink("Registrarse", "Create", "Usuarios")
+                @Html.ActionLink(Language.bt_register, "Create", "Usuarios")
                 <span> | </span>
-                @Html.ActionLink("Ingresar", "Index", "Home")
+                @Html.ActionLink(Language.bt_login, "Index", "Home")
             }
         </div>
         <div class="logo-login-main">
             <div class="logo">
                 <img src="~/Content/Images/logo.jpg" alt="" width="80" height="80" style="position:relative" />
                 <div class="title">
-                    <h1>SIAP</h1>
-                    <h3 style="color:#057B35">IMSS 3.0</h3>
+                    <h1>@Language.company_name</h1>
+                    <h3 style="color:#057B35">@Language.company_subtitle</h3>
                 </div>
             </div>
-            <div class="login">
-
-            </div>
+            
         </div>
     </div>
     <div class="menu">
@@ -74,7 +74,7 @@
     </div>
     <div class="footer">
         <footer>
-            <p>&copy; @DateTime.Now.Year - SIAP Sistema de Administración de Personal IMSS</p>
+            <p>&copy; @DateTime.Now.Year @Language.footer_title</p>
         </footer>
     </div>
     @section scripts{

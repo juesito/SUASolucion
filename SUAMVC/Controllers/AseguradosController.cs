@@ -13,6 +13,7 @@ using System.Text;
 using PagedList;
 using System.IO;
 using System.Web.Helpers;
+using SUAMVC.Code52.i18n;
 
 namespace SUAMVC.Controllers
 {
@@ -26,7 +27,7 @@ namespace SUAMVC.Controllers
             String currentGrupo, String opcion, String valor, String statusId, int page = 1, String sortOrder = null,
             String lastSortOrder = null)
         {
-
+            
             Usuario user = Session["UsuarioData"] as Usuario;
             var plazasAsignadas = (from x in db.TopicosUsuarios
                                    where x.usuarioId.Equals(user.Id)

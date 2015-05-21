@@ -925,7 +925,7 @@ pre code {
   width: 100%;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
   .container {
     max-width: 2000px;
   }

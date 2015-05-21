@@ -9,7 +9,7 @@ namespace SUAMVC.Code52.i18n
     public static class CultureHelper {
         // This is a list of cultures supported by your application
         private static readonly IList<string> _cultures = new List<string> {
-                                                                               "en-GB",  // first culture is the DEFAULT
+                                                                               "es-MX",  // first culture is the DEFAULT
                                                                                "fr",
                                                                                "pl"
                                                                            };
