@@ -30,7 +30,7 @@ textarea {
 
 .table-container {
     overflow-x:scroll;
-    min-height:300px;
+    min-height:450px;
 }
 
 .icon { /*Some CSS to set the background image (not tested) */

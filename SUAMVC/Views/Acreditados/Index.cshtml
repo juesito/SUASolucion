@@ -137,7 +137,12 @@
             <thead>
                 <tr>
                     <td style="padding-right:10px;" rowspan="2">
-                        <a href="@Url.Action("ActivaVariable", "Acreditados", new { buscador = @TempData["buscador"]})">
+                        <a href="@Url.Action("ActivaVariable", "Acreditados", new
+                            {
+                                buscador = @TempData["buscador"], plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                                clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador,
+                                valor = @ViewBag.valBuscador
+                            })">
                             @if (buscar.Equals("1"))
                             {
                                 <img src="~/Content/Images/hide.png" alt="@Language.advanceSearch"

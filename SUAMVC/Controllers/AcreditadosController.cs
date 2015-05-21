@@ -20,14 +20,49 @@ namespace SUAMVC.Controllers
     {
         private suaEntities db = new suaEntities();
 
+        private void setVariables(String plazasId, String patronesId, String clientesId,
+            String gruposId, String opcion, String valor, String statusId)
+        {
+            if (!String.IsNullOrEmpty(plazasId))
+            {
+                ViewBag.pzaId = plazasId;
+            }
+            if (!String.IsNullOrEmpty(patronesId))
+            {
+                ViewBag.patId = patronesId;
+            }
+            if (!String.IsNullOrEmpty(clientesId))
+            {
+                ViewBag.cteId = clientesId;
+            }
+            if (!String.IsNullOrEmpty(gruposId))
+            {
+                ViewBag.gpoId = gruposId;
+            }
+            if (!String.IsNullOrEmpty(opcion))
+            {
+                ViewBag.opBuscador = opcion;
+            }
+            if (!String.IsNullOrEmpty(valor))
+            {
+                ViewBag.valBuscador = valor;
+            }
+            if (statusId != null)
+            {
+                ViewBag.statusId = statusId;
+            }
+
+        }
         // GET: Acreditados
         public ActionResult Index(String plazasId, String patronesId, String clientesId, 
             String gruposId, String currentPlaza, String currentPatron, String currentCliente, 
-            String currentGrupo, String opcion, String valor, String statusId, int page = 1, 
-            String sortOrder = null, String lastSortOrder = null)
+            String currentGrupo, String opcion, String valor, String statusId, int page = 1)
         {
 
             Usuario user = Session["UsuarioData"] as Usuario;
+
+            setVariables(plazasId, patronesId, clientesId, gruposId,  opcion,  valor,  statusId);
+
             var plazasAsignadas = (from x in db.TopicosUsuarios
                                    where x.usuarioId.Equals(user.Id)
                                    && x.tipo.Equals("P")
@@ -88,36 +123,30 @@ namespace SUAMVC.Controllers
 
             if (!String.IsNullOrEmpty(plazasId))
             {
-                @ViewBag.pzaId = plazasId;
                 int idPlaza = int.Parse(plazasId.Trim());
                 acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
             }
             if (!String.IsNullOrEmpty(patronesId))
             {
-                @ViewBag.patId = patronesId;
                 int idPatron = int.Parse(patronesId.Trim());
                 acreditados = acreditados.Where(s => s.PatroneId.Equals(idPatron));
             }
 
             if (!String.IsNullOrEmpty(clientesId))
             {
-                @ViewBag.cteId = clientesId;
                 int idCliente = int.Parse(clientesId.Trim());
                 acreditados = acreditados.Where(s => s.Cliente.Id.Equals(idCliente));
             }
 
             if (!String.IsNullOrEmpty(gruposId))
             {
-                @ViewBag.gpoId = gruposId;
                 int idGrupo = int.Parse(gruposId.Trim());
                 acreditados = acreditados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
             }
 
             if (!String.IsNullOrEmpty(opcion))
             {
-                @ViewBag.opBuscador = opcion;
-                @ViewBag.valBuscador = valor;
-                TempData["buscador"] = "0";
+                //TempData["buscador"] = "0";
                 switch (opcion)
                 {
                     case "1":
@@ -165,27 +194,16 @@ namespace SUAMVC.Controllers
 
                 if (statusId.Trim().Equals("A"))
                 {
-                    ViewBag.statusId = statusId;
                     acreditados = acreditados.Where(s => !s.fechaBaja.HasValue);
                 }
                 else if (statusId.Trim().Equals("B"))
                 {
-                    ViewBag.statusId = statusId;
                     acreditados = acreditados.Where(s => s.fechaBaja.HasValue);
                 }
             }
 
             ViewBag.activos = acreditados.Where(s => !s.fechaBaja.HasValue).Count();
             ViewBag.registros = acreditados.Count();
-
-            if (page < 1) page = 1;
-
-            if (page == 1)
-            {
-                acreditados = acreditados.OrderBy(s => s.nombre);
-            }
-            else
-                acreditados = acreditados.OrderBy(s => s.nombreCompleto).Skip((page-1) * 12);
 
             return View(acreditados.ToList());
         }
@@ -401,7 +419,8 @@ namespace SUAMVC.Controllers
         }
 
         [HttpGet]
-        public void GetExcel(String plazasId, String patronesId, String clientesId, String gruposId, string opcion, string valor, String statusId)
+        public void GetExcel(String plazasId, String patronesId, String clientesId, 
+            String gruposId, String opcion, String valor, String statusId)
         {
 
             Usuario user = Session["UsuarioData"] as Usuario;
@@ -562,7 +581,8 @@ namespace SUAMVC.Controllers
             Response.End();
         }
 
-        public ActionResult ActivaVariable(String buscador)
+        public ActionResult ActivaVariable(String buscador, String plazasId, String patronesId, String clientesId,
+            String gruposId, String opcion, String valor, String statusId)
         {
             if (buscador != null)
             {
@@ -578,7 +598,7 @@ namespace SUAMVC.Controllers
             else {
                 TempData["buscador"] = "1";
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId });
         }
 
         protected override void Dispose(bool disposing)
@@ -590,5 +610,8 @@ namespace SUAMVC.Controllers
             base.Dispose(disposing);
         }
 
+        
     }
+
+    
 }
