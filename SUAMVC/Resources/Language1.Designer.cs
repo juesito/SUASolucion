@@ -79,6 +79,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Busqueda Avanzada.
+        /// </summary>
+        public static string advanceSearch {
+            get {
+                return ResourceManager.GetString("advanceSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Apellido Materno.
         /// </summary>
         public static string apellidoMaterno {
@@ -471,6 +480,15 @@ namespace SUAMVC.Resources {
         public static string smdf {
             get {
                 return ResourceManager.GetString("smdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Exportar a Excel.
+        /// </summary>
+        public static string toExcel {
+            get {
+                return ResourceManager.GetString("toExcel", resourceCulture);
             }
         }
         

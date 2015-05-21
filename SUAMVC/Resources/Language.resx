@@ -313,4 +313,12 @@
     <value>VSM</value>
     <comment>Etiqueta para Veces Salario Minimo</comment>
   </data>
+  <data name="advanceSearch" xml:space="preserve">
+    <value>Busqueda Avanzada</value>
+    <comment>Etiqueta para busqueda avanzada</comment>
+  </data>
+  <data name="toExcel" xml:space="preserve">
+    <value>Exportar a Excel</value>
+    <comment>Etiqueta para exportar a excel</comment>
+  </data>
 </root>

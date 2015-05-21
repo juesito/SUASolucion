@@ -150,7 +150,9 @@
     <Content Include="Content\code52.i18n\images\flags\it.png" />
     <Content Include="Content\Images\buscar.png" />
     <Content Include="Content\Images\fileSearch.png" />
+    <Content Include="Content\Images\hide.png" />
     <Content Include="Content\Images\search.png" />
+    <Content Include="Content\Images\show.png" />
     <Content Include="Scripts\date_time.js" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\arrow_left.png" />

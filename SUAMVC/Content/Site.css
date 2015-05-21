@@ -9,7 +9,7 @@
     position: inherit;
     margin-top: 20px;
     height: auto;
-    min-height: 500px;
+    min-height: 550px;
     /*border:1px solid #ff0000;*/
 }
 
@@ -30,7 +30,7 @@ textarea {
 
 .table-container {
     overflow-x:scroll;
-    min-height:380px;
+    min-height:300px;
 }
 
 .icon { /*Some CSS to set the background image (not tested) */
@@ -333,20 +333,25 @@ table-fixed {
     }
 
 .marqueeFilter {
-    background-color:#93D1EE;
+    background-color:#F9F9F9;
     min-height:100px;
     border-spacing:1.0rem;
     min-height:70px;
     border:1px #2E538A solid;
     color: #2E538A;
-    box-shadow: 10px 10px 1px #888888;
+    box-shadow: 10px 10px 1px #2E538A;
     -moz-border-radius-bottomleft:3px;
 	-webkit-border-bottom-left-radius:3px;
     border-bottom-left-radius:3px;
     margin-bottom:10px;
+    padding-left:10px;
 
 }
 
     .marqueeFilter table {
         font-size:10px;    
+    }
+
+    .marqueeFilter td {
+        min-width:50px;    
     }

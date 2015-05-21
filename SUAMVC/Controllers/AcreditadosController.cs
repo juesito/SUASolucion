@@ -562,9 +562,22 @@ namespace SUAMVC.Controllers
             Response.End();
         }
 
-        public ActionResult ActivaVariable()
+        public ActionResult ActivaVariable(String buscador)
         {
-            TempData["buscador"] = "1";
+            if (buscador != null)
+            {
+                if (!buscador.Equals("1"))
+                {
+                    TempData["buscador"] = "1";
+                }
+                else
+                {
+                    TempData["buscador"] = "0";
+                }
+            }
+            else {
+                TempData["buscador"] = "1";
+            }
             return RedirectToAction("Index");
         }
 

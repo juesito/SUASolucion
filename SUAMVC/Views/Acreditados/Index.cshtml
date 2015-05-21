@@ -17,7 +17,7 @@
     }
 
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+    var grid = new WebGrid(source: Model, rowsPerPage: 9);
     @functions {
         static IHtmlString ShowPDF(string id)
         {
@@ -54,8 +54,9 @@
                 { @item.fechaInicioDescuento.ToString("dd-MM-yyyy") }
             </div></text>, canSort: true));
     gridColumns.Add(grid.Column("fechaFinDescuento", Language.fFinDescuento, format: @<text><div style='width: 6em'>
-    @if (@item.fechaFinDescuento != null)
-    {@item.fechaFinDescuento.ToString("dd-MM-yyyy")}</div></text>, canSort: true));
+                    @if (@item.fechaFinDescuento != null)
+                    {@item.fechaFinDescuento.ToString("dd-MM-yyyy")}
+                </div></text>, canSort: true));
     gridColumns.Add(grid.Column("smdv", Language.smdf, format: @<text>@item.smdv.ToString("0.00")</text>, canSort: true));
     gridColumns.Add(grid.Column("sdi", Language.sdi, format: @<text>@item.sdi.ToString("0.00")</text>, canSort: true));
     gridColumns.Add(grid.Column("sd", Language.sd, format: @<text>@item.sd.ToString("0.00")</text>, canSort: true));
@@ -99,13 +100,13 @@
             <thead>
                 <tr style="text-align:left;vertical-align:bottom;">
                     <td>
-                        @Language.plaza:
+                        <b>@Language.plaza:</b>
                     </td>
                     <td>
                         @Html.DropDownList("plazasId", "Seleccione")
                     </td>
                     <td>
-                        @Language.patron:
+                        <b>@Language.patron:</b>
                     </td>
                     <td>
                         @Html.DropDownList("patronesId", "Seleccione")
@@ -113,21 +114,17 @@
                     <td rowspan="2">
                         <input type="submit" value="Consultar" class="btn btn-success" style="width:80px; height:30px; font-size:10px;" />
                     </td>
-                    <td style="padding-right:10px;" rowspan="2">
-                        <a href="@Url.Action("ActivaVariable", "Acreditados")">
-                            <img src="~/Content/Images/fileSearch.png" alt="" style="border:none;" width="30" height="25" />
-                        </a>
-                    </td>
+
                 </tr>
                 <tr style="text-align:left;vertical-align:bottom;">
                     <td>
-                        @Language.grupo:
+                        <b>@Language.grupo:</b>
                     </td>
                     <td>
                         @Html.DropDownList("gruposId", "Seleccione")
                     </td>
                     <td>
-                        @Language.cliente:
+                        <b>@Language.cliente:</b>
                     </td>
                     <td>
                         @Html.DropDownList("clientesId", "Seleccione")
@@ -135,74 +132,73 @@
                 </tr>
             </thead>
         </table>
-        @if (buscar.Equals("1"))
-        {
-            <table style="margin-left:30px; margin-top:10px; float:left;">
-                <thead>
-                    <tr>
-                        <td>@Language.criterio</td>
+
+        <table style="margin-left:30px; margin-top:10px; float:left;">
+            <thead>
+                <tr>
+                    <td style="padding-right:10px;" rowspan="2">
+                        <a href="@Url.Action("ActivaVariable", "Acreditados", new { buscador = @TempData["buscador"]})">
+                            @if (buscar.Equals("1"))
+                            {
+                                <img src="~/Content/Images/hide.png" alt="@Language.advanceSearch"
+                                     title="@Language.advanceSearch" style="border:none;" width="30" height="25" />
+                            }
+                            else
+                            {
+                                <img src="~/Content/Images/show.png" alt="@Language.advanceSearch"
+                                     title="@Language.advanceSearch" style="border:none;" width="30" height="25" />
+
+                            }
+                        </a>
+                    </td>
+                    @if (buscar.Equals("1"))
+                    {
+                        <td><b>@Language.criterio</b></td>
                         <td>@Html.FieldsAvailablesToFilterAcreditados()</td>
-                    </tr>
-                    <tr>
                         <td>@Html.Label("valor", Language.valor)</td>
                         <td>@Html.TextBox("valor")</td>
-                    </tr>
-                </thead>
-            </table>
-        }
+                    }
+                </tr>
+            </thead>
+        </table>
     </div>
 
+                    //Tabla de resultados
+                    if (!tableHtml.IsEmpty())
+                    {
+                        <div class="table-container">
+                            @Html.Raw(tableHtml)
+                        </div>
+                    }
 
-    if (SecurityUserModel.verificarPermiso("Acreditados", "Descargar excel"))
-    {
-        <a href="@Url.Action("GetExcel", "Acreditados", new
-                {
-                    plazasId = @ViewBag.pzaId,
-                    patronesId = @ViewBag.patId,
-                    clientesId = @ViewBag.cteId,
-                    gruposId = @ViewBag.gpoId,
-                    opcion = @ViewBag.opBuscador,
-                    valor = @ViewBag.valBuscador
+                    //Etiqueta de No. de registros
+                    if (ViewBag.registros != null)
+                    {
+                        <div style="column-span:inherit; height:20px; font-size:10px; text-align:center;">
+                            <div style="margin-right:4px;display:inline-block;vertical-align:top;">
+                                <p style="font-weight:bold">Registros: @Html.Label(Language.registros, Convert.ToString((int)ViewBag.registros))</p>
+                            </div>
+                            @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
+                            {
+                                <div style="margin-right:4px;display:inline-block;vertical-align:top;">
+                                    <p style="font-weight:bold">
+                                        Activos:
+                                        @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
+                                    </p>
+                                </div>
+                            }
+                            <div style="display:inline-block;">
+                                @Html.SearchStatusList()
+                                @if (SecurityUserModel.verificarPermiso("Acreditados", "Descargar excel"))
+                                {
+                                    <a href="@Url.Action("GetExcel", "Acreditados", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                    clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador
                 })" style="text-align:right">
-            <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
-        </a>
-    }
-
-    if (!tableHtml.IsEmpty())
-    {
-        <div class="table-container">
-            @Html.Raw(tableHtml)
-        </div>
-    }
-
-    if (ViewBag.registros != null)
-    {
-        <div style="column-span:inherit; height:20px; font-size:10px; text-align:center;">
-            <div style="margin-right:4px;display:inline-block;vertical-align:top;">
-                <p style="font-weight:bold">Registros: @Html.Label(Language.registros, Convert.ToString((int)ViewBag.registros))</p>
-            </div>
-            @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
-            {
-                <div style="margin-right:4px;display:inline-block;vertical-align:top;">
-                    <p style="font-weight:bold">
-                        Activos:
-                        @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
-                    </p>
-                </div>
-            }
-            <div style="display:inline-block;">
-                @Html.SearchStatusList()
-            </div>
-        </div>
-
-    }
+                                        <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="20" height="20" />
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    }
 }
-
-
-
-
-
-
-
-
 
