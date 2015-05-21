@@ -2,7 +2,7 @@
 @using SUADATOS
 @using SUAMVC.Models
 @using System.Text;
-@using SUAMVC.Helpers
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     if (!WebSecurity.IsAuthenticated)
@@ -15,6 +15,7 @@
     {
         buscar = TempData["buscador"] as String;
     }
+    
     Layout = "~/Views/Shared/_Layout.cshtml";
     var grid = new WebGrid(source: Model, rowsPerPage: 12);
     @functions {
@@ -57,7 +58,7 @@
 
     if (SecurityUserModel.verificarPermiso("Asegurados", "Ver columna modificacion"))
     {
-        gridColumns.Add(grid.Column("fechaModificacion", "Fecha Modificación", @<text><div style='width: 10em'>
+        gridColumns.Add(grid.Column("fechaModificacion", "Fecha Modificación", @<text><div style='width: 12em'>
                 @if (@item.fechaModificacion != null)
                 { @item.fechaModificacion}
             </div></text>, null, canSort: true));
@@ -86,7 +87,6 @@
 
     tableHtml = sb.ToString().Trim();
 
-//    var flagMenu = @ViewBag.flagMenus;
 }
 
 @section Menu {
@@ -95,77 +95,121 @@
 
 @using (Html.BeginForm(null, null, FormMethod.Get))
 {
-    <p>
-        Plaza: @Html.DropDownList("plazasId", "Seleccione")
-        Patron: @Html.DropDownList("patronesId", "Seleccione")
-        Grupo: @Html.DropDownList("gruposId", "Seleccione")
-        Cliente: @Html.DropDownList("clientesId", "Seleccione")
+    //MarqueeFilter - Todos los filtros principales
+    <div class="marqueeFilter">
+        <table style="float:left; margin-top:10px;display:inline-block;">
+            <thead>
+                <tr style="text-align:left;vertical-align:bottom;">
+                    <td>
+                        <b>@Language.plaza:</b>
+                    </td>
+                    <td>
+                        @Html.DropDownList("plazasId", "Seleccione")
+                    </td>
+                    <td>
+                        <b>@Language.patron:</b>
+                    </td>
+                    <td>
+                        @Html.DropDownList("patronesId", "Seleccione")
+                    </td>
+                    <td rowspan="2">
+                        <input type="submit" value="Consultar" class="btn btn-success" style="width:80px; height:30px; font-size:10px;" />
+                    </td>
 
-        <input type="submit" value="Consultar" class="btn btn-success" } />
+                </tr>
+                <tr style="text-align:left;vertical-align:bottom;">
+                    <td>
+                        <b>@Language.grupo:</b>
+                    </td>
+                    <td>
+                        @Html.DropDownList("gruposId", "Seleccione")
+                    </td>
+                    <td>
+                        <b>@Language.cliente:</b>
+                    </td>
+                    <td>
+                        @Html.DropDownList("clientesId", "Seleccione")
+                    </td>
+                </tr>
+            </thead>
+        </table>
 
-        <a href="@Url.Action("ActivaVariable", "Asegurados")">
-            <img src="~/Content/Images/buscar.png" alt="" style="border:none;" width="30" height="30" />
-        </a>
+        <table style="margin-left:30px; margin-top:10px; float:left;">
+            <thead>
+                <tr>
+                    <td style="padding-right:10px;" rowspan="2">
+                        <a href="@Url.Action("ActivaVariable", "Asegurados", new { buscador = @TempData["buscador"]})">
+                            @if (buscar.Equals("1"))
+                            {
+                                <img src="~/Content/Images/hide.png" alt="@Language.advanceSearch"
+                                     title="@Language.advanceSearch" style="border:none;" width="30" height="25" />
+                            }
+                            else
+                            {
+                                <img src="~/Content/Images/show.png" alt="@Language.advanceSearch"
+                                     title="@Language.advanceSearch" style="border:none;" width="30" height="25" />
 
-        @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel"))
-        {
-            <a href="@Url.Action("GetExcel", "Asegurados", new{
-                                        plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
-                                        clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId,
-                                        opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador,
-                                        statusId = @ViewBag.statusId
-                 })" style="text-align:right">
-                <img src="~/Content/Images/xls.png" alt="" style="border:none;" width="30" height="30" />
-            </a>
-        }
+                            }
+                        </a>
+                    </td>
+                    @if (buscar.Equals("1"))
+                    {
+                        <td><b>@Language.criterio</b></td>
+                        <td>@Html.FieldsAvailablesToFilterAcreditados()</td>
+                        <td>@Html.Label("valor", Language.valor)</td>
+                        <td>@Html.TextBox("valor")</td>
+                    }
+                </tr>
+            </thead>
+        </table>
+    </div>
 
-        @if (buscar.Equals("1"))
-        {
-            <fieldset>
-                Opción: @Html.FieldsAvailablesToFilter()
-                @Html.Label("valor", "Valor:")
-                @Html.TextBox("valor")
-            </fieldset>
-        }
-    </p>
+                    //Tabla de resultados
+                    if (!tableHtml.IsEmpty())
+                    {
+                        <div class="table-container">
+                            @Html.Raw(tableHtml)
+                        </div>
+                    }
 
-    if (ViewBag.registros != null)
-    {
-        <div style="width:320px; vertical-align:text-top;float: right; column-span:inherit; height:20px; font-size:10px;">
-            <div style="float:left; margin-right:4px;">
-                <p style="font-weight:bold">Registros: @Html.Label("Registros: ", Convert.ToString((int)ViewBag.registros))</p>
-            </div>
-            @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
-            {
-                <div style="float:left; margin-right:4px;">
-                    <p style="font-weight:bold">
-                        Activos:
+                    //Etiqueta de No. de registros
+                    if (ViewBag.registros != null)
+                    {
+                        <div style="column-span:inherit; height:20px; font-size:10px; text-align:center;">
+                            <div style="margin-right:4px;display:inline-block;vertical-align:top;">
+                                <p style="font-weight:bold">Registros: @Html.Label(Language.registros, Convert.ToString((int)ViewBag.registros))</p>
+                            </div>
+                            @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
+                            {
+                                <div style="margin-right:4px;display:inline-block;vertical-align:top;">
+                                    <p style="font-weight:bold">
+                                        Activos:
+                                        @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
+                                    </p>
+                                </div>
+                            }
+                            <div style="display:inline-block;">
+                                @Html.SearchStatusList()
+                                @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel"))
+                                {
+                                    <a href="@Url.Action("GetExcel", "Asegurados", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                    clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador
+                })" style="text-align:right">
+                                        <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="20" height="20" />
+                                    </a>
+                                }
+                            </div>
 
-                        @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
-                    </p>
-                </div>
-            }
-            <div style="float:left;">
-                @Html.SearchStatusList()
-            </div>
-        </div>
+                            <div style="display:inline-block;">
+                                @if (SecurityUserModel.verificarPermiso("Asegurados", "Subir acuse"))
+                                {
+                                    <a href="@Url.Action("UploadFiles", "Movimientos")" style="text-align:right">
+                                        <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="20" height="20" />
+                                    </a>
+                                }
+                            </div>
 
-    }
+                        </div>
+                    }
 }
-
-@using (Html.BeginForm("UploadFiles", "Movimientos", FormMethod.Post))
-{
-    if (SecurityUserModel.verificarPermiso("Asegurados", "Subir acuse"))
-    {
-        <input type="submit" value="Subir acuses" class="btn btn-success" />
-    }
-
-    if (!tableHtml.IsEmpty())
-    {
-        @Html.Raw(tableHtml)
-    }
-
-
-}
-
 
