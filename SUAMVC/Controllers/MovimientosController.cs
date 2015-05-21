@@ -284,7 +284,7 @@ namespace SUAMVC.Controllers
         }
 
 
-        [HttpPost, ActionName("UploadFiles")]
+        [HttpGet, ActionName("UploadFiles")]
         public ActionResult UploadFiles(String[] ids)
         {
 

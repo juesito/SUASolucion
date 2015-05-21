@@ -130,7 +130,6 @@ namespace SUAMVC.Controllers
                 @ViewBag.opBuscador = opcion;
                 @ViewBag.valBuscador = valor;
                 TempData["buscador"] = "0";
-
                 switch (opcion)
                 {
                     case "1":
@@ -174,8 +173,6 @@ namespace SUAMVC.Controllers
                         break;
                 }
             }
-            if (page < 1) page = 1;
-
 
             if (statusId != null)
             {
@@ -196,12 +193,7 @@ namespace SUAMVC.Controllers
             ViewBag.activos = asegurados.Where(s => !s.fechaBaja.HasValue).Count();
             ViewBag.registros = asegurados.Count();
 
-            if (page == 1)
-            {
-                asegurados = asegurados.OrderBy(s => s.nombre);
-            }
-            else
-                asegurados = asegurados.OrderBy(s => s.nombreTemporal);
+            asegurados = asegurados.OrderBy(s => s.nombreTemporal);
 
             return View(asegurados.ToList());
         }
@@ -511,9 +503,23 @@ namespace SUAMVC.Controllers
             return View(asegurado);
         }
 
-        public ActionResult ActivaVariable()
+        public ActionResult ActivaVariable(String buscador)
         {
-            TempData["buscador"] = "1";
+            if (buscador != null)
+            {
+                if (!buscador.Equals("1"))
+                {
+                    TempData["buscador"] = "1";
+                }
+                else
+                {
+                    TempData["buscador"] = "0";
+                }
+            }
+            else
+            {
+                TempData["buscador"] = "1";
+            }
             return RedirectToAction("Index");
         }
 
