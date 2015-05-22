@@ -138,6 +138,17 @@
             <thead>
                 <tr>
                     <td style="padding-right:10px;" rowspan="2">
+                        @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel"))
+                        {
+                            <a href="@Url.Action("GetExcel", "Asegurados", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                                clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador
+                                })" style="text-align:right">
+                                <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="35" height="35" />
+                            </a>
+                        }
+
+                    </td>
+                    <td style="padding-right:10px;" rowspan="2">
                         <a href="@Url.Action("ActivaVariable", "Asegurados", new { buscador = @TempData["buscador"]})">
                             @if (buscar.Equals("1"))
                             {
@@ -152,7 +163,7 @@
                             }
                         </a>
                     </td>
-                    @if (buscar.Equals("1"))
+        @if (buscar.Equals("1"))
                     {
                         <td><b>@Language.criterio</b></td>
                         <td>@Html.FieldsAvailablesToFilterAcreditados()</td>
@@ -190,14 +201,6 @@
                             }
                             <div style="display:inline-block;">
                                 @Html.SearchStatusList()
-                                @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel"))
-                                {
-                                    <a href="@Url.Action("GetExcel", "Asegurados", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
-                    clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador
-                })" style="text-align:right">
-                                        <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="20" height="20" />
-                                    </a>    
-                                }
                             </div>
 
                             <div style="display:inline-block;">

@@ -93,7 +93,7 @@ textarea {
     padding: 0px;
     margin-top: 2px;
     text-align: left;
-    width: 35%;
+/*    width: 40%;  */
     height: 40px;
     margin-left: 0px;
     margin-right: 0px;
@@ -147,7 +147,7 @@ textarea {
     height: 40px;
     color: #ffffff;
     text-align: left;
-    padding-right: 25px;
+    padding-right: 70px;
     position: absolute;
     top: 120px;
     font-weight: bold;
