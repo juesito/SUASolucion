@@ -9,7 +9,7 @@
     {
         Response.Redirect("~/Home/Index");
     }
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Acreditado";
     var buscar = "0";
     if (TempData["buscador"] != null)
     {
@@ -17,7 +17,7 @@
     }
 
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: Model, rowsPerPage: 9);
+    var grid = new WebGrid(source: Model, rowsPerPage: 12);
     @functions {
         static IHtmlString ShowPDF(string id)
         {
