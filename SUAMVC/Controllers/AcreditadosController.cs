@@ -20,14 +20,49 @@ namespace SUAMVC.Controllers
     {
         private suaEntities db = new suaEntities();
 
+        private void setVariables(String plazasId, String patronesId, String clientesId,
+            String gruposId, String opcion, String valor, String statusId)
+        {
+            if (!String.IsNullOrEmpty(plazasId))
+            {
+                ViewBag.pzaId = plazasId;
+            }
+            if (!String.IsNullOrEmpty(patronesId))
+            {
+                ViewBag.patId = patronesId;
+            }
+            if (!String.IsNullOrEmpty(clientesId))
+            {
+                ViewBag.cteId = clientesId;
+            }
+            if (!String.IsNullOrEmpty(gruposId))
+            {
+                ViewBag.gpoId = gruposId;
+            }
+            if (!String.IsNullOrEmpty(opcion))
+            {
+                ViewBag.opBuscador = opcion;
+            }
+            if (!String.IsNullOrEmpty(valor))
+            {
+                ViewBag.valBuscador = valor;
+            }
+            if (statusId != null)
+            {
+                ViewBag.statusId = statusId;
+            }
+
+        }
         // GET: Acreditados
         public ActionResult Index(String plazasId, String patronesId, String clientesId, 
             String gruposId, String currentPlaza, String currentPatron, String currentCliente, 
-            String currentGrupo, String opcion, String valor, String statusId, int page = 1, 
-            String sortOrder = null, String lastSortOrder = null)
+            String currentGrupo, String opcion, String valor, String statusId, int page = 1)
         {
 
             Usuario user = Session["UsuarioData"] as Usuario;
+
+            setVariables(plazasId, patronesId, clientesId, gruposId,  opcion,  valor,  statusId);
+
             var plazasAsignadas = (from x in db.TopicosUsuarios
                                    where x.usuarioId.Equals(user.Id)
                                    && x.tipo.Equals("P")
@@ -37,12 +72,7 @@ namespace SUAMVC.Controllers
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("C")
                                      select x.topicoId);
-
-            var patronesAsignados = (from x in db.TopicosUsuarios
-                                     where x.usuarioId.Equals(user.Id)
-                                     && x.tipo.Equals("B")
-                                     select x.topicoId);
-            
+           
             ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
                                                join top in db.TopicosUsuarios on s.id equals top.topicoId
                                                where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
@@ -54,8 +84,9 @@ namespace SUAMVC.Controllers
                                                }).Distinct(), "id", "FullName");
 
             ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
-                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
-                                                 where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id)
+                                                 join ase in db.Asegurados on s.Id equals ase.PatroneId
+                                                 join top in db.TopicosUsuarios on ase.ClienteId equals top.topicoId
+                                                 where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
                                                  orderby s.registro
                                                  select new
                                                  {
@@ -72,7 +103,6 @@ namespace SUAMVC.Controllers
                                                      id = s.Id,
                                                      FUllName = s.claveCliente + " - " + s.descripcion
                                                  }).Distinct(), "id", "FullName");
-
             ViewBag.gruposId = new SelectList((from s in db.Grupos.ToList()
                                                join cli in db.Clientes on s.Id equals cli.Grupo_id
                                                join top in db.TopicosUsuarios on cli.Id equals top.topicoId
@@ -86,44 +116,37 @@ namespace SUAMVC.Controllers
 
 
             var acreditados = from s in db.Acreditados
-                              join cli in db.Clientes on s.clienteId equals cli.Id
-                              where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
-                                    clientesAsignados.Contains(s.Cliente.Id) &&
-                                    patronesAsignados.Contains(s.PatroneId)
+                //              join cli in db.Clientes on s.clienteId equals cli.Id
+                //              where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
+                //                    clientesAsignados.Contains(s.Cliente.Id)
                               select s;
 
             if (!String.IsNullOrEmpty(plazasId))
             {
-                @ViewBag.pzaId = plazasId;
                 int idPlaza = int.Parse(plazasId.Trim());
-                acreditados = acreditados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
+                acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
             }
             if (!String.IsNullOrEmpty(patronesId))
             {
-                @ViewBag.patId = patronesId;
                 int idPatron = int.Parse(patronesId.Trim());
                 acreditados = acreditados.Where(s => s.PatroneId.Equals(idPatron));
             }
 
             if (!String.IsNullOrEmpty(clientesId))
             {
-                @ViewBag.cteId = clientesId;
                 int idCliente = int.Parse(clientesId.Trim());
                 acreditados = acreditados.Where(s => s.Cliente.Id.Equals(idCliente));
             }
 
             if (!String.IsNullOrEmpty(gruposId))
             {
-                @ViewBag.gpoId = gruposId;
                 int idGrupo = int.Parse(gruposId.Trim());
                 acreditados = acreditados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
             }
 
             if (!String.IsNullOrEmpty(opcion))
             {
-                @ViewBag.opBuscador = opcion;
-                @ViewBag.valBuscador = valor;
-                TempData["buscador"] = "0";
+                //TempData["buscador"] = "0";
                 switch (opcion)
                 {
                     case "1":
@@ -171,20 +194,16 @@ namespace SUAMVC.Controllers
 
                 if (statusId.Trim().Equals("A"))
                 {
-                    ViewBag.statusId = statusId;
                     acreditados = acreditados.Where(s => !s.fechaBaja.HasValue);
                 }
                 else if (statusId.Trim().Equals("B"))
                 {
-                    ViewBag.statusId = statusId;
                     acreditados = acreditados.Where(s => s.fechaBaja.HasValue);
                 }
             }
 
             ViewBag.activos = acreditados.Where(s => !s.fechaBaja.HasValue).Count();
             ViewBag.registros = acreditados.Count();
-
-            acreditados = acreditados.OrderBy(s => s.nombreCompleto);
 
             return View(acreditados.ToList());
         }
@@ -262,30 +281,29 @@ namespace SUAMVC.Controllers
             if (carga != null)
             {
                 Acreditado acreditado = db.Acreditados.Find(id);
-                var movtosTemp = db.Movimientos.Where(x => x.acreditadoId == id
-                                 && x.tipo.Equals(option)).OrderBy(x => x.fechaTransaccion).ToList();
+                var movtosTemp = from b in db.Movimientos
+                                 where b.acreditadoId.Equals(id)
+                                   && b.tipo.Equals(option)
+                                 orderby b.fechaTransaccion
+                                 select b;
 
                 Movimiento movto = new Movimiento();
-                if (movtosTemp != null && movtosTemp.Count > 0)
+                if (movtosTemp != null)
                 {
                     foreach (var movtosItem in movtosTemp)
                     {
                         movto = movtosItem;
                         break;
                     }//Definimos los valores para la plaza
+                }
 
-                    var fileName = "C:\\SUA\\Acreditados\\" + acreditado.numeroAfiliacion + "\\" + option + "\\" + movto.nombreArchivo.Trim();
+                var fileName = "C:\\SUA\\Acreditados\\" + acreditado.numeroAfiliacion + "\\" + option + "\\" + movto.nombreArchivo.Trim();
 
-                    if (System.IO.File.Exists(fileName))
-                    {
-                        FileStream fs = new FileStream(fileName, FileMode.Open);
+                if (System.IO.File.Exists(fileName))
+                {
+                    FileStream fs = new FileStream(fileName, FileMode.Open);
 
-                        return File(fs, "application/pdf");
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index");
-                    }
+                    return File(fs, "application/pdf");
                 }
                 else
                 {
@@ -401,7 +419,8 @@ namespace SUAMVC.Controllers
         }
 
         [HttpGet]
-        public void GetExcel(String plazasId, String patronesId, String clientesId, String gruposId, string opcion, string valor, String statusId)
+        public void GetExcel(String plazasId, String patronesId, String clientesId, 
+            String gruposId, String opcion, String valor, String statusId)
         {
 
             Usuario user = Session["UsuarioData"] as Usuario;
@@ -414,28 +433,21 @@ namespace SUAMVC.Controllers
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("C")
                                      select x.topicoId);
-            
-            var patronesAsignados = (from x in db.TopicosUsuarios
-                                     where x.usuarioId.Equals(user.Id)
-                                     && x.tipo.Equals("B")
-                                     select x.topicoId);
-
             List<int> tai = clientesAsignados.ToList();
 
             List<Acreditado> allCust = new List<Acreditado>();
 
             var acreditados = from s in db.Acreditados
                               join cli in db.Clientes on s.clienteId equals cli.Id
-                              where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
-                                   clientesAsignados.Contains(s.Cliente.Id) &&
-                                   patronesAsignados.Contains(s.PatroneId)
+                             where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
+                                   clientesAsignados.Contains(s.Cliente.Id)
                              select s;
 
             if (!String.IsNullOrEmpty(plazasId))
             {
                 @ViewBag.pzaId = plazasId;
                 int idPlaza = int.Parse(plazasId.Trim());
-                acreditados = acreditados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
+                acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
             }
             if (!String.IsNullOrEmpty(patronesId))
             {
@@ -569,7 +581,8 @@ namespace SUAMVC.Controllers
             Response.End();
         }
 
-        public ActionResult ActivaVariable(String buscador)
+        public ActionResult ActivaVariable(String buscador, String plazasId, String patronesId, String clientesId,
+            String gruposId, String opcion, String valor, String statusId)
         {
             if (buscador != null)
             {
@@ -585,7 +598,7 @@ namespace SUAMVC.Controllers
             else {
                 TempData["buscador"] = "1";
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId });
         }
 
         protected override void Dispose(bool disposing)
@@ -597,5 +610,8 @@ namespace SUAMVC.Controllers
             base.Dispose(disposing);
         }
 
+        
     }
+
+    
 }
