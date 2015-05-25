@@ -42,7 +42,7 @@ namespace SUAMVC.Controllers
                         if (tai.Count() > 0)
                         {
                             var topicoTemp = (from t in db.Plazas
-                                              where !tai.Contains(t.id) && t.ind.Equals("U")
+                                              where !tai.Contains(t.id) && t.indicador.Equals("U")
                                               orderby t.descripcion
                                               select new { t.id, t.descripcion }).ToList();
                             topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.id, x.descripcion)));
@@ -51,14 +51,14 @@ namespace SUAMVC.Controllers
                         else
                         {
                             var topicoTemp = (from t in db.Plazas
-                                              where t.ind.Equals("U")
+                                              where t.indicador.Equals("U")
                                               select new { t.id, t.descripcion }).ToList();
                             topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.id, x.descripcion)));
 
 
                         }
                         var topicoTemp2 = (from t in db.Plazas
-                                           where tai.Contains(t.id) && t.ind.Equals("U")
+                                           where tai.Contains(t.id) && t.indicador.Equals("U")
                                            orderby t.descripcion
                                            select new { t.id, t.descripcion }).ToList();
                         topicoTemp2.ToList().ForEach(x => tpum.topicosPorUsuario.Add(new Topico(x.id, x.descripcion)));

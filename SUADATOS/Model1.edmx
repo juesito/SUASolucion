@@ -242,8 +242,8 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="descripcion" Type="nchar" MaxLength="50" Nullable="false" />
-          <Property Name="cve" Type="nchar" MaxLength="10" />
-          <Property Name="ind" Type="nchar" MaxLength="1" />
+          <Property Name="cveCorta" Type="nchar" MaxLength="10" />
+          <Property Name="indicador" Type="nchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="RoleFuncions">
           <Key>
@@ -1013,8 +1013,8 @@
           <NavigationProperty Name="Clientes" Relationship="suaModel.FK_PlazaClientes" FromRole="Plaza" ToRole="Cliente" />
           <NavigationProperty Name="Grupos" Relationship="suaModel.FK_PlazaGrupos" FromRole="Plaza" ToRole="Grupos" />
           <NavigationProperty Name="Usuarios" Relationship="suaModel.FK_Usuarios_Plazas" FromRole="Plaza" ToRole="Usuario" />
-          <Property Name="cve" Type="String" Unicode="true" FixedLength="true" MaxLength="10" />
-          <Property Name="ind" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="cveCorta" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="indicador" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
         </EntityType>
         <Association Name="FK_MovimientosAsegurado_catalogoMovimientos">
           <End Type="suaModel.catalogoMovimiento" Role="catalogoMovimiento" Multiplicity="1" />
@@ -1694,10 +1694,10 @@
     <EntitySetMapping Name="Plazas">
       <EntityTypeMapping TypeName="IsTypeOf(suaModel.Plaza)">
         <MappingFragment StoreEntitySet="Plazas">
-          <ScalarProperty Name="ind" ColumnName="ind" />
+                <ScalarProperty Name="indicador" ColumnName="indicador" />
+                <ScalarProperty Name="cveCorta" ColumnName="cveCorta" />
                 <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-          <ScalarProperty Name="cve" ColumnName="cve" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

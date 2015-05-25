@@ -44,7 +44,7 @@
     gridColumns.Add(grid.Column("Cliente.Grupos.nombreCorto", "ID.Grupo", format: @<text> @if (@item.Cliente != null)
     {@item.Cliente.Grupos.nombreCorto}</text>, canSort: true));
     gridColumns.Add(grid.Column("ocupacion", "Ocupación",  @<text><div style='width: 12em'>@item.ocupacion </div></text>, null, canSort: true));
-    gridColumns.Add(grid.Column("Cliente.Plaza.cve", "ID.Plaza", null, null, true));
+    gridColumns.Add(grid.Column("Cliente.Plaza.cveCorta", "ID.Plaza", null, null, true));
     gridColumns.Add(grid.Column("extranjero", "Extranjero", null, null, true));
 
     if (SecurityUserModel.verificarPermiso("Asegurados", "Ver columna creacion"))

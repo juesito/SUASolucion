@@ -28,6 +28,8 @@ namespace SUADATOS
         public string descripcion { get; set; }
         public string cve { get; set; }
         public string ind { get; set; }
+        public string cveCorta { get; set; }
+        public string indicador { get; set; }
     
         public virtual ICollection<Patrone> Patrones { get; set; }
         public virtual ICollection<Asegurado> Asegurados { get; set; }

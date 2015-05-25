@@ -133,13 +133,13 @@ namespace SUAMVC.Controllers
                                 {
                                     plaza.id = plazaItem.id;
                                     plaza.descripcion = plazaItem.descripcion;
-                                    plaza.ind = "P";
+                                    plaza.indicador = "P";
                                     break;
                                 }//Definimos los valores para la plaza
                             }
                             else {
                                 plaza.descripcion = plazaDescripcion.Trim();
-                                plaza.ind = "P";
+                                plaza.indicador = "P";
                                 db.Plazas.Add(plaza);
                                 db.SaveChanges();
 
@@ -212,14 +212,14 @@ namespace SUAMVC.Controllers
                                 {
                                     plaza.id = plazaItem.id;
                                     plaza.descripcion = plazaItem.descripcion;
-                                    plaza.ind = "P";
+                                    plaza.indicador = "P";
                                     break;
                                 }//Definimos los valores para la plaza
                             }
                             else
                             {
                                 plaza.descripcion = plazaDescripcion.Trim();
-                                plaza.ind = "P";
+                                plaza.indicador = "P";
                                 db.Plazas.Add(plaza);
                                 db.SaveChanges();
 

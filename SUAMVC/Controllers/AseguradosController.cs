@@ -201,7 +201,7 @@ namespace SUAMVC.Controllers
                         asegurados = asegurados.Where(s => s.ocupacion.Contains(valor));
                         break;
                     case "12":
-                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cve.Contains(valor));
+                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cveCorta.Contains(valor));
                         break;
                     case "13":
                         asegurados = asegurados.Where(s => s.extranjero.Contains(valor));
@@ -467,7 +467,7 @@ namespace SUAMVC.Controllers
                         asegurados = asegurados.Where(s => s.ocupacion.Contains(valor));
                         break;
                     case "12":
-                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cve.Contains(valor));
+                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cveCorta.Contains(valor));
                         break;
                     case "13":
                         asegurados = asegurados.Where(s => s.extranjero.Contains(valor));
@@ -505,7 +505,7 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => item.fechaBaja!=null ? String.Format("{0:yyyy-MM-dd}", item.fechaBaja) : String.Empty ));
             gridColumns.Add(grid.Column("Cliente.claveCliente", "Cliente"));
             gridColumns.Add(grid.Column("Cliente.Grupos.nombreCorto", "Grupo"));
-            gridColumns.Add(grid.Column("Cliente.Plaza.cve", "Plaza"));
+            gridColumns.Add(grid.Column("Cliente.Plaza.cveCorta", "Plaza"));
             gridColumns.Add(grid.Column("extranjero", "Extranjero"));
             gridColumns.Add(grid.Column("alta", "Alta"));
             gridColumns.Add(grid.Column("baja", "Baja"));

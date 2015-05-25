@@ -70,7 +70,7 @@
     gridColumns.Add(grid.Column("descuentoQuincenal", Language.descQuincenal, format: @<text>@item.descuentoQuincenal.ToString("000.00")</text>, canSort: true));
     gridColumns.Add(grid.Column("descuentoVeintiochonal", Language.descVeintiocho, format: @<text>@item.descuentoVeintiochonal.ToString("000.00")</text>, canSort: true));
     gridColumns.Add(grid.Column("descuentoDiario", Language.descDiario, format: @<text>@item.descuentoDiario.ToString("0.00")</text>, canSort: true));
-    gridColumns.Add(grid.Column("Patrone.Plaza.cve", Language.plaza, null, null, true));
+    gridColumns.Add(grid.Column("Patrone.Plaza.cveCorta", Language.plaza, null, null, true));
     gridColumns.Add(grid.Column(header: Language.avisoRet, format:@<text><a href="@Url.Action("ViewAttachment", "Acreditados", new { id = item.id, option = "A", carga = item.alta })" target="_blank">@ShowPDF(item.alta)</a></text>));
 
     if (SecurityUserModel.verificarPermiso("Acreditados", "Subir acuse"))

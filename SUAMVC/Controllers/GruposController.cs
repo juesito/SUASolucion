@@ -39,7 +39,15 @@ namespace SUAMVC.Controllers
         // GET: Grupos/Create
         public ActionResult Create()
         {
-            ViewBag.Plaza_id = new SelectList(db.Plazas, "id", "descripcion");
+            ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
+                                               where s.indicador.Equals("U")
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   descripcion = s.descripcion
+                                               }), "id", "descripcion");
+
             return View();
         }
 
@@ -58,7 +66,7 @@ namespace SUAMVC.Controllers
             }
 
             ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
-                                               where s.ind.Equals("U")
+                                               where s.indicador.Equals("U")
                                                orderby s.descripcion
                                                select new
                                                {
@@ -81,7 +89,7 @@ namespace SUAMVC.Controllers
                 return HttpNotFound();
             }
             ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
-                                               where s.ind.Equals("U")
+                                               where s.indicador.Equals("U")
                                                orderby s.descripcion
                                                select new
                                                {
@@ -105,7 +113,7 @@ namespace SUAMVC.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
-                                               where s.ind.Equals("U")
+                                               where s.indicador.Equals("U")
                                                orderby s.descripcion
                                                select new
                                                {

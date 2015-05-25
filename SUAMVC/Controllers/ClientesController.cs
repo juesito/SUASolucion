@@ -65,7 +65,7 @@ namespace SUAMVC.Controllers
         public ActionResult Create()
         {
             ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
-                                               where s.ind.Equals("U")
+                                               where s.indicador.Equals("U")
                                                orderby s.descripcion
                                                select new
                                                {
@@ -96,7 +96,7 @@ namespace SUAMVC.Controllers
             }
 
             ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
-                                               where s.ind.Equals("U")
+                                               where s.indicador.Equals("U")
                                                orderby s.descripcion
                                                select new
                                                {
@@ -120,7 +120,7 @@ namespace SUAMVC.Controllers
                 return HttpNotFound();
             }
             ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
-                                               where s.ind.Equals("U")
+                                               where s.indicador.Equals("U")
                                                orderby s.descripcion
                                                select new
                                                {
@@ -145,7 +145,7 @@ namespace SUAMVC.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
-                                               where s.ind.Equals("U")
+                                               where s.indicador.Equals("U")
                                                orderby s.descripcion
                                                select new
                                                {

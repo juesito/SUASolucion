@@ -17,7 +17,7 @@
             grid.Column("claveGrupo", "Clave Grupo", null, null, true),
             grid.Column("nombre", "Nombre", null, null, true),
             grid.Column("nombreCorto", "Nombre Corto", null, null, true),
-            grid.Column("Plaza_id", "Plaza", null, null, true),
+            grid.Column("Plaza.cveCorta", "Plaza", null, null, true),
 
             grid.Column("posicion", "Posicion", null, null, true),
             grid.Column(header: "Consultar", format: @<text><a href="@Url.Action("Details", "Grupos", new { id = item.id })">
