@@ -33,7 +33,11 @@
             {
                 <strong> @Html.Encode(User.Identity.Name)</strong>
                 <span id="updateTime"></span>
-                <script type="text/javascript">window.onload = date_time('updateTime');</script>
+                <script type="text/javascript">
+                    var d = new Date();
+                    
+                    document.getElementById("updateTime").innerHTML = d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2) + " " + d.getHours() + ":" + d.getMinutes();
+                    </script>
                 @Html.ActionLink(Language.bt_exit, "Logout", "Usuarios")
             }
             else

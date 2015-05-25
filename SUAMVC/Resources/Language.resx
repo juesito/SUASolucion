@@ -321,4 +321,12 @@
     <value>Exportar a Excel</value>
     <comment>Etiqueta para exportar a excel</comment>
   </data>
+  <data name="consulta" xml:space="preserve">
+    <value>Consultar</value>
+    <comment>Etiqueta para consultar</comment>
+  </data>
+  <data name="subirAcuseMax" xml:space="preserve">
+    <value>Subir Acuse Masivo</value>
+    <comment>Etiqueta para subir acuses de forma masiva</comment>
+  </data>
 </root>

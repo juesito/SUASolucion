@@ -187,6 +187,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Consultar.
+        /// </summary>
+        public static string consulta {
+            get {
+                return ResourceManager.GetString("consulta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Criterio.
         /// </summary>
         public static string criterio {
@@ -480,6 +489,15 @@ namespace SUAMVC.Resources {
         public static string smdf {
             get {
                 return ResourceManager.GetString("smdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Subir Acuse Masivo.
+        /// </summary>
+        public static string subirAcuseMax {
+            get {
+                return ResourceManager.GetString("subirAcuseMax", resourceCulture);
             }
         }
         

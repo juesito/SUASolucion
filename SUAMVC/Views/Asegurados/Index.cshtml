@@ -99,25 +99,25 @@
                         <b>@Language.plaza:</b>
                     </td>
                     <td>
-                        @Html.DropDownList("plazasId", "Seleccione")
+                        @Html.DropDownList("plazasId", null, new { onchange="submit()"})
                     </td>
                     <td>
                         <b>@Language.patron:</b>
                     </td>
                     <td>
-                        @Html.DropDownList("patronesId", "Seleccione")
+                        @Html.DropDownList("patronesId", null, new { onchange = "submit()" })
                     </td>
                     <td>
                         <b>@Language.grupo:</b>
                     </td>
                     <td>
-                        @Html.DropDownList("gruposId", "Seleccione")
+                        @Html.DropDownList("gruposId", null, new { onchange = "submit()" })
                     </td>
                     <td>
                         <b>@Language.cliente:</b>
                     </td>
                     <td>
-                        @Html.DropDownList("clientesId", "Seleccione")
+                        @Html.DropDownList("clientesId", null, new { onchange = "submit()" })
                     </td>
                 </tr>
             </thead>
@@ -126,9 +126,6 @@
         <table style="margin-left:20px; margin-top:10px; float:left;">
             <thead>
                 <tr>
-                    <td rowspan="2" style="padding-left:15px">
-                        <input type="submit" value="Consultar" class="btn btn-success" style="width:80px; height:30px; font-size:10px;" />
-                    </td>
                     <td style="padding-right:10px; padding-left:10px" rowspan="2">
                         @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel"))
                         {
@@ -176,6 +173,7 @@
                             <td>@Html.FieldsAvailablesToFilterAcreditados()</td>
                             <td>@Html.Label("valor", Language.valor)</td>
                             <td>@Html.TextBox("valor")</td>
+                            <td><input type="submit" value="" class="rsearch_button" title="@Language.consulta" /></td>
                         }
                     </tr>
                 </thead>
@@ -212,7 +210,7 @@
 {
     if (SecurityUserModel.verificarPermiso("Asegurados", "Subir acuse"))
     {
-        <input type="submit" value="subir pdfs" class="btn btn-success" />
+        <input type="submit" value="" class="rpdf_button" title="@Language.subirAcuseMax" />
     }
 
     if (!tableHtml.IsEmpty())
