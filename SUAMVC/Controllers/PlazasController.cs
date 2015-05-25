@@ -17,7 +17,7 @@ namespace SUAMVC.Controllers
         // GET: Plazas
         public ActionResult Index()
         {
-            return View(db.Plazas.ToList());
+            return View(db.Plazas.OrderBy(s => s.descripcion).ToList());
         }
 
         // GET: Plazas/Details/5
@@ -46,7 +46,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,descripcion,cve")] Plaza plaza)
+        public ActionResult Create([Bind(Include = "id,descripcion,cve,ind")] Plaza plaza)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,descripcion,cve")] Plaza plaza)
+        public ActionResult Edit([Bind(Include = "id,descripcion,cve,ind")] Plaza plaza)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +97,7 @@ namespace SUAMVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Plaza plaza = db.Plazas.Find(id);
-            if (plaza == null)
+            if (plaza == null || plaza.ind.Equals("P")) 
             {
                 return HttpNotFound();
             }

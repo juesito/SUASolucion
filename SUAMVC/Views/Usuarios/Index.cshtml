@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+    var grid = new WebGrid(source: Model, canPage: false); 
 }
 @section Menu {
     <div>Catalogo de Usuarios <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>

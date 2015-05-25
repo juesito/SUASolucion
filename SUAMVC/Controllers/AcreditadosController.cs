@@ -72,7 +72,12 @@ namespace SUAMVC.Controllers
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("C")
                                      select x.topicoId);
-           
+
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
+            
             ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
                                                join top in db.TopicosUsuarios on s.id equals top.topicoId
                                                where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
@@ -84,9 +89,8 @@ namespace SUAMVC.Controllers
                                                }).Distinct(), "id", "FullName");
 
             ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
-                                                 join ase in db.Asegurados on s.Id equals ase.PatroneId
-                                                 join top in db.TopicosUsuarios on ase.ClienteId equals top.topicoId
-                                                 where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id)
                                                  orderby s.registro
                                                  select new
                                                  {
@@ -103,6 +107,7 @@ namespace SUAMVC.Controllers
                                                      id = s.Id,
                                                      FUllName = s.claveCliente + " - " + s.descripcion
                                                  }).Distinct(), "id", "FullName");
+         
             ViewBag.gruposId = new SelectList((from s in db.Grupos.ToList()
                                                join cli in db.Clientes on s.Id equals cli.Grupo_id
                                                join top in db.TopicosUsuarios on cli.Id equals top.topicoId
@@ -116,15 +121,16 @@ namespace SUAMVC.Controllers
 
 
             var acreditados = from s in db.Acreditados
-                //              join cli in db.Clientes on s.clienteId equals cli.Id
-                //              where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
-                //                    clientesAsignados.Contains(s.Cliente.Id)
-                              select s;
+                              join cli in db.Clientes on s.clienteId equals cli.Id
+                              where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
+                                    clientesAsignados.Contains(s.Cliente.Id) &&
+                                    patronesAsignados.Contains(s.PatroneId)
+                             select s;
 
             if (!String.IsNullOrEmpty(plazasId))
             {
                 int idPlaza = int.Parse(plazasId.Trim());
-                acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
+                acreditados = acreditados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
             }
             if (!String.IsNullOrEmpty(patronesId))
             {
@@ -281,11 +287,8 @@ namespace SUAMVC.Controllers
             if (carga != null)
             {
                 Acreditado acreditado = db.Acreditados.Find(id);
-                var movtosTemp = from b in db.Movimientos
-                                 where b.acreditadoId.Equals(id)
-                                   && b.tipo.Equals(option)
-                                 orderby b.fechaTransaccion
-                                 select b;
+                var movtosTemp = db.Movimientos.Where(x => x.acreditadoId == id
+                                 && x.tipo.Equals(option)).OrderByDescending(x => x.fechaTransaccion).ToList(); 
 
                 Movimiento movto = new Movimiento();
                 if (movtosTemp != null)
@@ -433,21 +436,26 @@ namespace SUAMVC.Controllers
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("C")
                                      select x.topicoId);
-            List<int> tai = clientesAsignados.ToList();
+
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
 
             List<Acreditado> allCust = new List<Acreditado>();
 
             var acreditados = from s in db.Acreditados
                               join cli in db.Clientes on s.clienteId equals cli.Id
-                             where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
-                                   clientesAsignados.Contains(s.Cliente.Id)
+                             where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
+                                   clientesAsignados.Contains(s.Cliente.Id) &&
+                                   patronesAsignados.Contains(s.PatroneId)
                              select s;
 
             if (!String.IsNullOrEmpty(plazasId))
             {
                 @ViewBag.pzaId = plazasId;
                 int idPlaza = int.Parse(plazasId.Trim());
-                acreditados = acreditados.Where(s => s.Patrone.Plaza_id.Equals(idPlaza));
+                acreditados = acreditados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
             }
             if (!String.IsNullOrEmpty(patronesId))
             {
@@ -549,9 +557,10 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("numeroAfiliacion", "Numero Afiliación"));
             gridColumns.Add(grid.Column("numeroCredito", "Numero Credito"));
             gridColumns.Add(grid.Column("fechaAlta", "Alta", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
-            gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => string.IsNullOrEmpty(item.fechaBaja) ? string.Empty : String.Format("{0:yyyy-MM-dd}", item.fechaBaja)));
-            gridColumns.Add(grid.Column("fechaInicioDescuento", "Inicio descuento", format: (item) => string.IsNullOrEmpty(item.fechaInicioDescuento) ? string.Empty : String.Format("{0:yyyy-MM-dd}", item.fechaInicioDescuento)));
-            gridColumns.Add(grid.Column("fechaFinDescuento", "Fin descuento", format: (item) => string.IsNullOrEmpty(item.fechaFinDescuento) ? string.Empty : String.Format("{0:yyyy-MM-dd}", item.fechaFinDescuento)));
+            gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => item.fechaBaja != null ? String.Format("{0:yyyy-MM-dd}", item.fechaBaja) : String.Empty));
+            gridColumns.Add(grid.Column("Cliente.claveCliente", "Cliente"));
+            gridColumns.Add(grid.Column("fechaInicioDescuento", "Inicio descuento", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
+            gridColumns.Add(grid.Column("fechaFinDescuento", "Fin descuento", format: (item) => item.fechaFinDescuento != null ? String.Format("{0:yyyy-MM-dd}", item.fechaFinDescuento) : String.Empty));
             gridColumns.Add(grid.Column("smdv", "SMDV"));
             gridColumns.Add(grid.Column("sdi", "SDI"));
             gridColumns.Add(grid.Column("sd", "SD"));

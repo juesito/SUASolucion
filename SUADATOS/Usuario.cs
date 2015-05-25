@@ -11,7 +11,6 @@ namespace SUADATOS
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class Usuario
     {
@@ -31,7 +30,6 @@ namespace SUADATOS
         public string apellidoMaterno { get; set; }
         public string apellidoPaterno { get; set; }
         public string estatus { get; set; }
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime fechaIngreso { get; set; }
         public int roleId { get; set; }
         public int plazaId { get; set; }

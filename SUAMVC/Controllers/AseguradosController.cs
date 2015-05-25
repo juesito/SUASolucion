@@ -21,6 +21,40 @@ namespace SUAMVC.Controllers
     {
         private suaEntities db = new suaEntities();
 
+        private void setVariables(String plazasId, String patronesId, String clientesId,
+           String gruposId, String opcion, String valor, String statusId)
+        {
+            if (!String.IsNullOrEmpty(plazasId))
+            {
+                ViewBag.pzaId = plazasId;
+            }
+            if (!String.IsNullOrEmpty(patronesId))
+            {
+                ViewBag.patId = patronesId;
+            }
+            if (!String.IsNullOrEmpty(clientesId))
+            {
+                ViewBag.cteId = clientesId;
+            }
+            if (!String.IsNullOrEmpty(gruposId))
+            {
+                ViewBag.gpoId = gruposId;
+            }
+            if (!String.IsNullOrEmpty(opcion))
+            {
+                ViewBag.opBuscador = opcion;
+            }
+            if (!String.IsNullOrEmpty(valor))
+            {
+                ViewBag.valBuscador = valor;
+            }
+            if (statusId != null)
+            {
+                ViewBag.statusId = statusId;
+            }
+
+        }
+        
         // GET: Aseguradoes
         public ActionResult Index(String plazasId, String patronesId, String clientesId,
             String gruposId, String currentPlaza, String currentPatron, String currentCliente,
@@ -29,6 +63,9 @@ namespace SUAMVC.Controllers
         {
             
             Usuario user = Session["UsuarioData"] as Usuario;
+
+            setVariables(plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId);
+
             var plazasAsignadas = (from x in db.TopicosUsuarios
                                    where x.usuarioId.Equals(user.Id)
                                    && x.tipo.Equals("P")
@@ -92,7 +129,7 @@ namespace SUAMVC.Controllers
             //Query principal
             var asegurados = from s in db.Asegurados
                              join cli in db.Clientes on s.ClienteId equals cli.Id
-                             where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
+                             where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
                                    clientesAsignados.Contains(s.Cliente.Id) &&
                                    patronesAsignados.Contains(s.PatroneId)
                              select s;
@@ -127,9 +164,7 @@ namespace SUAMVC.Controllers
 
             if (!String.IsNullOrEmpty(opcion))
             {
-                @ViewBag.opBuscador = opcion;
-                @ViewBag.valBuscador = valor;
-                TempData["buscador"] = "0";
+
                 switch (opcion)
                 {
                     case "1":
@@ -219,7 +254,7 @@ namespace SUAMVC.Controllers
             {
                 Asegurado asegurado = db.Asegurados.Find(id);
                 var movtosTemp = db.Movimientos.Where(x => x.aseguradoId == id
-                                 && x.tipo.Equals(option)).OrderBy(x => x.fechaTransaccion).ToList(); 
+                                 && x.tipo.Equals(option)).OrderByDescending(x => x.fechaTransaccion).ToList(); 
 
                 Movimiento movto = new Movimiento();
                 if (movtosTemp != null && movtosTemp.Count > 0)
@@ -358,7 +393,7 @@ namespace SUAMVC.Controllers
 
             var asegurados = from s in db.Asegurados
                              join cli in db.Clientes on s.ClienteId equals cli.Id
-                             where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
+                             where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
                                    clientesAsignados.Contains(s.Cliente.Id) &&
                                    patronesAsignados.Contains(s.PatroneId)
                              select s;
@@ -467,7 +502,7 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("rfc", "RFC"));
             gridColumns.Add(grid.Column("nombreTemporal", "Nombre"));
             gridColumns.Add(grid.Column("fechaAlta", "Alta", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
-            gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) =>string.IsNullOrEmpty(item.fechaBaja)?string.Empty:String.Format("{0:yyyy-MM-dd}", item.fechaBaja)));
+            gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => item.fechaBaja!=null ? String.Format("{0:yyyy-MM-dd}", item.fechaBaja) : String.Empty ));
             gridColumns.Add(grid.Column("Cliente.claveCliente", "Cliente"));
             gridColumns.Add(grid.Column("Cliente.Grupos.nombreCorto", "Grupo"));
             gridColumns.Add(grid.Column("Cliente.Plaza.cve", "Plaza"));
@@ -503,7 +538,8 @@ namespace SUAMVC.Controllers
             return View(asegurado);
         }
 
-        public ActionResult ActivaVariable(String buscador)
+        public ActionResult ActivaVariable(String buscador, String plazasId, String patronesId, String clientesId,
+            String gruposId, String opcion, String valor, String statusId)
         {
             if (buscador != null)
             {
@@ -520,7 +556,7 @@ namespace SUAMVC.Controllers
             {
                 TempData["buscador"] = "1";
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId });
         }
 
         protected override void Dispose(bool disposing)

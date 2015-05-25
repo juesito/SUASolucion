@@ -11,7 +11,7 @@ namespace SUAMVC.Helpers
     {
         public static MvcHtmlString SearchStatusList(this HtmlHelper htmlHelper)
         {
-            return htmlHelper.DropDownList("statusId", new List<SelectListItem>() { new SelectListItem { Text = "Seleccione", Value = "" },  new SelectListItem { Text = "Activo", Value = "A" }, new SelectListItem { Text = "Inactivo", Value = "B" } }, new { onchange = "form.submit();" });
+            return htmlHelper.DropDownList("statusId", new List<SelectListItem>() { new SelectListItem { Text = "Todos", Value = "" },  new SelectListItem { Text = "Activo", Value = "A" }, new SelectListItem { Text = "Inactivo", Value = "B" } }, new { onchange = "form.submit();" });
         }
 
         public static MvcHtmlString FieldsAvailablesToFilter(this HtmlHelper htmlHelper)

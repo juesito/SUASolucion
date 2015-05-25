@@ -200,7 +200,7 @@ namespace SUAMVC.Controllers
             movimiento.fechaTransaccion = date;
             movimiento.tipo = "A";
             ViewBag.Asegurado = asegurado;
-            
+
 
             return View(movimiento);
         }
@@ -284,7 +284,7 @@ namespace SUAMVC.Controllers
         }
 
 
-        [HttpGet, ActionName("UploadFiles")]
+        [HttpPost, ActionName("UploadFiles")]
         public ActionResult UploadFiles(String[] ids)
         {
 
@@ -312,10 +312,11 @@ namespace SUAMVC.Controllers
 
                 return View(movimientoAsegurado);
             }
-            else {
+            else
+            {
                 return RedirectToAction("Index", "Asegurados");
             }
-            
+
         }
 
 
@@ -352,7 +353,7 @@ namespace SUAMVC.Controllers
                 if (Request.Files.Count > 0)
                 {
                     movimiento.acreditadoId = Int32.Parse(acreditadoId);
- /*                   movimiento.Acreditado = acreditado;*/
+                    /*                   movimiento.Acreditado = acreditado;*/
 
                     var file = Request.Files[0];
 
@@ -400,3 +401,4 @@ namespace SUAMVC.Controllers
         }
     }
 }
+

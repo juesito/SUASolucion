@@ -118,7 +118,7 @@ namespace SUAMVC.Controllers
 
                     if (!patron.registro.Equals(""))
                     {
-                        String plazaDescripcion = rows["CAR_SUB"].ToString();
+                        String plazaDescripcion = rows["CAR_ENT"].ToString();
                         if (!plazaDescripcion.Equals(""))
                         {
                             var plazaTemp = from b in db.Plazas
@@ -133,11 +133,13 @@ namespace SUAMVC.Controllers
                                 {
                                     plaza.id = plazaItem.id;
                                     plaza.descripcion = plazaItem.descripcion;
+                                    plaza.ind = "P";
                                     break;
                                 }//Definimos los valores para la plaza
                             }
                             else {
                                 plaza.descripcion = plazaDescripcion.Trim();
+                                plaza.ind = "P";
                                 db.Plazas.Add(plaza);
                                 db.SaveChanges();
 
@@ -195,7 +197,7 @@ namespace SUAMVC.Controllers
                     else
                     {
 
-                        String plazaDescripcion = rows["CAR_SUB"].ToString();
+                        String plazaDescripcion = rows["CAR_ENT"].ToString();
                         if (!plazaDescripcion.Equals(""))
                         {
                             var plazaTemp = from b in db.Plazas
@@ -210,12 +212,14 @@ namespace SUAMVC.Controllers
                                 {
                                     plaza.id = plazaItem.id;
                                     plaza.descripcion = plazaItem.descripcion;
+                                    plaza.ind = "P";
                                     break;
                                 }//Definimos los valores para la plaza
                             }
                             else
                             {
                                 plaza.descripcion = plazaDescripcion.Trim();
+                                plaza.ind = "P";
                                 db.Plazas.Add(plaza);
                                 db.SaveChanges();
 
@@ -303,7 +307,7 @@ namespace SUAMVC.Controllers
         }
 
 
-        public ActionResult GoAcreditados() {
+        public ActionResult GoAcreditados(String plazasId) {
 
             Usuario user = Session["UsuarioData"] as Usuario;
 
@@ -325,6 +329,20 @@ namespace SUAMVC.Controllers
                               id = p.Id,
                               DisplayText = p.registro.ToString() + " " + p.nombre.ToString()
                           };
+
+            if (!String.IsNullOrEmpty(plazasId))
+            {
+                int idPlaza = int.Parse(plazasId.Trim());
+                patrones = from p in db.Patrones
+                               where plazasAsignadas.Contains(idPlaza) && !p.direccionArchivo.Trim().Equals(null) && !p.direccionArchivo.Trim().Equals(String.Empty)
+                               && patronesAsignados.Contains(p.Id)
+                               select new
+                               {
+                                   id = p.Id,
+                                   DisplayText = p.registro.ToString() + " " + p.nombre.ToString()
+                               };
+            }
+
             
             var plazas = (from s in db.Plazas.ToList()
                           join top in db.TopicosUsuarios on s.id equals top.topicoId
@@ -638,6 +656,7 @@ namespace SUAMVC.Controllers
             Decimal valueToCalculate = Decimal.Parse(rows["VAL_DSC"].ToString());
             acreditado.sdi = Double.Parse(rows["SAL_IMSS"].ToString());
             Decimal sdi = Decimal.Parse(rows["SAL_IMSS"].ToString());
+            acreditado.smdv = Double.Parse(smdf.ToString());
 
 
             Decimal newValue = Decimal.Parse("0.0");
@@ -648,7 +667,7 @@ namespace SUAMVC.Controllers
                 // Descuento tipo porcentaje
                 acreditado.sd = 0;
                 acreditado.cuotaFija = 0;
-                acreditado.smdv = 0.0;
+//                acreditado.smdv = 0.0;
                 acreditado.vsm = 0;
                 acreditado.porcentaje = valueToCalculate / 100;
 
@@ -665,7 +684,7 @@ namespace SUAMVC.Controllers
                 // Descuento tipo cuota fija
                 acreditado.sd = 0;
                 acreditado.cuotaFija = valueToCalculate;
-                acreditado.smdv = 0.0;
+ //               acreditado.smdv = 0.0;
                 acreditado.vsm = 0;
                 acreditado.porcentaje = 0;
 
@@ -679,7 +698,7 @@ namespace SUAMVC.Controllers
                 // Descuento tipo VSM
                 acreditado.sd = 0;
                 acreditado.cuotaFija = 0;
-                acreditado.smdv = 0.0;
+ //               acreditado.smdv = 0.0;
                 acreditado.vsm = Math.Round(valueToCalculate, 3);
                 acreditado.porcentaje = 0;
                 newValue = valueToCalculate * smdf * 2;

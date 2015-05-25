@@ -334,9 +334,9 @@ table-fixed {
 
 .marqueeFilter {
     background-color:#F9F9F9;
-    min-height:100px;
+    min-height:150px;
     border-spacing:1.0rem;
-    min-height:70px;
+    min-height:80px;
     border:1px #2E538A solid;
     color: #2E538A;
     box-shadow: 10px 10px 1px #2E538A;
@@ -349,7 +349,7 @@ table-fixed {
 }
 
     .marqueeFilter table {
-        font-size:10px;    
+        font-size:11px;    
     }
 
     .marqueeFilter td {

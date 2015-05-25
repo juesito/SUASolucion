@@ -34,18 +34,18 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="font-weight:bold;">
+                        <td style="font-weight:bold; padding-top:10px">
                             Fecha Transacción:
                         </td>
-                        <td>
-                            @Html.EditorFor(model => model.movimiento.fechaTransaccion, new { htmlAttributes = new { @class = "form-control" } })
+                        <td style="padding-top:10px">
+                            @Html.EditorFor(model => model.movimiento.fechaTransaccion, new { htmlAttributes = new { @class = "myDate" } })
                         </td>
                     </tr>
                     <tr>
-                        <td style="font-weight:bold;">
+                        <td style="font-weight:bold; padding-top:10px">
                             @Html.DisplayName("Tipo Documento:")
                         </td>
-                        <td>
+                        <td style="padding-top:10px">
                             @Html.DropDownListFor(model => model.movimiento.tipo, new SelectList(new List<Object> {new {value = "A", text = "Alta"},
                new {value = "B", text = "Baja"},
                new {value = "M", text = "Modificación"},
@@ -54,10 +54,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="font-weight:bold;">
-                            Archivo Imagen:
+                        <td style="font-weight:bold;padding-top:15px">
+                            Archivo Imagen: 
                         </td>
-                        <td>
+                        <td style="padding-top:20px">
                             @FileUpload.GetHtml(initialNumberOfFiles: 1,
                 allowMoreFilesToBeAdded: false,
                 includeFormTag: true,
@@ -82,13 +82,11 @@
         ),
         
                         tableStyle: "table table-striped tableSua")
-    
-
-
+ 
             </div>
         }
     </div>
 </div>
 <div>
-    @Html.ActionLink("A Asegurados", "Index", "Asegurados")
+    @Html.ActionLink("Regresar", "Index", "Asegurados")
 </div>

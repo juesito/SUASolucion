@@ -11,8 +11,6 @@ namespace SUADATOS
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-using System.Globalization;
     
     public partial class Parametro
     {
@@ -20,11 +18,8 @@ using System.Globalization;
         public string parametroId { get; set; }
         public string descripcion { get; set; }
         public string valorString { get; set; }
-        [DisplayFormat(DataFormatString = "{0:C1}", ApplyFormatInEditMode = true)]
         public Nullable<decimal> valorMoneda { get; set; }
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> valorFecha { get; set; }
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime fechaCreacion { get; set; }
     }
 }

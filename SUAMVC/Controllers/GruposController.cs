@@ -57,7 +57,14 @@ namespace SUAMVC.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Plaza_id = new SelectList(db.Plazas, "id", "descripcion", grupos.Plaza_id);
+            ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
+                                               where s.ind.Equals("U")
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   descripcion = s.descripcion
+                                               }), "id", "descripcion", grupos.Plaza_id);
             return View(grupos);
         }
 
@@ -73,7 +80,14 @@ namespace SUAMVC.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Plaza_id = new SelectList(db.Plazas, "id", "descripcion", grupos.Plaza_id);
+            ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
+                                               where s.ind.Equals("U")
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   descripcion = s.descripcion
+                                               }), "id", "descripcion", grupos.Plaza_id);
             return View(grupos);
         }
 
@@ -90,7 +104,14 @@ namespace SUAMVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Plaza_id = new SelectList(db.Plazas, "id", "descripcion", grupos.Plaza_id);
+            ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
+                                               where s.ind.Equals("U")
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   descripcion = s.descripcion
+                                               }), "id", "descripcion", grupos.Plaza_id);
             return View(grupos);
         }
 

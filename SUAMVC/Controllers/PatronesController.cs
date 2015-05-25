@@ -30,8 +30,7 @@ namespace SUAMVC.Controllers
                                      select x.topicoId);
 
             var patrones = from s in db.Patrones
-                           where plazasAsignadas.Contains(s.Plaza_id) &&
-                                 patronesAsignados.Contains(s.Id)
+                           where patronesAsignados.Contains(s.Id)
                             select s;
                 
             if (!String.IsNullOrEmpty(plazasId))

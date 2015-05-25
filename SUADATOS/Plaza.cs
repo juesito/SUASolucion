@@ -27,6 +27,7 @@ namespace SUADATOS
         public int id { get; set; }
         public string descripcion { get; set; }
         public string cve { get; set; }
+        public string ind { get; set; }
     
         public virtual ICollection<Patrone> Patrones { get; set; }
         public virtual ICollection<Asegurado> Asegurados { get; set; }

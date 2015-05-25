@@ -64,7 +64,14 @@ namespace SUAMVC.Controllers
         // GET: Clientes/Create
         public ActionResult Create()
         {
-            ViewBag.Plaza_id = new SelectList(db.Plazas, "id", "descripcion");
+            ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
+                                               where s.ind.Equals("U")
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   descripcion = s.descripcion
+                                               }), "id", "descripcion");
             ViewBag.Grupo_id = new SelectList(db.Grupos, "id", "nombreCorto");
             return View();
         }
@@ -88,7 +95,14 @@ namespace SUAMVC.Controllers
                 }
             }
 
-            ViewBag.Plaza_id = new SelectList(db.Plazas, "id", "descripcion", cliente.Plaza_id);
+            ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
+                                               where s.ind.Equals("U")
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   descripcion = s.descripcion
+                                               }), "id", "descripcion", cliente.Plaza_id);
             ViewBag.Grupo_id = new SelectList(db.Grupos, "id", "nombreCorto", cliente.Grupo_id);
             return View(cliente);
         }
@@ -105,7 +119,14 @@ namespace SUAMVC.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Plaza_id = new SelectList(db.Plazas, "id", "descripcion", cliente.Plaza_id);
+            ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
+                                               where s.ind.Equals("U")
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   descripcion = s.descripcion
+                                               }), "id", "descripcion", cliente.Plaza_id);
             ViewBag.Grupo_id = new SelectList(db.Grupos, "id", "nombreCorto", cliente.Grupo_id);
             return View(cliente);
         }
@@ -123,7 +144,14 @@ namespace SUAMVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Plaza_id = new SelectList(db.Plazas, "id", "descripcion", cliente.Plaza_id);
+            ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
+                                               where s.ind.Equals("U")
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   descripcion = s.descripcion
+                                               }), "id", "descripcion", cliente.Plaza_id);
             ViewBag.Grupo_id = new SelectList(db.Grupos, "id", "nombreCorto", cliente.Grupo_id);
             return View(cliente);
         }
