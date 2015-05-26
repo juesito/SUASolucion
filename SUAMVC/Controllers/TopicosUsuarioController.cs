@@ -14,7 +14,14 @@ namespace SUAMVC.Controllers
         // GET: TopicosUsuario
         public ActionResult Index(String usuarioId, String topico)
         {
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "id", "nombreUsuario");
+
+            ViewBag.usuarioId = new SelectList((from s in db.Usuarios.ToList()
+                                                orderby s.nombreUsuario
+                                                select new
+                                                {
+                                                    id = s.Id,
+                                                    nombreUsuario = s.nombreUsuario
+                                                }).Distinct(), "id", "nombreUsuario");
 
             if (!String.IsNullOrEmpty(usuarioId))
             {
