@@ -329,4 +329,28 @@
     <value>Subir Acuse Masivo</value>
     <comment>Etiqueta para subir acuses de forma masiva</comment>
   </data>
+  <data name="agregar" xml:space="preserve">
+    <value>Agregar</value>
+    <comment>Etiqueta para agregar</comment>
+  </data>
+  <data name="borrar" xml:space="preserve">
+    <value>Borrar</value>
+    <comment>Etiqueta para borrar</comment>
+  </data>
+  <data name="detallesDe" xml:space="preserve">
+    <value>Detalles de</value>
+    <comment>Etiquetas para detalles de</comment>
+  </data>
+  <data name="factores" xml:space="preserve">
+    <value>Factores</value>
+    <comment>Etiqueta para Factores</comment>
+  </data>
+  <data name="funciones" xml:space="preserve">
+    <value>Funciones</value>
+    <comment>Etiqueta para funciones</comment>
+  </data>
+  <data name="modificar" xml:space="preserve">
+    <value>Modificar</value>
+    <comment>Etiqueta para modificar</comment>
+  </data>
 </root>

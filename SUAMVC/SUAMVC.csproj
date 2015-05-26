@@ -60,6 +60,7 @@
       <HintPath>..\packages\AntiXSS.4.2.1\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.Web.Helpers">
       <HintPath>..\packages\Microsoft.AspNet.WebHelpers.3.2.3\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
     </Reference>
@@ -246,6 +247,7 @@
     <Compile Include="Controllers\AseguradosController.cs" />
     <Compile Include="Controllers\catalogoMovimientosController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\FactoresController.cs" />
     <Compile Include="Controllers\FuncionesController.cs" />
     <Compile Include="Controllers\GruposController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -266,6 +268,7 @@
     </Compile>
     <Compile Include="Helpers\StatusDrownList.cs" />
     <Compile Include="Models\AseguradoMovimientosModel.cs" />
+    <Compile Include="Models\DatesHelper.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\MenuItem.cs" />
     <Compile Include="Models\ParametrosHelper.cs" />
@@ -379,6 +382,11 @@
     <Content Include="Views\Funciones\Details.cshtml" />
     <Content Include="Views\Funciones\Edit.cshtml" />
     <Content Include="Views\Funciones\Index.cshtml" />
+    <Content Include="Views\Factores\Create.cshtml" />
+    <Content Include="Views\Factores\Delete.cshtml" />
+    <Content Include="Views\Factores\Details.cshtml" />
+    <Content Include="Views\Factores\Edit.cshtml" />
+    <Content Include="Views\Factores\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -88,6 +88,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Agregar.
+        /// </summary>
+        public static string agregar {
+            get {
+                return ResourceManager.GetString("agregar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Apellido Materno.
         /// </summary>
         public static string apellidoMaterno {
@@ -111,6 +120,15 @@ namespace SUAMVC.Resources {
         public static string avisoRet {
             get {
                 return ResourceManager.GetString("avisoRet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Borrar.
+        /// </summary>
+        public static string borrar {
+            get {
+                return ResourceManager.GetString("borrar", resourceCulture);
             }
         }
         
@@ -295,6 +313,24 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Detalles de.
+        /// </summary>
+        public static string detallesDe {
+            get {
+                return ResourceManager.GetString("detallesDe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Factores.
+        /// </summary>
+        public static string factores {
+            get {
+                return ResourceManager.GetString("factores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error al intentar ingresar al SIAP.
         /// </summary>
         public static string failed_login {
@@ -349,6 +385,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Funciones.
+        /// </summary>
+        public static string funciones {
+            get {
+                return ResourceManager.GetString("funciones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Grupo.
         /// </summary>
         public static string grupo {
@@ -363,6 +408,15 @@ namespace SUAMVC.Resources {
         public static string Home_Title {
             get {
                 return ResourceManager.GetString("Home_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Modificar.
+        /// </summary>
+        public static string modificar {
+            get {
+                return ResourceManager.GetString("modificar", resourceCulture);
             }
         }
         

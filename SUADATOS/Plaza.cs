@@ -16,26 +16,24 @@ namespace SUADATOS
     {
         public Plaza()
         {
-            this.Patrones = new HashSet<Patrone>();
-            this.Asegurados = new HashSet<Asegurado>();
             this.Acreditados = new HashSet<Acreditado>();
             this.Clientes = new HashSet<Cliente>();
             this.Grupos = new HashSet<Grupos>();
+            this.Patrones = new HashSet<Patrone>();
             this.Usuarios = new HashSet<Usuario>();
+            this.Asegurados = new HashSet<Asegurado>();
         }
     
         public int id { get; set; }
         public string descripcion { get; set; }
-        public string cve { get; set; }
-        public string ind { get; set; }
-        public string cveCorta { get; set; }
+        public string cvecorta { get; set; }
         public string indicador { get; set; }
     
-        public virtual ICollection<Patrone> Patrones { get; set; }
-        public virtual ICollection<Asegurado> Asegurados { get; set; }
         public virtual ICollection<Acreditado> Acreditados { get; set; }
         public virtual ICollection<Cliente> Clientes { get; set; }
         public virtual ICollection<Grupos> Grupos { get; set; }
+        public virtual ICollection<Patrone> Patrones { get; set; }
         public virtual ICollection<Usuario> Usuarios { get; set; }
+        public virtual ICollection<Asegurado> Asegurados { get; set; }
     }
 }

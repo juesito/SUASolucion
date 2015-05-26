@@ -30,8 +30,6 @@ namespace SUADATOS
         public virtual DbSet<MovimientosAsegurado> MovimientosAseguradoes { get; set; }
         public virtual DbSet<Parametro> Parametros { get; set; }
         public virtual DbSet<Patrone> Patrones { get; set; }
-        public virtual DbSet<Plaza> Plazas { get; set; }
-        public virtual DbSet<Asegurado> Asegurados { get; set; }
         public virtual DbSet<Acreditado> Acreditados { get; set; }
         public virtual DbSet<Cliente> Clientes { get; set; }
         public virtual DbSet<Grupos> Grupos { get; set; }
@@ -43,5 +41,8 @@ namespace SUADATOS
         public virtual DbSet<RoleFuncion> RoleFuncions { get; set; }
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Funcion> Funcions { get; set; }
+        public virtual DbSet<Factore> Factores { get; set; }
+        public virtual DbSet<Plaza> Plazas { get; set; }
+        public virtual DbSet<Asegurado> Asegurados { get; set; }
     }
 }

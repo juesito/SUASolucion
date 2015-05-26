@@ -201,7 +201,7 @@ namespace SUAMVC.Controllers
                         asegurados = asegurados.Where(s => s.ocupacion.Contains(valor));
                         break;
                     case "12":
-                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cveCorta.Contains(valor));
+                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cvecorta.Contains(valor));
                         break;
                     case "13":
                         asegurados = asegurados.Where(s => s.extranjero.Contains(valor));
@@ -467,7 +467,7 @@ namespace SUAMVC.Controllers
                         asegurados = asegurados.Where(s => s.ocupacion.Contains(valor));
                         break;
                     case "12":
-                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cveCorta.Contains(valor));
+                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cvecorta.Contains(valor));
                         break;
                     case "13":
                         asegurados = asegurados.Where(s => s.extranjero.Contains(valor));

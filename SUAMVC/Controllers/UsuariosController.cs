@@ -63,6 +63,9 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                usuario.nombreUsuario = usuario.nombreUsuario.ToUpper();
+                usuario.apellidoMaterno = usuario.apellidoMaterno.ToUpper();
+                usuario.apellidoPaterno = usuario.apellidoPaterno.ToUpper();
                 db.Usuarios.Add(usuario);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -113,6 +116,9 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                usuario.nombreUsuario = usuario.nombreUsuario.ToUpper();
+                usuario.apellidoMaterno = usuario.apellidoMaterno.ToUpper();
+                usuario.apellidoPaterno = usuario.apellidoPaterno.ToUpper();
                 db.Entry(usuario).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

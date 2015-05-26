@@ -61,9 +61,9 @@ namespace SUADATOS
     
         public virtual Cliente Cliente { get; set; }
         public virtual Patrone Patrone { get; set; }
-        public virtual Plaza Plaza { get; set; }
         public virtual Acreditado Acreditados1 { get; set; }
         public virtual Acreditado Acreditado1 { get; set; }
         public virtual ICollection<Movimiento> Movimientos { get; set; }
+        public virtual Plaza Plaza { get; set; }
     }
 }

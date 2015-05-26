@@ -89,6 +89,9 @@ namespace SUAMVC.Controllers
 
                 if (clienteTemp == null)
                 {
+                    cliente.descripcion = cliente.descripcion.ToUpper();
+                    cliente.rfc = cliente.rfc.ToUpper();
+                    cliente.ejecutivo = cliente.ejecutivo.ToUpper();
                     db.Clientes.Add(cliente);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -140,6 +143,9 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                cliente.descripcion = cliente.descripcion.ToUpper();
+                cliente.rfc = cliente.rfc.ToUpper();
+                cliente.ejecutivo = cliente.ejecutivo.ToUpper();
                 db.Entry(cliente).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

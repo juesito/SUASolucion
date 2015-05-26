@@ -909,6 +909,7 @@ namespace SUAMVC.Controllers
                             {
                                 uploadIncapacidades(asegurado.Patrone.registro, asegurado.numeroAfiliacion, asegurado.id, path);
                                 uploadMovimientos(asegurado.Patrone.registro, asegurado.numeroAfiliacion, asegurado.id, path);
+                                accionesAdicionalesAsegurados(asegurado);
                             }
                         }
                         catch (DbEntityValidationException ex)
@@ -1188,6 +1189,68 @@ namespace SUAMVC.Controllers
             }
         }
 
+        /**
+         * Realizamos el calculo del salario diario y la fecha de entrada 
+         */
+        private void accionesAdicionalesAsegurados(Asegurado asegurado) {
+
+            int aseguradoId = asegurado.id;
+            DateTime ahora = DateTime.Now;
+
+            //obtenemos el ultimo reingreso, si existe.
+            var movTemp = (from s in db.MovimientosAseguradoes
+                                  .Where(s => s.aseguradoId.Equals(aseguradoId)
+                                   && s.catalogoMovimiento.tipo.Equals("08"))
+                                  .OrderBy(s => s.fechaInicio)
+                           select s).FirstOrDefault();
+
+            if (movTemp != null)
+            {
+                asegurado.fechaAlta = movTemp.fechaInicio;
+            }
+            
+
+            //obtenemos el ultimo movimiento para saber como se calcula
+            //el salario Diario.
+            movTemp = (from s in db.MovimientosAseguradoes
+                                  .Where(s => s.aseguradoId.Equals(aseguradoId))
+                                  .OrderBy(s => s.fechaInicio)
+                           select s).FirstOrDefault();
+
+            if (movTemp != null)
+            {
+
+                if (movTemp.catalogoMovimiento.tipo.Trim().Equals("08"))
+                {
+                    asegurado.salarioDiario = Decimal.Parse(movTemp.sdi.Trim());
+                }
+                else if (movTemp.catalogoMovimiento.tipo.Trim().Equals("01") || movTemp.catalogoMovimiento.tipo.Trim().Equals("07"))
+                {
+                    long annos = DatesHelper.DateDiffInYears(asegurado.fechaAlta, ahora);
+                    if (annos.Equals(0)) {
+                        annos = 1;
+                    }
+                    Factore factor = (db.Factores.Where(x => x.anosTrabajados == annos).FirstOrDefault());
+                    if (factor != null)
+                    {
+                        asegurado.salarioDiario = Decimal.Parse(movTemp.sdi.Trim()) / factor.factorIntegracion;
+                    }
+                    else
+                    {
+                        asegurado.salarioDiario = 0;
+                    }
+                }
+                else if (movTemp.catalogoMovimiento.tipo.Trim().Equals("02"))
+                {
+                    asegurado.salarioDiario = 0;
+
+                }
+
+                db.Entry(asegurado).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+        } 
         protected override void Dispose(bool disposing)
         {
             if (disposing)

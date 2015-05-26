@@ -63,6 +63,9 @@
     <Compile Include="Cliente.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Factore.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Funcion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

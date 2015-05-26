@@ -16,8 +16,8 @@ namespace SUADATOS
     {
         public Patrone()
         {
-            this.Asegurados = new HashSet<Asegurado>();
             this.Acreditados = new HashSet<Acreditado>();
+            this.Asegurados = new HashSet<Asegurado>();
         }
     
         public int Id { get; set; }
@@ -47,8 +47,8 @@ namespace SUADATOS
         public int Plaza_id { get; set; }
         public string direccionArchivo { get; set; }
     
+        public virtual ICollection<Acreditado> Acreditados { get; set; }
         public virtual Plaza Plaza { get; set; }
         public virtual ICollection<Asegurado> Asegurados { get; set; }
-        public virtual ICollection<Acreditado> Acreditados { get; set; }
     }
 }
