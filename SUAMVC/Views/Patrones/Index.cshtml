@@ -17,7 +17,7 @@
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
     gridColumns.Add(grid.Column("registro", "Registro Patronal", @<text><div style='width: 8em'>@item.registro</div></text> , null, canSort: true));
-    gridColumns.Add(grid.Column("Plaza.cveCorta", "ID Plaza", @<text><div style='width: 4em'>@item.Plaza.cveCorta</div></text> , null, canSort: true));
+    gridColumns.Add(grid.Column("Plaza.cvecorta", "ID Plaza", @<text><div style='width: 4em'>@item.Plaza.cvecorta</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("rfc", "RFC", @<text><div style='width: 9em'>@item.rfc</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("nombre", "Nombre", @<text><div style='width: 32em'>@item.nombre</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("telefono", "Teléfono", @<text><div style='width: 7em'>@item.telefono</div></text> , null, canSort: true));

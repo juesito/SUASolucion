@@ -14,6 +14,8 @@
     {
         buscar = TempData["buscador"] as String;
     }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    
     Layout = "~/Views/Shared/_Layout.cshtml";
     var grid = new WebGrid(source: Model, rowsPerPage: 12);
     @functions {
@@ -99,13 +101,13 @@
                         <b>@Language.plaza:</b>
                     </td>
                     <td>
-                        @Html.DropDownList("plazasId", null, new { onchange="submit()"})
+                        @Html.plazasDrownList(usuario.Id)
                     </td>
                     <td>
                         <b>@Language.patron:</b>
                     </td>
                     <td>
-                        @Html.DropDownList("patronesId", null, new { onchange = "submit()" })
+                        @Html.patronesDrownList(usuario.Id)
                     </td>
                     <td>
                         <b>@Language.grupo:</b>
@@ -147,7 +149,7 @@
                 <thead>
                     <tr>
 
-                        <td style="padding-right:10px; rowspan="2">
+                        <td style="padding-right:10px;" rowspan="2">
                             <a href="@Url.Action("ActivaVariable", "Asegurados", new
                             {
                                 buscador = @TempData["buscador"], plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,

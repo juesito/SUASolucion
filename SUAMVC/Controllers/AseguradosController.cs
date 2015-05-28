@@ -71,37 +71,15 @@ namespace SUAMVC.Controllers
                                    && x.tipo.Equals("P")
                                    select x.topicoId);
 
-            var clientesAsignados = (from x in db.TopicosUsuarios
-                                     where x.usuarioId.Equals(user.Id)
-                                     && x.tipo.Equals("C")
-                                     select x.topicoId);
-   
             var patronesAsignados = (from x in db.TopicosUsuarios
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("B")
                                      select x.topicoId); 
 
-            //DrownList Plazas
-            ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
-                                               join top in db.TopicosUsuarios on s.id equals top.topicoId
-                                               where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
-                                               orderby s.descripcion
-                                               select new
-                                               {
-                                                   id = s.id,
-                                                   FUllName = s.descripcion
-                                               }).Distinct(), "id", "FullName");
-
-            //DrownList Patrones
-            ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
-                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
-                                                 where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id)
-                                                 orderby s.registro
-                                                 select new
-                                                 {
-                                                     id = s.Id,
-                                                     FullName = s.registro + " - " + s.nombre
-                                                 }).Distinct(), "id", "FullName", null);
+            var clientesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("C")
+                                     select x.topicoId);
 
             //DrownList Clientes
             ViewBag.clientesId = new SelectList((from s in db.Clientes.ToList()

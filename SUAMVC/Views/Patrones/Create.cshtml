@@ -5,7 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
+@section Menu {
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" />@Language.bt_register @Language.patron</div>
+}
 
 @using (Html.BeginForm()) 
 {
