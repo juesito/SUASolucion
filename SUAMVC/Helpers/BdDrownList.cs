@@ -38,7 +38,7 @@ namespace SUAMVC.Helpers
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
-            return htmlHelper.DropDownList("patronesId", listFields, new { onchange = "submit()" });
+            return htmlHelper.DropDownList("plazasId", listFields, new { onchange = "submit()" });
         }
         /*
          * DrownList para las patrones
@@ -69,7 +69,7 @@ namespace SUAMVC.Helpers
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
-            return htmlHelper.DropDownList("plazasId", listFields, new { onchange = "submit()" });
+            return htmlHelper.DropDownList("patronesId", listFields, new { onchange = "submit()" });
         }
 
         public static MvcHtmlString clientesDrownList(this HtmlHelper htmlHelper, int userId)
