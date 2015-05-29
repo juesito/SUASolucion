@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Data.OleDb;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -508,8 +509,36 @@ namespace SUAMVC.Controllers
                         {
                             acreditado.Cliente = (Cliente)clienteTemp;
                             acreditado.clienteId = clienteTemp.Id;
-                        }else
-                            acreditado.clienteId = 0;
+                        }
+                        else
+                        {
+                            Cliente clienteNuevo = new Cliente();
+                            clienteNuevo.claveCliente = cliente;
+                            clienteNuevo.rfc = "PENDIENTE";
+                            clienteNuevo.claveSua = "PENDIENTE";
+                            clienteNuevo.descripcion = "PENDIENTE";
+                            clienteNuevo.ejecutivo = "PENDIENTE";
+                            clienteNuevo.Plaza_id = 1;
+                            clienteNuevo.Grupo_id = 1;
+
+                            try
+                            {
+                                db.Clientes.Add(clienteNuevo);
+                                db.SaveChanges();
+                                acreditado.clienteId = clienteNuevo.Id;
+                            }
+                            catch (DbEntityValidationException dbEx)
+                            {
+                                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                                {
+                                    foreach (var validationError in validationErrors.ValidationErrors)
+                                    {
+                                        Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                                    }
+                                }
+                            }
+
+                        }
 
                         String nombrePattern = rows["NOM_ASEG"].ToString();
                         nombrePattern = nombrePattern.Replace("$", ",");
@@ -839,7 +868,34 @@ namespace SUAMVC.Controllers
                             asegurado.Cliente = (Cliente)clienteTemp;
                             asegurado.ClienteId = clienteTemp.Id;
                         }else
-                            asegurado.ClienteId = 0;
+                        {
+                            Cliente clienteNuevo = new Cliente();
+                            clienteNuevo.claveCliente = cliente;
+                            clienteNuevo.rfc = "PENDIENTE";
+                            clienteNuevo.claveSua = "PENDIENTE";
+                            clienteNuevo.descripcion = "PENDIENTE";
+                            clienteNuevo.ejecutivo = "PENDIENTE";
+                            clienteNuevo.Plaza_id = 1;
+                            clienteNuevo.Grupo_id = 1;
+
+                            try
+                            {
+                                db.Clientes.Add(clienteNuevo);
+                                db.SaveChanges();
+                                asegurado.ClienteId = clienteNuevo.Id;
+                            }
+                            catch (DbEntityValidationException dbEx)
+                            {
+                                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                                {
+                                    foreach (var validationError in validationErrors.ValidationErrors)
+                                    {
+                                        Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                                    }
+                                }
+                            }
+
+                        }
 
                         asegurado.nombreTemporal = rows["TMP_NOM"].ToString();
 
@@ -1209,7 +1265,6 @@ namespace SUAMVC.Controllers
                 asegurado.fechaAlta = movTemp.fechaInicio;
             }
             
-
             //obtenemos el ultimo movimiento para saber como se calcula
             //el salario Diario.
             movTemp = (from s in db.MovimientosAseguradoes
@@ -1219,7 +1274,9 @@ namespace SUAMVC.Controllers
 
             if (movTemp != null)
             {
-
+                if (asegurado.salarioDiario == null) {
+                    asegurado.salarioDiario = 0;
+                }
                 if (movTemp.catalogoMovimiento.tipo.Trim().Equals("08"))
                 {
                     asegurado.salarioDiario = Decimal.Parse(movTemp.sdi.Trim());
@@ -1248,6 +1305,20 @@ namespace SUAMVC.Controllers
 
                 db.Entry(asegurado).State = EntityState.Modified;
                 db.SaveChanges();
+
+                Acreditado acreditado = (from s in db.Acreditados
+                                         where s.PatroneId == asegurado.PatroneId
+                                            && s.numeroAfiliacion.Equals(asegurado.numeroAfiliacion)
+                                         select s).FirstOrDefault();
+
+                if (acreditado != null)
+                {
+                    acreditado.fechaAlta = asegurado.fechaAlta;
+                    acreditado.sd = Decimal.Parse(asegurado.salarioDiario.ToString());
+
+                    db.Entry(acreditado).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
             }
 
         } 
