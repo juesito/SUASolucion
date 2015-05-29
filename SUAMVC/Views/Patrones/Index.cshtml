@@ -1,12 +1,14 @@
 ﻿@model IEnumerable<SUADATOS.Patrone>
 @using System.Text;
 @using SUAMVC.Models
+@using SUADATOS;
 
 @{
     if (!WebSecurity.IsAuthenticated)
     {
         Response.Redirect("~/Home/Index");
     }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var grid = new WebGrid(source: Model, canPage: false);
@@ -45,12 +47,12 @@
 }
 
 @section Menu {
-    <div>Catalogo de Patrones <img src="~/Content/Images/boss.png" width="15" height="15" /></div>
+    <div>@Language.catde @Language.patron <img src="~/Content/Images/boss.png" width="15" height="15" /></div>
 }
 @using (Html.BeginForm())
 {
     <p>
-        Plaza: @Html.DropDownList("plazasId", "Seleccione Plaza")  
+        @Language.plaza: @Html.plazasDrownList(usuario.Id)
 
         <input type="submit" value="Consultar" class="btn btn-success" />
     </p>

@@ -113,13 +113,13 @@
                         <b>@Language.grupo:</b>
                     </td>
                     <td>
-                        @Html.DropDownList("gruposId", null, new { onchange = "submit()" })
+                        @Html.gruposDrownList(usuario.Id)
                     </td>
                     <td>
                         <b>@Language.cliente:</b>
                     </td>
                     <td>
-                        @Html.DropDownList("clientesId", null, new { onchange = "submit()" })
+                        @Html.clientesDrownList(usuario.Id)
                     </td>
                 </tr>
             </thead>

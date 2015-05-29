@@ -95,9 +95,9 @@ namespace SUAMVC.Controllers
                             //    topicoTemp2.ToList().ForEach(x => tpum.topicosPorUsuario.Add(new Topico(x.Id, x.descripcion)));
                         }
                         var topicoTemp3 = (from t in db.Clientes
-                                       where tai.Contains(t.Id)
-                                       orderby t.descripcion
-                                       select new { t.Id, t.descripcion }).ToList();
+                                           where tai.Contains(t.Id)
+                                           orderby t.descripcion
+                                           select new { t.Id, t.descripcion }).ToList();
                         topicoTemp3.ToList().ForEach(x => tpum.topicosPorUsuario.Add(new Topico(x.Id, x.descripcion)));
                         break;
                     //Patrones
@@ -108,22 +108,46 @@ namespace SUAMVC.Controllers
                                               where !tai.Contains(t.Id)
                                               orderby t.nombre
                                               select new { t.Id, t.nombre, t.registro }).ToList();
-                            topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.registro+" - "+x.nombre)));
+                            topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.registro + " - " + x.nombre)));
 
 
                         }
                         else
                         {
                             var topicoTemp = (from t in db.Patrones
-                                              select new { t.Id, t.nombre, t.registro}).ToList();
-                            topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.registro+" - "+x.nombre)));
+                                              select new { t.Id, t.nombre, t.registro }).ToList();
+                            topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.registro + " - " + x.nombre)));
 
                         }
                         var topicoTemp4 = (from t in db.Patrones
-                                       where tai.Contains(t.Id)
-                                       orderby t.nombre
-                                       select new { t.Id, t.nombre, t.registro }).ToList();
-                        topicoTemp4.ToList().ForEach(x => tpum.topicosPorUsuario.Add(new Topico(x.Id, x.registro+" - "+x.nombre)));
+                                           where tai.Contains(t.Id)
+                                           orderby t.nombre
+                                           select new { t.Id, t.nombre, t.registro }).ToList();
+                        topicoTemp4.ToList().ForEach(x => tpum.topicosPorUsuario.Add(new Topico(x.Id, x.registro + " - " + x.nombre)));
+                        break;
+                    case "G":
+                        if (tai.Count() > 0)
+                        {
+                            var topicoTemp = (from t in db.Grupos
+                                              where !tai.Contains(t.Id)
+                                              orderby t.nombre
+                                              select new { t.Id, t.claveGrupo, t.nombre }).ToList();
+                            topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.claveGrupo + " - " + x.nombre)));
+
+
+                        }
+                        else
+                        {
+                            var topicoTemp = (from t in db.Grupos
+                                              select new { t.Id, t.claveGrupo, t.nombre }).ToList();
+                            topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.claveGrupo + " - " + x.nombre)));
+
+                        }
+                        var topicoTemp5 = (from t in db.Grupos
+                                           where tai.Contains(t.Id)
+                                           orderby t.nombre
+                                           select new { t.Id, t.claveGrupo, t.nombre }).ToList();
+                        topicoTemp5.ToList().ForEach(x => tpum.topicosPorUsuario.Add(new Topico(x.Id, x.claveGrupo + " - " + x.nombre)));
                         break;
                     default:
                         break;

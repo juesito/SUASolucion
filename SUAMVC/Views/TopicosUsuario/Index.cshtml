@@ -53,7 +53,7 @@
 }
 @using (Html.BeginForm())
 {
-    <p>Usuario:@Html.DropDownList("usuarioId", "Seleccione") Topico: @Html.DropDownList("topico", new List<SelectListItem>() { new SelectListItem { Text = "Seleccione", Value = "" }, new SelectListItem { Text = "Cliente", Value = "C" }, new SelectListItem { Text = "Patrones", Value = "B" }, new SelectListItem { Text = "Plaza", Value = "P" } })</p>
+    <p>Usuario:@Html.DropDownList("usuarioId", "Seleccione") Topico: @Html.topicosList()</p>
     <input class="btn btn-success" type="submit" value="Buscar" />
 }
 
@@ -75,6 +75,10 @@
                 else if (@vTopico.Equals("B"))
                 {
                     <p>Patrones sin Asignar</p>
+                }
+                else if (@vTopico.Equals("G"))
+                {
+                    <p>Grupos sin Asignar</p>
                 }
                 </div>
                 <div class="panel-body">
@@ -102,6 +106,10 @@
                     <p>Clientes Asignadas</p>
                 }else if(@vTopico.Equals("B")){
                     <p>Patrones Asignadas</p>
+                }
+                else if (@vTopico.Equals("G"))
+                {
+                    <p>Grupos Asignadas</p>
                 }</div>
                 <div class="panel-body">
                     <div id="lcontenedor-interno">

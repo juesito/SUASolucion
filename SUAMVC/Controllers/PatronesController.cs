@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace SUAMVC.Controllers
 {
@@ -19,11 +21,6 @@ namespace SUAMVC.Controllers
         {
             Usuario user = Session["UsuarioData"] as Usuario;
 
-            var plazasAsignadas = (from x in db.TopicosUsuarios
-                                   where x.usuarioId.Equals(user.Id)
-                                   && x.tipo.Equals("P")
-                                   select x.topicoId);
-
             var patronesAsignados = (from x in db.TopicosUsuarios
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("B")
@@ -31,29 +28,16 @@ namespace SUAMVC.Controllers
 
             var patrones = from s in db.Patrones
                            where patronesAsignados.Contains(s.Id)
-                            select s;
-                
+                           select s;
+
             if (!String.IsNullOrEmpty(plazasId))
             {
                 int plazaIdTemp = int.Parse(plazasId);
                 patrones = patrones.Where(p => p.Plaza.id.Equals(plazaIdTemp));
             }
- //           else {
- //               patrones = db.Patrones.Include(p => p.Plaza);
- //           }
 
             patrones.OrderBy(p => p.nombre);
 
-            ViewBag.PlazasId = new SelectList((from s in db.Plazas.ToList()
-                                               join top in db.TopicosUsuarios on s.id equals top.topicoId
-                                               where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
-                                               orderby s.descripcion
-                                               select new
-                                               {
-                                                   id = s.id,
-                                                   FUllName = s.descripcion
-                                               }).Distinct(), "id", "FullName");
-            
             return View(patrones.ToList());
         }
 
@@ -84,12 +68,26 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,rfc,nombre,actividad,domicilio,municipio,codigoPostal,entidad,telefono,remision,zona,delegacion,carEnt,numeroDelegacion,carDel,numSub,tipoConvenio,convenio,inicioAfiliacion,patRep,clase,fraccion,STyPS,Plaza_id,registro, direccionArchivo")] Patrone patrone)
+        public ActionResult Create([Bind(Include = "Id,registro,rfc,nombre,actividad,domicilio,municipio,codigoPostal,entidad,telefono,remision,zona,delegacion,carEnt,numeroDelegacion,carDel,numSub,tipoConvenio,convenio,inicioAfiliacion,patRep,clase,fraccion,STyPS,Plaza_id,direccionArchivo")] Patrone patrone)
         {
             if (ModelState.IsValid)
             {
-                db.Patrones.Add(patrone);
-                db.SaveChanges();
+                try
+                {
+                    patrone.nombre = patrone.nombre.ToUpper();
+                    db.Patrones.Add(patrone);
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                        }
+                    }
+                }
                 return RedirectToAction("Index");
             }
 
@@ -118,7 +116,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,rfc,nombre,actividad,domicilio,municipio,codigoPostal,entidad,telefono,remision,zona,delegacion,carEnt,numeroDelegacion,carDel,numSub,tipoConvenio,convenio,inicioAfiliacion,patRep,clase,fraccion,STyPS,Plaza_id,registro, direccionArchivo")] Patrone patrone)
+        public ActionResult Edit([Bind(Include = "Id,registro,rfc,nombre,actividad,domicilio,municipio,codigoPostal,entidad,telefono,remision,zona,delegacion,carEnt,numeroDelegacion,carDel,numSub,tipoConvenio,convenio,inicioAfiliacion,patRep,clase,fraccion,STyPS,Plaza_id,direccionArchivo")] Patrone patrone)
         {
             if (ModelState.IsValid)
             {

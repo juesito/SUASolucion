@@ -81,35 +81,18 @@ namespace SUAMVC.Controllers
                                      && x.tipo.Equals("C")
                                      select x.topicoId);
 
-            //DrownList Clientes
-            ViewBag.clientesId = new SelectList((from s in db.Clientes.ToList()
-                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
-                                                 where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
-                                                 orderby s.descripcion
-                                                 select new
-                                                 {
-                                                     id = s.Id,
-                                                     FUllName = s.claveCliente + " - " + s.descripcion
-                                                 }).Distinct(), "id", "FullName");
-
-            //DrownList Grupos
-            ViewBag.gruposId = new SelectList((from s in db.Grupos.ToList()
-                                               join cli in db.Clientes on s.Id equals cli.Grupo_id
-                                               join top in db.TopicosUsuarios on cli.Id equals top.topicoId
-                                               where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
-                                               orderby s.claveGrupo
-                                               select new
-                                               {
-                                                   id = s.Id,
-                                                   FUllName = s.claveGrupo + " - " + s.nombreCorto
-                                               }).Distinct(), "id", "FullName");
+            var gruposAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("G")
+                                     select x.topicoId);
 
             //Query principal
             var asegurados = from s in db.Asegurados
                              join cli in db.Clientes on s.ClienteId equals cli.Id
                              where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
                                    clientesAsignados.Contains(s.Cliente.Id) &&
-                                   patronesAsignados.Contains(s.PatroneId)
+                                   patronesAsignados.Contains(s.PatroneId) &&
+                                   gruposAsignados.Contains(s.PatroneId)
                              select s;
 
             //Comenzamos los filtros
