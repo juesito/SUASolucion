@@ -187,33 +187,34 @@
     </div>
 
 
-                    //Etiqueta de No. de registros
-                    if (ViewBag.registros != null)
-                    {
-                        <div style="column-span:inherit; height:20px; font-size:10px; text-align:center; padding-top:10px">
-                            <div style="margin-right:4px;display:inline-block;vertical-align:top;">
-                                <p style="font-weight:bold">Registros: @Html.Label(Language.registros, Convert.ToString((int)ViewBag.registros))</p>
-                            </div>
-                            @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
-                            {
+                        //Etiqueta de No. de registros
+                        if (ViewBag.registros != null)
+                        {
+                            <div style="column-span:inherit; height:20px; font-size:10px; text-align:center; padding-top:10px">
                                 <div style="margin-right:4px;display:inline-block;vertical-align:top;">
-                                    <p style="font-weight:bold">
-                                        Activos:
-                                        @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
-                                    </p>
+                                    <p style="font-weight:bold">Registros: @Html.Label(Language.registros, Convert.ToString((int)ViewBag.registros))</p>
                                 </div>
-                            }
-                            <div style="display:inline-block;">
-                                @Html.SearchStatusList()
+                                @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
+                                {
+                                    <div style="margin-right:4px;display:inline-block;vertical-align:top;">
+                                        <p style="font-weight:bold">
+                                            Activos:
+                                            @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
+                                        </p>
+                                    </div>
+                                }
+                                <div style="display:inline-block;">
+                                    @Html.SearchStatusList()
+                                </div>
                             </div>
-                        </div>
-                    }
-                    //Tabla de resultados
-                    if (!tableHtml.IsEmpty())
-                    {
-                        <div class="table-container">
-                            @Html.Raw(tableHtml)
-                        </div>
-                    }
+                        }
+                        //Tabla de resultados
+                        if (!tableHtml.IsEmpty())
+                        {
+                            <div id="table-container" class="table-container">
+                                @Html.Raw(tableHtml)
+                            </div>
+                        }
 }
+
 
