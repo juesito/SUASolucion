@@ -144,7 +144,7 @@ namespace SUAMVC.Controllers
                         }
 
                         //var fileName = Path.GetFileName(file.FileName);
-                        var fileName = file.FileName;
+                        var fileName = "Acuse" + Path.GetExtension(file.FileName.Trim());
                         var pathFinal = Path.Combine(path, fileName);
                         file.SaveAs(pathFinal);
 
@@ -243,7 +243,7 @@ namespace SUAMVC.Controllers
                             }
 
                             //var fileName = Path.GetFileName(file.FileName);
-                            var fileName = file.FileName;
+                            var fileName = "Acuse" + Path.GetExtension(file.FileName.Trim());
                             var pathFinal = Path.Combine(path, fileName);
                             file.SaveAs(pathFinal);
 
@@ -366,7 +366,7 @@ namespace SUAMVC.Controllers
                         }
 
                         //var fileName = Path.GetFileName(file.FileName);
-                        var fileName = file.FileName;
+                        var fileName = "Acuse" + Path.GetExtension(file.FileName.Trim());
                         var pathFinal = Path.Combine(path, fileName);
                         file.SaveAs(pathFinal);
 
