@@ -15,7 +15,7 @@
         buscar = TempData["buscador"] as String;
     }
     Usuario usuario = Session["UsuarioData"] as Usuario;
-    
+
     Layout = "~/Views/Shared/_Layout.cshtml";
     var grid = new WebGrid(source: Model, rowsPerPage: 12);
     @functions {
@@ -38,8 +38,10 @@
     gridColumns.Add(grid.Column("rfc", "RFC", null, null, true));
     gridColumns.Add(grid.Column("nombreTemporal", "Nombre", @<text><div style='width: 25em'>@item.nombreTemporal</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("fechaAlta", "Fecha Alta", @<text><div style='width: 6em'>@item.fechaAlta.ToString("dd-MM-yyyy")     </div></text>, null, canSort: true));
-    gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", @<text><div style='width: 6em'>@if (@item.fechaBaja != null)
-    { @item.fechaBaja.ToString("dd-MM-yyyy")}</div></text>, null, canSort: true));
+    gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", @<text><div style='width: 6em'>
+            @if (@item.fechaBaja != null)
+            { @item.fechaBaja.ToString("dd-MM-yyyy")}
+</div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("salarioImss", "Salario IMSS", format: @<text>@item.salarioImss.ToString("0.00")</text>, canSort: true));
     gridColumns.Add(grid.Column("Cliente.claveCliente", "Ubicación", format: @<text> @if (@item.Cliente != null)
     {@item.Cliente.claveCliente}</text>, canSort: true));
@@ -56,8 +58,10 @@
 
     if (SecurityUserModel.verificarPermiso("Asegurados", "Ver columna modificacion"))
     {
-        gridColumns.Add(grid.Column("fechaModificacion", "Fecha Modificación", @<text><div style='width: 13em'>@if (@item.fechaModificacion != null)
-        { @item.fechaModificacion}</div></text>, null, canSort: true));
+        gridColumns.Add(grid.Column("fechaModificacion", "Fecha Modificación", @<text><div style='width: 13em'>
+                @if (@item.fechaModificacion != null)
+                { @item.fechaModificacion}
+    </div></text>, null, canSort: true));
     }
 
     gridColumns.Add(grid.Column(header: "Alta", format:@<text><a href="@Url.Action("ViewAttachment", "Asegurados", new { id = item.id, option = "A", carga = item.alta })" target="_blank">@ShowPDF(item.alta)</a></text>));
@@ -187,24 +191,24 @@
                         //Etiqueta de No. de registros
                         if (ViewBag.registros != null)
                         {
-                        <div style="column-span:inherit; height:20px; font-size:10px; text-align:center; padding-top:10px">
-                            <div style="margin-right:4px;display:inline-block;vertical-align:top;">
-                                <p style="font-weight:bold">Registros: @Html.Label(Language.registros, Convert.ToString((int)ViewBag.registros))</p>
-                            </div>
-                            @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
-                            {
+                            <div style="column-span:inherit; height:20px; font-size:10px; text-align:center; padding-top:10px">
                                 <div style="margin-right:4px;display:inline-block;vertical-align:top;">
-                                    <p style="font-weight:bold">
-                                        Activos:
-                                        @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
-                                    </p>
+                                    <p style="font-weight:bold">Registros: @Html.Label(Language.registros, Convert.ToString((int)ViewBag.registros))</p>
                                 </div>
-                            }
-                            <div style="display:inline-block;">
-                                @Html.SearchStatusList()
+                                @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
+                                {
+                                    <div style="margin-right:4px;display:inline-block;vertical-align:top;">
+                                        <p style="font-weight:bold">
+                                            Activos:
+                                            @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
+                                        </p>
+                                    </div>
+                                }
+                                <div style="display:inline-block;">
+                                    @Html.SearchStatusList()
+                                </div>
                             </div>
-                        </div>
-                    }
+                        }
 }
 
 
@@ -222,4 +226,5 @@
 
 
 }
+
 

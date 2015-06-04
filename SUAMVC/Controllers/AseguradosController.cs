@@ -54,14 +54,14 @@ namespace SUAMVC.Controllers
             }
 
         }
-        
+
         // GET: Aseguradoes
         public ActionResult Index(String plazasId, String patronesId, String clientesId,
             String gruposId, String currentPlaza, String currentPatron, String currentCliente,
             String currentGrupo, String opcion, String valor, String statusId, int page = 1, String sortOrder = null,
             String lastSortOrder = null)
         {
-            
+
             Usuario user = Session["UsuarioData"] as Usuario;
 
             setVariables(plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId);
@@ -74,17 +74,19 @@ namespace SUAMVC.Controllers
             var patronesAsignados = (from x in db.TopicosUsuarios
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("B")
-                                     select x.topicoId); 
+                                     select x.topicoId);
 
             var clientesAsignados = (from x in db.TopicosUsuarios
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("C")
                                      select x.topicoId);
 
-            var gruposAsignados = (from x in db.TopicosUsuarios
-                                     where x.usuarioId.Equals(user.Id)
-                                     && x.tipo.Equals("G")
-                                     select x.topicoId);
+            var gruposAsignados = (from s in db.Grupos
+                                   join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                   join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                   orderby s.claveGrupo
+                                   select s.Id);
 
             //Query principal
             var asegurados = from s in db.Asegurados
@@ -92,7 +94,7 @@ namespace SUAMVC.Controllers
                              where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
                                    clientesAsignados.Contains(s.Cliente.Id) &&
                                    patronesAsignados.Contains(s.PatroneId) &&
-                                   gruposAsignados.Contains(s.PatroneId)
+                                   gruposAsignados.Contains(s.Cliente.Grupo_id)
                              select s;
 
             //Comenzamos los filtros
@@ -215,7 +217,7 @@ namespace SUAMVC.Controllers
             {
                 Asegurado asegurado = db.Asegurados.Find(id);
                 var movtosTemp = db.Movimientos.Where(x => x.aseguradoId == id
-                                 && x.tipo.Equals(option)).OrderByDescending(x => x.fechaTransaccion).ToList(); 
+                                 && x.tipo.Equals(option)).OrderByDescending(x => x.fechaTransaccion).ToList();
 
                 Movimiento movto = new Movimiento();
                 if (movtosTemp != null && movtosTemp.Count > 0)
@@ -239,7 +241,8 @@ namespace SUAMVC.Controllers
                         return RedirectToAction("Index");
                     }
                 }
-                else {
+                else
+                {
                     return RedirectToAction("Index");
                 }
             }
@@ -330,7 +333,7 @@ namespace SUAMVC.Controllers
         }
 
         [HttpGet]
-        public void GetExcel(String plazasId, String patronesId, String clientesId, 
+        public void GetExcel(String plazasId, String patronesId, String clientesId,
             String gruposId, String opcion, String valor, String statusId)
         {
 
@@ -378,7 +381,7 @@ namespace SUAMVC.Controllers
                 int idCliente = int.Parse(clientesId.Trim());
                 asegurados = asegurados.Where(s => s.Cliente.Id.Equals(idCliente));
             }
-            
+
             if (!String.IsNullOrEmpty(gruposId))
             {
                 @ViewBag.gpoId = gruposId;
@@ -456,14 +459,14 @@ namespace SUAMVC.Controllers
 
             WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
 
-            List<WebGridColumn> gridColumns =  new List<WebGridColumn>();
+            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
             gridColumns.Add(grid.Column("Patrone.registro", "Registro "));
             gridColumns.Add(grid.Column("numeroAfiliacion", "Numero Afiliacion"));
             gridColumns.Add(grid.Column("curp", "CURP"));
             gridColumns.Add(grid.Column("rfc", "RFC"));
             gridColumns.Add(grid.Column("nombreTemporal", "Nombre"));
             gridColumns.Add(grid.Column("fechaAlta", "Alta", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
-            gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => item.fechaBaja!=null ? String.Format("{0:yyyy-MM-dd}", item.fechaBaja) : String.Empty ));
+            gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => item.fechaBaja != null ? String.Format("{0:yyyy-MM-dd}", item.fechaBaja) : String.Empty));
             gridColumns.Add(grid.Column("Cliente.claveCliente", "Cliente"));
             gridColumns.Add(grid.Column("Cliente.Grupos.nombreCorto", "Grupo"));
             gridColumns.Add(grid.Column("Cliente.Plaza.cveCorta", "Plaza"));
@@ -532,3 +535,4 @@ namespace SUAMVC.Controllers
 
     }
 }
+
