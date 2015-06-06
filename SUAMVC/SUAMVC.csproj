@@ -388,6 +388,7 @@
     <Content Include="Views\Factores\Details.cshtml" />
     <Content Include="Views\Factores\Edit.cshtml" />
     <Content Include="Views\Factores\Index.cshtml" />
+    <Content Include="Views\Upload\OnlyUploadFile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

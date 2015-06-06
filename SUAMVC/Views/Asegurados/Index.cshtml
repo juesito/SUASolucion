@@ -101,25 +101,25 @@
                         <b>@Language.plaza:</b>
                     </td>
                     <td>
-                        @Html.plazasDrownList(usuario.Id)
+                        @Html.DropDownList("plazasId", "Seleccione")
                     </td>
                     <td>
                         <b>@Language.patron:</b>
                     </td>
                     <td>
-                        @Html.patronesDrownList(usuario.Id)
+                        @Html.DropDownList("patronesId", "Seleccione")
                     </td>
                     <td>
                         <b>@Language.grupo:</b>
                     </td>
                     <td>
-                        @Html.gruposDrownList(usuario.Id)
+                        @Html.DropDownList("gruposId", "Seleccione")
                     </td>
                     <td>
                         <b>@Language.cliente:</b>
                     </td>
                     <td>
-                        @Html.clientesDrownList(usuario.Id)
+                        @Html.DropDownList("clientesId", "Seleccione")
                     </td>
                 </tr>
             </thead>
@@ -128,11 +128,14 @@
         <table style="margin-left:20px; margin-top:10px; float:left;">
             <thead>
                 <tr>
-                    <td style="padding-right:10px; padding-left:10px" rowspan="2">
+                    <td rowspan="2" style="padding-left:15px">
+                        <input type="submit" value="Consultar" class="btn btn-success" style="width:80px; height:30px; font-size:10px;" />
+                    </td>
+                   <td style="padding-right:10px; padding-left:10px" rowspan="2">
                         @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel"))
                         {
                             <a href="@Url.Action("GetExcel", "Asegurados", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
-                                clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador
+                                clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador, statusId = @ViewBag.statusId
                                 })" style="text-align:right">
                                 <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="35" height="35" />
                             </a>

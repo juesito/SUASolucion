@@ -31,7 +31,7 @@ namespace SUAMVC.Helpers
             {
                 String itemId = item.id.ToString().Trim();
                 String descripcion = item.descripcion.Trim();
-                if (descripcion.Contains("Seleccion"))
+                if (descripcion.Contains("Todas"))
                 {
                     itemId = "";
                 }
@@ -61,7 +61,7 @@ namespace SUAMVC.Helpers
                 String itemId = item.Id.ToString().Trim();
                 String descripcion = item.registro.Trim() + "-" + item.nombre.Trim();
 
-                if (descripcion.Contains("Seleccion"))
+                if (descripcion.Contains("Todos"))
                 {
                     itemId = "";
                     descripcion = item.nombre.Trim();
@@ -90,7 +90,7 @@ namespace SUAMVC.Helpers
                 String itemId = item.Id.ToString().Trim();
                 String descripcion = item.claveCliente.Trim() + "-" + item.descripcion.Trim();
 
-                if (item.claveCliente.Trim().Contains("-"))
+                if (item.claveCliente.Trim().Contains("Todos"))
                 {
                     itemId = "";
                     descripcion = item.descripcion.Trim();
@@ -108,18 +108,18 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<Grupos> list = (from s in db.Grupos.ToList()
-                                               join top in db.TopicosUsuarios on s.Id equals top.topicoId
-                                               where top.tipo.Trim().Equals("G") && top.usuarioId.Equals(userId)
-                                               orderby s.claveGrupo, s.nombre
-                                               select s).Distinct().ToList();
-
+                                 join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                 join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                 where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(userId)
+                                 orderby s.claveGrupo, s.nombre
+                                 select s).Distinct().ToList();
 
             foreach (Grupos item in list)
             {
                 String itemId = item.Id.ToString().Trim();
                 String descripcion = item.claveGrupo.Trim() + "-" + item.nombre.Trim();
 
-                if (item.claveGrupo.Trim().Contains("-"))
+                if (item.claveGrupo.Trim().Contains("Todos"))
                 {
                     itemId = "";
                     descripcion = item.nombre.Trim();

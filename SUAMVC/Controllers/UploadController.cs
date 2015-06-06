@@ -16,6 +16,7 @@ using System.Web.Mvc;
 
 namespace SUAMVC.Controllers
 {
+
     public class UploadController : Controller
     {
 
@@ -147,15 +148,16 @@ namespace SUAMVC.Controllers
                             }//Ya existen datos con esta plaza?                            
 
                             //Modificamos los datos del patron existente
-                            patron.registro = rows["REG_PAT"].ToString();
+                            patron.telefono = rows["TEL_PAT"].ToString();
+                            patron.domicilio = rows["DOM_PAT"].ToString();
+                            patron.patRep = rows["PAT_REP"].ToString();
+/*                          patron.registro = rows["REG_PAT"].ToString();
                             patron.rfc = rows["RFC_PAT"].ToString();
                             patron.nombre = rows["NOM_PAT"].ToString();
                             patron.actividad = rows["ACT_PAT"].ToString();
-                            patron.domicilio = rows["DOM_PAT"].ToString();
                             patron.municipio = rows["MUN_PAT"].ToString();
                             patron.codigoPostal = rows["CPP_PAT"].ToString();
                             patron.entidad = rows["ENT_PAT"].ToString();
-                            patron.telefono = rows["TEL_PAT"].ToString();
                             patron.remision = ((Boolean.Parse(rows["REM_PAT"].ToString()) == true) ? "V" : "F");
                             patron.zona = rows["ZON_PAT"].ToString();
                             patron.delegacion = rows["DEL_PAT"].ToString();
@@ -167,10 +169,9 @@ namespace SUAMVC.Controllers
                             patron.tipoConvenio = Decimal.Parse(rows["TIP_CON"].ToString());
                             patron.convenio = rows["CON_VEN"].ToString();
                             patron.inicioAfiliacion = rows["INI_AFIL"].ToString();
-                            patron.patRep = rows["PAT_REP"].ToString();
                             patron.clase = rows["CLASE"].ToString();
                             patron.fraccion = rows["FRACCION"].ToString();
-                            patron.STyPS = rows["STyPS"].ToString();
+                            patron.STyPS = rows["STyPS"].ToString();            */
 
                             //Ponemos la entidad en modo modficada y guardamos cambios
                             try
@@ -308,14 +309,118 @@ namespace SUAMVC.Controllers
         }
 
 
-        public ActionResult GoAcreditados(String plazasId) {
+        public ActionResult GoAcreditados(String plazasId)
+        {
 
             Usuario user = Session["UsuarioData"] as Usuario;
 
-            var plazasAsignadas = (from x in db.TopicosUsuarios
-                                   where x.usuarioId.Equals(user.Id)
-                                   && x.tipo.Equals("P")
-                                   select x.topicoId);
+            ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
+                                               join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                               where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   descripcion = s.descripcion
+                                               }).Distinct(), "id", "descripcion");
+
+            if (String.IsNullOrEmpty(plazasId))
+            {
+                var plazaTemp = from s in db.Plazas.ToList()
+                                join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                                orderby s.descripcion
+                                select s;
+
+                Plaza plaza = new Plaza();
+                if (plazaTemp != null && plazaTemp.Count() > 0)
+                {
+                    foreach (var plazaItem in plazaTemp)
+                    {
+                        plaza = plazaItem;
+                        break;
+                    }
+                    plazasId = plaza.id.ToString();
+                }
+            }
+            ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id) &&
+                                                       !s.direccionArchivo.Trim().Equals(null) && !s.direccionArchivo.Trim().Equals(String.Empty)  &&
+                                                       s.Plaza.id.Equals(plazasId)
+                                                 orderby s.registro
+                                                 select new
+                                                 {
+                                                     id = s.Id,
+                                                     FullName = s.registro + " - " + s.nombre
+                                                  }).Distinct(), "id", "FullName", null);
+  
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
+
+            var patrones = from p in db.Patrones
+                           where !p.direccionArchivo.Trim().Equals(null) && !p.direccionArchivo.Trim().Equals(String.Empty)
+                           && patronesAsignados.Contains(p.Id)
+                           && p.Plaza.id.ToString().Equals(plazasId)
+                           select new
+                           {
+                               id = p.Id,
+                               DisplayText = p.registro.ToString() + " " + p.nombre.ToString()
+                           };
+
+
+            ViewData["patronesId"] = new SelectList(patrones, "Id", "DisplayText");
+            return View("UploadAcreditados");
+        }
+
+
+        public ActionResult GoOnlyUploadFile(String plazasId)
+        {
+
+            Usuario user = Session["UsuarioData"] as Usuario;
+
+            ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
+                                               join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                               where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   descripcion = s.descripcion
+                                               }).Distinct(), "id", "descripcion");
+
+            if (String.IsNullOrEmpty(plazasId))
+            {
+                var plazaTemp = from s in db.Plazas.ToList()
+                                join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                                orderby s.descripcion
+                                select s;
+
+                Plaza plaza = new Plaza();
+                if (plazaTemp != null && plazaTemp.Count() > 0)
+                {
+                    foreach (var plazaItem in plazaTemp)
+                    {
+                        plaza = plazaItem;
+                        break;
+                    }
+                    plazasId = plaza.id.ToString();
+                }
+            }
+            ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id) &&
+                                                       !s.direccionArchivo.Trim().Equals(null) && !s.direccionArchivo.Trim().Equals(String.Empty) &&
+                                                       s.Plaza.id.Equals(plazasId)
+                                                 orderby s.registro
+                                                 select new
+                                                 {
+                                                     id = s.Id,
+                                                     FullName = s.registro + " - " + s.nombre
+                                                 }).Distinct(), "id", "FullName", null);
 
             var patronesAsignados = (from x in db.TopicosUsuarios
                                      where x.usuarioId.Equals(user.Id)
@@ -323,44 +428,21 @@ namespace SUAMVC.Controllers
                                      select x.topicoId);
 
             var patrones = from p in db.Patrones
-                           where plazasAsignadas.Contains(p.Plaza.id) && !p.direccionArchivo.Trim().Equals(null) && !p.direccionArchivo.Trim().Equals(String.Empty)
+                           where !p.direccionArchivo.Trim().Equals(null) && !p.direccionArchivo.Trim().Equals(String.Empty)
                            && patronesAsignados.Contains(p.Id)
+                           && p.Plaza.id.ToString().Equals(plazasId)
                            select new
-                          {
-                              id = p.Id,
-                              DisplayText = p.registro.ToString() + " " + p.nombre.ToString()
-                          };
+                           {
+                               id = p.Id,
+                               DisplayText = p.registro.ToString() + " " + p.nombre.ToString()
+                           };
 
-            if (!String.IsNullOrEmpty(plazasId))
-            {
-                int idPlaza = int.Parse(plazasId.Trim());
-                patrones = from p in db.Patrones
-                               where plazasAsignadas.Contains(idPlaza) && !p.direccionArchivo.Trim().Equals(null) && !p.direccionArchivo.Trim().Equals(String.Empty)
-                               && patronesAsignados.Contains(p.Id)
-                               select new
-                               {
-                                   id = p.Id,
-                                   DisplayText = p.registro.ToString() + " " + p.nombre.ToString()
-                               };
-            }
-
-            
-            var plazas = (from s in db.Plazas.ToList()
-                          join top in db.TopicosUsuarios on s.id equals top.topicoId
-                          where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
-                          orderby s.descripcion
-                          select new
-                          {
-                              id = s.id,
-                              DisplayText = s.descripcion
-                          }).Distinct();
-
-            ViewData["plazasId"] = new SelectList(plazas, "id", "DisplayText");
 
             ViewData["patronesId"] = new SelectList(patrones, "Id", "DisplayText");
-            return View("UploadAcreditados");
+            return View("OnlyUpLoadFile");
         }
 
+        
         [HttpPost]
         public ActionResult uploadFile(UploadModel uploadModel, int patronesId)
         {
@@ -374,6 +456,16 @@ namespace SUAMVC.Controllers
             }
 
             return View("UploadAcreditados");
+        }
+
+        public ActionResult uploadFile2(UploadModel uploadModel, int patronesId)
+        {
+
+            Patrone patron = db.Patrones.Find(patronesId);
+
+            String path = this.Upload(uploadModel, patron.direccionArchivo);
+
+            return View("OnlyUploadFile");
         }
 
         public String Upload(UploadModel uploadModel, String subFolder)
@@ -404,6 +496,8 @@ namespace SUAMVC.Controllers
                     var pathFinal = Path.Combine(path, fileName);
                     file.SaveAs(pathFinal);
                     ViewBag.dbUploaded = true;
+                    TempData["error"] = false;
+                    TempData["viewMessage"] = "Se ha realizado la actualización con exito!";
                 }
             }
             
@@ -519,7 +613,7 @@ namespace SUAMVC.Controllers
                             clienteNuevo.descripcion = "PENDIENTE";
                             clienteNuevo.ejecutivo = "PENDIENTE";
                             clienteNuevo.Plaza_id = 1;
-                            clienteNuevo.Grupo_id = 1;
+                            clienteNuevo.Grupo_id = 4;
 
                             try
                             {
@@ -687,16 +781,16 @@ namespace SUAMVC.Controllers
             Decimal sdi = Decimal.Parse(rows["SAL_IMSS"].ToString());
             acreditado.smdv = Double.Parse(smdf.ToString());
 
+            TempData["sinfon"] = sinfon.ToString();
 
             Decimal newValue = Decimal.Parse("0.0");
             //Empezamos con los calculos
-            if (tipoDescuento.Trim().Equals("1"))
+/*            if (tipoDescuento.Trim().Equals("1"))
             {
 
                 // Descuento tipo porcentaje
                 acreditado.sd = 0;
                 acreditado.cuotaFija = 0;
-//                acreditado.smdv = 0.0;
                 acreditado.vsm = 0;
                 acreditado.porcentaje = valueToCalculate / 100;
 
@@ -708,12 +802,12 @@ namespace SUAMVC.Controllers
                 acreditado.descuentoBimestral = newValue;
 
             }
-            else if (tipoDescuento.Trim().Equals("2"))
+            else */
+            if (tipoDescuento.Trim().Equals("2"))
             {
                 // Descuento tipo cuota fija
                 acreditado.sd = 0;
                 acreditado.cuotaFija = valueToCalculate;
- //               acreditado.smdv = 0.0;
                 acreditado.vsm = 0;
                 acreditado.porcentaje = 0;
 
@@ -727,7 +821,6 @@ namespace SUAMVC.Controllers
                 // Descuento tipo VSM
                 acreditado.sd = 0;
                 acreditado.cuotaFija = 0;
- //               acreditado.smdv = 0.0;
                 acreditado.vsm = Math.Round(valueToCalculate, 3);
                 acreditado.porcentaje = 0;
                 newValue = valueToCalculate * smdf * 2;
@@ -876,7 +969,7 @@ namespace SUAMVC.Controllers
                             clienteNuevo.descripcion = "PENDIENTE";
                             clienteNuevo.ejecutivo = "PENDIENTE";
                             clienteNuevo.Plaza_id = 1;
-                            clienteNuevo.Grupo_id = 1;
+                            clienteNuevo.Grupo_id = 4;
 
                             try
                             {
@@ -1248,77 +1341,172 @@ namespace SUAMVC.Controllers
         /**
          * Realizamos el calculo del salario diario y la fecha de entrada 
          */
-        private void accionesAdicionalesAsegurados(Asegurado asegurado) {
+        private void accionesAdicionalesAsegurados(Asegurado asegurado)
+        {
 
             int aseguradoId = asegurado.id;
             DateTime ahora = DateTime.Now;
 
+            var ahora2 = 0;
+            if (asegurado.numeroAfiliacion.Equals("81048003131"))
+            { 
+                ahora2 = 0;
+
+            }
             //obtenemos el ultimo reingreso, si existe.
             var movTemp = (from s in db.MovimientosAseguradoes
                                   .Where(s => s.aseguradoId.Equals(aseguradoId)
                                    && s.catalogoMovimiento.tipo.Equals("08"))
-                                  .OrderBy(s => s.fechaInicio)
+                                  .OrderByDescending(s => s.fechaInicio)
                            select s).FirstOrDefault();
 
             if (movTemp != null)
             {
                 asegurado.fechaAlta = movTemp.fechaInicio;
             }
-            
-            //obtenemos el ultimo movimiento para saber como se calcula
-            //el salario Diario.
-            movTemp = (from s in db.MovimientosAseguradoes
-                                  .Where(s => s.aseguradoId.Equals(aseguradoId))
-                                  .OrderBy(s => s.fechaInicio)
-                           select s).FirstOrDefault();
 
-            if (movTemp != null)
+            if (asegurado.salarioDiario == null)
             {
-                if (asegurado.salarioDiario == null) {
-                    asegurado.salarioDiario = 0;
-                }
-                if (movTemp.catalogoMovimiento.tipo.Trim().Equals("08"))
+                asegurado.salarioDiario = 0;
+            }
+
+            var movTemp2 = (from s in db.MovimientosAseguradoes
+                            where s.aseguradoId.Equals(aseguradoId) &&
+                                 (s.catalogoMovimiento.tipo.Equals("01") || s.catalogoMovimiento.tipo.Equals("02") ||
+                                  s.catalogoMovimiento.tipo.Equals("07") || s.catalogoMovimiento.tipo.Equals("08") ||
+                                  s.catalogoMovimiento.tipo.Equals("13"))
+                            orderby s.fechaInicio descending
+                            select s).ToList();
+
+            MovimientosAsegurado movto = new MovimientosAsegurado();
+            if (movTemp2 != null && movTemp2.Count() > 0)
+            {
+                foreach (var movItem in movTemp2)
                 {
-                    asegurado.salarioDiario = Decimal.Parse(movTemp.sdi.Trim());
+                    movto = movItem;
+                    break;
                 }
-                else if (movTemp.catalogoMovimiento.tipo.Trim().Equals("01") || movTemp.catalogoMovimiento.tipo.Trim().Equals("07"))
+
+                if (movto.catalogoMovimiento.tipo.Trim().Equals("08"))
+                {
+                    asegurado.salarioDiario = Decimal.Parse(movto.sdi.ToString());
+                    asegurado.salarioImss = Decimal.Parse(movto.sdi.ToString());
+                }
+                else if (movto.catalogoMovimiento.tipo.Trim().Equals("01") || movto.catalogoMovimiento.tipo.Trim().Equals("07") ||
+                         movto.catalogoMovimiento.tipo.Trim().Equals("13"))
                 {
                     long annos = DatesHelper.DateDiffInYears(asegurado.fechaAlta, ahora);
-                    if (annos.Equals(0)) {
+                    if (annos.Equals(0))
+                    {
                         annos = 1;
                     }
                     Factore factor = (db.Factores.Where(x => x.anosTrabajados == annos).FirstOrDefault());
                     if (factor != null)
                     {
-                        asegurado.salarioDiario = Decimal.Parse(movTemp.sdi.Trim()) / factor.factorIntegracion;
+                        asegurado.salarioDiario = Decimal.Parse(movto.sdi.Trim()) / factor.factorIntegracion;
+                        asegurado.salarioImss = Decimal.Parse(movto.sdi.ToString());
                     }
                     else
                     {
                         asegurado.salarioDiario = 0;
                     }
                 }
-                else if (movTemp.catalogoMovimiento.tipo.Trim().Equals("02"))
+                else if (movto.catalogoMovimiento.tipo.Trim().Equals("02"))
                 {
                     asegurado.salarioDiario = 0;
+                    asegurado.salarioImss = 0;
 
                 }
-
-                db.Entry(asegurado).State = EntityState.Modified;
-                db.SaveChanges();
-
-                Acreditado acreditado = (from s in db.Acreditados
-                                         where s.PatroneId == asegurado.PatroneId
-                                            && s.numeroAfiliacion.Equals(asegurado.numeroAfiliacion)
-                                         select s).FirstOrDefault();
-
-                if (acreditado != null)
+            }
+            else
+            {
+                long annos = DatesHelper.DateDiffInYears(asegurado.fechaAlta, ahora);
+                if (annos.Equals(0))
                 {
-                    acreditado.fechaAlta = asegurado.fechaAlta;
-                    acreditado.sd = Decimal.Parse(asegurado.salarioDiario.ToString());
-
-                    db.Entry(acreditado).State = EntityState.Modified;
-                    db.SaveChanges();
+                    annos = 1;
                 }
+                Factore factor = (db.Factores.Where(x => x.anosTrabajados == annos).FirstOrDefault());
+                if (factor != null)
+                {
+                    asegurado.salarioDiario = asegurado.salarioImss / factor.factorIntegracion;
+                }
+                else
+                {
+                    asegurado.salarioDiario = 0;
+                }
+            }
+            if (asegurado.fechaBaja.HasValue)
+            {
+                asegurado.salarioDiario = 0;
+                asegurado.salarioImss = 0;
+            }
+            db.Entry(asegurado).State = EntityState.Modified;
+            db.SaveChanges();
+
+            Acreditado acreditado = (from s in db.Acreditados
+                                     where s.PatroneId == asegurado.PatroneId
+                                        && s.numeroAfiliacion.Equals(asegurado.numeroAfiliacion)
+                                     select s).FirstOrDefault();
+
+            if (acreditado != null)
+            {
+                acreditado.fechaAlta = asegurado.fechaAlta;
+                acreditado.sd = Decimal.Parse(asegurado.salarioDiario.ToString());
+                acreditado.sdi = Double.Parse(asegurado.salarioImss.ToString());
+
+                //calcular el descuento tipo uno que ocupa sdi
+                DateTime date = DateTime.Now;
+                Decimal valueToCalculate = Decimal.Parse(asegurado.valorDescuento.ToString());
+                Decimal newValue = Decimal.Parse("0.0");
+
+
+                if (asegurado.tipoDescuento.Trim().Equals("1"))
+                {
+
+                    try
+                    {
+                        ParametrosHelper parameterHelper = new ParametrosHelper();
+
+                        Parametro sinfonParameter = parameterHelper.getParameterByKey("SINFON");
+
+                        decimal sinfon = decimal.Parse(sinfonParameter.valorMoneda.ToString());
+                        // Descuento tipo porcentaje
+                        acreditado.cuotaFija = 0;
+                        acreditado.vsm = 0;
+                        acreditado.porcentaje = valueToCalculate / 100;
+
+
+                        newValue = (Decimal.Parse(acreditado.sdi.ToString()) * 60);
+                        newValue = newValue * (valueToCalculate / 100);
+                        newValue = newValue + sinfon;
+
+                        acreditado.descuentoBimestral = newValue;
+
+                        acreditado.descuentoMensual = Math.Round(acreditado.descuentoBimestral / 2, 3);
+                        Decimal newValue2 = acreditado.descuentoMensual * Decimal.Parse((7 / 30.4).ToString());
+                        newValue2 = Math.Round(newValue2, 3);
+                        acreditado.descuentoSemanal = newValue2;
+
+                        newValue2 = acreditado.descuentoMensual * Decimal.Parse((14 / 30.4).ToString());
+                        newValue2 = Math.Round(newValue2, 3);
+                        acreditado.descuentoCatorcenal = newValue2;
+                        acreditado.descuentoQuincenal = Math.Round(acreditado.descuentoBimestral / 4, 3);
+                        acreditado.descuentoVeintiochonal = Math.Round(acreditado.descuentoMensual * Decimal.Parse((28 / 30.4).ToString()), 3);
+                        acreditado.descuentoDiario = Math.Round(acreditado.descuentoBimestral / Decimal.Parse("60.1"), 3);
+                        acreditado.fechaUltimoCalculo = date.Date;
+                    }
+                    catch (OleDbException ex)
+                    {
+                        if (ex.Source != null)
+                        {
+                            Console.WriteLine(ex.Source);
+                        }
+                    }
+                }
+
+
+                db.Entry(acreditado).State = EntityState.Modified;
+                db.SaveChanges();
             }
 
         } 

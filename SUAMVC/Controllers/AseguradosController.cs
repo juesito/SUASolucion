@@ -54,14 +54,14 @@ namespace SUAMVC.Controllers
             }
 
         }
-        
+
         // GET: Aseguradoes
         public ActionResult Index(String plazasId, String patronesId, String clientesId,
             String gruposId, String currentPlaza, String currentPatron, String currentCliente,
             String currentGrupo, String opcion, String valor, String statusId, int page = 1, String sortOrder = null,
             String lastSortOrder = null)
         {
-            
+
             Usuario user = Session["UsuarioData"] as Usuario;
 
             setVariables(plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId);
@@ -74,17 +74,60 @@ namespace SUAMVC.Controllers
             var patronesAsignados = (from x in db.TopicosUsuarios
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("B")
-                                     select x.topicoId); 
+                                     select x.topicoId);
 
             var clientesAsignados = (from x in db.TopicosUsuarios
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("C")
                                      select x.topicoId);
 
-            var gruposAsignados = (from x in db.TopicosUsuarios
-                                     where x.usuarioId.Equals(user.Id)
-                                     && x.tipo.Equals("G")
-                                     select x.topicoId);
+            var gruposAsignados = (from s in db.Grupos
+                                   join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                   join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                   orderby s.claveGrupo
+                                   select s.Id);
+
+            ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
+                                               join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                               where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   FUllName = s.descripcion
+                                               }).Distinct(), "id", "FullName");
+
+            ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id)
+                                                 orderby s.registro
+                                                 select new
+                                                 {
+                                                     id = s.Id,
+                                                     FullName = s.registro + " - " + s.nombre
+                                                 }).Distinct(), "id", "FullName", null);
+
+            ViewBag.clientesId = new SelectList((from s in db.Clientes.ToList()
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                                 orderby s.descripcion
+                                                 select new
+                                                 {
+                                                     id = s.Id,
+                                                     FUllName = s.claveCliente + " - " + s.descripcion
+                                                 }).Distinct(), "id", "FullName");
+
+            ViewBag.gruposId = new SelectList((from s in db.Grupos.ToList()
+                                               join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                               join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                               where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                               orderby s.claveGrupo
+                                               select new
+                                               {
+                                                   id = s.Id,
+                                                   FUllName = s.claveGrupo + " - " + s.nombreCorto
+                                               }).Distinct(), "id", "FullName");
 
             //Query principal
             var asegurados = from s in db.Asegurados
@@ -92,7 +135,7 @@ namespace SUAMVC.Controllers
                              where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
                                    clientesAsignados.Contains(s.Cliente.Id) &&
                                    patronesAsignados.Contains(s.PatroneId) &&
-                                   gruposAsignados.Contains(s.PatroneId)
+                                   gruposAsignados.Contains(s.Cliente.Grupo_id)
                              select s;
 
             //Comenzamos los filtros
@@ -215,7 +258,7 @@ namespace SUAMVC.Controllers
             {
                 Asegurado asegurado = db.Asegurados.Find(id);
                 var movtosTemp = db.Movimientos.Where(x => x.aseguradoId == id
-                                 && x.tipo.Equals(option)).OrderByDescending(x => x.fechaTransaccion).ToList(); 
+                                 && x.tipo.Equals(option)).OrderByDescending(x => x.fechaTransaccion).ToList();
 
                 Movimiento movto = new Movimiento();
                 if (movtosTemp != null && movtosTemp.Count > 0)
@@ -239,7 +282,8 @@ namespace SUAMVC.Controllers
                         return RedirectToAction("Index");
                     }
                 }
-                else {
+                else
+                {
                     return RedirectToAction("Index");
                 }
             }
@@ -330,7 +374,7 @@ namespace SUAMVC.Controllers
         }
 
         [HttpGet]
-        public void GetExcel(String plazasId, String patronesId, String clientesId, 
+        public void GetExcel(String plazasId, String patronesId, String clientesId,
             String gruposId, String opcion, String valor, String statusId)
         {
 
@@ -378,7 +422,7 @@ namespace SUAMVC.Controllers
                 int idCliente = int.Parse(clientesId.Trim());
                 asegurados = asegurados.Where(s => s.Cliente.Id.Equals(idCliente));
             }
-            
+
             if (!String.IsNullOrEmpty(gruposId))
             {
                 @ViewBag.gpoId = gruposId;
@@ -456,18 +500,22 @@ namespace SUAMVC.Controllers
 
             WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
 
-            List<WebGridColumn> gridColumns =  new List<WebGridColumn>();
+            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
             gridColumns.Add(grid.Column("Patrone.registro", "Registro "));
             gridColumns.Add(grid.Column("numeroAfiliacion", "Numero Afiliacion"));
             gridColumns.Add(grid.Column("curp", "CURP"));
             gridColumns.Add(grid.Column("rfc", "RFC"));
             gridColumns.Add(grid.Column("nombreTemporal", "Nombre"));
-            gridColumns.Add(grid.Column("fechaAlta", "Alta", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
-            gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => item.fechaBaja!=null ? String.Format("{0:yyyy-MM-dd}", item.fechaBaja) : String.Empty ));
-            gridColumns.Add(grid.Column("Cliente.claveCliente", "Cliente"));
+            gridColumns.Add(grid.Column("fechaAlta", "Fecha Alta", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
+            gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => item.fechaBaja != null ? String.Format("{0:yyyy-MM-dd}", item.fechaBaja) : String.Empty));
+            gridColumns.Add(grid.Column("salarioImss", "Salario IMSS"));
+            gridColumns.Add(grid.Column("Cliente.claveCliente", "Ubicación"));
             gridColumns.Add(grid.Column("Cliente.Grupos.nombreCorto", "Grupo"));
+            gridColumns.Add(grid.Column("ocupacion", "Ocupación"));
             gridColumns.Add(grid.Column("Cliente.Plaza.cveCorta", "Plaza"));
             gridColumns.Add(grid.Column("extranjero", "Extranjero"));
+            gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creación", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaCreacion)));
+            gridColumns.Add(grid.Column("fechaModificacion", "Fecha Modificación", format: (item) => item.fechaModificacion != null ? String.Format("{0:yyyy-MM-dd}", item.fechaModificacion) : String.Empty));
             gridColumns.Add(grid.Column("alta", "Alta"));
             gridColumns.Add(grid.Column("baja", "Baja"));
             gridColumns.Add(grid.Column("modificacion", "Modificación"));
@@ -532,3 +580,4 @@ namespace SUAMVC.Controllers
 
     }
 }
+

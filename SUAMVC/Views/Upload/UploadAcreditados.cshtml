@@ -22,20 +22,19 @@
                 @if (!IsPost)
                 {
                 <div class="row">
-                    <div class="col-md-12" style="padding-top:10px; width:80px;">
+                    <div class="col-md-12" style="padding-top:10px; width:100px;">
                         @Html.Label("Plaza :")
 
                     </div>
-                    <div class="col-md-3" style="padding-top:10px; width:400px;">
-                        @Html.DropDownList("plazasId", (IEnumerable<SelectListItem>)ViewData["plazasId"])
+                    <div class="col-md-3" style="padding-top:10px; width:500px;">
+                        <p>@Html.DropDownList("plazasId", null, new { onchange = "document.location.href = '/Upload/GoAcreditados?plazasId=' + this.options[this.selectedIndex].value;" })</p>
                     </div>
-
-                    <div class="col-md-12" style="padding-top:50px; width:100px;">
+                   <div class="col-md-12" style="padding-top:60px; width:100px;">
                         @Html.Label("Patron :")
                         
                     </div>
-                    <div class="col-md-3" style="padding-top:10px; width:800px;">
-                        @Html.DropDownList("patronesId", (IEnumerable<SelectListItem>)ViewData["patronesId"])
+                    <div class="col-md-3" style="padding-top:10px; width:500px;">   
+                        @Html.DropDownList("patronesId")
                     </div>
                     <div class="file" style="padding-top:80px;">
                         @FileUpload.GetHtml(initialNumberOfFiles: 1,
