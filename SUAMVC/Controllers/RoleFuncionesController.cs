@@ -16,7 +16,7 @@ namespace SUAMVC.Controllers
         {
             ViewBag.roleId = new SelectList(db.Roles, "id", "descripcion");
             ViewBag.moduleId = new SelectList(db.Modulos, "id", "descripcionCorta");
-            if (!String.IsNullOrEmpty(roleId))
+            if (!String.IsNullOrEmpty(roleId) && !String.IsNullOrEmpty(moduleId))
             {
                 RoleFuncionesModel roleFuncion = new RoleFuncionesModel();
 

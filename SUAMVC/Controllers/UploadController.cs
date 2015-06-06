@@ -148,15 +148,16 @@ namespace SUAMVC.Controllers
                             }//Ya existen datos con esta plaza?                            
 
                             //Modificamos los datos del patron existente
-                            patron.registro = rows["REG_PAT"].ToString();
+                            patron.telefono = rows["TEL_PAT"].ToString();
+                            patron.domicilio = rows["DOM_PAT"].ToString();
+                            patron.patRep = rows["PAT_REP"].ToString();
+/*                          patron.registro = rows["REG_PAT"].ToString();
                             patron.rfc = rows["RFC_PAT"].ToString();
                             patron.nombre = rows["NOM_PAT"].ToString();
                             patron.actividad = rows["ACT_PAT"].ToString();
-                            patron.domicilio = rows["DOM_PAT"].ToString();
                             patron.municipio = rows["MUN_PAT"].ToString();
                             patron.codigoPostal = rows["CPP_PAT"].ToString();
                             patron.entidad = rows["ENT_PAT"].ToString();
-                            patron.telefono = rows["TEL_PAT"].ToString();
                             patron.remision = ((Boolean.Parse(rows["REM_PAT"].ToString()) == true) ? "V" : "F");
                             patron.zona = rows["ZON_PAT"].ToString();
                             patron.delegacion = rows["DEL_PAT"].ToString();
@@ -168,10 +169,9 @@ namespace SUAMVC.Controllers
                             patron.tipoConvenio = Decimal.Parse(rows["TIP_CON"].ToString());
                             patron.convenio = rows["CON_VEN"].ToString();
                             patron.inicioAfiliacion = rows["INI_AFIL"].ToString();
-                            patron.patRep = rows["PAT_REP"].ToString();
                             patron.clase = rows["CLASE"].ToString();
                             patron.fraccion = rows["FRACCION"].ToString();
-                            patron.STyPS = rows["STyPS"].ToString();
+                            patron.STyPS = rows["STyPS"].ToString();            */
 
                             //Ponemos la entidad en modo modficada y guardamos cambios
                             try
@@ -309,9 +309,118 @@ namespace SUAMVC.Controllers
         }
 
 
-        public ActionResult GoAcreditados() {
+        public ActionResult GoAcreditados(String plazasId)
+        {
 
             Usuario user = Session["UsuarioData"] as Usuario;
+
+            ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
+                                               join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                               where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   descripcion = s.descripcion
+                                               }).Distinct(), "id", "descripcion");
+
+            if (String.IsNullOrEmpty(plazasId))
+            {
+                var plazaTemp = from s in db.Plazas.ToList()
+                                join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                                orderby s.descripcion
+                                select s;
+
+                Plaza plaza = new Plaza();
+                if (plazaTemp != null && plazaTemp.Count() > 0)
+                {
+                    foreach (var plazaItem in plazaTemp)
+                    {
+                        plaza = plazaItem;
+                        break;
+                    }
+                    plazasId = plaza.id.ToString();
+                }
+            }
+            ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id) &&
+                                                       !s.direccionArchivo.Trim().Equals(null) && !s.direccionArchivo.Trim().Equals(String.Empty)  &&
+                                                       s.Plaza.id.Equals(plazasId)
+                                                 orderby s.registro
+                                                 select new
+                                                 {
+                                                     id = s.Id,
+                                                     FullName = s.registro + " - " + s.nombre
+                                                  }).Distinct(), "id", "FullName", null);
+  
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
+
+            var patrones = from p in db.Patrones
+                           where !p.direccionArchivo.Trim().Equals(null) && !p.direccionArchivo.Trim().Equals(String.Empty)
+                           && patronesAsignados.Contains(p.Id)
+                           && p.Plaza.id.ToString().Equals(plazasId)
+                           select new
+                           {
+                               id = p.Id,
+                               DisplayText = p.registro.ToString() + " " + p.nombre.ToString()
+                           };
+
+
+            ViewData["patronesId"] = new SelectList(patrones, "Id", "DisplayText");
+            return View("UploadAcreditados");
+        }
+
+
+        public ActionResult GoOnlyUploadFile(String plazasId)
+        {
+
+            Usuario user = Session["UsuarioData"] as Usuario;
+
+            ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
+                                               join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                               where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   descripcion = s.descripcion
+                                               }).Distinct(), "id", "descripcion");
+
+            if (String.IsNullOrEmpty(plazasId))
+            {
+                var plazaTemp = from s in db.Plazas.ToList()
+                                join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                                orderby s.descripcion
+                                select s;
+
+                Plaza plaza = new Plaza();
+                if (plazaTemp != null && plazaTemp.Count() > 0)
+                {
+                    foreach (var plazaItem in plazaTemp)
+                    {
+                        plaza = plazaItem;
+                        break;
+                    }
+                    plazasId = plaza.id.ToString();
+                }
+            }
+            ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id) &&
+                                                       !s.direccionArchivo.Trim().Equals(null) && !s.direccionArchivo.Trim().Equals(String.Empty) &&
+                                                       s.Plaza.id.Equals(plazasId)
+                                                 orderby s.registro
+                                                 select new
+                                                 {
+                                                     id = s.Id,
+                                                     FullName = s.registro + " - " + s.nombre
+                                                 }).Distinct(), "id", "FullName", null);
 
             var patronesAsignados = (from x in db.TopicosUsuarios
                                      where x.usuarioId.Equals(user.Id)
@@ -321,16 +430,19 @@ namespace SUAMVC.Controllers
             var patrones = from p in db.Patrones
                            where !p.direccionArchivo.Trim().Equals(null) && !p.direccionArchivo.Trim().Equals(String.Empty)
                            && patronesAsignados.Contains(p.Id)
+                           && p.Plaza.id.ToString().Equals(plazasId)
                            select new
-                          {
-                              id = p.Id,
-                              DisplayText = p.registro.ToString() + " " + p.nombre.ToString() + " - "+ p.Plaza.descripcion
-                          };
+                           {
+                               id = p.Id,
+                               DisplayText = p.registro.ToString() + " " + p.nombre.ToString()
+                           };
 
-             ViewData["patronesId"] = new SelectList(patrones, "Id", "DisplayText");
-            return View("UploadAcreditados");
+
+            ViewData["patronesId"] = new SelectList(patrones, "Id", "DisplayText");
+            return View("OnlyUpLoadFile");
         }
 
+        
         [HttpPost]
         public ActionResult uploadFile(UploadModel uploadModel, int patronesId)
         {
@@ -344,6 +456,16 @@ namespace SUAMVC.Controllers
             }
 
             return View("UploadAcreditados");
+        }
+
+        public ActionResult uploadFile2(UploadModel uploadModel, int patronesId)
+        {
+
+            Patrone patron = db.Patrones.Find(patronesId);
+
+            String path = this.Upload(uploadModel, patron.direccionArchivo);
+
+            return View("OnlyUploadFile");
         }
 
         public String Upload(UploadModel uploadModel, String subFolder)
@@ -374,6 +496,8 @@ namespace SUAMVC.Controllers
                     var pathFinal = Path.Combine(path, fileName);
                     file.SaveAs(pathFinal);
                     ViewBag.dbUploaded = true;
+                    TempData["error"] = false;
+                    TempData["viewMessage"] = "Se ha realizado la actualización con exito!";
                 }
             }
             
