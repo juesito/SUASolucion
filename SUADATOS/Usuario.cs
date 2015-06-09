@@ -21,6 +21,7 @@ namespace SUADATOS
             this.TopicosUsuarios = new HashSet<TopicosUsuario>();
             this.TopicosUsuarios1 = new HashSet<TopicosUsuario>();
             this.Factores = new HashSet<Factore>();
+            this.ResumenPagoes = new HashSet<ResumenPago>();
         }
     
         public int Id { get; set; }
@@ -42,5 +43,6 @@ namespace SUADATOS
         public virtual ICollection<TopicosUsuario> TopicosUsuarios1 { get; set; }
         public virtual ICollection<Factore> Factores { get; set; }
         public virtual Plaza Plaza { get; set; }
+        public virtual ICollection<ResumenPago> ResumenPagoes { get; set; }
     }
 }

@@ -31,20 +31,22 @@ namespace SUAMVC.Controllers
         [HttpPost]
         public ActionResult Upload()
         {
+
             if (Request.Files.Count > 0)
             {
                 var file = Request.Files[0];
 
                 if (file != null && file.ContentLength > 0)
                 {
-                    String path = "C:\\SUA\\"; //Path.Combine("C:\\SUA\\", uploadModel.subFolder);
+                    ParametrosHelper parameterHelper = new ParametrosHelper();
+                    Parametro rutaParameter = parameterHelper.getParameterByKey("SUARUTA");
+                    String path = rutaParameter.valorString.Trim(); 
                     if (!System.IO.File.Exists(path))
                     {
                         System.IO.Directory.CreateDirectory(path);
                     }
 
                     var fileName = Path.GetFileName(file.FileName);
-                    //var path = Path.Combine(Server.MapPath("~/App_LocalResources/"), fileName);
                     var pathFinal = Path.Combine(path, fileName);
                     file.SaveAs(pathFinal);
 
@@ -471,6 +473,8 @@ namespace SUAMVC.Controllers
         public String Upload(UploadModel uploadModel, String subFolder)
         {
             String path = "";
+            ParametrosHelper parameterHelper = new ParametrosHelper();
+            Parametro rutaParameter = parameterHelper.getParameterByKey("SUARUTA");
             if (Request.Files.Count > 0)
             {
                 var file = Request.Files[0];
@@ -480,7 +484,7 @@ namespace SUAMVC.Controllers
 
                     if (!subFolder.Equals(""))
                     {
-                        path = Path.Combine("C:\\SUA\\", subFolder);
+                        path = Path.Combine(rutaParameter.valorString.Trim(), subFolder);
                         if (!System.IO.File.Exists(path))
                         {
                             System.IO.Directory.CreateDirectory(path);
@@ -488,7 +492,7 @@ namespace SUAMVC.Controllers
                     }
                     else
                     {
-                        path = "C:\\SUA\\";
+                        path = rutaParameter.valorString.Trim();
                     }
 
                     var fileName = Path.GetFileName(file.FileName);

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="abd8d340601a4703b79a83f26a983ce1" Name="Diagram1" ZoomLevel="54" ShowGrid="true">
+      <Diagram DiagramId="abd8d340601a4703b79a83f26a983ce1" Name="Diagram1" ZoomLevel="62" ShowGrid="true">
         <EntityTypeShape EntityType="suaModel.catalogoMovimiento" Width="1.5" PointX="14.125" PointY="19" IsExpanded="false" />
         <EntityTypeShape EntityType="suaModel.Incapacidade" Width="1.5" PointX="11.375" PointY="18.75" IsExpanded="false" />
         <EntityTypeShape EntityType="suaModel.MovimientosAsegurado" Width="1.5" PointX="12.625" PointY="20.75" IsExpanded="false" />
@@ -16,10 +16,10 @@
         <EntityTypeShape EntityType="suaModel.Cliente" Width="1.5" PointX="8" PointY="21" IsExpanded="false" />
         <AssociationConnector Association="suaModel.FK_Acreditados_Clientes" ManuallyRouted="true" >
           <ConnectorPoint PointX="8.54687375" PointY="21.4" />
-          <ConnectorPoint PointX="8.54687375" PointY="28.725833333333327" />
-          <ConnectorPoint PointX="9.8554683375" PointY="28.725833333333327" />
-          <ConnectorPoint PointX="9.8554683375" PointY="30.269999999999989" />
-          <ConnectorPoint PointX="11.324472679610212" PointY="29.15" />
+          <ConnectorPoint PointX="8.54687375" PointY="31.365833333333303" />
+          <ConnectorPoint PointX="9.8554683375" PointY="31.365833333333303" />
+          <ConnectorPoint PointX="9.8554683375" PointY="32.909999999999968" />
+          <ConnectorPoint PointX="11.5984375421881" PointY="29.15" />
         </AssociationConnector>
         <AssociationConnector Association="suaModel.FK_PatroneAcreditado" />
         <EntityTypeShape EntityType="suaModel.Grupos" Width="1.5" PointX="8" PointY="16.375" IsExpanded="false" />
@@ -42,12 +42,8 @@
         <EntityTypeShape EntityType="suaModel.RoleFuncion" Width="1.5" PointX="12.25" PointY="12.125" IsExpanded="false" />
         <AssociationConnector Association="suaModel.FK_RoleFunciones_Roles" ManuallyRouted="true" >
           <ConnectorPoint PointX="8.625" PointY="11.65" />
-          <ConnectorPoint PointX="8.625" PointY="13.967500000000003" />
-          <ConnectorPoint PointX="8.7604141666666653" PointY="13.967500000000003" />
-          <ConnectorPoint PointX="8.9270808333333331" PointY="13.967500000000003" />
-          <ConnectorPoint PointX="9.0416666666666661" PointY="13.967500000000003" />
-          <ConnectorPoint PointX="9.2083333333333339" PointY="13.967500000000003" />
-          <ConnectorPoint PointX="12.961276355770647" PointY="13.967500000000003" />
+          <ConnectorPoint PointX="8.625" PointY="14.847500000000006" />
+          <ConnectorPoint PointX="12.961276355770647" PointY="14.847500000000006" />
           <ConnectorPoint PointX="12.961276355770647" PointY="12.525" />
         </AssociationConnector>
         <AssociationConnector Association="suaModel.FK_RoleFunciones_RoleUsuarios" />
@@ -66,13 +62,19 @@
         <AssociationConnector Association="suaModel.FK_PlazaGrupos" />
         <AssociationConnector Association="suaModel.FK_PlazaPatrone" />
         <AssociationConnector Association="suaModel.FK_Usuarios_Plazas" />
-        <EntityTypeShape EntityType="suaModel.Asegurado" Width="1.5" PointX="14.25" PointY="22.25" IsExpanded="false" />
+        <EntityTypeShape EntityType="suaModel.Asegurado" Width="1.5" PointX="15.5" PointY="22.25" IsExpanded="false" />
         <AssociationConnector Association="suaModel.FK_Asegurados_Clientes" />
         <AssociationConnector Association="suaModel.FK_Incapacidades_Asegurados" />
         <AssociationConnector Association="suaModel.FK_Movimientos_Asegurados" />
         <AssociationConnector Association="suaModel.FK_MovimientosAsegurado_Asegurados" />
         <AssociationConnector Association="suaModel.FK_PatroneAsegurado" />
         <AssociationConnector Association="suaModel.FK_PlazaAsegurado" />
+        <EntityTypeShape EntityType="suaModel.Pago" Width="1.5" PointX="17.75" PointY="16.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="suaModel.ResumenPago" Width="1.5" PointX="6.75" PointY="22.125" IsExpanded="false" />
+        <AssociationConnector Association="suaModel.FK_Pagos_Asegurados" />
+        <AssociationConnector Association="suaModel.FK_Pagos_ResumenPago" />
+        <AssociationConnector Association="suaModel.FK_ResumenPago_Patrones" />
+        <AssociationConnector Association="suaModel.FK_ResumenPago_Usuarios" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

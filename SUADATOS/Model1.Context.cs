@@ -44,5 +44,7 @@ namespace SUADATOS
         public virtual DbSet<Factore> Factores { get; set; }
         public virtual DbSet<Plaza> Plazas { get; set; }
         public virtual DbSet<Asegurado> Asegurados { get; set; }
+        public virtual DbSet<Pago> Pagos { get; set; }
+        public virtual DbSet<ResumenPago> ResumenPagoes { get; set; }
     }
 }
