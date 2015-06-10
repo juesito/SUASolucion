@@ -5,7 +5,11 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: Model,canPage: false); 
+    var grid = new WebGrid(source: Model,canPage: false);
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
 }
 
 @section Menu {

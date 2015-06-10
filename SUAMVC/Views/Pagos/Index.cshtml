@@ -7,11 +7,12 @@
 @{
     ViewBag.Title = "Pagos";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
     if (!WebSecurity.IsAuthenticated)
     {
         Response.Redirect("~/Home/Index");
     }
+
+   
     var buscar = "0";
     if (TempData["buscador"] != null)
     {

@@ -2,6 +2,10 @@
 @{
     ViewBag.Title = "Upload";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
     var message = @TempData["viewMessage"];
     var isError = TempData["error"];
     Usuario usuario = Session["UsuarioData"] as Usuario;
