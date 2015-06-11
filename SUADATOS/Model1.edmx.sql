@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/04/2015 17:48:58
--- Generated from EDMX file: C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUADATOS\Model1.edmx
+-- Date Created: 06/11/2015 13:12:20
+-- Generated from EDMX file: C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUASolucion\SUADATOS\Model1.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -196,7 +196,9 @@ CREATE TABLE [dbo].[Incapacidades] (
     [diaSub] int  NOT NULL,
     [porcentajeIncapacidad] decimal(10,4)  NOT NULL,
     [indDef] nchar(2)  NOT NULL,
-    [fecTer] datetime  NOT NULL
+    [fecTer] datetime  NOT NULL,
+    [tipoIncapacidad] nchar(1)  NULL,
+    [alta] nchar(60)  NULL
 );
 GO
 
@@ -268,7 +270,7 @@ CREATE TABLE [dbo].[Acreditados] (
     [CURP] nchar(20)  NULL,
     [RFC] nchar(15)  NOT NULL,
     [clienteId] int  NULL,
-    [ocupacion] nchar(60)  NULL,
+    [ocupacion] nchar(60)  NOT NULL,
     [idGrupo] nchar(20)  NULL,
     [numeroAfiliacion] nchar(15)  NOT NULL,
     [numeroCredito] nchar(15)  NULL,
@@ -380,7 +382,8 @@ CREATE TABLE [dbo].[Movimientos] (
     [lote] nchar(50)  NOT NULL,
     [fechaTransaccion] datetime  NOT NULL,
     [tipo] nchar(2)  NOT NULL,
-    [nombreArchivo] nchar(100)  NOT NULL
+    [nombreArchivo] nchar(100)  NOT NULL,
+    [fechaCreacion] datetime  NOT NULL
 );
 GO
 
@@ -442,8 +445,8 @@ GO
 CREATE TABLE [dbo].[Plazas] (
     [id] int IDENTITY(1,1) NOT NULL,
     [descripcion] nchar(50)  NOT NULL,
-    [cvecorta] nchar(10)  NULL,
-    [indicador] char(1)  NULL
+    [cveCorta] nchar(10)  NULL,
+    [indicador] nchar(1)  NULL
 );
 GO
 
@@ -482,7 +485,10 @@ CREATE TABLE [dbo].[Asegurados] (
     [modificacion] nchar(60)  NULL,
     [permanente] nchar(60)  NULL,
     [Plaza_id] int  NOT NULL,
-    [salarioDiario] decimal(10,3)  NULL
+    [salarioDiario] decimal(10,3)  NULL,
+    [apellidoPaterno] nchar(60)  NULL,
+    [apellidoMaterno] nchar(60)  NULL,
+    [nombres] nchar(60)  NULL
 );
 GO
 

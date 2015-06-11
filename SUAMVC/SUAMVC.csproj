@@ -251,6 +251,7 @@
     <Compile Include="Controllers\FuncionesController.cs" />
     <Compile Include="Controllers\GruposController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IncapacidadesController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\ModulosController.cs" />
     <Compile Include="Controllers\MovimientosController.cs" />
@@ -389,6 +390,11 @@
     <Content Include="Views\Factores\Edit.cshtml" />
     <Content Include="Views\Factores\Index.cshtml" />
     <Content Include="Views\Upload\OnlyUploadFile.cshtml" />
+    <Content Include="Views\Incapacidades\Create.cshtml" />
+    <Content Include="Views\Incapacidades\Delete.cshtml" />
+    <Content Include="Views\Incapacidades\Details.cshtml" />
+    <Content Include="Views\Incapacidades\Edit.cshtml" />
+    <Content Include="Views\Incapacidades\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

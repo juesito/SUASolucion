@@ -7,8 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
+using System.Data.OleDb;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using System.Text;
+using PagedList;
+using System.IO;
+using System.Web.Helpers;
+using SUAMVC.Code52.i18n;
 
 namespace SUAMVC.Controllers
 {
@@ -152,6 +158,60 @@ namespace SUAMVC.Controllers
             db.Patrones.Remove(patrone);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public void GetExcel(String plazasId)
+        {
+
+            Usuario user = Session["UsuarioData"] as Usuario;
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
+
+            var patrones = from s in db.Patrones
+                           where patronesAsignados.Contains(s.Id)
+                           select s;
+
+            if (!String.IsNullOrEmpty(plazasId))
+            {
+                int plazaIdTemp = int.Parse(plazasId);
+                patrones = patrones.Where(p => p.Plaza.id.Equals(plazaIdTemp));
+            }
+
+            List<Patrone> allCust = new List<Patrone>();
+
+            allCust = patrones.ToList();
+
+            WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
+
+            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
+            gridColumns.Add(grid.Column("registro", "Registro Patronal "));
+            gridColumns.Add(grid.Column("Plaza.cveCorta", "ID Plaza"));
+            gridColumns.Add(grid.Column("rfc", "RFC"));
+            gridColumns.Add(grid.Column("nombre", "Nombre"));
+            gridColumns.Add(grid.Column("telefono", "Teléfono"));
+            gridColumns.Add(grid.Column("domicilio", "Domicilio"));
+            gridColumns.Add(grid.Column("zona", "Zona"));
+            gridColumns.Add(grid.Column("inicioAfiliacion", "Ini.Afiliación"));
+            gridColumns.Add(grid.Column("STyPS", "STyPS"));
+            gridColumns.Add(grid.Column("carEnt", "Entidad"));
+            gridColumns.Add(grid.Column("carDel", "Delegación"));
+            gridColumns.Add(grid.Column("codigoPostal", "C. P."));
+            gridColumns.Add(grid.Column("direccionArchivo", "Carpeta"));
+
+            string gridData = grid.GetHtml(
+                columns: grid.Columns(gridColumns.ToArray())
+                    ).ToString();
+
+            Response.ClearContent();
+            DateTime date = DateTime.Now;
+            String fileName = "Patrones-" + date.ToString("ddMMyyyyHHmm") + ".xls";
+            Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+            Response.ContentType = "application/excel";
+            Response.Write(gridData);
+            Response.End();
         }
 
         protected override void Dispose(bool disposing)

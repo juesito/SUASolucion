@@ -4,808 +4,814 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="suaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="suaModelStoreContainer">
-    <EntitySet Name="catalogoMovimientos" EntityType="suaModel.Store.catalogoMovimientos" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Incapacidades" EntityType="suaModel.Store.Incapacidades" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="MovimientosAseguradoes" EntityType="suaModel.Store.MovimientosAseguradoes" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Parametros" EntityType="suaModel.Store.Parametros" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Patrones" EntityType="suaModel.Store.Patrones" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Acreditados" EntityType="suaModel.Store.Acreditados" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Clientes" EntityType="suaModel.Store.Clientes" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Grupos" EntityType="suaModel.Store.Grupos" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Modulos" EntityType="suaModel.Store.Modulos" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Roles" EntityType="suaModel.Store.Roles" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Usuarios" EntityType="suaModel.Store.Usuarios" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="RoleModulos" EntityType="suaModel.Store.RoleModulos" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Movimientos" EntityType="suaModel.Store.Movimientos" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="RoleFuncions" EntityType="suaModel.Store.RoleFuncions" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TopicosUsuarios" EntityType="suaModel.Store.TopicosUsuarios" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Funcions" EntityType="suaModel.Store.Funcions" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Factores" EntityType="suaModel.Store.Factores" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Plazas" EntityType="suaModel.Store.Plazas" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Asegurados" EntityType="suaModel.Store.Asegurados" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK_MovimientosAsegurado_catalogoMovimientos" Association="suaModel.Store.FK_MovimientosAsegurado_catalogoMovimientos">
-      <End Role="catalogoMovimiento" EntitySet="catalogoMovimientos" />
-      <End Role="MovimientosAsegurado" EntitySet="MovimientosAseguradoes" />
-    </AssociationSet>
-    <AssociationSet Name="FK_MovimientosAsegurado_Incapacidades" Association="suaModel.Store.FK_MovimientosAsegurado_Incapacidades">
-      <End Role="Incapacidade" EntitySet="Incapacidades" />
-      <End Role="MovimientosAsegurado" EntitySet="MovimientosAseguradoes" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Acreditados_Clientes" Association="suaModel.Store.FK_Acreditados_Clientes">
-      <End Role="Cliente" EntitySet="Clientes" />
-      <End Role="Acreditado" EntitySet="Acreditados" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PatroneAcreditado" Association="suaModel.Store.FK_PatroneAcreditado">
-      <End Role="Patrone" EntitySet="Patrones" />
-      <End Role="Acreditado" EntitySet="Acreditados" />
-    </AssociationSet>
-    <AssociationSet Name="FK_GrupoClientes" Association="suaModel.Store.FK_GrupoClientes">
-      <End Role="Grupos" EntitySet="Grupos" />
-      <End Role="Cliente" EntitySet="Clientes" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Usuarios_Usuarios" Association="suaModel.Store.FK_Usuarios_Usuarios">
-      <End Role="Role" EntitySet="Roles" />
-      <End Role="Usuario" EntitySet="Usuarios" />
-    </AssociationSet>
-    <AssociationSet Name="FK_RoleModulos_Modulos" Association="suaModel.Store.FK_RoleModulos_Modulos">
-      <End Role="Modulo" EntitySet="Modulos" />
-      <End Role="RoleModulo" EntitySet="RoleModulos" />
-    </AssociationSet>
-    <AssociationSet Name="FK_RoleModulos_Roles" Association="suaModel.Store.FK_RoleModulos_Roles">
-      <End Role="Role" EntitySet="Roles" />
-      <End Role="RoleModulo" EntitySet="RoleModulos" />
-    </AssociationSet>
-    <AssociationSet Name="FK_RoleModulos_Usuarios" Association="suaModel.Store.FK_RoleModulos_Usuarios">
-      <End Role="Usuario" EntitySet="Usuarios" />
-      <End Role="RoleModulo" EntitySet="RoleModulos" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Acreditados_Acreditados" Association="suaModel.Store.FK_Acreditados_Acreditados">
-      <End Role="Acreditado" EntitySet="Acreditados" />
-      <End Role="Acreditado1" EntitySet="Acreditados" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Movimientos_Acreditados" Association="suaModel.Store.FK_Movimientos_Acreditados">
-      <End Role="Acreditado" EntitySet="Acreditados" />
-      <End Role="Movimiento" EntitySet="Movimientos" />
-    </AssociationSet>
-    <AssociationSet Name="FK_RoleFunciones_Roles" Association="suaModel.Store.FK_RoleFunciones_Roles">
-      <End Role="Role" EntitySet="Roles" />
-      <End Role="RoleFuncion" EntitySet="RoleFuncions" />
-    </AssociationSet>
-    <AssociationSet Name="FK_RoleFunciones_RoleUsuarios" Association="suaModel.Store.FK_RoleFunciones_RoleUsuarios">
-      <End Role="Usuario" EntitySet="Usuarios" />
-      <End Role="RoleFuncion" EntitySet="RoleFuncions" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TopicosUsuario_Usuario" Association="suaModel.Store.FK_TopicosUsuario_Usuario">
-      <End Role="Usuario" EntitySet="Usuarios" />
-      <End Role="TopicosUsuario" EntitySet="TopicosUsuarios" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TopicosUsuario_Usuario2" Association="suaModel.Store.FK_TopicosUsuario_Usuario2">
-      <End Role="Usuario" EntitySet="Usuarios" />
-      <End Role="TopicosUsuario" EntitySet="TopicosUsuarios" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Funciones_Modulos" Association="suaModel.Store.FK_Funciones_Modulos">
-      <End Role="Modulo" EntitySet="Modulos" />
-      <End Role="Funcion" EntitySet="Funcions" />
-    </AssociationSet>
-    <AssociationSet Name="FK_RoleFunciones_Funciones" Association="suaModel.Store.FK_RoleFunciones_Funciones">
-      <End Role="Funcion" EntitySet="Funcions" />
-      <End Role="RoleFuncion" EntitySet="RoleFuncions" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Factores_Usuarios" Association="suaModel.Store.FK_Factores_Usuarios">
-      <End Role="Usuario" EntitySet="Usuarios" />
-      <End Role="Factore" EntitySet="Factores" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PlazaAcreditado" Association="suaModel.Store.FK_PlazaAcreditado">
-      <End Role="Plaza" EntitySet="Plazas" />
-      <End Role="Acreditado" EntitySet="Acreditados" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PlazaClientes" Association="suaModel.Store.FK_PlazaClientes">
-      <End Role="Plaza" EntitySet="Plazas" />
-      <End Role="Cliente" EntitySet="Clientes" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PlazaGrupos" Association="suaModel.Store.FK_PlazaGrupos">
-      <End Role="Plaza" EntitySet="Plazas" />
-      <End Role="Grupos" EntitySet="Grupos" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PlazaPatrone" Association="suaModel.Store.FK_PlazaPatrone">
-      <End Role="Plaza" EntitySet="Plazas" />
-      <End Role="Patrone" EntitySet="Patrones" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Usuarios_Plazas" Association="suaModel.Store.FK_Usuarios_Plazas">
-      <End Role="Plaza" EntitySet="Plazas" />
-      <End Role="Usuario" EntitySet="Usuarios" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Asegurados_Clientes" Association="suaModel.Store.FK_Asegurados_Clientes">
-      <End Role="Cliente" EntitySet="Clientes" />
-      <End Role="Asegurado" EntitySet="Asegurados" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Incapacidades_Asegurados" Association="suaModel.Store.FK_Incapacidades_Asegurados">
-      <End Role="Asegurado" EntitySet="Asegurados" />
-      <End Role="Incapacidade" EntitySet="Incapacidades" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Movimientos_Asegurados" Association="suaModel.Store.FK_Movimientos_Asegurados">
-      <End Role="Asegurado" EntitySet="Asegurados" />
-      <End Role="Movimiento" EntitySet="Movimientos" />
-    </AssociationSet>
-    <AssociationSet Name="FK_MovimientosAsegurado_Asegurados" Association="suaModel.Store.FK_MovimientosAsegurado_Asegurados">
-      <End Role="Asegurado" EntitySet="Asegurados" />
-      <End Role="MovimientosAsegurado" EntitySet="MovimientosAseguradoes" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PatroneAsegurado" Association="suaModel.Store.FK_PatroneAsegurado">
-      <End Role="Patrone" EntitySet="Patrones" />
-      <End Role="Asegurado" EntitySet="Asegurados" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PlazaAsegurado" Association="suaModel.Store.FK_PlazaAsegurado">
-      <End Role="Plaza" EntitySet="Plazas" />
-      <End Role="Asegurado" EntitySet="Asegurados" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="catalogoMovimientos">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="tipo" Type="nchar" Nullable="false" MaxLength="5" />
-    <Property Name="descripcion" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Incapacidades">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="aseguradoId" Type="int" Nullable="false" />
-    <Property Name="fechaAcc" Type="datetime" Nullable="false" />
-    <Property Name="folioIncapacidad" Type="nchar" Nullable="false" MaxLength="15" />
-    <Property Name="grupoIncapacidad" Type="nchar" Nullable="false" MaxLength="20" />
-    <Property Name="recRev" Type="nchar" Nullable="true" MaxLength="2" />
-    <Property Name="consecuencia" Type="nchar" Nullable="true" MaxLength="1" />
-    <Property Name="tieRie" Type="nchar" Nullable="true" MaxLength="25" />
-    <Property Name="ramSeq" Type="nchar" Nullable="true" MaxLength="25" />
-    <Property Name="secuela" Type="nchar" Nullable="true" MaxLength="25" />
-    <Property Name="conInc" Type="nchar" Nullable="true" MaxLength="25" />
-    <Property Name="diaSub" Type="int" Nullable="false" />
-    <Property Name="porcentajeIncapacidad" Type="decimal" Nullable="false" Precision="10" Scale="4" />
-    <Property Name="indDef" Type="nchar" Nullable="false" MaxLength="2" />
-    <Property Name="fecTer" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="MovimientosAseguradoes">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="aseguradoId" Type="int" Nullable="false" />
-    <Property Name="movimientoId" Type="int" Nullable="false" />
-    <Property Name="fechaInicio" Type="datetime" Nullable="false" />
-    <Property Name="sdi" Type="nchar" Nullable="true" MaxLength="10" />
-    <Property Name="numeroDias" Type="int" Nullable="true" />
-    <Property Name="folio" Type="nchar" Nullable="true" MaxLength="10" />
-    <Property Name="incapacidadId" Type="int" Nullable="false" />
-    <Property Name="credito" Type="nchar" Nullable="true" MaxLength="10" />
-    <Property Name="estatus" Type="nchar" Nullable="false" MaxLength="1" />
-  </EntityType>
-  <EntityType Name="Parametros">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="parametroId" Type="nchar" Nullable="false" MaxLength="10" />
-    <Property Name="descripcion" Type="nchar" Nullable="true" MaxLength="100" />
-    <Property Name="valorString" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="valorMoneda" Type="decimal" Nullable="true" Precision="10" Scale="2" />
-    <Property Name="valorFecha" Type="datetime" Nullable="true" />
-    <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Patrones">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="registro" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="rfc" Type="nchar" Nullable="false" MaxLength="15" />
-    <Property Name="nombre" Type="nchar" Nullable="false" MaxLength="50" />
-    <Property Name="actividad" Type="nchar" Nullable="false" MaxLength="50" />
-    <Property Name="domicilio" Type="nchar" Nullable="false" MaxLength="50" />
-    <Property Name="municipio" Type="nchar" Nullable="false" MaxLength="50" />
-    <Property Name="codigoPostal" Type="nchar" Nullable="false" MaxLength="7" />
-    <Property Name="entidad" Type="nchar" Nullable="false" MaxLength="2" />
-    <Property Name="telefono" Type="nchar" Nullable="false" MaxLength="15" />
-    <Property Name="remision" Type="nchar" Nullable="false" MaxLength="1" />
-    <Property Name="zona" Type="nchar" Nullable="false" MaxLength="1" />
-    <Property Name="delegacion" Type="nchar" Nullable="false" MaxLength="4" />
-    <Property Name="carEnt" Type="nchar" Nullable="false" MaxLength="30" />
-    <Property Name="numeroDelegacion" Type="int" Nullable="false" />
-    <Property Name="carDel" Type="nchar" Nullable="false" MaxLength="25" />
-    <Property Name="numSub" Type="int" Nullable="false" />
-    <Property Name="tipoConvenio" Type="decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="convenio" Type="nchar" Nullable="true" MaxLength="3" />
-    <Property Name="inicioAfiliacion" Type="nchar" Nullable="true" MaxLength="6" />
-    <Property Name="patRep" Type="nchar" Nullable="true" MaxLength="50" />
-    <Property Name="clase" Type="nchar" Nullable="true" MaxLength="3" />
-    <Property Name="fraccion" Type="nchar" Nullable="true" MaxLength="4" />
-    <Property Name="STyPS" Type="nchar" Nullable="true" MaxLength="2" />
-    <Property Name="Plaza_id" Type="int" Nullable="false" />
-    <Property Name="direccionArchivo" Type="nchar" Nullable="true" MaxLength="100" />
-  </EntityType>
-  <EntityType Name="Acreditados">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="apellidoPaterno" Type="nchar" Nullable="false" MaxLength="60" />
-    <Property Name="apellidoMaterno" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="nombre" Type="nchar" Nullable="false" MaxLength="60" />
-    <Property Name="nombreCompleto" Type="nchar" Nullable="true" MaxLength="100" />
-    <Property Name="CURP" Type="nchar" Nullable="true" MaxLength="20" />
-    <Property Name="RFC" Type="nchar" Nullable="false" MaxLength="15" />
-    <Property Name="clienteId" Type="int" Nullable="true" />
-    <Property Name="ocupacion" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="idGrupo" Type="nchar" Nullable="true" MaxLength="20" />
-    <Property Name="numeroAfiliacion" Type="nchar" Nullable="false" MaxLength="15" />
-    <Property Name="numeroCredito" Type="nchar" Nullable="true" MaxLength="15" />
-    <Property Name="fechaAlta" Type="datetime" Nullable="false" />
-    <Property Name="fechaBaja" Type="datetime" Nullable="true" />
-    <Property Name="fechaInicioDescuento" Type="datetime" Nullable="true" />
-    <Property Name="fechaFinDescuento" Type="datetime" Nullable="true" />
-    <Property Name="smdv" Type="float" Nullable="false" />
-    <Property Name="sdi" Type="float" Nullable="false" />
-    <Property Name="sd" Type="decimal" Nullable="false" Precision="10" Scale="3" />
-    <Property Name="vsm" Type="decimal" Nullable="false" Precision="10" Scale="3" />
-    <Property Name="porcentaje" Type="decimal" Nullable="false" Precision="10" Scale="3" />
-    <Property Name="cuotaFija" Type="decimal" Nullable="false" Precision="10" Scale="3" />
-    <Property Name="descuentoBimestral" Type="decimal" Nullable="false" Precision="10" Scale="3" />
-    <Property Name="descuentoMensual" Type="decimal" Nullable="false" Precision="10" Scale="3" />
-    <Property Name="descuentoSemanal" Type="decimal" Nullable="false" Precision="10" Scale="3" />
-    <Property Name="descuentoCatorcenal" Type="decimal" Nullable="false" Precision="10" Scale="3" />
-    <Property Name="descuentoQuincenal" Type="decimal" Nullable="false" Precision="10" Scale="3" />
-    <Property Name="descuentoVeintiochonal" Type="decimal" Nullable="false" Precision="10" Scale="3" />
-    <Property Name="descuentoDiario" Type="decimal" Nullable="false" Precision="10" Scale="3" />
-    <Property Name="acuseRetencion" Type="nchar" Nullable="true" MaxLength="20" />
-    <Property Name="PatroneId" Type="int" Nullable="false" />
-    <Property Name="Plaza_id" Type="int" Nullable="false" />
-    <Property Name="fechaCreacion" Type="datetime" Nullable="true" />
-    <Property Name="fechaModificacion" Type="datetime" Nullable="true" />
-    <Property Name="alta" Type="nchar" Nullable="true" MaxLength="10" />
-    <Property Name="baja" Type="nchar" Nullable="true" MaxLength="10" />
-    <Property Name="modificacion" Type="nchar" Nullable="true" MaxLength="10" />
-    <Property Name="permanente" Type="nchar" Nullable="true" MaxLength="10" />
-    <Property Name="fechaUltimoCalculo" Type="datetime" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Clientes">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="claveCliente" Type="nchar" Nullable="false" MaxLength="15" />
-    <Property Name="claveSua" Type="nchar" Nullable="false" MaxLength="15" />
-    <Property Name="rfc" Type="nchar" Nullable="false" MaxLength="20" />
-    <Property Name="descripcion" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="ejecutivo" Type="nchar" Nullable="true" MaxLength="100" />
-    <Property Name="Plaza_id" Type="int" Nullable="false" />
-    <Property Name="Grupo_id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Grupos">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="claveGrupo" Type="nchar" Nullable="false" MaxLength="15" />
-    <Property Name="nombre" Type="nchar" Nullable="false" MaxLength="60" />
-    <Property Name="nombreCorto" Type="nchar" Nullable="true" MaxLength="30" />
-    <Property Name="Plaza_id" Type="int" Nullable="false" />
-    <Property Name="posicion" Type="nchar" Nullable="true" MaxLength="10" />
-    <Property Name="estatus" Type="nchar" Nullable="false" MaxLength="1" />
-  </EntityType>
-  <EntityType Name="Modulos">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="descripcionCorta" Type="nchar" Nullable="true" MaxLength="10" />
-    <Property Name="descripcionLarga" Type="nchar" Nullable="true" MaxLength="100" />
-    <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
-    <Property Name="estatus" Type="nchar" Nullable="false" MaxLength="1" />
-  </EntityType>
-  <EntityType Name="Roles">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="descripcion" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
-    <Property Name="estatus" Type="char" Nullable="false" MaxLength="2" />
-  </EntityType>
-  <EntityType Name="Usuarios">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="nombreUsuario" Type="nchar" Nullable="false" MaxLength="60" />
-    <Property Name="contrasena" Type="nchar" Nullable="false" MaxLength="10" />
-    <Property Name="claveUsuario" Type="nchar" Nullable="false" MaxLength="30" />
-    <Property Name="email" Type="nchar" Nullable="true" MaxLength="100" />
-    <Property Name="apellidoMaterno" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="apellidoPaterno" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="estatus" Type="nchar" Nullable="false" MaxLength="2" />
-    <Property Name="fechaIngreso" Type="datetime" Nullable="false" />
-    <Property Name="roleId" Type="int" Nullable="false" />
-    <Property Name="plazaId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="RoleModulos">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="roleId" Type="int" Nullable="false" />
-    <Property Name="moduloId" Type="int" Nullable="false" />
-    <Property Name="usuarioCreacionId" Type="int" Nullable="false" />
-    <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Movimientos">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="aseguradoId" Type="int" Nullable="true" />
-    <Property Name="acreditadoId" Type="int" Nullable="true" />
-    <Property Name="lote" Type="nchar" Nullable="false" MaxLength="50" />
-    <Property Name="fechaTransaccion" Type="datetime" Nullable="false" />
-    <Property Name="tipo" Type="nchar" Nullable="false" MaxLength="2" />
-    <Property Name="nombreArchivo" Type="nchar" Nullable="false" MaxLength="100" />
-  </EntityType>
-  <EntityType Name="RoleFuncions">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="roleId" Type="int" Nullable="false" />
-    <Property Name="funcionId" Type="int" Nullable="false" />
-    <Property Name="usuarioCreacionId" Type="int" Nullable="false" />
-    <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="TopicosUsuarios">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="topicoId" Type="int" Nullable="false" />
-    <Property Name="usuarioId" Type="int" Nullable="false" />
-    <Property Name="tipo" Type="nchar" Nullable="false" MaxLength="2" />
-    <Property Name="usuarioCreacionId" Type="int" Nullable="false" />
-    <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Funcions">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="moduloId" Type="int" Nullable="false" />
-    <Property Name="descripcionCorta" Type="nchar" Nullable="false" MaxLength="60" />
-    <Property Name="descripcionLarga" Type="nchar" Nullable="true" MaxLength="100" />
-    <Property Name="accion" Type="nchar" Nullable="false" MaxLength="100" />
-    <Property Name="controlador" Type="nchar" Nullable="false" MaxLength="100" />
-    <Property Name="estatus" Type="nchar" Nullable="false" MaxLength="2" />
-    <Property Name="usuarioId" Type="int" Nullable="false" />
-    <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
-    <Property Name="tipo" Type="nchar" Nullable="false" MaxLength="1" />
-  </EntityType>
-  <EntityType Name="Factores">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="anosTrabajados" Type="int" Nullable="true" />
-    <Property Name="diasVacaciones" Type="int" Nullable="true" />
-    <Property Name="primaVacacional" Type="decimal" Nullable="true" Precision="8" Scale="2" />
-    <Property Name="porcentaje" Type="decimal" Nullable="true" Precision="8" Scale="2" />
-    <Property Name="diasAno" Type="int" Nullable="true" />
-    <Property Name="factorVacaciones" Type="decimal" Nullable="true" Precision="10" Scale="5" />
-    <Property Name="aguinaldo" Type="int" Nullable="true" />
-    <Property Name="diasAnoAguinaldo" Type="int" Nullable="true" />
-    <Property Name="factor" Type="decimal" Nullable="true" Precision="10" Scale="5" />
-    <Property Name="factorIntegracion" Type="decimal" Nullable="true" Precision="10" Scale="5" />
-    <Property Name="fechaRegistro" Type="datetime" Nullable="false" />
-    <Property Name="usuarioId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Plazas">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="descripcion" Type="nchar" Nullable="false" MaxLength="50" />
-    <Property Name="cvecorta" Type="nchar" Nullable="true" MaxLength="10" />
-    <Property Name="indicador" Type="char" Nullable="true" MaxLength="1" />
-  </EntityType>
-  <EntityType Name="Asegurados">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="numeroAfiliacion" Type="nchar" Nullable="false" MaxLength="11" />
-    <Property Name="CURP" Type="nchar" Nullable="true" MaxLength="18" />
-    <Property Name="RFC" Type="nchar" Nullable="true" MaxLength="13" />
-    <Property Name="nombre" Type="nchar" Nullable="true" MaxLength="50" />
-    <Property Name="salarioImss" Type="decimal" Nullable="true" Precision="19" Scale="4" />
-    <Property Name="salarioInfo" Type="decimal" Nullable="true" Precision="19" Scale="4" />
-    <Property Name="fechaAlta" Type="datetime" Nullable="false" />
-    <Property Name="fechaBaja" Type="datetime" Nullable="true" />
-    <Property Name="tipoTrabajo" Type="nchar" Nullable="false" MaxLength="1" />
-    <Property Name="semanaJornada" Type="nchar" Nullable="false" MaxLength="1" />
-    <Property Name="paginaInfo" Type="nchar" Nullable="false" MaxLength="10" />
-    <Property Name="tipoDescuento" Type="nchar" Nullable="true" MaxLength="1" />
-    <Property Name="valorDescuento" Type="decimal" Nullable="true" Precision="19" Scale="4" />
-    <Property Name="ClienteId" Type="int" Nullable="true" />
-    <Property Name="nombreTemporal" Type="nchar" Nullable="true" MaxLength="50" />
-    <Property Name="fechaDescuento" Type="datetime" Nullable="true" />
-    <Property Name="finDescuento" Type="datetime" Nullable="true" />
-    <Property Name="articulo33" Type="nchar" Nullable="true" MaxLength="1" />
-    <Property Name="salarioArticulo33" Type="decimal" Nullable="true" Precision="19" Scale="4" />
-    <Property Name="trapeniv" Type="nchar" Nullable="true" MaxLength="1" />
-    <Property Name="estado" Type="nchar" Nullable="true" MaxLength="1" />
-    <Property Name="claveMunicipio" Type="nchar" Nullable="true" MaxLength="3" />
-    <Property Name="PatroneId" Type="int" Nullable="false" />
-    <Property Name="extranjero" Type="nchar" Nullable="true" MaxLength="2" />
-    <Property Name="ocupacion" Type="nchar" Nullable="true" MaxLength="20" />
-    <Property Name="fechaCreacion" Type="datetime" Nullable="true" />
-    <Property Name="fechaModificacion" Type="datetime" Nullable="true" />
-    <Property Name="alta" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="baja" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="modificacion" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="permanente" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="Plaza_id" Type="int" Nullable="false" />
-    <Property Name="salarioDiario" Type="decimal" Nullable="true" Precision="10" Scale="3" />
-  </EntityType>
-  <Association Name="FK_MovimientosAsegurado_catalogoMovimientos">
-    <End Role="catalogoMovimiento" Type="suaModel.Store.catalogoMovimientos" Multiplicity="1" />
-    <End Role="MovimientosAsegurado" Type="suaModel.Store.MovimientosAseguradoes" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="catalogoMovimiento">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="MovimientosAsegurado">
-        <PropertyRef Name="movimientoId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_MovimientosAsegurado_Incapacidades">
-    <End Role="Incapacidade" Type="suaModel.Store.Incapacidades" Multiplicity="1" />
-    <End Role="MovimientosAsegurado" Type="suaModel.Store.MovimientosAseguradoes" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Incapacidade">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="MovimientosAsegurado">
-        <PropertyRef Name="incapacidadId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Acreditados_Clientes">
-    <End Role="Cliente" Type="suaModel.Store.Clientes" Multiplicity="0..1" />
-    <End Role="Acreditado" Type="suaModel.Store.Acreditados" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Cliente">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Acreditado">
-        <PropertyRef Name="clienteId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PatroneAcreditado">
-    <End Role="Patrone" Type="suaModel.Store.Patrones" Multiplicity="1" />
-    <End Role="Acreditado" Type="suaModel.Store.Acreditados" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Patrone">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Acreditado">
-        <PropertyRef Name="PatroneId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_GrupoClientes">
-    <End Role="Grupos" Type="suaModel.Store.Grupos" Multiplicity="1" />
-    <End Role="Cliente" Type="suaModel.Store.Clientes" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Grupos">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Cliente">
-        <PropertyRef Name="Grupo_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Usuarios_Usuarios">
-    <End Role="Role" Type="suaModel.Store.Roles" Multiplicity="1" />
-    <End Role="Usuario" Type="suaModel.Store.Usuarios" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Role">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Usuario">
-        <PropertyRef Name="roleId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_RoleModulos_Modulos">
-    <End Role="Modulo" Type="suaModel.Store.Modulos" Multiplicity="1" />
-    <End Role="RoleModulo" Type="suaModel.Store.RoleModulos" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Modulo">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="RoleModulo">
-        <PropertyRef Name="moduloId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_RoleModulos_Roles">
-    <End Role="Role" Type="suaModel.Store.Roles" Multiplicity="1" />
-    <End Role="RoleModulo" Type="suaModel.Store.RoleModulos" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Role">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="RoleModulo">
-        <PropertyRef Name="roleId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_RoleModulos_Usuarios">
-    <End Role="Usuario" Type="suaModel.Store.Usuarios" Multiplicity="1" />
-    <End Role="RoleModulo" Type="suaModel.Store.RoleModulos" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="RoleModulo">
-        <PropertyRef Name="usuarioCreacionId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Acreditados_Acreditados">
-    <End Role="Acreditado" Type="suaModel.Store.Acreditados" Multiplicity="1" />
-    <End Role="Acreditado1" Type="suaModel.Store.Acreditados" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Acreditado">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Acreditado1">
-        <PropertyRef Name="id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Movimientos_Acreditados">
-    <End Role="Acreditado" Type="suaModel.Store.Acreditados" Multiplicity="0..1" />
-    <End Role="Movimiento" Type="suaModel.Store.Movimientos" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Acreditado">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Movimiento">
-        <PropertyRef Name="acreditadoId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_RoleFunciones_Roles">
-    <End Role="Role" Type="suaModel.Store.Roles" Multiplicity="1" />
-    <End Role="RoleFuncion" Type="suaModel.Store.RoleFuncions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Role">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="RoleFuncion">
-        <PropertyRef Name="roleId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_RoleFunciones_RoleUsuarios">
-    <End Role="Usuario" Type="suaModel.Store.Usuarios" Multiplicity="1" />
-    <End Role="RoleFuncion" Type="suaModel.Store.RoleFuncions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="RoleFuncion">
-        <PropertyRef Name="usuarioCreacionId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TopicosUsuario_Usuario">
-    <End Role="Usuario" Type="suaModel.Store.Usuarios" Multiplicity="1" />
-    <End Role="TopicosUsuario" Type="suaModel.Store.TopicosUsuarios" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TopicosUsuario">
-        <PropertyRef Name="usuarioCreacionId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TopicosUsuario_Usuario2">
-    <End Role="Usuario" Type="suaModel.Store.Usuarios" Multiplicity="1" />
-    <End Role="TopicosUsuario" Type="suaModel.Store.TopicosUsuarios" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TopicosUsuario">
-        <PropertyRef Name="usuarioId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Funciones_Modulos">
-    <End Role="Modulo" Type="suaModel.Store.Modulos" Multiplicity="1" />
-    <End Role="Funcion" Type="suaModel.Store.Funcions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Modulo">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Funcion">
-        <PropertyRef Name="moduloId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_RoleFunciones_Funciones">
-    <End Role="Funcion" Type="suaModel.Store.Funcions" Multiplicity="1" />
-    <End Role="RoleFuncion" Type="suaModel.Store.RoleFuncions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Funcion">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="RoleFuncion">
-        <PropertyRef Name="funcionId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Factores_Usuarios">
-    <End Role="Usuario" Type="suaModel.Store.Usuarios" Multiplicity="1" />
-    <End Role="Factore" Type="suaModel.Store.Factores" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Factore">
-        <PropertyRef Name="usuarioId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PlazaAcreditado">
-    <End Role="Plaza" Type="suaModel.Store.Plazas" Multiplicity="1" />
-    <End Role="Acreditado" Type="suaModel.Store.Acreditados" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Plaza">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Acreditado">
-        <PropertyRef Name="Plaza_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PlazaClientes">
-    <End Role="Plaza" Type="suaModel.Store.Plazas" Multiplicity="1" />
-    <End Role="Cliente" Type="suaModel.Store.Clientes" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Plaza">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Cliente">
-        <PropertyRef Name="Plaza_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PlazaGrupos">
-    <End Role="Plaza" Type="suaModel.Store.Plazas" Multiplicity="1" />
-    <End Role="Grupos" Type="suaModel.Store.Grupos" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Plaza">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Grupos">
-        <PropertyRef Name="Plaza_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PlazaPatrone">
-    <End Role="Plaza" Type="suaModel.Store.Plazas" Multiplicity="1" />
-    <End Role="Patrone" Type="suaModel.Store.Patrones" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Plaza">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Patrone">
-        <PropertyRef Name="Plaza_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Usuarios_Plazas">
-    <End Role="Plaza" Type="suaModel.Store.Plazas" Multiplicity="1" />
-    <End Role="Usuario" Type="suaModel.Store.Usuarios" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Plaza">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Usuario">
-        <PropertyRef Name="plazaId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Asegurados_Clientes">
-    <End Role="Cliente" Type="suaModel.Store.Clientes" Multiplicity="0..1" />
-    <End Role="Asegurado" Type="suaModel.Store.Asegurados" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Cliente">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Asegurado">
-        <PropertyRef Name="ClienteId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Incapacidades_Asegurados">
-    <End Role="Asegurado" Type="suaModel.Store.Asegurados" Multiplicity="1" />
-    <End Role="Incapacidade" Type="suaModel.Store.Incapacidades" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Asegurado">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Incapacidade">
-        <PropertyRef Name="aseguradoId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Movimientos_Asegurados">
-    <End Role="Asegurado" Type="suaModel.Store.Asegurados" Multiplicity="0..1" />
-    <End Role="Movimiento" Type="suaModel.Store.Movimientos" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Asegurado">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Movimiento">
-        <PropertyRef Name="aseguradoId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_MovimientosAsegurado_Asegurados">
-    <End Role="Asegurado" Type="suaModel.Store.Asegurados" Multiplicity="1" />
-    <End Role="MovimientosAsegurado" Type="suaModel.Store.MovimientosAseguradoes" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Asegurado">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="MovimientosAsegurado">
-        <PropertyRef Name="aseguradoId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PatroneAsegurado">
-    <End Role="Patrone" Type="suaModel.Store.Patrones" Multiplicity="1" />
-    <End Role="Asegurado" Type="suaModel.Store.Asegurados" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Patrone">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Asegurado">
-        <PropertyRef Name="PatroneId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PlazaAsegurado">
-    <End Role="Plaza" Type="suaModel.Store.Plazas" Multiplicity="1" />
-    <End Role="Asegurado" Type="suaModel.Store.Asegurados" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Plaza">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Asegurado">
-        <PropertyRef Name="Plaza_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+    <Schema Namespace="suaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Acreditados">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="apellidoPaterno" Type="nchar" MaxLength="60" Nullable="false" />
+          <Property Name="apellidoMaterno" Type="nchar" MaxLength="60" />
+          <Property Name="nombre" Type="nchar" MaxLength="60" Nullable="false" />
+          <Property Name="nombreCompleto" Type="nchar" MaxLength="100" />
+          <Property Name="CURP" Type="nchar" MaxLength="20" />
+          <Property Name="RFC" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="clienteId" Type="int" />
+          <Property Name="ocupacion" Type="nchar" MaxLength="60" Nullable="false" />
+          <Property Name="idGrupo" Type="nchar" MaxLength="20" />
+          <Property Name="numeroAfiliacion" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="numeroCredito" Type="nchar" MaxLength="15" />
+          <Property Name="fechaAlta" Type="datetime" Nullable="false" />
+          <Property Name="fechaBaja" Type="datetime" />
+          <Property Name="fechaInicioDescuento" Type="datetime" />
+          <Property Name="fechaFinDescuento" Type="datetime" />
+          <Property Name="smdv" Type="float" Nullable="false" />
+          <Property Name="sdi" Type="float" Nullable="false" />
+          <Property Name="sd" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="vsm" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="porcentaje" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="cuotaFija" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="descuentoBimestral" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="descuentoMensual" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="descuentoSemanal" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="descuentoCatorcenal" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="descuentoQuincenal" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="descuentoVeintiochonal" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="descuentoDiario" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="acuseRetencion" Type="nchar" MaxLength="20" />
+          <Property Name="PatroneId" Type="int" Nullable="false" />
+          <Property Name="Plaza_id" Type="int" Nullable="false" />
+          <Property Name="fechaCreacion" Type="datetime" />
+          <Property Name="fechaModificacion" Type="datetime" />
+          <Property Name="alta" Type="nchar" MaxLength="10" />
+          <Property Name="baja" Type="nchar" MaxLength="10" />
+          <Property Name="modificacion" Type="nchar" MaxLength="10" />
+          <Property Name="permanente" Type="nchar" MaxLength="10" />
+          <Property Name="fechaUltimoCalculo" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Asegurados">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numeroAfiliacion" Type="nchar" MaxLength="11" Nullable="false" />
+          <Property Name="CURP" Type="nchar" MaxLength="18" />
+          <Property Name="RFC" Type="nchar" MaxLength="13" />
+          <Property Name="nombre" Type="nchar" MaxLength="50" />
+          <Property Name="salarioImss" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="salarioInfo" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="fechaAlta" Type="datetime" Nullable="false" />
+          <Property Name="fechaBaja" Type="datetime" />
+          <Property Name="tipoTrabajo" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="semanaJornada" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="paginaInfo" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="tipoDescuento" Type="nchar" MaxLength="1" />
+          <Property Name="valorDescuento" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="ClienteId" Type="int" />
+          <Property Name="nombreTemporal" Type="nchar" MaxLength="50" />
+          <Property Name="fechaDescuento" Type="datetime" />
+          <Property Name="finDescuento" Type="datetime" />
+          <Property Name="articulo33" Type="nchar" MaxLength="1" />
+          <Property Name="salarioArticulo33" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="trapeniv" Type="nchar" MaxLength="1" />
+          <Property Name="estado" Type="nchar" MaxLength="1" />
+          <Property Name="claveMunicipio" Type="nchar" MaxLength="3" />
+          <Property Name="PatroneId" Type="int" Nullable="false" />
+          <Property Name="extranjero" Type="nchar" MaxLength="2" />
+          <Property Name="ocupacion" Type="nchar" MaxLength="20" />
+          <Property Name="fechaCreacion" Type="datetime" />
+          <Property Name="fechaModificacion" Type="datetime" />
+          <Property Name="alta" Type="nchar" MaxLength="60" />
+          <Property Name="baja" Type="nchar" MaxLength="60" />
+          <Property Name="modificacion" Type="nchar" MaxLength="60" />
+          <Property Name="permanente" Type="nchar" MaxLength="60" />
+          <Property Name="Plaza_id" Type="int" Nullable="false" />
+          <Property Name="salarioDiario" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="apellidoPaterno" Type="nchar" MaxLength="60" />
+          <Property Name="apellidoMaterno" Type="nchar" MaxLength="60" />
+          <Property Name="nombres" Type="nchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="catalogoMovimientos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipo" Type="nchar" MaxLength="5" Nullable="false" />
+          <Property Name="descripcion" Type="nchar" MaxLength="60" />
+          <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Clientes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="claveCliente" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="claveSua" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="rfc" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="descripcion" Type="nchar" MaxLength="60" />
+          <Property Name="ejecutivo" Type="nchar" MaxLength="100" />
+          <Property Name="Plaza_id" Type="int" Nullable="false" />
+          <Property Name="Grupo_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Factores">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="anosTrabajados" Type="int" />
+          <Property Name="diasVacaciones" Type="int" />
+          <Property Name="primaVacacional" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="porcentaje" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="diasAno" Type="int" />
+          <Property Name="factorVacaciones" Type="decimal" Precision="10" Scale="5" />
+          <Property Name="aguinaldo" Type="int" />
+          <Property Name="diasAnoAguinaldo" Type="int" />
+          <Property Name="factor" Type="decimal" Precision="10" Scale="5" />
+          <Property Name="factorIntegracion" Type="decimal" Precision="10" Scale="5" />
+          <Property Name="fechaRegistro" Type="datetime" Nullable="false" />
+          <Property Name="usuarioId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Funcions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="moduloId" Type="int" Nullable="false" />
+          <Property Name="descripcionCorta" Type="nchar" MaxLength="60" Nullable="false" />
+          <Property Name="descripcionLarga" Type="nchar" MaxLength="100" />
+          <Property Name="accion" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="controlador" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="estatus" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="usuarioId" Type="int" Nullable="false" />
+          <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="tipo" Type="nchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Grupos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="claveGrupo" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="nombre" Type="nchar" MaxLength="60" Nullable="false" />
+          <Property Name="nombreCorto" Type="nchar" MaxLength="30" />
+          <Property Name="Plaza_id" Type="int" Nullable="false" />
+          <Property Name="posicion" Type="nchar" MaxLength="10" />
+          <Property Name="estatus" Type="nchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Incapacidades">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="aseguradoId" Type="int" Nullable="false" />
+          <Property Name="fechaAcc" Type="datetime" Nullable="false" />
+          <Property Name="folioIncapacidad" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="grupoIncapacidad" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="recRev" Type="nchar" MaxLength="2" />
+          <Property Name="consecuencia" Type="nchar" MaxLength="1" />
+          <Property Name="tieRie" Type="nchar" MaxLength="25" />
+          <Property Name="ramSeq" Type="nchar" MaxLength="25" />
+          <Property Name="secuela" Type="nchar" MaxLength="25" />
+          <Property Name="conInc" Type="nchar" MaxLength="25" />
+          <Property Name="diaSub" Type="int" Nullable="false" />
+          <Property Name="porcentajeIncapacidad" Type="decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="indDef" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="fecTer" Type="datetime" Nullable="false" />
+          <Property Name="tipoIncapacidad" Type="nchar" MaxLength="1" />
+          <Property Name="alta" Type="nchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="Modulos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcionCorta" Type="nchar" MaxLength="10" />
+          <Property Name="descripcionLarga" Type="nchar" MaxLength="100" />
+          <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="estatus" Type="nchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Movimientos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="aseguradoId" Type="int" />
+          <Property Name="acreditadoId" Type="int" />
+          <Property Name="lote" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="fechaTransaccion" Type="datetime" Nullable="false" />
+          <Property Name="tipo" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="nombreArchivo" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MovimientosAseguradoes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="aseguradoId" Type="int" Nullable="false" />
+          <Property Name="movimientoId" Type="int" Nullable="false" />
+          <Property Name="fechaInicio" Type="datetime" Nullable="false" />
+          <Property Name="sdi" Type="nchar" MaxLength="10" />
+          <Property Name="numeroDias" Type="int" />
+          <Property Name="folio" Type="nchar" MaxLength="10" />
+          <Property Name="incapacidadId" Type="int" Nullable="false" />
+          <Property Name="credito" Type="nchar" MaxLength="10" />
+          <Property Name="estatus" Type="nchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parametros">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="parametroId" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="descripcion" Type="nchar" MaxLength="100" />
+          <Property Name="valorString" Type="nchar" MaxLength="60" />
+          <Property Name="valorMoneda" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="valorFecha" Type="datetime" />
+          <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Patrones">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="registro" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="rfc" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="nombre" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="actividad" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="domicilio" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="municipio" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="codigoPostal" Type="nchar" MaxLength="7" Nullable="false" />
+          <Property Name="entidad" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="telefono" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="remision" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="zona" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="delegacion" Type="nchar" MaxLength="4" Nullable="false" />
+          <Property Name="carEnt" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="numeroDelegacion" Type="int" Nullable="false" />
+          <Property Name="carDel" Type="nchar" MaxLength="25" Nullable="false" />
+          <Property Name="numSub" Type="int" Nullable="false" />
+          <Property Name="tipoConvenio" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="convenio" Type="nchar" MaxLength="3" />
+          <Property Name="inicioAfiliacion" Type="nchar" MaxLength="6" />
+          <Property Name="patRep" Type="nchar" MaxLength="50" />
+          <Property Name="clase" Type="nchar" MaxLength="3" />
+          <Property Name="fraccion" Type="nchar" MaxLength="4" />
+          <Property Name="STyPS" Type="nchar" MaxLength="2" />
+          <Property Name="Plaza_id" Type="int" Nullable="false" />
+          <Property Name="direccionArchivo" Type="nchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Plazas">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="cveCorta" Type="nchar" MaxLength="10" />
+          <Property Name="indicador" Type="nchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="RoleFuncions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="roleId" Type="int" Nullable="false" />
+          <Property Name="funcionId" Type="int" Nullable="false" />
+          <Property Name="usuarioCreacionId" Type="int" Nullable="false" />
+          <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoleModulos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="roleId" Type="int" Nullable="false" />
+          <Property Name="moduloId" Type="int" Nullable="false" />
+          <Property Name="usuarioCreacionId" Type="int" Nullable="false" />
+          <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="nchar" MaxLength="60" />
+          <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="estatus" Type="char" MaxLength="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TopicosUsuarios">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="topicoId" Type="int" Nullable="false" />
+          <Property Name="usuarioId" Type="int" Nullable="false" />
+          <Property Name="tipo" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="usuarioCreacionId" Type="int" Nullable="false" />
+          <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreUsuario" Type="nchar" MaxLength="60" Nullable="false" />
+          <Property Name="contrasena" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="claveUsuario" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="email" Type="nchar" MaxLength="100" />
+          <Property Name="apellidoMaterno" Type="nchar" MaxLength="60" />
+          <Property Name="apellidoPaterno" Type="nchar" MaxLength="60" />
+          <Property Name="estatus" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="fechaIngreso" Type="datetime" Nullable="false" />
+          <Property Name="roleId" Type="int" Nullable="false" />
+          <Property Name="plazaId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Acreditados_Acreditados">
+          <End Role="Acreditados" Type="Self.Acreditados" Multiplicity="1" />
+          <End Role="Acreditados1" Type="Self.Acreditados" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Acreditados">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Acreditados1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Acreditados_Clientes">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+          <End Role="Acreditados" Type="Self.Acreditados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Acreditados">
+              <PropertyRef Name="clienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asegurados_Clientes">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+          <End Role="Asegurados" Type="Self.Asegurados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Asegurados">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Factores_Usuarios">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="Factores" Type="Self.Factores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Factores">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Funciones_Modulos">
+          <End Role="Modulos" Type="Self.Modulos" Multiplicity="1" />
+          <End Role="Funcions" Type="Self.Funcions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modulos">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Funcions">
+              <PropertyRef Name="moduloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GrupoClientes">
+          <End Role="Grupos" Type="Self.Grupos" Multiplicity="1" />
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grupos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Clientes">
+              <PropertyRef Name="Grupo_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Incapacidades_Asegurados">
+          <End Role="Asegurados" Type="Self.Asegurados" Multiplicity="1" />
+          <End Role="Incapacidades" Type="Self.Incapacidades" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asegurados">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Incapacidades">
+              <PropertyRef Name="aseguradoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimientos_Acreditados">
+          <End Role="Acreditados" Type="Self.Acreditados" Multiplicity="0..1" />
+          <End Role="Movimientos" Type="Self.Movimientos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Acreditados">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Movimientos">
+              <PropertyRef Name="acreditadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimientos_Asegurados">
+          <End Role="Asegurados" Type="Self.Asegurados" Multiplicity="0..1" />
+          <End Role="Movimientos" Type="Self.Movimientos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asegurados">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Movimientos">
+              <PropertyRef Name="aseguradoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientosAsegurado_Asegurados">
+          <End Role="Asegurados" Type="Self.Asegurados" Multiplicity="1" />
+          <End Role="MovimientosAseguradoes" Type="Self.MovimientosAseguradoes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asegurados">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MovimientosAseguradoes">
+              <PropertyRef Name="aseguradoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientosAsegurado_catalogoMovimientos">
+          <End Role="catalogoMovimientos" Type="Self.catalogoMovimientos" Multiplicity="1" />
+          <End Role="MovimientosAseguradoes" Type="Self.MovimientosAseguradoes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catalogoMovimientos">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MovimientosAseguradoes">
+              <PropertyRef Name="movimientoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientosAsegurado_Incapacidades">
+          <End Role="Incapacidades" Type="Self.Incapacidades" Multiplicity="1" />
+          <End Role="MovimientosAseguradoes" Type="Self.MovimientosAseguradoes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Incapacidades">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MovimientosAseguradoes">
+              <PropertyRef Name="incapacidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatroneAcreditado">
+          <End Role="Patrones" Type="Self.Patrones" Multiplicity="1" />
+          <End Role="Acreditados" Type="Self.Acreditados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patrones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Acreditados">
+              <PropertyRef Name="PatroneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatroneAsegurado">
+          <End Role="Patrones" Type="Self.Patrones" Multiplicity="1" />
+          <End Role="Asegurados" Type="Self.Asegurados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patrones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Asegurados">
+              <PropertyRef Name="PatroneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlazaAcreditado">
+          <End Role="Plazas" Type="Self.Plazas" Multiplicity="1" />
+          <End Role="Acreditados" Type="Self.Acreditados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plazas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Acreditados">
+              <PropertyRef Name="Plaza_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlazaAsegurado">
+          <End Role="Plazas" Type="Self.Plazas" Multiplicity="1" />
+          <End Role="Asegurados" Type="Self.Asegurados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plazas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Asegurados">
+              <PropertyRef Name="Plaza_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlazaClientes">
+          <End Role="Plazas" Type="Self.Plazas" Multiplicity="1" />
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plazas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Clientes">
+              <PropertyRef Name="Plaza_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlazaGrupos">
+          <End Role="Plazas" Type="Self.Plazas" Multiplicity="1" />
+          <End Role="Grupos" Type="Self.Grupos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plazas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Grupos">
+              <PropertyRef Name="Plaza_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlazaPatrone">
+          <End Role="Plazas" Type="Self.Plazas" Multiplicity="1" />
+          <End Role="Patrones" Type="Self.Patrones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plazas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Patrones">
+              <PropertyRef Name="Plaza_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleFunciones_Funciones">
+          <End Role="Funcions" Type="Self.Funcions" Multiplicity="1" />
+          <End Role="RoleFuncions" Type="Self.RoleFuncions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Funcions">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RoleFuncions">
+              <PropertyRef Name="funcionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleFunciones_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="RoleFuncions" Type="Self.RoleFuncions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RoleFuncions">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleFunciones_RoleUsuarios">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="RoleFuncions" Type="Self.RoleFuncions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoleFuncions">
+              <PropertyRef Name="usuarioCreacionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleModulos_Modulos">
+          <End Role="Modulos" Type="Self.Modulos" Multiplicity="1" />
+          <End Role="RoleModulos" Type="Self.RoleModulos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modulos">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RoleModulos">
+              <PropertyRef Name="moduloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleModulos_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="RoleModulos" Type="Self.RoleModulos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RoleModulos">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleModulos_Usuarios">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="RoleModulos" Type="Self.RoleModulos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoleModulos">
+              <PropertyRef Name="usuarioCreacionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TopicosUsuario_Usuario">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="TopicosUsuarios" Type="Self.TopicosUsuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TopicosUsuarios">
+              <PropertyRef Name="usuarioCreacionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TopicosUsuario_Usuario2">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="TopicosUsuarios" Type="Self.TopicosUsuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TopicosUsuarios">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuarios_Plazas">
+          <End Role="Plazas" Type="Self.Plazas" Multiplicity="1" />
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plazas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Usuarios">
+              <PropertyRef Name="plazaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuarios_Usuarios">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Usuarios">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="suaModelStoreContainer">
+          <EntitySet Name="Acreditados" EntityType="Self.Acreditados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Asegurados" EntityType="Self.Asegurados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="catalogoMovimientos" EntityType="Self.catalogoMovimientos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Factores" EntityType="Self.Factores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Funcions" EntityType="Self.Funcions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Grupos" EntityType="Self.Grupos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Incapacidades" EntityType="Self.Incapacidades" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Modulos" EntityType="Self.Modulos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movimientos" EntityType="Self.Movimientos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovimientosAseguradoes" EntityType="Self.MovimientosAseguradoes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parametros" EntityType="Self.Parametros" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patrones" EntityType="Self.Patrones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Plazas" EntityType="Self.Plazas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleFuncions" EntityType="Self.RoleFuncions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleModulos" EntityType="Self.RoleModulos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TopicosUsuarios" EntityType="Self.TopicosUsuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Acreditados_Acreditados" Association="Self.FK_Acreditados_Acreditados">
+            <End Role="Acreditados" EntitySet="Acreditados" />
+            <End Role="Acreditados1" EntitySet="Acreditados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Acreditados_Clientes" Association="Self.FK_Acreditados_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Acreditados" EntitySet="Acreditados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asegurados_Clientes" Association="Self.FK_Asegurados_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Asegurados" EntitySet="Asegurados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factores_Usuarios" Association="Self.FK_Factores_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Factores" EntitySet="Factores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Funciones_Modulos" Association="Self.FK_Funciones_Modulos">
+            <End Role="Modulos" EntitySet="Modulos" />
+            <End Role="Funcions" EntitySet="Funcions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GrupoClientes" Association="Self.FK_GrupoClientes">
+            <End Role="Grupos" EntitySet="Grupos" />
+            <End Role="Clientes" EntitySet="Clientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Incapacidades_Asegurados" Association="Self.FK_Incapacidades_Asegurados">
+            <End Role="Asegurados" EntitySet="Asegurados" />
+            <End Role="Incapacidades" EntitySet="Incapacidades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimientos_Acreditados" Association="Self.FK_Movimientos_Acreditados">
+            <End Role="Acreditados" EntitySet="Acreditados" />
+            <End Role="Movimientos" EntitySet="Movimientos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimientos_Asegurados" Association="Self.FK_Movimientos_Asegurados">
+            <End Role="Asegurados" EntitySet="Asegurados" />
+            <End Role="Movimientos" EntitySet="Movimientos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientosAsegurado_Asegurados" Association="Self.FK_MovimientosAsegurado_Asegurados">
+            <End Role="Asegurados" EntitySet="Asegurados" />
+            <End Role="MovimientosAseguradoes" EntitySet="MovimientosAseguradoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientosAsegurado_catalogoMovimientos" Association="Self.FK_MovimientosAsegurado_catalogoMovimientos">
+            <End Role="catalogoMovimientos" EntitySet="catalogoMovimientos" />
+            <End Role="MovimientosAseguradoes" EntitySet="MovimientosAseguradoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientosAsegurado_Incapacidades" Association="Self.FK_MovimientosAsegurado_Incapacidades">
+            <End Role="Incapacidades" EntitySet="Incapacidades" />
+            <End Role="MovimientosAseguradoes" EntitySet="MovimientosAseguradoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatroneAcreditado" Association="Self.FK_PatroneAcreditado">
+            <End Role="Patrones" EntitySet="Patrones" />
+            <End Role="Acreditados" EntitySet="Acreditados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatroneAsegurado" Association="Self.FK_PatroneAsegurado">
+            <End Role="Patrones" EntitySet="Patrones" />
+            <End Role="Asegurados" EntitySet="Asegurados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlazaAcreditado" Association="Self.FK_PlazaAcreditado">
+            <End Role="Plazas" EntitySet="Plazas" />
+            <End Role="Acreditados" EntitySet="Acreditados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlazaAsegurado" Association="Self.FK_PlazaAsegurado">
+            <End Role="Plazas" EntitySet="Plazas" />
+            <End Role="Asegurados" EntitySet="Asegurados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlazaClientes" Association="Self.FK_PlazaClientes">
+            <End Role="Plazas" EntitySet="Plazas" />
+            <End Role="Clientes" EntitySet="Clientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlazaGrupos" Association="Self.FK_PlazaGrupos">
+            <End Role="Plazas" EntitySet="Plazas" />
+            <End Role="Grupos" EntitySet="Grupos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlazaPatrone" Association="Self.FK_PlazaPatrone">
+            <End Role="Plazas" EntitySet="Plazas" />
+            <End Role="Patrones" EntitySet="Patrones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleFunciones_Funciones" Association="Self.FK_RoleFunciones_Funciones">
+            <End Role="Funcions" EntitySet="Funcions" />
+            <End Role="RoleFuncions" EntitySet="RoleFuncions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleFunciones_Roles" Association="Self.FK_RoleFunciones_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RoleFuncions" EntitySet="RoleFuncions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleFunciones_RoleUsuarios" Association="Self.FK_RoleFunciones_RoleUsuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="RoleFuncions" EntitySet="RoleFuncions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleModulos_Modulos" Association="Self.FK_RoleModulos_Modulos">
+            <End Role="Modulos" EntitySet="Modulos" />
+            <End Role="RoleModulos" EntitySet="RoleModulos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleModulos_Roles" Association="Self.FK_RoleModulos_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RoleModulos" EntitySet="RoleModulos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleModulos_Usuarios" Association="Self.FK_RoleModulos_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="RoleModulos" EntitySet="RoleModulos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TopicosUsuario_Usuario" Association="Self.FK_TopicosUsuario_Usuario">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="TopicosUsuarios" EntitySet="TopicosUsuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TopicosUsuario_Usuario2" Association="Self.FK_TopicosUsuario_Usuario2">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="TopicosUsuarios" EntitySet="TopicosUsuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuarios_Plazas" Association="Self.FK_Usuarios_Plazas">
+            <End Role="Plazas" EntitySet="Plazas" />
+            <End Role="Usuarios" EntitySet="Usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuarios_Usuarios" Association="Self.FK_Usuarios_Usuarios">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Usuarios" EntitySet="Usuarios" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="suaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -977,6 +983,8 @@
           <Property Name="fecTer" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="MovimientosAseguradoes" Relationship="suaModel.FK_MovimientosAsegurado_Incapacidades" FromRole="Incapacidade" ToRole="MovimientosAsegurado" />
           <NavigationProperty Name="Asegurado" Relationship="suaModel.FK_Incapacidades_Asegurados" FromRole="Incapacidade" ToRole="Asegurado" />
+          <Property Name="tipoIncapacidad" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="alta" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="MovimientosAsegurado">
           <Key>
@@ -1078,7 +1086,7 @@
           <Property Name="CURP" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
           <Property Name="RFC" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
           <Property Name="clienteId" Type="Int32" />
-          <Property Name="ocupacion" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="ocupacion" Type="String" MaxLength="60" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="idGrupo" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
           <Property Name="numeroAfiliacion" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
           <Property Name="numeroCredito" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
@@ -1304,6 +1312,7 @@
           <Property Name="nombreArchivo" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Acreditado" Relationship="suaModel.FK_Movimientos_Acreditados" FromRole="Movimiento" ToRole="Acreditado" />
           <NavigationProperty Name="Asegurado" Relationship="suaModel.FK_Movimientos_Asegurados" FromRole="Movimiento" ToRole="Asegurado" />
+          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <Association Name="FK_Acreditados_Acreditados">
           <End Type="suaModel.Acreditado" Role="Acreditado" Multiplicity="1" />
@@ -1481,8 +1490,8 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="cvecorta" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="indicador" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="cveCorta" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="indicador" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Acreditados" Relationship="suaModel.FK_PlazaAcreditado" FromRole="Plaza" ToRole="Acreditado" />
           <NavigationProperty Name="Clientes" Relationship="suaModel.FK_PlazaClientes" FromRole="Plaza" ToRole="Cliente" />
           <NavigationProperty Name="Grupos" Relationship="suaModel.FK_PlazaGrupos" FromRole="Plaza" ToRole="Grupos" />
@@ -1594,6 +1603,9 @@
           <NavigationProperty Name="MovimientosAseguradoes" Relationship="suaModel.FK_MovimientosAsegurado_Asegurados" FromRole="Asegurado" ToRole="MovimientosAsegurado" />
           <NavigationProperty Name="Patrone" Relationship="suaModel.FK_PatroneAsegurado" FromRole="Asegurado" ToRole="Patrone" />
           <NavigationProperty Name="Plaza" Relationship="suaModel.FK_PlazaAsegurado" FromRole="Asegurado" ToRole="Plaza" />
+          <Property Name="apellidoPaterno" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="apellidoMaterno" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="nombres" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
         </EntityType>
         <Association Name="FK_Asegurados_Clientes">
           <End Type="suaModel.Cliente" Role="Cliente" Multiplicity="0..1" />
@@ -1686,7 +1698,9 @@
     <EntitySetMapping Name="Incapacidades">
       <EntityTypeMapping TypeName="IsTypeOf(suaModel.Incapacidade)">
         <MappingFragment StoreEntitySet="Incapacidades">
-          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="alta" ColumnName="alta" />
+                <ScalarProperty Name="tipoIncapacidad" ColumnName="tipoIncapacidad" />
+                <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="aseguradoId" ColumnName="aseguradoId" />
           <ScalarProperty Name="fechaAcc" ColumnName="fechaAcc" />
           <ScalarProperty Name="folioIncapacidad" ColumnName="folioIncapacidad" />
@@ -1889,7 +1903,8 @@
     <EntitySetMapping Name="Movimientos">
       <EntityTypeMapping TypeName="IsTypeOf(suaModel.Movimiento)">
         <MappingFragment StoreEntitySet="Movimientos">
-          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+                <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="aseguradoId" ColumnName="aseguradoId" />
           <ScalarProperty Name="acreditadoId" ColumnName="acreditadoId" />
           <ScalarProperty Name="lote" ColumnName="lote" />
@@ -1960,9 +1975,9 @@
     <EntitySetMapping Name="Plazas">
       <EntityTypeMapping TypeName="IsTypeOf(suaModel.Plaza)">
         <MappingFragment StoreEntitySet="Plazas">
-          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="cveCorta" ColumnName="cveCorta" />
+                <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-          <ScalarProperty Name="cvecorta" ColumnName="cvecorta" />
           <ScalarProperty Name="indicador" ColumnName="indicador" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -1970,7 +1985,10 @@
     <EntitySetMapping Name="Asegurados">
       <EntityTypeMapping TypeName="IsTypeOf(suaModel.Asegurado)">
         <MappingFragment StoreEntitySet="Asegurados">
-          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apellidoMaterno" ColumnName="apellidoMaterno" />
+                <ScalarProperty Name="apellidoPaterno" ColumnName="apellidoPaterno" />
+                <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="numeroAfiliacion" ColumnName="numeroAfiliacion" />
           <ScalarProperty Name="CURP" ColumnName="CURP" />
           <ScalarProperty Name="RFC" ColumnName="RFC" />

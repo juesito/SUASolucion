@@ -19,8 +19,8 @@ namespace SUAMVC.Controllers
         // GET: Movimientos
         public ActionResult Index()
         {
-            var movimientos = db.Movimientos.Include(m => m.Asegurado);
-            return View(movimientos.ToList());
+            var movimientos = db.Movimientos.Include(m => m.Asegurado).OrderByDescending(m => m.fechaCreacion).ToList(); 
+            return View(movimientos);
         }
 
         // GET: Movimientos/Details/5
@@ -54,6 +54,7 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                movimiento.fechaCreacion = DateTime.Now;
                 db.Movimientos.Add(movimiento);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -88,6 +89,7 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                movimiento.fechaCreacion = DateTime.Now;
                 db.Entry(movimiento).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -171,6 +173,7 @@ namespace SUAMVC.Controllers
                             asegurado.permanente = "S";
                         }
 
+                        movimiento.fechaCreacion = DateTime.Now;
                         db.Entry(asegurado).State = EntityState.Modified;
                         db.Movimientos.Add(movimiento);
                         db.SaveChanges();
@@ -272,6 +275,7 @@ namespace SUAMVC.Controllers
 
                         model.movimiento.aseguradoId = asegurado.id;
                         model.movimiento.Asegurado = asegurado;
+                        model.movimiento.fechaCreacion = DateTime.Now;
 
                         db.Entry(asegurado).State = EntityState.Modified;
                         db.Movimientos.Add(model.movimiento);
@@ -381,6 +385,7 @@ namespace SUAMVC.Controllers
                             acreditado.alta = "S";
                         }
 
+                        movimiento.fechaCreacion = DateTime.Now;
                         db.Entry(acreditado).State = EntityState.Modified;
                         db.Movimientos.Add(movimiento);
                         db.SaveChanges();

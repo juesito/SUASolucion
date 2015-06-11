@@ -454,6 +454,15 @@ namespace SUAMVC.Controllers
                 this.uploadAcreditado(path);
                 this.uploadAsegurado(path);
             }
+            String path2 = path.Trim() + "\\BACKUP\\";
+            path = path.Trim() + "\\SUA.mdb";
+            if (!System.IO.File.Exists(path2))
+            {
+               System.IO.Directory.CreateDirectory(path2);
+            }
+            DateTime date = DateTime.Now;
+            System.IO.File.Move(path, Path.Combine(path2, "SUA" + date.ToString("ddMMyyyyHHmm") + ".mdb"));
+            System.IO.File.Delete(path);
 
             return View("UploadAcreditados");
         }
@@ -1347,12 +1356,6 @@ namespace SUAMVC.Controllers
             int aseguradoId = asegurado.id;
             DateTime ahora = DateTime.Now;
 
-            var ahora2 = 0;
-            if (asegurado.numeroAfiliacion.Equals("81048003131"))
-            { 
-                ahora2 = 0;
-
-            }
             //obtenemos el ultimo reingreso, si existe.
             var movTemp = (from s in db.MovimientosAseguradoes
                                   .Where(s => s.aseguradoId.Equals(aseguradoId)

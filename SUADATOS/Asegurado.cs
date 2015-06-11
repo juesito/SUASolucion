@@ -55,6 +55,9 @@ namespace SUADATOS
         public string permanente { get; set; }
         public int Plaza_id { get; set; }
         public Nullable<decimal> salarioDiario { get; set; }
+        public string apellidoPaterno { get; set; }
+        public string apellidoMaterno { get; set; }
+        public string nombres { get; set; }
     
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<Incapacidade> Incapacidades { get; set; }

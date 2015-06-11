@@ -1,0 +1,136 @@
+﻿@model SUADATOS.Incapacidade
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Incapacidade</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaAcc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaAcc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.folioIncapacidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.folioIncapacidad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.grupoIncapacidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.grupoIncapacidad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.recRev)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.recRev)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.consecuencia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.consecuencia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tieRie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tieRie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ramSeq)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ramSeq)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.secuela)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.secuela)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conInc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conInc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.diaSub)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.diaSub)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.porcentajeIncapacidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.porcentajeIncapacidad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.indDef)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.indDef)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fecTer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fecTer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Asegurado.numeroAfiliacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Asegurado.numeroAfiliacion)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
