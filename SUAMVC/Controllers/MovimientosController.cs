@@ -119,7 +119,49 @@ namespace SUAMVC.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Movimiento movimiento = db.Movimientos.Find(id);
+            if (movimiento.aseguradoId != null)
+            {
+                Asegurado asegurado = db.Asegurados.Find(movimiento.aseguradoId);
+                switch(movimiento.tipo.Trim())
+                {
+                    case "A":
+                        asegurado.alta = null;
+                        break;
+                    case "B":
+                        asegurado.baja = null;
+                        break;
+                    case "M":
+                        asegurado.modificacion = null;
+                        break;
+                    case "P":
+                        asegurado.permanente = null;
+                        break;
+                }
+                db.Entry(asegurado).State = EntityState.Modified;
+            }
+            else
+            {
+                Acreditado acreditado = db.Acreditados.Find(movimiento.acreditadoId);
+                switch (movimiento.tipo.Trim())
+                {
+                    case "A":
+                        acreditado.alta = null;
+                        break;
+                    case "B":
+                        acreditado.baja = null;
+                        break;
+                    case "M":
+                        acreditado.modificacion = null;
+                        break;
+                    case "P":
+                        acreditado.permanente = null;
+                        break;
+                }
+                db.Entry(acreditado).State = EntityState.Modified;
+            }
+
             db.Movimientos.Remove(movimiento);
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }

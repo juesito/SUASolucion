@@ -193,7 +193,7 @@ namespace SUAMVC.Controllers
                         incapacidades = incapacidades.Where(s => s.Asegurado.ocupacion.Contains(valor));
                         break;
                     case "12":
-                        incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Plaza.cvecorta.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Plaza.cveCorta.Contains(valor));
                         break;
                     case "13":
                         incapacidades = incapacidades.Where(s => s.Asegurado.extranjero.Contains(valor));
@@ -394,7 +394,7 @@ namespace SUAMVC.Controllers
                         incapacidades = incapacidades.Where(s => s.Asegurado.ocupacion.Contains(valor));
                         break;
                     case "12":
-                        incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Plaza.cvecorta.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Plaza.cveCorta.Contains(valor));
                         break;
                     case "13":
                         incapacidades = incapacidades.Where(s => s.Asegurado.extranjero.Contains(valor));

@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = Language.modificar + " " + Language.factores;
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
 }
 
 @section Menu {

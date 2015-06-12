@@ -88,5 +88,45 @@ namespace SUAMVC.Helpers
                 new SelectListItem { Text = "Patrones", Value = "B" },
                 new SelectListItem { Text = "Plaza", Value = "P" }}, new { onchange = "form.submit();" });
         }
+
+        public static MvcHtmlString periodosList(this HtmlHelper htmlHelper)
+        {
+
+            return htmlHelper.DropDownList("periodoId", new List<SelectListItem>() { 
+                new SelectListItem { Text = "Seleccione", Value = "" }, 
+                new SelectListItem { Text = "Enero", Value = "01" }, 
+                new SelectListItem { Text = "Febrero", Value = "02" }, 
+                new SelectListItem { Text = "Marzo", Value = "03" },
+                new SelectListItem { Text = "Abril", Value = "04" },
+                new SelectListItem { Text = "Mayo", Value = "05" },
+                new SelectListItem { Text = "Junio", Value = "06" },
+                new SelectListItem { Text = "Julio", Value = "07" },
+                new SelectListItem { Text = "Agosto", Value = "08" },
+                new SelectListItem { Text = "Septiembre", Value = "09" },
+                new SelectListItem { Text = "Octubre", Value = "10" },
+                new SelectListItem { Text = "Noviembre", Value = "11" },
+                new SelectListItem { Text = "Diciembre", Value = "12" }
+            });
+        }
+
+        public static MvcHtmlString ejercicioList(this HtmlHelper htmlHelper)
+        {
+
+            return htmlHelper.DropDownList("ejercicioId", new List<SelectListItem>() { 
+                new SelectListItem { Text = "Seleccione", Value = "" }, 
+                new SelectListItem { Text = "2010", Value = "2010" }, 
+                new SelectListItem { Text = "2011", Value = "2011" }, 
+                new SelectListItem { Text = "2012", Value = "2012" },
+                new SelectListItem { Text = "2013", Value = "2013" },
+                new SelectListItem { Text = "2014", Value = "2014" },
+                new SelectListItem { Text = "2015", Value = "2015" },
+                new SelectListItem { Text = "2016", Value = "2016" },
+                new SelectListItem { Text = "2017", Value = "2017" },
+                new SelectListItem { Text = "2018", Value = "2018" },
+                new SelectListItem { Text = "2019", Value = "2019" },
+                new SelectListItem { Text = "2020", Value = "2020" },
+                new SelectListItem { Text = "2021", Value = "2021" }
+            });
+        }
     }
 }

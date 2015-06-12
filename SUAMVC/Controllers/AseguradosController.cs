@@ -15,8 +15,8 @@ using System.IO;
 using System.Web.Helpers;
 using SUAMVC.Code52.i18n;
 using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.Mvc;
+//using System.Web;
+//using System.Web.Mvc;
 
 
 namespace SUAMVC.Controllers
@@ -209,7 +209,7 @@ namespace SUAMVC.Controllers
                         asegurados = asegurados.Where(s => s.ocupacion.Contains(valor));
                         break;
                     case "12":
-                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cvecorta.Contains(valor));
+                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cveCorta.Contains(valor));
                         break;
                     case "13":
                         asegurados = asegurados.Where(s => s.extranjero.Contains(valor));
@@ -476,7 +476,7 @@ namespace SUAMVC.Controllers
                         asegurados = asegurados.Where(s => s.ocupacion.Contains(valor));
                         break;
                     case "12":
-                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cvecorta.Contains(valor));
+                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cveCorta.Contains(valor));
                         break;
                     case "13":
                         asegurados = asegurados.Where(s => s.extranjero.Contains(valor));

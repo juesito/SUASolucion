@@ -24,7 +24,7 @@ namespace SUAMVC.Helpers
             List<Plaza> listPlazas = (from s in db.Plazas.ToList()
                                       join top in db.TopicosUsuarios on s.id equals top.topicoId
                                       where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(userId)
-                                      orderby s.cvecorta, s.descripcion
+                                      orderby s.cveCorta, s.descripcion
                                       select s).ToList();
 
             foreach (Plaza item in listPlazas)
@@ -70,6 +70,65 @@ namespace SUAMVC.Helpers
             }
 
             return htmlHelper.DropDownList("patronesId", listFields, new { onchange = "submit()" });
+        }
+
+        public static MvcHtmlString patronesNoChangeDrownList(this HtmlHelper htmlHelper, int userId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Patrone> list = (from s in db.Patrones.ToList()
+                                  join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                  where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(userId)
+                                  orderby s.registro
+                                  select s).ToList();
+
+
+            foreach (Patrone item in list)
+            {
+                String itemId = item.Id.ToString().Trim();
+                String descripcion = item.registro.Trim() + "-" + item.nombre.Trim();
+
+                if (descripcion.Contains("Todos"))
+                {
+                    itemId = "";
+                    descripcion = item.nombre.Trim();
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList("patronesId", listFields);
+        }
+
+        public static MvcHtmlString patronesNoChangeKeysDrownList(this HtmlHelper htmlHelper, int userId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Patrone> list = (from s in db.Patrones.ToList()
+                                  join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                  where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(userId)
+                                  && s.direccionArchivo != null
+                                  orderby s.registro
+                                  select s).ToList();
+
+
+            foreach (Patrone item in list)
+            {
+                String itemId = item.Id.ToString().Trim();
+                String descripcion = item.registro.Trim() + "-" + item.nombre.Trim();
+
+                if (descripcion.Contains("Todos"))
+                {
+                    itemId = "";
+                    descripcion = item.nombre.Trim();
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList("patronesId", listFields);
         }
 
         public static MvcHtmlString clientesDrownList(this HtmlHelper htmlHelper, int userId)

@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
 }
 @section Menu {
     <div><img src="~/Content/Images/people-b.png" width="15" height="15" />Catalogo de Roles</div>

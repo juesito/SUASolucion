@@ -189,7 +189,7 @@ namespace SUAMVC.Controllers
                         acreditados = acreditados.Where(s => s.ocupacion.Contains(valor));
                         break;
                     case "12":
-                        acreditados = acreditados.Where(s => s.Cliente.Plaza.cvecorta.Contains(valor));
+                        acreditados = acreditados.Where(s => s.Cliente.Plaza.cveCorta.Contains(valor));
                         break;
                 }
             }
@@ -519,7 +519,7 @@ namespace SUAMVC.Controllers
                         acreditados = acreditados.Where(s => s.ocupacion.Contains(valor));
                         break;
                     case "12":
-                        acreditados = acreditados.Where(s => s.Cliente.Plaza.cvecorta.Contains(valor));
+                        acreditados = acreditados.Where(s => s.Cliente.Plaza.cveCorta.Contains(valor));
                         break;
                 }
             }
