@@ -12,18 +12,17 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class Movimiento
+    public partial class Municipio
     {
         public int id { get; set; }
-        public Nullable<int> aseguradoId { get; set; }
-        public Nullable<int> acreditadoId { get; set; }
-        public string lote { get; set; }
-        public System.DateTime fechaTransaccion { get; set; }
-        public string tipo { get; set; }
-        public string nombreArchivo { get; set; }
-        public Nullable<System.DateTime> fechaCreacion { get; set; }
+        public int paisId { get; set; }
+        public int estadoId { get; set; }
+        public string descripcion { get; set; }
+        public System.DateTime fechaCreacion { get; set; }
+        public int usuarioId { get; set; }
     
-        public virtual Acreditado Acreditado { get; set; }
-        public virtual Asegurado Asegurado { get; set; }
+        public virtual Estado Estado { get; set; }
+        public virtual Pais Pais { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

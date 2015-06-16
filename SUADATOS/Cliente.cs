@@ -30,8 +30,8 @@ namespace SUADATOS
         public int Grupo_id { get; set; }
     
         public virtual ICollection<Acreditado> Acreditados { get; set; }
+        public virtual ICollection<Asegurado> Asegurados { get; set; }
         public virtual Grupos Grupos { get; set; }
         public virtual Plaza Plaza { get; set; }
-        public virtual ICollection<Asegurado> Asegurados { get; set; }
     }
 }

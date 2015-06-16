@@ -12,7 +12,7 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class TiposPersonal
+    public partial class EsquemasPago
     {
         public int id { get; set; }
         public string descripcion { get; set; }

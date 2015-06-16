@@ -12,13 +12,21 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class Esquema
+    public partial class Estado
     {
+        public Estado()
+        {
+            this.Municipios = new HashSet<Municipio>();
+        }
+    
         public int id { get; set; }
+        public int paisId { get; set; }
         public string descripcion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
+        public virtual Pais Pais { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<Municipio> Municipios { get; set; }
     }
 }

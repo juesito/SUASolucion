@@ -14,12 +14,20 @@ namespace SUADATOS
     
     public partial class Pais
     {
+        public Pais()
+        {
+            this.Estados = new HashSet<Estado>();
+            this.Municipios = new HashSet<Municipio>();
+        }
+    
         public int id { get; set; }
         public string descripcion { get; set; }
-        public string naturaleza { get; set; }
+        public string naturalez { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
+        public virtual ICollection<Estado> Estados { get; set; }
+        public virtual ICollection<Municipio> Municipios { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
 }

@@ -247,7 +247,6 @@
     <Compile Include="Controllers\AseguradosController.cs" />
     <Compile Include="Controllers\catalogoMovimientosController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
-    <Compile Include="Controllers\EsquemasController.cs" />
     <Compile Include="Controllers\FactoresController.cs" />
     <Compile Include="Controllers\FuncionesController.cs" />
     <Compile Include="Controllers\GruposController.cs" />
