@@ -22,6 +22,16 @@ namespace SUADATOS
             this.TopicosUsuarios1 = new HashSet<TopicosUsuario>();
             this.Factores = new HashSet<Factore>();
             this.ResumenPagoes = new HashSet<ResumenPago>();
+            this.Bancos = new HashSet<Banco>();
+            this.Esquemas = new HashSet<Esquema>();
+            this.EstadoCivils = new HashSet<EstadoCivil>();
+            this.Paises = new HashSet<Pais>();
+            this.RegimenInfonavits = new HashSet<RegimenInfonavit>();
+            this.Residencias = new HashSet<Residencia>();
+            this.SDIs = new HashSet<SDI>();
+            this.Sexos = new HashSet<Sexo>();
+            this.TiposContratoes = new HashSet<TiposContrato>();
+            this.TiposPersonals = new HashSet<TiposPersonal>();
         }
     
         public int Id { get; set; }
@@ -44,5 +54,15 @@ namespace SUADATOS
         public virtual ICollection<Factore> Factores { get; set; }
         public virtual Plaza Plaza { get; set; }
         public virtual ICollection<ResumenPago> ResumenPagoes { get; set; }
+        public virtual ICollection<Banco> Bancos { get; set; }
+        public virtual ICollection<Esquema> Esquemas { get; set; }
+        public virtual ICollection<EstadoCivil> EstadoCivils { get; set; }
+        public virtual ICollection<Pais> Paises { get; set; }
+        public virtual ICollection<RegimenInfonavit> RegimenInfonavits { get; set; }
+        public virtual ICollection<Residencia> Residencias { get; set; }
+        public virtual ICollection<SDI> SDIs { get; set; }
+        public virtual ICollection<Sexo> Sexos { get; set; }
+        public virtual ICollection<TiposContrato> TiposContratoes { get; set; }
+        public virtual ICollection<TiposPersonal> TiposPersonals { get; set; }
     }
 }

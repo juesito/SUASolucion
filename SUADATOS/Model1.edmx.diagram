@@ -16,10 +16,10 @@
         <EntityTypeShape EntityType="suaModel.Cliente" Width="1.5" PointX="8" PointY="21" IsExpanded="false" />
         <AssociationConnector Association="suaModel.FK_Acreditados_Clientes" ManuallyRouted="true" >
           <ConnectorPoint PointX="8.54687375" PointY="21.4" />
-          <ConnectorPoint PointX="8.54687375" PointY="31.365833333333303" />
-          <ConnectorPoint PointX="9.8554683375" PointY="31.365833333333303" />
-          <ConnectorPoint PointX="9.8554683375" PointY="32.909999999999968" />
-          <ConnectorPoint PointX="11.5984375421881" PointY="29.15" />
+          <ConnectorPoint PointX="8.54687375" PointY="32.245833333333294" />
+          <ConnectorPoint PointX="9.8554683375" PointY="32.245833333333294" />
+          <ConnectorPoint PointX="9.8554683375" PointY="33.789999999999964" />
+          <ConnectorPoint PointX="11.68144766871229" PointY="29.15" />
         </AssociationConnector>
         <AssociationConnector Association="suaModel.FK_PatroneAcreditado" />
         <EntityTypeShape EntityType="suaModel.Grupos" Width="1.5" PointX="8" PointY="16.375" IsExpanded="false" />
@@ -42,8 +42,8 @@
         <EntityTypeShape EntityType="suaModel.RoleFuncion" Width="1.5" PointX="12.25" PointY="12.125" IsExpanded="false" />
         <AssociationConnector Association="suaModel.FK_RoleFunciones_Roles" ManuallyRouted="true" >
           <ConnectorPoint PointX="8.625" PointY="11.65" />
-          <ConnectorPoint PointX="8.625" PointY="14.847500000000006" />
-          <ConnectorPoint PointX="12.961276355770647" PointY="14.847500000000006" />
+          <ConnectorPoint PointX="8.625" PointY="15.727500000000008" />
+          <ConnectorPoint PointX="12.961276355770647" PointY="15.727500000000008" />
           <ConnectorPoint PointX="12.961276355770647" PointY="12.525" />
         </AssociationConnector>
         <AssociationConnector Association="suaModel.FK_RoleFunciones_RoleUsuarios" />
@@ -75,6 +75,26 @@
         <AssociationConnector Association="suaModel.FK_Pagos_ResumenPago" />
         <AssociationConnector Association="suaModel.FK_ResumenPago_Patrones" />
         <AssociationConnector Association="suaModel.FK_ResumenPago_Usuarios" />
+        <EntityTypeShape EntityType="suaModel.Banco" Width="1.5" PointX="6.75" PointY="40.125" />
+        <EntityTypeShape EntityType="suaModel.Esquema" Width="1.5" PointX="6.75" PointY="17.875" />
+        <EntityTypeShape EntityType="suaModel.EstadoCivil" Width="1.5" PointX="6.75" PointY="32" />
+        <EntityTypeShape EntityType="suaModel.Pais" Width="1.5" PointX="6.75" PointY="26.25" />
+        <EntityTypeShape EntityType="suaModel.RegimenInfonavit" Width="1.5" PointX="6.75" PointY="42.875" />
+        <EntityTypeShape EntityType="suaModel.Residencia" Width="1.5" PointX="6.75" PointY="34.75" />
+        <EntityTypeShape EntityType="suaModel.SDI" Width="1.5" PointX="6.75" PointY="23.625" />
+        <EntityTypeShape EntityType="suaModel.Sexo" Width="1.5" PointX="6.75" PointY="37.375" />
+        <EntityTypeShape EntityType="suaModel.TiposContrato" Width="1.5" PointX="6.75" PointY="45.625" />
+        <EntityTypeShape EntityType="suaModel.TiposPersonal" Width="1.5" PointX="6.75" PointY="29.25" />
+        <AssociationConnector Association="suaModel.FK_Bancos_Usuarios" />
+        <AssociationConnector Association="suaModel.FK_Esquemas_Usuarios" />
+        <AssociationConnector Association="suaModel.FK_EstadoCivil_Usuarios" />
+        <AssociationConnector Association="suaModel.FK_Paises_Usuarios" />
+        <AssociationConnector Association="suaModel.FK_RegimenInfonavit_Usuarios" />
+        <AssociationConnector Association="suaModel.FK_Residencias_Usuarios" />
+        <AssociationConnector Association="suaModel.FK_SDIs_Usuarios" />
+        <AssociationConnector Association="suaModel.FK_Sexos_Usuarios" />
+        <AssociationConnector Association="suaModel.FK_TiposContrato_Usuarios" />
+        <AssociationConnector Association="suaModel.FK_TiposPersonal_Usuarios" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

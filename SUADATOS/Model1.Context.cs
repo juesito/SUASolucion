@@ -46,5 +46,15 @@ namespace SUADATOS
         public virtual DbSet<Asegurado> Asegurados { get; set; }
         public virtual DbSet<Pago> Pagos { get; set; }
         public virtual DbSet<ResumenPago> ResumenPagoes { get; set; }
+        public virtual DbSet<Banco> Bancos { get; set; }
+        public virtual DbSet<Esquema> Esquemas { get; set; }
+        public virtual DbSet<EstadoCivil> EstadoCivils { get; set; }
+        public virtual DbSet<Pais> Paises { get; set; }
+        public virtual DbSet<RegimenInfonavit> RegimenInfonavits { get; set; }
+        public virtual DbSet<Residencia> Residencias { get; set; }
+        public virtual DbSet<SDI> SDIs { get; set; }
+        public virtual DbSet<Sexo> Sexos { get; set; }
+        public virtual DbSet<TiposContrato> TiposContratoes { get; set; }
+        public virtual DbSet<TiposPersonal> TiposPersonals { get; set; }
     }
 }
