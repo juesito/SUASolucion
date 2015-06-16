@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/04/2015 17:48:58
--- Generated from EDMX file: C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUADATOS\Model1.edmx
+-- Date Created: 06/11/2015 15:22:31
+-- Generated from EDMX file: C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUASolucion\SUADATOS\Model1.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -53,6 +53,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_MovimientosAsegurado_Incapacidades]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MovimientosAseguradoes] DROP CONSTRAINT [FK_MovimientosAsegurado_Incapacidades];
 GO
+IF OBJECT_ID(N'[dbo].[FK_Pagos_Asegurados]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Pagos] DROP CONSTRAINT [FK_Pagos_Asegurados];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Pagos_ResumenPago]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Pagos] DROP CONSTRAINT [FK_Pagos_ResumenPago];
+GO
 IF OBJECT_ID(N'[dbo].[FK_PatroneAcreditado]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Acreditados] DROP CONSTRAINT [FK_PatroneAcreditado];
 GO
@@ -73,6 +79,12 @@ IF OBJECT_ID(N'[dbo].[FK_PlazaGrupos]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_PlazaPatrone]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Patrones] DROP CONSTRAINT [FK_PlazaPatrone];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ResumenPago_Patrones]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ResumenPago] DROP CONSTRAINT [FK_ResumenPago_Patrones];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ResumenPago_Usuarios]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ResumenPago] DROP CONSTRAINT [FK_ResumenPago_Usuarios];
 GO
 IF OBJECT_ID(N'[dbo].[FK_RoleFunciones_Funciones]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RoleFuncions] DROP CONSTRAINT [FK_RoleFunciones_Funciones];
@@ -142,6 +154,9 @@ GO
 IF OBJECT_ID(N'[dbo].[MovimientosAseguradoes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[MovimientosAseguradoes];
 GO
+IF OBJECT_ID(N'[dbo].[Pagos]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Pagos];
+GO
 IF OBJECT_ID(N'[dbo].[Parametros]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Parametros];
 GO
@@ -150,6 +165,9 @@ IF OBJECT_ID(N'[dbo].[Patrones]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Plazas]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Plazas];
+GO
+IF OBJECT_ID(N'[dbo].[ResumenPago]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ResumenPago];
 GO
 IF OBJECT_ID(N'[dbo].[RoleFuncions]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RoleFuncions];
@@ -442,7 +460,7 @@ GO
 CREATE TABLE [dbo].[Plazas] (
     [id] int IDENTITY(1,1) NOT NULL,
     [descripcion] nchar(50)  NOT NULL,
-    [cvecorta] nchar(10)  NULL,
+    [cveCorta] nchar(10)  NULL,
     [indicador] char(1)  NULL
 );
 GO
@@ -483,6 +501,96 @@ CREATE TABLE [dbo].[Asegurados] (
     [permanente] nchar(60)  NULL,
     [Plaza_id] int  NOT NULL,
     [salarioDiario] decimal(10,3)  NULL
+);
+GO
+
+-- Creating table 'Pagos'
+CREATE TABLE [dbo].[Pagos] (
+    [id] int  NOT NULL,
+    [resumenPagoId] int  NOT NULL,
+    [ip] nchar(15)  NULL,
+    [NSS] nchar(11)  NULL,
+    [RFC] nchar(13)  NULL,
+    [CURP] nchar(18)  NULL,
+    [creditoInfonavit] nchar(10)  NULL,
+    [fid] nchar(8)  NULL,
+    [trabajador] nchar(50)  NULL,
+    [sdi] decimal(7,2)  NULL,
+    [tipoTrabajador] nchar(1)  NULL,
+    [jornadaSemanaReducida] nchar(1)  NULL,
+    [diasCotizadosMes] int  NULL,
+    [diasIncapacidad] int  NULL,
+    [diasAusentismo] int  NULL,
+    [cuotaFija] decimal(8,2)  NULL,
+    [cuotaExcedente] decimal(8,2)  NULL,
+    [prestacionesDinero] decimal(8,2)  NULL,
+    [gastosMedicosPensionado] decimal(8,2)  NULL,
+    [riesgoTrabajo] decimal(8,2)  NULL,
+    [invalidezVida] decimal(8,2)  NULL,
+    [guarderias] decimal(8,2)  NULL,
+    [actRecargosIMSS] nchar(8)  NULL,
+    [diasCotizadosBimestre] int  NULL,
+    [diasIncapacidadBimestre] int  NULL,
+    [diasAusentismoBimestre] int  NULL,
+    [retiro] decimal(7,2)  NULL,
+    [actRecargosRetiro] nchar(8)  NULL,
+    [cesantiaVejezPatronal] decimal(8,2)  NULL,
+    [cesantiaVejezObrera] decimal(8,2)  NULL,
+    [actRecargosCyV] decimal(8,2)  NULL,
+    [aportacionVoluntaria] decimal(8,2)  NULL,
+    [aportacionComp] decimal(8,2)  NULL,
+    [aportacionPatronal] decimal(8,2)  NULL,
+    [amortizacion] decimal(10,2)  NULL,
+    [actIMSS] decimal(10,2)  NULL,
+    [recIMSS] decimal(10,2)  NULL,
+    [actRetiro] decimal(10,2)  NULL,
+    [recRetiro] decimal(10,2)  NULL,
+    [actCesPat] decimal(10,2)  NULL,
+    [recCesPat] decimal(10,2)  NULL,
+    [actCesObr] decimal(10,2)  NULL,
+    [recCesObr] decimal(10,2)  NULL,
+    [cuotaExcObr] decimal(10,2)  NULL,
+    [cuotaPdObr] decimal(10,2)  NULL,
+    [cuotaGmpObr] decimal(10,2)  NULL,
+    [cuotaIvObr] decimal(10,2)  NULL,
+    [actPatIMSS] decimal(10,2)  NULL,
+    [recPatIMSS] decimal(10,2)  NULL,
+    [actObrIMSS] decimal(10,2)  NULL,
+    [recObrIMSS] decimal(10,2)  NULL,
+    [trabajadorId] int  NOT NULL,
+    [anoPago] int  NOT NULL,
+    [mesPago] int  NOT NULL
+);
+GO
+
+-- Creating table 'ResumenPagoes'
+CREATE TABLE [dbo].[ResumenPagoes] (
+    [id] int  NOT NULL,
+    [ip] nchar(15)  NULL,
+    [patronId] int  NOT NULL,
+    [rfc] nchar(13)  NULL,
+    [periodoPago] nchar(6)  NULL,
+    [mes] nchar(2)  NULL,
+    [anno] nchar(4)  NULL,
+    [folioSUA] nchar(9)  NULL,
+    [razonSocial] nchar(50)  NULL,
+    [calleColonia] nchar(40)  NULL,
+    [poblacion] nchar(40)  NULL,
+    [entidadFederativa] nchar(2)  NULL,
+    [codigoPostal] nchar(5)  NULL,
+    [primaRT] nchar(7)  NULL,
+    [fechaPrimaRT] nchar(6)  NULL,
+    [actividadEconomica] nchar(40)  NULL,
+    [delegacionIMSS] nchar(2)  NULL,
+    [subDelegacionIMMS] nchar(2)  NULL,
+    [zonaEconomica] nchar(1)  NULL,
+    [convenioReembolso] nchar(1)  NULL,
+    [tipoCotizacion] nchar(1)  NULL,
+    [cotizantes] nchar(9)  NULL,
+    [apoPat] nchar(4)  NULL,
+    [delSubDel] nchar(4)  NULL,
+    [fechaCreacion] datetime  NOT NULL,
+    [usuarioCreacionId] int  NOT NULL
 );
 GO
 
@@ -601,6 +709,18 @@ GO
 -- Creating primary key on [id] in table 'Asegurados'
 ALTER TABLE [dbo].[Asegurados]
 ADD CONSTRAINT [PK_Asegurados]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'Pagos'
+ALTER TABLE [dbo].[Pagos]
+ADD CONSTRAINT [PK_Pagos]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'ResumenPagoes'
+ALTER TABLE [dbo].[ResumenPagoes]
+ADD CONSTRAINT [PK_ResumenPagoes]
     PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
@@ -1035,6 +1155,66 @@ GO
 CREATE INDEX [IX_FK_PlazaAsegurado]
 ON [dbo].[Asegurados]
     ([Plaza_id]);
+GO
+
+-- Creating foreign key on [trabajadorId] in table 'Pagos'
+ALTER TABLE [dbo].[Pagos]
+ADD CONSTRAINT [FK_Pagos_Asegurados]
+    FOREIGN KEY ([trabajadorId])
+    REFERENCES [dbo].[Asegurados]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Pagos_Asegurados'
+CREATE INDEX [IX_FK_Pagos_Asegurados]
+ON [dbo].[Pagos]
+    ([trabajadorId]);
+GO
+
+-- Creating foreign key on [resumenPagoId] in table 'Pagos'
+ALTER TABLE [dbo].[Pagos]
+ADD CONSTRAINT [FK_Pagos_ResumenPago]
+    FOREIGN KEY ([resumenPagoId])
+    REFERENCES [dbo].[ResumenPagoes]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Pagos_ResumenPago'
+CREATE INDEX [IX_FK_Pagos_ResumenPago]
+ON [dbo].[Pagos]
+    ([resumenPagoId]);
+GO
+
+-- Creating foreign key on [patronId] in table 'ResumenPagoes'
+ALTER TABLE [dbo].[ResumenPagoes]
+ADD CONSTRAINT [FK_ResumenPago_Patrones]
+    FOREIGN KEY ([patronId])
+    REFERENCES [dbo].[Patrones]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ResumenPago_Patrones'
+CREATE INDEX [IX_FK_ResumenPago_Patrones]
+ON [dbo].[ResumenPagoes]
+    ([patronId]);
+GO
+
+-- Creating foreign key on [usuarioCreacionId] in table 'ResumenPagoes'
+ALTER TABLE [dbo].[ResumenPagoes]
+ADD CONSTRAINT [FK_ResumenPago_Usuarios]
+    FOREIGN KEY ([usuarioCreacionId])
+    REFERENCES [dbo].[Usuarios]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ResumenPago_Usuarios'
+CREATE INDEX [IX_FK_ResumenPago_Usuarios]
+ON [dbo].[ResumenPagoes]
+    ([usuarioCreacionId]);
 GO
 
 -- --------------------------------------------------

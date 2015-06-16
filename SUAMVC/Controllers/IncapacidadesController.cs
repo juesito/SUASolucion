@@ -14,14 +14,10 @@ using PagedList;
 using System.IO;
 using System.Web.Helpers;
 using SUAMVC.Code52.i18n;
-using System.Text.RegularExpressions;
-//using System.Web;
-//using System.Web.Mvc;
-
 
 namespace SUAMVC.Controllers
 {
-    public class AseguradosController : Controller
+    public class IncapacidadesController : Controller
     {
         private suaEntities db = new suaEntities();
 
@@ -134,12 +130,12 @@ namespace SUAMVC.Controllers
                                                }).Distinct(), "id", "FullName");
 
             //Query principal
-            var asegurados = from s in db.Asegurados
-                             join cli in db.Clientes on s.ClienteId equals cli.Id
-                             where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
-                                   clientesAsignados.Contains(s.Cliente.Id) &&
-                                   patronesAsignados.Contains(s.PatroneId) &&
-                                   gruposAsignados.Contains(s.Cliente.Grupo_id)
+            var incapacidades = from s in db.Incapacidades
+                             join cli in db.Clientes on s.Asegurado.ClienteId equals cli.Id
+                             where plazasAsignadas.Contains(s.Asegurado.Cliente.Plaza_id) &&
+                                   clientesAsignados.Contains(s.Asegurado.Cliente.Id) &&
+                                   patronesAsignados.Contains(s.Asegurado.PatroneId) &&
+                                   gruposAsignados.Contains(s.Asegurado.Cliente.Grupo_id)
                              select s;
 
             //Comenzamos los filtros
@@ -147,27 +143,27 @@ namespace SUAMVC.Controllers
             {
                 @ViewBag.pzaId = plazasId;
                 int idPlaza = int.Parse(plazasId.Trim());
-                asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
+                incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Plaza_id.Equals(idPlaza));
             }
             if (!String.IsNullOrEmpty(patronesId))
             {
                 @ViewBag.patId = patronesId;
                 int idPatron = int.Parse(patronesId.Trim());
-                asegurados = asegurados.Where(s => s.PatroneId.Equals(idPatron));
+                incapacidades = incapacidades.Where(s => s.Asegurado.PatroneId.Equals(idPatron));
             }
 
             if (!String.IsNullOrEmpty(clientesId))
             {
                 @ViewBag.cteId = clientesId;
                 int idCliente = int.Parse(clientesId.Trim());
-                asegurados = asegurados.Where(s => s.Cliente.Id.Equals(idCliente));
+                incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Id.Equals(idCliente));
             }
 
             if (!String.IsNullOrEmpty(gruposId))
             {
                 @ViewBag.gpoId = gruposId;
                 int idGrupo = int.Parse(gruposId.Trim());
-                asegurados = asegurados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
+                incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Grupo_id.Equals(idGrupo));
             }
 
             if (!String.IsNullOrEmpty(opcion))
@@ -176,43 +172,31 @@ namespace SUAMVC.Controllers
                 switch (opcion)
                 {
                     case "1":
-                        asegurados = asegurados.Where(s => s.Patrone.registro.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.Patrone.registro.Contains(valor));
                         break;
                     case "2":
-                        asegurados = asegurados.Where(s => s.numeroAfiliacion.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.numeroAfiliacion.Contains(valor));
                         break;
                     case "3":
-                        asegurados = asegurados.Where(s => s.CURP.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.CURP.Contains(valor));
                         break;
                     case "4":
-                        asegurados = asegurados.Where(s => s.RFC.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.RFC.Contains(valor));
                         break;
                     case "5":
-                        asegurados = asegurados.Where(s => s.nombre.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.nombre.Contains(valor));
                         break;
                     case "6":
-                        asegurados = asegurados.Where(s => s.fechaAlta.ToString().Contains(valor));
-                        break;
-                    case "7":
-                        asegurados = asegurados.Where(s => s.fechaBaja.ToString().Contains(valor));
-                        break;
-                    case "8":
-                        asegurados = asegurados.Where(s => s.salarioImss.ToString().Contains(valor.Trim()));
-                        break;
-                    case "9":
-                        asegurados = asegurados.Where(s => s.Cliente.claveCliente.Contains(valor));
-                        break;
-                    case "10":
-                        asegurados = asegurados.Where(s => s.Cliente.Grupos.nombre.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.fechaAlta.ToString().Contains(valor));
                         break;
                     case "11":
-                        asegurados = asegurados.Where(s => s.ocupacion.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.ocupacion.Contains(valor));
                         break;
                     case "12":
-                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cveCorta.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Plaza.cveCorta.Contains(valor));
                         break;
                     case "13":
-                        asegurados = asegurados.Where(s => s.extranjero.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.extranjero.Contains(valor));
                         break;
                 }
             }
@@ -224,21 +208,21 @@ namespace SUAMVC.Controllers
                 if (statusId.Trim().Equals("A"))
                 {
                     ViewBag.statusId = statusId;
-                    asegurados = asegurados.Where(s => !s.fechaBaja.HasValue);
+                    incapacidades = incapacidades.Where(s => !s.Asegurado.fechaBaja.HasValue);
                 }
                 else if (statusId.Trim().Equals("B"))
                 {
                     ViewBag.statusId = statusId;
-                    asegurados = asegurados.Where(s => s.fechaBaja.HasValue);
+                    incapacidades = incapacidades.Where(s => s.Asegurado.fechaBaja.HasValue);
                 }
             }
 
-            ViewBag.activos = asegurados.Where(s => !s.fechaBaja.HasValue).Count();
-            ViewBag.registros = asegurados.Count();
+            ViewBag.activos = incapacidades.Where(s => !s.Asegurado.fechaBaja.HasValue).Count();
+            ViewBag.registros = incapacidades.Count();
 
-            asegurados = asegurados.OrderBy(s => s.nombreTemporal);
+            incapacidades = incapacidades.OrderBy(s => s.Asegurado.nombreTemporal);
 
-            return View(asegurados.ToList());
+            return View(incapacidades.ToList());
         }
 
         // GET: Aseguradoes/Details/5
@@ -260,7 +244,7 @@ namespace SUAMVC.Controllers
         {
             if (carga != null)
             {
-                Asegurado asegurado = db.Asegurados.Find(id);
+                Incapacidade incapacidades = db.Incapacidades.Find(id);
                 var movtosTemp = db.Movimientos.Where(x => x.aseguradoId == id
                                  && x.tipo.Equals(option)).OrderByDescending(x => x.fechaTransaccion).ToList();
 
@@ -273,7 +257,7 @@ namespace SUAMVC.Controllers
                         break;
                     }//Definimos los valores para la plaza
 
-                    var fileName = "C:\\SUA\\Asegurados\\" + asegurado.numeroAfiliacion + "\\" + option + "\\" + movto.nombreArchivo.Trim();
+                    var fileName = "C:\\SUA\\Incapacidades\\" + incapacidades.Asegurado.numeroAfiliacion + "\\" + option + "\\" + movto.nombreArchivo.Trim();
 
                     if (System.IO.File.Exists(fileName))
                     {
@@ -297,61 +281,7 @@ namespace SUAMVC.Controllers
             }
         }
 
-        // GET: Aseguradoes/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Aseguradoes/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "registroaseguradoal,numeroAfiliacion,CURP,RFC,nombre,salarioImss,salarioInfo,fechaAlta,fechaBaja,tipoTrabajo,semanaJornada,paginaInfo,tipoDescuento,valorDescuento,claveUbicacion,nombreTemporal,fechaDescuento,finDescuento,articulo33,salarioArticulo33,trapeniv,estado,claveMunicipio")] Asegurado asegurado)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Asegurados.Add(asegurado);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(asegurado);
-        }
-
-        // GET: Aseguradoes/Edit/5
-        public ActionResult Edit(int id)
-        {
-            if (id == 0)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Asegurado asegurado = db.Asegurados.Find(id);
-            if (asegurado == null)
-            {
-                return HttpNotFound();
-            }
-            return View(asegurado);
-        }
-
-        // POST: Aseguradoes/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "registroaseguradoal,numeroAfiliacion,CURP,RFC,nombre,salarioImss,salarioInfo,fechaAlta,fechaBaja,tipoTrabajo,semanaJornada,paginaInfo,tipoDescuento,valorDescuento,claveUbicacion,nombreTemporal,fechaDescuento,finDescuento,articulo33,salarioArticulo33,trapeniv,estado,claveMunicipio")] Asegurado asegurado)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(asegurado).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(asegurado);
-        }
-
-        // GET: Aseguradoes/Delete/5
+         // GET: Aseguradoes/Delete/5
         public ActionResult DeleteMov(int id)
         {
             if (id == 0)
@@ -398,40 +328,40 @@ namespace SUAMVC.Controllers
                                      && x.tipo.Equals("B")
                                      select x.topicoId);
 
-            List<Asegurado> allCust = new List<Asegurado>();
+            List<Incapacidade> allCust = new List<Incapacidade>();
 
-            var asegurados = from s in db.Asegurados
-                             join cli in db.Clientes on s.ClienteId equals cli.Id
-                             where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
-                                   clientesAsignados.Contains(s.Cliente.Id) &&
-                                   patronesAsignados.Contains(s.PatroneId)
+            var incapacidades = from s in db.Incapacidades
+                             join cli in db.Clientes on s.Asegurado.ClienteId equals cli.Id
+                             where plazasAsignadas.Contains(s.Asegurado.Cliente.Plaza_id) &&
+                                   clientesAsignados.Contains(s.Asegurado.Cliente.Id) &&
+                                   patronesAsignados.Contains(s.Asegurado.PatroneId)
                              select s;
 
             if (!String.IsNullOrEmpty(plazasId))
             {
                 @ViewBag.pzaId = plazasId;
                 int idPlaza = int.Parse(plazasId.Trim());
-                asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
+                incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Plaza_id.Equals(idPlaza));
             }
             if (!String.IsNullOrEmpty(patronesId))
             {
                 @ViewBag.patId = patronesId;
                 int idPatron = int.Parse(patronesId.Trim());
-                asegurados = asegurados.Where(s => s.PatroneId.Equals(idPatron));
+                incapacidades = incapacidades.Where(s => s.Asegurado.PatroneId.Equals(idPatron));
             }
 
             if (!String.IsNullOrEmpty(clientesId))
             {
                 @ViewBag.cteId = clientesId;
                 int idCliente = int.Parse(clientesId.Trim());
-                asegurados = asegurados.Where(s => s.Cliente.Id.Equals(idCliente));
+                incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Id.Equals(idCliente));
             }
 
             if (!String.IsNullOrEmpty(gruposId))
             {
                 @ViewBag.gpoId = gruposId;
                 int idGrupo = int.Parse(gruposId.Trim());
-                asegurados = asegurados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
+                incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Grupo_id.Equals(idGrupo));
             }
 
             if (!String.IsNullOrEmpty(opcion))
@@ -443,43 +373,31 @@ namespace SUAMVC.Controllers
                 switch (opcion)
                 {
                     case "1":
-                        asegurados = asegurados.Where(s => s.Patrone.registro.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.Patrone.registro.Contains(valor));
                         break;
                     case "2":
-                        asegurados = asegurados.Where(s => s.numeroAfiliacion.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.numeroAfiliacion.Contains(valor));
                         break;
                     case "3":
-                        asegurados = asegurados.Where(s => s.CURP.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.CURP.Contains(valor));
                         break;
                     case "4":
-                        asegurados = asegurados.Where(s => s.RFC.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.RFC.Contains(valor));
                         break;
                     case "5":
-                        asegurados = asegurados.Where(s => s.nombre.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.nombre.Contains(valor));
                         break;
                     case "6":
-                        asegurados = asegurados.Where(s => s.fechaAlta.ToString().Contains(valor));
-                        break;
-                    case "7":
-                        asegurados = asegurados.Where(s => s.fechaBaja.ToString().Contains(valor));
-                        break;
-                    case "8":
-                        asegurados = asegurados.Where(s => s.salarioImss.ToString().Contains(valor.Trim()));
-                        break;
-                    case "9":
-                        asegurados = asegurados.Where(s => s.Cliente.claveCliente.Contains(valor));
-                        break;
-                    case "10":
-                        asegurados = asegurados.Where(s => s.Cliente.Grupos.nombre.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.fechaAlta.ToString().Contains(valor));
                         break;
                     case "11":
-                        asegurados = asegurados.Where(s => s.ocupacion.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.ocupacion.Contains(valor));
                         break;
                     case "12":
-                        asegurados = asegurados.Where(s => s.Cliente.Plaza.cveCorta.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Plaza.cveCorta.Contains(valor));
                         break;
                     case "13":
-                        asegurados = asegurados.Where(s => s.extranjero.Contains(valor));
+                        incapacidades = incapacidades.Where(s => s.Asegurado.extranjero.Contains(valor));
                         break;
                 }
             }
@@ -491,39 +409,35 @@ namespace SUAMVC.Controllers
                 if (statusId.Trim().Equals("A"))
                 {
                     ViewBag.statusId = statusId;
-                    asegurados = asegurados.Where(s => !s.fechaBaja.HasValue);
+                    incapacidades = incapacidades.Where(s => !s.Asegurado.fechaBaja.HasValue);
                 }
                 else if (statusId.Trim().Equals("B"))
                 {
                     ViewBag.statusId = statusId;
-                    asegurados = asegurados.Where(s => s.fechaBaja.HasValue);
+                    incapacidades = incapacidades.Where(s => s.Asegurado.fechaBaja.HasValue);
                 }
             }
 
-            allCust = asegurados.ToList();
+            allCust = incapacidades.ToList();
 
             WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
 
             List<WebGridColumn> gridColumns = new List<WebGridColumn>();
-            gridColumns.Add(grid.Column("Patrone.registro", "Registro "));
-            gridColumns.Add(grid.Column("numeroAfiliacion", "Numero Afiliacion"));
-            gridColumns.Add(grid.Column("curp", "CURP"));
-            gridColumns.Add(grid.Column("rfc", "RFC"));
-            gridColumns.Add(grid.Column("nombreTemporal", "Nombre"));
-            gridColumns.Add(grid.Column("fechaAlta", "Fecha Alta", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
-            gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => item.fechaBaja != null ? String.Format("{0:yyyy-MM-dd}", item.fechaBaja) : String.Empty));
-            gridColumns.Add(grid.Column("salarioImss", "Salario IMSS"));
-            gridColumns.Add(grid.Column("Cliente.claveCliente", "Ubicación"));
-            gridColumns.Add(grid.Column("Cliente.Grupos.nombreCorto", "Grupo"));
-            gridColumns.Add(grid.Column("ocupacion", "Ocupación"));
-            gridColumns.Add(grid.Column("Cliente.Plaza.cveCorta", "Plaza"));
-            gridColumns.Add(grid.Column("extranjero", "Extranjero"));
-            gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creación", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaCreacion)));
-            gridColumns.Add(grid.Column("fechaModificacion", "Fecha Modificación", format: (item) => item.fechaModificacion != null ? String.Format("{0:yyyy-MM-dd}", item.fechaModificacion) : String.Empty));
-            gridColumns.Add(grid.Column("alta", "Alta"));
-            gridColumns.Add(grid.Column("baja", "Baja"));
-            gridColumns.Add(grid.Column("modificacion", "Modificación"));
-            gridColumns.Add(grid.Column("permanente", "Permanente"));
+            gridColumns.Add(grid.Column("Asegurado.Patrone.registro", "Registro Patronal"));
+            gridColumns.Add(grid.Column("Asegurado.numeroAfiliacion", "Num.Afiliacion"));
+            gridColumns.Add(grid.Column("Asegurado.curp", "CURP"));
+            gridColumns.Add(grid.Column("Asegurado.rfc", "RFC"));
+            gridColumns.Add(grid.Column("Asegurado.nombreTemporal", "Nombre"));
+            gridColumns.Add(grid.Column("Asegurado.ocupacion", "Ocupación"));
+            gridColumns.Add(grid.Column("tieRie", "Riesgo de Trabajo"));
+            gridColumns.Add(grid.Column("fechaAcc", "Fecha Inicio", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAcc)));
+            gridColumns.Add(grid.Column("diaSub", "Días Subsidiados"));
+
+            gridColumns.Add(grid.Column("Asegurado.fechaAlta", "Fecha Alta", format: (item) => String.Format("{0:yyyy-MM-dd}", item.Asegurado.fechaAlta)));
+            gridColumns.Add(grid.Column("Asegurado.extranjero", "Extranjero"));
+            gridColumns.Add(grid.Column("Asegurado.Cliente.Plaza.cveCorta", "ID.Plaza"));
+            gridColumns.Add(grid.Column("Asegurado.fechaCreacion", "Fecha Creacion", format: (item) => String.Format("{0:yyyy-MM-dd}", item.Asegurado.fechaAlta)));
+            gridColumns.Add(grid.Column("Asegurado.fechaModificacion", "Fecha Modificación", format: (item) => item.Asegurado.fechaModificacion != null ? String.Format("{0:yyyy-MM-dd}", item.Asegurado.fechaModificacion) : String.Empty));
 
             string gridData = grid.GetHtml(
                 columns: grid.Columns(gridColumns.ToArray())
@@ -531,7 +445,7 @@ namespace SUAMVC.Controllers
 
             Response.ClearContent();
             DateTime date = DateTime.Now;
-            String fileName = "Asegurados-" + date.ToString("ddMMyyyyHHmm") + ".xls";
+            String fileName = "Incapacidades-" + date.ToString("ddMMyyyyHHmm") + ".xls";
             Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
             Response.ContentType = "application/excel";
             Response.Write(gridData);

@@ -26,7 +26,7 @@ namespace SUADATOS
     
         public int id { get; set; }
         public string descripcion { get; set; }
-        public string cvecorta { get; set; }
+        public string cveCorta { get; set; }
         public string indicador { get; set; }
     
         public virtual ICollection<Acreditado> Acreditados { get; set; }

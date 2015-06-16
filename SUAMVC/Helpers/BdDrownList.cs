@@ -24,7 +24,7 @@ namespace SUAMVC.Helpers
             List<Plaza> listPlazas = (from s in db.Plazas.ToList()
                                       join top in db.TopicosUsuarios on s.id equals top.topicoId
                                       where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(userId)
-                                      orderby s.cvecorta, s.descripcion
+                                      orderby s.cveCorta, s.descripcion
                                       select s).ToList();
 
             foreach (Plaza item in listPlazas)

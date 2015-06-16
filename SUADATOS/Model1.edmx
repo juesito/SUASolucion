@@ -17,7 +17,7 @@
           <Property Name="CURP" Type="nchar" MaxLength="20" />
           <Property Name="RFC" Type="nchar" MaxLength="15" Nullable="false" />
           <Property Name="clienteId" Type="int" />
-          <Property Name="ocupacion" Type="nchar" MaxLength="60" />
+          <Property Name="ocupacion" Type="nchar" MaxLength="60" Nullable="false" />
           <Property Name="idGrupo" Type="nchar" MaxLength="20" />
           <Property Name="numeroAfiliacion" Type="nchar" MaxLength="15" Nullable="false" />
           <Property Name="numeroCredito" Type="nchar" MaxLength="15" />
@@ -87,6 +87,9 @@
           <Property Name="permanente" Type="nchar" MaxLength="60" />
           <Property Name="Plaza_id" Type="int" Nullable="false" />
           <Property Name="salarioDiario" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="apellidoPaterno" Type="nchar" MaxLength="60" />
+          <Property Name="apellidoMaterno" Type="nchar" MaxLength="60" />
+          <Property Name="nombres" Type="nchar" MaxLength="60" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'sua.dbo.Bancos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -213,6 +216,8 @@ advertencia 6002: La tabla o vista 'sua.dbo.EstadoCivil' no tiene definida ningu
           <Property Name="porcentajeIncapacidad" Type="decimal" Precision="10" Scale="4" Nullable="false" />
           <Property Name="indDef" Type="nchar" MaxLength="2" Nullable="false" />
           <Property Name="fecTer" Type="datetime" Nullable="false" />
+          <Property Name="tipoIncapacidad" Type="nchar" MaxLength="1" />
+          <Property Name="alta" Type="nchar" MaxLength="60" />
         </EntityType>
         <EntityType Name="Modulos">
           <Key>
@@ -235,6 +240,7 @@ advertencia 6002: La tabla o vista 'sua.dbo.EstadoCivil' no tiene definida ningu
           <Property Name="fechaTransaccion" Type="datetime" Nullable="false" />
           <Property Name="tipo" Type="nchar" MaxLength="2" Nullable="false" />
           <Property Name="nombreArchivo" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="MovimientosAseguradoes">
           <Key>
@@ -310,20 +316,6 @@ advertencia 6002: La tabla o vista 'sua.dbo.EstadoCivil' no tiene definida ningu
           <Property Name="anoPago" Type="int" Nullable="false" />
           <Property Name="mesPago" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'sua.dbo.Paises' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
-        <EntityType Name="Paises">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="fechaCreacion" />
-            <PropertyRef Name="usuarioId" />
-          </Key>
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="descripcion" Type="nchar" MaxLength="60" />
-          <Property Name="naturaleza" Type="char" MaxLength="1" />
-          <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
-          <Property Name="usuarioId" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="Parametros">
           <Key>
             <PropertyRef Name="id" />
@@ -373,34 +365,8 @@ advertencia 6002: La tabla o vista 'sua.dbo.Paises' no tiene definida ninguna cl
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="descripcion" Type="nchar" MaxLength="50" Nullable="false" />
-          <Property Name="cvecorta" Type="nchar" MaxLength="10" />
-          <Property Name="indicador" Type="char" MaxLength="1" />
-        </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'sua.dbo.RegimenInfonavit' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
-        <EntityType Name="RegimenInfonavit">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="fechaCreacion" />
-            <PropertyRef Name="usuarioId" />
-          </Key>
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="descripcion" Type="nchar" MaxLength="60" />
-          <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
-          <Property Name="usuarioId" Type="int" Nullable="false" />
-        </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'sua.dbo.Residencias' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
-        <EntityType Name="Residencias">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="fechaCreacion" />
-            <PropertyRef Name="usuarioId" />
-          </Key>
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="descripcion" Type="nchar" MaxLength="60" />
-          <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
-          <Property Name="usuarioId" Type="int" Nullable="false" />
+          <Property Name="cveCorta" Type="nchar" MaxLength="10" />
+          <Property Name="indicador" Type="nchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="ResumenPago">
           <Key>
@@ -745,18 +711,6 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Paises_Usuarios">
-          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="Paises" Type="Self.Paises" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuarios">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Paises">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PatroneAcreditado">
           <End Role="Patrones" Type="Self.Patrones" Multiplicity="1" />
           <End Role="Acreditados" Type="Self.Acreditados" Multiplicity="*" />
@@ -838,30 +792,6 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
             </Principal>
             <Dependent Role="Patrones">
               <PropertyRef Name="Plaza_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RegimenInfonavit_Usuarios">
-          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="RegimenInfonavit" Type="Self.RegimenInfonavit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuarios">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="RegimenInfonavit">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Residencias_Usuarios">
-          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="Residencias" Type="Self.Residencias" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuarios">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Residencias">
-              <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1069,11 +999,9 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
           <EntitySet Name="Modulos" EntityType="Self.Modulos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Movimientos" EntityType="Self.Movimientos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MovimientosAseguradoes" EntityType="Self.MovimientosAseguradoes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Pagos" EntityType="Self.Pagos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Parametros" EntityType="Self.Parametros" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patrones" EntityType="Self.Patrones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Plazas" EntityType="Self.Plazas" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ResumenPago" EntityType="Self.ResumenPago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoleFuncions" EntityType="Self.RoleFuncions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoleModulos" EntityType="Self.RoleModulos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
@@ -1228,10 +1156,6 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
             <End Role="ResumenPago" EntitySet="ResumenPago" />
             <End Role="Pagos" EntitySet="Pagos" />
           </AssociationSet>
-          <AssociationSet Name="FK_Paises_Usuarios" Association="Self.FK_Paises_Usuarios">
-            <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="Paises" EntitySet="Paises" />
-          </AssociationSet>
           <AssociationSet Name="FK_PatroneAcreditado" Association="Self.FK_PatroneAcreditado">
             <End Role="Patrones" EntitySet="Patrones" />
             <End Role="Acreditados" EntitySet="Acreditados" />
@@ -1259,14 +1183,6 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
           <AssociationSet Name="FK_PlazaPatrone" Association="Self.FK_PlazaPatrone">
             <End Role="Plazas" EntitySet="Plazas" />
             <End Role="Patrones" EntitySet="Patrones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RegimenInfonavit_Usuarios" Association="Self.FK_RegimenInfonavit_Usuarios">
-            <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="RegimenInfonavit" EntitySet="RegimenInfonavit" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Residencias_Usuarios" Association="Self.FK_Residencias_Usuarios">
-            <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="Residencias" EntitySet="Residencias" />
           </AssociationSet>
           <AssociationSet Name="FK_ResumenPago_Patrones" Association="Self.FK_ResumenPago_Patrones">
             <End Role="Patrones" EntitySet="Patrones" />
@@ -1491,56 +1407,6 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="ResumenPago" EntitySet="ResumenPagoes" />
           </AssociationSet>
-          <EntitySet Name="Bancos" EntityType="suaModel.Banco" />
-          <EntitySet Name="Esquemas" EntityType="suaModel.Esquema" />
-          <EntitySet Name="EstadoCivils" EntityType="suaModel.EstadoCivil" />
-          <EntitySet Name="Paises" EntityType="suaModel.Pais" />
-          <EntitySet Name="RegimenInfonavits" EntityType="suaModel.RegimenInfonavit" />
-          <EntitySet Name="Residencias" EntityType="suaModel.Residencia" />
-          <EntitySet Name="SDIs" EntityType="suaModel.SDI" />
-          <EntitySet Name="Sexos" EntityType="suaModel.Sexo" />
-          <EntitySet Name="TiposContratoes" EntityType="suaModel.TiposContrato" />
-          <EntitySet Name="TiposPersonals" EntityType="suaModel.TiposPersonal" />
-          <AssociationSet Name="FK_Bancos_Usuarios" Association="suaModel.FK_Bancos_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="Banco" EntitySet="Bancos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Esquemas_Usuarios" Association="suaModel.FK_Esquemas_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="Esquema" EntitySet="Esquemas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EstadoCivil_Usuarios" Association="suaModel.FK_EstadoCivil_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="EstadoCivil" EntitySet="EstadoCivils" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Paises_Usuarios" Association="suaModel.FK_Paises_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="Pais" EntitySet="Paises" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RegimenInfonavit_Usuarios" Association="suaModel.FK_RegimenInfonavit_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="RegimenInfonavit" EntitySet="RegimenInfonavits" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Residencias_Usuarios" Association="suaModel.FK_Residencias_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="Residencia" EntitySet="Residencias" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SDIs_Usuarios" Association="suaModel.FK_SDIs_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="SDI" EntitySet="SDIs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Sexos_Usuarios" Association="suaModel.FK_Sexos_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="Sexo" EntitySet="Sexos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TiposContrato_Usuarios" Association="suaModel.FK_TiposContrato_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="TiposContrato" EntitySet="TiposContratoes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TiposPersonal_Usuarios" Association="suaModel.FK_TiposPersonal_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="TiposPersonal" EntitySet="TiposPersonals" />
-          </AssociationSet>
           </EntityContainer>
         <EntityType Name="catalogoMovimiento">
           <Key>
@@ -1573,6 +1439,8 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
           <Property Name="fecTer" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="MovimientosAseguradoes" Relationship="suaModel.FK_MovimientosAsegurado_Incapacidades" FromRole="Incapacidade" ToRole="MovimientosAsegurado" />
           <NavigationProperty Name="Asegurado" Relationship="suaModel.FK_Incapacidades_Asegurados" FromRole="Incapacidade" ToRole="Asegurado" />
+          <Property Name="tipoIncapacidad" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="alta" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="MovimientosAsegurado">
           <Key>
@@ -1637,7 +1505,6 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
           <NavigationProperty Name="Acreditados" Relationship="suaModel.FK_PatroneAcreditado" FromRole="Patrone" ToRole="Acreditado" />
           <NavigationProperty Name="Plaza" Relationship="suaModel.FK_PlazaPatrone" FromRole="Patrone" ToRole="Plaza" />
           <NavigationProperty Name="Asegurados" Relationship="suaModel.FK_PatroneAsegurado" FromRole="Patrone" ToRole="Asegurado" />
-          <NavigationProperty Name="ResumenPagoes" Relationship="suaModel.FK_ResumenPago_Patrones" FromRole="Patrone" ToRole="ResumenPago" />
         </EntityType>
         <Association Name="FK_MovimientosAsegurado_catalogoMovimientos">
           <End Type="suaModel.catalogoMovimiento" Role="catalogoMovimiento" Multiplicity="1" />
@@ -1675,7 +1542,7 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
           <Property Name="CURP" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
           <Property Name="RFC" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
           <Property Name="clienteId" Type="Int32" />
-          <Property Name="ocupacion" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="ocupacion" Type="String" MaxLength="60" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="idGrupo" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
           <Property Name="numeroAfiliacion" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
           <Property Name="numeroCredito" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
@@ -1827,16 +1694,6 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
           <NavigationProperty Name="Factores" Relationship="suaModel.FK_Factores_Usuarios" FromRole="Usuario" ToRole="Factore" />
           <NavigationProperty Name="Plaza" Relationship="suaModel.FK_Usuarios_Plazas" FromRole="Usuario" ToRole="Plaza" />
           <NavigationProperty Name="ResumenPagoes" Relationship="suaModel.FK_ResumenPago_Usuarios" FromRole="Usuario" ToRole="ResumenPago" />
-          <NavigationProperty Name="Bancos" Relationship="suaModel.FK_Bancos_Usuarios" FromRole="Usuario" ToRole="Banco" />
-          <NavigationProperty Name="Esquemas" Relationship="suaModel.FK_Esquemas_Usuarios" FromRole="Usuario" ToRole="Esquema" />
-          <NavigationProperty Name="EstadoCivils" Relationship="suaModel.FK_EstadoCivil_Usuarios" FromRole="Usuario" ToRole="EstadoCivil" />
-          <NavigationProperty Name="Paises" Relationship="suaModel.FK_Paises_Usuarios" FromRole="Usuario" ToRole="Pais" />
-          <NavigationProperty Name="RegimenInfonavits" Relationship="suaModel.FK_RegimenInfonavit_Usuarios" FromRole="Usuario" ToRole="RegimenInfonavit" />
-          <NavigationProperty Name="Residencias" Relationship="suaModel.FK_Residencias_Usuarios" FromRole="Usuario" ToRole="Residencia" />
-          <NavigationProperty Name="SDIs" Relationship="suaModel.FK_SDIs_Usuarios" FromRole="Usuario" ToRole="SDI" />
-          <NavigationProperty Name="Sexos" Relationship="suaModel.FK_Sexos_Usuarios" FromRole="Usuario" ToRole="Sexo" />
-          <NavigationProperty Name="TiposContratoes" Relationship="suaModel.FK_TiposContrato_Usuarios" FromRole="Usuario" ToRole="TiposContrato" />
-          <NavigationProperty Name="TiposPersonals" Relationship="suaModel.FK_TiposPersonal_Usuarios" FromRole="Usuario" ToRole="TiposPersonal" />
         </EntityType>
         <Association Name="FK_Usuarios_Usuarios">
           <End Type="suaModel.Role" Role="Role" Multiplicity="1" />
@@ -1912,6 +1769,7 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
           <Property Name="nombreArchivo" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Acreditado" Relationship="suaModel.FK_Movimientos_Acreditados" FromRole="Movimiento" ToRole="Acreditado" />
           <NavigationProperty Name="Asegurado" Relationship="suaModel.FK_Movimientos_Asegurados" FromRole="Movimiento" ToRole="Asegurado" />
+          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <Association Name="FK_Acreditados_Acreditados">
           <End Type="suaModel.Acreditado" Role="Acreditado" Multiplicity="1" />
@@ -2089,8 +1947,8 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="cvecorta" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="indicador" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="cveCorta" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="indicador" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Acreditados" Relationship="suaModel.FK_PlazaAcreditado" FromRole="Plaza" ToRole="Acreditado" />
           <NavigationProperty Name="Clientes" Relationship="suaModel.FK_PlazaClientes" FromRole="Plaza" ToRole="Cliente" />
           <NavigationProperty Name="Grupos" Relationship="suaModel.FK_PlazaGrupos" FromRole="Plaza" ToRole="Grupos" />
@@ -2202,7 +2060,9 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
           <NavigationProperty Name="MovimientosAseguradoes" Relationship="suaModel.FK_MovimientosAsegurado_Asegurados" FromRole="Asegurado" ToRole="MovimientosAsegurado" />
           <NavigationProperty Name="Patrone" Relationship="suaModel.FK_PatroneAsegurado" FromRole="Asegurado" ToRole="Patrone" />
           <NavigationProperty Name="Plaza" Relationship="suaModel.FK_PlazaAsegurado" FromRole="Asegurado" ToRole="Plaza" />
-          <NavigationProperty Name="Pagos" Relationship="suaModel.FK_Pagos_Asegurados" FromRole="Asegurado" ToRole="Pago" />
+          <Property Name="apellidoPaterno" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="apellidoMaterno" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="nombres" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
         </EntityType>
         <Association Name="FK_Asegurados_Clientes">
           <End Type="suaModel.Cliente" Role="Cliente" Multiplicity="0..1" />
@@ -2419,247 +2279,6 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Banco">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="fechaCreacion" />
-            <PropertyRef Name="usuarioId" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Bancos_Usuarios" FromRole="Banco" ToRole="Usuario" />
-        </EntityType>
-        <EntityType Name="Esquema">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="fechaCreacion" />
-            <PropertyRef Name="usuarioId" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Esquemas_Usuarios" FromRole="Esquema" ToRole="Usuario" />
-        </EntityType>
-        <EntityType Name="EstadoCivil">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="fechaCreacion" />
-            <PropertyRef Name="usuarioId" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_EstadoCivil_Usuarios" FromRole="EstadoCivil" ToRole="Usuario" />
-        </EntityType>
-        <EntityType Name="Pais">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="fechaCreacion" />
-            <PropertyRef Name="usuarioId" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="naturaleza" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Paises_Usuarios" FromRole="Pais" ToRole="Usuario" />
-        </EntityType>
-        <EntityType Name="RegimenInfonavit">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="fechaCreacion" />
-            <PropertyRef Name="usuarioId" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_RegimenInfonavit_Usuarios" FromRole="RegimenInfonavit" ToRole="Usuario" />
-        </EntityType>
-        <EntityType Name="Residencia">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="fechaCreacion" />
-            <PropertyRef Name="usuarioId" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Residencias_Usuarios" FromRole="Residencia" ToRole="Usuario" />
-        </EntityType>
-        <EntityType Name="SDI">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="fechaCreacion" />
-            <PropertyRef Name="usuarioId" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_SDIs_Usuarios" FromRole="SDI" ToRole="Usuario" />
-        </EntityType>
-        <EntityType Name="Sexo">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="fechaCreacion" />
-            <PropertyRef Name="usuarioId" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Sexos_Usuarios" FromRole="Sexo" ToRole="Usuario" />
-        </EntityType>
-        <EntityType Name="TiposContrato">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="fechaCreacion" />
-            <PropertyRef Name="usuarioId" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_TiposContrato_Usuarios" FromRole="TiposContrato" ToRole="Usuario" />
-        </EntityType>
-        <EntityType Name="TiposPersonal">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="fechaCreacion" />
-            <PropertyRef Name="usuarioId" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_TiposPersonal_Usuarios" FromRole="TiposPersonal" ToRole="Usuario" />
-        </EntityType>
-        <Association Name="FK_Bancos_Usuarios">
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.Banco" Role="Banco" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Banco">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Esquemas_Usuarios">
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.Esquema" Role="Esquema" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Esquema">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EstadoCivil_Usuarios">
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.EstadoCivil" Role="EstadoCivil" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EstadoCivil">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Paises_Usuarios">
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.Pais" Role="Pais" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Pais">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RegimenInfonavit_Usuarios">
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.RegimenInfonavit" Role="RegimenInfonavit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="RegimenInfonavit">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Residencias_Usuarios">
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.Residencia" Role="Residencia" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Residencia">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SDIs_Usuarios">
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.SDI" Role="SDI" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SDI">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Sexos_Usuarios">
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.Sexo" Role="Sexo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Sexo">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TiposContrato_Usuarios">
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.TiposContrato" Role="TiposContrato" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TiposContrato">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TiposPersonal_Usuarios">
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.TiposPersonal" Role="TiposPersonal" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TiposPersonal">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2679,6 +2298,8 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
     <EntitySetMapping Name="Incapacidades">
       <EntityTypeMapping TypeName="IsTypeOf(suaModel.Incapacidade)">
         <MappingFragment StoreEntitySet="Incapacidades">
+          <ScalarProperty Name="alta" ColumnName="alta" />
+                <ScalarProperty Name="tipoIncapacidad" ColumnName="tipoIncapacidad" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="aseguradoId" ColumnName="aseguradoId" />
           <ScalarProperty Name="fechaAcc" ColumnName="fechaAcc" />
@@ -2882,6 +2503,7 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
     <EntitySetMapping Name="Movimientos">
       <EntityTypeMapping TypeName="IsTypeOf(suaModel.Movimiento)">
         <MappingFragment StoreEntitySet="Movimientos">
+          <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="aseguradoId" ColumnName="aseguradoId" />
           <ScalarProperty Name="acreditadoId" ColumnName="acreditadoId" />
@@ -2953,9 +2575,9 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
     <EntitySetMapping Name="Plazas">
       <EntityTypeMapping TypeName="IsTypeOf(suaModel.Plaza)">
         <MappingFragment StoreEntitySet="Plazas">
+          <ScalarProperty Name="cveCorta" ColumnName="cveCorta" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-          <ScalarProperty Name="cvecorta" ColumnName="cvecorta" />
           <ScalarProperty Name="indicador" ColumnName="indicador" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -2963,6 +2585,9 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
     <EntitySetMapping Name="Asegurados">
       <EntityTypeMapping TypeName="IsTypeOf(suaModel.Asegurado)">
         <MappingFragment StoreEntitySet="Asegurados">
+          <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apellidoMaterno" ColumnName="apellidoMaterno" />
+                <ScalarProperty Name="apellidoPaterno" ColumnName="apellidoPaterno" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="numeroAfiliacion" ColumnName="numeroAfiliacion" />
           <ScalarProperty Name="CURP" ColumnName="CURP" />
@@ -3088,107 +2713,6 @@ advertencia 6002: La tabla o vista 'sua.dbo.TiposPersonal' no tiene definida nin
                 <ScalarProperty Name="rfc" ColumnName="rfc" />
                 <ScalarProperty Name="patronId" ColumnName="patronId" />
                 <ScalarProperty Name="ip" ColumnName="ip" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Bancos">
-            <EntityTypeMapping TypeName="suaModel.Banco">
-              <MappingFragment StoreEntitySet="Bancos">
-                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Esquemas">
-            <EntityTypeMapping TypeName="suaModel.Esquema">
-              <MappingFragment StoreEntitySet="Esquemas">
-                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EstadoCivils">
-            <EntityTypeMapping TypeName="suaModel.EstadoCivil">
-              <MappingFragment StoreEntitySet="EstadoCivil">
-                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Paises">
-            <EntityTypeMapping TypeName="suaModel.Pais">
-              <MappingFragment StoreEntitySet="Paises">
-                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="naturaleza" ColumnName="naturaleza" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RegimenInfonavits">
-            <EntityTypeMapping TypeName="suaModel.RegimenInfonavit">
-              <MappingFragment StoreEntitySet="RegimenInfonavit">
-                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Residencias">
-            <EntityTypeMapping TypeName="suaModel.Residencia">
-              <MappingFragment StoreEntitySet="Residencias">
-                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SDIs">
-            <EntityTypeMapping TypeName="suaModel.SDI">
-              <MappingFragment StoreEntitySet="SDIs">
-                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Sexos">
-            <EntityTypeMapping TypeName="suaModel.Sexo">
-              <MappingFragment StoreEntitySet="Sexos">
-                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TiposContratoes">
-            <EntityTypeMapping TypeName="suaModel.TiposContrato">
-              <MappingFragment StoreEntitySet="TiposContrato">
-                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TiposPersonals">
-            <EntityTypeMapping TypeName="suaModel.TiposPersonal">
-              <MappingFragment StoreEntitySet="TiposPersonal">
-                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
