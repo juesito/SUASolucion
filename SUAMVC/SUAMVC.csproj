@@ -247,6 +247,7 @@
     <Compile Include="Controllers\AseguradosController.cs" />
     <Compile Include="Controllers\catalogoMovimientosController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\EsquemasController.cs" />
     <Compile Include="Controllers\FactoresController.cs" />
     <Compile Include="Controllers\FuncionesController.cs" />
     <Compile Include="Controllers\GruposController.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\ModulosController.cs" />
     <Compile Include="Controllers\MovimientosController.cs" />
+    <Compile Include="Controllers\PagosController.cs" />
     <Compile Include="Controllers\ParametrosController.cs" />
     <Compile Include="Controllers\PatronesController.cs" />
     <Compile Include="Controllers\PlazasController.cs" />
@@ -389,6 +391,17 @@
     <Content Include="Views\Factores\Edit.cshtml" />
     <Content Include="Views\Factores\Index.cshtml" />
     <Content Include="Views\Upload\OnlyUploadFile.cshtml" />
+    <Content Include="Views\Pagos\Create.cshtml" />
+    <Content Include="Views\Pagos\Delete.cshtml" />
+    <Content Include="Views\Pagos\Details.cshtml" />
+    <Content Include="Views\Pagos\Edit.cshtml" />
+    <Content Include="Views\Pagos\Index.cshtml" />
+    <Content Include="Views\Pagos\UploadPagos.cshtml" />
+    <Content Include="Views\Esquemas\Create.cshtml" />
+    <Content Include="Views\Esquemas\Delete.cshtml" />
+    <Content Include="Views\Esquemas\Details.cshtml" />
+    <Content Include="Views\Esquemas\Edit.cshtml" />
+    <Content Include="Views\Esquemas\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
