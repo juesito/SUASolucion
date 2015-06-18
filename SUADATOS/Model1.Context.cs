@@ -58,5 +58,6 @@ namespace SUADATOS
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<Plaza> Plazas { get; set; }
+        public virtual DbSet<Proyecto> Proyectos { get; set; }
     }
 }
