@@ -322,6 +322,24 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Esquema.
+        /// </summary>
+        public static string Esquema {
+            get {
+                return ResourceManager.GetString("Esquema", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Esquemas.
+        /// </summary>
+        public static string Esquemas {
+            get {
+                return ResourceManager.GetString("Esquemas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Factores.
         /// </summary>
         public static string factores {
@@ -493,6 +511,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Proyecto.
+        /// </summary>
+        public static string proyecto {
+            get {
+                return ResourceManager.GetString("proyecto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Registro Patronal.
         /// </summary>
         public static string registroPatronal {
@@ -570,6 +597,15 @@ namespace SUAMVC.Resources {
         public static string ubicacion {
             get {
                 return ResourceManager.GetString("ubicacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuario Alta.
+        /// </summary>
+        public static string usuarioAlta {
+            get {
+                return ResourceManager.GetString("usuarioAlta", resourceCulture);
             }
         }
         

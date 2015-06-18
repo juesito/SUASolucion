@@ -353,4 +353,20 @@
     <value>Modificar</value>
     <comment>Etiqueta para modificar</comment>
   </data>
+  <data name="Esquema" xml:space="preserve">
+    <value>Esquema</value>
+    <comment>Etiqueta para esquema</comment>
+  </data>
+  <data name="Esquemas" xml:space="preserve">
+    <value>Esquemas</value>
+    <comment>Etiqueta para esquemas</comment>
+  </data>
+  <data name="usuarioAlta" xml:space="preserve">
+    <value>Usuario Alta</value>
+    <comment>Etiqueta para usuario Alta</comment>
+  </data>
+  <data name="proyecto" xml:space="preserve">
+    <value>Proyecto</value>
+    <comment>Etiqueta para proyecto</comment>
+  </data>
 </root>

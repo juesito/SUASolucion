@@ -247,6 +247,7 @@
     <Compile Include="Controllers\AseguradosController.cs" />
     <Compile Include="Controllers\catalogoMovimientosController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\EsquemasPagosController.cs" />
     <Compile Include="Controllers\FactoresController.cs" />
     <Compile Include="Controllers\FuncionesController.cs" />
     <Compile Include="Controllers\GruposController.cs" />
@@ -259,9 +260,11 @@
     <Compile Include="Controllers\ParametrosController.cs" />
     <Compile Include="Controllers\PatronesController.cs" />
     <Compile Include="Controllers\PlazasController.cs" />
+    <Compile Include="Controllers\ProyectosController.cs" />
     <Compile Include="Controllers\RoleFuncionesController.cs" />
     <Compile Include="Controllers\RoleModulosController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\SolicitudesController.cs" />
     <Compile Include="Controllers\TopicosUsuarioController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
@@ -391,6 +394,21 @@
     <Content Include="Views\Factores\Edit.cshtml" />
     <Content Include="Views\Factores\Index.cshtml" />
     <Content Include="Views\Upload\OnlyUploadFile.cshtml" />
+    <Content Include="Views\EsquemasPagos\Create.cshtml" />
+    <Content Include="Views\EsquemasPagos\Delete.cshtml" />
+    <Content Include="Views\EsquemasPagos\Details.cshtml" />
+    <Content Include="Views\EsquemasPagos\Edit.cshtml" />
+    <Content Include="Views\EsquemasPagos\Index.cshtml" />
+    <Content Include="Views\Proyectos\Create.cshtml" />
+    <Content Include="Views\Proyectos\Delete.cshtml" />
+    <Content Include="Views\Proyectos\Details.cshtml" />
+    <Content Include="Views\Proyectos\Edit.cshtml" />
+    <Content Include="Views\Proyectos\Index.cshtml" />
+    <Content Include="Views\Solicitudes\Create.cshtml" />
+    <Content Include="Views\Solicitudes\Delete.cshtml" />
+    <Content Include="Views\Solicitudes\Details.cshtml" />
+    <Content Include="Views\Solicitudes\Edit.cshtml" />
+    <Content Include="Views\Solicitudes\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

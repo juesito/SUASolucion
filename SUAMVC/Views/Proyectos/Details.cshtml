@@ -1,0 +1,53 @@
+﻿@model SUADATOS.Proyecto
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Menu {
+    <div>@Language.detallesDe @Language.proyecto <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+<div>
+    <h4>Proyecto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaCreacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaCreacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.usuarioId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.usuarioId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente.claveCliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.claveCliente)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
