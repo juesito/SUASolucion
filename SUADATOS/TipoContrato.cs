@@ -14,11 +14,17 @@ namespace SUADATOS
     
     public partial class TipoContrato
     {
+        public TipoContrato()
+        {
+            this.Proyectos = new HashSet<Proyecto>();
+        }
+    
         public int id { get; set; }
         public string descripcion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
         public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<Proyecto> Proyectos { get; set; }
     }
 }
