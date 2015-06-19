@@ -547,6 +547,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Residencias.
+        /// </summary>
+        public static string residencia {
+            get {
+                return ResourceManager.GetString("residencia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a RFC.
         /// </summary>
         public static string rfc {

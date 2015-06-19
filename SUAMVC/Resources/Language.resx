@@ -369,4 +369,8 @@
     <value>Proyecto</value>
     <comment>Etiqueta para proyecto</comment>
   </data>
+  <data name="residencia" xml:space="preserve">
+    <value>Residencias</value>
+    <comment>Etiqueta para residencia</comment>
+  </data>
 </root>
