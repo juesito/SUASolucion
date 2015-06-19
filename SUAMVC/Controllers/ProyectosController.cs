@@ -17,7 +17,7 @@ namespace SUAMVC.Controllers
         // GET: Proyectos
         public ActionResult Index()
         {
-            var proyectos = db.Proyectos.Include(p => p.Cliente).Include(p => p.EsquemasPago).Include(p => p.Residencia).Include(p => p.SDI).Include(p => p.TipoContrato).Include(p => p.TipoPersonal).Include(p => p.Usuario);
+            var proyectos = db.Proyectos.Include(p => p.Cliente);
             return View(proyectos.ToList());
         }
 
@@ -40,12 +40,6 @@ namespace SUAMVC.Controllers
         public ActionResult Create()
         {
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
-            ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion");
-            ViewBag.residenciaId = new SelectList(db.Residencias, "id", "descripcion");
-            ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion");
-            ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion");
-            ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion");
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario");
             return View();
         }
 
@@ -54,7 +48,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,clienteId,residenciaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId")] Proyecto proyecto)
+        public ActionResult Create([Bind(Include = "id,clienteId,descripcion,fechaCreacion,usuarioId")] Proyecto proyecto)
         {
             if (ModelState.IsValid)
             {
@@ -64,12 +58,6 @@ namespace SUAMVC.Controllers
             }
 
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", proyecto.clienteId);
-            ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion", proyecto.esquemaId);
-            ViewBag.residenciaId = new SelectList(db.Residencias, "id", "descripcion", proyecto.residenciaId);
-            ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", proyecto.sdiId);
-            ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion", proyecto.contratoId);
-            ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion", proyecto.tipoPersonalId);
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", proyecto.usuarioId);
             return View(proyecto);
         }
 
@@ -86,12 +74,6 @@ namespace SUAMVC.Controllers
                 return HttpNotFound();
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", proyecto.clienteId);
-            ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion", proyecto.esquemaId);
-            ViewBag.residenciaId = new SelectList(db.Residencias, "id", "descripcion", proyecto.residenciaId);
-            ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", proyecto.sdiId);
-            ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion", proyecto.contratoId);
-            ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion", proyecto.tipoPersonalId);
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", proyecto.usuarioId);
             return View(proyecto);
         }
 
@@ -100,7 +82,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,clienteId,residenciaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId")] Proyecto proyecto)
+        public ActionResult Edit([Bind(Include = "id,clienteId,descripcion,fechaCreacion,usuarioId")] Proyecto proyecto)
         {
             if (ModelState.IsValid)
             {
@@ -109,12 +91,6 @@ namespace SUAMVC.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", proyecto.clienteId);
-            ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion", proyecto.esquemaId);
-            ViewBag.residenciaId = new SelectList(db.Residencias, "id", "descripcion", proyecto.residenciaId);
-            ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", proyecto.sdiId);
-            ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion", proyecto.contratoId);
-            ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion", proyecto.tipoPersonalId);
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", proyecto.usuarioId);
             return View(proyecto);
         }
 

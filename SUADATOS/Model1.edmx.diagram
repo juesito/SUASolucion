@@ -86,15 +86,18 @@
         <AssociationConnector Association="suaModel.FK_PlazaGrupos" />
         <AssociationConnector Association="suaModel.FK_PlazaPatrone" />
         <AssociationConnector Association="suaModel.FK_Usuarios_Plazas" />
-        <EntityTypeShape EntityType="suaModel.Proyecto" Width="1.5" PointX="15.5" PointY="54.375" IsExpanded="false" />
+        <EntityTypeShape EntityType="suaModel.Proyecto" Width="1.5" PointX="7.5" PointY="47.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="suaModel.Solicitud" Width="1.5" PointX="15.5" PointY="53.125" />
         <AssociationConnector Association="suaModel.FK_Proyectos_Clientes" />
+        <AssociationConnector Association="suaModel.FK_Proyectos_Clientes1" />
         <AssociationConnector Association="suaModel.FK_Proyectos_EsquemasPago" />
+        <AssociationConnector Association="suaModel.FK_Solicitud_Proyectos" />
         <AssociationConnector Association="suaModel.FK_Proyectos_Residencia" />
         <AssociationConnector Association="suaModel.FK_Proyectos_SDIs" />
         <AssociationConnector Association="suaModel.FK_Proyectos_TipoContrato" />
         <AssociationConnector Association="suaModel.FK_Proyectos_TipoPersonal" />
         <AssociationConnector Association="suaModel.FK_Proyectos_Usuarios" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

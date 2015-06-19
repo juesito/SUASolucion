@@ -365,16 +365,8 @@
     <value>Usuario Alta</value>
     <comment>Etiqueta para usuario Alta</comment>
   </data>
-  <data name="Bancos" xml:space="preserve">
-    <value>Bancos</value>
-    <comment>Etiqueta para Bancos</comment>
-  </data>
-  <data name="sexo" xml:space="preserve">
-    <value>Sexo</value>
-    <comment>Etiqueta para Sexo</comment>
-  </data>
-  <data name="tipoContrato" xml:space="preserve">
-    <value>Tipo de Contrato</value>
-    <comment>Etiqueta para Tipo de Contrato</comment>
+  <data name="proyecto" xml:space="preserve">
+    <value>Proyecto</value>
+    <comment>Etiqueta para proyecto</comment>
   </data>
 </root>

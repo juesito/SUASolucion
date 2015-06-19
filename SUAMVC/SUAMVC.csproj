@@ -265,6 +265,7 @@
     <Compile Include="Controllers\RoleFuncionesController.cs" />
     <Compile Include="Controllers\RoleModulosController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\SolicitudesController.cs" />
     <Compile Include="Controllers\SDIsController.cs" />
     <Compile Include="Controllers\SexoController.cs" />
     <Compile Include="Controllers\TipoContratoController.cs" />
@@ -397,36 +398,6 @@
     <Content Include="Views\Factores\Edit.cshtml" />
     <Content Include="Views\Factores\Index.cshtml" />
     <Content Include="Views\Upload\OnlyUploadFile.cshtml" />
-    <Content Include="Views\Proyectos\Create.cshtml" />
-    <Content Include="Views\Proyectos\Delete.cshtml" />
-    <Content Include="Views\Proyectos\Details.cshtml" />
-    <Content Include="Views\Proyectos\Edit.cshtml" />
-    <Content Include="Views\Proyectos\Index.cshtml" />
-    <Content Include="Views\EsquemasPagos\Create.cshtml" />
-    <Content Include="Views\EsquemasPagos\Delete.cshtml" />
-    <Content Include="Views\EsquemasPagos\Details.cshtml" />
-    <Content Include="Views\EsquemasPagos\Edit.cshtml" />
-    <Content Include="Views\EsquemasPagos\Index.cshtml" />
-    <Content Include="Views\Bancos\Create.cshtml" />
-    <Content Include="Views\Bancos\Delete.cshtml" />
-    <Content Include="Views\Bancos\Details.cshtml" />
-    <Content Include="Views\Bancos\Edit.cshtml" />
-    <Content Include="Views\Bancos\Index.cshtml" />
-    <Content Include="Views\SDIs\Create.cshtml" />
-    <Content Include="Views\SDIs\Delete.cshtml" />
-    <Content Include="Views\SDIs\Details.cshtml" />
-    <Content Include="Views\SDIs\Edit.cshtml" />
-    <Content Include="Views\SDIs\Index.cshtml" />
-    <Content Include="Views\TipoContrato\Create.cshtml" />
-    <Content Include="Views\TipoContrato\Delete.cshtml" />
-    <Content Include="Views\TipoContrato\Details.cshtml" />
-    <Content Include="Views\TipoContrato\Edit.cshtml" />
-    <Content Include="Views\TipoContrato\Index.cshtml" />
-    <Content Include="Views\Sexo\Create.cshtml" />
-    <Content Include="Views\Sexo\Delete.cshtml" />
-    <Content Include="Views\Sexo\Details.cshtml" />
-    <Content Include="Views\Sexo\Edit.cshtml" />
-    <Content Include="Views\Sexo\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -14,34 +14,18 @@ namespace SUADATOS
     
     public partial class Proyecto
     {
+        public Proyecto()
+        {
+            this.Solicituds = new HashSet<Solicitud>();
+        }
+    
         public int id { get; set; }
         public int clienteId { get; set; }
-        public int residenciaId { get; set; }
-        public System.DateTime fechaSolicitud { get; set; }
-        public int esquemaId { get; set; }
-        public int sdiId { get; set; }
-        public int contratoId { get; set; }
-        public System.DateTime fechaInicial { get; set; }
-        public System.DateTime fechaFinal { get; set; }
-        public int tipoPersonalId { get; set; }
-        public string solicita { get; set; }
-        public string valida { get; set; }
-        public string autoriza { get; set; }
-        public int noTrabajadores { get; set; }
-        public string observaciones { get; set; }
-        public string estatusSolicitud { get; set; }
-        public string estatusNomina { get; set; }
-        public string estatusAfiliado { get; set; }
-        public string estatusJuridico { get; set; }
-        public string estatusTarjeta { get; set; }
+        public string descripcion { get; set; }
+        public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
         public virtual Cliente Cliente { get; set; }
-        public virtual EsquemasPago EsquemasPago { get; set; }
-        public virtual Residencia Residencia { get; set; }
-        public virtual SDI SDI { get; set; }
-        public virtual TipoContrato TipoContrato { get; set; }
-        public virtual TipoPersonal TipoPersonal { get; set; }
-        public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<Solicitud> Solicituds { get; set; }
     }
 }

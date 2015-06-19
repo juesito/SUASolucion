@@ -157,6 +157,9 @@
     <Compile Include="Sexo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Solicitud.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="TipoContrato.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

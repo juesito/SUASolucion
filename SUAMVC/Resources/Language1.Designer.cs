@@ -520,6 +520,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Proyecto.
+        /// </summary>
+        public static string proyecto {
+            get {
+                return ResourceManager.GetString("proyecto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Registro Patronal.
         /// </summary>
         public static string registroPatronal {

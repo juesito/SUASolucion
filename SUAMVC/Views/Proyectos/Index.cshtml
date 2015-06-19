@@ -1,100 +1,30 @@
 ﻿@model IEnumerable<SUADATOS.Proyecto>
-@using SUADATOS
-@using SUAMVC.Models
-@using System.Text;
 
 @{
-    ViewBag.Title = "Proyectos";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    if (!WebSecurity.IsAuthenticated)
-    {
-        Response.Redirect("~/Home/Index");
-    }
-    var buscar = "0";
-    if (TempData["buscador"] != null)
-    {
-        buscar = TempData["buscador"] as String;
-    }
-
-    var grid = new WebGrid(source: Model, rowsPerPage: 10);
-
-    var tableHtml = string.Empty;
-    var sb = new StringBuilder();
-
-    //Creamos una lista de columnas
-    var gridColumns = new List<WebGridColumn>();
-    gridColumns.Add(grid.Column("Patrone.registro", Language.registroPatronal, null, null, true));
-    
 }
 
 @section Menu {
-    <div>@Language.catde @Language.acreditados<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>@Language.catde @Language.proyecto <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink(@Language.agregar + " " + @Language.proyecto, "Create", "Proyectos", new { @class= "btn btn-success"})
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.fechaSolicitud)
+            @Html.DisplayNameFor(model => model.descripcion)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.fechaInicial)
+            @Html.DisplayNameFor(model => model.fechaCreacion)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.fechaFinal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.solicita)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.valida)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.autoriza)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.noTrabajadores)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.observaciones)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.estatusSolicitud)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.estatusNomina)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.estatusAfiliado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.estatusJuridico)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.estatusTarjeta)
+            @Html.DisplayNameFor(model => model.usuarioId)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Cliente.claveCliente)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EsquemasPago.descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Residencia.descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SDI.descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoContrato.descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoPersonal.descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
         </th>
         <th></th>
     </tr>
@@ -102,64 +32,16 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.fechaSolicitud)
+            @Html.DisplayFor(modelItem => item.descripcion)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.fechaInicial)
+            @Html.DisplayFor(modelItem => item.fechaCreacion)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.fechaFinal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.solicita)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.valida)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.autoriza)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.noTrabajadores)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.observaciones)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.estatusSolicitud)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.estatusNomina)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.estatusAfiliado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.estatusJuridico)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.estatusTarjeta)
+            @Html.DisplayFor(modelItem => item.usuarioId)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Cliente.claveCliente)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EsquemasPago.descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Residencia.descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SDI.descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoContrato.descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoPersonal.descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.id }) |

@@ -18,6 +18,7 @@ namespace SUADATOS
         {
             this.Acreditados = new HashSet<Acreditado>();
             this.Asegurados = new HashSet<Asegurado>();
+            this.Solicituds = new HashSet<Solicitud>();
             this.Proyectos = new HashSet<Proyecto>();
         }
     
@@ -34,6 +35,7 @@ namespace SUADATOS
         public virtual ICollection<Asegurado> Asegurados { get; set; }
         public virtual Grupos Grupos { get; set; }
         public virtual Plaza Plaza { get; set; }
+        public virtual ICollection<Solicitud> Solicituds { get; set; }
         public virtual ICollection<Proyecto> Proyectos { get; set; }
     }
 }
