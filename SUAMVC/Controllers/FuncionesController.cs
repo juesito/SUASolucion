@@ -52,6 +52,12 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Usuario loggeado
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
+                funcion.fechaCreacion = DateTime.Now;
+                funcion.usuarioId = usuario.Id;
+                funcion.estatus = "A";
                 db.Funcions.Add(funcion);
                 db.SaveChanges();
                 return RedirectToAction("Index");

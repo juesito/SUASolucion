@@ -45,6 +45,8 @@ namespace SUADATOS
         public virtual DbSet<Pais> Paises { get; set; }
         public virtual DbSet<Parametro> Parametros { get; set; }
         public virtual DbSet<Patrone> Patrones { get; set; }
+        public virtual DbSet<Plaza> Plazas { get; set; }
+        public virtual DbSet<Proyecto> Proyectos { get; set; }
         public virtual DbSet<RegimenInfonavit> RegimenInfonavits { get; set; }
         public virtual DbSet<Residencia> Residencias { get; set; }
         public virtual DbSet<ResumenPago> ResumenPagoes { get; set; }
@@ -53,12 +55,10 @@ namespace SUADATOS
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<SDI> SDIs { get; set; }
         public virtual DbSet<Sexo> Sexos { get; set; }
+        public virtual DbSet<Solicitud> Solicituds { get; set; }
         public virtual DbSet<TipoContrato> TipoContratoes { get; set; }
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
-        public virtual DbSet<Plaza> Plazas { get; set; }
-        public virtual DbSet<Proyecto> Proyectos { get; set; }
-        public virtual DbSet<Solicitud> Solicituds { get; set; }
     }
 }

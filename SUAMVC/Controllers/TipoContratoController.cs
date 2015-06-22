@@ -52,6 +52,8 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                tipoContrato.fechaCreacion = DateTime.Now;
+                tipoContrato.usuarioId = 1;
                 db.TipoContratoes.Add(tipoContrato);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -30,11 +30,11 @@ namespace SUADATOS
             this.RoleModulos = new HashSet<RoleModulo>();
             this.SDIs = new HashSet<SDI>();
             this.Sexos = new HashSet<Sexo>();
+            this.Solicituds = new HashSet<Solicitud>();
             this.TipoContratoes = new HashSet<TipoContrato>();
             this.TipoPersonals = new HashSet<TipoPersonal>();
             this.TopicosUsuarios = new HashSet<TopicosUsuario>();
             this.TopicosUsuarios1 = new HashSet<TopicosUsuario>();
-            this.Solicituds = new HashSet<Solicitud>();
         }
     
         public int Id { get; set; }
@@ -56,6 +56,7 @@ namespace SUADATOS
         public virtual ICollection<Factore> Factores { get; set; }
         public virtual ICollection<Municipio> Municipios { get; set; }
         public virtual ICollection<Pais> Paises { get; set; }
+        public virtual Plaza Plaza { get; set; }
         public virtual ICollection<RegimenInfonavit> RegimenInfonavits { get; set; }
         public virtual ICollection<Residencia> Residencias { get; set; }
         public virtual ICollection<ResumenPago> ResumenPagoes { get; set; }
@@ -64,11 +65,10 @@ namespace SUADATOS
         public virtual Role Role { get; set; }
         public virtual ICollection<SDI> SDIs { get; set; }
         public virtual ICollection<Sexo> Sexos { get; set; }
+        public virtual ICollection<Solicitud> Solicituds { get; set; }
         public virtual ICollection<TipoContrato> TipoContratoes { get; set; }
         public virtual ICollection<TipoPersonal> TipoPersonals { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios1 { get; set; }
-        public virtual Plaza Plaza { get; set; }
-        public virtual ICollection<Solicitud> Solicituds { get; set; }
     }
 }

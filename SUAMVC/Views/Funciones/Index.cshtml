@@ -10,42 +10,42 @@
 }
 
 @section Menu {
-    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Funciones</div>
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catálogo de Funciones</div>
 }
 
   
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink(@Language.agregar + " " + @Language.funciones, "Create", "EsquemaPagos", new { @class = "btn btn-success" })
 </p>
-<table class="table">
+<table class="table table-striped tableSua">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.descripcionCorta)
+            @Html.DisplayName(@Language.desCorta)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.descripcionLarga)
+            @Html.DisplayName(@Language.desLarga)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.accion)
+            @Html.DisplayName(@Language.accion)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.controlador)
+            @Html.DisplayName(@Language.controlador)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.estatus)
+            @Html.DisplayName(@Language.estatus)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.usuarioId)
+            @Html.DisplayName(@Language.usuarioID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.fechaCreacion)
+            @Html.DisplayName(@Language.fechaAlta)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.tipo)
+            @Html.DisplayName(@Language.tipo)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Modulo.descripcionCorta)
+            @Html.DisplayName(@Language.modulDes)
         </th>
         <th></th>
     </tr>
@@ -80,9 +80,12 @@
             @Html.DisplayFor(modelItem => item.Modulo.descripcionCorta)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            <a href="@Url.Action("Edit","funciones", new { id = item.id })" title="@Language.edit">
+                <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+            </a>|
+            <a href="@Url.Action("Delete", "funciones", new { id = item.id })" title="@Language.borrar">
+                <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+            </a>
         </td>
     </tr>
 }

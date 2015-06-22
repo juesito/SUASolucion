@@ -222,7 +222,7 @@
     <comment>Etiqueta para aviso de retención</comment>
   </data>
   <data name="catde" xml:space="preserve">
-    <value>Catalogo de</value>
+    <value>Catálogo de</value>
     <comment>Etiqueta para Catalogo de</comment>
   </data>
   <data name="cliente" xml:space="preserve">
@@ -346,7 +346,7 @@
     <comment>Etiqueta para Factores</comment>
   </data>
   <data name="funciones" xml:space="preserve">
-    <value>Funciones</value>
+    <value>Función</value>
     <comment>Etiqueta para funciones</comment>
   </data>
   <data name="modificar" xml:space="preserve">
@@ -372,5 +372,91 @@
   <data name="residencia" xml:space="preserve">
     <value>Residencias</value>
     <comment>Etiqueta para residencia</comment>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="guardar" xml:space="preserve">
+    <value>Guardar</value>
+    <comment>Etiqueta para Guardar</comment>
+  </data>
+  <data name="regresar" xml:space="preserve">
+    <value>Regresar</value>
+    <comment>Etiqueta para boton Regrear</comment>
+  </data>
+  <data name="sexo" xml:space="preserve">
+    <value>Genero</value>
+    <comment>Etiqueta para Sexo</comment>
+  </data>
+  <data name="tipoContrato" xml:space="preserve">
+    <value>Tipo de Contrato</value>
+  </data>
+  <data name="detalle" xml:space="preserve">
+    <value>Detalle</value>
+    <comment>Etiqueta para Detalle</comment>
+  </data>
+  <data name="bancos" xml:space="preserve">
+    <value>Bancos</value>
+    <comment>Etiqueta para Bancos</comment>
+  </data>
+  <data name="estadoCivil" xml:space="preserve">
+    <value>Estado Civil</value>
+    <comment>Etiqueta para Estado Civil</comment>
+  </data>
+  <data name="regInfonavit" xml:space="preserve">
+    <value>Régimen Infonavit</value>
+    <comment>Etiqueta paara RI</comment>
+  </data>
+  <data name="tipoPersonal" xml:space="preserve">
+    <value>Tipo de Personal</value>
+    <comment>Etiqueta para Tipo de Personal</comment>
+  </data>
+  <data name="descPais" xml:space="preserve">
+    <value>Descripcion País</value>
+    <comment>Etiqueta para Descripción País</comment>
+  </data>
+  <data name="estado" xml:space="preserve">
+    <value>Estado</value>
+    <comment>Etiqueta para Estado</comment>
+  </data>
+  <data name="municipio" xml:space="preserve">
+    <value>Municipio</value>
+    <comment>Etiqueta de Municipio</comment>
+  </data>
+  <data name="naturaleza" xml:space="preserve">
+    <value>Naturaleza</value>
+    <comment>Etiqueta para Naturaleza</comment>
+  </data>
+  <data name="pais" xml:space="preserve">
+    <value>País</value>
+    <comment>Etiqueta para País</comment>
+  </data>
+  <data name="controlador" xml:space="preserve">
+    <value>Controlador</value>
+    <comment>Etiqueta para Controlador</comment>
+  </data>
+  <data name="desCorta" xml:space="preserve">
+    <value>Descripción Corta</value>
+    <comment>Etiqueta para Descripción Corta</comment>
+  </data>
+  <data name="desLarga" xml:space="preserve">
+    <value>Descripción Larga</value>
+    <comment>Etiqueta para Descripción Larga</comment>
+  </data>
+  <data name="estatus" xml:space="preserve">
+    <value>Estatus</value>
+    <comment>Etiqueta para Estatus</comment>
+  </data>
+  <data name="modulDes" xml:space="preserve">
+    <value>Módulo</value>
+    <comment>Etiqueta para Módulo</comment>
+  </data>
+  <data name="tipo" xml:space="preserve">
+    <value>Tipo</value>
+    <comment>Etiqueta para Tipo</comment>
+  </data>
+  <data name="usuarioID" xml:space="preserve">
+    <value>Usuario ID</value>
+    <comment>Etiqueta para Usuario ID</comment>
   </data>
 </root>

@@ -50,7 +50,7 @@ namespace SUADATOS
     
         public virtual ICollection<Acreditado> Acreditados { get; set; }
         public virtual ICollection<Asegurado> Asegurados { get; set; }
-        public virtual ICollection<ResumenPago> ResumenPagoes { get; set; }
         public virtual Plaza Plaza { get; set; }
+        public virtual ICollection<ResumenPago> ResumenPagoes { get; set; }
     }
 }

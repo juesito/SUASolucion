@@ -126,9 +126,9 @@ namespace SUAMVC.Resources {
         /// <summary>
         ///   Busca una cadena traducida similar a Bancos.
         /// </summary>
-        public static string Bancos {
+        public static string bancos {
             get {
-                return ResourceManager.GetString("Bancos", resourceCulture);
+                return ResourceManager.GetString("bancos", resourceCulture);
             }
         }
         
@@ -178,7 +178,7 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Catalogo de.
+        ///   Busca una cadena traducida similar a Catálogo de.
         /// </summary>
         public static string catde {
             get {
@@ -219,6 +219,15 @@ namespace SUAMVC.Resources {
         public static string consulta {
             get {
                 return ResourceManager.GetString("consulta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Controlador.
+        /// </summary>
+        public static string controlador {
+            get {
+                return ResourceManager.GetString("controlador", resourceCulture);
             }
         }
         
@@ -286,6 +295,24 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Descripción Corta.
+        /// </summary>
+        public static string desCorta {
+            get {
+                return ResourceManager.GetString("desCorta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Descripcion País.
+        /// </summary>
+        public static string descPais {
+            get {
+                return ResourceManager.GetString("descPais", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Desc. Quincenal.
         /// </summary>
         public static string descQuincenal {
@@ -322,11 +349,38 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Descripción Larga.
+        /// </summary>
+        public static string desLarga {
+            get {
+                return ResourceManager.GetString("desLarga", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Detalle.
+        /// </summary>
+        public static string detalle {
+            get {
+                return ResourceManager.GetString("detalle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Detalles de.
         /// </summary>
         public static string detallesDe {
             get {
                 return ResourceManager.GetString("detallesDe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Editar.
+        /// </summary>
+        public static string edit {
+            get {
+                return ResourceManager.GetString("edit", resourceCulture);
             }
         }
         
@@ -345,6 +399,33 @@ namespace SUAMVC.Resources {
         public static string Esquemas {
             get {
                 return ResourceManager.GetString("Esquemas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Estado.
+        /// </summary>
+        public static string estado {
+            get {
+                return ResourceManager.GetString("estado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Estado Civil.
+        /// </summary>
+        public static string estadoCivil {
+            get {
+                return ResourceManager.GetString("estadoCivil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Estatus.
+        /// </summary>
+        public static string estatus {
+            get {
+                return ResourceManager.GetString("estatus", resourceCulture);
             }
         }
         
@@ -412,7 +493,7 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Funciones.
+        ///   Busca una cadena traducida similar a Función.
         /// </summary>
         public static string funciones {
             get {
@@ -426,6 +507,15 @@ namespace SUAMVC.Resources {
         public static string grupo {
             get {
                 return ResourceManager.GetString("grupo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Guardar.
+        /// </summary>
+        public static string guardar {
+            get {
+                return ResourceManager.GetString("guardar", resourceCulture);
             }
         }
         
@@ -444,6 +534,33 @@ namespace SUAMVC.Resources {
         public static string modificar {
             get {
                 return ResourceManager.GetString("modificar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Módulo.
+        /// </summary>
+        public static string modulDes {
+            get {
+                return ResourceManager.GetString("modulDes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Municipio.
+        /// </summary>
+        public static string municipio {
+            get {
+                return ResourceManager.GetString("municipio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Naturaleza.
+        /// </summary>
+        public static string naturaleza {
+            get {
+                return ResourceManager.GetString("naturaleza", resourceCulture);
             }
         }
         
@@ -493,6 +610,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a País.
+        /// </summary>
+        public static string pais {
+            get {
+                return ResourceManager.GetString("pais", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Patrón.
         /// </summary>
         public static string patron {
@@ -529,6 +655,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Régimen Infonavit.
+        /// </summary>
+        public static string regInfonavit {
+            get {
+                return ResourceManager.GetString("regInfonavit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Registro Patronal.
         /// </summary>
         public static string registroPatronal {
@@ -543,6 +678,15 @@ namespace SUAMVC.Resources {
         public static string registros {
             get {
                 return ResourceManager.GetString("registros", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Regresar.
+        /// </summary>
+        public static string regresar {
+            get {
+                return ResourceManager.GetString("regresar", resourceCulture);
             }
         }
         
@@ -583,7 +727,7 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Sexo.
+        ///   Busca una cadena traducida similar a Genero.
         /// </summary>
         public static string sexo {
             get {
@@ -610,11 +754,29 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Tipo.
+        /// </summary>
+        public static string tipo {
+            get {
+                return ResourceManager.GetString("tipo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Tipo de Contrato.
         /// </summary>
         public static string tipoContrato {
             get {
                 return ResourceManager.GetString("tipoContrato", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tipo de Personal.
+        /// </summary>
+        public static string tipoPersonal {
+            get {
+                return ResourceManager.GetString("tipoPersonal", resourceCulture);
             }
         }
         
@@ -642,6 +804,15 @@ namespace SUAMVC.Resources {
         public static string usuarioAlta {
             get {
                 return ResourceManager.GetString("usuarioAlta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuario ID.
+        /// </summary>
+        public static string usuarioID {
+            get {
+                return ResourceManager.GetString("usuarioID", resourceCulture);
             }
         }
         
