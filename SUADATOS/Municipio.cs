@@ -14,6 +14,11 @@ namespace SUADATOS
     
     public partial class Municipio
     {
+        public Municipio()
+        {
+            this.Empleados = new HashSet<Empleado>();
+        }
+    
         public int id { get; set; }
         public int paisId { get; set; }
         public int estadoId { get; set; }
@@ -21,6 +26,7 @@ namespace SUADATOS
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
+        public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual Estado Estado { get; set; }
         public virtual Pais Pais { get; set; }
         public virtual Usuario Usuario { get; set; }

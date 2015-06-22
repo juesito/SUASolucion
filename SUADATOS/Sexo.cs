@@ -14,11 +14,17 @@ namespace SUADATOS
     
     public partial class Sexo
     {
+        public Sexo()
+        {
+            this.Empleados = new HashSet<Empleado>();
+        }
+    
         public int id { get; set; }
         public string descripcion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
+        public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
 }

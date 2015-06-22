@@ -12,21 +12,19 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class SDI
+    public partial class ListaValidacionCliente
     {
-        public SDI()
-        {
-            this.Empleados = new HashSet<Empleado>();
-            this.Solicituds = new HashSet<Solicitud>();
-        }
-    
         public int id { get; set; }
-        public string descripcion { get; set; }
+        public int clienteId { get; set; }
+        public string validador { get; set; }
+        public string emailValidador { get; set; }
+        public string autorizador { get; set; }
+        public string emailAutorizador { get; set; }
+        public string listaEmailAux { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
-        public virtual ICollection<Empleado> Empleados { get; set; }
-        public virtual ICollection<Solicitud> Solicituds { get; set; }
+        public virtual Cliente Cliente { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
 }

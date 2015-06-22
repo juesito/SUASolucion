@@ -222,6 +222,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\less\bootstrap-datetimepicker-build.less" />
     <Content Include="Content\less\_bootstrap-datetimepicker.less" />
+    <None Include="Properties\PublishProfiles\Cancun.pubxml" />
     <None Include="Properties\PublishProfiles\siap.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
@@ -248,6 +249,7 @@
     <Compile Include="Controllers\BancosController.cs" />
     <Compile Include="Controllers\catalogoMovimientosController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\EsquemasPagosController.cs" />
     <Compile Include="Controllers\FactoresController.cs" />
     <Compile Include="Controllers\FuncionesController.cs" />
@@ -276,6 +278,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BdDrownList.cs" />
+    <Compile Include="Helpers\Email.cs" />
     <Compile Include="Helpers\StatusDrownList.cs" />
     <Compile Include="Models\AseguradoMovimientosModel.cs" />
     <Compile Include="Models\DatesHelper.cs" />
@@ -398,6 +401,57 @@
     <Content Include="Views\Factores\Edit.cshtml" />
     <Content Include="Views\Factores\Index.cshtml" />
     <Content Include="Views\Upload\OnlyUploadFile.cshtml" />
+    <Content Include="Views\Bancos\Create.cshtml" />
+    <Content Include="Views\Bancos\Delete.cshtml" />
+    <Content Include="Views\Bancos\Details.cshtml" />
+    <Content Include="Views\Bancos\Edit.cshtml" />
+    <Content Include="Views\Bancos\Index.cshtml" />
+    <Content Include="Views\EsquemasPagos\Create.cshtml" />
+    <Content Include="Views\EsquemasPagos\Delete.cshtml" />
+    <Content Include="Views\EsquemasPagos\Details.cshtml" />
+    <Content Include="Views\EsquemasPagos\Edit.cshtml" />
+    <Content Include="Views\EsquemasPagos\Index.cshtml" />
+    <Content Include="Views\Incapacidades\Create.cshtml" />
+    <Content Include="Views\Incapacidades\Delete.cshtml" />
+    <Content Include="Views\Incapacidades\Details.cshtml" />
+    <Content Include="Views\Incapacidades\Edit.cshtml" />
+    <Content Include="Views\Incapacidades\Index.cshtml" />
+    <Content Include="Views\Pagos\Create.cshtml" />
+    <Content Include="Views\Pagos\Delete.cshtml" />
+    <Content Include="Views\Pagos\Details.cshtml" />
+    <Content Include="Views\Pagos\Edit.cshtml" />
+    <Content Include="Views\Pagos\Index.cshtml" />
+    <Content Include="Views\Pagos\UploadPagos.cshtml" />
+    <Content Include="Views\Proyectos\Create.cshtml" />
+    <Content Include="Views\Proyectos\Delete.cshtml" />
+    <Content Include="Views\Proyectos\Details.cshtml" />
+    <Content Include="Views\Proyectos\Edit.cshtml" />
+    <Content Include="Views\Proyectos\Index.cshtml" />
+    <Content Include="Views\SDIs\Create.cshtml" />
+    <Content Include="Views\SDIs\Delete.cshtml" />
+    <Content Include="Views\SDIs\Details.cshtml" />
+    <Content Include="Views\SDIs\Edit.cshtml" />
+    <Content Include="Views\SDIs\Index.cshtml" />
+    <Content Include="Views\Sexo\Create.cshtml" />
+    <Content Include="Views\Sexo\Delete.cshtml" />
+    <Content Include="Views\Sexo\Details.cshtml" />
+    <Content Include="Views\Sexo\Edit.cshtml" />
+    <Content Include="Views\Sexo\Index.cshtml" />
+    <Content Include="Views\Solicitudes\Create.cshtml" />
+    <Content Include="Views\Solicitudes\Delete.cshtml" />
+    <Content Include="Views\Solicitudes\Details.cshtml" />
+    <Content Include="Views\Solicitudes\Edit.cshtml" />
+    <Content Include="Views\Solicitudes\Index.cshtml" />
+    <Content Include="Views\TipoContrato\Create.cshtml" />
+    <Content Include="Views\TipoContrato\Delete.cshtml" />
+    <Content Include="Views\TipoContrato\Details.cshtml" />
+    <Content Include="Views\TipoContrato\Edit.cshtml" />
+    <Content Include="Views\TipoContrato\Index.cshtml" />
+    <Content Include="Views\Empleados\Create.cshtml" />
+    <Content Include="Views\Empleados\Delete.cshtml" />
+    <Content Include="Views\Empleados\Details.cshtml" />
+    <Content Include="Views\Empleados\Edit.cshtml" />
+    <Content Include="Views\Empleados\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
