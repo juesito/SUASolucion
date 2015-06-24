@@ -624,7 +624,8 @@ namespace SUAMVC.Controllers
                             clienteNuevo.rfc = "PENDIENTE";
                             clienteNuevo.claveSua = "PENDIENTE";
                             clienteNuevo.descripcion = "PENDIENTE";
-                            clienteNuevo.ejecutivo = "PENDIENTE";
+                            //Validar esto
+                            clienteNuevo.ejecutivoContadorId = 1;
                             clienteNuevo.Plaza_id = 1;
                             clienteNuevo.Grupo_id = 4;
 
@@ -990,7 +991,7 @@ namespace SUAMVC.Controllers
                             clienteNuevo.rfc = "PENDIENTE";
                             clienteNuevo.claveSua = "PENDIENTE";
                             clienteNuevo.descripcion = "PENDIENTE";
-                            clienteNuevo.ejecutivo = "PENDIENTE";
+                            clienteNuevo.ejecutivoContadorId = 1;
                             clienteNuevo.Plaza_id = 1;
                             clienteNuevo.Grupo_id = 4;
 

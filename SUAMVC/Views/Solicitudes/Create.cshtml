@@ -21,7 +21,7 @@
         <div class="panel-body">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <table style="font-size:10px;margin:0 auto;">
+            <table style="font-size:10px;margin:0 auto; width:700px">
                 <tr>
                     <td>@Html.Label(@Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                     <td>
@@ -82,42 +82,51 @@
                         @Html.ValidationMessageFor(model => model.tipoPersonalId, "", new { @class = "text-danger" })
                     </td>
                 </tr>
-                <tr>
-                    <td>@Html.LabelFor(model => model.solicita, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td>
-                        @Html.EditorFor(model => model.solicita, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.solicita, "", new { @class = "text-danger" })
-                    </td>
-                    <td>@Html.LabelFor(model => model.valida, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td>
-                        @Html.EditorFor(model => model.valida, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.valida, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(model => model.autoriza, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td>
-                        @Html.EditorFor(model => model.autoriza, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.autoriza, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td colspan="3">
-                        @Html.TextAreaFor(model => model.observaciones, new { htmlAttributes = new { @class = "form-control", @columns = "40" } })
-                        @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3"></td>
-                    <td style="text-align:right;"><input type="submit" value="Create" class="btn btn-default" /></td>
-                </tr>
-
             </table>
-        </div>
-    </div>
-}
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title"> Autorizaciones</h3>
+                </div>
+                <div class="panel-body">
+                    <table style="font-size:10px;margin:0 auto; width:700px">
+                        <tr>
+                            <td>@Html.LabelFor(model => model.solicita, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                            <td>
+                                @Html.EditorFor(model => model.solicita, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.solicita, "", new { @class = "text-danger" })
+                            </td>
+                            <td>@Html.LabelFor(model => model.valida, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                            <td>
+                                @Html.EditorFor(model => model.valida, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.valida, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>@Html.LabelFor(model => model.autoriza, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                            <td>
+                                @Html.EditorFor(model => model.autoriza, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.autoriza, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>@Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                            <td colspan="3">
+                                @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 4 })
+                                @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td style="text-align:right;"><input type="submit" value="@Language.agregar" class="btn btn-primary" /></td>
+                        </tr>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+                    </table>
+                    </div>
+                </div>
+                </div>
+            </div>
+            }
+
+            <div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>

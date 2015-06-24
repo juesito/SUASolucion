@@ -39,9 +39,13 @@
                 @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                <a href="@Url.Action(@Language.modificar, "Edit", new { id = item.id })">
+                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+                </a>
+                 |
+                <a href="@Url.Action("Delete", "Usuarios", new { id = item.id })">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a>
             </td>
         </tr>
     }

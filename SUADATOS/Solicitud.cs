@@ -14,7 +14,13 @@ namespace SUADATOS
     
     public partial class Solicitud
     {
+        public Solicitud()
+        {
+            this.Empleados = new HashSet<Empleado>();
+        }
+    
         public int id { get; set; }
+        public string folioSolicitud { get; set; }
         public int clienteId { get; set; }
         public int residenciaId { get; set; }
         public System.DateTime fechaSolicitud { get; set; }
@@ -36,8 +42,10 @@ namespace SUADATOS
         public string estatusTarjeta { get; set; }
         public int usuarioId { get; set; }
         public int proyectoId { get; set; }
+        public Nullable<System.DateTime> fechaEnvio { get; set; }
     
         public virtual Cliente Cliente { get; set; }
+        public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual EsquemasPago EsquemasPago { get; set; }
         public virtual Proyecto Proyecto { get; set; }
         public virtual Residencia Residencia { get; set; }

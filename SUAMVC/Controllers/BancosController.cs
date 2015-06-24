@@ -52,9 +52,11 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
 
                 banco.fechaCreacion = DateTime.Now;
-                banco.usuarioId = 1; db.Bancos.Add(banco);
+                banco.usuarioId = usuario.Id;
+                db.Bancos.Add(banco);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

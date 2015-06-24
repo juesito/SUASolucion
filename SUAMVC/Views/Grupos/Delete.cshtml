@@ -10,70 +10,78 @@
 }
 
 @section Menu {
-    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Eliminar Grupo </div>
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catálogo de Grupos </div>
 }
 
-<h3>Confirmación para eliminar el Grupo</h3>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        ¿Desea borrar este registro?
+    </div>
+    <div class="panel-body" style="font-size:10px;">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName(@Language.claGrupo)
+            </dt>
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.claveGrupo)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.claveGrupo)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.claveGrupo)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.nombre)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.nombre)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.nombre)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.nombre)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.nomCorto)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.nombreCorto)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.nombreCorto)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.nombreCorto)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.posicion)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.posicion)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.posicion)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.posicion)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.estatus)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.estatus)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.estatus)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.estatus)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.plaza)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Plaza)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Plaza.descripcion)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Plaza.descripcion)
-        </dd>
+        </dl>
 
-    </dl>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+            <div class="form-actions no-color" style="margin-top:10px;">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="@Language.borrar" class="btn btn-primary" /> |
+                </div>
+            </div>
+        }
+  </div>
+    </div>
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-success" /> |
-            @Html.ActionLink("Regresar", "Index")
-        </div>
-    }
-</div>
+    <div>
+        @Html.ActionLink(@Language.regresar, "Index")
+    </div>

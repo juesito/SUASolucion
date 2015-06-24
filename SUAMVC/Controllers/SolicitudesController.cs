@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
+using System.Data.Entity.Validation;
+using System.Text;
 
 namespace SUAMVC.Controllers
 {
@@ -17,6 +19,7 @@ namespace SUAMVC.Controllers
         // GET: Solicitudes
         public ActionResult Index()
         {
+            
             var solicituds = db.Solicituds.Include(s => s.Cliente).Include(s => s.EsquemasPago).Include(s => s.Proyecto).Include(s => s.Residencia).Include(s => s.SDI).Include(s => s.TipoContrato).Include(s => s.TipoPersonal).Include(s => s.Usuario);
             return View(solicituds.ToList());
         }
@@ -59,8 +62,37 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+                Cliente cliente = db.Clientes.Find(solicitud.clienteId);
+                solicitud.Cliente = cliente;
+                solicitud.folioSolicitud = "";
+                solicitud.usuarioId = usuario.Id;
+                solicitud.estatusSolicitud = "A";
+                solicitud.noTrabajadores = 0;
                 db.Solicituds.Add(solicitud);
                 db.SaveChanges();
+                
+                try
+                {
+                    solicitud.folioSolicitud = solicitud.id.ToString().PadLeft(5, '0') + "A" + solicitud.Cliente.Plaza.cveCorta.Trim();
+                    db.Entry(solicitud).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    foreach (var failure in ex.EntityValidationErrors)
+                    {
+                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                        foreach (var error in failure.ValidationErrors)
+                        {
+                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                            sb.AppendLine();
+                        }
+                    }
+                }
+
                 return RedirectToAction("Index");
             }
 

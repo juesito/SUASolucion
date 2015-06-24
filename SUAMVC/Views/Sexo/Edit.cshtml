@@ -6,7 +6,7 @@
 }
 
 @section Menu {
-    <div>Catálogo de Genero<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Catálogo de Género<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 @using (Html.BeginForm())
@@ -14,7 +14,7 @@
     @Html.AntiForgeryToken()
     <div class="panel panel-info" style="font-size:10px;">
         <div class="panel-heading">
-            @Language.edit @Language.sdi
+            @Language.edit @Language.sexo
         </div>
         <div class="panel-body">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })

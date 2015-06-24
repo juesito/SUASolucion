@@ -62,6 +62,7 @@ namespace SUAMVC.Controllers
             {
                 grupos.nombre = grupos.nombre.ToUpper();
                 grupos.nombreCorto = grupos.nombreCorto.ToUpper();
+                grupos.estatus = "A";
                 db.Grupos.Add(grupos);
                 db.SaveChanges();
                 return RedirectToAction("Index");

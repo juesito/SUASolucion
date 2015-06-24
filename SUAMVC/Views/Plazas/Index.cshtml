@@ -11,11 +11,11 @@
 }
 
 @section Menu {
-    <div>Catalogo de Plazas <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Catálogo de Plazas <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 <p>
-    @Html.ActionLink("Crear Plaza", "Create", "Plazas", new { @class = "btn btn-success" })
+    @Html.ActionLink(@Language.agregar + " " + @Language.plaza, "Create", "EsquemaPagos", new { @class = "btn btn-success" })
 </p>
 @grid.GetHtml(
     columns:

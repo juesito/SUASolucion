@@ -37,6 +37,20 @@ namespace SUAMVC.Helpers
             return htmlHelper.DropDownList("opcion", listFields);
         }
 
+        public static MvcHtmlString FieldsSolicitudEstatus(this HtmlHelper htmlHelper)
+        {
+
+            List<SelectListItem> listFields = new List<SelectListItem> {
+                              new SelectListItem {Value = "", Text = "Seleccione"},
+                              new SelectListItem {Value = "A", Text = "Alta"},
+                              new SelectListItem {Value = "S", Text = "Solicitud"},
+                              new SelectListItem {Value = "O", Text = "Observaciones"},
+                              new SelectListItem {Value = "B", Text = "Baja"},
+            };
+
+            return htmlHelper.DropDownList("opcion", listFields);
+        }
+
         public static MvcHtmlString FieldsAvailablesToFilterAcreditados(this HtmlHelper htmlHelper)
         {
 

@@ -81,7 +81,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,Plaza_id,Grupo_id,ejecutivo")] Cliente cliente)
+        public ActionResult Create([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,Plaza_id,Grupo_id,ejecutivoContadorId")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,8 @@ namespace SUAMVC.Controllers
                 {
                     cliente.descripcion = cliente.descripcion.ToUpper();
                     cliente.rfc = cliente.rfc.ToUpper();
-                    cliente.ejecutivo = cliente.ejecutivo.ToUpper();
+                    //Validar esto
+                    cliente.ejecutivoContadorId = cliente.Id;
                     db.Clientes.Add(cliente);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -139,13 +140,13 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,Plaza_id,Grupo_id,ejecutivo")] Cliente cliente)
+        public ActionResult Edit([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,Plaza_id,Grupo_id,ejecutivoContadorId")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
                 cliente.descripcion = cliente.descripcion.ToUpper();
                 cliente.rfc = cliente.rfc.ToUpper();
-                cliente.ejecutivo = cliente.ejecutivo.ToUpper();
+                cliente.ejecutivoContadorId = cliente.Id;
                 db.Entry(cliente).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

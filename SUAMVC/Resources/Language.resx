@@ -282,7 +282,7 @@
     <comment>Etiqueta para Patrón</comment>
   </data>
   <data name="plaza" xml:space="preserve">
-    <value>Plaza</value>
+    <value>Plazas</value>
     <comment>Etiqueta para la plaza</comment>
   </data>
   <data name="porcentaje" xml:space="preserve">
@@ -458,5 +458,45 @@
   <data name="usuarioID" xml:space="preserve">
     <value>Usuario ID</value>
     <comment>Etiqueta para Usuario ID</comment>
+  </data>
+  <data name="parametro" xml:space="preserve">
+    <value>Parámetro</value>
+    <comment>Etiqueta para Parámetro</comment>
+  </data>
+  <data name="parametroId" xml:space="preserve">
+    <value>Parámetro ID</value>
+    <comment>Etiqueta para Parámetro</comment>
+  </data>
+  <data name="rol" xml:space="preserve">
+    <value>Rol</value>
+    <comment>Etiqueta para Rol</comment>
+  </data>
+  <data name="claGrupo" xml:space="preserve">
+    <value>Clave Grupo</value>
+    <comment>Etiqueta para Clave Grupo</comment>
+  </data>
+  <data name="cveCorta" xml:space="preserve">
+    <value>Clave Corta</value>
+    <comment>Etiqueta para clave Corta</comment>
+  </data>
+  <data name="giro" xml:space="preserve">
+    <value>Giro</value>
+    <comment>Etiqueta para Giro</comment>
+  </data>
+  <data name="indicador" xml:space="preserve">
+    <value>Indicador</value>
+    <comment>Etiqueta para Indicador</comment>
+  </data>
+  <data name="nomCorto" xml:space="preserve">
+    <value>Nombre Corto</value>
+    <comment>Etiqueta para Nombre Corto</comment>
+  </data>
+  <data name="plazaId" xml:space="preserve">
+    <value>Plaza ID</value>
+    <comment>Etiqueta para Plaza ID</comment>
+  </data>
+  <data name="posicion" xml:space="preserve">
+    <value>Posición</value>
+    <comment>Etiqueta para Posición</comment>
   </data>
 </root>
