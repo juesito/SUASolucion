@@ -248,7 +248,11 @@
     <Compile Include="Controllers\BancosController.cs" />
     <Compile Include="Controllers\catalogoMovimientosController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\ContratosClientesController.cs" />
+    <Compile Include="Controllers\DatosAdicionalesClientesController.cs" />
+    <Compile Include="Controllers\DepartamentosController.cs" />
     <Compile Include="Controllers\EmpleadosController.cs" />
+    <Compile Include="Controllers\EmpresasController.cs" />
     <Compile Include="Controllers\EsquemasPagosController.cs" />
     <Compile Include="Controllers\EstadoCivilController.cs" />
     <Compile Include="Controllers\EstadoController.cs" />
@@ -259,6 +263,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IncapacidadesController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
+    <Compile Include="Controllers\ListaValidacionClientesController.cs" />
     <Compile Include="Controllers\ModulosController.cs" />
     <Compile Include="Controllers\MovimientosController.cs" />
     <Compile Include="Controllers\MunicipiosController.cs" />
@@ -497,6 +502,31 @@
     <Content Include="Views\Giros\Details.cshtml" />
     <Content Include="Views\Giros\Edit.cshtml" />
     <Content Include="Views\Giros\Index.cshtml" />
+    <Content Include="Views\Departamentos\Create.cshtml" />
+    <Content Include="Views\Departamentos\Delete.cshtml" />
+    <Content Include="Views\Departamentos\Details.cshtml" />
+    <Content Include="Views\Departamentos\Edit.cshtml" />
+    <Content Include="Views\Departamentos\Index.cshtml" />
+    <Content Include="Views\ListaValidacionClientes\Create.cshtml" />
+    <Content Include="Views\ListaValidacionClientes\Delete.cshtml" />
+    <Content Include="Views\ListaValidacionClientes\Details.cshtml" />
+    <Content Include="Views\ListaValidacionClientes\Edit.cshtml" />
+    <Content Include="Views\ListaValidacionClientes\Index.cshtml" />
+    <Content Include="Views\DatosAdicionalesClientes\Create.cshtml" />
+    <Content Include="Views\DatosAdicionalesClientes\Delete.cshtml" />
+    <Content Include="Views\DatosAdicionalesClientes\Details.cshtml" />
+    <Content Include="Views\DatosAdicionalesClientes\Edit.cshtml" />
+    <Content Include="Views\DatosAdicionalesClientes\Index.cshtml" />
+    <Content Include="Views\ContratosClientes\Create.cshtml" />
+    <Content Include="Views\ContratosClientes\Delete.cshtml" />
+    <Content Include="Views\ContratosClientes\Details.cshtml" />
+    <Content Include="Views\ContratosClientes\Edit.cshtml" />
+    <Content Include="Views\ContratosClientes\Index.cshtml" />
+    <Content Include="Views\Empresas\Create.cshtml" />
+    <Content Include="Views\Empresas\Delete.cshtml" />
+    <Content Include="Views\Empresas\Details.cshtml" />
+    <Content Include="Views\Empresas\Edit.cshtml" />
+    <Content Include="Views\Empresas\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

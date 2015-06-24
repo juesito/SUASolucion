@@ -1,0 +1,155 @@
+﻿@model SUADATOS.ContratosCliente
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ContratosCliente</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.archivo1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.archivo1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.archivo2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.archivo2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.archivo3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.archivo3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaFirma)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaFirma)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.firmo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.firmo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.testigo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.testigo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.actaConstitutivaEmpresa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.actaConstitutivaEmpresa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.poderRepresentanteLegal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.poderRepresentanteLegal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ifeRepresentanteLegal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ifeRepresentanteLegal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comprobanteDomicilio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comprobanteDomicilio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaInicioVigencia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaInicioVigencia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaFinalVigencia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaFinalVigencia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaCreacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaCreacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente.claveCliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.claveCliente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usuario.nombreUsuario)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

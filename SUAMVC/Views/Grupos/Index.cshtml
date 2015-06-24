@@ -24,8 +24,7 @@
             grid.Column("Plaza.cveCorta", "Plaza", null, null, true) ,
 
             grid.Column("posicion", "Posicion", null, null, true),
-            grid.Column(header: "Consultar", format: @<text><a href="@Url.Action("Details", "Grupos", new { id = item.id })">
-                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+            
                 </a></text>),
             grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Grupos", new { id = item.id })">
                     <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />

@@ -1,0 +1,83 @@
+﻿@model SUADATOS.ListaValidacionCliente
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ListaValidacionCliente</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.validador)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.validador)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.emailValidador)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.emailValidador)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.autorizador)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.autorizador)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.emailAutorizador)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.emailAutorizador)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.listaEmailAux)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.listaEmailAux)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaCreacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaCreacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente.claveCliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.claveCliente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usuario.nombreUsuario)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
