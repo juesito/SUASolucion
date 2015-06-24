@@ -6,14 +6,17 @@
 }
 
 @section Menu {
-    <div>Detalle Sexo <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Catalogo de Sexo<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
-<div>
-    <h4>Sexo</h4>
-    <hr />
+<div class="panel panel-info">
+    <div class="panel-heading">
+        Detalle de Genero
+    </div>
+</div>
+<div class="panel-body" style="font-size:10px;">
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.descripcion)
+            @Html.DisplayName(@Language.descripcion)
         </dt>
 
         <dd>
@@ -21,7 +24,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.fechaCreacion)
+            @Html.DisplayName(@Language.fechaAlta)
         </dt>
 
         <dd>
@@ -29,7 +32,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
+            @Html.DisplayName(@Language.usuarioAlta)
         </dt>
 
         <dd>
@@ -39,6 +42,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(@Language.edit, "Edit", new { id = Model.id }) |
+    @Html.ActionLink(@Language.regresar, "Index")
 </p>

@@ -134,7 +134,7 @@
           <Property Name="numeroCuenta" Type="nchar" MaxLength="20" />
           <Property Name="tipoServicioId" Type="int" />
         </EntityType>
-        <EntityType Name="ContratosCliente">
+        <EntityType Name="ContratosClientes">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -157,7 +157,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="DatosAdicionalesCliente">
+        <EntityType Name="DatosAdicionalesClientes">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -190,7 +190,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="solicitudId" Type="int" Nullable="false" />
           <Property Name="nss" Type="nchar" MaxLength="12" />
-          <Property Name="fechaAltaImss" Type="date" />
+          <Property Name="fechaAltaImss" Type="datetime" />
           <Property Name="apellidoMaterno" Type="nchar" MaxLength="60" Nullable="false" />
           <Property Name="apellidoPaterno" Type="nchar" MaxLength="60" Nullable="false" />
           <Property Name="nombre" Type="nchar" MaxLength="60" Nullable="false" />
@@ -206,7 +206,7 @@
           <Property Name="tieneInfonavit" Type="int" Nullable="false" />
           <Property Name="creditoInfonavit" Type="nchar" MaxLength="20" />
           <Property Name="estadoCivilId" Type="int" Nullable="false" />
-          <Property Name="fechaNacimiento" Type="date" Nullable="false" />
+          <Property Name="fechaNacimiento" Type="datetime" Nullable="false" />
           <Property Name="nacionalidadId" Type="int" Nullable="false" />
           <Property Name="estadoNacimientoId" Type="int" Nullable="false" />
           <Property Name="municipioNacimientoId" Type="int" Nullable="false" />
@@ -233,7 +233,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="EsquemasPago">
+        <EntityType Name="EsquemasPagoes">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -242,7 +242,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="EstadoCivil">
+        <EntityType Name="EstadoCivils">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -337,7 +337,7 @@
           <Property Name="tipoIncapacidad" Type="nchar" MaxLength="1" />
           <Property Name="alta" Type="nchar" MaxLength="60" />
         </EntityType>
-        <EntityType Name="ListaValidacionCliente">
+        <EntityType Name="ListaValidacionClientes">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -531,7 +531,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="RegimenInfonavit">
+        <EntityType Name="RegimenInfonavits">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -540,7 +540,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Residencia">
+        <EntityType Name="Residencias">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -549,7 +549,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="ResumenPago">
+        <EntityType Name="ResumenPagoes">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -636,7 +636,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Solicitud">
+        <EntityType Name="Solicituds">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -665,7 +665,7 @@
           <Property Name="proyectoId" Type="int" Nullable="false" />
           <Property Name="fechaEnvio" Type="datetime" />
         </EntityType>
-        <EntityType Name="TipoContrato">
+        <EntityType Name="TipoContratoes">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -674,7 +674,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="TipoPersonal">
+        <EntityType Name="TipoPersonals">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -760,48 +760,48 @@
         </Association>
         <Association Name="FK_ContratosCliente_Clientes">
           <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
-          <End Role="ContratosCliente" Type="Self.ContratosCliente" Multiplicity="*" />
+          <End Role="ContratosClientes" Type="Self.ContratosClientes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Clientes">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ContratosCliente">
+            <Dependent Role="ContratosClientes">
               <PropertyRef Name="clienteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ContratosCliente_Usuarios">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="ContratosCliente" Type="Self.ContratosCliente" Multiplicity="*" />
+          <End Role="ContratosClientes" Type="Self.ContratosClientes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ContratosCliente">
+            <Dependent Role="ContratosClientes">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DatosAdicionalesCliente_Clientes">
           <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
-          <End Role="DatosAdicionalesCliente" Type="Self.DatosAdicionalesCliente" Multiplicity="*" />
+          <End Role="DatosAdicionalesClientes" Type="Self.DatosAdicionalesClientes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Clientes">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="DatosAdicionalesCliente">
+            <Dependent Role="DatosAdicionalesClientes">
               <PropertyRef Name="clienteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DatosAdicionalesCliente_Usuarios">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="DatosAdicionalesCliente" Type="Self.DatosAdicionalesCliente" Multiplicity="*" />
+          <End Role="DatosAdicionalesClientes" Type="Self.DatosAdicionalesClientes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="DatosAdicionalesCliente">
+            <Dependent Role="DatosAdicionalesClientes">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
@@ -831,10 +831,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Empleados_EsquemasPago">
-          <End Role="EsquemasPago" Type="Self.EsquemasPago" Multiplicity="1" />
+          <End Role="EsquemasPagoes" Type="Self.EsquemasPagoes" Multiplicity="1" />
           <End Role="Empleados" Type="Self.Empleados" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EsquemasPago">
+            <Principal Role="EsquemasPagoes">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Empleados">
@@ -843,10 +843,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Empleados_EstadoCivil">
-          <End Role="EstadoCivil" Type="Self.EstadoCivil" Multiplicity="1" />
+          <End Role="EstadoCivils" Type="Self.EstadoCivils" Multiplicity="1" />
           <End Role="Empleados" Type="Self.Empleados" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EstadoCivil">
+            <Principal Role="EstadoCivils">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Empleados">
@@ -915,10 +915,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Empleados_Solicitud">
-          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="1" />
+          <End Role="Solicituds" Type="Self.Solicituds" Multiplicity="1" />
           <End Role="Empleados" Type="Self.Empleados" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Solicitud">
+            <Principal Role="Solicituds">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Empleados">
@@ -952,24 +952,24 @@
         </Association>
         <Association Name="FK_EsquemasPago_EsquemasPago">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="EsquemasPago" Type="Self.EsquemasPago" Multiplicity="*" />
+          <End Role="EsquemasPagoes" Type="Self.EsquemasPagoes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="EsquemasPago">
+            <Dependent Role="EsquemasPagoes">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EstadoCivil_EstadoCivil">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="EstadoCivil" Type="Self.EstadoCivil" Multiplicity="*" />
+          <End Role="EstadoCivils" Type="Self.EstadoCivils" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="EstadoCivil">
+            <Dependent Role="EstadoCivils">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1060,24 +1060,24 @@
         </Association>
         <Association Name="FK_ListaValidacionCliente_Clientes">
           <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
-          <End Role="ListaValidacionCliente" Type="Self.ListaValidacionCliente" Multiplicity="*" />
+          <End Role="ListaValidacionClientes" Type="Self.ListaValidacionClientes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Clientes">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ListaValidacionCliente">
+            <Dependent Role="ListaValidacionClientes">
               <PropertyRef Name="clienteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ListaValidacionCliente_Usuarios">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="ListaValidacionCliente" Type="Self.ListaValidacionCliente" Multiplicity="*" />
+          <End Role="ListaValidacionClientes" Type="Self.ListaValidacionClientes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ListaValidacionCliente">
+            <Dependent Role="ListaValidacionClientes">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1191,10 +1191,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Pagos_ResumenPago">
-          <End Role="ResumenPago" Type="Self.ResumenPago" Multiplicity="1" />
+          <End Role="ResumenPagoes" Type="Self.ResumenPagoes" Multiplicity="1" />
           <End Role="Pagos" Type="Self.Pagos" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ResumenPago">
+            <Principal Role="ResumenPagoes">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Pagos">
@@ -1300,12 +1300,12 @@
         </Association>
         <Association Name="FK_Proyectos_Clientes">
           <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
-          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <End Role="Solicituds" Type="Self.Solicituds" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Clientes">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Solicitud">
+            <Dependent Role="Solicituds">
               <PropertyRef Name="clienteId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1323,121 +1323,121 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Proyectos_EsquemasPago">
-          <End Role="EsquemasPago" Type="Self.EsquemasPago" Multiplicity="1" />
-          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <End Role="EsquemasPagoes" Type="Self.EsquemasPagoes" Multiplicity="1" />
+          <End Role="Solicituds" Type="Self.Solicituds" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EsquemasPago">
+            <Principal Role="EsquemasPagoes">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Solicitud">
+            <Dependent Role="Solicituds">
               <PropertyRef Name="esquemaId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Proyectos_Residencia">
-          <End Role="Residencia" Type="Self.Residencia" Multiplicity="1" />
-          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <End Role="Residencias" Type="Self.Residencias" Multiplicity="1" />
+          <End Role="Solicituds" Type="Self.Solicituds" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Residencia">
+            <Principal Role="Residencias">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Solicitud">
+            <Dependent Role="Solicituds">
               <PropertyRef Name="residenciaId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Proyectos_SDIs">
           <End Role="SDIs" Type="Self.SDIs" Multiplicity="1" />
-          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <End Role="Solicituds" Type="Self.Solicituds" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SDIs">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Solicitud">
+            <Dependent Role="Solicituds">
               <PropertyRef Name="sdiId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Proyectos_TipoContrato">
-          <End Role="TipoContrato" Type="Self.TipoContrato" Multiplicity="1" />
-          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <End Role="TipoContratoes" Type="Self.TipoContratoes" Multiplicity="1" />
+          <End Role="Solicituds" Type="Self.Solicituds" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TipoContrato">
+            <Principal Role="TipoContratoes">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Solicitud">
+            <Dependent Role="Solicituds">
               <PropertyRef Name="contratoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Proyectos_TipoPersonal">
-          <End Role="TipoPersonal" Type="Self.TipoPersonal" Multiplicity="1" />
-          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <End Role="TipoPersonals" Type="Self.TipoPersonals" Multiplicity="1" />
+          <End Role="Solicituds" Type="Self.Solicituds" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TipoPersonal">
+            <Principal Role="TipoPersonals">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Solicitud">
+            <Dependent Role="Solicituds">
               <PropertyRef Name="tipoPersonalId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Proyectos_Usuarios">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <End Role="Solicituds" Type="Self.Solicituds" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Solicitud">
+            <Dependent Role="Solicituds">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RegimenInfonavit_RegimenInfonavit">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="RegimenInfonavit" Type="Self.RegimenInfonavit" Multiplicity="*" />
+          <End Role="RegimenInfonavits" Type="Self.RegimenInfonavits" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="RegimenInfonavit">
+            <Dependent Role="RegimenInfonavits">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Residencia_Residencia">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="Residencia" Type="Self.Residencia" Multiplicity="*" />
+          <End Role="Residencias" Type="Self.Residencias" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Residencia">
+            <Dependent Role="Residencias">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ResumenPago_Patrones">
           <End Role="Patrones" Type="Self.Patrones" Multiplicity="1" />
-          <End Role="ResumenPago" Type="Self.ResumenPago" Multiplicity="*" />
+          <End Role="ResumenPagoes" Type="Self.ResumenPagoes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Patrones">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ResumenPago">
+            <Dependent Role="ResumenPagoes">
               <PropertyRef Name="patronId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ResumenPago_Usuarios">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="ResumenPago" Type="Self.ResumenPago" Multiplicity="*" />
+          <End Role="ResumenPagoes" Type="Self.ResumenPagoes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ResumenPago">
+            <Dependent Role="ResumenPagoes">
               <PropertyRef Name="usuarioCreacionId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1552,36 +1552,36 @@
         </Association>
         <Association Name="FK_Solicitud_Proyectos">
           <End Role="Proyectos" Type="Self.Proyectos" Multiplicity="1" />
-          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <End Role="Solicituds" Type="Self.Solicituds" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Proyectos">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Solicitud">
+            <Dependent Role="Solicituds">
               <PropertyRef Name="proyectoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TipoContrato_TipoContrato">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="TipoContrato" Type="Self.TipoContrato" Multiplicity="*" />
+          <End Role="TipoContratoes" Type="Self.TipoContratoes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="TipoContrato">
+            <Dependent Role="TipoContratoes">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TipoPersonal_TipoPersonal">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="TipoPersonal" Type="Self.TipoPersonal" Multiplicity="*" />
+          <End Role="TipoPersonals" Type="Self.TipoPersonals" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="TipoPersonal">
+            <Dependent Role="TipoPersonals">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1640,20 +1640,20 @@
           <EntitySet Name="Bancos" EntityType="Self.Bancos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="catalogoMovimientos" EntityType="Self.catalogoMovimientos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ContratosCliente" EntityType="Self.ContratosCliente" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DatosAdicionalesCliente" EntityType="Self.DatosAdicionalesCliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContratosClientes" EntityType="Self.ContratosClientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DatosAdicionalesClientes" EntityType="Self.DatosAdicionalesClientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departamentos" EntityType="Self.Departamentos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empleados" EntityType="Self.Empleados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empresas" EntityType="Self.Empresas" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="EsquemasPago" EntityType="Self.EsquemasPago" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="EstadoCivil" EntityType="Self.EstadoCivil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EsquemasPagoes" EntityType="Self.EsquemasPagoes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstadoCivils" EntityType="Self.EstadoCivils" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estados" EntityType="Self.Estados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Factores" EntityType="Self.Factores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Funcions" EntityType="Self.Funcions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Giros" EntityType="Self.Giros" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grupos" EntityType="Self.Grupos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Incapacidades" EntityType="Self.Incapacidades" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ListaValidacionCliente" EntityType="Self.ListaValidacionCliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListaValidacionClientes" EntityType="Self.ListaValidacionClientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Modulos" EntityType="Self.Modulos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Movimientos" EntityType="Self.Movimientos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MovimientosAseguradoes" EntityType="Self.MovimientosAseguradoes" Schema="dbo" store:Type="Tables" />
@@ -1664,18 +1664,18 @@
           <EntitySet Name="Patrones" EntityType="Self.Patrones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Plazas" EntityType="Self.Plazas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyectos" EntityType="Self.Proyectos" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="RegimenInfonavit" EntityType="Self.RegimenInfonavit" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Residencia" EntityType="Self.Residencia" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ResumenPago" EntityType="Self.ResumenPago" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegimenInfonavits" EntityType="Self.RegimenInfonavits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Residencias" EntityType="Self.Residencias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResumenPagoes" EntityType="Self.ResumenPagoes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoleFuncions" EntityType="Self.RoleFuncions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoleModulos" EntityType="Self.RoleModulos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SDIs" EntityType="Self.SDIs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Servicios" EntityType="Self.Servicios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sexos" EntityType="Self.Sexos" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Solicitud" EntityType="Self.Solicitud" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TipoContrato" EntityType="Self.TipoContrato" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TipoPersonal" EntityType="Self.TipoPersonal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Solicituds" EntityType="Self.Solicituds" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoContratoes" EntityType="Self.TipoContratoes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoPersonals" EntityType="Self.TipoPersonals" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TopicosUsuarios" EntityType="Self.TopicosUsuarios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Acreditados_Acreditados" Association="Self.FK_Acreditados_Acreditados">
@@ -1696,19 +1696,19 @@
           </AssociationSet>
           <AssociationSet Name="FK_ContratosCliente_Clientes" Association="Self.FK_ContratosCliente_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
-            <End Role="ContratosCliente" EntitySet="ContratosCliente" />
+            <End Role="ContratosClientes" EntitySet="ContratosClientes" />
           </AssociationSet>
           <AssociationSet Name="FK_ContratosCliente_Usuarios" Association="Self.FK_ContratosCliente_Usuarios">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="ContratosCliente" EntitySet="ContratosCliente" />
+            <End Role="ContratosClientes" EntitySet="ContratosClientes" />
           </AssociationSet>
           <AssociationSet Name="FK_DatosAdicionalesCliente_Clientes" Association="Self.FK_DatosAdicionalesCliente_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
-            <End Role="DatosAdicionalesCliente" EntitySet="DatosAdicionalesCliente" />
+            <End Role="DatosAdicionalesClientes" EntitySet="DatosAdicionalesClientes" />
           </AssociationSet>
           <AssociationSet Name="FK_DatosAdicionalesCliente_Usuarios" Association="Self.FK_DatosAdicionalesCliente_Usuarios">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="DatosAdicionalesCliente" EntitySet="DatosAdicionalesCliente" />
+            <End Role="DatosAdicionalesClientes" EntitySet="DatosAdicionalesClientes" />
           </AssociationSet>
           <AssociationSet Name="FK_Departamentos_Departamentos" Association="Self.FK_Departamentos_Departamentos">
             <End Role="Usuarios" EntitySet="Usuarios" />
@@ -1719,11 +1719,11 @@
             <End Role="Empleados" EntitySet="Empleados" />
           </AssociationSet>
           <AssociationSet Name="FK_Empleados_EsquemasPago" Association="Self.FK_Empleados_EsquemasPago">
-            <End Role="EsquemasPago" EntitySet="EsquemasPago" />
+            <End Role="EsquemasPagoes" EntitySet="EsquemasPagoes" />
             <End Role="Empleados" EntitySet="Empleados" />
           </AssociationSet>
           <AssociationSet Name="FK_Empleados_EstadoCivil" Association="Self.FK_Empleados_EstadoCivil">
-            <End Role="EstadoCivil" EntitySet="EstadoCivil" />
+            <End Role="EstadoCivils" EntitySet="EstadoCivils" />
             <End Role="Empleados" EntitySet="Empleados" />
           </AssociationSet>
           <AssociationSet Name="FK_Empleados_Estados" Association="Self.FK_Empleados_Estados">
@@ -1747,7 +1747,7 @@
             <End Role="Empleados" EntitySet="Empleados" />
           </AssociationSet>
           <AssociationSet Name="FK_Empleados_Solicitud" Association="Self.FK_Empleados_Solicitud">
-            <End Role="Solicitud" EntitySet="Solicitud" />
+            <End Role="Solicituds" EntitySet="Solicituds" />
             <End Role="Empleados" EntitySet="Empleados" />
           </AssociationSet>
           <AssociationSet Name="FK_Empleados_Usuarios" Association="Self.FK_Empleados_Usuarios">
@@ -1760,11 +1760,11 @@
           </AssociationSet>
           <AssociationSet Name="FK_EsquemasPago_EsquemasPago" Association="Self.FK_EsquemasPago_EsquemasPago">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="EsquemasPago" EntitySet="EsquemasPago" />
+            <End Role="EsquemasPagoes" EntitySet="EsquemasPagoes" />
           </AssociationSet>
           <AssociationSet Name="FK_EstadoCivil_EstadoCivil" Association="Self.FK_EstadoCivil_EstadoCivil">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="EstadoCivil" EntitySet="EstadoCivil" />
+            <End Role="EstadoCivils" EntitySet="EstadoCivils" />
           </AssociationSet>
           <AssociationSet Name="FK_Estados_Paises" Association="Self.FK_Estados_Paises">
             <End Role="Paises" EntitySet="Paises" />
@@ -1796,11 +1796,11 @@
           </AssociationSet>
           <AssociationSet Name="FK_ListaValidacionCliente_Clientes" Association="Self.FK_ListaValidacionCliente_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
-            <End Role="ListaValidacionCliente" EntitySet="ListaValidacionCliente" />
+            <End Role="ListaValidacionClientes" EntitySet="ListaValidacionClientes" />
           </AssociationSet>
           <AssociationSet Name="FK_ListaValidacionCliente_Usuarios" Association="Self.FK_ListaValidacionCliente_Usuarios">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="ListaValidacionCliente" EntitySet="ListaValidacionCliente" />
+            <End Role="ListaValidacionClientes" EntitySet="ListaValidacionClientes" />
           </AssociationSet>
           <AssociationSet Name="FK_Movimientos_Acreditados" Association="Self.FK_Movimientos_Acreditados">
             <End Role="Acreditados" EntitySet="Acreditados" />
@@ -1839,7 +1839,7 @@
             <End Role="Pagos" EntitySet="Pagos" />
           </AssociationSet>
           <AssociationSet Name="FK_Pagos_ResumenPago" Association="Self.FK_Pagos_ResumenPago">
-            <End Role="ResumenPago" EntitySet="ResumenPago" />
+            <End Role="ResumenPagoes" EntitySet="ResumenPagoes" />
             <End Role="Pagos" EntitySet="Pagos" />
           </AssociationSet>
           <AssociationSet Name="FK_Paises_Paises" Association="Self.FK_Paises_Paises">
@@ -1876,51 +1876,51 @@
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_Clientes" Association="Self.FK_Proyectos_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
-            <End Role="Solicitud" EntitySet="Solicitud" />
+            <End Role="Solicituds" EntitySet="Solicituds" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_Clientes1" Association="Self.FK_Proyectos_Clientes1">
             <End Role="Clientes" EntitySet="Clientes" />
             <End Role="Proyectos" EntitySet="Proyectos" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_EsquemasPago" Association="Self.FK_Proyectos_EsquemasPago">
-            <End Role="EsquemasPago" EntitySet="EsquemasPago" />
-            <End Role="Solicitud" EntitySet="Solicitud" />
+            <End Role="EsquemasPagoes" EntitySet="EsquemasPagoes" />
+            <End Role="Solicituds" EntitySet="Solicituds" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_Residencia" Association="Self.FK_Proyectos_Residencia">
-            <End Role="Residencia" EntitySet="Residencia" />
-            <End Role="Solicitud" EntitySet="Solicitud" />
+            <End Role="Residencias" EntitySet="Residencias" />
+            <End Role="Solicituds" EntitySet="Solicituds" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_SDIs" Association="Self.FK_Proyectos_SDIs">
             <End Role="SDIs" EntitySet="SDIs" />
-            <End Role="Solicitud" EntitySet="Solicitud" />
+            <End Role="Solicituds" EntitySet="Solicituds" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_TipoContrato" Association="Self.FK_Proyectos_TipoContrato">
-            <End Role="TipoContrato" EntitySet="TipoContrato" />
-            <End Role="Solicitud" EntitySet="Solicitud" />
+            <End Role="TipoContratoes" EntitySet="TipoContratoes" />
+            <End Role="Solicituds" EntitySet="Solicituds" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_TipoPersonal" Association="Self.FK_Proyectos_TipoPersonal">
-            <End Role="TipoPersonal" EntitySet="TipoPersonal" />
-            <End Role="Solicitud" EntitySet="Solicitud" />
+            <End Role="TipoPersonals" EntitySet="TipoPersonals" />
+            <End Role="Solicituds" EntitySet="Solicituds" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_Usuarios" Association="Self.FK_Proyectos_Usuarios">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="Solicitud" EntitySet="Solicitud" />
+            <End Role="Solicituds" EntitySet="Solicituds" />
           </AssociationSet>
           <AssociationSet Name="FK_RegimenInfonavit_RegimenInfonavit" Association="Self.FK_RegimenInfonavit_RegimenInfonavit">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="RegimenInfonavit" EntitySet="RegimenInfonavit" />
+            <End Role="RegimenInfonavits" EntitySet="RegimenInfonavits" />
           </AssociationSet>
           <AssociationSet Name="FK_Residencia_Residencia" Association="Self.FK_Residencia_Residencia">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="Residencia" EntitySet="Residencia" />
+            <End Role="Residencias" EntitySet="Residencias" />
           </AssociationSet>
           <AssociationSet Name="FK_ResumenPago_Patrones" Association="Self.FK_ResumenPago_Patrones">
             <End Role="Patrones" EntitySet="Patrones" />
-            <End Role="ResumenPago" EntitySet="ResumenPago" />
+            <End Role="ResumenPagoes" EntitySet="ResumenPagoes" />
           </AssociationSet>
           <AssociationSet Name="FK_ResumenPago_Usuarios" Association="Self.FK_ResumenPago_Usuarios">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="ResumenPago" EntitySet="ResumenPago" />
+            <End Role="ResumenPagoes" EntitySet="ResumenPagoes" />
           </AssociationSet>
           <AssociationSet Name="FK_RoleFunciones_Funciones" Association="Self.FK_RoleFunciones_Funciones">
             <End Role="Funcions" EntitySet="Funcions" />
@@ -1960,15 +1960,15 @@
           </AssociationSet>
           <AssociationSet Name="FK_Solicitud_Proyectos" Association="Self.FK_Solicitud_Proyectos">
             <End Role="Proyectos" EntitySet="Proyectos" />
-            <End Role="Solicitud" EntitySet="Solicitud" />
+            <End Role="Solicituds" EntitySet="Solicituds" />
           </AssociationSet>
           <AssociationSet Name="FK_TipoContrato_TipoContrato" Association="Self.FK_TipoContrato_TipoContrato">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="TipoContrato" EntitySet="TipoContrato" />
+            <End Role="TipoContratoes" EntitySet="TipoContratoes" />
           </AssociationSet>
           <AssociationSet Name="FK_TipoPersonal_TipoPersonal" Association="Self.FK_TipoPersonal_TipoPersonal">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="TipoPersonal" EntitySet="TipoPersonal" />
+            <End Role="TipoPersonals" EntitySet="TipoPersonals" />
           </AssociationSet>
           <AssociationSet Name="FK_TopicosUsuario_Usuario" Association="Self.FK_TopicosUsuario_Usuario">
             <End Role="Usuarios" EntitySet="Usuarios" />
@@ -2559,7 +2559,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="solicitudId" Type="Int32" Nullable="false" />
           <Property Name="nss" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
-          <Property Name="fechaAltaImss" Type="DateTime" Precision="0" />
+          <Property Name="fechaAltaImss" Type="DateTime" Precision="3" />
           <Property Name="apellidoMaterno" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
           <Property Name="apellidoPaterno" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
           <Property Name="nombre" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
@@ -2575,7 +2575,7 @@
           <Property Name="tieneInfonavit" Type="Int32" Nullable="false" />
           <Property Name="creditoInfonavit" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
           <Property Name="estadoCivilId" Type="Int32" Nullable="false" />
-          <Property Name="fechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fechaNacimiento" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="nacionalidadId" Type="Int32" Nullable="false" />
           <Property Name="estadoNacimientoId" Type="Int32" Nullable="false" />
           <Property Name="municipioNacimientoId" Type="Int32" Nullable="false" />
@@ -4269,7 +4269,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="ContratosClientes">
             <EntityTypeMapping TypeName="suaModel.ContratosCliente">
-              <MappingFragment StoreEntitySet="ContratosCliente">
+              <MappingFragment StoreEntitySet="ContratosClientes">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="estatus" ColumnName="estatus" />
@@ -4293,7 +4293,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="DatosAdicionalesClientes">
             <EntityTypeMapping TypeName="suaModel.DatosAdicionalesCliente">
-              <MappingFragment StoreEntitySet="DatosAdicionalesCliente">
+              <MappingFragment StoreEntitySet="DatosAdicionalesClientes">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="conceptoFacturacion" ColumnName="conceptoFacturacion" />
@@ -4373,7 +4373,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="EsquemasPagoes">
             <EntityTypeMapping TypeName="suaModel.EsquemasPago">
-              <MappingFragment StoreEntitySet="EsquemasPago">
+              <MappingFragment StoreEntitySet="EsquemasPagoes">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
@@ -4383,7 +4383,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="EstadoCivils">
             <EntityTypeMapping TypeName="suaModel.EstadoCivil">
-              <MappingFragment StoreEntitySet="EstadoCivil">
+              <MappingFragment StoreEntitySet="EstadoCivils">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
@@ -4485,7 +4485,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="ListaValidacionClientes">
             <EntityTypeMapping TypeName="suaModel.ListaValidacionCliente">
-              <MappingFragment StoreEntitySet="ListaValidacionCliente">
+              <MappingFragment StoreEntitySet="ListaValidacionClientes">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="listaEmailAux" ColumnName="listaEmailAux" />
@@ -4690,7 +4690,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="RegimenInfonavits">
             <EntityTypeMapping TypeName="suaModel.RegimenInfonavit">
-              <MappingFragment StoreEntitySet="RegimenInfonavit">
+              <MappingFragment StoreEntitySet="RegimenInfonavits">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
@@ -4700,7 +4700,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="Residencias">
             <EntityTypeMapping TypeName="suaModel.Residencia">
-              <MappingFragment StoreEntitySet="Residencia">
+              <MappingFragment StoreEntitySet="Residencias">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
@@ -4710,7 +4710,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="ResumenPagoes">
             <EntityTypeMapping TypeName="suaModel.ResumenPago">
-              <MappingFragment StoreEntitySet="ResumenPago">
+              <MappingFragment StoreEntitySet="ResumenPagoes">
                 <ScalarProperty Name="usuarioCreacionId" ColumnName="usuarioCreacionId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="delSubDel" ColumnName="delSubDel" />
@@ -4804,7 +4804,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="Solicituds">
             <EntityTypeMapping TypeName="suaModel.Solicitud">
-              <MappingFragment StoreEntitySet="Solicitud">
+              <MappingFragment StoreEntitySet="Solicituds">
                 <ScalarProperty Name="fechaEnvio" ColumnName="fechaEnvio" />
                 <ScalarProperty Name="proyectoId" ColumnName="proyectoId" />
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
@@ -4834,7 +4834,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="TipoContratoes">
             <EntityTypeMapping TypeName="suaModel.TipoContrato">
-              <MappingFragment StoreEntitySet="TipoContrato">
+              <MappingFragment StoreEntitySet="TipoContratoes">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
@@ -4844,7 +4844,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="TipoPersonals">
             <EntityTypeMapping TypeName="suaModel.TipoPersonal">
-              <MappingFragment StoreEntitySet="TipoPersonal">
+              <MappingFragment StoreEntitySet="TipoPersonals">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />

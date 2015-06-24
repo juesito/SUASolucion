@@ -52,6 +52,8 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                sDI.fechaCreacion = DateTime.Now;
+                sDI.usuarioId = 1;
                 db.SDIs.Add(sDI);
                 db.SaveChanges();
                 return RedirectToAction("Index");

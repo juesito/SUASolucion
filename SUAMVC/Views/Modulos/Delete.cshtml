@@ -10,57 +10,65 @@
 }
 
 @section Menu {
-    <div><img src="~/Content/Images/people-b.png" width="15" height="15" />Catalogo de Modulos</div>
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" />Catálogo de Módulos</div>
 }
 
 
 
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Modulo</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.descripcionCorta)
-        </dt>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        ¿Desea borrar este registro?
+    </div>
+    <div class="panel-body" style="font-size:10px;">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName(@Language.desCorta)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.descripcionCorta)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.descripcionCorta)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.descripcionLarga)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.desLarga)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.descripcionLarga)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.descripcionLarga)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.fechaCreacion)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.fechaAlta)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.fechaCreacion)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.fechaCreacion)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.estatus)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.estatus)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.estatus)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.estatus)
+            </dd>
 
-    </dl>
+        </dl>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+    <div class="form-group" style="margin-top:10px;">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="@Language.borrar" class="btn btn-primary" />
         </div>
-    }
+    </div>
+        }
+    </div>
+    </div>
+
+<div>
+@Html.ActionLink(@Language.regresar, "Index")
 </div>

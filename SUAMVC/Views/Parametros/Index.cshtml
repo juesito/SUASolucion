@@ -10,22 +10,23 @@
 }
 
 @section Menu {
-    <div>Catalogo de Parametros <img src="~/Content/Images/home.png" width="15" height="15" /></div>
+    <div>Catálogo de Parámetros <img src="~/Content/Images/home.png" width="15" height="15" /></div>
 }
 
 <p>
-    @Html.ActionLink("Crear Parametro", "Create")
+    @Html.ActionLink(@Language.agregar + " " + @Language.parametro, "Create", "EsquemaPagos", new { @class = "btn btn-success" })
 </p>
-<table class="table table-striped" style="font-size:10px; width:100%;">
+
+<table class="table table-striped talbeSua" style="font-size:10px; width:100%;">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.parametroId)
+            @Html.DisplayName(@Language.parametroId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.descripcion)
+            @Html.DisplayName(@Language.descripcion)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.fechaCreacion)
+            @Html.DisplayName(@Language.fechaAlta)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.valorString)
@@ -61,10 +62,13 @@
                 @Html.DisplayFor(modelItem => item.valorFecha)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.id })
-            </td>
+                <a href="@Url.Action("Edit","parametros", new { id = item.id })" title="@Language.edit">
+                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+                </a>|
+                <a href="@Url.Action("Delete", "parametros", new { id = item.id })" title="@Language.borrar">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a>
+</td>
         </tr>
     }
 

@@ -39,7 +39,6 @@ namespace SUAMVC.Controllers
         // GET: Sexoes/Create
         public ActionResult Create()
         {
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario");
             return View();
         }
 
@@ -48,10 +47,12 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,descripcion,fechaCreacion,usuarioId")] Sexo sexo)
+        public ActionResult Create([Bind(Include = "id,descripcion")] Sexo sexo)
         {
             if (ModelState.IsValid)
             {
+                sexo.fechaCreacion = DateTime.Now;
+                sexo.usuarioId = 1;
                 db.Sexos.Add(sexo);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,10 +83,12 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,descripcion,fechaCreacion,usuarioId")] Sexo sexo)
+        public ActionResult Edit([Bind(Include = "id,descripcion")] Sexo sexo)
         {
             if (ModelState.IsValid)
             {
+                sexo.fechaCreacion = DateTime.Now;
+                sexo.usuarioId = 1;
                 db.Entry(sexo).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
