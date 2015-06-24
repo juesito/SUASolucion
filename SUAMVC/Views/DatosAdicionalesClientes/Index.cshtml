@@ -1,0 +1,102 @@
+﻿@model IEnumerable<SUADATOS.DatosAdicionalesCliente>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+@section Menu {
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catálogo de Datos Adicionales Cliente </div>
+}
+
+<p>
+    @Html.ActionLink(@Language.agregar + " " + @Language.catDatAdCliente, "Create", "EsquemaPagos", new { @class = "btn btn-success" })
+</p>
+<table class="table table-striped tableSua">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.porcentajeComNomina)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.ivaNomina)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.porcentajeComIAS)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.ivaIAS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.porcentajeComFlujo)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.ivaFlujo)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.costSocial)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.concepFacturacion)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.fechaAlta)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.claveCliente)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.usuarioAlta)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.porcentajeComNomina)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ivaNomina)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.porcentajeComIAS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ivaIAS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.porcentajeComFlujo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ivaFlujo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.costoSocial)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.conceptoFacturacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaCreacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cliente.claveCliente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
+        </td>
+        <td>
+            <a href="@Url.Action("Edit","funciones", new { id = item.id })" title="@Language.edit">
+                <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+            </a>|
+            <a href="@Url.Action("Delete", "funciones", new { id = item.id })" title="@Language.borrar">
+                <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+            </a>
+        </td>
+    </tr>
+}
+
+</table>

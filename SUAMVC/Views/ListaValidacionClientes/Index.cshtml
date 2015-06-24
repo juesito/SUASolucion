@@ -1,0 +1,87 @@
+﻿@model IEnumerable<SUADATOS.ListaValidacionCliente>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+@section Menu {
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catálogo de Lista de Validación Cliente </div>
+}
+
+
+<p>
+    @Html.ActionLink(@Language.agregar + " " + @Language.lvalCliente, "Create", "EsquemaPagos", new { @class = "btn btn-success" })
+</p>
+<table class="table table-striped tableSua">
+    <tr>
+        <th>
+            @Html.DisplayName(@Language.validador)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.emailValidador)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.autorizador)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.emailAutorizador)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.listaEmailAux)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.fechaAlta)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.claveCliente)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.usuarioAlta)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.validador)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.emailValidador)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.autorizador)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.emailAutorizador)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.listaEmailAux)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fechaCreacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.claveCliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit","funciones", new { id = item.id })" title="@Language.edit">
+                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+                </a>|
+                <a href="@Url.Action("Delete", "funciones", new { id = item.id })" title="@Language.borrar">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>

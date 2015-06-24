@@ -471,13 +471,67 @@
     <value>Rol</value>
     <comment>Etiqueta para Rol</comment>
   </data>
+  <data name="archivo1" xml:space="preserve">
+    <value>Archivo 1</value>
+  </data>
+  <data name="archivo2" xml:space="preserve">
+    <value>Archivo 2</value>
+  </data>
+  <data name="archivo3" xml:space="preserve">
+    <value>Archivo 3</value>
+  </data>
+  <data name="autorizador" xml:space="preserve">
+    <value>Autorizador</value>
+    <comment>Etiqueta para Autorizador</comment>
+  </data>
+  <data name="catDatAdCliente" xml:space="preserve">
+    <value>Catálogo de Datos Adicionales Cliente</value>
+    <comment>Etiqueta de Catalogo de Datos Adicionales Cliente</comment>
+  </data>
   <data name="claGrupo" xml:space="preserve">
     <value>Clave Grupo</value>
     <comment>Etiqueta para Clave Grupo</comment>
   </data>
+  <data name="claveCliente" xml:space="preserve">
+    <value>Clave Cliente</value>
+    <comment>Etiqueta para clave Cliente</comment>
+  </data>
+  <data name="clienteId" xml:space="preserve">
+    <value>Cliente ID</value>
+  </data>
+  <data name="concepFacturacion" xml:space="preserve">
+    <value>Concepto de Facturación</value>
+  </data>
+  <data name="contCliente" xml:space="preserve">
+    <value>Contrato Cliente</value>
+  </data>
+  <data name="costSocial" xml:space="preserve">
+    <value>Costo Social</value>
+  </data>
   <data name="cveCorta" xml:space="preserve">
     <value>Clave Corta</value>
     <comment>Etiqueta para clave Corta</comment>
+  </data>
+  <data name="dep" xml:space="preserve">
+    <value>Departamento</value>
+    <comment>Etiqueta para Departamento</comment>
+  </data>
+  <data name="emailAutorizador" xml:space="preserve">
+    <value>Email Autorizador</value>
+    <comment>Etiqueta para Email Autorizador</comment>
+  </data>
+  <data name="emailValidador" xml:space="preserve">
+    <value>Email Validador</value>
+    <comment>Etiqueta pra email Validador</comment>
+  </data>
+  <data name="empresa" xml:space="preserve">
+    <value>Empresa</value>
+  </data>
+  <data name="fechaFirma" xml:space="preserve">
+    <value>Fecha Firma</value>
+  </data>
+  <data name="firmo" xml:space="preserve">
+    <value>Firmó</value>
   </data>
   <data name="giro" xml:space="preserve">
     <value>Giro</value>
@@ -486,6 +540,23 @@
   <data name="indicador" xml:space="preserve">
     <value>Indicador</value>
     <comment>Etiqueta para Indicador</comment>
+  </data>
+  <data name="ivaFlujo" xml:space="preserve">
+    <value>IVA Flujo</value>
+  </data>
+  <data name="ivaIAS" xml:space="preserve">
+    <value>IVA IAS</value>
+  </data>
+  <data name="ivaNomina" xml:space="preserve">
+    <value>IVA Nómina</value>
+  </data>
+  <data name="listaEmailAux" xml:space="preserve">
+    <value>Lista Email Auxiliar</value>
+    <comment>Etiqueta para Email Autorizador</comment>
+  </data>
+  <data name="lvalCliente" xml:space="preserve">
+    <value>Lista de Validación Cliente</value>
+    <comment>Etiqueta para Lista Validación Cliente</comment>
   </data>
   <data name="nomCorto" xml:space="preserve">
     <value>Nombre Corto</value>
@@ -498,5 +569,12 @@
   <data name="posicion" xml:space="preserve">
     <value>Posición</value>
     <comment>Etiqueta para Posición</comment>
+  </data>
+  <data name="testigo" xml:space="preserve">
+    <value>Testigo</value>
+  </data>
+  <data name="validador" xml:space="preserve">
+    <value>Validador</value>
+    <comment>Etiqueta para validador</comment>
   </data>
 </root>

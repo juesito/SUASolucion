@@ -10,116 +10,116 @@ using SUADATOS;
 
 namespace SUAMVC.Controllers
 {
-    public class GirosController : Controller
+    public class DepartamentosController : Controller
     {
         private suaEntities db = new suaEntities();
 
-        // GET: Giros
+        // GET: Departamentos
         public ActionResult Index()
         {
-            var giros = db.Giros.Include(g => g.Usuario);
-            return View(giros.ToList());
+            var departamentos = db.Departamentos.Include(d => d.Usuario);
+            return View(departamentos.ToList());
         }
 
-        // GET: Giros/Details/5
+        // GET: Departamentos/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Giro giro = db.Giros.Find(id);
-            if (giro == null)
+            Departamento departamento = db.Departamentos.Find(id);
+            if (departamento == null)
             {
                 return HttpNotFound();
             }
-            return View(giro);
+            return View(departamento);
         }
 
-        // GET: Giros/Create
+        // GET: Departamentos/Create
         public ActionResult Create()
         {
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario");
             return View();
         }
 
-        // POST: Giros/Create
+        // POST: Departamentos/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,descripcion,fechaCreacion,usuarioId")] Giro giro)
+        public ActionResult Create([Bind(Include = "id,descripcion,fechaCreacion,usuarioId")] Departamento departamento)
         {
             if (ModelState.IsValid)
             {
                 Usuario usuario = Session["UsuarioData"] as Usuario;
 
-                giro.fechaCreacion = DateTime.Now;
-                giro.usuarioId = usuario.Id;
-                db.Giros.Add(giro);
+                departamento.fechaCreacion = DateTime.Now;
+                departamento.usuarioId = usuario.Id;
+                db.Departamentos.Add(departamento);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", giro.usuarioId);
-            return View(giro);
+            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", departamento.usuarioId);
+            return View(departamento);
         }
 
-        // GET: Giros/Edit/5
+        // GET: Departamentos/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Giro giro = db.Giros.Find(id);
-            if (giro == null)
+            Departamento departamento = db.Departamentos.Find(id);
+            if (departamento == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", giro.usuarioId);
-            return View(giro);
+            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", departamento.usuarioId);
+            return View(departamento);
         }
 
-        // POST: Giros/Edit/5
+        // POST: Departamentos/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,descripcion,fechaCreacion,usuarioId")] Giro giro)
+        public ActionResult Edit([Bind(Include = "id,descripcion,fechaCreacion,usuarioId")] Departamento departamento)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(giro).State = EntityState.Modified;
+                db.Entry(departamento).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", giro.usuarioId);
-            return View(giro);
+            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", departamento.usuarioId);
+            return View(departamento);
         }
 
-        // GET: Giros/Delete/5
+        // GET: Departamentos/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Giro giro = db.Giros.Find(id);
-            if (giro == null)
+            Departamento departamento = db.Departamentos.Find(id);
+            if (departamento == null)
             {
                 return HttpNotFound();
             }
-            return View(giro);
+            return View(departamento);
         }
 
-        // POST: Giros/Delete/5
+        // POST: Departamentos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Giro giro = db.Giros.Find(id);
-            db.Giros.Remove(giro);
+            Departamento departamento = db.Departamentos.Find(id);
+            db.Departamentos.Remove(departamento);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

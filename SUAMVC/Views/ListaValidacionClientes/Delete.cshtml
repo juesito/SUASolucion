@@ -1,0 +1,106 @@
+﻿@model SUADATOS.ListaValidacionCliente
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+@section Menu {
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catálogo de Lista de Validación Cliente </div>
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        ¿Desea borrar este registro?
+    </div>
+    <div class="panel-body" style="font-size:10px;">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName(@Language.validador)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.validador)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.emailValidador)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.emailValidador)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.autorizador)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.autorizador)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.emailAutorizador)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.emailAutorizador)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.listaEmailAux)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.listaEmailAux)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.fechaAlta)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fechaCreacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.claveCliente)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Cliente.claveCliente)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.usuarioAlta)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Usuario.nombreUsuario)
+            </dd>
+
+        </dl>
+
+       @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-group" style="margin-top:40px;">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Delete" class="btn btn-primary" />
+
+        </div>
+    </div>
+    }
+
+           
+        </div>
+  </div>
+            
+<div>
+    @Html.ActionLink(Language.regresar, "Index")
+</div>

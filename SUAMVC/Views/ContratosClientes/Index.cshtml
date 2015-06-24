@@ -1,0 +1,139 @@
+﻿@model IEnumerable<SUADATOS.ContratosCliente>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+@section Menu {
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catálogo de Contratos Cliente</div>
+}
+
+<p>
+    @Html.ActionLink(@Language.agregar + " " + @Language.contCliente, "Create", "EsquemaPagos", new { @class = "btn btn-success" })
+</p>
+<table class="table table-striped tableSua">
+    <tr>
+        <th>
+            @Html.DisplayName(@Language.descripcion)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.archivo1)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.archivo2)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.archivo3)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.fechaFirma)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.firmo)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.testigo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.actaConstitutivaEmpresa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.poderRepresentanteLegal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ifeRepresentanteLegal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.comprobanteDomicilio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaInicioVigencia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaFinalVigencia)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.estatus)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.fechaAlta)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.claveCliente)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.usuarioAlta)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.archivo1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.archivo2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.archivo3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaFirma)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.firmo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.testigo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.actaConstitutivaEmpresa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.poderRepresentanteLegal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ifeRepresentanteLegal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.comprobanteDomicilio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaInicioVigencia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaFinalVigencia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.estatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaCreacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cliente.claveCliente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
+        </td>
+        <td>
+            <a href="@Url.Action("Edit","funciones", new { id = item.id })" title="@Language.edit">
+                <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+            </a>|
+            <a href="@Url.Action("Delete", "funciones", new { id = item.id })" title="@Language.borrar">
+                <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+            </a>
+        </td>
+    </tr>
+}
+
+</table>
