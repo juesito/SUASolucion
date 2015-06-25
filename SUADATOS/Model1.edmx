@@ -393,7 +393,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="paisId" Type="int" Nullable="false" />
           <Property Name="estadoId" Type="int" Nullable="false" />
           <Property Name="descripcion" Type="nchar" MaxLength="100" />
@@ -643,7 +643,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="folioSolicitud" Type="nchar" MaxLength="15" />
           <Property Name="clienteId" Type="int" Nullable="false" />
-          <Property Name="residenciaId" Type="int" Nullable="false" />
+          <Property Name="plazaId" Type="int" Nullable="false" />
           <Property Name="fechaSolicitud" Type="datetime" Nullable="false" />
           <Property Name="esquemaId" Type="int" Nullable="false" />
           <Property Name="sdiId" Type="int" Nullable="false" />
@@ -1334,18 +1334,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Proyectos_Residencia">
-          <End Role="Residencia" Type="Self.Residencia" Multiplicity="1" />
-          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Residencia">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="residenciaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Proyectos_SDIs">
           <End Role="SDIs" Type="Self.SDIs" Multiplicity="1" />
           <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
@@ -1547,6 +1535,18 @@
             </Principal>
             <Dependent Role="Sexos">
               <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Solicitud_Plazas">
+          <End Role="Plazas" Type="Self.Plazas" Multiplicity="1" />
+          <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plazas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="plazaId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1886,10 +1886,6 @@
             <End Role="EsquemasPago" EntitySet="EsquemasPago" />
             <End Role="Solicitud" EntitySet="Solicitud" />
           </AssociationSet>
-          <AssociationSet Name="FK_Proyectos_Residencia" Association="Self.FK_Proyectos_Residencia">
-            <End Role="Residencia" EntitySet="Residencia" />
-            <End Role="Solicitud" EntitySet="Solicitud" />
-          </AssociationSet>
           <AssociationSet Name="FK_Proyectos_SDIs" Association="Self.FK_Proyectos_SDIs">
             <End Role="SDIs" EntitySet="SDIs" />
             <End Role="Solicitud" EntitySet="Solicitud" />
@@ -1958,6 +1954,10 @@
             <End Role="Usuarios" EntitySet="Usuarios" />
             <End Role="Sexos" EntitySet="Sexos" />
           </AssociationSet>
+          <AssociationSet Name="FK_Solicitud_Plazas" Association="Self.FK_Solicitud_Plazas">
+            <End Role="Plazas" EntitySet="Plazas" />
+            <End Role="Solicitud" EntitySet="Solicitud" />
+          </AssociationSet>
           <AssociationSet Name="FK_Solicitud_Proyectos" Association="Self.FK_Solicitud_Proyectos">
             <End Role="Proyectos" EntitySet="Proyectos" />
             <End Role="Solicitud" EntitySet="Solicitud" />
@@ -2014,7 +2014,6 @@
           <EntitySet Name="Modulos" EntityType="suaModel.Modulo" />
           <EntitySet Name="Movimientos" EntityType="suaModel.Movimiento" />
           <EntitySet Name="MovimientosAseguradoes" EntityType="suaModel.MovimientosAsegurado" />
-          <EntitySet Name="Municipios" EntityType="suaModel.Municipio" />
           <EntitySet Name="Pagos" EntityType="suaModel.Pago" />
           <EntitySet Name="Paises" EntityType="suaModel.Pais" />
           <EntitySet Name="Parametros" EntityType="suaModel.Parametro" />
@@ -2147,10 +2146,6 @@
             <End Role="Estado" EntitySet="Estados" />
             <End Role="Empleado" EntitySet="Empleados" />
           </AssociationSet>
-          <AssociationSet Name="FK_Empleados_Municipios" Association="suaModel.FK_Empleados_Municipios">
-            <End Role="Municipio" EntitySet="Municipios" />
-            <End Role="Empleado" EntitySet="Empleados" />
-          </AssociationSet>
           <AssociationSet Name="FK_Empleados_Paises" Association="suaModel.FK_Empleados_Paises">
             <End Role="Pais" EntitySet="Paises" />
             <End Role="Empleado" EntitySet="Empleados" />
@@ -2195,10 +2190,6 @@
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="Estado" EntitySet="Estados" />
           </AssociationSet>
-          <AssociationSet Name="FK_Municipios_Estados" Association="suaModel.FK_Municipios_Estados">
-            <End Role="Estado" EntitySet="Estados" />
-            <End Role="Municipio" EntitySet="Municipios" />
-          </AssociationSet>
           <AssociationSet Name="FK_Factores_Usuarios" Association="suaModel.FK_Factores_Usuarios">
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="Factore" EntitySet="Factores" />
@@ -2231,14 +2222,6 @@
             <End Role="Modulo" EntitySet="Modulos" />
             <End Role="RoleModulo" EntitySet="RoleModulos" />
           </AssociationSet>
-          <AssociationSet Name="FK_Municipios_Paises" Association="suaModel.FK_Municipios_Paises">
-            <End Role="Pais" EntitySet="Paises" />
-            <End Role="Municipio" EntitySet="Municipios" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Municipios_Usuarios" Association="suaModel.FK_Municipios_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="Municipio" EntitySet="Municipios" />
-          </AssociationSet>
           <AssociationSet Name="FK_Pagos_ResumenPago" Association="suaModel.FK_Pagos_ResumenPago">
             <End Role="ResumenPago" EntitySet="ResumenPagoes" />
             <End Role="Pago" EntitySet="Pagos" />
@@ -2255,6 +2238,10 @@
             <End Role="Patrone" EntitySet="Patrones" />
             <End Role="ResumenPago" EntitySet="ResumenPagoes" />
           </AssociationSet>
+          <AssociationSet Name="FK_Solicitud_Plazas" Association="suaModel.FK_Solicitud_Plazas">
+            <End Role="Plaza" EntitySet="Plazas" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
+          </AssociationSet>
           <AssociationSet Name="FK_Usuarios_Plazas" Association="suaModel.FK_Usuarios_Plazas">
             <End Role="Plaza" EntitySet="Plazas" />
             <End Role="Usuario" EntitySet="Usuarios" />
@@ -2266,10 +2253,6 @@
           <AssociationSet Name="FK_RegimenInfonavit_RegimenInfonavit" Association="suaModel.FK_RegimenInfonavit_RegimenInfonavit">
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="RegimenInfonavit" EntitySet="RegimenInfonavits" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Proyectos_Residencia" Association="suaModel.FK_Proyectos_Residencia">
-            <End Role="Residencia" EntitySet="Residencias" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
           </AssociationSet>
           <AssociationSet Name="FK_Residencia_Residencia" Association="suaModel.FK_Residencia_Residencia">
             <End Role="Usuario" EntitySet="Usuarios" />
@@ -2342,6 +2325,23 @@
           <AssociationSet Name="FK_TopicosUsuario_Usuario2" Association="suaModel.FK_TopicosUsuario_Usuario2">
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="TopicosUsuario" EntitySet="TopicosUsuarios" />
+          </AssociationSet>
+          <EntitySet Name="Municipios" EntityType="suaModel.Municipio" />
+          <AssociationSet Name="FK_Empleados_Municipios" Association="suaModel.FK_Empleados_Municipios">
+            <End Role="Municipio" EntitySet="Municipios" />
+            <End Role="Empleado" EntitySet="Empleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Municipios_Estados" Association="suaModel.FK_Municipios_Estados">
+            <End Role="Estado" EntitySet="Estados" />
+            <End Role="Municipio" EntitySet="Municipios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Municipios_Paises" Association="suaModel.FK_Municipios_Paises">
+            <End Role="Pais" EntitySet="Paises" />
+            <End Role="Municipio" EntitySet="Municipios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Municipios_Usuarios" Association="suaModel.FK_Municipios_Usuarios">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Municipio" EntitySet="Municipios" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Acreditado">
@@ -2596,12 +2596,12 @@
           <NavigationProperty Name="EsquemasPago" Relationship="suaModel.FK_Empleados_EsquemasPago" FromRole="Empleado" ToRole="EsquemasPago" />
           <NavigationProperty Name="EstadoCivil" Relationship="suaModel.FK_Empleados_EstadoCivil" FromRole="Empleado" ToRole="EstadoCivil" />
           <NavigationProperty Name="Estado" Relationship="suaModel.FK_Empleados_Estados" FromRole="Empleado" ToRole="Estado" />
-          <NavigationProperty Name="Municipio" Relationship="suaModel.FK_Empleados_Municipios" FromRole="Empleado" ToRole="Municipio" />
           <NavigationProperty Name="Pais" Relationship="suaModel.FK_Empleados_Paises" FromRole="Empleado" ToRole="Pais" />
           <NavigationProperty Name="SDI" Relationship="suaModel.FK_Empleados_SDIs" FromRole="Empleado" ToRole="SDI" />
           <NavigationProperty Name="Sexo" Relationship="suaModel.FK_Empleados_Sexos" FromRole="Empleado" ToRole="Sexo" />
           <NavigationProperty Name="Solicitud" Relationship="suaModel.FK_Empleados_Solicitud" FromRole="Empleado" ToRole="Solicitud" />
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Empleados_Usuarios" FromRole="Empleado" ToRole="Usuario" />
+          <NavigationProperty Name="Municipio" Relationship="suaModel.FK_Empleados_Municipios" FromRole="Empleado" ToRole="Municipio" />
         </EntityType>
         <EntityType Name="Empresa">
           <Key>
@@ -2795,21 +2795,6 @@
           <NavigationProperty Name="catalogoMovimiento" Relationship="suaModel.FK_MovimientosAsegurado_catalogoMovimientos" FromRole="MovimientosAsegurado" ToRole="catalogoMovimiento" />
           <NavigationProperty Name="Incapacidade" Relationship="suaModel.FK_MovimientosAsegurado_Incapacidades" FromRole="MovimientosAsegurado" ToRole="Incapacidade" />
         </EntityType>
-        <EntityType Name="Municipio">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="paisId" Type="Int32" Nullable="false" />
-          <Property Name="estadoId" Type="Int32" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Empleados" Relationship="suaModel.FK_Empleados_Municipios" FromRole="Municipio" ToRole="Empleado" />
-          <NavigationProperty Name="Estado" Relationship="suaModel.FK_Municipios_Estados" FromRole="Municipio" ToRole="Estado" />
-          <NavigationProperty Name="Pais" Relationship="suaModel.FK_Municipios_Paises" FromRole="Municipio" ToRole="Pais" />
-          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Municipios_Usuarios" FromRole="Municipio" ToRole="Usuario" />
-        </EntityType>
         <EntityType Name="Pago">
           <Key>
             <PropertyRef Name="id" />
@@ -2882,8 +2867,8 @@
           <Property Name="usuarioId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Empleados" Relationship="suaModel.FK_Empleados_Paises" FromRole="Pais" ToRole="Empleado" />
           <NavigationProperty Name="Estados" Relationship="suaModel.FK_Estados_Paises" FromRole="Pais" ToRole="Estado" />
-          <NavigationProperty Name="Municipios" Relationship="suaModel.FK_Municipios_Paises" FromRole="Pais" ToRole="Municipio" />
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Paises_Paises" FromRole="Pais" ToRole="Usuario" />
+          <NavigationProperty Name="Municipios" Relationship="suaModel.FK_Municipios_Paises" FromRole="Pais" ToRole="Municipio" />
         </EntityType>
         <EntityType Name="Parametro">
           <Key>
@@ -2945,6 +2930,7 @@
           <NavigationProperty Name="Clientes" Relationship="suaModel.FK_PlazaClientes" FromRole="Plaza" ToRole="Cliente" />
           <NavigationProperty Name="Grupos" Relationship="suaModel.FK_PlazaGrupos" FromRole="Plaza" ToRole="Grupos" />
           <NavigationProperty Name="Patrones" Relationship="suaModel.FK_PlazaPatrone" FromRole="Plaza" ToRole="Patrone" />
+          <NavigationProperty Name="Solicituds" Relationship="suaModel.FK_Solicitud_Plazas" FromRole="Plaza" ToRole="Solicitud" />
           <NavigationProperty Name="Usuarios" Relationship="suaModel.FK_Usuarios_Plazas" FromRole="Plaza" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Proyecto">
@@ -2977,7 +2963,6 @@
           <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Solicituds" Relationship="suaModel.FK_Proyectos_Residencia" FromRole="Residencia" ToRole="Solicitud" />
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Residencia_Residencia" FromRole="Residencia" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="ResumenPago">
@@ -3092,7 +3077,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="folioSolicitud" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
           <Property Name="clienteId" Type="Int32" Nullable="false" />
-          <Property Name="residenciaId" Type="Int32" Nullable="false" />
+          <Property Name="plazaId" Type="Int32" Nullable="false" />
           <Property Name="fechaSolicitud" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="esquemaId" Type="Int32" Nullable="false" />
           <Property Name="sdiId" Type="Int32" Nullable="false" />
@@ -3116,8 +3101,8 @@
           <NavigationProperty Name="Cliente" Relationship="suaModel.FK_Proyectos_Clientes" FromRole="Solicitud" ToRole="Cliente" />
           <NavigationProperty Name="Empleados" Relationship="suaModel.FK_Empleados_Solicitud" FromRole="Solicitud" ToRole="Empleado" />
           <NavigationProperty Name="EsquemasPago" Relationship="suaModel.FK_Proyectos_EsquemasPago" FromRole="Solicitud" ToRole="EsquemasPago" />
+          <NavigationProperty Name="Plaza" Relationship="suaModel.FK_Solicitud_Plazas" FromRole="Solicitud" ToRole="Plaza" />
           <NavigationProperty Name="Proyecto" Relationship="suaModel.FK_Solicitud_Proyectos" FromRole="Solicitud" ToRole="Proyecto" />
-          <NavigationProperty Name="Residencia" Relationship="suaModel.FK_Proyectos_Residencia" FromRole="Solicitud" ToRole="Residencia" />
           <NavigationProperty Name="SDI" Relationship="suaModel.FK_Proyectos_SDIs" FromRole="Solicitud" ToRole="SDI" />
           <NavigationProperty Name="TipoContrato" Relationship="suaModel.FK_Proyectos_TipoContrato" FromRole="Solicitud" ToRole="TipoContrato" />
           <NavigationProperty Name="TipoPersonal" Relationship="suaModel.FK_Proyectos_TipoPersonal" FromRole="Solicitud" ToRole="TipoPersonal" />
@@ -3185,7 +3170,6 @@
           <NavigationProperty Name="Factores" Relationship="suaModel.FK_Factores_Usuarios" FromRole="Usuario" ToRole="Factore" />
           <NavigationProperty Name="Giros" Relationship="suaModel.FK_Giros_Giros" FromRole="Usuario" ToRole="Giro" />
           <NavigationProperty Name="ListaValidacionClientes" Relationship="suaModel.FK_ListaValidacionCliente_Usuarios" FromRole="Usuario" ToRole="ListaValidacionCliente" />
-          <NavigationProperty Name="Municipios" Relationship="suaModel.FK_Municipios_Usuarios" FromRole="Usuario" ToRole="Municipio" />
           <NavigationProperty Name="Paises" Relationship="suaModel.FK_Paises_Paises" FromRole="Usuario" ToRole="Pais" />
           <NavigationProperty Name="Plaza" Relationship="suaModel.FK_Usuarios_Plazas" FromRole="Usuario" ToRole="Plaza" />
           <NavigationProperty Name="RegimenInfonavits" Relationship="suaModel.FK_RegimenInfonavit_RegimenInfonavit" FromRole="Usuario" ToRole="RegimenInfonavit" />
@@ -3202,6 +3186,7 @@
           <NavigationProperty Name="TipoPersonals" Relationship="suaModel.FK_TipoPersonal_TipoPersonal" FromRole="Usuario" ToRole="TipoPersonal" />
           <NavigationProperty Name="TopicosUsuarios" Relationship="suaModel.FK_TopicosUsuario_Usuario" FromRole="Usuario" ToRole="TopicosUsuario" />
           <NavigationProperty Name="TopicosUsuarios1" Relationship="suaModel.FK_TopicosUsuario_Usuario2" FromRole="Usuario" ToRole="TopicosUsuario" />
+          <NavigationProperty Name="Municipios" Relationship="suaModel.FK_Municipios_Usuarios" FromRole="Usuario" ToRole="Municipio" />
         </EntityType>
         <Association Name="FK_Acreditados_Acreditados">
           <End Type="suaModel.Acreditado" Role="Acreditado" Multiplicity="1" />
@@ -3539,18 +3524,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Empleados_Municipios">
-          <End Type="suaModel.Municipio" Role="Municipio" Multiplicity="1" />
-          <End Type="suaModel.Empleado" Role="Empleado" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Municipio">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Empleado">
-              <PropertyRef Name="municipioNacimientoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Empleados_Paises">
           <End Type="suaModel.Pais" Role="Pais" Multiplicity="1" />
           <End Type="suaModel.Empleado" Role="Empleado" Multiplicity="*" />
@@ -3683,18 +3656,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Municipios_Estados">
-          <End Type="suaModel.Estado" Role="Estado" Multiplicity="1" />
-          <End Type="suaModel.Municipio" Role="Municipio" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Estado">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Municipio">
-              <PropertyRef Name="estadoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Factores_Usuarios">
           <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
           <End Type="suaModel.Factore" Role="Factore" Multiplicity="*" />
@@ -3791,30 +3752,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Municipios_Paises">
-          <End Type="suaModel.Pais" Role="Pais" Multiplicity="1" />
-          <End Type="suaModel.Municipio" Role="Municipio" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Pais">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Municipio">
-              <PropertyRef Name="paisId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Municipios_Usuarios">
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.Municipio" Role="Municipio" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Municipio">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Pagos_ResumenPago">
           <End Type="suaModel.ResumenPago" Role="ResumenPago" Multiplicity="1" />
           <End Type="suaModel.Pago" Role="Pago" Multiplicity="*" />
@@ -3863,6 +3800,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Solicitud_Plazas">
+          <End Type="suaModel.Plaza" Role="Plaza" Multiplicity="1" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plaza">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="plazaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Usuarios_Plazas">
           <End Type="suaModel.Plaza" Role="Plaza" Multiplicity="1" />
           <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="*" />
@@ -3896,18 +3845,6 @@
             </Principal>
             <Dependent Role="RegimenInfonavit">
               <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Proyectos_Residencia">
-          <End Type="suaModel.Residencia" Role="Residencia" Multiplicity="1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Residencia">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="residenciaId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4123,6 +4060,69 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="TopicosUsuario">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Municipio">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="paisId" Type="Int32" Nullable="false" />
+          <Property Name="estadoId" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="usuarioId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Empleados" Relationship="suaModel.FK_Empleados_Municipios" FromRole="Municipio" ToRole="Empleado" />
+          <NavigationProperty Name="Estado" Relationship="suaModel.FK_Municipios_Estados" FromRole="Municipio" ToRole="Estado" />
+          <NavigationProperty Name="Pais" Relationship="suaModel.FK_Municipios_Paises" FromRole="Municipio" ToRole="Pais" />
+          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Municipios_Usuarios" FromRole="Municipio" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_Empleados_Municipios">
+          <End Type="suaModel.Municipio" Role="Municipio" Multiplicity="1" />
+          <End Type="suaModel.Empleado" Role="Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipio">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="municipioNacimientoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Municipios_Estados">
+          <End Type="suaModel.Estado" Role="Estado" Multiplicity="1" />
+          <End Type="suaModel.Municipio" Role="Municipio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Municipio">
+              <PropertyRef Name="estadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Municipios_Paises">
+          <End Type="suaModel.Pais" Role="Pais" Multiplicity="1" />
+          <End Type="suaModel.Municipio" Role="Municipio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pais">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Municipio">
+              <PropertyRef Name="paisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Municipios_Usuarios">
+          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="suaModel.Municipio" Role="Municipio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Municipio">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
@@ -4539,18 +4539,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Municipios">
-            <EntityTypeMapping TypeName="suaModel.Municipio">
-              <MappingFragment StoreEntitySet="Municipios">
-                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="estadoId" ColumnName="estadoId" />
-                <ScalarProperty Name="paisId" ColumnName="paisId" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Pagos">
             <EntityTypeMapping TypeName="suaModel.Pago">
               <MappingFragment StoreEntitySet="Pagos">
@@ -4825,7 +4813,7 @@
                 <ScalarProperty Name="sdiId" ColumnName="sdiId" />
                 <ScalarProperty Name="esquemaId" ColumnName="esquemaId" />
                 <ScalarProperty Name="fechaSolicitud" ColumnName="fechaSolicitud" />
-                <ScalarProperty Name="residenciaId" ColumnName="residenciaId" />
+                <ScalarProperty Name="plazaId" ColumnName="plazaId" />
                 <ScalarProperty Name="clienteId" ColumnName="clienteId" />
                 <ScalarProperty Name="folioSolicitud" ColumnName="folioSolicitud" />
                 <ScalarProperty Name="id" ColumnName="id" />
@@ -4878,6 +4866,18 @@
                 <ScalarProperty Name="contrasena" ColumnName="contrasena" />
                 <ScalarProperty Name="nombreUsuario" ColumnName="nombreUsuario" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Municipios">
+            <EntityTypeMapping TypeName="suaModel.Municipio">
+              <MappingFragment StoreEntitySet="Municipios">
+                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
+                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="estadoId" ColumnName="estadoId" />
+                <ScalarProperty Name="paisId" ColumnName="paisId" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

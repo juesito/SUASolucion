@@ -21,32 +21,10 @@ namespace SUAMVC.Controllers
         {
 
             var solicituds = db.Solicituds.Include(s => s.Cliente).Include(s => s.EsquemasPago).
-                Include(s => s.Proyecto).Include(s => s.Residencia).Include(s => s.SDI).
+                Include(s => s.Proyecto).Include(s => s.Plaza).Include(s => s.SDI).
                 Include(s => s.TipoContrato).Include(s => s.TipoPersonal).Include(s => s.Usuario);
 
-            try
-            {
-                if (solicituds.Count() > 0)
-                {
-                    return View(solicituds.ToList());
-                }
-            }
-            catch (DbEntityValidationException ex)
-            {
-                StringBuilder sb = new StringBuilder();
-
-                foreach (var failure in ex.EntityValidationErrors)
-                {
-                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
-                    foreach (var error in failure.ValidationErrors)
-                    {
-                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
-                        sb.AppendLine();
-                    }
-                }
-            }
-
-            return View();
+            return View(solicituds.ToList());
 
 
         }
@@ -70,9 +48,8 @@ namespace SUAMVC.Controllers
         public ActionResult Create()
         {
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
-            ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion");
             ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion");
-            ViewBag.residenciaId = new SelectList(db.Residencias, "id", "descripcion");
+            ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion");
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion");
             ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion");
             ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion");
@@ -126,7 +103,7 @@ namespace SUAMVC.Controllers
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
             ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion", solicitud.esquemaId);
             ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion", solicitud.proyectoId);
-            ViewBag.residenciaId = new SelectList(db.Residencias, "id", "descripcion", solicitud.residenciaId);
+            ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", solicitud.plazaId);
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", solicitud.sdiId);
             ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion", solicitud.contratoId);
             ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion", solicitud.tipoPersonalId);
@@ -149,7 +126,7 @@ namespace SUAMVC.Controllers
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
             ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion", solicitud.esquemaId);
             ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion", solicitud.proyectoId);
-            ViewBag.residenciaId = new SelectList(db.Residencias, "id", "descripcion", solicitud.residenciaId);
+            ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", solicitud.plazaId);
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", solicitud.sdiId);
             ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion", solicitud.contratoId);
             ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion", solicitud.tipoPersonalId);
@@ -173,7 +150,7 @@ namespace SUAMVC.Controllers
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
             ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion", solicitud.esquemaId);
             ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion", solicitud.proyectoId);
-            ViewBag.residenciaId = new SelectList(db.Residencias, "id", "descripcion", solicitud.residenciaId);
+            ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", solicitud.plazaId);
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", solicitud.sdiId);
             ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion", solicitud.contratoId);
             ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion", solicitud.tipoPersonalId);

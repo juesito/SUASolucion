@@ -188,5 +188,29 @@ namespace SUAMVC.Helpers
 
             return htmlHelper.DropDownList("gruposId", listFields, new { onchange = "submit()" });
         }
+
+        public static MvcHtmlString esquemasDrownList(this HtmlHelper htmlHelper, int userId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<EsquemasPago> listEsquemas = (from s in db.EsquemasPagoes
+                                      orderby s.descripcion
+                                      select s).ToList();
+
+            foreach (EsquemasPago item in listEsquemas)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList("esquemaId", listFields, new { onchange = "submit()", @class = "cancel" });
+        }
     }
 }

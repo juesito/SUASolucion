@@ -88,10 +88,15 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,moduloId,descripcionCorta,descripcionLarga,accion,controlador,estatus,usuarioId,fechaCreacion,tipo")] Funcion funcion)
+        public ActionResult Edit([Bind(Include = "id,moduloId,descripcionCorta,descripcionLarga,accion,controlador,estatus,tipo")] Funcion funcion)
         {
             if (ModelState.IsValid)
             {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
+                funcion.fechaCreacion = DateTime.Now;
+                funcion.usuarioId = usuario.Id;
+                funcion.estatus = "A";
                 db.Entry(funcion).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

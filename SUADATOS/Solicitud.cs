@@ -22,7 +22,7 @@ namespace SUADATOS
         public int id { get; set; }
         public string folioSolicitud { get; set; }
         public int clienteId { get; set; }
-        public int residenciaId { get; set; }
+        public int plazaId { get; set; }
         public System.DateTime fechaSolicitud { get; set; }
         public int esquemaId { get; set; }
         public int sdiId { get; set; }
@@ -47,8 +47,8 @@ namespace SUADATOS
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual EsquemasPago EsquemasPago { get; set; }
+        public virtual Plaza Plaza { get; set; }
         public virtual Proyecto Proyecto { get; set; }
-        public virtual Residencia Residencia { get; set; }
         public virtual SDI SDI { get; set; }
         public virtual TipoContrato TipoContrato { get; set; }
         public virtual TipoPersonal TipoPersonal { get; set; }

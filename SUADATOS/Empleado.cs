@@ -55,11 +55,11 @@ namespace SUADATOS
         public virtual EsquemasPago EsquemasPago { get; set; }
         public virtual EstadoCivil EstadoCivil { get; set; }
         public virtual Estado Estado { get; set; }
-        public virtual Municipio Municipio { get; set; }
         public virtual Pais Pais { get; set; }
         public virtual SDI SDI { get; set; }
         public virtual Sexo Sexo { get; set; }
         public virtual Solicitud Solicitud { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual Municipio Municipio { get; set; }
     }
 }

@@ -14,17 +14,11 @@ namespace SUADATOS
     
     public partial class Residencia
     {
-        public Residencia()
-        {
-            this.Solicituds = new HashSet<Solicitud>();
-        }
-    
         public int id { get; set; }
         public string descripcion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
-        public virtual ICollection<Solicitud> Solicituds { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
 }

@@ -1,8 +1,15 @@
 ﻿@model SUADATOS.Solicitud
+@using SUADATOS
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    suaEntities db = new suaEntities();
+
+    int idEsquema = (from s in db.EsquemasPagoes
+                     where s.descripcion.Trim().Equals("SyS")
+                     select s.id).First();
 }
 
 @section Menu {
@@ -37,26 +44,32 @@
                 <tr>
                     <td>@Html.Label(@Language.residencia, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                     <td>
-                        @Html.DropDownList("residenciaId", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.residenciaId, "", new { @class = "text-danger" })
+                        @Html.DropDownList("plazaId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.plazaId, "", new { @class = "text-danger" })
                     </td>
                     <td>@Html.LabelFor(model => model.fechaSolicitud, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                     <td>
-                        @Html.EditorFor(model => model.fechaSolicitud, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.fechaSolicitud, new { htmlAttributes = new { @class = "form-control myDate" } })
                         @Html.ValidationMessageFor(model => model.fechaSolicitud, "", new { @class = "text-danger" })
                     </td>
                 </tr>
                 <tr>
                     <td>@Html.LabelFor(model => model.esquemaId, "esquemaId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
                     <td>
-                        @Html.DropDownList("esquemaId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.esquemasDrownList(usuario.Id)
                         @Html.ValidationMessageFor(model => model.esquemaId, "", new { @class = "text-danger" })
                     </td>
-                    <td>@Html.LabelFor(model => model.sdiId, "sdiId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td>
-                        @Html.DropDownList("sdiId", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.sdiId, "", new { @class = "text-danger" })
-                    </td>
+                    @if (Model != null)
+                    {
+                        if (Model.esquemaId.Equals(idEsquema))
+                        {
+                            <td>@Html.LabelFor(model => model.sdiId, "sdiId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                            <td>
+                                @Html.DropDownList("sdiId", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.sdiId, "", new { @class = "text-danger" })
+                            </td>
+                        }
+                    }
                 </tr>
                 <tr>
                     <td>@Html.LabelFor(model => model.contratoId, "contratoId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
@@ -64,18 +77,30 @@
                         @Html.DropDownList("contratoId", null, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.contratoId, "", new { @class = "text-danger" })
                     </td>
-                    <td>@Html.LabelFor(model => model.fechaInicial, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td>
-                        @Html.EditorFor(model => model.fechaInicial, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.fechaInicial, "", new { @class = "text-danger" })
-                    </td>
+                    @if (Model != null)
+                    {
+                        if (Model.esquemaId.Equals(idEsquema))
+                        {
+                            <td>@Html.LabelFor(model => model.fechaInicial, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                            <td>
+                                @Html.EditorFor(model => model.fechaInicial, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.fechaInicial, "", new { @class = "text-danger" })
+                            </td>
+                        }
+                    }
                 </tr>
                 <tr>
-                    <td>@Html.LabelFor(model => model.fechaFinal, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td>
-                        @Html.EditorFor(model => model.fechaFinal, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.fechaFinal, "", new { @class = "text-danger" })
-                    </td>
+                    @if (Model != null)
+                    {
+                        if (Model.esquemaId.Equals(idEsquema))
+                        {
+                            <td>@Html.LabelFor(model => model.fechaFinal, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                            <td>
+                                @Html.EditorFor(model => model.fechaFinal, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.fechaFinal, "", new { @class = "text-danger" })
+                            </td>
+                        }
+                    }
                     <td>@Html.LabelFor(model => model.tipoPersonalId, "tipoPersonalId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
                     <td>
                         @Html.DropDownList("tipoPersonalId", null, htmlAttributes: new { @class = "form-control" })
@@ -121,12 +146,12 @@
                         </tr>
 
                     </table>
-                    </div>
-                </div>
                 </div>
             </div>
-            }
+        </div>
+    </div>
+}
 
-            <div>
-                @Html.ActionLink("Back to List", "Index")
-            </div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
