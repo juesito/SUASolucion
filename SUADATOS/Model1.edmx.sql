@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/19/2015 15:42:03
+-- Date Created: 06/22/2015 13:55:29
 -- Generated from EDMX file: C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUADATOS\Model1.edmx
 -- --------------------------------------------------
 
@@ -29,6 +29,54 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Bancos_Bancos]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Bancos] DROP CONSTRAINT [FK_Bancos_Bancos];
 GO
+IF OBJECT_ID(N'[dbo].[FK_ContratosCliente_Clientes]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ContratosCliente] DROP CONSTRAINT [FK_ContratosCliente_Clientes];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ContratosCliente_Usuarios]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ContratosCliente] DROP CONSTRAINT [FK_ContratosCliente_Usuarios];
+GO
+IF OBJECT_ID(N'[dbo].[FK_DatosAdicionalesCliente_Clientes]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DatosAdicionalesCliente] DROP CONSTRAINT [FK_DatosAdicionalesCliente_Clientes];
+GO
+IF OBJECT_ID(N'[dbo].[FK_DatosAdicionalesCliente_Usuarios]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DatosAdicionalesCliente] DROP CONSTRAINT [FK_DatosAdicionalesCliente_Usuarios];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Departamentos_Departamentos]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Departamentos] DROP CONSTRAINT [FK_Departamentos_Departamentos];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Empleados_Bancos]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Empleados] DROP CONSTRAINT [FK_Empleados_Bancos];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Empleados_EsquemasPago]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Empleados] DROP CONSTRAINT [FK_Empleados_EsquemasPago];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Empleados_EstadoCivil]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Empleados] DROP CONSTRAINT [FK_Empleados_EstadoCivil];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Empleados_Estados]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Empleados] DROP CONSTRAINT [FK_Empleados_Estados];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Empleados_Municipios]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Empleados] DROP CONSTRAINT [FK_Empleados_Municipios];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Empleados_Paises]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Empleados] DROP CONSTRAINT [FK_Empleados_Paises];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Empleados_SDIs]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Empleados] DROP CONSTRAINT [FK_Empleados_SDIs];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Empleados_Sexos]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Empleados] DROP CONSTRAINT [FK_Empleados_Sexos];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Empleados_Solicitud]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Empleados] DROP CONSTRAINT [FK_Empleados_Solicitud];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Empleados_Usuarios]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Empleados] DROP CONSTRAINT [FK_Empleados_Usuarios];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Empresas_Empresas]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Empresas] DROP CONSTRAINT [FK_Empresas_Empresas];
+GO
 IF OBJECT_ID(N'[dbo].[FK_EsquemasPago_EsquemasPago]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[EsquemasPago] DROP CONSTRAINT [FK_EsquemasPago_EsquemasPago];
 GO
@@ -47,11 +95,20 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Funciones_Modulos]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Funcions] DROP CONSTRAINT [FK_Funciones_Modulos];
 GO
+IF OBJECT_ID(N'[dbo].[FK_Giros_Giros]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Giros] DROP CONSTRAINT [FK_Giros_Giros];
+GO
 IF OBJECT_ID(N'[dbo].[FK_GrupoClientes]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Clientes] DROP CONSTRAINT [FK_GrupoClientes];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Incapacidades_Asegurados]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Incapacidades] DROP CONSTRAINT [FK_Incapacidades_Asegurados];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ListaValidacionCliente_Clientes]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ListaValidacionCliente] DROP CONSTRAINT [FK_ListaValidacionCliente_Clientes];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ListaValidacionCliente_Usuarios]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ListaValidacionCliente] DROP CONSTRAINT [FK_ListaValidacionCliente_Usuarios];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Movimientos_Acreditados]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Movimientos] DROP CONSTRAINT [FK_Movimientos_Acreditados];
@@ -164,6 +221,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SDIs_SDIs]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SDIs] DROP CONSTRAINT [FK_SDIs_SDIs];
 GO
+IF OBJECT_ID(N'[dbo].[FK_Servicios_Servicios]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Servicios] DROP CONSTRAINT [FK_Servicios_Servicios];
+GO
 IF OBJECT_ID(N'[dbo].[FK_Sexos_Sexos]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Sexos] DROP CONSTRAINT [FK_Sexos_Sexos];
 GO
@@ -208,6 +268,21 @@ GO
 IF OBJECT_ID(N'[dbo].[Clientes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Clientes];
 GO
+IF OBJECT_ID(N'[dbo].[ContratosCliente]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ContratosCliente];
+GO
+IF OBJECT_ID(N'[dbo].[DatosAdicionalesCliente]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DatosAdicionalesCliente];
+GO
+IF OBJECT_ID(N'[dbo].[Departamentos]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Departamentos];
+GO
+IF OBJECT_ID(N'[dbo].[Empleados]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Empleados];
+GO
+IF OBJECT_ID(N'[dbo].[Empresas]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Empresas];
+GO
 IF OBJECT_ID(N'[dbo].[EsquemasPago]', 'U') IS NOT NULL
     DROP TABLE [dbo].[EsquemasPago];
 GO
@@ -223,11 +298,17 @@ GO
 IF OBJECT_ID(N'[dbo].[Funcions]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Funcions];
 GO
+IF OBJECT_ID(N'[dbo].[Giros]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Giros];
+GO
 IF OBJECT_ID(N'[dbo].[Grupos]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Grupos];
 GO
 IF OBJECT_ID(N'[dbo].[Incapacidades]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Incapacidades];
+GO
+IF OBJECT_ID(N'[dbo].[ListaValidacionCliente]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ListaValidacionCliente];
 GO
 IF OBJECT_ID(N'[dbo].[Modulos]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Modulos];
@@ -279,6 +360,9 @@ IF OBJECT_ID(N'[dbo].[Roles]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SDIs]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SDIs];
+GO
+IF OBJECT_ID(N'[dbo].[Servicios]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Servicios];
 GO
 IF OBJECT_ID(N'[dbo].[Sexos]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Sexos];
@@ -414,9 +498,120 @@ CREATE TABLE [dbo].[Clientes] (
     [claveSua] nchar(15)  NOT NULL,
     [rfc] nchar(20)  NOT NULL,
     [descripcion] nchar(60)  NULL,
-    [ejecutivo] nchar(100)  NULL,
+    [nombre] nchar(60)  NULL,
+    [direccionFiscal] nchar(60)  NULL,
+    [contacto] nchar(60)  NULL,
+    [telefono] nchar(15)  NULL,
+    [direccionOficina] nchar(60)  NULL,
+    [email] nchar(100)  NULL,
+    [actividadPrincipal] nchar(100)  NULL,
+    [fechaContratacion] datetime  NULL,
+    [empresaFacturadoraId] int  NULL,
+    [ejecutivoContadorId] int  NULL,
     [Plaza_id] int  NOT NULL,
-    [Grupo_id] int  NOT NULL
+    [Grupo_id] int  NOT NULL,
+    [tipoClienteId] int  NULL,
+    [numeroCuenta] nchar(20)  NULL,
+    [tipoServicioId] int  NULL
+);
+GO
+
+-- Creating table 'ContratosClientes'
+CREATE TABLE [dbo].[ContratosClientes] (
+    [id] int  NOT NULL,
+    [clienteId] int  NOT NULL,
+    [descripcion] nchar(60)  NOT NULL,
+    [archivo1] nchar(60)  NULL,
+    [archivo2] nchar(60)  NULL,
+    [archivo3] nchar(60)  NULL,
+    [fechaFirma] datetime  NOT NULL,
+    [firmo] nchar(100)  NOT NULL,
+    [testigo] nchar(100)  NULL,
+    [actaConstitutivaEmpresa] nchar(60)  NULL,
+    [poderRepresentanteLegal] nchar(60)  NULL,
+    [ifeRepresentanteLegal] nchar(60)  NULL,
+    [comprobanteDomicilio] nchar(60)  NULL,
+    [fechaInicioVigencia] datetime  NULL,
+    [fechaFinalVigencia] datetime  NULL,
+    [estatus] nchar(1)  NOT NULL,
+    [fechaCreacion] datetime  NOT NULL,
+    [usuarioId] int  NOT NULL
+);
+GO
+
+-- Creating table 'DatosAdicionalesClientes'
+CREATE TABLE [dbo].[DatosAdicionalesClientes] (
+    [id] int  NOT NULL,
+    [clienteId] int  NOT NULL,
+    [porcentajeComNomina] decimal(10,3)  NULL,
+    [ivaNomina] decimal(10,3)  NULL,
+    [porcentajeComIAS] decimal(10,3)  NULL,
+    [ivaIAS] decimal(10,3)  NULL,
+    [porcentajeComFlujo] decimal(10,3)  NULL,
+    [ivaFlujo] decimal(10,3)  NULL,
+    [costoSocial] decimal(10,3)  NULL,
+    [conceptoFacturacion] int  NULL,
+    [fechaCreacion] datetime  NOT NULL,
+    [usuarioId] int  NOT NULL
+);
+GO
+
+-- Creating table 'Departamentos'
+CREATE TABLE [dbo].[Departamentos] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [descripcion] nchar(100)  NULL,
+    [fechaCreacion] datetime  NOT NULL,
+    [usuarioId] int  NOT NULL
+);
+GO
+
+-- Creating table 'Empleados'
+CREATE TABLE [dbo].[Empleados] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [solicitudId] int  NOT NULL,
+    [nss] nchar(12)  NULL,
+    [fechaAltaImss] datetime  NULL,
+    [apellidoMaterno] nchar(60)  NOT NULL,
+    [apellidoPaterno] nchar(60)  NOT NULL,
+    [nombre] nchar(60)  NOT NULL,
+    [nombreCompleto] nchar(180)  NOT NULL,
+    [rfc] nchar(10)  NULL,
+    [homoclave] nchar(5)  NULL,
+    [curp] nchar(18)  NULL,
+    [sexoId] int  NOT NULL,
+    [sdiId] int  NOT NULL,
+    [esquemaPagoId] int  NOT NULL,
+    [salarioReal] decimal(10,3)  NOT NULL,
+    [categoria] nchar(60)  NULL,
+    [tieneInfonavit] int  NOT NULL,
+    [creditoInfonavit] nchar(20)  NULL,
+    [estadoCivilId] int  NOT NULL,
+    [fechaNacimiento] datetime  NOT NULL,
+    [nacionalidadId] int  NOT NULL,
+    [estadoNacimientoId] int  NOT NULL,
+    [municipioNacimientoId] int  NOT NULL,
+    [calleNumero] nchar(60)  NOT NULL,
+    [colonia] nchar(60)  NOT NULL,
+    [edoMunicipio] nchar(60)  NOT NULL,
+    [codigoPostal] nchar(8)  NULL,
+    [tramitarTarjeta] int  NOT NULL,
+    [bancoId] int  NOT NULL,
+    [cuentaBancaria] nchar(25)  NULL,
+    [email] nchar(100)  NULL,
+    [observaciones] nchar(100)  NULL,
+    [usuarioId] int  NOT NULL,
+    [fechaCreacion] datetime  NOT NULL,
+    [estatus] char(1)  NOT NULL,
+    [fechaBaja] datetime  NULL
+);
+GO
+
+-- Creating table 'Empresas'
+CREATE TABLE [dbo].[Empresas] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [descripcion] nchar(100)  NULL,
+    [fechaCreacion] datetime  NOT NULL,
+    [usuarioId] int  NOT NULL
 );
 GO
 
@@ -481,6 +676,15 @@ CREATE TABLE [dbo].[Funcions] (
 );
 GO
 
+-- Creating table 'Giros'
+CREATE TABLE [dbo].[Giros] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [descripcion] nchar(100)  NULL,
+    [fechaCreacion] datetime  NOT NULL,
+    [usuarioId] int  NOT NULL
+);
+GO
+
 -- Creating table 'Grupos'
 CREATE TABLE [dbo].[Grupos] (
     [Id] int IDENTITY(1,1) NOT NULL,
@@ -512,6 +716,20 @@ CREATE TABLE [dbo].[Incapacidades] (
     [fecTer] datetime  NOT NULL,
     [tipoIncapacidad] nchar(1)  NULL,
     [alta] nchar(60)  NULL
+);
+GO
+
+-- Creating table 'ListaValidacionClientes'
+CREATE TABLE [dbo].[ListaValidacionClientes] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [clienteId] int  NOT NULL,
+    [validador] nchar(60)  NOT NULL,
+    [emailValidador] nchar(100)  NOT NULL,
+    [autorizador] nchar(60)  NOT NULL,
+    [emailAutorizador] nchar(100)  NOT NULL,
+    [listaEmailAux] char(500)  NULL,
+    [fechaCreacion] datetime  NOT NULL,
+    [usuarioId] int  NOT NULL
 );
 GO
 
@@ -782,6 +1000,15 @@ CREATE TABLE [dbo].[SDIs] (
 );
 GO
 
+-- Creating table 'Servicios'
+CREATE TABLE [dbo].[Servicios] (
+    [id] int IDENTITY(1,1) NOT NULL,
+    [descripcion] nchar(100)  NULL,
+    [fechaCreacion] datetime  NOT NULL,
+    [usuarioId] int  NOT NULL
+);
+GO
+
 -- Creating table 'Sexos'
 CREATE TABLE [dbo].[Sexos] (
     [id] int IDENTITY(1,1) NOT NULL,
@@ -794,6 +1021,7 @@ GO
 -- Creating table 'Solicituds'
 CREATE TABLE [dbo].[Solicituds] (
     [id] int IDENTITY(1,1) NOT NULL,
+    [folioSolicitud] nchar(15)  NULL,
     [clienteId] int  NOT NULL,
     [residenciaId] int  NOT NULL,
     [fechaSolicitud] datetime  NOT NULL,
@@ -814,7 +1042,8 @@ CREATE TABLE [dbo].[Solicituds] (
     [estatusJuridico] nchar(1)  NULL,
     [estatusTarjeta] nchar(1)  NULL,
     [usuarioId] int  NOT NULL,
-    [proyectoId] int  NOT NULL
+    [proyectoId] int  NOT NULL,
+    [fechaEnvio] datetime  NULL
 );
 GO
 
@@ -897,6 +1126,36 @@ ADD CONSTRAINT [PK_Clientes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [id] in table 'ContratosClientes'
+ALTER TABLE [dbo].[ContratosClientes]
+ADD CONSTRAINT [PK_ContratosClientes]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'DatosAdicionalesClientes'
+ALTER TABLE [dbo].[DatosAdicionalesClientes]
+ADD CONSTRAINT [PK_DatosAdicionalesClientes]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'Departamentos'
+ALTER TABLE [dbo].[Departamentos]
+ADD CONSTRAINT [PK_Departamentos]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'Empleados'
+ALTER TABLE [dbo].[Empleados]
+ADD CONSTRAINT [PK_Empleados]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'Empresas'
+ALTER TABLE [dbo].[Empresas]
+ADD CONSTRAINT [PK_Empresas]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
 -- Creating primary key on [id] in table 'EsquemasPagoes'
 ALTER TABLE [dbo].[EsquemasPagoes]
 ADD CONSTRAINT [PK_EsquemasPagoes]
@@ -927,6 +1186,12 @@ ADD CONSTRAINT [PK_Funcions]
     PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
+-- Creating primary key on [id] in table 'Giros'
+ALTER TABLE [dbo].[Giros]
+ADD CONSTRAINT [PK_Giros]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
 -- Creating primary key on [Id] in table 'Grupos'
 ALTER TABLE [dbo].[Grupos]
 ADD CONSTRAINT [PK_Grupos]
@@ -936,6 +1201,12 @@ GO
 -- Creating primary key on [id] in table 'Incapacidades'
 ALTER TABLE [dbo].[Incapacidades]
 ADD CONSTRAINT [PK_Incapacidades]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'ListaValidacionClientes'
+ALTER TABLE [dbo].[ListaValidacionClientes]
+ADD CONSTRAINT [PK_ListaValidacionClientes]
     PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
@@ -1038,6 +1309,12 @@ GO
 -- Creating primary key on [id] in table 'SDIs'
 ALTER TABLE [dbo].[SDIs]
 ADD CONSTRAINT [PK_SDIs]
+    PRIMARY KEY CLUSTERED ([id] ASC);
+GO
+
+-- Creating primary key on [id] in table 'Servicios'
+ALTER TABLE [dbo].[Servicios]
+ADD CONSTRAINT [PK_Servicios]
     PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
@@ -1270,6 +1547,21 @@ ON [dbo].[Bancos]
     ([usuarioId]);
 GO
 
+-- Creating foreign key on [bancoId] in table 'Empleados'
+ALTER TABLE [dbo].[Empleados]
+ADD CONSTRAINT [FK_Empleados_Bancos]
+    FOREIGN KEY ([bancoId])
+    REFERENCES [dbo].[Bancos]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Empleados_Bancos'
+CREATE INDEX [IX_FK_Empleados_Bancos]
+ON [dbo].[Empleados]
+    ([bancoId]);
+GO
+
 -- Creating foreign key on [movimientoId] in table 'MovimientosAseguradoes'
 ALTER TABLE [dbo].[MovimientosAseguradoes]
 ADD CONSTRAINT [FK_MovimientosAsegurado_catalogoMovimientos]
@@ -1285,6 +1577,36 @@ ON [dbo].[MovimientosAseguradoes]
     ([movimientoId]);
 GO
 
+-- Creating foreign key on [clienteId] in table 'ContratosClientes'
+ALTER TABLE [dbo].[ContratosClientes]
+ADD CONSTRAINT [FK_ContratosCliente_Clientes]
+    FOREIGN KEY ([clienteId])
+    REFERENCES [dbo].[Clientes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ContratosCliente_Clientes'
+CREATE INDEX [IX_FK_ContratosCliente_Clientes]
+ON [dbo].[ContratosClientes]
+    ([clienteId]);
+GO
+
+-- Creating foreign key on [clienteId] in table 'DatosAdicionalesClientes'
+ALTER TABLE [dbo].[DatosAdicionalesClientes]
+ADD CONSTRAINT [FK_DatosAdicionalesCliente_Clientes]
+    FOREIGN KEY ([clienteId])
+    REFERENCES [dbo].[Clientes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DatosAdicionalesCliente_Clientes'
+CREATE INDEX [IX_FK_DatosAdicionalesCliente_Clientes]
+ON [dbo].[DatosAdicionalesClientes]
+    ([clienteId]);
+GO
+
 -- Creating foreign key on [Grupo_id] in table 'Clientes'
 ALTER TABLE [dbo].[Clientes]
 ADD CONSTRAINT [FK_GrupoClientes]
@@ -1298,6 +1620,21 @@ GO
 CREATE INDEX [IX_FK_GrupoClientes]
 ON [dbo].[Clientes]
     ([Grupo_id]);
+GO
+
+-- Creating foreign key on [clienteId] in table 'ListaValidacionClientes'
+ALTER TABLE [dbo].[ListaValidacionClientes]
+ADD CONSTRAINT [FK_ListaValidacionCliente_Clientes]
+    FOREIGN KEY ([clienteId])
+    REFERENCES [dbo].[Clientes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ListaValidacionCliente_Clientes'
+CREATE INDEX [IX_FK_ListaValidacionCliente_Clientes]
+ON [dbo].[ListaValidacionClientes]
+    ([clienteId]);
 GO
 
 -- Creating foreign key on [Plaza_id] in table 'Clientes'
@@ -1343,6 +1680,201 @@ GO
 CREATE INDEX [IX_FK_Proyectos_Clientes1]
 ON [dbo].[Proyectos]
     ([clienteId]);
+GO
+
+-- Creating foreign key on [usuarioId] in table 'ContratosClientes'
+ALTER TABLE [dbo].[ContratosClientes]
+ADD CONSTRAINT [FK_ContratosCliente_Usuarios]
+    FOREIGN KEY ([usuarioId])
+    REFERENCES [dbo].[Usuarios]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ContratosCliente_Usuarios'
+CREATE INDEX [IX_FK_ContratosCliente_Usuarios]
+ON [dbo].[ContratosClientes]
+    ([usuarioId]);
+GO
+
+-- Creating foreign key on [usuarioId] in table 'DatosAdicionalesClientes'
+ALTER TABLE [dbo].[DatosAdicionalesClientes]
+ADD CONSTRAINT [FK_DatosAdicionalesCliente_Usuarios]
+    FOREIGN KEY ([usuarioId])
+    REFERENCES [dbo].[Usuarios]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DatosAdicionalesCliente_Usuarios'
+CREATE INDEX [IX_FK_DatosAdicionalesCliente_Usuarios]
+ON [dbo].[DatosAdicionalesClientes]
+    ([usuarioId]);
+GO
+
+-- Creating foreign key on [usuarioId] in table 'Departamentos'
+ALTER TABLE [dbo].[Departamentos]
+ADD CONSTRAINT [FK_Departamentos_Departamentos]
+    FOREIGN KEY ([usuarioId])
+    REFERENCES [dbo].[Usuarios]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Departamentos_Departamentos'
+CREATE INDEX [IX_FK_Departamentos_Departamentos]
+ON [dbo].[Departamentos]
+    ([usuarioId]);
+GO
+
+-- Creating foreign key on [esquemaPagoId] in table 'Empleados'
+ALTER TABLE [dbo].[Empleados]
+ADD CONSTRAINT [FK_Empleados_EsquemasPago]
+    FOREIGN KEY ([esquemaPagoId])
+    REFERENCES [dbo].[EsquemasPagoes]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Empleados_EsquemasPago'
+CREATE INDEX [IX_FK_Empleados_EsquemasPago]
+ON [dbo].[Empleados]
+    ([esquemaPagoId]);
+GO
+
+-- Creating foreign key on [estadoCivilId] in table 'Empleados'
+ALTER TABLE [dbo].[Empleados]
+ADD CONSTRAINT [FK_Empleados_EstadoCivil]
+    FOREIGN KEY ([estadoCivilId])
+    REFERENCES [dbo].[EstadoCivils]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Empleados_EstadoCivil'
+CREATE INDEX [IX_FK_Empleados_EstadoCivil]
+ON [dbo].[Empleados]
+    ([estadoCivilId]);
+GO
+
+-- Creating foreign key on [estadoNacimientoId] in table 'Empleados'
+ALTER TABLE [dbo].[Empleados]
+ADD CONSTRAINT [FK_Empleados_Estados]
+    FOREIGN KEY ([estadoNacimientoId])
+    REFERENCES [dbo].[Estados]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Empleados_Estados'
+CREATE INDEX [IX_FK_Empleados_Estados]
+ON [dbo].[Empleados]
+    ([estadoNacimientoId]);
+GO
+
+-- Creating foreign key on [municipioNacimientoId] in table 'Empleados'
+ALTER TABLE [dbo].[Empleados]
+ADD CONSTRAINT [FK_Empleados_Municipios]
+    FOREIGN KEY ([municipioNacimientoId])
+    REFERENCES [dbo].[Municipios]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Empleados_Municipios'
+CREATE INDEX [IX_FK_Empleados_Municipios]
+ON [dbo].[Empleados]
+    ([municipioNacimientoId]);
+GO
+
+-- Creating foreign key on [nacionalidadId] in table 'Empleados'
+ALTER TABLE [dbo].[Empleados]
+ADD CONSTRAINT [FK_Empleados_Paises]
+    FOREIGN KEY ([nacionalidadId])
+    REFERENCES [dbo].[Paises]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Empleados_Paises'
+CREATE INDEX [IX_FK_Empleados_Paises]
+ON [dbo].[Empleados]
+    ([nacionalidadId]);
+GO
+
+-- Creating foreign key on [sdiId] in table 'Empleados'
+ALTER TABLE [dbo].[Empleados]
+ADD CONSTRAINT [FK_Empleados_SDIs]
+    FOREIGN KEY ([sdiId])
+    REFERENCES [dbo].[SDIs]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Empleados_SDIs'
+CREATE INDEX [IX_FK_Empleados_SDIs]
+ON [dbo].[Empleados]
+    ([sdiId]);
+GO
+
+-- Creating foreign key on [sexoId] in table 'Empleados'
+ALTER TABLE [dbo].[Empleados]
+ADD CONSTRAINT [FK_Empleados_Sexos]
+    FOREIGN KEY ([sexoId])
+    REFERENCES [dbo].[Sexos]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Empleados_Sexos'
+CREATE INDEX [IX_FK_Empleados_Sexos]
+ON [dbo].[Empleados]
+    ([sexoId]);
+GO
+
+-- Creating foreign key on [solicitudId] in table 'Empleados'
+ALTER TABLE [dbo].[Empleados]
+ADD CONSTRAINT [FK_Empleados_Solicitud]
+    FOREIGN KEY ([solicitudId])
+    REFERENCES [dbo].[Solicituds]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Empleados_Solicitud'
+CREATE INDEX [IX_FK_Empleados_Solicitud]
+ON [dbo].[Empleados]
+    ([solicitudId]);
+GO
+
+-- Creating foreign key on [usuarioId] in table 'Empleados'
+ALTER TABLE [dbo].[Empleados]
+ADD CONSTRAINT [FK_Empleados_Usuarios]
+    FOREIGN KEY ([usuarioId])
+    REFERENCES [dbo].[Usuarios]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Empleados_Usuarios'
+CREATE INDEX [IX_FK_Empleados_Usuarios]
+ON [dbo].[Empleados]
+    ([usuarioId]);
+GO
+
+-- Creating foreign key on [usuarioId] in table 'Empresas'
+ALTER TABLE [dbo].[Empresas]
+ADD CONSTRAINT [FK_Empresas_Empresas]
+    FOREIGN KEY ([usuarioId])
+    REFERENCES [dbo].[Usuarios]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Empresas_Empresas'
+CREATE INDEX [IX_FK_Empresas_Empresas]
+ON [dbo].[Empresas]
+    ([usuarioId]);
 GO
 
 -- Creating foreign key on [usuarioId] in table 'EsquemasPagoes'
@@ -1480,6 +2012,21 @@ ON [dbo].[RoleFuncions]
     ([funcionId]);
 GO
 
+-- Creating foreign key on [usuarioId] in table 'Giros'
+ALTER TABLE [dbo].[Giros]
+ADD CONSTRAINT [FK_Giros_Giros]
+    FOREIGN KEY ([usuarioId])
+    REFERENCES [dbo].[Usuarios]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Giros_Giros'
+CREATE INDEX [IX_FK_Giros_Giros]
+ON [dbo].[Giros]
+    ([usuarioId]);
+GO
+
 -- Creating foreign key on [Plaza_id] in table 'Grupos'
 ALTER TABLE [dbo].[Grupos]
 ADD CONSTRAINT [FK_PlazaGrupos]
@@ -1508,6 +2055,21 @@ GO
 CREATE INDEX [IX_FK_MovimientosAsegurado_Incapacidades]
 ON [dbo].[MovimientosAseguradoes]
     ([incapacidadId]);
+GO
+
+-- Creating foreign key on [usuarioId] in table 'ListaValidacionClientes'
+ALTER TABLE [dbo].[ListaValidacionClientes]
+ADD CONSTRAINT [FK_ListaValidacionCliente_Usuarios]
+    FOREIGN KEY ([usuarioId])
+    REFERENCES [dbo].[Usuarios]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ListaValidacionCliente_Usuarios'
+CREATE INDEX [IX_FK_ListaValidacionCliente_Usuarios]
+ON [dbo].[ListaValidacionClientes]
+    ([usuarioId]);
 GO
 
 -- Creating foreign key on [moduloId] in table 'RoleModulos'
@@ -1807,6 +2369,21 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_SDIs_SDIs'
 CREATE INDEX [IX_FK_SDIs_SDIs]
 ON [dbo].[SDIs]
+    ([usuarioId]);
+GO
+
+-- Creating foreign key on [usuarioId] in table 'Servicios'
+ALTER TABLE [dbo].[Servicios]
+ADD CONSTRAINT [FK_Servicios_Servicios]
+    FOREIGN KEY ([usuarioId])
+    REFERENCES [dbo].[Usuarios]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Servicios_Servicios'
+CREATE INDEX [IX_FK_Servicios_Servicios]
+ON [dbo].[Servicios]
     ([usuarioId]);
 GO
 

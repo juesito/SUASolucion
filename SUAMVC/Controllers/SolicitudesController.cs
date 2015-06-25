@@ -19,9 +19,36 @@ namespace SUAMVC.Controllers
         // GET: Solicitudes
         public ActionResult Index()
         {
-            
-            var solicituds = db.Solicituds.Include(s => s.Cliente).Include(s => s.EsquemasPago).Include(s => s.Proyecto).Include(s => s.Residencia).Include(s => s.SDI).Include(s => s.TipoContrato).Include(s => s.TipoPersonal).Include(s => s.Usuario);
-            return View(solicituds.ToList());
+
+            var solicituds = db.Solicituds.Include(s => s.Cliente).Include(s => s.EsquemasPago).
+                Include(s => s.Proyecto).Include(s => s.Residencia).Include(s => s.SDI).
+                Include(s => s.TipoContrato).Include(s => s.TipoPersonal).Include(s => s.Usuario);
+
+            try
+            {
+                if (solicituds.Count() > 0)
+                {
+                    return View(solicituds.ToList());
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                foreach (var failure in ex.EntityValidationErrors)
+                {
+                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                    foreach (var error in failure.ValidationErrors)
+                    {
+                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                        sb.AppendLine();
+                    }
+                }
+            }
+
+            return View();
+
+
         }
 
         // GET: Solicitudes/Details/5

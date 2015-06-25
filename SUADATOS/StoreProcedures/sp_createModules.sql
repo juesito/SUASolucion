@@ -39,6 +39,11 @@ BEGIN
 	( descripcionCorta, descripcionLarga, estatus, fechaCreacion)
 	VALUES 
 		('Carga', 'Carga de Archivos SUA en SIAP', 'A', GETDATE())
+
+	INSERT INTO Modulos
+	( descripcionCorta, descripcionLarga, estatus, fechaCreacion)
+	VALUES 
+		('ACAH', 'Administración de Capital Humano', 'A', GETDATE())
 END
 
 GO

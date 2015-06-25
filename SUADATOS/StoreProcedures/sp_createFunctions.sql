@@ -1,7 +1,7 @@
 USE [sua]
 GO
 
-/****** Object:  StoredProcedure [dbo].[sp_createFunctions]    Script Date: 13/05/2015 01:46:17 p.m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_createFunctions]    Script Date: 13/05/2015 01:23:17 p.m. ******/
 SET ANSI_NULLS ON
 GO
 
@@ -62,7 +62,7 @@ BEGIN
 	VALUES 
 		('Topicos Por Usuario', 'Topicos Por Usuario del SIAP', 'Index', 'TopicosUsuario', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
 				
-	--Buscamos el modulo de seguridad para insertar las funciones correspondientes
+	--Buscamos el modulo de catalogos para insertar las funciones correspondientes
 	SET @moduloId = (SELECT id FROM Modulos WHERE descripcionCorta = 'Catalogos')
 
 	INSERT INTO Funcions
@@ -89,6 +89,88 @@ BEGIN
 		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
 	VALUES 
 		('Parametros', 'Modulos por Parametros del SIAP', 'Index', 'Parametros', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+    
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Esquemas', 'Catalogo de esquemas CIAH', 'Index', 'Esquemas', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Tipos Contratos', 'Catalogo de Tipos Contrato CIAH', 'Index', 'TipoContrato', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Regimen Infonavit', 'Catalogo de Regimen Infonavit CIAH', 'Index', 'RegimenInfonavit', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Proyectos', 'Proyectos CIAH', 'Index', 'Proyectos', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Salario Diario', 'Catalogo para SDIs CIAH', 'Index', 'SDIs', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+    INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Tipo de Personal', 'Catalogo de tipos de personal CIAH', 'Index', 'TipoPersonal', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Bancos', 'Catalogo de bancos CIAH', 'Index', 'Bancos', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Sexos', 'Catalogo de Sexos en CIAH', 'Index', 'Sexo', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Paises', 'Catalogo de Paises CIAH', 'Index', 'Paises', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Estados', 'Catalogo de Estados CIAH', 'Index', 'Estados', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Municipios', 'Catalogo de Municipios CIAH', 'Index', 'Municipios', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Departamentos', 'Catalogo de Departamentos CIAH', 'Index', 'Departamentos', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Giros', 'Catalogo de Giros CIAH', 'Index', 'Giros', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Empresas', 'Catalogo de Empresas CIAH', 'Index', 'Empresas', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Servicios', 'Catalogo de Servicios CIAH', 'Index', 'Servicios', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Estados Civiles', 'Catalogo de Estados Civiles CIAH', 'Index', 'EstadoCivil', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+
 
 	--Buscamos el modulo de seguridad para insertar las funciones correspondientes
 	SET @moduloId = (SELECT id FROM Modulos WHERE descripcionCorta = 'IMSS')
@@ -125,7 +207,12 @@ BEGIN
 		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
 	VALUES 
 		('Actualizar Patrones', 'Actualizar los Patrones en el SIAP', 'Index', 'Upload', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
-	
+
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Factores de Calculo', 'Administrar los factores de calculo en el SIAP', 'Index', 'Factores', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
 END
                 
 
