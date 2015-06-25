@@ -54,6 +54,7 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+              
                 movimiento.fechaCreacion = DateTime.Now;
                 db.Movimientos.Add(movimiento);
                 db.SaveChanges();

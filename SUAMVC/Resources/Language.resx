@@ -353,8 +353,8 @@
     <value>Modificar</value>
     <comment>Etiqueta para modificar</comment>
   </data>
-  <data name="Esquema" xml:space="preserve">
-    <value>Esquema</value>
+  <data name="esquema" xml:space="preserve">
+    <value>Esquemas Pago</value>
     <comment>Etiqueta para esquema</comment>
   </data>
   <data name="Esquemas" xml:space="preserve">

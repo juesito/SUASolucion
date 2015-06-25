@@ -90,6 +90,10 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
+                giro.fechaCreacion = DateTime.Now;
+                giro.usuarioId = usuario.Id;
                 db.Entry(giro).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

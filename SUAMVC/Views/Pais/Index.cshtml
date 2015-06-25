@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
 }
 @section Menu {
     <div>@Language.catde @Language.pais<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>

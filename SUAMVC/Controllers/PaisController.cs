@@ -52,8 +52,10 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
                 pais.fechaCreacion = DateTime.Now;
-                pais.usuarioId = 1;
+                pais.usuarioId = usuario.Id;
                 db.Paises.Add(pais);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -88,6 +90,10 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
+                pais.fechaCreacion = DateTime.Now;
+                pais.usuarioId = usuario.Id;
                 db.Entry(pais).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
