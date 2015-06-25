@@ -52,8 +52,10 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
                 tipoContrato.fechaCreacion = DateTime.Now;
-                tipoContrato.usuarioId = 1;
+                tipoContrato.usuarioId = usuario.Id;
                 db.TipoContratoes.Add(tipoContrato);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -88,6 +90,10 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
+                tipoContrato.fechaCreacion = DateTime.Now;
+                tipoContrato.usuarioId = usuario.Id;
                 db.Entry(tipoContrato).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

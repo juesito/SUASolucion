@@ -3,14 +3,18 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
 }
 
 @section Menu {
-    <div>@Language.catde @Language.Esquemas<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>@Language.catde @Language.esquema<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 <p>
-    @Html.ActionLink(@Language.agregar + " " + @Language.Esquema, "Create", "EsquemasPagos",new { @class = "btn btn-success" })
+    @Html.ActionLink(@Language.agregar + " " + @Language.esquema, "Create", "EsquemasPagos",new { @class = "btn btn-success" })
 </p>
 <table class="table table-striped tableSua">
     <tr>
@@ -39,14 +43,13 @@
                 @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
             </td>
             <td>
-                <a href="@Url.Action(@Language.modificar, "Edit", new { id = item.id })">
+                <a href="@Url.Action("Edit","EsquemasPagos", new { id = item.id })" title="@Language.edit">
                     <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
-                </a>
-                 |
-                <a href="@Url.Action("Delete", "Usuarios", new { id = item.id })">
+                </a>|
+                <a href="@Url.Action("Delete", "EsquemasPagos", new { id = item.id })" title="@Language.borrar">
                     <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
                 </a>
-            </td>
+</td>
         </tr>
     }
 

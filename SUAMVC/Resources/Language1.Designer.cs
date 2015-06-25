@@ -529,11 +529,11 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Esquema.
+        ///   Busca una cadena traducida similar a Esquemas Pago.
         /// </summary>
-        public static string Esquema {
+        public static string esquema {
             get {
-                return ResourceManager.GetString("Esquema", resourceCulture);
+                return ResourceManager.GetString("esquema", resourceCulture);
             }
         }
         

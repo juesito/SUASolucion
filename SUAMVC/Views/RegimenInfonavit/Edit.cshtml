@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
 }
 
 @section Menu {
@@ -31,7 +35,7 @@
                             
              <div class="form-group" style="margin-top:40px;">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <input type="submit" value="@Language.guardar" class="btn btn-primary" />
                     </div>
                 </div>
             </div>

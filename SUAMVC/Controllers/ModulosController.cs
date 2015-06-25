@@ -86,6 +86,10 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
+                modulo.fechaCreacion = DateTime.Now;
+                modulo.estatus = "A";
                 db.Entry(modulo).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
