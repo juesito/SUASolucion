@@ -15,9 +15,16 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: ListaValidacionClientes
-        public ActionResult Index()
+        public ActionResult Index(String id)
         {
             var listaValidacionClientes = db.ListaValidacionClientes.Include(l => l.Cliente).Include(l => l.Usuario);
+            if (String.IsNullOrEmpty(id)) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }else{
+                int idTemp = int.Parse(id);
+                listaValidacionClientes = listaValidacionClientes.Where(s => s.clienteId.Equals(idTemp));
+            }
+            
             return View(listaValidacionClientes.ToList());
         }
 

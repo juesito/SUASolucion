@@ -10,6 +10,10 @@
     int idEsquema = (from s in db.EsquemasPagoes
                      where s.descripcion.Trim().Equals("SyS")
                      select s.id).First();
+
+    int idContrato = (from s in db.TipoContratoes
+                     where s.descripcion.Trim().ToLower().Equals("determinado")
+                     select s.id).First();
 }
 
 @section Menu {
@@ -74,12 +78,12 @@
                 <tr>
                     <td>@Html.LabelFor(model => model.contratoId, "contratoId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
                     <td>
-                        @Html.DropDownList("contratoId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.contratosDrownList(usuario.Id)
                         @Html.ValidationMessageFor(model => model.contratoId, "", new { @class = "text-danger" })
                     </td>
                     @if (Model != null)
                     {
-                        if (Model.esquemaId.Equals(idEsquema))
+                        if (Model.contratoId.Equals(idContrato))
                         {
                             <td>@Html.LabelFor(model => model.fechaInicial, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                             <td>
@@ -92,7 +96,7 @@
                 <tr>
                     @if (Model != null)
                     {
-                        if (Model.esquemaId.Equals(idEsquema))
+                        if (Model.contratoId.Equals(idContrato))
                         {
                             <td>@Html.LabelFor(model => model.fechaFinal, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                             <td>

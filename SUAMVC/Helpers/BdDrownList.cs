@@ -212,5 +212,29 @@ namespace SUAMVC.Helpers
 
             return htmlHelper.DropDownList("esquemaId", listFields, new { onchange = "submit()", @class = "cancel" });
         }
+
+        public static MvcHtmlString contratosDrownList(this HtmlHelper htmlHelper, int userId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<TipoContrato> listContratos = (from s in db.TipoContratoes
+                                               orderby s.descripcion
+                                               select s).ToList();
+
+            foreach (TipoContrato item in listContratos)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList("contratoId", listFields, new { onchange = "submit()", @class = "cancel" });
+        }
     }
 }
