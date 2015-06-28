@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<SUADATOS.ListaValidacionCliente>
+@using SUADATOS;
 
 @{
     ViewBag.Title = "Index";
@@ -7,6 +8,7 @@
     {
         Response.Redirect("~/Home/Index");
     }
+    Cliente cliente = TempData["cliente"] as Cliente;
 }
 
 @section Menu {
@@ -15,8 +17,9 @@
 
 
 <p>
-    @Html.ActionLink(@Language.agregar + " " + @Language.lvalCliente, "Create", "EsquemaPagos", new { @class = "btn btn-success" })
+    @Html.ActionLink(@Language.agregar + " " + @Language.lvalCliente, "Create", "ListaValidacionClientes", new { clienteId = cliente.Id}, new { @class = "btn btn-success" })
 </p>
+<p>Listas de validacion para el cliente: @cliente.descripcion</p>
 <table class="table table-striped tableSua">
     <tr>
         <th>
@@ -74,10 +77,10 @@
                 @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
             </td>
             <td>
-                <a href="@Url.Action("Edit","funciones", new { id = item.id })" title="@Language.edit">
+                <a href="@Url.Action("Edit","ListaValidacionClientes", new { id = item.id })" title="@Language.edit">
                     <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
                 </a>|
-                <a href="@Url.Action("Delete", "funciones", new { id = item.id })" title="@Language.borrar">
+                <a href="@Url.Action("Delete", "ListaValidacionClientes", new { id = item.id })" title="@Language.borrar">
                     <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
                 </a>
             </td>

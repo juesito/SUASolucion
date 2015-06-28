@@ -22,6 +22,8 @@ namespace SUAMVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }else{
                 int idTemp = int.Parse(id);
+                Cliente cliente = db.Clientes.Find(idTemp);
+                TempData["cliente"] = cliente;
                 listaValidacionClientes = listaValidacionClientes.Where(s => s.clienteId.Equals(idTemp));
             }
             
@@ -44,10 +46,11 @@ namespace SUAMVC.Controllers
         }
 
         // GET: ListaValidacionClientes/Create
-        public ActionResult Create()
+        public ActionResult Create(string clienteId)
         {
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario");
+            int idTemp = int.Parse(clienteId);
+            Cliente cliente = db.Clientes.Find(idTemp);
+            TempData["cliente"] = cliente;
             return View();
         }
 
@@ -56,17 +59,23 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,clienteId,validador,emailValidador,autorizador,emailAutorizador,listaEmailAux,fechaCreacion,usuarioId")] ListaValidacionCliente listaValidacionCliente)
+        public ActionResult Create([Bind(Include = "id,clienteId,validador,emailValidador,autorizador,emailAutorizador,listaEmailAux,fechaCreacion,usuarioId")] ListaValidacionCliente listaValidacionCliente, int clienteId)
         {
             if (ModelState.IsValid)
             {
                 Usuario usuario = Session["UsuarioData"] as Usuario;
+                Cliente cliente = db.Clientes.Find(clienteId);
+                TempData["cliente"] = cliente;
 
                 listaValidacionCliente.fechaCreacion = DateTime.Now;
                 listaValidacionCliente.usuarioId = usuario.Id;
+                listaValidacionCliente.clienteId = cliente.Id;
+                listaValidacionCliente.Cliente = cliente;
                 db.ListaValidacionClientes.Add(listaValidacionCliente);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                //se envia un id al index - index(int id)
+                return RedirectToAction("Index", new { id = clienteId });
             }
 
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", listaValidacionCliente.clienteId);
@@ -86,7 +95,6 @@ namespace SUAMVC.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", listaValidacionCliente.clienteId);
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", listaValidacionCliente.usuarioId);
             return View(listaValidacionCliente);
         }
@@ -106,7 +114,7 @@ namespace SUAMVC.Controllers
                 listaValidacionCliente.usuarioId = usuario.Id;
                 db.Entry(listaValidacionCliente).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = listaValidacionCliente.clienteId });
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", listaValidacionCliente.clienteId);
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", listaValidacionCliente.usuarioId);

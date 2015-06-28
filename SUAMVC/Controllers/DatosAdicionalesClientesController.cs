@@ -17,6 +17,7 @@ namespace SUAMVC.Controllers
         // GET: DatosAdicionalesClientes
         public ActionResult Index()
         {
+
             var datosAdicionalesClientes = db.DatosAdicionalesClientes.Include(d => d.Cliente).Include(d => d.Usuario);
             return View(datosAdicionalesClientes.ToList());
         }
@@ -94,7 +95,7 @@ namespace SUAMVC.Controllers
             if (ModelState.IsValid)
             {
                 Usuario usuario = Session["UsuarioData"] as Usuario;
-                
+
                 datosAdicionalesCliente.fechaCreacion = DateTime.Now;
                 datosAdicionalesCliente.usuarioId = usuario.Id;
                 db.Entry(datosAdicionalesCliente).State = EntityState.Modified;

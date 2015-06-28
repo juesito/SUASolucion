@@ -367,6 +367,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Datos Adicionales Cliente.
+        /// </summary>
+        public static string datAdiCliente {
+            get {
+                return ResourceManager.GetString("datAdiCliente", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Departamento.
         /// </summary>
         public static string dep {
@@ -498,6 +507,15 @@ namespace SUAMVC.Resources {
         public static string edit {
             get {
                 return ResourceManager.GetString("edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ejecutivo.
+        /// </summary>
+        public static string ejecutivo {
+            get {
+                return ResourceManager.GetString("ejecutivo", resourceCulture);
             }
         }
         

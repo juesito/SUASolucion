@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<SUADATOS.DatosAdicionalesCliente>
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
 
 @{
     ViewBag.Title = "Index";
@@ -7,96 +10,61 @@
     {
         Response.Redirect("~/Home/Index");
     }
-}
-@section Menu {
-    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catálogo de Datos Adicionales Cliente </div>
-}
 
-<p>
-    @Html.ActionLink(@Language.agregar + " " + @Language.catDatAdCliente, "Create", "EsquemaPagos", new { @class = "btn btn-success" })
-</p>
-<table class="table table-striped tableSua">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.porcentajeComNomina)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.ivaNomina)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.porcentajeComIAS)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.ivaIAS)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.porcentajeComFlujo)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.ivaFlujo)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.costSocial)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.concepFacturacion)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.fechaAlta)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.claveCliente)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.usuarioAlta)
-        </th>
-        <th></th>
-    </tr>
+    var grid = new WebGrid(source: Model, canPage: true, rowsPerPage: 15);
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.porcentajeComNomina)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ivaNomina)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.porcentajeComIAS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ivaIAS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.porcentajeComFlujo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ivaFlujo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.costoSocial)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.conceptoFacturacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaCreacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cliente.claveCliente)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
-        </td>
-        <td>
-            <a href="@Url.Action("Edit","funciones", new { id = item.id })" title="@Language.edit">
-                <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
-            </a>|
-            <a href="@Url.Action("Delete", "funciones", new { id = item.id })" title="@Language.borrar">
-                <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
-            </a>
-        </td>
-    </tr>
+        //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+
+    //Agregamos las columnas al grid
+    gridColumns.Add(grid.Column("porcentajeComNomina", "porcentajeComNomina", null, null, true));
+    gridColumns.Add(grid.Column("ivaNomina", "IVA Nomina", null, null, true));
+    gridColumns.Add(grid.Column("ivaIAS", "IVA IAS", null, null, true));
+    gridColumns.Add(grid.Column("porcentajeComFlujo", "porcentajeComFlujo", null, null, true));
+    gridColumns.Add(grid.Column("ivaFlujo", "IVA Flujo", null, null, true));
+    gridColumns.Add(grid.Column("costoSocial", "Costo Social", null, null, true));
+    gridColumns.Add(grid.Column("conceptoFacturacion", "Concepto Facturación"));
+    gridColumns.Add(grid.Column("fechaCreacion", "Fecha Alta", null, null, true));
+    gridColumns.Add(grid.Column("Cliente.claveCliente", "Clave Cliente", null, null, true));
+    gridColumns.Add(grid.Column("Usuario.nombreUsuario", "Usuario",@<text><div style='width: 23em'>@item.usuarioId</div></text>, null, true));
+    gridColumns.Add(grid.Column(header: "Consultar", format: @<text><a href="@Url.Action("Details", "DatosAdicionalesCLientes", new { id = item.id})">
+    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+</a></text>));
+    gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "DatosAdicionalesClientes", new { id = item.id })">
+        <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+    </a></text>));
+    gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "DatosAdicionalesClientes", new { id = item.id })">
+            <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+        </a></text>));
+    gridColumns.Add(grid.Column(header: @Language.claveCliente, format: @<text><a href="@Url.Action("Index", "Clientes", new { id = item.id })">
+                <img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" />
+            </a></text>));
+
+            <p>
+                @Html.ActionLink(@Language.agregar + " " + @Language.datAdiCliente, "Create", "DatosAdicionalesCliente", new { @class = "btn btn-success" })
+            </p>
+
+    sb.Append(
+   grid.GetHtml(
+   columns:
+       grid.Columns(gridColumns.ToArray()),
+                                   tableStyle: "table table-striped tableSua"
+                   ));
+
+    tableHtml = sb.ToString();
+
 }
 
-</table>
+    @section Menu {
+      <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catálogo de Datos Adicionales Cliente </div>
+    }
+
+    @if (!tableHtml.IsEmpty())
+    {
+        <div id="table-container" class="table-container">
+            @Html.Raw(tableHtml)
+        </div>
+    }
+

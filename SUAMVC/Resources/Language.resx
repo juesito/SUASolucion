@@ -577,4 +577,12 @@
     <value>Validador</value>
     <comment>Etiqueta para validador</comment>
   </data>
+  <data name="datAdiCliente" xml:space="preserve">
+    <value>Datos Adicionales Cliente</value>
+    <comment>Etiqueta para Datos Adicionales Cliente</comment>
+  </data>
+  <data name="ejecutivo" xml:space="preserve">
+    <value>Ejecutivo</value>
+    <comment>Etiqueta para Ejecutivo</comment>
+  </data>
 </root>
