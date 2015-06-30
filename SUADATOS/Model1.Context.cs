@@ -47,6 +47,7 @@ namespace SUADATOS
         public virtual DbSet<Modulo> Modulos { get; set; }
         public virtual DbSet<Movimiento> Movimientos { get; set; }
         public virtual DbSet<MovimientosAsegurado> MovimientosAseguradoes { get; set; }
+        public virtual DbSet<Municipio> Municipios { get; set; }
         public virtual DbSet<Pago> Pagos { get; set; }
         public virtual DbSet<Pais> Paises { get; set; }
         public virtual DbSet<Parametro> Parametros { get; set; }
@@ -67,6 +68,5 @@ namespace SUADATOS
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
-        public virtual DbSet<Municipio> Municipios { get; set; }
     }
 }

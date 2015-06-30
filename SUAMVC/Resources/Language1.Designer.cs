@@ -1042,6 +1042,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Solicitud.
+        /// </summary>
+        public static string solicitud {
+            get {
+                return ResourceManager.GetString("solicitud", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Subir Acuse Masivo.
         /// </summary>
         public static string subirAcuseMax {

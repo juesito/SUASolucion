@@ -3,41 +3,35 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    if (!WebSecurity.IsAuthenticated)
-    {
-        Response.Redirect("~/Home/Index");
-    }
 }
 
-@section Menu {
-    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catálogo de Contratos Cliente</div>
-}
+<h2>Index</h2>
 
 <p>
-    @Html.ActionLink(@Language.agregar + " " + @Language.contCliente, "Create", "EsquemaPagos", new { @class = "btn btn-success" })
+    @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table table-striped tableSua">
+<table class="table">
     <tr>
         <th>
-            @Html.DisplayName(@Language.descripcion)
+            @Html.DisplayNameFor(model => model.descripcion)
         </th>
         <th>
-            @Html.DisplayName(@Language.archivo1)
+            @Html.DisplayNameFor(model => model.archivo1)
         </th>
         <th>
-            @Html.DisplayName(@Language.archivo2)
+            @Html.DisplayNameFor(model => model.archivo2)
         </th>
         <th>
-            @Html.DisplayName(@Language.archivo3)
+            @Html.DisplayNameFor(model => model.archivo3)
         </th>
         <th>
-            @Html.DisplayName(@Language.fechaFirma)
+            @Html.DisplayNameFor(model => model.fechaFirma)
         </th>
         <th>
-            @Html.DisplayName(@Language.firmo)
+            @Html.DisplayNameFor(model => model.firmo)
         </th>
         <th>
-            @Html.DisplayName(@Language.testigo)
+            @Html.DisplayNameFor(model => model.testigo)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.actaConstitutivaEmpresa)
@@ -58,16 +52,16 @@
             @Html.DisplayNameFor(model => model.fechaFinalVigencia)
         </th>
         <th>
-            @Html.DisplayName(@Language.estatus)
+            @Html.DisplayNameFor(model => model.estatus)
         </th>
         <th>
-            @Html.DisplayName(@Language.fechaAlta)
+            @Html.DisplayNameFor(model => model.fechaCreacion)
         </th>
         <th>
-            @Html.DisplayName(@Language.claveCliente)
+            @Html.DisplayNameFor(model => model.Cliente.claveCliente)
         </th>
         <th>
-            @Html.DisplayName(@Language.usuarioAlta)
+            @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
         </th>
         <th></th>
     </tr>
@@ -126,12 +120,9 @@
             @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
         </td>
         <td>
-            <a href="@Url.Action("Edit","funciones", new { id = item.id })" title="@Language.edit">
-                <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
-            </a>|
-            <a href="@Url.Action("Delete", "funciones", new { id = item.id })" title="@Language.borrar">
-                <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
-            </a>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
         </td>
     </tr>
 }

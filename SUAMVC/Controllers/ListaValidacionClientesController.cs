@@ -19,7 +19,7 @@ namespace SUAMVC.Controllers
         {
             var listaValidacionClientes = db.ListaValidacionClientes.Include(l => l.Cliente).Include(l => l.Usuario);
             if (String.IsNullOrEmpty(id)) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", "Clientes");
             }else{
                 int idTemp = int.Parse(id);
                 Cliente cliente = db.Clientes.Find(idTemp);
@@ -35,7 +35,7 @@ namespace SUAMVC.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", "Clientes");
             }
             ListaValidacionCliente listaValidacionCliente = db.ListaValidacionClientes.Find(id);
             if (listaValidacionCliente == null)
@@ -88,7 +88,7 @@ namespace SUAMVC.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", "Clientes");
             }
             ListaValidacionCliente listaValidacionCliente = db.ListaValidacionClientes.Find(id);
             if (listaValidacionCliente == null)

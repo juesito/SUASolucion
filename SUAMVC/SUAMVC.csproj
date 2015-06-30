@@ -523,15 +523,15 @@
     <Content Include="Views\DatosAdicionalesClientes\Details.cshtml" />
     <Content Include="Views\DatosAdicionalesClientes\Edit.cshtml" />
     <Content Include="Views\DatosAdicionalesClientes\Index.cshtml" />
+    <Content Include="Views\Asegurados\DeleteMov.cshtml" />
+    <Content Include="Views\Asegurados\DeleteMovs.cshtml" />
+    <Content Include="Views\Asegurados\Paginado.cshtml" />
+    <Content Include="Views\Asegurados\UploadFile.cshtml" />
     <Content Include="Views\ContratosClientes\Create.cshtml" />
     <Content Include="Views\ContratosClientes\Delete.cshtml" />
     <Content Include="Views\ContratosClientes\Details.cshtml" />
     <Content Include="Views\ContratosClientes\Edit.cshtml" />
     <Content Include="Views\ContratosClientes\Index.cshtml" />
-    <Content Include="Views\Asegurados\DeleteMov.cshtml" />
-    <Content Include="Views\Asegurados\DeleteMovs.cshtml" />
-    <Content Include="Views\Asegurados\Paginado.cshtml" />
-    <Content Include="Views\Asegurados\UploadFile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

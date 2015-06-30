@@ -585,4 +585,8 @@
     <value>Ejecutivo</value>
     <comment>Etiqueta para Ejecutivo</comment>
   </data>
+  <data name="solicitud" xml:space="preserve">
+    <value>Solicitud</value>
+    <comment>Etiqueta para Solicitud</comment>
+  </data>
 </root>

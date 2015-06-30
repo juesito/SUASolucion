@@ -15,7 +15,7 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Clientes
-        public ActionResult Index(String plazasId)
+        public ActionResult Index(String plazasId,String clientesId)
         {
             Usuario user = Session["UsuarioData"] as Usuario;
 
@@ -43,9 +43,10 @@ namespace SUAMVC.Controllers
                                                    id = s.id,
                                                    FUllName = s.descripcion
                                                }).Distinct(), "id", "FullName");
+
             return View(clientes.ToList().OrderBy(p => p.descripcion));
         }
-
+    
         // GET: Clientes/Details/5
         public ActionResult Details(int? id)
         {

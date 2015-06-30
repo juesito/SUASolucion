@@ -5,48 +5,49 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="e776796bf593462bb003ad8e6ce8882c" Name="Diagram1" ZoomLevel="82">
-        <EntityTypeShape EntityType="suaModel.Acreditado" Width="1.5" PointX="7.5" PointY="104.875" />
-        <EntityTypeShape EntityType="suaModel.Asegurado" Width="1.5" PointX="10.5" PointY="101.875" />
-        <EntityTypeShape EntityType="suaModel.Banco" Width="1.5" PointX="5.25" PointY="92.375" />
-        <EntityTypeShape EntityType="suaModel.catalogoMovimiento" Width="1.5" PointX="12.75" PointY="113.75" />
-        <EntityTypeShape EntityType="suaModel.Cliente" Width="1.5" PointX="5.25" PointY="68" />
-        <EntityTypeShape EntityType="suaModel.ContratosCliente" Width="1.5" PointX="10.5" PointY="66" />
-        <EntityTypeShape EntityType="suaModel.DatosAdicionalesCliente" Width="1.5" PointX="10.5" PointY="72.625" />
-        <EntityTypeShape EntityType="suaModel.Departamento" Width="1.5" PointX="5.25" PointY="81.25" />
-        <EntityTypeShape EntityType="suaModel.Empleado" Width="1.5" PointX="13" PointY="68" />
-        <EntityTypeShape EntityType="suaModel.Empresa" Width="1.5" PointX="5.25" PointY="86.875" />
-        <EntityTypeShape EntityType="suaModel.EsquemasPago" Width="1.5" PointX="5.25" PointY="98.375" />
-        <EntityTypeShape EntityType="suaModel.EstadoCivil" Width="1.5" PointX="5.25" PointY="47.25" />
-        <EntityTypeShape EntityType="suaModel.Estado" Width="1.5" PointX="7.5" PointY="59.25" />
-        <EntityTypeShape EntityType="suaModel.Factore" Width="1.5" PointX="5.25" PointY="42.75" />
-        <EntityTypeShape EntityType="suaModel.Funcion" Width="1.5" PointX="6" PointY="38" />
-        <EntityTypeShape EntityType="suaModel.Giro" Width="1.5" PointX="5.25" PointY="89.625" />
-        <EntityTypeShape EntityType="suaModel.Grupos" Width="1.5" PointX="3" PointY="71.875" />
-        <EntityTypeShape EntityType="suaModel.Incapacidade" Width="1.5" PointX="12.75" PointY="116.875" />
-        <EntityTypeShape EntityType="suaModel.ListaValidacionCliente" Width="1.5" PointX="10.5" PointY="61.875" />
-        <EntityTypeShape EntityType="suaModel.Modulo" Width="1.5" PointX="3.75" PointY="38.5" />
-        <EntityTypeShape EntityType="suaModel.Movimiento" Width="1.5" PointX="15.75" PointY="105.75" />
-        <EntityTypeShape EntityType="suaModel.MovimientosAsegurado" Width="1.5" PointX="15" PointY="110" />
-        <EntityTypeShape EntityType="suaModel.Pago" Width="1.5" PointX="12.75" PointY="100.75" />
-        <EntityTypeShape EntityType="suaModel.Pais" Width="1.5" PointX="5.25" PointY="50.125" />
+        <EntityTypeShape EntityType="suaModel.Acreditado" Width="1.5" PointX="10.5" PointY="100.125" />
+        <EntityTypeShape EntityType="suaModel.Asegurado" Width="1.5" PointX="7.5" PointY="103.25" />
+        <EntityTypeShape EntityType="suaModel.Banco" Width="1.5" PointX="5.25" PointY="94.375" />
+        <EntityTypeShape EntityType="suaModel.catalogoMovimiento" Width="1.5" PointX="9.75" PointY="112" />
+        <EntityTypeShape EntityType="suaModel.Cliente" Width="1.5" PointX="5.25" PointY="64.625" />
+        <EntityTypeShape EntityType="suaModel.ContratosCliente" Width="1.5" PointX="10.5" PointY="63.375" />
+        <EntityTypeShape EntityType="suaModel.DatosAdicionalesCliente" Width="1.5" PointX="7.5" PointY="69" />
+        <EntityTypeShape EntityType="suaModel.Departamento" Width="1.5" PointX="5.25" PointY="100.25" />
+        <EntityTypeShape EntityType="suaModel.Empleado" Width="1.5" PointX="15" PointY="73.5" />
+        <EntityTypeShape EntityType="suaModel.Empresa" Width="1.5" PointX="5.25" PointY="60.25" />
+        <EntityTypeShape EntityType="suaModel.EsquemasPago" Width="1.5" PointX="5.25" PointY="72" />
+        <EntityTypeShape EntityType="suaModel.EstadoCivil" Width="1.5" PointX="5.25" PointY="85" />
+        <EntityTypeShape EntityType="suaModel.Estado" Width="1.5" PointX="7.5" PointY="78.125" />
+        <EntityTypeShape EntityType="suaModel.Factore" Width="1.5" PointX="5.25" PointY="113.875" />
+        <EntityTypeShape EntityType="suaModel.Funcion" Width="1.5" PointX="10" PointY="82" />
+        <EntityTypeShape EntityType="suaModel.Giro" Width="1.5" PointX="5.25" PointY="79.5" />
+        <EntityTypeShape EntityType="suaModel.Grupos" Width="1.5" PointX="3" PointY="64.5" />
+        <EntityTypeShape EntityType="suaModel.Incapacidade" Width="1.5" PointX="9.75" PointY="118.125" />
+        <EntityTypeShape EntityType="suaModel.ListaValidacionCliente" Width="1.5" PointX="10.5" PointY="69.25" />
+        <EntityTypeShape EntityType="suaModel.Modulo" Width="1.5" PointX="6" PointY="45.5" />
+        <EntityTypeShape EntityType="suaModel.Movimiento" Width="1.5" PointX="12.75" PointY="104.875" />
+        <EntityTypeShape EntityType="suaModel.MovimientosAsegurado" Width="1.5" PointX="12" PointY="111.25" />
+        <EntityTypeShape EntityType="suaModel.Municipio" Width="1.5" PointX="12.75" PointY="78" />
+        <EntityTypeShape EntityType="suaModel.Pago" Width="1.5" PointX="15.75" PointY="102.25" />
+        <EntityTypeShape EntityType="suaModel.Pais" Width="1.5" PointX="5.25" PointY="88" />
         <EntityTypeShape EntityType="suaModel.Parametro" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="suaModel.Patrone" Width="1.5" PointX="3" PointY="144.5" />
         <EntityTypeShape EntityType="suaModel.Plaza" Width="1.5" PointX="0.75" PointY="68.125" />
-        <EntityTypeShape EntityType="suaModel.Proyecto" Width="1.5" PointX="7.5" PointY="84.125" />
-        <EntityTypeShape EntityType="suaModel.RegimenInfonavit" Width="1.5" PointX="5.25" PointY="78.5" />
-        <EntityTypeShape EntityType="suaModel.Residencia" Width="1.5" PointX="5.25" PointY="75.75" />
-        <EntityTypeShape EntityType="suaModel.ResumenPago" Width="1.5" PointX="5.25" PointY="103.5" />
-        <EntityTypeShape EntityType="suaModel.RoleFuncion" Width="1.5" PointX="8.25" PointY="65.375" />
-        <EntityTypeShape EntityType="suaModel.RoleModulo" Width="1.5" PointX="8.25" PointY="69.375" />
-        <EntityTypeShape EntityType="suaModel.Role" Width="1.5" PointX="0.75" PointY="64.5" />
-        <EntityTypeShape EntityType="suaModel.SDI" Width="1.5" PointX="5.25" PointY="95.25" />
-        <EntityTypeShape EntityType="suaModel.Servicio" Width="1.5" PointX="5.25" PointY="56.625" />
-        <EntityTypeShape EntityType="suaModel.Sexo" Width="1.5" PointX="5.25" PointY="53.625" />
-        <EntityTypeShape EntityType="suaModel.Solicitud" Width="1.5" PointX="9.75" PointY="84.25" />
-        <EntityTypeShape EntityType="suaModel.TipoContrato" Width="1.5" PointX="5.25" PointY="84" />
-        <EntityTypeShape EntityType="suaModel.TipoPersonal" Width="1.5" PointX="5.25" PointY="111.5" />
-        <EntityTypeShape EntityType="suaModel.TopicosUsuario" Width="1.5" PointX="5.25" PointY="62.875" />
-        <EntityTypeShape EntityType="suaModel.Usuario" Width="1.5" PointX="3" PointY="62.25" />
+        <EntityTypeShape EntityType="suaModel.Proyecto" Width="1.5" PointX="7.5" PointY="88.75" />
+        <EntityTypeShape EntityType="suaModel.RegimenInfonavit" Width="1.5" PointX="5.25" PointY="82.25" />
+        <EntityTypeShape EntityType="suaModel.Residencia" Width="1.5" PointX="5.25" PointY="57.5" />
+        <EntityTypeShape EntityType="suaModel.ResumenPago" Width="1.5" PointX="5.25" PointY="106.5" />
+        <EntityTypeShape EntityType="suaModel.RoleFuncion" Width="1.5" PointX="12.25" PointY="73.375" />
+        <EntityTypeShape EntityType="suaModel.RoleModulo" Width="1.5" PointX="8.25" PointY="65.375" />
+        <EntityTypeShape EntityType="suaModel.Role" Width="1.5" PointX="0.75" PointY="72.5" />
+        <EntityTypeShape EntityType="suaModel.SDI" Width="1.5" PointX="5.25" PointY="54.5" />
+        <EntityTypeShape EntityType="suaModel.Servicio" Width="1.5" PointX="5.25" PointY="48.75" />
+        <EntityTypeShape EntityType="suaModel.Sexo" Width="1.5" PointX="5.25" PointY="91.5" />
+        <EntityTypeShape EntityType="suaModel.Solicitud" Width="1.5" PointX="9.75" PointY="73.75" />
+        <EntityTypeShape EntityType="suaModel.TipoContrato" Width="1.5" PointX="5.25" PointY="97.25" />
+        <EntityTypeShape EntityType="suaModel.TipoPersonal" Width="1.5" PointX="5.25" PointY="51.5" />
+        <EntityTypeShape EntityType="suaModel.TopicosUsuario" Width="1.5" PointX="5.25" PointY="76.25" />
+        <EntityTypeShape EntityType="suaModel.Usuario" Width="1.5" PointX="3" PointY="68.25" />
         <AssociationConnector Association="suaModel.FK_Acreditados_Acreditados" />
         <AssociationConnector Association="suaModel.FK_Acreditados_Clientes" />
         <AssociationConnector Association="suaModel.FK_Movimientos_Acreditados" />
@@ -75,6 +76,7 @@
         <AssociationConnector Association="suaModel.FK_Empleados_EsquemasPago" />
         <AssociationConnector Association="suaModel.FK_Empleados_EstadoCivil" />
         <AssociationConnector Association="suaModel.FK_Empleados_Estados" />
+        <AssociationConnector Association="suaModel.FK_Empleados_Municipios" />
         <AssociationConnector Association="suaModel.FK_Empleados_Paises" />
         <AssociationConnector Association="suaModel.FK_Empleados_SDIs" />
         <AssociationConnector Association="suaModel.FK_Empleados_Sexos" />
@@ -86,6 +88,7 @@
         <AssociationConnector Association="suaModel.FK_EstadoCivil_EstadoCivil" />
         <AssociationConnector Association="suaModel.FK_Estados_Paises" />
         <AssociationConnector Association="suaModel.FK_Estados_Usuarios" />
+        <AssociationConnector Association="suaModel.FK_Municipios_Estados" />
         <AssociationConnector Association="suaModel.FK_Factores_Usuarios" />
         <AssociationConnector Association="suaModel.FK_Funciones_Modulos" />
         <AssociationConnector Association="suaModel.FK_RoleFunciones_Funciones" />
@@ -94,6 +97,8 @@
         <AssociationConnector Association="suaModel.FK_MovimientosAsegurado_Incapacidades" />
         <AssociationConnector Association="suaModel.FK_ListaValidacionCliente_Usuarios" />
         <AssociationConnector Association="suaModel.FK_RoleModulos_Modulos" />
+        <AssociationConnector Association="suaModel.FK_Municipios_Paises" />
+        <AssociationConnector Association="suaModel.FK_Municipios_Usuarios" />
         <AssociationConnector Association="suaModel.FK_Pagos_ResumenPago" />
         <AssociationConnector Association="suaModel.FK_Paises_Paises" />
         <AssociationConnector Association="suaModel.FK_PlazaPatrone" />
@@ -120,11 +125,6 @@
         <AssociationConnector Association="suaModel.FK_TipoPersonal_TipoPersonal" />
         <AssociationConnector Association="suaModel.FK_TopicosUsuario_Usuario" />
         <AssociationConnector Association="suaModel.FK_TopicosUsuario_Usuario2" />
-        <EntityTypeShape EntityType="suaModel.Municipio" Width="1.5" PointX="9.75" PointY="58.125" />
-        <AssociationConnector Association="suaModel.FK_Empleados_Municipios" />
-        <AssociationConnector Association="suaModel.FK_Municipios_Estados" />
-        <AssociationConnector Association="suaModel.FK_Municipios_Paises" />
-        <AssociationConnector Association="suaModel.FK_Municipios_Usuarios" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

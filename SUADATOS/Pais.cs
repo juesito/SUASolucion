@@ -29,7 +29,7 @@ namespace SUADATOS
     
         public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual ICollection<Estado> Estados { get; set; }
-        public virtual Usuario Usuario { get; set; }
         public virtual ICollection<Municipio> Municipios { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }
