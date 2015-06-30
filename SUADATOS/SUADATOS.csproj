@@ -39,6 +39,22 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="LinqToExcel">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\LinqToExcel.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.Data.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Interfaces">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.Interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -64,6 +80,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Cliente.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concepto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ContratosCliente.cs">

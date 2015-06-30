@@ -25,26 +25,31 @@ namespace SUADATOS
         public int plazaId { get; set; }
         public System.DateTime fechaSolicitud { get; set; }
         public int esquemaId { get; set; }
-        public int sdiId { get; set; }
+        public Nullable<int> sdiId { get; set; }
         public int contratoId { get; set; }
-        public System.DateTime fechaInicial { get; set; }
-        public System.DateTime fechaFinal { get; set; }
+        public Nullable<System.DateTime> fechaInicial { get; set; }
+        public Nullable<System.DateTime> fechaFinal { get; set; }
         public int tipoPersonalId { get; set; }
         public string solicita { get; set; }
         public string valida { get; set; }
         public string autoriza { get; set; }
         public int noTrabajadores { get; set; }
         public string observaciones { get; set; }
-        public string estatusSolicitud { get; set; }
-        public string estatusNomina { get; set; }
-        public string estatusAfiliado { get; set; }
-        public string estatusJuridico { get; set; }
-        public string estatusTarjeta { get; set; }
+        public int estatusSolicitud { get; set; }
+        public Nullable<int> estatusNomina { get; set; }
+        public Nullable<int> estatusAfiliado { get; set; }
+        public Nullable<int> estatusJuridico { get; set; }
+        public Nullable<int> estatusTarjeta { get; set; }
         public int usuarioId { get; set; }
         public int proyectoId { get; set; }
         public Nullable<System.DateTime> fechaEnvio { get; set; }
     
         public virtual Cliente Cliente { get; set; }
+        public virtual Concepto Concepto { get; set; }
+        public virtual Concepto Concepto1 { get; set; }
+        public virtual Concepto Concepto2 { get; set; }
+        public virtual Concepto Concepto3 { get; set; }
+        public virtual Concepto Concepto4 { get; set; }
         public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual EsquemasPago EsquemasPago { get; set; }
         public virtual Plaza Plaza { get; set; }

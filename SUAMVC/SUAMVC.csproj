@@ -59,6 +59,13 @@
     <Reference Include="HtmlSanitizationLibrary">
       <HintPath>..\packages\AntiXSS.4.2.1\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="LinqToExcel">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\LinqToExcel.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.Web.Helpers">
@@ -75,6 +82,15 @@
     </Reference>
     <Reference Include="PagedList.Mvc">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.Data.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Interfaces">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -153,6 +169,8 @@
     <Content Include="Content\Images\fileSearch.png" />
     <Content Include="Content\Images\hide.png" />
     <Content Include="Content\Images\search.png" />
+    <Content Include="Content\Images\see.png" />
+    <Content Include="Content\Images\send.png" />
     <Content Include="Content\Images\show.png" />
     <Content Include="Scripts\date_time.js" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
@@ -293,6 +311,7 @@
     <Compile Include="Controllers\BancosController.cs" />
     <Compile Include="Controllers\catalogoMovimientosController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\ConceptosController.cs" />
     <Compile Include="Controllers\ContratosClientesController.cs" />
     <Compile Include="Controllers\DatosAdicionalesClientesController.cs" />
     <Compile Include="Controllers\DepartamentosController.cs" />
@@ -322,9 +341,9 @@
     <Compile Include="Controllers\RoleFuncionesController.cs" />
     <Compile Include="Controllers\RoleModulosController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
-    <Compile Include="Controllers\SolicitudesController.cs" />
     <Compile Include="Controllers\SDIsController.cs" />
     <Compile Include="Controllers\SexoController.cs" />
+    <Compile Include="Controllers\SolicitudesController.cs" />
     <Compile Include="Controllers\TipoContratoController.cs" />
     <Compile Include="Controllers\TipoPersonalController.cs" />
     <Compile Include="Controllers\TopicosUsuarioController.cs" />
@@ -335,6 +354,8 @@
     </Compile>
     <Compile Include="Helpers\BdDrownList.cs" />
     <Compile Include="Helpers\Email.cs" />
+    <Compile Include="Helpers\ExcelHelper.cs" />
+    <Compile Include="Helpers\LinqToExcelProvider.cs" />
     <Compile Include="Helpers\StatusDrownList.cs" />
     <Compile Include="Models\AseguradoMovimientosModel.cs" />
     <Compile Include="Models\DatesHelper.cs" />
@@ -342,6 +363,7 @@
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\MenuItem.cs" />
     <Compile Include="Models\ParametrosHelper.cs" />
+    <Compile Include="Models\PersonalExcelLayout.cs" />
     <Compile Include="Models\RoleFuncionesModel.cs" />
     <Compile Include="Models\RoleModulosModel.cs" />
     <Compile Include="Models\SecurityUserModel.cs" />
@@ -532,6 +554,13 @@
     <Content Include="Views\Asegurados\DeleteMovs.cshtml" />
     <Content Include="Views\Asegurados\Paginado.cshtml" />
     <Content Include="Views\Asegurados\UploadFile.cshtml" />
+    <Content Include="Views\Conceptos\Create.cshtml" />
+    <Content Include="Views\Conceptos\Delete.cshtml" />
+    <Content Include="Views\Conceptos\Details.cshtml" />
+    <Content Include="Views\Conceptos\Edit.cshtml" />
+    <Content Include="Views\Conceptos\Index.cshtml" />
+    <Content Include="Views\Empleados\CargarEmpleadosPorExcel.cshtml" />
+    <Content Include="Views\Empleados\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

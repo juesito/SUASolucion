@@ -30,6 +30,7 @@ namespace SUADATOS
         public virtual DbSet<Banco> Bancos { get; set; }
         public virtual DbSet<catalogoMovimiento> catalogoMovimientos { get; set; }
         public virtual DbSet<Cliente> Clientes { get; set; }
+        public virtual DbSet<Concepto> Conceptos { get; set; }
         public virtual DbSet<ContratosCliente> ContratosClientes { get; set; }
         public virtual DbSet<DatosAdicionalesCliente> DatosAdicionalesClientes { get; set; }
         public virtual DbSet<Departamento> Departamentos { get; set; }
@@ -47,6 +48,7 @@ namespace SUADATOS
         public virtual DbSet<Modulo> Modulos { get; set; }
         public virtual DbSet<Movimiento> Movimientos { get; set; }
         public virtual DbSet<MovimientosAsegurado> MovimientosAseguradoes { get; set; }
+        public virtual DbSet<Municipio> Municipios { get; set; }
         public virtual DbSet<Pago> Pagos { get; set; }
         public virtual DbSet<Pais> Paises { get; set; }
         public virtual DbSet<Parametro> Parametros { get; set; }
@@ -62,11 +64,10 @@ namespace SUADATOS
         public virtual DbSet<SDI> SDIs { get; set; }
         public virtual DbSet<Servicio> Servicios { get; set; }
         public virtual DbSet<Sexo> Sexos { get; set; }
-        public virtual DbSet<Solicitud> Solicituds { get; set; }
         public virtual DbSet<TipoContrato> TipoContratoes { get; set; }
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
-        public virtual DbSet<Municipio> Municipios { get; set; }
+        public virtual DbSet<Solicitud> Solicituds { get; set; }
     }
 }

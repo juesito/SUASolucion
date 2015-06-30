@@ -12,19 +12,28 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class TipoContrato
+    public partial class Concepto
     {
-        public TipoContrato()
+        public Concepto()
         {
             this.Solicituds = new HashSet<Solicitud>();
+            this.Solicituds1 = new HashSet<Solicitud>();
+            this.Solicituds2 = new HashSet<Solicitud>();
+            this.Solicituds3 = new HashSet<Solicitud>();
+            this.Solicituds4 = new HashSet<Solicitud>();
         }
     
         public int id { get; set; }
+        public string grupo { get; set; }
         public string descripcion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
         public virtual Usuario Usuario { get; set; }
         public virtual ICollection<Solicitud> Solicituds { get; set; }
+        public virtual ICollection<Solicitud> Solicituds1 { get; set; }
+        public virtual ICollection<Solicitud> Solicituds2 { get; set; }
+        public virtual ICollection<Solicitud> Solicituds3 { get; set; }
+        public virtual ICollection<Solicitud> Solicituds4 { get; set; }
     }
 }

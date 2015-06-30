@@ -1,0 +1,122 @@
+﻿@model IEnumerable<SUADATOS.Empleado>
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+
+@{
+    ViewBag.Title = "Empleados registrados";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+
+    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+    //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+    gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
+    gridColumns.Add(grid.Column("solicitudFolio", "ID", format: @<text> @if (@item.Solicitud.folioSolicitud != null)
+    {  @item.Solicitud.folioSolicitud }</text>, canSort: true));
+    gridColumns.Add(grid.Column("apellidoPaterno", "Paterno", format: @<text> @if (@item.apellidoPaterno != null){  @item.apellidoPaterno }</text>, canSort: true));
+    gridColumns.Add(grid.Column("apellidoMaterno", "Materno", format: @<text> @if (@item.apellidoMaterno != null){  @item.apellidoMaterno }</text>, canSort: true));
+    gridColumns.Add(grid.Column("nombre", "Nombre", format: @<text> @if (@item.nombre != null){  @item.nombre }</text>, canSort: true));
+    gridColumns.Add(grid.Column("nss", "Nss", format: @<text> @if (@item.nss != null){  @item.nss }</text>, canSort: true));
+    gridColumns.Add(grid.Column("sdi.descripcion", "Sdi", format: @<text> @if (@item.sdi != null){  @item.sdi.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("salarioReal", "Salario Real", format: @<text> @if (@item.salarioReal != null){  @item.salarioReal }</text>, canSort: true));
+    gridColumns.Add(grid.Column("categoria", "Categoria", format: @<text> @if (@item.categoria != null){  @item.categoria }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Banco.descripcion", "Banco", format: @<text> @if (@item.bancoId != null){  @item.Banco.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("cuentaBancaria", "Cuenta Bancaria", format: @<text> @if (@item.cuentaBancaria != null){  @item.cuentaBancaria }</text>, canSort: true));
+    gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creacion", @<text><div style='width: 6em'>@item.fechaCreacion.ToString("dd-MM-yyyy")</div></text>, null, canSort: true));
+    gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", 
+        @<text><div style='width: 6em'>
+    @if (@item.fechaBaja != null)
+        { @item.fechabaja.ToString("dd-MM-yyyy")}
+</div></text>, null, canSort: true));
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "Ver", format: @<text><a href="@Url.Action("Details", "Empleados", new { id = item.id })"><img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Solicitudes", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Solicitudes", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "Historial", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "Reportes", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+
+    sb.Append(grid.GetHtml(
+    columns: grid.Columns(gridColumns.ToArray()),
+    tableStyle: "table table-striped tableSua"
+    ));
+
+    tableHtml = sb.ToString().Replace("{}", "<input type='checkbox' id='selectAll' name='slall' />").Trim();
+
+
+}
+
+    @section Menu {
+        <div>Empleados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    }
+
+    <p>
+        @Html.ActionLink("Enviar Email", "sendEmail")
+    </p>
+
+@using (Html.BeginForm())
+{
+    <div class="marqueeFilter">
+        <table style="float:left; margin-top:5px;display:inline-block;">
+            <thead>
+                <tr style="text-align:left;vertical-align:bottom;">
+                    <td style="padding-top:15px">
+                        @Html.Label("Cliente:")
+                        @Html.clientesDrownList(usuario.Id)
+                    </td>
+                    <td>
+                        @Html.Label("Folio:")
+                        @Html.Editor("folioId")
+                    </td>
+                    <td>
+                        <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+}
+
+
+@if (!tableHtml.IsEmpty())
+{
+    <div id="table-container" class="table-container">
+        @Html.Raw(tableHtml)
+    </div>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=slall]").change(function () {
+            $('#table-container input[type=checkbox]').each(function () {
+                if ($("input[name=slall]:checked").length == 1) {
+                    this.checked = true;
+                } else {
+                    this.checked = false;
+                }
+            });
+        });
+    });
+</script>
+
+    

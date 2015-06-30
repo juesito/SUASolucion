@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
 using SUAMVC.Helpers;
+using SUAMVC.Models;
+using System.Data.Entity.Validation;
+using System.Text;
 
 namespace SUAMVC.Controllers
 {
@@ -16,9 +19,16 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Empleados
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
+
             var empleados = db.Empleados.Include(e => e.Banco).Include(e => e.EsquemasPago).Include(e => e.EstadoCivil).Include(e => e.Estado).Include(e => e.Municipio).Include(e => e.Pais).Include(e => e.SDI).Include(e => e.Sexo).Include(e => e.Solicitud).Include(e => e.Usuario);
+            if (!String.IsNullOrEmpty(id))
+            {
+                int idTemp = int.Parse(id);
+                empleados = empleados.Where(s => s.solicitudId.Equals(idTemp));
+            }
+
             return View(empleados.ToList());
         }
 
@@ -53,8 +63,6 @@ namespace SUAMVC.Controllers
             ViewBag.nacionalidadId = new SelectList(db.Paises, "id", "descripcion");
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion");
             ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion");
-            ViewBag.solicitudId = new SelectList(db.Solicituds, "id", "solicita");
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario");
 
             return View(empleado);
         }
@@ -68,9 +76,39 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+                empleado.fechaCreacion = DateTime.Now;
+                empleado.usuarioId = usuario.Id;
+                empleado.nombreCompleto = empleado.nombre + " " + empleado.apellidoPaterno + " " + empleado.apellidoMaterno;
+                empleado.estatus = "A";
                 db.Empleados.Add(empleado);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
+                try
+                {
+                    db.SaveChanges();
+
+                    Solicitud solicitud = db.Solicituds.Find(empleado.solicitudId);
+                    solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
+
+                    db.Entry(solicitud).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    foreach (var failure in ex.EntityValidationErrors)
+                    {
+                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                        foreach (var error in failure.ValidationErrors)
+                        {
+                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                            sb.AppendLine();
+                        }
+                    }
+                }
+
+                return RedirectToAction("Index", new { id = empleado.solicitudId});
             }
 
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
@@ -81,8 +119,6 @@ namespace SUAMVC.Controllers
             ViewBag.nacionalidadId = new SelectList(db.Paises, "id", "descripcion", empleado.nacionalidadId);
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", empleado.sdiId);
             ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion", empleado.sexoId);
-            ViewBag.solicitudId = new SelectList(db.Solicituds, "id", "solicita", empleado.solicitudId);
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", empleado.usuarioId);
             return View(empleado);
         }
 
@@ -132,8 +168,6 @@ namespace SUAMVC.Controllers
             ViewBag.nacionalidadId = new SelectList(db.Paises, "id", "descripcion", empleado.nacionalidadId);
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", empleado.sdiId);
             ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion", empleado.sexoId);
-            ViewBag.solicitudId = new SelectList(db.Solicituds, "id", "solicita", empleado.solicitudId);
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", empleado.usuarioId);
             return View(empleado);
         }
 
@@ -163,12 +197,59 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult sendEmail() {
+        public ActionResult sendEmail()
+        {
             Email email = new Email();
             email.EnviarEmail();
 
             return RedirectToAction("Index");
         }
+
+        public ActionResult CargarEmpleadosPorExcel(int id)
+        {
+            return View();
+        }
+
+        public ActionResult GrabarEmpleadosExcel()
+        {
+
+            //ExcelHelper ex = new ExcelHelper();
+
+            if (Request.Files.Count > 0)
+            {
+                var file = Request.Files[0];
+
+                if (file != null && file.ContentLength > 0)
+                {
+                    ExcelHelper ex = new ExcelHelper();
+                    //List<PersonalExcelLayout> pel = ex.getPersonalDatos(@"C:\SUA\Layouts\" + file.FileName);
+                    LinqToExcelProvider provider = new LinqToExcelProvider(@"C:\SUA\Layouts\" + file.FileName);
+
+                    var query = (from row in provider.GetWorkSheet("datos")
+                                 let item = new PersonalExcelLayout
+                                 {
+                                     nombre = Convert.ToString(row.Field<Object>("Nombre")),
+                                     apellidoMaterno = Convert.ToString(row.Field<Object>("ApellidoMaterno")),
+                                     apellidoPaterno = Convert.ToString(row.Field<Object>("ApellidoPaterno")),
+                                     edad = Convert.ToInt32(row.Field<Object>("Edad"))
+
+                                 }
+                                 select item).ToList();
+
+
+
+                    foreach (PersonalExcelLayout pelItem in query)
+                    {
+                        Console.WriteLine(string.Format("{0}\t{1}\t{2}\t{3}", pelItem.nombre, pelItem.apellidoMaterno, pelItem.apellidoPaterno, pelItem.edad.ToString()));
+                    }
+
+
+                }
+            }
+
+            return RedirectToAction("Index", "Solicitudes");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
