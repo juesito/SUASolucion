@@ -15,10 +15,23 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: DatosAdicionalesClientes
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
 
+            //Toma todos los registros de cliente del catalogo Datos adicionales cliente, incluidos en las tablas:Cliente y Usuario
             var datosAdicionalesClientes = db.DatosAdicionalesClientes.Include(d => d.Cliente).Include(d => d.Usuario);
+            //Valida que la variable id(esta variable es como la llamo en el icono del index de clientes) sea nula
+            if (String.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index", "Clientes");
+            }
+            else
+            {
+                int idTemp = int.Parse(id);
+                Cliente cliente = db.Clientes.Find(idTemp);
+                TempData["cliente"] = cliente;
+                datosAdicionalesClientes = datosAdicionalesClientes.Where(s => s.clienteId.Equals(idTemp));
+            }
             return View(datosAdicionalesClientes.ToList());
         }
 
@@ -38,10 +51,12 @@ namespace SUAMVC.Controllers
         }
 
         // GET: DatosAdicionalesClientes/Create
-        public ActionResult Create()
+        public ActionResult Create(string clienteId)
         {
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario");
+            
+            int idTemp = int.Parse(clienteId);
+            Cliente cliente = db.Clientes.Find(idTemp);
+            TempData["cliente"] = cliente;
             return View();
         }
 
@@ -50,17 +65,24 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,clienteId,porcentajeComNomina,ivaNomina,porcentajeComIAS,ivaIAS,porcentajeComFlujo,ivaFlujo,costoSocial,conceptoFacturacion,fechaCreacion,usuarioId")] DatosAdicionalesCliente datosAdicionalesCliente)
+        public ActionResult Create([Bind(Include = "id,clienteId,porcentajeComNomina,ivaNomina,porcentajeComIAS,ivaIAS,porcentajeComFlujo,ivaFlujo,costoSocial,conceptoFacturacion,fechaCreacion,usuarioId")] DatosAdicionalesCliente datosAdicionalesCliente, int clienteId)
         {
             if (ModelState.IsValid)
             {
+
                 Usuario usuario = Session["UsuarioData"] as Usuario;
+                Cliente cliente = db.Clientes.Find(clienteId);
+                TempData["cliente"] = cliente;
 
                 datosAdicionalesCliente.fechaCreacion = DateTime.Now;
                 datosAdicionalesCliente.usuarioId = usuario.Id;
+                datosAdicionalesCliente.clienteId = cliente.Id;
+                datosAdicionalesCliente.Cliente = cliente;
                 db.DatosAdicionalesClientes.Add(datosAdicionalesCliente);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                
+                return RedirectToAction("Index", new { id = clienteId });
             }
 
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", datosAdicionalesCliente.clienteId);
@@ -73,7 +95,7 @@ namespace SUAMVC.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", "Clientes");
             }
             DatosAdicionalesCliente datosAdicionalesCliente = db.DatosAdicionalesClientes.Find(id);
             if (datosAdicionalesCliente == null)
@@ -100,7 +122,7 @@ namespace SUAMVC.Controllers
                 datosAdicionalesCliente.usuarioId = usuario.Id;
                 db.Entry(datosAdicionalesCliente).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new{ id = datosAdicionalesCliente.clienteId});
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", datosAdicionalesCliente.clienteId);
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", datosAdicionalesCliente.usuarioId);

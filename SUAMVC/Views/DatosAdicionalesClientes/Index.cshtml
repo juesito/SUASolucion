@@ -10,6 +10,8 @@
     {
         Response.Redirect("~/Home/Index");
     }
+     Cliente cliente = TempData["cliente"] as Cliente;
+
 
     var grid = new WebGrid(source: Model, canPage: true, rowsPerPage: 15);
     var tableHtml = string.Empty;
@@ -28,22 +30,16 @@
     gridColumns.Add(grid.Column("conceptoFacturacion", "Concepto Facturación"));
     gridColumns.Add(grid.Column("fechaCreacion", "Fecha Alta", null, null, true));
     gridColumns.Add(grid.Column("Cliente.claveCliente", "Clave Cliente", null, null, true));
-    gridColumns.Add(grid.Column("Usuario.nombreUsuario", "Usuario",@<text><div style='width: 23em'>@item.usuarioId</div></text>, null, true));
-    gridColumns.Add(grid.Column(header: "Consultar", format: @<text><a href="@Url.Action("Details", "DatosAdicionalesCLientes", new { id = item.id})">
-    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
-</a></text>));
+    gridColumns.Add(grid.Column("Usuario.nombreUsuario", "Usuario Alta",@<text><div style='width: 23em'>@item.usuarioId</div></text>, null, true));
     gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "DatosAdicionalesClientes", new { id = item.id })">
         <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
     </a></text>));
     gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "DatosAdicionalesClientes", new { id = item.id })">
             <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
         </a></text>));
-    gridColumns.Add(grid.Column(header: @Language.claveCliente, format: @<text><a href="@Url.Action("Index", "Clientes", new { id = item.id })">
-                <img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" />
-            </a></text>));
-
+   
             <p>
-                @Html.ActionLink(@Language.agregar + " " + @Language.datAdiCliente, "Create", "DatosAdicionalesCliente", new { @class = "btn btn-success" })
+                @Html.ActionLink(@Language.agregar + " " + @Language.datAdiCliente, "Create", "DatosAdicionalesClientes", new { clienteId = cliente.Id }, new { @class = "btn btn-success" })
             </p>
 
     sb.Append(
@@ -60,6 +56,7 @@
     @section Menu {
       <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catálogo de Datos Adicionales Cliente </div>
     }
+<p>Listas de datos adicionales para el cliente: @cliente.descripcion</p>
 
     @if (!tableHtml.IsEmpty())
     {
