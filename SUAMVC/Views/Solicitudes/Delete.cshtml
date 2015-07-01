@@ -88,51 +88,51 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.estatusSolicitud)
+            @Html.DisplayFor(model => model.Concepto.descripcion)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.estatusNomina)
+            @Html.Label("Estatus Nomina")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.estatusNomina)
+            @Html.DisplayFor(model => model.Concepto1.descripcion)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.estatusAfiliado)
+            @Html.Label("Estatus Afiliado")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.estatusAfiliado)
+            @Html.DisplayFor(model => model.Concepto3.descripcion)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.estatusJuridico)
+            @Html.Label("Estatus Juridico")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.estatusJuridico)
+            @Html.DisplayFor(model => model.Concepto2.descripcion)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.estatusTarjeta)
+            @Html.Label("Estatus tarjeta")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.estatusTarjeta)
+            @Html.DisplayFor(model => model.Concepto4.descripcion)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Cliente.claveCliente)
+            @Html.Label(Language.cliente)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Cliente.claveCliente)
+            @Html.DisplayFor(model => model.Cliente.descripcion)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.EsquemasPago.descripcion)
+            @Html.Label(Language.esquema)
         </dt>
 
         <dd>
@@ -140,7 +140,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Proyecto.descripcion)
+            @Html.Label(Language.proyecto)
         </dt>
 
         <dd>
@@ -148,7 +148,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Plaza.descripcion)
+            @Html.Label(Language.residencia)
         </dt>
 
         <dd>
@@ -156,7 +156,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SDI.descripcion)
+            @Html.Label(Language.sdi)
         </dt>
 
         <dd>
@@ -164,7 +164,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TipoContrato.descripcion)
+            @Html.Label(Language.tipoContrato)
         </dt>
 
         <dd>
@@ -172,21 +172,12 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TipoPersonal.descripcion)
+            @Html.Label(Language.tipoPersonal)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.TipoPersonal.descripcion)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Usuario.nombreUsuario)
-        </dd>
-
     </dl>
 
     @using (Html.BeginForm())

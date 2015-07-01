@@ -245,6 +245,7 @@
   <ItemGroup>
     <Content Include="Model1.edmx.sql" />
     <Content Include="StoreProcedures\spCreateActionFunctions.sql" />
+    <Content Include="StoreProcedures\spCreateFactors.sql" />
     <Content Include="StoreProcedures\sp_createCatalogoMovimientos.sql" />
     <Content Include="StoreProcedures\sp_createFunctions.sql" />
     <Content Include="StoreProcedures\sp_createModules.sql" />
