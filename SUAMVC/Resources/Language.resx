@@ -610,4 +610,8 @@
   <data name="poderRepresentanteLegal" xml:space="preserve">
     <value>Poder Representante Legal</value>
   </data>
+  <data name="concepto" xml:space="preserve">
+    <value>Concepto</value>
+    <comment>Etiqueta para Concepto</comment>
+  </data>
 </root>

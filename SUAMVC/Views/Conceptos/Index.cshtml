@@ -3,6 +3,11 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
 }
 
 @section Menu {
@@ -10,45 +15,49 @@
 }
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink(@Language.agregar + " " + @Language.concepto, "Create", "concepto", new { @class = "btn btn-success" })
 </p>
-<table class="table">
+<table class="table table-striped tableSua">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.grupo)
+            @Html.DisplayName(@Language.grupo)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.descripcion)
+            @Html.DisplayName(@Language.descripcion)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.fechaCreacion)
+            @Html.DisplayName(@Language.fechaAlta)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
+            @Html.DisplayName(@Language.usuarioAlta)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.grupo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaCreacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.grupo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fechaCreacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit","conceptos", new { id = item.id })" title="@Language.edit">
+                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+                </a>|
+                <a href="@Url.Action("Delete", "conceptos", new { id = item.id })" title="@Language.borrar">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a>
+            </td>
+        </tr>
+    }
 
 </table>

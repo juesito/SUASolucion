@@ -313,6 +313,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Concepto.
+        /// </summary>
+        public static string concepto {
+            get {
+                return ResourceManager.GetString("concepto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Consultar.
         /// </summary>
         public static string consulta {
