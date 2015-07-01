@@ -39,11 +39,11 @@ namespace SUADATOS
             this.SDIs = new HashSet<SDI>();
             this.Servicios = new HashSet<Servicio>();
             this.Sexos = new HashSet<Sexo>();
+            this.Solicituds = new HashSet<Solicitud>();
             this.TipoContratoes = new HashSet<TipoContrato>();
             this.TipoPersonals = new HashSet<TipoPersonal>();
             this.TopicosUsuarios = new HashSet<TopicosUsuario>();
             this.TopicosUsuarios1 = new HashSet<TopicosUsuario>();
-            this.Solicituds = new HashSet<Solicitud>();
         }
     
         public int Id { get; set; }
@@ -83,10 +83,10 @@ namespace SUADATOS
         public virtual ICollection<SDI> SDIs { get; set; }
         public virtual ICollection<Servicio> Servicios { get; set; }
         public virtual ICollection<Sexo> Sexos { get; set; }
+        public virtual ICollection<Solicitud> Solicituds { get; set; }
         public virtual ICollection<TipoContrato> TipoContratoes { get; set; }
         public virtual ICollection<TipoPersonal> TipoPersonals { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios1 { get; set; }
-        public virtual ICollection<Solicitud> Solicituds { get; set; }
     }
 }

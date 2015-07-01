@@ -64,10 +64,10 @@ namespace SUADATOS
         public virtual DbSet<SDI> SDIs { get; set; }
         public virtual DbSet<Servicio> Servicios { get; set; }
         public virtual DbSet<Sexo> Sexos { get; set; }
+        public virtual DbSet<Solicitud> Solicituds { get; set; }
         public virtual DbSet<TipoContrato> TipoContratoes { get; set; }
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
-        public virtual DbSet<Solicitud> Solicituds { get; set; }
     }
 }
