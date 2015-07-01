@@ -5,287 +5,232 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Empleado</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.nss)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.nss)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.fechaAltaImss)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fechaAltaImss)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.apellidoMaterno)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.apellidoMaterno)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.apellidoPaterno)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.apellidoPaterno)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.nombreCompleto)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.nombreCompleto)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.rfc)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.rfc)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.homoclave)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.homoclave)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.curp)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.curp)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.salarioReal)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.salarioReal)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.categoria)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.categoria)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.tieneInfonavit)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.tieneInfonavit)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.creditoInfonavit)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.creditoInfonavit)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.fechaNacimiento)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fechaNacimiento)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.calleNumero)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.calleNumero)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.colonia)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.colonia)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.edoMunicipio)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.edoMunicipio)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.codigoPostal)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.codigoPostal)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.tramitarTarjeta)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.tramitarTarjeta)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.cuentaBancaria)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.cuentaBancaria)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.observaciones)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.observaciones)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.fechaCreacion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fechaCreacion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.estatus)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.estatus)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Banco.descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Banco.descripcion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EsquemasPago.descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EsquemasPago.descripcion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EstadoCivil.descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EstadoCivil.descripcion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Estado.descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Estado.descripcion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Municipio.descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Municipio.descripcion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Pais.descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Pais.descripcion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SDI.descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SDI.descripcion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Sexo.descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sexo.descripcion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Solicitud.solicita)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Solicitud.solicita)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Usuario.nombreUsuario)
-        </dd>
-
-    </dl>
+@section Menu {
+    <div>Ver empleado : @Html.DisplayFor(model => model.nombreCompleto)<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Generales</a></li>
+        <li><a href="#tabs-2">Documentos</a></li>
+        <li><a href="#tabs-3">Salariales</a></li>
+        <li><a href="#tabs-4">SUA</a></li>
+    </ul>
+    <div id="tabs-1">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.Label(Language.cliente)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Solicitud.Cliente.descripcion)
+            </dd>
+            <dt>
+                @Html.Label(Language.proyecto)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Solicitud.Proyecto.descripcion)
+            </dd>
+            <dt>
+                @Html.Label(Language.plaza)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Solicitud.Plaza.descripcion)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.apellidoPaterno)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.apellidoPaterno)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.apellidoMaterno)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.apellidoMaterno)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.nombre)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.nombre)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.nss)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.nss)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.categoria)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.categoria)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.fechaCreacion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fechaCreacion)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.fechaBaja)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fechaBaja)
+            </dd>
+            <dt>
+                @Html.Label(Language.sexo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Sexo.descripcion)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.rfc)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.rfc)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.homoclave)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.homoclave)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.curp)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.curp)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.fechaNacimiento)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fechaNacimiento)
+            </dd>
+            <dt>
+                @Html.Label(Language.estado)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Estado.descripcion)
+            </dd>
+            <dt>
+                @Html.Label(Language.municipio)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Municipio.descripcion)
+            </dd>
+
+            <dt>
+                @Html.Label(Language.pais)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Pais.descripcion)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.email)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.observaciones)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.observaciones)
+            </dd>
+        </dl>
+    </div>
+    <div id="tabs-2">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.calleNumero)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.calleNumero)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.colonia)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.colonia)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.edoMunicipio)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.edoMunicipio)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.codigoPostal)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.codigoPostal)
+            </dd>
+        </dl>
+    </div>
+    <div id="tabs-3">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.SDI.descripcion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SDI.descripcion)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.salarioReal)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.salarioReal)
+            </dd>
+            <dt>
+                @Html.Label(Language.bancos)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Banco.descripcion)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.creditoInfonavit)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.creditoInfonavit)
+            </dd>
+        </dl>
+    </div>
+    <div id="tabs-4"></div>
 </div>
+
+
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(Language.regresar, "Index")
 </p>

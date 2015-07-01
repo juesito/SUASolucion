@@ -170,6 +170,10 @@ BEGIN
 	VALUES 
 		('Estados Civiles', 'Catalogo de Estados Civiles CIAH', 'Index', 'EstadoCivil', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
 
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Conceptos', 'Catalogo de Conceptos CIAH', 'Index', 'Conceptos', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
 
 
 	--Buscamos el modulo de seguridad para insertar las funciones correspondientes

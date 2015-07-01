@@ -30,6 +30,7 @@ namespace SUADATOS
         public virtual DbSet<Banco> Bancos { get; set; }
         public virtual DbSet<catalogoMovimiento> catalogoMovimientos { get; set; }
         public virtual DbSet<Cliente> Clientes { get; set; }
+        public virtual DbSet<Concepto> Conceptos { get; set; }
         public virtual DbSet<ContratosCliente> ContratosClientes { get; set; }
         public virtual DbSet<DatosAdicionalesCliente> DatosAdicionalesClientes { get; set; }
         public virtual DbSet<Departamento> Departamentos { get; set; }

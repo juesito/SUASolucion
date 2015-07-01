@@ -17,6 +17,7 @@ namespace SUADATOS
         public Usuario()
         {
             this.Bancos = new HashSet<Banco>();
+            this.Conceptos = new HashSet<Concepto>();
             this.ContratosClientes = new HashSet<ContratosCliente>();
             this.DatosAdicionalesClientes = new HashSet<DatosAdicionalesCliente>();
             this.Departamentos = new HashSet<Departamento>();
@@ -58,6 +59,7 @@ namespace SUADATOS
         public int plazaId { get; set; }
     
         public virtual ICollection<Banco> Bancos { get; set; }
+        public virtual ICollection<Concepto> Conceptos { get; set; }
         public virtual ICollection<ContratosCliente> ContratosClientes { get; set; }
         public virtual ICollection<DatosAdicionalesCliente> DatosAdicionalesClientes { get; set; }
         public virtual ICollection<Departamento> Departamentos { get; set; }
