@@ -589,4 +589,25 @@
     <value>Solicitud</value>
     <comment>Etiqueta para Solicitud</comment>
   </data>
+  <data name="actaConstitutivaEmpresa" xml:space="preserve">
+    <value>Acta Constitutiva Empresa</value>
+  </data>
+  <data name="comprobanteDomicilio" xml:space="preserve">
+    <value>Comprobante de Domicilio</value>
+  </data>
+  <data name="contratosClientes" xml:space="preserve">
+    <value>Contrato Cliente</value>
+  </data>
+  <data name="fechaFinalVigencia" xml:space="preserve">
+    <value>Fecha Final Vigencia</value>
+  </data>
+  <data name="fechaInicioVigencia" xml:space="preserve">
+    <value>Fecha Inicial Vigencia</value>
+  </data>
+  <data name="ifeRepresentanteLegal" xml:space="preserve">
+    <value>IFE Representante Legal</value>
+  </data>
+  <data name="poderRepresentanteLegal" xml:space="preserve">
+    <value>Poder Representante Legal</value>
+  </data>
 </root>

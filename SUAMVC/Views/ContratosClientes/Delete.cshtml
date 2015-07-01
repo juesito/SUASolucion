@@ -3,159 +3,175 @@
 @{
     ViewBag.Title = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
 }
 
-<h2>Delete</h2>
+@section Menu {
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catálogo Contratos Cliente </div>
+}
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>ContratosCliente</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.descripcion)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.descripcion)
-        </dd>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        ¿Desea borrar este registro?
+    </div>
+    <div class="panel-body" style="font-size:10px;">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName(@Language.descripcion)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.archivo1)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.descripcion)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.archivo1)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.archivo1)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.archivo2)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.archivo1)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.archivo2)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.archivo2)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.archivo3)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.archivo2)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.archivo3)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.archivo3)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.fechaFirma)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.archivo3)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.fechaFirma)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.fechaFirma)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.firmo)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.fechaFirma)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.firmo)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.firmo)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.testigo)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.firmo)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.testigo)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.testigo)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.actaConstitutivaEmpresa)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.testigo)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.actaConstitutivaEmpresa)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.actaConstitutivaEmpresa)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.poderRepresentanteLegal)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.actaConstitutivaEmpresa)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.poderRepresentanteLegal)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.poderRepresentanteLegal)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ifeRepresentanteLegal)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.poderRepresentanteLegal)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ifeRepresentanteLegal)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.ifeRepresentanteLegal)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.comprobanteDomicilio)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ifeRepresentanteLegal)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.comprobanteDomicilio)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.comprobanteDomicilio)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.fechaInicioVigencia)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.comprobanteDomicilio)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.fechaInicioVigencia)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.fechaInicioVigencia)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.fechaFinalVigencia)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.fechaInicioVigencia)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.fechaFinalVigencia)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.fechaFinalVigencia)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.estatus)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.fechaFinalVigencia)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.estatus)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.estatus)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.fechaCreacion)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.estatus)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.fechaCreacion)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.fechaAlta)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Cliente.claveCliente)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.fechaCreacion)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Cliente.claveCliente)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.claveCliente)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Cliente.claveCliente)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Usuario.nombreUsuario)
-        </dd>
+            <dt>
+                @Html.DisplayName(@Language.usuarioAlta)
+            </dt>
 
-    </dl>
+            <dd>
+                @Html.DisplayFor(model => model.Usuario.nombreUsuario)
+            </dd>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+        </dl>
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+    <div class="form-group" style="margin-top:40px;">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="@Language.borrar" class="btn btn-primary" />
         </div>
-    }
-</div>
+    </div>
+        }
+        </div>
+    </div>
+            
+
+            <div>
+                @Html.ActionLink(@Language.regresar, "Index")
+            </div>

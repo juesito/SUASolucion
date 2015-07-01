@@ -79,6 +79,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Acta Constitutiva Empresa.
+        /// </summary>
+        public static string actaConstitutivaEmpresa {
+            get {
+                return ResourceManager.GetString("actaConstitutivaEmpresa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Busqueda Avanzada.
         /// </summary>
         public static string advanceSearch {
@@ -286,6 +295,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Comprobante de Domicilio.
+        /// </summary>
+        public static string comprobanteDomicilio {
+            get {
+                return ResourceManager.GetString("comprobanteDomicilio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Concepto de Facturación.
         /// </summary>
         public static string concepFacturacion {
@@ -309,6 +327,15 @@ namespace SUAMVC.Resources {
         public static string contCliente {
             get {
                 return ResourceManager.GetString("contCliente", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Contrato Cliente.
+        /// </summary>
+        public static string contratosClientes {
+            get {
+                return ResourceManager.GetString("contratosClientes", resourceCulture);
             }
         }
         
@@ -628,11 +655,29 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Fecha Final Vigencia.
+        /// </summary>
+        public static string fechaFinalVigencia {
+            get {
+                return ResourceManager.GetString("fechaFinalVigencia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Fecha Firma.
         /// </summary>
         public static string fechaFirma {
             get {
                 return ResourceManager.GetString("fechaFirma", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fecha Inicial Vigencia.
+        /// </summary>
+        public static string fechaInicioVigencia {
+            get {
+                return ResourceManager.GetString("fechaInicioVigencia", resourceCulture);
             }
         }
         
@@ -714,6 +759,15 @@ namespace SUAMVC.Resources {
         public static string Home_Title {
             get {
                 return ResourceManager.GetString("Home_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a IFE Representante Legal.
+        /// </summary>
+        public static string ifeRepresentanteLegal {
+            get {
+                return ResourceManager.GetString("ifeRepresentanteLegal", resourceCulture);
             }
         }
         
@@ -912,6 +966,15 @@ namespace SUAMVC.Resources {
         public static string plazaId {
             get {
                 return ResourceManager.GetString("plazaId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Poder Representante Legal.
+        /// </summary>
+        public static string poderRepresentanteLegal {
+            get {
+                return ResourceManager.GetString("poderRepresentanteLegal", resourceCulture);
             }
         }
         

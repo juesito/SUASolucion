@@ -1,130 +1,75 @@
 ﻿@model IEnumerable<SUADATOS.ContratosCliente>
-
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+
+    var grid = new WebGrid(source: Model, canPage: true, rowsPerPage: 10);
+
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+
+    //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+
+    //Agregamos las columnas al grid
+    gridColumns.Add(grid.Column("descripcion", "Descripción", null, null, true));
+    gridColumns.Add(grid.Column("archivo1", "Archivo 1", null, null, true));
+    gridColumns.Add(grid.Column("archivo2", "Archivo 2", null, null, true));
+    gridColumns.Add(grid.Column("archivo3", "Archivo 3", null, null, true));
+    gridColumns.Add(grid.Column("fechaFirma", "Fecha Firma", null, null, true));
+    gridColumns.Add(grid.Column("firmo", "Firmó", null, null, true));
+    gridColumns.Add(grid.Column("testigo", "Testigo", null, null, true));
+    gridColumns.Add(grid.Column("actaConstitutivaEmpresa", "Acta Constitutiva Empresa", null, null, true));
+    gridColumns.Add(grid.Column("poderRepresentanteLegal", "Poder Representante Legal", null, null, true));
+    gridColumns.Add(grid.Column("ifeRepresentanteLegal", "IFE Representante Legal", null, null, true));
+    gridColumns.Add(grid.Column("comprobanteDomicilio", "Comprobante Domicilio", null, null, true));
+    gridColumns.Add(grid.Column("fechaInicioVigencia", "Fecha Inicio Vigencia", null, null, true));
+    gridColumns.Add(grid.Column("fechaFinalVigencia", "Fecha Final Vigencia", null, null, true));
+    gridColumns.Add(grid.Column("estatus", "Estátus", null, null, true));
+    gridColumns.Add(grid.Column("fechaCreacion", "Fecha Alta", null, null, true));
+    gridColumns.Add(grid.Column("Cliente.claveCliente", "Cliente", null, null, true));
+    gridColumns.Add(grid.Column("Usuario.nombreUsuario", "Usuario Alta", null, null, true));   
+    gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "ContratosClientes", new { id = item.id })">
+                <img src="~/Content/Images/edit.png" alt="" style="text-align:center" class="icon" />
+        </a></text>));
+    gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "ContratosClientes", new { id = item.id })">
+                <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+            </a></text>));
+
+
+
+    sb.Append(
+    grid.GetHtml(
+    columns:
+        grid.Columns(gridColumns.ToArray()),
+                                    tableStyle: "table table-striped tableSua"
+                    ));
+
+    tableHtml = sb.ToString();
+
 }
 
-<h2>Index</h2>
+@section Menu {
+    <div>Catálogo de Contratos Cliente <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
 
+@using (Html.BeginForm())
+{ 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink(@Language.agregar + " " + @Language.contratosClientes, "Create", "ContatosClientes", new { @class = "btn btn-success" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.archivo1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.archivo2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.archivo3)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fechaFirma)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.firmo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.testigo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.actaConstitutivaEmpresa)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.poderRepresentanteLegal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ifeRepresentanteLegal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.comprobanteDomicilio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fechaInicioVigencia)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fechaFinalVigencia)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.estatus)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fechaCreacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cliente.claveCliente)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.archivo1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.archivo2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.archivo3)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaFirma)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.firmo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.testigo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.actaConstitutivaEmpresa)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.poderRepresentanteLegal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ifeRepresentanteLegal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.comprobanteDomicilio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaInicioVigencia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaFinalVigencia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.estatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaCreacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cliente.claveCliente)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
 }
-
-</table>
+@if (!tableHtml.IsEmpty())
+{
+    <div id="table-container" class="table-container">
+        @Html.Raw(tableHtml)
+    </div>
+}

@@ -53,6 +53,10 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+                contratosCliente.fechaCreacion = DateTime.Now;
+                contratosCliente.usuarioId = usuario.Id;
+                contratosCliente.estatus = "A";
                 db.ContratosClientes.Add(contratosCliente);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -68,7 +72,7 @@ namespace SUAMVC.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", "Clientes");
             }
             ContratosCliente contratosCliente = db.ContratosClientes.Find(id);
             if (contratosCliente == null)
@@ -89,9 +93,14 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
+                contratosCliente.fechaCreacion = DateTime.Now;
+                contratosCliente.usuarioId = usuario.Id;
+                contratosCliente.estatus = "A";
                 db.Entry(contratosCliente).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = contratosCliente.clienteId });
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", contratosCliente.clienteId);
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", contratosCliente.usuarioId);
