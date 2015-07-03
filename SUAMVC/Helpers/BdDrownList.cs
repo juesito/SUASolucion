@@ -40,6 +40,32 @@ namespace SUAMVC.Helpers
 
             return htmlHelper.DropDownList("plazasId", listFields, new { onchange = "submit()" });
         }
+
+        public static MvcHtmlString plazasDrownListNS(this HtmlHelper htmlHelper, int userId, string idHtml)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Plaza> listPlazas = (from s in db.Plazas.ToList()
+                                      join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                      where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(userId)
+                                      orderby s.cveCorta, s.descripcion
+                                      select s).ToList();
+
+            foreach (Plaza item in listPlazas)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList("plazaId", listFields, new { id = idHtml });
+        }
         /*
          * DrownList para las patrones
          */
@@ -189,7 +215,7 @@ namespace SUAMVC.Helpers
             return htmlHelper.DropDownList("gruposId", listFields, new { onchange = "submit()" });
         }
 
-        public static MvcHtmlString esquemasDrownList(this HtmlHelper htmlHelper, int userId)
+        public static MvcHtmlString esquemasDrownList(this HtmlHelper htmlHelper, int userId, String htmlId)
         {
 
             db = new suaEntities();
@@ -210,7 +236,7 @@ namespace SUAMVC.Helpers
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
-            return htmlHelper.DropDownList("esquemaId", listFields, new { onchange = "submit()", @class = "cancel" });
+            return htmlHelper.DropDownList("esquemaId", listFields, new { id = htmlId });
         }
 
         public static MvcHtmlString contratosDrownList(this HtmlHelper htmlHelper, int userId)

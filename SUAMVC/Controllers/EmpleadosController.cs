@@ -76,11 +76,18 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                ToolsHelper th = new ToolsHelper();
                 Usuario usuario = Session["UsuarioData"] as Usuario;
                 empleado.fechaCreacion = DateTime.Now;
                 empleado.usuarioId = usuario.Id;
                 empleado.nombreCompleto = empleado.nombre + " " + empleado.apellidoPaterno + " " + empleado.apellidoMaterno;
                 empleado.estatus = "A";
+                Acreditado acreditado = th.obtenerAcreditadoPorNSS(empleado.nss.Trim());
+
+                if (!(acreditado == null)) { 
+                    empleado.acreditadoId = acreditado.id;
+                }
+
                 db.Empleados.Add(empleado);
 
                 try
@@ -197,14 +204,7 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult sendEmail()
-        {
-            Email email = new Email();
-            email.EnviarEmail();
-
-            return RedirectToAction("Index");
-        }
-
+        
         public ActionResult CargarEmpleadosPorExcel(int id)
         {
             return View();

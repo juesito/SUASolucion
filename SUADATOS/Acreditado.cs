@@ -17,6 +17,7 @@ namespace SUADATOS
         public Acreditado()
         {
             this.Movimientos = new HashSet<Movimiento>();
+            this.Empleados = new HashSet<Empleado>();
         }
     
         public int id { get; set; }
@@ -65,5 +66,6 @@ namespace SUADATOS
         public virtual ICollection<Movimiento> Movimientos { get; set; }
         public virtual Patrone Patrone { get; set; }
         public virtual Plaza Plaza { get; set; }
+        public virtual ICollection<Empleado> Empleados { get; set; }
     }
 }

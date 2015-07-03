@@ -16,9 +16,9 @@ namespace SUADATOS
     {
         public Pais()
         {
-            this.Empleados = new HashSet<Empleado>();
             this.Estados = new HashSet<Estado>();
             this.Municipios = new HashSet<Municipio>();
+            this.Empleados = new HashSet<Empleado>();
         }
     
         public int id { get; set; }
@@ -27,9 +27,9 @@ namespace SUADATOS
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
-        public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual ICollection<Estado> Estados { get; set; }
         public virtual ICollection<Municipio> Municipios { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<Empleado> Empleados { get; set; }
     }
 }
