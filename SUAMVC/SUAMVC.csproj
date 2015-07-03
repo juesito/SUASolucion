@@ -174,8 +174,11 @@
     <Content Include="Content\code52.i18n\images\flags\it.png" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\buscar.png" />
+    <Content Include="Content\Images\camera.png" />
     <Content Include="Content\Images\fileSearch.png" />
+    <Content Include="Content\Images\girl.png" />
     <Content Include="Content\Images\hide.png" />
+    <Content Include="Content\Images\male.png" />
     <Content Include="Content\Images\search.png" />
     <Content Include="Content\Images\see.png" />
     <Content Include="Content\Images\send.png" />

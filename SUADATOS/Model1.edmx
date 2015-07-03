@@ -199,6 +199,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="solicitudId" Type="int" Nullable="false" />
+          <Property Name="folioEmpleado" Type="nchar" MaxLength="30" />
           <Property Name="nss" Type="nchar" MaxLength="12" />
           <Property Name="fechaAltaImss" Type="date" />
           <Property Name="apellidoMaterno" Type="nchar" MaxLength="60" Nullable="false" />
@@ -235,6 +236,7 @@
           <Property Name="estatus" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="fechaBaja" Type="datetime" />
           <Property Name="acreditadoId" Type="int" />
+          <Property Name="foto" Type="nchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Empresas">
           <Key>
@@ -2519,7 +2521,7 @@
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="Empleado" EntitySet="Empleados" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Acreditado">
           <Key>
             <PropertyRef Name="id" />
@@ -4249,6 +4251,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="solicitudId" Type="Int32" Nullable="false" />
+          <Property Name="folioEmpleado" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
           <Property Name="nss" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
           <Property Name="fechaAltaImss" Type="DateTime" Precision="0" />
           <Property Name="apellidoMaterno" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
@@ -4285,6 +4288,7 @@
           <Property Name="estatus" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="fechaBaja" Type="DateTime" Precision="3" />
           <Property Name="acreditadoId" Type="Int32" />
+          <Property Name="foto" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Acreditado" Relationship="suaModel.FK_Empleados_Acreditados" FromRole="Empleado" ToRole="Acreditado" />
           <NavigationProperty Name="Banco" Relationship="suaModel.FK_Empleados_Bancos" FromRole="Empleado" ToRole="Banco" />
           <NavigationProperty Name="EsquemasPago" Relationship="suaModel.FK_Empleados_EsquemasPago" FromRole="Empleado" ToRole="EsquemasPago" />
@@ -5157,6 +5161,7 @@
           <EntitySetMapping Name="Empleados">
             <EntityTypeMapping TypeName="suaModel.Empleado">
               <MappingFragment StoreEntitySet="Empleados">
+                <ScalarProperty Name="foto" ColumnName="foto" />
                 <ScalarProperty Name="acreditadoId" ColumnName="acreditadoId" />
                 <ScalarProperty Name="fechaBaja" ColumnName="fechaBaja" />
                 <ScalarProperty Name="estatus" ColumnName="estatus" />
@@ -5193,6 +5198,7 @@
                 <ScalarProperty Name="apellidoMaterno" ColumnName="apellidoMaterno" />
                 <ScalarProperty Name="fechaAltaImss" ColumnName="fechaAltaImss" />
                 <ScalarProperty Name="nss" ColumnName="nss" />
+                <ScalarProperty Name="folioEmpleado" ColumnName="folioEmpleado" />
                 <ScalarProperty Name="solicitudId" ColumnName="solicitudId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>

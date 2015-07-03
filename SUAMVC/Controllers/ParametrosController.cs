@@ -52,6 +52,8 @@ namespace SUAMVC.Controllers
             {
                 DateTime date = DateTime.Now;
                 parametro.fechaCreacion = date;
+                parametro.descripcion = parametro.descripcion.Trim();
+                parametro.valorString = parametro.valorString.Trim();
                 db.Parametros.Add(parametro);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -84,6 +86,8 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                parametro.descripcion = parametro.descripcion.Trim();
+                parametro.valorString = parametro.valorString.Trim();
                 db.Entry(parametro).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

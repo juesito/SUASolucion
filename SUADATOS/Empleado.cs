@@ -16,6 +16,7 @@ namespace SUADATOS
     {
         public int id { get; set; }
         public int solicitudId { get; set; }
+        public string folioEmpleado { get; set; }
         public string nss { get; set; }
         public Nullable<System.DateTime> fechaAltaImss { get; set; }
         public string apellidoMaterno { get; set; }
@@ -52,6 +53,7 @@ namespace SUADATOS
         public string estatus { get; set; }
         public Nullable<System.DateTime> fechaBaja { get; set; }
         public Nullable<int> acreditadoId { get; set; }
+        public string foto { get; set; }
     
         public virtual Acreditado Acreditado { get; set; }
         public virtual Banco Banco { get; set; }

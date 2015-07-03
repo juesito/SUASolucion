@@ -122,7 +122,7 @@
         <AssociationConnector Association="suaModel.FK_Proyectos_TipoContrato" />
         <AssociationConnector Association="suaModel.FK_Proyectos_TipoPersonal" />
         <AssociationConnector Association="suaModel.FK_Proyectos_Usuarios" />
-        <EntityTypeShape EntityType="suaModel.Empleado" Width="1.5" PointX="18" PointY="72.875" />
+        <EntityTypeShape EntityType="suaModel.Empleado" Width="1.5" PointX="18" PointY="72.75" />
         <AssociationConnector Association="suaModel.FK_Empleados_Acreditados" />
         <AssociationConnector Association="suaModel.FK_Empleados_Bancos" />
         <AssociationConnector Association="suaModel.FK_Empleados_EsquemasPago" />
@@ -134,7 +134,7 @@
         <AssociationConnector Association="suaModel.FK_Empleados_Sexos" />
         <AssociationConnector Association="suaModel.FK_Empleados_Solicitud" />
         <AssociationConnector Association="suaModel.FK_Empleados_Usuarios" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

@@ -262,5 +262,82 @@ namespace SUAMVC.Helpers
 
             return htmlHelper.DropDownList("contratoId", listFields, new { onchange = "submit()", @class = "cancel" });
         }
+
+        public static MvcHtmlString sexosDrownList(this HtmlHelper htmlHelper, int userId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Sexo> listSexos = (from s in db.Sexos
+                                                orderby s.descripcion
+                                                select s).ToList();
+
+            foreach (Sexo item in listSexos)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList("sexoId", listFields);
+        }
+
+        public static MvcHtmlString paisesDrownList(this HtmlHelper htmlHelper, int userId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Pais> listPaises = (from s in db.Paises
+                                    orderby s.descripcion
+                                    select s).ToList();
+
+            foreach (Pais item in listPaises)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList("sexoId", listFields);
+        }
+
+        /**
+         * ActionImage para incluir una imagen en un link
+         * 
+         */
+        public static MvcHtmlString ActionImage(this HtmlHelper html, string action, object routeValues, string imagePath, string alt)
+        {
+            var url = new UrlHelper(html.ViewContext.RequestContext);
+
+            // build the <img> tag
+            var imgBuilder = new TagBuilder("img");
+            if (!String.IsNullOrEmpty(imagePath))
+            {
+                imgBuilder.MergeAttribute("src", url.Content(imagePath));
+            }
+            else {
+                imgBuilder.MergeAttribute("src", url.Content("~/Content/Images/camera.png"));
+            }
+            imgBuilder.MergeAttribute("alt", alt);
+            string imgHtml = imgBuilder.ToString(TagRenderMode.SelfClosing);
+
+            // build the <a> tag
+            var anchorBuilder = new TagBuilder("a");
+            anchorBuilder.MergeAttribute("href", url.Action(action, routeValues));
+            anchorBuilder.InnerHtml = imgHtml; // include the <img> tag inside
+            string anchorHtml = anchorBuilder.ToString(TagRenderMode.Normal);
+
+            return MvcHtmlString.Create(anchorHtml);
+        }
     }
 }

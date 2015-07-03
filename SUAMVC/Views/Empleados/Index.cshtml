@@ -18,8 +18,8 @@
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
     gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
-    gridColumns.Add(grid.Column("solicitudFolio", "ID", format: @<text> @if (@item.Solicitud.folioSolicitud != null)
-    {  @item.Solicitud.folioSolicitud }</text>, canSort: true));
+    gridColumns.Add(grid.Column("folioEmpleado", "ID", format: @<text> @if (@item.folioEmpleado != null)
+    {  @item.folioEmpleado }</text>, canSort: true));
     gridColumns.Add(grid.Column("apellidoPaterno", "Paterno", format: @<text> @if (@item.apellidoPaterno != null){  @item.apellidoPaterno }</text>, canSort: true));
     gridColumns.Add(grid.Column("apellidoMaterno", "Materno", format: @<text> @if (@item.apellidoMaterno != null){  @item.apellidoMaterno }</text>, canSort: true));
     gridColumns.Add(grid.Column("nombre", "Nombre", format: @<text> @if (@item.nombre != null){  @item.nombre }</text>, canSort: true));

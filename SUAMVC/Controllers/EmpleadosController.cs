@@ -82,23 +82,48 @@ namespace SUAMVC.Controllers
                 empleado.usuarioId = usuario.Id;
                 empleado.nombreCompleto = empleado.nombre + " " + empleado.apellidoPaterno + " " + empleado.apellidoMaterno;
                 empleado.estatus = "A";
+                empleado.rfc = empleado.rfc.Trim();
+                empleado.homoclave = empleado.homoclave.Trim();
+
                 Acreditado acreditado = th.obtenerAcreditadoPorNSS(empleado.nss.Trim());
 
-                if (!(acreditado == null)) { 
+                if (!(acreditado == null) && !String.IsNullOrEmpty(acreditado.nombre))
+                {
                     empleado.acreditadoId = acreditado.id;
                 }
 
+                //Obtenemos el sexo del empleado
+                empleado.Sexo = db.Sexos.Find(empleado.sexoId);
+                if (empleado.Sexo.descripcion.ToLower().Trim().Contains("femenino") ||
+                        empleado.Sexo.descripcion.ToLower().Trim().Contains("mujer"))
+                {
+                    empleado.foto = "~/Content/Images/girl.png";
+                }
+                else
+                {
+                    empleado.foto = "~/Content/Images/male.png";
+                }
+
+                empleado.foto = empleado.foto.Trim();
                 db.Empleados.Add(empleado);
 
                 try
                 {
                     db.SaveChanges();
 
+                    //Obtenemos la solicitud par modificar el noTrabjadores
+                    //a su vez con ella obtener el folio de Solicitud para generar el folioEmpleado
                     Solicitud solicitud = db.Solicituds.Find(empleado.solicitudId);
                     solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
+                    
+                    empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
 
+                    //Preparamos las entidades para guardar
+                    db.Entry(empleado).State = EntityState.Modified;
                     db.Entry(solicitud).State = EntityState.Modified;
                     db.SaveChanges();
+
+
                 }
                 catch (DbEntityValidationException ex)
                 {
@@ -115,7 +140,7 @@ namespace SUAMVC.Controllers
                     }
                 }
 
-                return RedirectToAction("Index", new { id = empleado.solicitudId});
+                return RedirectToAction("Index", new { id = empleado.solicitudId });
             }
 
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
@@ -204,7 +229,7 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        
+
         public ActionResult CargarEmpleadosPorExcel(int id)
         {
             return View();
@@ -248,6 +273,13 @@ namespace SUAMVC.Controllers
             }
 
             return RedirectToAction("Index", "Solicitudes");
+        }
+
+        public ActionResult cambiarFoto(int id)
+        {
+
+
+            return RedirectToAction("Edit");
         }
 
         protected override void Dispose(bool disposing)

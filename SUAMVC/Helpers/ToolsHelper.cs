@@ -28,8 +28,12 @@ namespace SUAMVC.Helpers
 
         public Acreditado obtenerAcreditadoPorNSS(String NSS)
         {
-            Acreditado acreditado = db.Acreditados.Where(s => s.numeroAfiliacion.Trim().Equals(NSS)).First();
+            var acreditadoTemp = db.Acreditados.Where(s => s.numeroAfiliacion.Trim().Equals(NSS)).FirstOrDefault();
 
+            Acreditado acreditado  = new Acreditado();
+            if (acreditadoTemp != null) {
+                acreditado = acreditadoTemp as Acreditado;
+            }
             return acreditado;
         }
 
