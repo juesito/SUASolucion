@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
+using System.Data.Entity.Validation;
+using System.Text;
 
 namespace SUAMVC.Controllers
 {

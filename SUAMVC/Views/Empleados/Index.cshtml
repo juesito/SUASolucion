@@ -41,11 +41,11 @@
     }
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {
-        gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Solicitudes", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Empleados", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {
-        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Solicitudes", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Empleados", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {

@@ -312,6 +312,11 @@
     <Content Include="Views\Asegurados\Details.cshtml" />
     <Content Include="Views\Asegurados\Edit.cshtml" />
     <Content Include="Views\Asegurados\Index.cshtml" />
+    <Content Include="Views\ContratosClientes\Create.cshtml" />
+    <Content Include="Views\ContratosClientes\Delete.cshtml" />
+    <Content Include="Views\ContratosClientes\Details.cshtml" />
+    <Content Include="Views\ContratosClientes\Edit.cshtml" />
+    <Content Include="Views\ContratosClientes\Index.cshtml" />
     <Content Include="Views\Empresas\Create.cshtml" />
     <Content Include="Views\Empresas\Delete.cshtml" />
     <Content Include="Views\Empresas\Details.cshtml" />
@@ -348,6 +353,16 @@
     <Content Include="Views\RegimenInfonavit\Edit.cshtml" />
     <Content Include="Views\RegimenInfonavit\Index.cshtml" />
     <Content Include="Views\Shared\LanguageSelection.ascx" />
+    <Content Include="Views\SolicitudesBaja\Create.cshtml" />
+    <Content Include="Views\SolicitudesBaja\Delete.cshtml" />
+    <Content Include="Views\SolicitudesBaja\Details.cshtml" />
+    <Content Include="Views\SolicitudesBaja\Edit.cshtml" />
+    <Content Include="Views\SolicitudesBaja\Index.cshtml" />
+    <Content Include="Views\SolicitudesModificacion\Create.cshtml" />
+    <Content Include="Views\SolicitudesModificacion\Delete.cshtml" />
+    <Content Include="Views\SolicitudesModificacion\Details.cshtml" />
+    <Content Include="Views\SolicitudesModificacion\Edit.cshtml" />
+    <Content Include="Views\SolicitudesModificacion\Index.cshtml" />
     <Content Include="Views\TipoPersonal\Create.cshtml" />
     <Content Include="Views\TipoPersonal\Delete.cshtml" />
     <Content Include="Views\TipoPersonal\Details.cshtml" />
@@ -600,11 +615,6 @@
     <Content Include="Views\DatosAdicionalesClientes\Details.cshtml" />
     <Content Include="Views\DatosAdicionalesClientes\Edit.cshtml" />
     <Content Include="Views\DatosAdicionalesClientes\Index.cshtml" />
-    <Content Include="Views\ContratosClientes\Create.cshtml" />
-    <Content Include="Views\ContratosClientes\Delete.cshtml" />
-    <Content Include="Views\ContratosClientes\Details.cshtml" />
-    <Content Include="Views\ContratosClientes\Edit.cshtml" />
-    <Content Include="Views\ContratosClientes\Index.cshtml" />
     <Content Include="Views\Asegurados\DeleteMov.cshtml" />
     <Content Include="Views\Asegurados\DeleteMovs.cshtml" />
     <Content Include="Views\Asegurados\Paginado.cshtml" />
@@ -617,16 +627,6 @@
     <Content Include="Views\Empleados\CargarEmpleadosPorExcel.cshtml" />
     <Content Include="Views\Empleados\Index.cshtml" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
-    <Content Include="Views\SolicitudesBaja\Create.cshtml" />
-    <Content Include="Views\SolicitudesBaja\Delete.cshtml" />
-    <Content Include="Views\SolicitudesBaja\Details.cshtml" />
-    <Content Include="Views\SolicitudesBaja\Edit.cshtml" />
-    <Content Include="Views\SolicitudesBaja\Index.cshtml" />
-    <Content Include="Views\SolicitudesModificacion\Create.cshtml" />
-    <Content Include="Views\SolicitudesModificacion\Delete.cshtml" />
-    <Content Include="Views\SolicitudesModificacion\Details.cshtml" />
-    <Content Include="Views\SolicitudesModificacion\Edit.cshtml" />
-    <Content Include="Views\SolicitudesModificacion\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

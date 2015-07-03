@@ -23,30 +23,32 @@
         @using (@Html.BeginForm("Upload", "Pagos", FormMethod.Post,
             new { enctype = "multipart/form-data" }))
         {
-            <table>
-                <tbody>
-                    <tr>
-                        <td>@Html.Label("Patron :")</td>
-                        <td>@Html.patronesNoChangeKeysDrownList(usuario.Id)</td>
-                        <td>@Html.Label("Periodo :")</td>
-                        <td>@Html.periodosList()</td>
-                        <td>@Html.Label("Ejercicio :")</td>
-                        <td>@Html.ejercicioList()</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            <div class="file">
-                                @FileUpload.GetHtml(initialNumberOfFiles: 1,
+            <div class="marqueeFilter">
+                <table style="float:left; margin-top:5px;display:inline-block;">
+                    <tbody>
+                        <tr>
+                            <td>@Html.Label("Patron :")</td>
+                            <td>@Html.patronesNoChangeKeysDrownList(usuario.Id)</td>
+                            <td>@Html.Label("Periodo :")</td>
+                            <td>@Html.periodosList()</td>
+                            <td>@Html.Label("Ejercicio :")</td>
+                            <td>@Html.ejercicioList()</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <div class="file">
+                                    @FileUpload.GetHtml(initialNumberOfFiles: 1,
                 allowMoreFilesToBeAdded: false,
                 includeFormTag: true,
                 uploadText: "Subir SUA.mdb")
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        }
-    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+                }
+            </div>
     @if (isError != null)
     {
         if (isError.Equals(false))
