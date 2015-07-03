@@ -1,0 +1,159 @@
+﻿@model IEnumerable<SUADATOS.Solicitud>
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+
+@{
+    ViewBag.Title = "Baja de personal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+
+    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+
+    //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+    gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
+    gridColumns.Add(grid.Column("folioSolicitud", "Folio", format: @<text> @if (@item.folioSolicitud != null)
+    {  @item.folioSolicitud }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Proyecto.descripcion", "Proyecto", format: @<text> @if (@item.ProyectoId != null)
+    {  @item.Proyecto.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Plaza.descripcion", "Residencia", format: @<text> @if (@item.PlazaId != null)
+    {  @item.Plaza.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("fechaSolicitud", "Fecha Solicitud", @<text><div style='width: 6em'>@item.fechaSolicitud.ToString("dd-MM-yyyy")</div></text>, null, canSort: true));
+    gridColumns.Add(grid.Column("EsquemasPago.descripcion", "Esquema", format: @<text> @if (@item.esquemaId != null)
+    {  @item.EsquemasPago.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("SDI.descripcion", "SDI", format: @<text> @if (@item.sdiId != null)
+    {  @item.SDI.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("TipoContrato.descripcion", "Tipo Contrato", format: @<text> @if (@item.contratoId != null)
+    {  @item.TipoContrato.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("TipoPersonal.descripcion", "Tipo Personal", format: @<text> @if (@item.tipoPersonalId != null)
+    {  @item.TipoPersonal.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("fechaInicial", "Fecha Inicio", @<text><div style='width: 6em'>
+            @if (@item.fechaInicial != null)
+            { @item.fechaInicial.ToString("dd-MM-yyyy")}
+        </div></text>, null, canSort: true));
+    gridColumns.Add(grid.Column("fechaFinal", "Fecha Final", @<text><div style='width: 6em'>
+                @if (@item.fechaFinal != null)
+                { @item.fechaFinal.ToString("dd-MM-yyyy")}
+            </div></text>, null, canSort: true));
+    gridColumns.Add(grid.Column("solicita", "Solicitó", format: @<text> @if (@item.solicita != null)
+    {  @item.solicita }</text>, canSort: true));
+    gridColumns.Add(grid.Column("observaciones", "Observaciones", format: @<text> @if (@item.observaciones != null)
+    {  @item.observaciones }</text>, canSort: true));
+    gridColumns.Add(grid.Column("noTrabajadores", "No. Trab.", format: @<text> @if (@item.noTrabajadores != null)
+    {  @item.noTrabajadores }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Concepto.descripcion", "Estatus Solicitud", format: @<text> @if (@item.estatusSolicitud != null)
+    {  @item.Concepto.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Concepto1.descripcion", "Estatus Nom.", format: @<text> @if (@item.estatusNomina != null)
+    {  @item.Concepto1.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Concepto2.descripcion", "Estatus Juri.", format: @<text> @if (@item.estatusAfiliado != null)
+    {  @item.Concepto2.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Concepto3.descripcion", "Estatus Afil.", format: @<text> @if (@item.estatusJuridico != null)
+    {  @item.Concepto3.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Concepto4.descripcion", "Estatus Tarj.", format: @<text> @if (@item.estatusTarjeta != null)
+    {  @item.Concepto4.descripcion }</text>, canSort: true));
+
+
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "SolicitudesBaja", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "SolicitudesBaja", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "Personal", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "Layout Baja de Personal", format: @<text><a href="@Url.Action("CargarEmpleadosPorExcel", "Empleados", new { id = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
+            @if (item.noTrabajadores >= 0)
+            {
+                <a href="@Url.Action("Index", "Empleados", new { id = item.id })">
+                    <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "Enviar Solicitud", format: @<text>
+            @if (item.noTrabajadores >= 0)
+            {
+                <a href="@Url.Action("Create", "Empleados", new { id = item.id })">
+                    <img src="~/Content/Images/send.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
+
+    sb.Append(grid.GetHtml(
+columns: grid.Columns(gridColumns.ToArray()),
+tableStyle: "table table-striped tableSua"
+));
+
+    tableHtml = sb.ToString().Replace("{}", "<input type='checkbox' id='selectAll' name='slall' />").Trim();
+}
+
+@section Menu {
+    <div>Solicitudes Baja <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+<p>
+    @Html.ActionLink(@Language.agregar, "Create", "Solicitudes Baja", new { @class = "btn btn-success" })
+</p>
+@using (Html.BeginForm())
+{
+    <div class="marqueeFilter">
+        <table style="float:left; margin-top:5px;display:inline-block;">
+            <thead>
+                <tr style="text-align:left;vertical-align:bottom;">
+                    <td style="padding-top:15px">
+                        @Html.Label("Cliente:")
+                        @Html.clientesDrownList(usuario.Id)
+                    </td>
+                    <td>
+                        @Html.Label("Folio:")
+                        @Html.Editor("folioId")
+                    </td>
+                    <td>
+                        <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+}
+
+@if (!tableHtml.IsEmpty())
+{
+    <div id="table-container" class="table-container">
+        @Html.Raw(tableHtml)
+    </div>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=slall]").change(function () {
+            $('#table-container input[type=checkbox]').each(function () {
+                if ($("input[name=slall]:checked").length == 1) {
+                    this.checked = true;
+                } else {
+                    this.checked = false;
+                }
+            });
+        });
+    });
+</script>

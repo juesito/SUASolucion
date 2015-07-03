@@ -400,7 +400,9 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SDIsController.cs" />
     <Compile Include="Controllers\SexoController.cs" />
+    <Compile Include="Controllers\SolicitudesBajaController.cs" />
     <Compile Include="Controllers\SolicitudesController.cs" />
+    <Compile Include="Controllers\SolicitudesModificacionController.cs" />
     <Compile Include="Controllers\TipoContratoController.cs" />
     <Compile Include="Controllers\TipoPersonalController.cs" />
     <Compile Include="Controllers\TopicosUsuarioController.cs" />
@@ -615,6 +617,16 @@
     <Content Include="Views\Empleados\CargarEmpleadosPorExcel.cshtml" />
     <Content Include="Views\Empleados\Index.cshtml" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
+    <Content Include="Views\SolicitudesBaja\Create.cshtml" />
+    <Content Include="Views\SolicitudesBaja\Delete.cshtml" />
+    <Content Include="Views\SolicitudesBaja\Details.cshtml" />
+    <Content Include="Views\SolicitudesBaja\Edit.cshtml" />
+    <Content Include="Views\SolicitudesBaja\Index.cshtml" />
+    <Content Include="Views\SolicitudesModificacion\Create.cshtml" />
+    <Content Include="Views\SolicitudesModificacion\Delete.cshtml" />
+    <Content Include="Views\SolicitudesModificacion\Details.cshtml" />
+    <Content Include="Views\SolicitudesModificacion\Edit.cshtml" />
+    <Content Include="Views\SolicitudesModificacion\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
