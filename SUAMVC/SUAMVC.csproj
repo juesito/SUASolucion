@@ -357,6 +357,7 @@
     <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Helpers\LinqToExcelProvider.cs" />
     <Compile Include="Helpers\StatusDrownList.cs" />
+    <Compile Include="Helpers\ToolsHelper.cs" />
     <Compile Include="Models\AseguradoMovimientosModel.cs" />
     <Compile Include="Models\DatesHelper.cs" />
     <Compile Include="Models\EmailModel.cs" />

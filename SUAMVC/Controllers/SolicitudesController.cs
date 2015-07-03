@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using SUADATOS;
 using System.Data.Entity.Validation;
 using System.Text;
+using SUAMVC.Helpers;
 
 namespace SUAMVC.Controllers
 {
@@ -27,7 +28,7 @@ namespace SUAMVC.Controllers
                 Cliente cliente = db.Clientes.Find(clienteId);
                 if (!cliente.descripcion.ToLower().Contains("seleccion"))
                 {
-                    
+
                     solicituds = solicituds.Where(s => s.clienteId.Equals(clienteId));
                 }
             }
@@ -35,7 +36,7 @@ namespace SUAMVC.Controllers
             {
                 solicituds = solicituds.Where(s => s.folioSolicitud.Contains(folioId));
             }
-            
+
             return View(solicituds.ToList());
         }
 
@@ -69,7 +70,6 @@ namespace SUAMVC.Controllers
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion");
             ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion");
             ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion");
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario");
             return View();
         }
 
@@ -85,7 +85,11 @@ namespace SUAMVC.Controllers
                 Usuario usuario = Session["usuarioData"] as Usuario;
                 Cliente cliente = db.Clientes.Find(solicitud.clienteId);
                 ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
-                Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("ESTASOL") && s.descripcion.ToLower().Contains("apertura")).First();
+                ToolsHelper th = new ToolsHelper();
+
+                Concepto concepto = th.obtenerConceptoPorGrupo("ESTASOL", "apertura");
+                Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "alta");
+
                 solicitud.usuarioId = usuario.Id;
                 solicitud.fechaSolicitud = DateTime.Now;
                 solicitud.autoriza = lvc.autorizador;
@@ -99,11 +103,14 @@ namespace SUAMVC.Controllers
                 solicitud.clienteId = cliente.Id;
                 solicitud.folioSolicitud = "";
                 solicitud.noTrabajadores = 0;
-                db.Solicituds.Add(solicitud);
-                db.SaveChanges();
+                solicitud.tipoSolicitud = tipoSolicitud.id;
+                
+                
 
                 try
                 {
+                    db.Solicituds.Add(solicitud);
+                    db.SaveChanges();
                     solicitud.folioSolicitud = solicitud.id.ToString().PadLeft(5, '0') + "A" + solicitud.Cliente.Plaza.cveCorta.Trim();
                     db.Entry(solicitud).State = EntityState.Modified;
                     db.SaveChanges();
@@ -224,7 +231,29 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        
+        public ActionResult EnviarSolicitud(string id)
+        {
+
+            Solicitud solicitud = new Solicitud();
+            if (!String.IsNullOrEmpty(id))
+            {
+                int idTmp = int.Parse(id);
+                solicitud = db.Solicituds.Find(idTmp);
+                Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("ESTASOL") && s.descripcion.Equals("Solicitado")).First();
+                solicitud.estatusSolicitud = concepto.id; 
+                
+                //Email email = new Email();
+                //email.enviarPorClienteTipo(solicitud.clienteId, "A", solicitud.id);
+                
+                db.Entry(solicitud).State = EntityState.Modified;
+                db.SaveChanges();
+
+                TempData["message"] = "Solicitud Enviada Satisfactoriamente.";
+            }
+
+            return RedirectToAction("Index", new { clienteId = solicitud.clienteId, folioId = solicitud.folioSolicitud });
+        }
+
 
         protected override void Dispose(bool disposing)
         {

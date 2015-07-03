@@ -24,12 +24,12 @@ namespace SUADATOS
         public int clienteId { get; set; }
         public int plazaId { get; set; }
         public System.DateTime fechaSolicitud { get; set; }
-        public int esquemaId { get; set; }
+        public Nullable<int> esquemaId { get; set; }
         public Nullable<int> sdiId { get; set; }
-        public int contratoId { get; set; }
+        public Nullable<int> contratoId { get; set; }
         public Nullable<System.DateTime> fechaInicial { get; set; }
         public Nullable<System.DateTime> fechaFinal { get; set; }
-        public int tipoPersonalId { get; set; }
+        public Nullable<int> tipoPersonalId { get; set; }
         public string solicita { get; set; }
         public string valida { get; set; }
         public string autoriza { get; set; }
@@ -43,6 +43,8 @@ namespace SUADATOS
         public int usuarioId { get; set; }
         public int proyectoId { get; set; }
         public Nullable<System.DateTime> fechaEnvio { get; set; }
+        public int tipoSolicitud { get; set; }
+        public Nullable<int> conceptoBaja { get; set; }
     
         public virtual Cliente Cliente { get; set; }
         public virtual Concepto Concepto { get; set; }
@@ -50,7 +52,7 @@ namespace SUADATOS
         public virtual Concepto Concepto2 { get; set; }
         public virtual Concepto Concepto3 { get; set; }
         public virtual Concepto Concepto4 { get; set; }
-        public virtual ICollection<Empleado> Empleados { get; set; }
+        public virtual Concepto Concepto5 { get; set; }
         public virtual EsquemasPago EsquemasPago { get; set; }
         public virtual Plaza Plaza { get; set; }
         public virtual Proyecto Proyecto { get; set; }
@@ -58,5 +60,6 @@ namespace SUADATOS
         public virtual TipoContrato TipoContrato { get; set; }
         public virtual TipoPersonal TipoPersonal { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<Empleado> Empleados { get; set; }
     }
 }

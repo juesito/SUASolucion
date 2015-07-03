@@ -44,13 +44,16 @@ namespace SUADATOS
         public int tramitarTarjeta { get; set; }
         public int bancoId { get; set; }
         public string cuentaBancaria { get; set; }
+        public string cuentaClabe { get; set; }
         public string email { get; set; }
         public string observaciones { get; set; }
         public int usuarioId { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public string estatus { get; set; }
         public Nullable<System.DateTime> fechaBaja { get; set; }
+        public Nullable<int> acreditadoId { get; set; }
     
+        public virtual Acreditado Acreditado { get; set; }
         public virtual Banco Banco { get; set; }
         public virtual EsquemasPago EsquemasPago { get; set; }
         public virtual EstadoCivil EstadoCivil { get; set; }
