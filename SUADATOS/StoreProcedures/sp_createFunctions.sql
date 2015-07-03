@@ -217,6 +217,26 @@ BEGIN
 		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
 	VALUES 
 		('Factores de Calculo', 'Administrar los factores de calculo en el SIAP', 'Index', 'Factores', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+
+    --Buscamos el modulo de seguridad para insertar las funciones correspondientes
+	SET @moduloId = (SELECT id FROM Modulos WHERE descripcionCorta = 'ACAH')
+    
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Alta Personal', 'Alta de solicitudes de personal en el SIAP', 'Index', 'Solicitudes', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Baja Personal', 'Baja de solicitudes de personal en el SIAP', 'Index', 'SolicitudesBaja', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Modificacion Salario', 'Solicitud de modificación al salario de personal', 'Index', 'SolicitudesModificacion', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
 END
                 
 
