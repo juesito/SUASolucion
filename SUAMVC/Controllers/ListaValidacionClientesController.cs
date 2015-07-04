@@ -72,6 +72,7 @@ namespace SUAMVC.Controllers
                 listaValidacionCliente.clienteId = cliente.Id;
                 listaValidacionCliente.Cliente = cliente;
                 db.ListaValidacionClientes.Add(listaValidacionCliente);
+
                 db.SaveChanges();
 
                 //se envia un id al index - index(int id)

@@ -614,4 +614,8 @@
     <value>Concepto</value>
     <comment>Etiqueta para Concepto</comment>
   </data>
+  <data name="motivoBaja" xml:space="preserve">
+    <value>Motivo de la Baja</value>
+    <comment>Etiqueta para motivo baja</comment>
+  </data>
 </root>

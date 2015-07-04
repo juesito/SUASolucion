@@ -325,11 +325,6 @@
     <Content Include="Views\Empresas\Details.cshtml" />
     <Content Include="Views\Empresas\Edit.cshtml" />
     <Content Include="Views\Empresas\Index.cshtml" />
-    <Content Include="Views\Esquemas\Create.cshtml" />
-    <Content Include="Views\Esquemas\Delete.cshtml" />
-    <Content Include="Views\Esquemas\Details.cshtml" />
-    <Content Include="Views\Esquemas\Edit.cshtml" />
-    <Content Include="Views\Esquemas\Index.cshtml" />
     <Content Include="Views\Estado\Create.cshtml" />
     <Content Include="Views\Estado\Delete.cshtml" />
     <Content Include="Views\Estado\Details.cshtml" />

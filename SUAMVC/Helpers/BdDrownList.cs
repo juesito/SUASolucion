@@ -72,7 +72,7 @@ namespace SUAMVC.Helpers
         public static MvcHtmlString patronesDrownList(this HtmlHelper htmlHelper, int userId)
         {
 
-            db = new suaEntities();            
+            db = new suaEntities();
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<Patrone> list = (from s in db.Patrones.ToList()
@@ -222,8 +222,8 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<EsquemasPago> listEsquemas = (from s in db.EsquemasPagoes
-                                      orderby s.descripcion
-                                      select s).ToList();
+                                               orderby s.descripcion
+                                               select s).ToList();
 
             foreach (EsquemasPago item in listEsquemas)
             {
@@ -246,8 +246,8 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<TipoContrato> listContratos = (from s in db.TipoContratoes
-                                               orderby s.descripcion
-                                               select s).ToList();
+                                                orderby s.descripcion
+                                                select s).ToList();
 
             foreach (TipoContrato item in listContratos)
             {
@@ -270,8 +270,8 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<Sexo> listSexos = (from s in db.Sexos
-                                                orderby s.descripcion
-                                                select s).ToList();
+                                    orderby s.descripcion
+                                    select s).ToList();
 
             foreach (Sexo item in listSexos)
             {
@@ -294,8 +294,8 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<Pais> listPaises = (from s in db.Paises
-                                    orderby s.descripcion
-                                    select s).ToList();
+                                     orderby s.descripcion
+                                     select s).ToList();
 
             foreach (Pais item in listPaises)
             {
@@ -325,7 +325,8 @@ namespace SUAMVC.Helpers
             {
                 imgBuilder.MergeAttribute("src", url.Content(imagePath));
             }
-            else {
+            else
+            {
                 imgBuilder.MergeAttribute("src", url.Content("~/Content/Images/camera.png"));
             }
             imgBuilder.MergeAttribute("alt", alt);
@@ -338,6 +339,32 @@ namespace SUAMVC.Helpers
             string anchorHtml = anchorBuilder.ToString(TagRenderMode.Normal);
 
             return MvcHtmlString.Create(anchorHtml);
+        }
+
+        //DrowList para Motivo de Baja
+        public static MvcHtmlString conceptosDrownList(this HtmlHelper htmlHelper, int userId, string grupo, string componentId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Concepto> listConceptos = (from s in db.Conceptos
+                                            where s.grupo.Equals(grupo.Trim())
+                                     orderby s.descripcion
+                                     select s).ToList();
+
+            foreach (Concepto item in listConceptos)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componentId, listFields);
         }
     }
 }

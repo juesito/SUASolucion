@@ -993,7 +993,7 @@ namespace SUAMVC.Controllers
                             clienteNuevo.descripcion = "PENDIENTE";
                             clienteNuevo.ejecutivoContadorId = 1;
                             clienteNuevo.Plaza_id = 1;
-                            clienteNuevo.Grupo_id = 4;
+                            clienteNuevo.Grupo_id = 1;
 
                             try
                             {

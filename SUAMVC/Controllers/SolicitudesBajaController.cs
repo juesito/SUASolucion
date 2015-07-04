@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using SUADATOS;
 using System.Data.Entity.Validation;
 using System.Text;
+using SUAMVC.Helpers;
 
 namespace SUAMVC.Controllers
 {
@@ -19,6 +20,11 @@ namespace SUAMVC.Controllers
         // GET: SolicitudesBaja
         public ActionResult Index(string clientesId, String folioId)
         {
+            //Obtener tipo de solicitud mediante un concepto
+            Concepto tipoSolicitud = db.Conceptos.Where(s => s.grupo.Equals("SOLCON") && 
+                s.descripcion.ToLower().Trim().Contains("baja")).FirstOrDefault();
+                ;
+
             var solicituds = db.Solicituds.Include(s => s.Cliente).Include(s => s.Concepto).Include(s => s.Concepto1).Include(s => s.Concepto2).Include(s => s.Concepto3).Include(s => s.Concepto4).Include(s => s.EsquemasPago).Include(s => s.Plaza).Include(s => s.Proyecto).Include(s => s.SDI).Include(s => s.TipoContrato).Include(s => s.TipoPersonal).Include(s => s.Usuario);
             if (!String.IsNullOrEmpty(clientesId))
             {
@@ -35,6 +41,9 @@ namespace SUAMVC.Controllers
             {
                 solicituds = solicituds.Where(s => s.folioSolicitud.Contains(folioId));
             }
+
+            //Filtrar por el tipo de solicitud=baja
+            solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(tipoSolicitud.id));
 
             return View(solicituds.ToList());
         }
@@ -85,7 +94,11 @@ namespace SUAMVC.Controllers
                 Usuario usuario = Session["usuarioData"] as Usuario;
                 Cliente cliente = db.Clientes.Find(solicitud.clienteId);
                 ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
-                Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("ESTASOL") && s.descripcion.ToLower().Contains("apertura")).First();
+                ToolsHelper th = new ToolsHelper();
+
+                Concepto concepto = th.obtenerConceptoPorGrupo("ESTASOL", "apertura");
+                Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "baja");
+
                 solicitud.usuarioId = usuario.Id;
                 solicitud.fechaSolicitud = DateTime.Now;
                 solicitud.autoriza = lvc.autorizador;
@@ -99,12 +112,13 @@ namespace SUAMVC.Controllers
                 solicitud.clienteId = cliente.Id;
                 solicitud.folioSolicitud = "";
                 solicitud.noTrabajadores = 0;
+                solicitud.tipoSolicitud = tipoSolicitud.id;
                 db.Solicituds.Add(solicitud);
                 db.SaveChanges();
 
                 try
                 {
-                    solicitud.folioSolicitud = solicitud.id.ToString().PadLeft(5, '0') + "A" + solicitud.Cliente.Plaza.cveCorta.Trim();
+                    solicitud.folioSolicitud = solicitud.id.ToString().PadLeft(5, '0') + "B" + solicitud.Cliente.Plaza.cveCorta.Trim();
                     db.Entry(solicitud).State = EntityState.Modified;
                     db.SaveChanges();
                 }

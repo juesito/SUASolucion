@@ -853,6 +853,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Motivo de la Baja.
+        /// </summary>
+        public static string motivoBaja {
+            get {
+                return ResourceManager.GetString("motivoBaja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Municipio.
         /// </summary>
         public static string municipio {

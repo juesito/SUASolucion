@@ -19,6 +19,12 @@ namespace SUAMVC.Controllers
         // GET: SolicitudesModificacion
         public ActionResult Index(string clientesId, String folioId)
         {
+
+         
+            //Obtener tipo de solicitud mediente un concepto
+            Concepto tipoSolicitud = db.Conceptos.Where(s => s.grupo.Equals("SOLCON") &&
+                s.descripcion.ToLower().Trim().Contains("modificacion")).FirstOrDefault();
+            
             var solicituds = db.Solicituds.Include(s => s.Cliente).Include(s => s.Concepto).Include(s => s.Concepto1).Include(s => s.Concepto2).Include(s => s.Concepto3).Include(s => s.Concepto4).Include(s => s.EsquemasPago).Include(s => s.Plaza).Include(s => s.Proyecto).Include(s => s.SDI).Include(s => s.TipoContrato).Include(s => s.TipoPersonal).Include(s => s.Usuario);
 
             if (!String.IsNullOrEmpty(clientesId))
@@ -35,6 +41,9 @@ namespace SUAMVC.Controllers
             {
                 solicituds = solicituds.Where(s => s.folioSolicitud.Contains(folioId));
             }
+
+            //Filtrar por el tipo de solicitud=baja
+            solicituds = solicituds.Where(s => tipoSolicitud.Equals(tipoSolicitud.id));
 
             return View(solicituds.ToList());
         }

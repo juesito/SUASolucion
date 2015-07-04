@@ -1,8 +1,10 @@
 ﻿@model SUADATOS.Solicitud
-
+@using SUADATOS
 @{
     ViewBag.Title = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    
     if (!WebSecurity.IsAuthenticated)
     {
         Response.Redirect("~/Home/Index");
@@ -18,192 +20,56 @@
         ¿Desea borrar este registro?
     </div>
     <div class="panel-body" style="font-size:10px;">
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.folioSolicitud)
-            </dt>
+            <table style="font-size:10px;margin:0 auto; width:800px">
+                <tr>
+                    <td>@Html.Label(@Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td>
+                        @Html.DisplayFor(model => model.Cliente.descripcion)
+                    </td>s
+                    <td>@Html.Label(@Language.proyecto, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td>
+                        @Html.DropDownList("proyectoId", null, htmlAttributes: new { @class = "form-control", enabled = false })
+                        @Html.ValidationMessageFor(model => model.proyectoId, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.Label(@Language.residencia, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td>
+                        @Html.DropDownList("plazaId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.plazaId, "", new { @class = "text-danger" })
+                    </td>
+                    <td>@Html.LabelFor(model => model.fechaSolicitud, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td>
+                        @Html.DisplayFor(model => model.fechaSolicitud, new { htmlAttributes = new { @class = "form-control myDate" } })
+                        @Html.ValidationMessageFor(model => model.fechaSolicitud, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
 
-            <dd>
-                @Html.DisplayFor(model => model.folioSolicitud)
-            </dd>
+                <tr>
+                    <td>@Html.Label(@Language.fechaBaja, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td>
+                        @Html.EditorFor(model => model.fechaFinal, new { htmlAttributes = new { @class = "myDate" } })
+                        @Html.ValidationMessageFor(model => model.fechaFinal, "", new { @class = "text-danger" })
+                    </td>
+                    <td>@Html.Label(@Language.motivoBaja, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td>
+                        @Html.conceptosDrownList(usuario.Id, "BAJACON", "conceptoBaja")
+                    </td>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.fechaSolicitud)
-            </dt>
+                </tr>
 
-            <dd>
-                @Html.DisplayFor(model => model.fechaSolicitud)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.fechaInicial)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.fechaInicial)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.fechaFinal)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.fechaFinal)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.solicita)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.solicita)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.valida)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.valida)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.autoriza)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.autoriza)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.noTrabajadores)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.noTrabajadores)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.observaciones)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.observaciones)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.fechaEnvio)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.fechaEnvio)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Cliente.claveCliente)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Cliente.claveCliente)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Concepto.grupo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Concepto.grupo)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Concepto1.grupo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Concepto1.grupo)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Concepto2.grupo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Concepto2.grupo)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Concepto3.grupo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Concepto3.grupo)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Concepto4.grupo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Concepto4.grupo)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.EsquemasPago.descripcion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.EsquemasPago.descripcion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Plaza.descripcion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Plaza.descripcion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Proyecto.descripcion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Proyecto.descripcion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.SDI.descripcion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.SDI.descripcion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.TipoContrato.descripcion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.TipoContrato.descripcion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.TipoPersonal.descripcion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.TipoPersonal.descripcion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Usuario.nombreUsuario)
-            </dd>
-
-        </dl>
+                <tr>
+                    <td>@Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td colspan="3">
+                        @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 4 })
+                        @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"></td>
+                    <td style="text-align:right;"><input type="submit" value="@Language.agregar" class="btn btn-primary" /></td>
+                </tr>
+            </table>
 
         @using (Html.BeginForm())
         {
