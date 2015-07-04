@@ -42,8 +42,8 @@ namespace SUADATOS
             this.TipoPersonals = new HashSet<TipoPersonal>();
             this.TopicosUsuarios = new HashSet<TopicosUsuario>();
             this.TopicosUsuarios1 = new HashSet<TopicosUsuario>();
-            this.Solicituds = new HashSet<Solicitud>();
             this.Empleados = new HashSet<Empleado>();
+            this.Solicituds = new HashSet<Solicitud>();
         }
     
         public int Id { get; set; }
@@ -86,7 +86,7 @@ namespace SUADATOS
         public virtual ICollection<TipoPersonal> TipoPersonals { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios1 { get; set; }
-        public virtual ICollection<Solicitud> Solicituds { get; set; }
         public virtual ICollection<Empleado> Empleados { get; set; }
+        public virtual ICollection<Solicitud> Solicituds { get; set; }
     }
 }

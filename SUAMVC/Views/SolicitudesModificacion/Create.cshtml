@@ -61,7 +61,7 @@
                     <tr>
                         <td>@Html.LabelFor(model => model.esquemaId, "esquemaId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td>
-                            @Html.esquemasDrownList(usuario.Id)
+                            @Html.esquemasDrownList(usuario.Id, "esquemaId")
                             @Html.ValidationMessageFor(model => model.esquemaId, "", new { @class = "text-danger" })
                         </td>
                         @if (Model != null)

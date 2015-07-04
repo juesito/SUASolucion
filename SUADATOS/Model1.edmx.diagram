@@ -107,22 +107,7 @@
         <AssociationConnector Association="suaModel.FK_TipoPersonal_TipoPersonal" />
         <AssociationConnector Association="suaModel.FK_TopicosUsuario_Usuario" />
         <AssociationConnector Association="suaModel.FK_TopicosUsuario_Usuario2" />
-        <EntityTypeShape EntityType="suaModel.Solicitud" Width="1.5" PointX="15.75" PointY="93.125" IsExpanded="false" />
-        <AssociationConnector Association="suaModel.FK_Proyectos_Clientes" />
-        <AssociationConnector Association="suaModel.FK_Solicitud_Conceptos" />
-        <AssociationConnector Association="suaModel.FK_Solicitud_Conceptos1" />
-        <AssociationConnector Association="suaModel.FK_Solicitud_Conceptos2" />
-        <AssociationConnector Association="suaModel.FK_Solicitud_Conceptos3" />
-        <AssociationConnector Association="suaModel.FK_Solicitud_Conceptos4" />
-        <AssociationConnector Association="suaModel.FK_Solicitud_Conceptos5" />
-        <AssociationConnector Association="suaModel.FK_Proyectos_EsquemasPago" />
-        <AssociationConnector Association="suaModel.FK_Solicitud_Plazas" />
-        <AssociationConnector Association="suaModel.FK_Solicitud_Proyectos" />
-        <AssociationConnector Association="suaModel.FK_Proyectos_SDIs" />
-        <AssociationConnector Association="suaModel.FK_Proyectos_TipoContrato" />
-        <AssociationConnector Association="suaModel.FK_Proyectos_TipoPersonal" />
-        <AssociationConnector Association="suaModel.FK_Proyectos_Usuarios" />
-        <EntityTypeShape EntityType="suaModel.Empleado" Width="1.5" PointX="18" PointY="72.75" />
+        <EntityTypeShape EntityType="suaModel.Empleado" Width="1.5" PointX="18" PointY="72.75" IsExpanded="false" />
         <AssociationConnector Association="suaModel.FK_Empleados_Acreditados" />
         <AssociationConnector Association="suaModel.FK_Empleados_Bancos" />
         <AssociationConnector Association="suaModel.FK_Empleados_EsquemasPago" />
@@ -132,8 +117,23 @@
         <AssociationConnector Association="suaModel.FK_Empleados_Paises" />
         <AssociationConnector Association="suaModel.FK_Empleados_SDIs" />
         <AssociationConnector Association="suaModel.FK_Empleados_Sexos" />
-        <AssociationConnector Association="suaModel.FK_Empleados_Solicitud" />
         <AssociationConnector Association="suaModel.FK_Empleados_Usuarios" />
+        <EntityTypeShape EntityType="suaModel.Solicitud" Width="1.5" PointX="15.75" PointY="93" />
+        <AssociationConnector Association="suaModel.FK_Proyectos_Clientes" />
+        <AssociationConnector Association="suaModel.FK_Solicitud_Conceptos" />
+        <AssociationConnector Association="suaModel.FK_Solicitud_Conceptos1" />
+        <AssociationConnector Association="suaModel.FK_Solicitud_Conceptos2" />
+        <AssociationConnector Association="suaModel.FK_Solicitud_Conceptos3" />
+        <AssociationConnector Association="suaModel.FK_Solicitud_Conceptos4" />
+        <AssociationConnector Association="suaModel.FK_Solicitud_Conceptos5" />
+        <AssociationConnector Association="suaModel.FK_Empleados_Solicitud" />
+        <AssociationConnector Association="suaModel.FK_Proyectos_EsquemasPago" />
+        <AssociationConnector Association="suaModel.FK_Solicitud_Plazas" />
+        <AssociationConnector Association="suaModel.FK_Solicitud_Proyectos" />
+        <AssociationConnector Association="suaModel.FK_Proyectos_SDIs" />
+        <AssociationConnector Association="suaModel.FK_Proyectos_TipoContrato" />
+        <AssociationConnector Association="suaModel.FK_Proyectos_TipoPersonal" />
+        <AssociationConnector Association="suaModel.FK_Proyectos_Usuarios" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

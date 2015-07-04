@@ -16,8 +16,8 @@ namespace SUADATOS
     {
         public EsquemasPago()
         {
-            this.Solicituds = new HashSet<Solicitud>();
             this.Empleados = new HashSet<Empleado>();
+            this.Solicituds = new HashSet<Solicitud>();
         }
     
         public int id { get; set; }
@@ -26,7 +26,7 @@ namespace SUADATOS
         public int usuarioId { get; set; }
     
         public virtual Usuario Usuario { get; set; }
-        public virtual ICollection<Solicitud> Solicituds { get; set; }
         public virtual ICollection<Empleado> Empleados { get; set; }
+        public virtual ICollection<Solicitud> Solicituds { get; set; }
     }
 }
