@@ -18,6 +18,9 @@
         <li><a href="#tabs-3">Salariales</a></li>
         <li><a href="#tabs-4">SUA</a></li>
     </ul>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
     <div id="tabs-1" style="overflow:hidden; min-height:401px;">
         <div class="left-Marquee">
             <dl class="dl-horizontal">
@@ -309,7 +312,9 @@
                 }
             </div>
         </div>
+        <input name="Guadar" type="submit" />
     </div>
+}
 </div>
 
 <div>

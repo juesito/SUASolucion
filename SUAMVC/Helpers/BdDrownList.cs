@@ -239,7 +239,7 @@ namespace SUAMVC.Helpers
             return htmlHelper.DropDownList("esquemaId", listFields, new { id = htmlId });
         }
 
-        public static MvcHtmlString contratosDrownList(this HtmlHelper htmlHelper, int userId)
+        public static MvcHtmlString contratosDrownList(this HtmlHelper htmlHelper, int userId, String htmlId)
         {
 
             db = new suaEntities();
@@ -260,7 +260,7 @@ namespace SUAMVC.Helpers
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
-            return htmlHelper.DropDownList("contratoId", listFields, new { onchange = "submit()", @class = "cancel" });
+            return htmlHelper.DropDownList("contratoId", listFields, new { id = htmlId});
         }
 
         public static MvcHtmlString sexosDrownList(this HtmlHelper htmlHelper, int userId)
@@ -309,6 +309,30 @@ namespace SUAMVC.Helpers
             }
 
             return htmlHelper.DropDownList("sexoId", listFields);
+        }
+
+        public static MvcHtmlString tipoPersonalDrownList(this HtmlHelper htmlHelper, int userId, String htmlId, String componenteId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<TipoPersonal> listTipoPersonal = (from s in db.TipoPersonals
+                                     orderby s.descripcion
+                                     select s).ToList();
+
+            foreach (TipoPersonal item in listTipoPersonal)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields);
         }
 
         /**

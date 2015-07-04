@@ -48,8 +48,8 @@
     <EntitySet Name="TipoPersonals" EntityType="suaModel.Store.TipoPersonals" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TopicosUsuarios" EntityType="suaModel.Store.TopicosUsuarios" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Usuarios" EntityType="suaModel.Store.Usuarios" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Solicituds" EntityType="suaModel.Store.Solicituds" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Empleados" EntityType="suaModel.Store.Empleados" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Solicituds" EntityType="suaModel.Store.Solicituds" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_Acreditados_Acreditados" Association="suaModel.Store.FK_Acreditados_Acreditados">
       <End Role="Acreditado" EntitySet="Acreditados" />
       <End Role="Acreditado1" EntitySet="Acreditados" />
@@ -290,62 +290,6 @@
       <End Role="Usuario" EntitySet="Usuarios" />
       <End Role="TopicosUsuario" EntitySet="TopicosUsuarios" />
     </AssociationSet>
-    <AssociationSet Name="FK_Proyectos_Clientes" Association="suaModel.Store.FK_Proyectos_Clientes">
-      <End Role="Cliente" EntitySet="Clientes" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Solicitud_Conceptos" Association="suaModel.Store.FK_Solicitud_Conceptos">
-      <End Role="Concepto" EntitySet="Conceptos" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Solicitud_Conceptos1" Association="suaModel.Store.FK_Solicitud_Conceptos1">
-      <End Role="Concepto" EntitySet="Conceptos" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Solicitud_Conceptos2" Association="suaModel.Store.FK_Solicitud_Conceptos2">
-      <End Role="Concepto" EntitySet="Conceptos" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Solicitud_Conceptos3" Association="suaModel.Store.FK_Solicitud_Conceptos3">
-      <End Role="Concepto" EntitySet="Conceptos" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Solicitud_Conceptos4" Association="suaModel.Store.FK_Solicitud_Conceptos4">
-      <End Role="Concepto" EntitySet="Conceptos" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Solicitud_Conceptos5" Association="suaModel.Store.FK_Solicitud_Conceptos5">
-      <End Role="Concepto" EntitySet="Conceptos" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Proyectos_EsquemasPago" Association="suaModel.Store.FK_Proyectos_EsquemasPago">
-      <End Role="EsquemasPago" EntitySet="EsquemasPagoes" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Solicitud_Plazas" Association="suaModel.Store.FK_Solicitud_Plazas">
-      <End Role="Plaza" EntitySet="Plazas" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Solicitud_Proyectos" Association="suaModel.Store.FK_Solicitud_Proyectos">
-      <End Role="Proyecto" EntitySet="Proyectos" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Proyectos_SDIs" Association="suaModel.Store.FK_Proyectos_SDIs">
-      <End Role="SDI" EntitySet="SDIs" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Proyectos_TipoContrato" Association="suaModel.Store.FK_Proyectos_TipoContrato">
-      <End Role="TipoContrato" EntitySet="TipoContratoes" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Proyectos_TipoPersonal" Association="suaModel.Store.FK_Proyectos_TipoPersonal">
-      <End Role="TipoPersonal" EntitySet="TipoPersonals" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Proyectos_Usuarios" Association="suaModel.Store.FK_Proyectos_Usuarios">
-      <End Role="Usuario" EntitySet="Usuarios" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
     <AssociationSet Name="FK_Empleados_Acreditados" Association="suaModel.Store.FK_Empleados_Acreditados">
       <End Role="Acreditado" EntitySet="Acreditados" />
       <End Role="Empleado" EntitySet="Empleados" />
@@ -382,13 +326,69 @@
       <End Role="Sexo" EntitySet="Sexos" />
       <End Role="Empleado" EntitySet="Empleados" />
     </AssociationSet>
+    <AssociationSet Name="FK_Empleados_Usuarios" Association="suaModel.Store.FK_Empleados_Usuarios">
+      <End Role="Usuario" EntitySet="Usuarios" />
+      <End Role="Empleado" EntitySet="Empleados" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proyectos_Clientes" Association="suaModel.Store.FK_Proyectos_Clientes">
+      <End Role="Cliente" EntitySet="Clientes" />
+      <End Role="Solicitud" EntitySet="Solicituds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Solicitud_Conceptos" Association="suaModel.Store.FK_Solicitud_Conceptos">
+      <End Role="Concepto" EntitySet="Conceptos" />
+      <End Role="Solicitud" EntitySet="Solicituds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Solicitud_Conceptos1" Association="suaModel.Store.FK_Solicitud_Conceptos1">
+      <End Role="Concepto" EntitySet="Conceptos" />
+      <End Role="Solicitud" EntitySet="Solicituds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Solicitud_Conceptos2" Association="suaModel.Store.FK_Solicitud_Conceptos2">
+      <End Role="Concepto" EntitySet="Conceptos" />
+      <End Role="Solicitud" EntitySet="Solicituds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Solicitud_Conceptos3" Association="suaModel.Store.FK_Solicitud_Conceptos3">
+      <End Role="Concepto" EntitySet="Conceptos" />
+      <End Role="Solicitud" EntitySet="Solicituds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Solicitud_Conceptos4" Association="suaModel.Store.FK_Solicitud_Conceptos4">
+      <End Role="Concepto" EntitySet="Conceptos" />
+      <End Role="Solicitud" EntitySet="Solicituds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Solicitud_Conceptos5" Association="suaModel.Store.FK_Solicitud_Conceptos5">
+      <End Role="Concepto" EntitySet="Conceptos" />
+      <End Role="Solicitud" EntitySet="Solicituds" />
+    </AssociationSet>
     <AssociationSet Name="FK_Empleados_Solicitud" Association="suaModel.Store.FK_Empleados_Solicitud">
       <End Role="Solicitud" EntitySet="Solicituds" />
       <End Role="Empleado" EntitySet="Empleados" />
     </AssociationSet>
-    <AssociationSet Name="FK_Empleados_Usuarios" Association="suaModel.Store.FK_Empleados_Usuarios">
+    <AssociationSet Name="FK_Proyectos_EsquemasPago" Association="suaModel.Store.FK_Proyectos_EsquemasPago">
+      <End Role="EsquemasPago" EntitySet="EsquemasPagoes" />
+      <End Role="Solicitud" EntitySet="Solicituds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Solicitud_Plazas" Association="suaModel.Store.FK_Solicitud_Plazas">
+      <End Role="Plaza" EntitySet="Plazas" />
+      <End Role="Solicitud" EntitySet="Solicituds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Solicitud_Proyectos" Association="suaModel.Store.FK_Solicitud_Proyectos">
+      <End Role="Proyecto" EntitySet="Proyectos" />
+      <End Role="Solicitud" EntitySet="Solicituds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proyectos_SDIs" Association="suaModel.Store.FK_Proyectos_SDIs">
+      <End Role="SDI" EntitySet="SDIs" />
+      <End Role="Solicitud" EntitySet="Solicituds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proyectos_TipoContrato" Association="suaModel.Store.FK_Proyectos_TipoContrato">
+      <End Role="TipoContrato" EntitySet="TipoContratoes" />
+      <End Role="Solicitud" EntitySet="Solicituds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proyectos_TipoPersonal" Association="suaModel.Store.FK_Proyectos_TipoPersonal">
+      <End Role="TipoPersonal" EntitySet="TipoPersonals" />
+      <End Role="Solicitud" EntitySet="Solicituds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proyectos_Usuarios" Association="suaModel.Store.FK_Proyectos_Usuarios">
       <End Role="Usuario" EntitySet="Usuarios" />
-      <End Role="Empleado" EntitySet="Empleados" />
+      <End Role="Solicitud" EntitySet="Solicituds" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Acreditados">
@@ -1036,37 +1036,6 @@
     <Property Name="roleId" Type="int" Nullable="false" />
     <Property Name="plazaId" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="Solicituds">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="folioSolicitud" Type="nchar" Nullable="true" MaxLength="15" />
-    <Property Name="clienteId" Type="int" Nullable="false" />
-    <Property Name="plazaId" Type="int" Nullable="false" />
-    <Property Name="fechaSolicitud" Type="datetime" Nullable="false" />
-    <Property Name="esquemaId" Type="int" Nullable="true" />
-    <Property Name="sdiId" Type="int" Nullable="true" />
-    <Property Name="contratoId" Type="int" Nullable="true" />
-    <Property Name="fechaInicial" Type="datetime" Nullable="true" />
-    <Property Name="fechaFinal" Type="datetime" Nullable="true" />
-    <Property Name="tipoPersonalId" Type="int" Nullable="true" />
-    <Property Name="solicita" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="valida" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="autoriza" Type="nchar" Nullable="true" MaxLength="60" />
-    <Property Name="noTrabajadores" Type="int" Nullable="false" />
-    <Property Name="observaciones" Type="nchar" Nullable="true" MaxLength="100" />
-    <Property Name="estatusSolicitud" Type="int" Nullable="false" />
-    <Property Name="estatusNomina" Type="int" Nullable="true" />
-    <Property Name="estatusAfiliado" Type="int" Nullable="true" />
-    <Property Name="estatusJuridico" Type="int" Nullable="true" />
-    <Property Name="estatusTarjeta" Type="int" Nullable="true" />
-    <Property Name="usuarioId" Type="int" Nullable="false" />
-    <Property Name="proyectoId" Type="int" Nullable="false" />
-    <Property Name="fechaEnvio" Type="datetime" Nullable="true" />
-    <Property Name="tipoSolicitud" Type="int" Nullable="false" />
-    <Property Name="conceptoBaja" Type="int" Nullable="true" />
-  </EntityType>
   <EntityType Name="Empleados">
     <Key>
       <PropertyRef Name="id" />
@@ -1111,6 +1080,38 @@
     <Property Name="fechaBaja" Type="datetime" Nullable="true" />
     <Property Name="acreditadoId" Type="int" Nullable="true" />
     <Property Name="foto" Type="nchar" Nullable="true" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Solicituds">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="folioSolicitud" Type="nchar" Nullable="true" MaxLength="15" />
+    <Property Name="clienteId" Type="int" Nullable="false" />
+    <Property Name="plazaId" Type="int" Nullable="false" />
+    <Property Name="fechaSolicitud" Type="datetime" Nullable="false" />
+    <Property Name="esquemaId" Type="int" Nullable="true" />
+    <Property Name="sdiId" Type="int" Nullable="true" />
+    <Property Name="contratoId" Type="int" Nullable="true" />
+    <Property Name="fechaTerminoContrato" Type="datetime" Nullable="true" />
+    <Property Name="fechaInicial" Type="datetime" Nullable="true" />
+    <Property Name="fechaFinal" Type="datetime" Nullable="true" />
+    <Property Name="tipoPersonalId" Type="int" Nullable="true" />
+    <Property Name="solicita" Type="nchar" Nullable="true" MaxLength="60" />
+    <Property Name="valida" Type="nchar" Nullable="true" MaxLength="60" />
+    <Property Name="autoriza" Type="nchar" Nullable="true" MaxLength="60" />
+    <Property Name="noTrabajadores" Type="int" Nullable="false" />
+    <Property Name="observaciones" Type="nchar" Nullable="true" MaxLength="100" />
+    <Property Name="estatusSolicitud" Type="int" Nullable="false" />
+    <Property Name="estatusNomina" Type="int" Nullable="true" />
+    <Property Name="estatusAfiliado" Type="int" Nullable="true" />
+    <Property Name="estatusJuridico" Type="int" Nullable="true" />
+    <Property Name="estatusTarjeta" Type="int" Nullable="true" />
+    <Property Name="usuarioId" Type="int" Nullable="false" />
+    <Property Name="proyectoId" Type="int" Nullable="false" />
+    <Property Name="fechaEnvio" Type="datetime" Nullable="true" />
+    <Property Name="tipoSolicitud" Type="int" Nullable="false" />
+    <Property Name="conceptoBaja" Type="int" Nullable="true" />
   </EntityType>
   <Association Name="FK_Acreditados_Acreditados">
     <End Role="Acreditado" Type="suaModel.Store.Acreditados" Multiplicity="1" />
@@ -1832,174 +1833,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Proyectos_Clientes">
-    <End Role="Cliente" Type="suaModel.Store.Clientes" Multiplicity="1" />
-    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Cliente">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Solicitud">
-        <PropertyRef Name="clienteId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Solicitud_Conceptos">
-    <End Role="Concepto" Type="suaModel.Store.Conceptos" Multiplicity="1" />
-    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Concepto">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Solicitud">
-        <PropertyRef Name="estatusSolicitud" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Solicitud_Conceptos1">
-    <End Role="Concepto" Type="suaModel.Store.Conceptos" Multiplicity="0..1" />
-    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Concepto">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Solicitud">
-        <PropertyRef Name="estatusNomina" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Solicitud_Conceptos2">
-    <End Role="Concepto" Type="suaModel.Store.Conceptos" Multiplicity="0..1" />
-    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Concepto">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Solicitud">
-        <PropertyRef Name="estatusJuridico" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Solicitud_Conceptos3">
-    <End Role="Concepto" Type="suaModel.Store.Conceptos" Multiplicity="0..1" />
-    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Concepto">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Solicitud">
-        <PropertyRef Name="estatusAfiliado" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Solicitud_Conceptos4">
-    <End Role="Concepto" Type="suaModel.Store.Conceptos" Multiplicity="0..1" />
-    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Concepto">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Solicitud">
-        <PropertyRef Name="estatusTarjeta" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Solicitud_Conceptos5">
-    <End Role="Concepto" Type="suaModel.Store.Conceptos" Multiplicity="1" />
-    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Concepto">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Solicitud">
-        <PropertyRef Name="tipoSolicitud" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Proyectos_EsquemasPago">
-    <End Role="EsquemasPago" Type="suaModel.Store.EsquemasPagoes" Multiplicity="0..1" />
-    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="EsquemasPago">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Solicitud">
-        <PropertyRef Name="esquemaId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Solicitud_Plazas">
-    <End Role="Plaza" Type="suaModel.Store.Plazas" Multiplicity="1" />
-    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Plaza">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Solicitud">
-        <PropertyRef Name="plazaId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Solicitud_Proyectos">
-    <End Role="Proyecto" Type="suaModel.Store.Proyectos" Multiplicity="1" />
-    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Proyecto">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Solicitud">
-        <PropertyRef Name="proyectoId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Proyectos_SDIs">
-    <End Role="SDI" Type="suaModel.Store.SDIs" Multiplicity="0..1" />
-    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SDI">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Solicitud">
-        <PropertyRef Name="sdiId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Proyectos_TipoContrato">
-    <End Role="TipoContrato" Type="suaModel.Store.TipoContratoes" Multiplicity="0..1" />
-    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TipoContrato">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Solicitud">
-        <PropertyRef Name="contratoId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Proyectos_TipoPersonal">
-    <End Role="TipoPersonal" Type="suaModel.Store.TipoPersonals" Multiplicity="0..1" />
-    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TipoPersonal">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Solicitud">
-        <PropertyRef Name="tipoPersonalId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Proyectos_Usuarios">
-    <End Role="Usuario" Type="suaModel.Store.Usuarios" Multiplicity="1" />
-    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Solicitud">
-        <PropertyRef Name="usuarioId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Empleados_Acreditados">
     <End Role="Acreditado" Type="suaModel.Store.Acreditados" Multiplicity="0..1" />
     <End Role="Empleado" Type="suaModel.Store.Empleados" Multiplicity="*" />
@@ -2108,6 +1941,102 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Empleados_Usuarios">
+    <End Role="Usuario" Type="suaModel.Store.Usuarios" Multiplicity="1" />
+    <End Role="Empleado" Type="suaModel.Store.Empleados" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Empleado">
+        <PropertyRef Name="usuarioId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proyectos_Clientes">
+    <End Role="Cliente" Type="suaModel.Store.Clientes" Multiplicity="1" />
+    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Solicitud">
+        <PropertyRef Name="clienteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Solicitud_Conceptos">
+    <End Role="Concepto" Type="suaModel.Store.Conceptos" Multiplicity="1" />
+    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Concepto">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Solicitud">
+        <PropertyRef Name="estatusSolicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Solicitud_Conceptos1">
+    <End Role="Concepto" Type="suaModel.Store.Conceptos" Multiplicity="0..1" />
+    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Concepto">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Solicitud">
+        <PropertyRef Name="estatusNomina" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Solicitud_Conceptos2">
+    <End Role="Concepto" Type="suaModel.Store.Conceptos" Multiplicity="0..1" />
+    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Concepto">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Solicitud">
+        <PropertyRef Name="estatusJuridico" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Solicitud_Conceptos3">
+    <End Role="Concepto" Type="suaModel.Store.Conceptos" Multiplicity="0..1" />
+    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Concepto">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Solicitud">
+        <PropertyRef Name="estatusAfiliado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Solicitud_Conceptos4">
+    <End Role="Concepto" Type="suaModel.Store.Conceptos" Multiplicity="0..1" />
+    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Concepto">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Solicitud">
+        <PropertyRef Name="estatusTarjeta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Solicitud_Conceptos5">
+    <End Role="Concepto" Type="suaModel.Store.Conceptos" Multiplicity="1" />
+    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Concepto">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Solicitud">
+        <PropertyRef Name="tipoSolicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Empleados_Solicitud">
     <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="1" />
     <End Role="Empleado" Type="suaModel.Store.Empleados" Multiplicity="*" />
@@ -2120,14 +2049,86 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Empleados_Usuarios">
+  <Association Name="FK_Proyectos_EsquemasPago">
+    <End Role="EsquemasPago" Type="suaModel.Store.EsquemasPagoes" Multiplicity="0..1" />
+    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EsquemasPago">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Solicitud">
+        <PropertyRef Name="esquemaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Solicitud_Plazas">
+    <End Role="Plaza" Type="suaModel.Store.Plazas" Multiplicity="1" />
+    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Plaza">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Solicitud">
+        <PropertyRef Name="plazaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Solicitud_Proyectos">
+    <End Role="Proyecto" Type="suaModel.Store.Proyectos" Multiplicity="1" />
+    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proyecto">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Solicitud">
+        <PropertyRef Name="proyectoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proyectos_SDIs">
+    <End Role="SDI" Type="suaModel.Store.SDIs" Multiplicity="0..1" />
+    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SDI">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Solicitud">
+        <PropertyRef Name="sdiId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proyectos_TipoContrato">
+    <End Role="TipoContrato" Type="suaModel.Store.TipoContratoes" Multiplicity="0..1" />
+    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoContrato">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Solicitud">
+        <PropertyRef Name="contratoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proyectos_TipoPersonal">
+    <End Role="TipoPersonal" Type="suaModel.Store.TipoPersonals" Multiplicity="0..1" />
+    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoPersonal">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Solicitud">
+        <PropertyRef Name="tipoPersonalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proyectos_Usuarios">
     <End Role="Usuario" Type="suaModel.Store.Usuarios" Multiplicity="1" />
-    <End Role="Empleado" Type="suaModel.Store.Empleados" Multiplicity="*" />
+    <End Role="Solicitud" Type="suaModel.Store.Solicituds" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Usuario">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Empleado">
+      <Dependent Role="Solicitud">
         <PropertyRef Name="usuarioId" />
       </Dependent>
     </ReferentialConstraint>
@@ -2419,63 +2420,6 @@
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="TopicosUsuario" EntitySet="TopicosUsuarios" />
           </AssociationSet>
-          <EntitySet Name="Solicituds" EntityType="suaModel.Solicitud" />
-          <AssociationSet Name="FK_Proyectos_Clientes" Association="suaModel.FK_Proyectos_Clientes">
-            <End Role="Cliente" EntitySet="Clientes" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Solicitud_Conceptos" Association="suaModel.FK_Solicitud_Conceptos">
-            <End Role="Concepto" EntitySet="Conceptos" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Solicitud_Conceptos1" Association="suaModel.FK_Solicitud_Conceptos1">
-            <End Role="Concepto" EntitySet="Conceptos" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Solicitud_Conceptos2" Association="suaModel.FK_Solicitud_Conceptos2">
-            <End Role="Concepto" EntitySet="Conceptos" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Solicitud_Conceptos3" Association="suaModel.FK_Solicitud_Conceptos3">
-            <End Role="Concepto" EntitySet="Conceptos" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Solicitud_Conceptos4" Association="suaModel.FK_Solicitud_Conceptos4">
-            <End Role="Concepto" EntitySet="Conceptos" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Solicitud_Conceptos5" Association="suaModel.FK_Solicitud_Conceptos5">
-            <End Role="Concepto" EntitySet="Conceptos" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Proyectos_EsquemasPago" Association="suaModel.FK_Proyectos_EsquemasPago">
-            <End Role="EsquemasPago" EntitySet="EsquemasPagoes" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Solicitud_Plazas" Association="suaModel.FK_Solicitud_Plazas">
-            <End Role="Plaza" EntitySet="Plazas" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Solicitud_Proyectos" Association="suaModel.FK_Solicitud_Proyectos">
-            <End Role="Proyecto" EntitySet="Proyectos" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Proyectos_SDIs" Association="suaModel.FK_Proyectos_SDIs">
-            <End Role="SDI" EntitySet="SDIs" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Proyectos_TipoContrato" Association="suaModel.FK_Proyectos_TipoContrato">
-            <End Role="TipoContrato" EntitySet="TipoContratoes" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Proyectos_TipoPersonal" Association="suaModel.FK_Proyectos_TipoPersonal">
-            <End Role="TipoPersonal" EntitySet="TipoPersonals" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Proyectos_Usuarios" Association="suaModel.FK_Proyectos_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
           <EntitySet Name="Empleados" EntityType="suaModel.Empleado" />
           <AssociationSet Name="FK_Empleados_Acreditados" Association="suaModel.FK_Empleados_Acreditados">
             <End Role="Acreditado" EntitySet="Acreditados" />
@@ -2513,13 +2457,70 @@
             <End Role="Sexo" EntitySet="Sexos" />
             <End Role="Empleado" EntitySet="Empleados" />
           </AssociationSet>
+          <AssociationSet Name="FK_Empleados_Usuarios" Association="suaModel.FK_Empleados_Usuarios">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Empleado" EntitySet="Empleados" />
+          </AssociationSet>
+          <EntitySet Name="Solicituds" EntityType="suaModel.Solicitud" />
+          <AssociationSet Name="FK_Proyectos_Clientes" Association="suaModel.FK_Proyectos_Clientes">
+            <End Role="Cliente" EntitySet="Clientes" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Solicitud_Conceptos" Association="suaModel.FK_Solicitud_Conceptos">
+            <End Role="Concepto" EntitySet="Conceptos" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Solicitud_Conceptos1" Association="suaModel.FK_Solicitud_Conceptos1">
+            <End Role="Concepto" EntitySet="Conceptos" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Solicitud_Conceptos2" Association="suaModel.FK_Solicitud_Conceptos2">
+            <End Role="Concepto" EntitySet="Conceptos" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Solicitud_Conceptos3" Association="suaModel.FK_Solicitud_Conceptos3">
+            <End Role="Concepto" EntitySet="Conceptos" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Solicitud_Conceptos4" Association="suaModel.FK_Solicitud_Conceptos4">
+            <End Role="Concepto" EntitySet="Conceptos" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Solicitud_Conceptos5" Association="suaModel.FK_Solicitud_Conceptos5">
+            <End Role="Concepto" EntitySet="Conceptos" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
+          </AssociationSet>
           <AssociationSet Name="FK_Empleados_Solicitud" Association="suaModel.FK_Empleados_Solicitud">
             <End Role="Solicitud" EntitySet="Solicituds" />
             <End Role="Empleado" EntitySet="Empleados" />
           </AssociationSet>
-          <AssociationSet Name="FK_Empleados_Usuarios" Association="suaModel.FK_Empleados_Usuarios">
+          <AssociationSet Name="FK_Proyectos_EsquemasPago" Association="suaModel.FK_Proyectos_EsquemasPago">
+            <End Role="EsquemasPago" EntitySet="EsquemasPagoes" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Solicitud_Plazas" Association="suaModel.FK_Solicitud_Plazas">
+            <End Role="Plaza" EntitySet="Plazas" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Solicitud_Proyectos" Association="suaModel.FK_Solicitud_Proyectos">
+            <End Role="Proyecto" EntitySet="Proyectos" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyectos_SDIs" Association="suaModel.FK_Proyectos_SDIs">
+            <End Role="SDI" EntitySet="SDIs" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyectos_TipoContrato" Association="suaModel.FK_Proyectos_TipoContrato">
+            <End Role="TipoContrato" EntitySet="TipoContratoes" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyectos_TipoPersonal" Association="suaModel.FK_Proyectos_TipoPersonal">
+            <End Role="TipoPersonal" EntitySet="TipoPersonals" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyectos_Usuarios" Association="suaModel.FK_Proyectos_Usuarios">
             <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="Empleado" EntitySet="Empleados" />
+            <End Role="Solicitud" EntitySet="Solicituds" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Acreditado">
@@ -2767,8 +2768,8 @@
           <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="usuarioId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_EsquemasPago_EsquemasPago" FromRole="EsquemasPago" ToRole="Usuario" />
-          <NavigationProperty Name="Solicituds" Relationship="suaModel.FK_Proyectos_EsquemasPago" FromRole="EsquemasPago" ToRole="Solicitud" />
           <NavigationProperty Name="Empleados" Relationship="suaModel.FK_Empleados_EsquemasPago" FromRole="EsquemasPago" ToRole="Empleado" />
+          <NavigationProperty Name="Solicituds" Relationship="suaModel.FK_Proyectos_EsquemasPago" FromRole="EsquemasPago" ToRole="Solicitud" />
         </EntityType>
         <EntityType Name="EstadoCivil">
           <Key>
@@ -3206,8 +3207,8 @@
           <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="usuarioId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_SDIs_SDIs" FromRole="SDI" ToRole="Usuario" />
-          <NavigationProperty Name="Solicituds" Relationship="suaModel.FK_Proyectos_SDIs" FromRole="SDI" ToRole="Solicitud" />
           <NavigationProperty Name="Empleados" Relationship="suaModel.FK_Empleados_SDIs" FromRole="SDI" ToRole="Empleado" />
+          <NavigationProperty Name="Solicituds" Relationship="suaModel.FK_Proyectos_SDIs" FromRole="SDI" ToRole="Solicitud" />
         </EntityType>
         <EntityType Name="Servicio">
           <Key>
@@ -3308,8 +3309,8 @@
           <NavigationProperty Name="TipoPersonals" Relationship="suaModel.FK_TipoPersonal_TipoPersonal" FromRole="Usuario" ToRole="TipoPersonal" />
           <NavigationProperty Name="TopicosUsuarios" Relationship="suaModel.FK_TopicosUsuario_Usuario" FromRole="Usuario" ToRole="TopicosUsuario" />
           <NavigationProperty Name="TopicosUsuarios1" Relationship="suaModel.FK_TopicosUsuario_Usuario2" FromRole="Usuario" ToRole="TopicosUsuario" />
-          <NavigationProperty Name="Solicituds" Relationship="suaModel.FK_Proyectos_Usuarios" FromRole="Usuario" ToRole="Solicitud" />
           <NavigationProperty Name="Empleados" Relationship="suaModel.FK_Empleados_Usuarios" FromRole="Usuario" ToRole="Empleado" />
+          <NavigationProperty Name="Solicituds" Relationship="suaModel.FK_Proyectos_Usuarios" FromRole="Usuario" ToRole="Solicitud" />
         </EntityType>
         <Association Name="FK_Acreditados_Acreditados">
           <End Type="suaModel.Acreditado" Role="Acreditado" Multiplicity="1" />
@@ -4031,220 +4032,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Solicitud">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="folioSolicitud" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
-          <Property Name="clienteId" Type="Int32" Nullable="false" />
-          <Property Name="plazaId" Type="Int32" Nullable="false" />
-          <Property Name="fechaSolicitud" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="esquemaId" Type="Int32" />
-          <Property Name="sdiId" Type="Int32" />
-          <Property Name="contratoId" Type="Int32" />
-          <Property Name="fechaInicial" Type="DateTime" Precision="3" />
-          <Property Name="fechaFinal" Type="DateTime" Precision="3" />
-          <Property Name="tipoPersonalId" Type="Int32" />
-          <Property Name="solicita" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="valida" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="autoriza" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
-          <Property Name="noTrabajadores" Type="Int32" Nullable="false" />
-          <Property Name="observaciones" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="estatusSolicitud" Type="Int32" Nullable="false" />
-          <Property Name="estatusNomina" Type="Int32" />
-          <Property Name="estatusAfiliado" Type="Int32" />
-          <Property Name="estatusJuridico" Type="Int32" />
-          <Property Name="estatusTarjeta" Type="Int32" />
-          <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <Property Name="proyectoId" Type="Int32" Nullable="false" />
-          <Property Name="fechaEnvio" Type="DateTime" Precision="3" />
-          <Property Name="tipoSolicitud" Type="Int32" Nullable="false" />
-          <Property Name="conceptoBaja" Type="Int32" />
-          <NavigationProperty Name="Cliente" Relationship="suaModel.FK_Proyectos_Clientes" FromRole="Solicitud" ToRole="Cliente" />
-          <NavigationProperty Name="Concepto" Relationship="suaModel.FK_Solicitud_Conceptos" FromRole="Solicitud" ToRole="Concepto" />
-          <NavigationProperty Name="Concepto1" Relationship="suaModel.FK_Solicitud_Conceptos1" FromRole="Solicitud" ToRole="Concepto" />
-          <NavigationProperty Name="Concepto2" Relationship="suaModel.FK_Solicitud_Conceptos2" FromRole="Solicitud" ToRole="Concepto" />
-          <NavigationProperty Name="Concepto3" Relationship="suaModel.FK_Solicitud_Conceptos3" FromRole="Solicitud" ToRole="Concepto" />
-          <NavigationProperty Name="Concepto4" Relationship="suaModel.FK_Solicitud_Conceptos4" FromRole="Solicitud" ToRole="Concepto" />
-          <NavigationProperty Name="Concepto5" Relationship="suaModel.FK_Solicitud_Conceptos5" FromRole="Solicitud" ToRole="Concepto" />
-          <NavigationProperty Name="EsquemasPago" Relationship="suaModel.FK_Proyectos_EsquemasPago" FromRole="Solicitud" ToRole="EsquemasPago" />
-          <NavigationProperty Name="Plaza" Relationship="suaModel.FK_Solicitud_Plazas" FromRole="Solicitud" ToRole="Plaza" />
-          <NavigationProperty Name="Proyecto" Relationship="suaModel.FK_Solicitud_Proyectos" FromRole="Solicitud" ToRole="Proyecto" />
-          <NavigationProperty Name="SDI" Relationship="suaModel.FK_Proyectos_SDIs" FromRole="Solicitud" ToRole="SDI" />
-          <NavigationProperty Name="TipoContrato" Relationship="suaModel.FK_Proyectos_TipoContrato" FromRole="Solicitud" ToRole="TipoContrato" />
-          <NavigationProperty Name="TipoPersonal" Relationship="suaModel.FK_Proyectos_TipoPersonal" FromRole="Solicitud" ToRole="TipoPersonal" />
-          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Proyectos_Usuarios" FromRole="Solicitud" ToRole="Usuario" />
-          <NavigationProperty Name="Empleados" Relationship="suaModel.FK_Empleados_Solicitud" FromRole="Solicitud" ToRole="Empleado" />
-        </EntityType>
-        <Association Name="FK_Proyectos_Clientes">
-          <End Type="suaModel.Cliente" Role="Cliente" Multiplicity="1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cliente">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="clienteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Solicitud_Conceptos">
-          <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Concepto">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="estatusSolicitud" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Solicitud_Conceptos1">
-          <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="0..1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Concepto">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="estatusNomina" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Solicitud_Conceptos2">
-          <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="0..1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Concepto">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="estatusJuridico" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Solicitud_Conceptos3">
-          <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="0..1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Concepto">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="estatusAfiliado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Solicitud_Conceptos4">
-          <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="0..1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Concepto">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="estatusTarjeta" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Solicitud_Conceptos5">
-          <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Concepto">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="tipoSolicitud" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Proyectos_EsquemasPago">
-          <End Type="suaModel.EsquemasPago" Role="EsquemasPago" Multiplicity="0..1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EsquemasPago">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="esquemaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Solicitud_Plazas">
-          <End Type="suaModel.Plaza" Role="Plaza" Multiplicity="1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Plaza">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="plazaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Solicitud_Proyectos">
-          <End Type="suaModel.Proyecto" Role="Proyecto" Multiplicity="1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Proyecto">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="proyectoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Proyectos_SDIs">
-          <End Type="suaModel.SDI" Role="SDI" Multiplicity="0..1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SDI">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="sdiId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Proyectos_TipoContrato">
-          <End Type="suaModel.TipoContrato" Role="TipoContrato" Multiplicity="0..1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TipoContrato">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="contratoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Proyectos_TipoPersonal">
-          <End Type="suaModel.TipoPersonal" Role="TipoPersonal" Multiplicity="0..1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TipoPersonal">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="tipoPersonalId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Proyectos_Usuarios">
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Solicitud">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Empleado">
           <Key>
             <PropertyRef Name="id" />
@@ -4298,8 +4085,8 @@
           <NavigationProperty Name="Pais" Relationship="suaModel.FK_Empleados_Paises" FromRole="Empleado" ToRole="Pais" />
           <NavigationProperty Name="SDI" Relationship="suaModel.FK_Empleados_SDIs" FromRole="Empleado" ToRole="SDI" />
           <NavigationProperty Name="Sexo" Relationship="suaModel.FK_Empleados_Sexos" FromRole="Empleado" ToRole="Sexo" />
-          <NavigationProperty Name="Solicitud" Relationship="suaModel.FK_Empleados_Solicitud" FromRole="Empleado" ToRole="Solicitud" />
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Empleados_Usuarios" FromRole="Empleado" ToRole="Usuario" />
+          <NavigationProperty Name="Solicitud" Relationship="suaModel.FK_Empleados_Solicitud" FromRole="Empleado" ToRole="Solicitud" />
         </EntityType>
         <Association Name="FK_Empleados_Acreditados">
           <End Type="suaModel.Acreditado" Role="Acreditado" Multiplicity="0..1" />
@@ -4409,6 +4196,149 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Empleados_Usuarios">
+          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="suaModel.Empleado" Role="Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Solicitud">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="folioSolicitud" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="clienteId" Type="Int32" Nullable="false" />
+          <Property Name="plazaId" Type="Int32" Nullable="false" />
+          <Property Name="fechaSolicitud" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="esquemaId" Type="Int32" />
+          <Property Name="sdiId" Type="Int32" />
+          <Property Name="contratoId" Type="Int32" />
+          <Property Name="fechaTerminoContrato" Type="DateTime" Precision="3" />
+          <Property Name="fechaInicial" Type="DateTime" Precision="3" />
+          <Property Name="fechaFinal" Type="DateTime" Precision="3" />
+          <Property Name="tipoPersonalId" Type="Int32" />
+          <Property Name="solicita" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="valida" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="autoriza" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="noTrabajadores" Type="Int32" Nullable="false" />
+          <Property Name="observaciones" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="estatusSolicitud" Type="Int32" Nullable="false" />
+          <Property Name="estatusNomina" Type="Int32" />
+          <Property Name="estatusAfiliado" Type="Int32" />
+          <Property Name="estatusJuridico" Type="Int32" />
+          <Property Name="estatusTarjeta" Type="Int32" />
+          <Property Name="usuarioId" Type="Int32" Nullable="false" />
+          <Property Name="proyectoId" Type="Int32" Nullable="false" />
+          <Property Name="fechaEnvio" Type="DateTime" Precision="3" />
+          <Property Name="tipoSolicitud" Type="Int32" Nullable="false" />
+          <Property Name="conceptoBaja" Type="Int32" />
+          <NavigationProperty Name="Cliente" Relationship="suaModel.FK_Proyectos_Clientes" FromRole="Solicitud" ToRole="Cliente" />
+          <NavigationProperty Name="Concepto" Relationship="suaModel.FK_Solicitud_Conceptos" FromRole="Solicitud" ToRole="Concepto" />
+          <NavigationProperty Name="Concepto1" Relationship="suaModel.FK_Solicitud_Conceptos1" FromRole="Solicitud" ToRole="Concepto" />
+          <NavigationProperty Name="Concepto2" Relationship="suaModel.FK_Solicitud_Conceptos2" FromRole="Solicitud" ToRole="Concepto" />
+          <NavigationProperty Name="Concepto3" Relationship="suaModel.FK_Solicitud_Conceptos3" FromRole="Solicitud" ToRole="Concepto" />
+          <NavigationProperty Name="Concepto4" Relationship="suaModel.FK_Solicitud_Conceptos4" FromRole="Solicitud" ToRole="Concepto" />
+          <NavigationProperty Name="Concepto5" Relationship="suaModel.FK_Solicitud_Conceptos5" FromRole="Solicitud" ToRole="Concepto" />
+          <NavigationProperty Name="Empleados" Relationship="suaModel.FK_Empleados_Solicitud" FromRole="Solicitud" ToRole="Empleado" />
+          <NavigationProperty Name="EsquemasPago" Relationship="suaModel.FK_Proyectos_EsquemasPago" FromRole="Solicitud" ToRole="EsquemasPago" />
+          <NavigationProperty Name="Plaza" Relationship="suaModel.FK_Solicitud_Plazas" FromRole="Solicitud" ToRole="Plaza" />
+          <NavigationProperty Name="Proyecto" Relationship="suaModel.FK_Solicitud_Proyectos" FromRole="Solicitud" ToRole="Proyecto" />
+          <NavigationProperty Name="SDI" Relationship="suaModel.FK_Proyectos_SDIs" FromRole="Solicitud" ToRole="SDI" />
+          <NavigationProperty Name="TipoContrato" Relationship="suaModel.FK_Proyectos_TipoContrato" FromRole="Solicitud" ToRole="TipoContrato" />
+          <NavigationProperty Name="TipoPersonal" Relationship="suaModel.FK_Proyectos_TipoPersonal" FromRole="Solicitud" ToRole="TipoPersonal" />
+          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Proyectos_Usuarios" FromRole="Solicitud" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_Proyectos_Clientes">
+          <End Type="suaModel.Cliente" Role="Cliente" Multiplicity="1" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="clienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Solicitud_Conceptos">
+          <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="1" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concepto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="estatusSolicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Solicitud_Conceptos1">
+          <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="0..1" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concepto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="estatusNomina" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Solicitud_Conceptos2">
+          <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="0..1" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concepto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="estatusJuridico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Solicitud_Conceptos3">
+          <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="0..1" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concepto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="estatusAfiliado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Solicitud_Conceptos4">
+          <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="0..1" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concepto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="estatusTarjeta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Solicitud_Conceptos5">
+          <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="1" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concepto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="tipoSolicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Empleados_Solicitud">
           <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="1" />
           <End Type="suaModel.Empleado" Role="Empleado" Multiplicity="*" />
@@ -4421,14 +4351,86 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Empleados_Usuarios">
+        <Association Name="FK_Proyectos_EsquemasPago">
+          <End Type="suaModel.EsquemasPago" Role="EsquemasPago" Multiplicity="0..1" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EsquemasPago">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="esquemaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Solicitud_Plazas">
+          <End Type="suaModel.Plaza" Role="Plaza" Multiplicity="1" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plaza">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="plazaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Solicitud_Proyectos">
+          <End Type="suaModel.Proyecto" Role="Proyecto" Multiplicity="1" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="proyectoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyectos_SDIs">
+          <End Type="suaModel.SDI" Role="SDI" Multiplicity="0..1" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SDI">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="sdiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyectos_TipoContrato">
+          <End Type="suaModel.TipoContrato" Role="TipoContrato" Multiplicity="0..1" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoContrato">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="contratoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyectos_TipoPersonal">
+          <End Type="suaModel.TipoPersonal" Role="TipoPersonal" Multiplicity="0..1" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoPersonal">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="tipoPersonalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyectos_Usuarios">
           <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.Empleado" Role="Empleado" Multiplicity="*" />
+          <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuario">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Empleado">
+            <Dependent Role="Solicitud">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
@@ -5126,38 +5128,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Solicituds">
-      <EntityTypeMapping TypeName="IsTypeOf(suaModel.Solicitud)">
-        <MappingFragment StoreEntitySet="Solicituds">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="folioSolicitud" ColumnName="folioSolicitud" />
-          <ScalarProperty Name="clienteId" ColumnName="clienteId" />
-          <ScalarProperty Name="plazaId" ColumnName="plazaId" />
-          <ScalarProperty Name="fechaSolicitud" ColumnName="fechaSolicitud" />
-          <ScalarProperty Name="esquemaId" ColumnName="esquemaId" />
-          <ScalarProperty Name="sdiId" ColumnName="sdiId" />
-          <ScalarProperty Name="contratoId" ColumnName="contratoId" />
-          <ScalarProperty Name="fechaInicial" ColumnName="fechaInicial" />
-          <ScalarProperty Name="fechaFinal" ColumnName="fechaFinal" />
-          <ScalarProperty Name="tipoPersonalId" ColumnName="tipoPersonalId" />
-          <ScalarProperty Name="solicita" ColumnName="solicita" />
-          <ScalarProperty Name="valida" ColumnName="valida" />
-          <ScalarProperty Name="autoriza" ColumnName="autoriza" />
-          <ScalarProperty Name="noTrabajadores" ColumnName="noTrabajadores" />
-          <ScalarProperty Name="observaciones" ColumnName="observaciones" />
-          <ScalarProperty Name="estatusSolicitud" ColumnName="estatusSolicitud" />
-          <ScalarProperty Name="estatusNomina" ColumnName="estatusNomina" />
-          <ScalarProperty Name="estatusAfiliado" ColumnName="estatusAfiliado" />
-          <ScalarProperty Name="estatusJuridico" ColumnName="estatusJuridico" />
-          <ScalarProperty Name="estatusTarjeta" ColumnName="estatusTarjeta" />
-          <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
-          <ScalarProperty Name="proyectoId" ColumnName="proyectoId" />
-          <ScalarProperty Name="fechaEnvio" ColumnName="fechaEnvio" />
-          <ScalarProperty Name="tipoSolicitud" ColumnName="tipoSolicitud" />
-          <ScalarProperty Name="conceptoBaja" ColumnName="conceptoBaja" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Empleados">
       <EntityTypeMapping TypeName="IsTypeOf(suaModel.Empleado)">
         <MappingFragment StoreEntitySet="Empleados">
@@ -5201,6 +5171,39 @@
           <ScalarProperty Name="fechaBaja" ColumnName="fechaBaja" />
           <ScalarProperty Name="acreditadoId" ColumnName="acreditadoId" />
           <ScalarProperty Name="foto" ColumnName="foto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Solicituds">
+      <EntityTypeMapping TypeName="IsTypeOf(suaModel.Solicitud)">
+        <MappingFragment StoreEntitySet="Solicituds">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="folioSolicitud" ColumnName="folioSolicitud" />
+          <ScalarProperty Name="clienteId" ColumnName="clienteId" />
+          <ScalarProperty Name="plazaId" ColumnName="plazaId" />
+          <ScalarProperty Name="fechaSolicitud" ColumnName="fechaSolicitud" />
+          <ScalarProperty Name="esquemaId" ColumnName="esquemaId" />
+          <ScalarProperty Name="sdiId" ColumnName="sdiId" />
+          <ScalarProperty Name="contratoId" ColumnName="contratoId" />
+          <ScalarProperty Name="fechaTerminoContrato" ColumnName="fechaTerminoContrato" />
+          <ScalarProperty Name="fechaInicial" ColumnName="fechaInicial" />
+          <ScalarProperty Name="fechaFinal" ColumnName="fechaFinal" />
+          <ScalarProperty Name="tipoPersonalId" ColumnName="tipoPersonalId" />
+          <ScalarProperty Name="solicita" ColumnName="solicita" />
+          <ScalarProperty Name="valida" ColumnName="valida" />
+          <ScalarProperty Name="autoriza" ColumnName="autoriza" />
+          <ScalarProperty Name="noTrabajadores" ColumnName="noTrabajadores" />
+          <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+          <ScalarProperty Name="estatusSolicitud" ColumnName="estatusSolicitud" />
+          <ScalarProperty Name="estatusNomina" ColumnName="estatusNomina" />
+          <ScalarProperty Name="estatusAfiliado" ColumnName="estatusAfiliado" />
+          <ScalarProperty Name="estatusJuridico" ColumnName="estatusJuridico" />
+          <ScalarProperty Name="estatusTarjeta" ColumnName="estatusTarjeta" />
+          <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
+          <ScalarProperty Name="proyectoId" ColumnName="proyectoId" />
+          <ScalarProperty Name="fechaEnvio" ColumnName="fechaEnvio" />
+          <ScalarProperty Name="tipoSolicitud" ColumnName="tipoSolicitud" />
+          <ScalarProperty Name="conceptoBaja" ColumnName="conceptoBaja" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

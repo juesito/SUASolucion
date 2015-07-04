@@ -186,6 +186,7 @@ namespace SUAMVC.Models
             {
                 int result = db.Database.ExecuteSqlCommand("sp_createFunctions @usuarioId", new SqlParameter("@usuarioId", usuarioId));
                 result = db.Database.ExecuteSqlCommand("spCreateActionFunctions @usuarioId", new SqlParameter("@usuarioId", usuarioId));
+                result = db.Database.ExecuteSqlCommand("spCreateConcepts @usuarioId", new SqlParameter("@usuarioId", usuarioId));
             }
         }
 
