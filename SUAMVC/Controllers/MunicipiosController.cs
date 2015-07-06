@@ -15,9 +15,14 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Municipios
-        public ActionResult Index()
+        public ActionResult Index(String estadoId)
         {
             var municipios = db.Municipios.Include(m => m.Estado).Include(m => m.Pais).Include(m => m.Usuario);
+            if (!String.IsNullOrEmpty(estadoId)) {
+                int estadoIntId = int.Parse(estadoId);
+                municipios = municipios.Where(m => m.estadoId.Equals(estadoIntId));
+            }
+
             return View(municipios.ToList());
         }
 

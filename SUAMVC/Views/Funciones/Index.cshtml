@@ -18,6 +18,26 @@
 <p>
     @Html.ActionLink(@Language.agregar + " " + @Language.funciones, "Create", "Funcion", new { @class = "btn btn-success" })
 </p>
+
+@using (Html.BeginForm())
+{
+    <div class="marqueeFilter">
+        
+        <table style="float:left; margin-top:5px;display:inline-block;">
+            <thead>
+                <tr style="text-align:left;vertical-align:bottom;">
+                    <td style="padding-top:15px">
+                        @Html.Label("Modulo:")
+                        @Html.modulosDrownList()
+                    </td>
+                    <td>
+                        <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+}
 <table class="table table-striped tableSua">
     <tr>
         <th>

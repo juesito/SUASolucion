@@ -46,8 +46,8 @@ namespace SUADATOS
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioCreacionId { get; set; }
     
-        public virtual ICollection<Pago> Pagos { get; set; }
         public virtual Patrone Patrone { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<Pago> Pagos { get; set; }
     }
 }

@@ -19,7 +19,6 @@ namespace SUADATOS
             this.Incapacidades = new HashSet<Incapacidade>();
             this.Movimientos = new HashSet<Movimiento>();
             this.MovimientosAseguradoes = new HashSet<MovimientosAsegurado>();
-            this.Pagos = new HashSet<Pago>();
         }
     
         public int id { get; set; }
@@ -64,7 +63,6 @@ namespace SUADATOS
         public virtual ICollection<Incapacidade> Incapacidades { get; set; }
         public virtual ICollection<Movimiento> Movimientos { get; set; }
         public virtual ICollection<MovimientosAsegurado> MovimientosAseguradoes { get; set; }
-        public virtual ICollection<Pago> Pagos { get; set; }
         public virtual Patrone Patrone { get; set; }
         public virtual Plaza Plaza { get; set; }
     }

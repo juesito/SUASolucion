@@ -64,7 +64,7 @@ namespace SUADATOS
         public virtual Pais Pais { get; set; }
         public virtual SDI SDI { get; set; }
         public virtual Sexo Sexo { get; set; }
-        public virtual Usuario Usuario { get; set; }
         public virtual Solicitud Solicitud { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

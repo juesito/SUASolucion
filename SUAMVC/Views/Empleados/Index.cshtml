@@ -29,12 +29,16 @@
     gridColumns.Add(grid.Column("categoria", "Categoria", format: @<text> @if (@item.categoria != null){  @item.categoria }</text>, canSort: true));
     gridColumns.Add(grid.Column("Banco.descripcion", "Banco", format: @<text> @if (@item.bancoId != null){  @item.Banco.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("cuentaBancaria", "Cuenta Bancaria", format: @<text> @if (@item.cuentaBancaria != null){  @item.cuentaBancaria }</text>, canSort: true));
+    gridColumns.Add(grid.Column("cuentaClabe", "Clabe", format: @<text> @if (@item.cuentaClabe != null)
+    {  @item.cuentaClabe }</text>, canSort: true));
     gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creacion", @<text><div style='width: 6em'>@item.fechaCreacion.ToString("dd-MM-yyyy")</div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", 
         @<text><div style='width: 6em'>
     @if (@item.fechaBaja != null)
         { @item.fechabaja.ToString("dd-MM-yyyy")}
 </div></text>, null, canSort: true));
+    gridColumns.Add(grid.Column("Acreditado.Patrone.registro", "Registro Patronal", format: @<text> @if (@item.acreditadoId != null)
+    {  @item.Acreditado.Patrone.registro }</text>, canSort: true));
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {
         gridColumns.Add(grid.Column(header: "Ver", format: @<text><a href="@Url.Action("Details", "Empleados", new { id = item.id })"><img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" /></a></text>));

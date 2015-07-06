@@ -16,19 +16,20 @@ namespace SUADATOS
     {
         public Estado()
         {
-            this.Municipios = new HashSet<Municipio>();
             this.Empleados = new HashSet<Empleado>();
+            this.Municipios = new HashSet<Municipio>();
         }
     
         public int id { get; set; }
         public int paisId { get; set; }
+        public string entidad { get; set; }
         public string descripcion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
+        public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual Pais Pais { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual ICollection<Municipio> Municipios { get; set; }
-        public virtual ICollection<Empleado> Empleados { get; set; }
     }
 }

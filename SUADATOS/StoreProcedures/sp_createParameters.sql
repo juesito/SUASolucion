@@ -39,5 +39,30 @@ BEGIN
 	 ( parametroId, descripcion, valorMoneda, fechaCreacion)
 	VALUES 
 		('SINFON', 'Seguro Infonavit', '15.00', GETDATE())
+
+	INSERT INTO Parametros
+	 ( parametroId, descripcion, valorString, fechaCreacion)
+	VALUES 
+		('SUARUTA', 'Carpeta raiz para guarda SUA.mdb', 'C:\\SUA\\', GETDATE())
+
+	INSERT INTO Parametros
+	 ( parametroId, descripcion, valorString, fechaCreacion)
+	VALUES 
+		('IMGFOLDER', 'Ruta imágenes de los empleados.', 'C:\SUA\Empleados\Imagenes\', GETDATE())
+
+	INSERT INTO Parametros
+	 ( parametroId, descripcion, valorString, fechaCreacion)
+	VALUES 
+		('FOLSALTA', 'Consecutivo Folios Alta Solicitud.', '1', GETDATE())
+
+	INSERT INTO Parametros
+	 ( parametroId, descripcion, valorString, fechaCreacion)
+	VALUES 
+		('FOLSBAJA', 'Consecutivo Folios Baja Solicitud.', '1', GETDATE())
+
+	INSERT INTO Parametros
+	 ( parametroId, descripcion, valorString, fechaCreacion)
+	VALUES 
+		('FOLSMODIF', 'Consecutivo Folios Modificacion Solicitud.', '1', GETDATE())
 END
 GO

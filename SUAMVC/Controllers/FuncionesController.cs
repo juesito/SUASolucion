@@ -15,9 +15,14 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Funciones
-        public ActionResult Index()
+        public ActionResult Index(String moduloId)
         {
             var funcions = db.Funcions.Include(f => f.Modulo);
+            if (!String.IsNullOrEmpty(moduloId)) {
+                int moduloIntId = int.Parse(moduloId);
+                funcions = funcions.Where(f => f.moduloId.Equals(moduloIntId));
+            }
+            
             return View(funcions.ToList());
         }
 
