@@ -425,7 +425,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="resumenPagoId" Type="int" Nullable="false" />
           <Property Name="imss" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="rcv" Type="decimal" Precision="10" Scale="2" Nullable="false" />
@@ -538,7 +538,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ip" Type="nchar" MaxLength="15" />
           <Property Name="patronId" Type="int" Nullable="false" />
           <Property Name="rfc" Type="nchar" MaxLength="13" />
@@ -636,6 +636,8 @@
           <Property Name="fechaTerminoContrato" Type="datetime" />
           <Property Name="fechaInicial" Type="datetime" />
           <Property Name="fechaFinal" Type="datetime" />
+          <Property Name="fechaModificacion" Type="datetime" />
+          <Property Name="fechaBaja" Type="datetime" />
           <Property Name="tipoPersonalId" Type="int" />
           <Property Name="solicita" Type="nchar" MaxLength="60" />
           <Property Name="valida" Type="nchar" MaxLength="60" />
@@ -2156,7 +2158,6 @@
           <EntitySet Name="Proyectos" EntityType="suaModel.Proyecto" />
           <EntitySet Name="RegimenInfonavits" EntityType="suaModel.RegimenInfonavit" />
           <EntitySet Name="Residencias" EntityType="suaModel.Residencia" />
-          <EntitySet Name="ResumenPagoes" EntityType="suaModel.ResumenPago" />
           <EntitySet Name="RoleFuncions" EntityType="suaModel.RoleFuncion" />
           <EntitySet Name="RoleModulos" EntityType="suaModel.RoleModulo" />
           <EntitySet Name="Roles" EntityType="suaModel.Role" />
@@ -2408,10 +2409,6 @@
             <End Role="Plaza" EntitySet="Plazas" />
             <End Role="Patrone" EntitySet="Patrones" />
           </AssociationSet>
-          <AssociationSet Name="FK_ResumenPago_Patrones" Association="suaModel.FK_ResumenPago_Patrones">
-            <End Role="Patrone" EntitySet="Patrones" />
-            <End Role="ResumenPago" EntitySet="ResumenPagoes" />
-          </AssociationSet>
           <AssociationSet Name="FK_Solicitud_Plazas" Association="suaModel.FK_Solicitud_Plazas">
             <End Role="Plaza" EntitySet="Plazas" />
             <End Role="Solicitud" EntitySet="Solicituds" />
@@ -2431,10 +2428,6 @@
           <AssociationSet Name="FK_Residencia_Residencia" Association="suaModel.FK_Residencia_Residencia">
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="Residencia" EntitySet="Residencias" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ResumenPago_Usuarios" Association="suaModel.FK_ResumenPago_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="ResumenPago" EntitySet="ResumenPagoes" />
           </AssociationSet>
           <AssociationSet Name="FK_RoleFunciones_Roles" Association="suaModel.FK_RoleFunciones_Roles">
             <End Role="Role" EntitySet="Roles" />
@@ -2501,6 +2494,7 @@
             <End Role="TopicosUsuario" EntitySet="TopicosUsuarios" />
           </AssociationSet>
           <EntitySet Name="Pagos" EntityType="suaModel.Pago" />
+          <EntitySet Name="ResumenPagoes" EntityType="suaModel.ResumenPago" />
           <AssociationSet Name="FK_Pagos_Bancos" Association="suaModel.FK_Pagos_Bancos">
             <End Role="Banco" EntitySet="Bancos" />
             <End Role="Pago" EntitySet="Pagos" />
@@ -2512,6 +2506,14 @@
           <AssociationSet Name="FK_Pagos_Usuarios" Association="suaModel.FK_Pagos_Usuarios">
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="Pago" EntitySet="Pagos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResumenPago_Patrones" Association="suaModel.FK_ResumenPago_Patrones">
+            <End Role="Patrone" EntitySet="Patrones" />
+            <End Role="ResumenPago" EntitySet="ResumenPagoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResumenPago_Usuarios" Association="suaModel.FK_ResumenPago_Usuarios">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="ResumenPago" EntitySet="ResumenPagoes" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Acreditado">
@@ -3120,40 +3122,6 @@
           <Property Name="usuarioId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Residencia_Residencia" FromRole="Residencia" ToRole="Usuario" />
         </EntityType>
-        <EntityType Name="ResumenPago">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="ip" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
-          <Property Name="patronId" Type="Int32" Nullable="false" />
-          <Property Name="rfc" Type="String" MaxLength="13" FixedLength="true" Unicode="true" />
-          <Property Name="periodoPago" Type="String" MaxLength="6" FixedLength="true" Unicode="true" />
-          <Property Name="mes" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="anno" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
-          <Property Name="folioSUA" Type="String" MaxLength="9" FixedLength="true" Unicode="true" />
-          <Property Name="razonSocial" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="calleColonia" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
-          <Property Name="poblacion" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
-          <Property Name="entidadFederativa" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="codigoPostal" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
-          <Property Name="primaRT" Type="String" MaxLength="7" FixedLength="true" Unicode="true" />
-          <Property Name="fechaPrimaRT" Type="String" MaxLength="6" FixedLength="true" Unicode="true" />
-          <Property Name="actividadEconomica" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
-          <Property Name="delegacionIMSS" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="subDelegacionIMMS" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="zonaEconomica" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="convenioReembolso" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="tipoCotizacion" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="cotizantes" Type="String" MaxLength="9" FixedLength="true" Unicode="true" />
-          <Property Name="apoPat" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
-          <Property Name="delSubDel" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="usuarioCreacionId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Patrone" Relationship="suaModel.FK_ResumenPago_Patrones" FromRole="ResumenPago" ToRole="Patrone" />
-          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_ResumenPago_Usuarios" FromRole="ResumenPago" ToRole="Usuario" />
-          <NavigationProperty Name="Pagos" Relationship="suaModel.FK_Pagos_ResumenPago" FromRole="ResumenPago" ToRole="Pago" />
-        </EntityType>
         <EntityType Name="RoleFuncion">
           <Key>
             <PropertyRef Name="id" />
@@ -3240,6 +3208,8 @@
           <Property Name="fechaTerminoContrato" Type="DateTime" Precision="3" />
           <Property Name="fechaInicial" Type="DateTime" Precision="3" />
           <Property Name="fechaFinal" Type="DateTime" Precision="3" />
+          <Property Name="fechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="fechaBaja" Type="DateTime" Precision="3" />
           <Property Name="tipoPersonalId" Type="Int32" />
           <Property Name="solicita" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
           <Property Name="valida" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
@@ -3340,7 +3310,6 @@
           <NavigationProperty Name="Plaza" Relationship="suaModel.FK_Usuarios_Plazas" FromRole="Usuario" ToRole="Plaza" />
           <NavigationProperty Name="RegimenInfonavits" Relationship="suaModel.FK_RegimenInfonavit_RegimenInfonavit" FromRole="Usuario" ToRole="RegimenInfonavit" />
           <NavigationProperty Name="Residencias" Relationship="suaModel.FK_Residencia_Residencia" FromRole="Usuario" ToRole="Residencia" />
-          <NavigationProperty Name="ResumenPagoes" Relationship="suaModel.FK_ResumenPago_Usuarios" FromRole="Usuario" ToRole="ResumenPago" />
           <NavigationProperty Name="RoleFuncions" Relationship="suaModel.FK_RoleFunciones_RoleUsuarios" FromRole="Usuario" ToRole="RoleFuncion" />
           <NavigationProperty Name="RoleModulos" Relationship="suaModel.FK_RoleModulos_Usuarios" FromRole="Usuario" ToRole="RoleModulo" />
           <NavigationProperty Name="Role" Relationship="suaModel.FK_Usuarios_Usuarios" FromRole="Usuario" ToRole="Role" />
@@ -3353,6 +3322,7 @@
           <NavigationProperty Name="TopicosUsuarios" Relationship="suaModel.FK_TopicosUsuario_Usuario" FromRole="Usuario" ToRole="TopicosUsuario" />
           <NavigationProperty Name="TopicosUsuarios1" Relationship="suaModel.FK_TopicosUsuario_Usuario2" FromRole="Usuario" ToRole="TopicosUsuario" />
           <NavigationProperty Name="Pagos" Relationship="suaModel.FK_Pagos_Usuarios" FromRole="Usuario" ToRole="Pago" />
+          <NavigationProperty Name="ResumenPagoes" Relationship="suaModel.FK_ResumenPago_Usuarios" FromRole="Usuario" ToRole="ResumenPago" />
         </EntityType>
         <Association Name="FK_Acreditados_Acreditados">
           <End Type="suaModel.Acreditado" Role="Acreditado" Multiplicity="1" />
@@ -4074,18 +4044,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ResumenPago_Patrones">
-          <End Type="suaModel.Patrone" Role="Patrone" Multiplicity="1" />
-          <End Type="suaModel.ResumenPago" Role="ResumenPago" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Patrone">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ResumenPago">
-              <PropertyRef Name="patronId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Solicitud_Plazas">
           <End Type="suaModel.Plaza" Role="Plaza" Multiplicity="1" />
           <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
@@ -4143,18 +4101,6 @@
             </Principal>
             <Dependent Role="Residencia">
               <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ResumenPago_Usuarios">
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.ResumenPago" Role="ResumenPago" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ResumenPago">
-              <PropertyRef Name="usuarioCreacionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4354,7 +4300,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="resumenPagoId" Type="Int32" Nullable="false" />
           <Property Name="imss" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="rcv" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
@@ -4374,6 +4320,40 @@
           <NavigationProperty Name="Banco" Relationship="suaModel.FK_Pagos_Bancos" FromRole="Pago" ToRole="Banco" />
           <NavigationProperty Name="ResumenPago" Relationship="suaModel.FK_Pagos_ResumenPago" FromRole="Pago" ToRole="ResumenPago" />
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Pagos_Usuarios" FromRole="Pago" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="ResumenPago">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ip" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="patronId" Type="Int32" Nullable="false" />
+          <Property Name="rfc" Type="String" MaxLength="13" FixedLength="true" Unicode="true" />
+          <Property Name="periodoPago" Type="String" MaxLength="6" FixedLength="true" Unicode="true" />
+          <Property Name="mes" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="anno" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Name="folioSUA" Type="String" MaxLength="9" FixedLength="true" Unicode="true" />
+          <Property Name="razonSocial" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="calleColonia" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="poblacion" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="entidadFederativa" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="codigoPostal" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="primaRT" Type="String" MaxLength="7" FixedLength="true" Unicode="true" />
+          <Property Name="fechaPrimaRT" Type="String" MaxLength="6" FixedLength="true" Unicode="true" />
+          <Property Name="actividadEconomica" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="delegacionIMSS" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="subDelegacionIMMS" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="zonaEconomica" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="convenioReembolso" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="tipoCotizacion" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="cotizantes" Type="String" MaxLength="9" FixedLength="true" Unicode="true" />
+          <Property Name="apoPat" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Name="delSubDel" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="usuarioCreacionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Pagos" Relationship="suaModel.FK_Pagos_ResumenPago" FromRole="ResumenPago" ToRole="Pago" />
+          <NavigationProperty Name="Patrone" Relationship="suaModel.FK_ResumenPago_Patrones" FromRole="ResumenPago" ToRole="Patrone" />
+          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_ResumenPago_Usuarios" FromRole="ResumenPago" ToRole="Usuario" />
         </EntityType>
         <Association Name="FK_Pagos_Bancos">
           <End Type="suaModel.Banco" Role="Banco" Multiplicity="0..1" />
@@ -4408,6 +4388,30 @@
             </Principal>
             <Dependent Role="Pago">
               <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResumenPago_Patrones">
+          <End Type="suaModel.Patrone" Role="Patrone" Multiplicity="1" />
+          <End Type="suaModel.ResumenPago" Role="ResumenPago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patrone">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResumenPago">
+              <PropertyRef Name="patronId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResumenPago_Usuarios">
+          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="suaModel.ResumenPago" Role="ResumenPago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResumenPago">
+              <PropertyRef Name="usuarioCreacionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4955,38 +4959,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ResumenPagoes">
-            <EntityTypeMapping TypeName="suaModel.ResumenPago">
-              <MappingFragment StoreEntitySet="ResumenPago">
-                <ScalarProperty Name="usuarioCreacionId" ColumnName="usuarioCreacionId" />
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="delSubDel" ColumnName="delSubDel" />
-                <ScalarProperty Name="apoPat" ColumnName="apoPat" />
-                <ScalarProperty Name="cotizantes" ColumnName="cotizantes" />
-                <ScalarProperty Name="tipoCotizacion" ColumnName="tipoCotizacion" />
-                <ScalarProperty Name="convenioReembolso" ColumnName="convenioReembolso" />
-                <ScalarProperty Name="zonaEconomica" ColumnName="zonaEconomica" />
-                <ScalarProperty Name="subDelegacionIMMS" ColumnName="subDelegacionIMMS" />
-                <ScalarProperty Name="delegacionIMSS" ColumnName="delegacionIMSS" />
-                <ScalarProperty Name="actividadEconomica" ColumnName="actividadEconomica" />
-                <ScalarProperty Name="fechaPrimaRT" ColumnName="fechaPrimaRT" />
-                <ScalarProperty Name="primaRT" ColumnName="primaRT" />
-                <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
-                <ScalarProperty Name="entidadFederativa" ColumnName="entidadFederativa" />
-                <ScalarProperty Name="poblacion" ColumnName="poblacion" />
-                <ScalarProperty Name="calleColonia" ColumnName="calleColonia" />
-                <ScalarProperty Name="razonSocial" ColumnName="razonSocial" />
-                <ScalarProperty Name="folioSUA" ColumnName="folioSUA" />
-                <ScalarProperty Name="anno" ColumnName="anno" />
-                <ScalarProperty Name="mes" ColumnName="mes" />
-                <ScalarProperty Name="periodoPago" ColumnName="periodoPago" />
-                <ScalarProperty Name="rfc" ColumnName="rfc" />
-                <ScalarProperty Name="patronId" ColumnName="patronId" />
-                <ScalarProperty Name="ip" ColumnName="ip" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RoleFuncions">
             <EntityTypeMapping TypeName="suaModel.RoleFuncion">
               <MappingFragment StoreEntitySet="RoleFuncions">
@@ -5068,6 +5040,8 @@
                 <ScalarProperty Name="valida" ColumnName="valida" />
                 <ScalarProperty Name="solicita" ColumnName="solicita" />
                 <ScalarProperty Name="tipoPersonalId" ColumnName="tipoPersonalId" />
+                <ScalarProperty Name="fechaBaja" ColumnName="fechaBaja" />
+                <ScalarProperty Name="fechaModificacion" ColumnName="fechaModificacion" />
                 <ScalarProperty Name="fechaFinal" ColumnName="fechaFinal" />
                 <ScalarProperty Name="fechaInicial" ColumnName="fechaInicial" />
                 <ScalarProperty Name="fechaTerminoContrato" ColumnName="fechaTerminoContrato" />
@@ -5150,6 +5124,38 @@
                 <ScalarProperty Name="rcv" ColumnName="rcv" />
                 <ScalarProperty Name="imss" ColumnName="imss" />
                 <ScalarProperty Name="resumenPagoId" ColumnName="resumenPagoId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResumenPagoes">
+            <EntityTypeMapping TypeName="suaModel.ResumenPago">
+              <MappingFragment StoreEntitySet="ResumenPago">
+                <ScalarProperty Name="usuarioCreacionId" ColumnName="usuarioCreacionId" />
+                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+                <ScalarProperty Name="delSubDel" ColumnName="delSubDel" />
+                <ScalarProperty Name="apoPat" ColumnName="apoPat" />
+                <ScalarProperty Name="cotizantes" ColumnName="cotizantes" />
+                <ScalarProperty Name="tipoCotizacion" ColumnName="tipoCotizacion" />
+                <ScalarProperty Name="convenioReembolso" ColumnName="convenioReembolso" />
+                <ScalarProperty Name="zonaEconomica" ColumnName="zonaEconomica" />
+                <ScalarProperty Name="subDelegacionIMMS" ColumnName="subDelegacionIMMS" />
+                <ScalarProperty Name="delegacionIMSS" ColumnName="delegacionIMSS" />
+                <ScalarProperty Name="actividadEconomica" ColumnName="actividadEconomica" />
+                <ScalarProperty Name="fechaPrimaRT" ColumnName="fechaPrimaRT" />
+                <ScalarProperty Name="primaRT" ColumnName="primaRT" />
+                <ScalarProperty Name="codigoPostal" ColumnName="codigoPostal" />
+                <ScalarProperty Name="entidadFederativa" ColumnName="entidadFederativa" />
+                <ScalarProperty Name="poblacion" ColumnName="poblacion" />
+                <ScalarProperty Name="calleColonia" ColumnName="calleColonia" />
+                <ScalarProperty Name="razonSocial" ColumnName="razonSocial" />
+                <ScalarProperty Name="folioSUA" ColumnName="folioSUA" />
+                <ScalarProperty Name="anno" ColumnName="anno" />
+                <ScalarProperty Name="mes" ColumnName="mes" />
+                <ScalarProperty Name="periodoPago" ColumnName="periodoPago" />
+                <ScalarProperty Name="rfc" ColumnName="rfc" />
+                <ScalarProperty Name="patronId" ColumnName="patronId" />
+                <ScalarProperty Name="ip" ColumnName="ip" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -33,7 +33,6 @@ namespace SUADATOS
             this.Paises = new HashSet<Pais>();
             this.RegimenInfonavits = new HashSet<RegimenInfonavit>();
             this.Residencias = new HashSet<Residencia>();
-            this.ResumenPagoes = new HashSet<ResumenPago>();
             this.RoleFuncions = new HashSet<RoleFuncion>();
             this.RoleModulos = new HashSet<RoleModulo>();
             this.SDIs = new HashSet<SDI>();
@@ -45,6 +44,7 @@ namespace SUADATOS
             this.TopicosUsuarios = new HashSet<TopicosUsuario>();
             this.TopicosUsuarios1 = new HashSet<TopicosUsuario>();
             this.Pagos = new HashSet<Pago>();
+            this.ResumenPagoes = new HashSet<ResumenPago>();
         }
     
         public int Id { get; set; }
@@ -77,7 +77,6 @@ namespace SUADATOS
         public virtual Plaza Plaza { get; set; }
         public virtual ICollection<RegimenInfonavit> RegimenInfonavits { get; set; }
         public virtual ICollection<Residencia> Residencias { get; set; }
-        public virtual ICollection<ResumenPago> ResumenPagoes { get; set; }
         public virtual ICollection<RoleFuncion> RoleFuncions { get; set; }
         public virtual ICollection<RoleModulo> RoleModulos { get; set; }
         public virtual Role Role { get; set; }
@@ -90,5 +89,6 @@ namespace SUADATOS
         public virtual ICollection<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios1 { get; set; }
         public virtual ICollection<Pago> Pagos { get; set; }
+        public virtual ICollection<ResumenPago> ResumenPagoes { get; set; }
     }
 }

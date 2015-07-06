@@ -73,11 +73,13 @@ namespace SUAMVC.Controllers
                         resumenPago.delegacionIMSS = rows["Delegacion_IMSS"].ToString().Trim();
                         resumenPago.subDelegacionIMMS = rows["SubDelegacion_IMSS"].ToString().Trim();
                         resumenPago.zonaEconomica = rows["Zona_Economica"].ToString().Trim();
-                        resumenPago.convenioReembolso = rows["Convenio_Reembolso"].ToString().Trim();
+                        resumenPago.convenioReembolso = rows["Convenio_Rembolso"].ToString().Trim();
                         resumenPago.tipoCotizacion = rows["Tipo_Cotizacion"].ToString().Trim();
                         resumenPago.cotizantes = rows["Cotizantes"].ToString().Trim();
                         resumenPago.apoPat = rows["Apo_Pat"].ToString().Trim();
                         resumenPago.delSubDel = rows["Del_Subdel"].ToString().Trim();
+                        resumenPago.fechaCreacion = DateTime.Now;
+                        resumenPago.usuarioCreacionId = 1;
 
                         existe = true;
                         db.ResumenPagoes.Add(resumenPago);
@@ -97,6 +99,8 @@ namespace SUAMVC.Controllers
                         foreach (DataRow rows in dt2.Rows)
                         {
                             Pago pago = new Pago();
+                            pago.resumenPagoId = resumenPago.id;
+                            pago.ResumenPago = resumenPago;
 
                             pago.imss = Decimal.Parse(rows["CTA_FIJ"].ToString()) + Decimal.Parse(rows["CTA_EXC"].ToString()) +
                                         Decimal.Parse(rows["PRE_DIN"].ToString()) + Decimal.Parse(rows["PRE_ESP"].ToString()) +
@@ -121,15 +125,15 @@ namespace SUAMVC.Controllers
 
                             sSQL = "SELECT COUNT(*) FROM RELTRA" +
                                "  WHERE Reg_Pat = '" + patron.registro + "'" +
-                               "    AND Periodo = '" + periodo + "'" +
-                               "   ORDER BY Reg_Pat";
+                               "    AND Periodo = '" + periodo + "'";
 
                             DataTable dt3 = suaHelper.ejecutarSQL(sSQL);
 
                             foreach (DataRow rows1 in dt3.Rows) {
-                                pago.nt = int.Parse(rows1["1"].ToString());
+                                pago.nt = int.Parse(rows1[0].ToString());
                             }
-
+                            pago.fechaCreacion = DateTime.Now;
+                            pago.usuarioId = 1;
 
 
                             //Guardamos el pago.
@@ -156,9 +160,9 @@ namespace SUAMVC.Controllers
                 if (file != null && file.ContentLength > 0)
                 {
 
-                    if (!subFolder.Equals(""))
+                    if (!String.IsNullOrEmpty(subFolder))
                     {
-                        path = Path.Combine(rutaParameter.valorString.Trim(), subFolder);
+                        path = Path.Combine(rutaParameter.valorString.Trim(), subFolder.Trim());
                         if (!System.IO.File.Exists(path))
                         {
                             System.IO.Directory.CreateDirectory(path);

@@ -56,7 +56,6 @@ namespace SUADATOS
         public virtual DbSet<Proyecto> Proyectos { get; set; }
         public virtual DbSet<RegimenInfonavit> RegimenInfonavits { get; set; }
         public virtual DbSet<Residencia> Residencias { get; set; }
-        public virtual DbSet<ResumenPago> ResumenPagoes { get; set; }
         public virtual DbSet<RoleFuncion> RoleFuncions { get; set; }
         public virtual DbSet<RoleModulo> RoleModulos { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
@@ -69,5 +68,6 @@ namespace SUADATOS
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<Pago> Pagos { get; set; }
+        public virtual DbSet<ResumenPago> ResumenPagoes { get; set; }
     }
 }
