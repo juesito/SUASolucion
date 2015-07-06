@@ -10,6 +10,7 @@ using SUADATOS;
 using System.Data.Entity.Validation;
 using System.Text;
 using SUAMVC.Helpers;
+using SUAMVC.Models;
 
 namespace SUAMVC.Controllers
 {
@@ -87,7 +88,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio")] Solicitud solicitud)
+        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,fechaBaja,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio")] Solicitud solicitud)
         {
             if (ModelState.IsValid)
             {
@@ -95,12 +96,16 @@ namespace SUAMVC.Controllers
                 Cliente cliente = db.Clientes.Find(solicitud.clienteId);
                 ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
                 ToolsHelper th = new ToolsHelper();
+                ParametrosHelper ph = new ParametrosHelper();
+
+                Parametro folioBaja = ph.getParameterByKey("FOLSBAJA");
 
                 Concepto concepto = th.obtenerConceptoPorGrupo("ESTASOL", "apertura");
                 Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "baja");
 
-                solicitud.usuarioId = usuario.Id;
+
                 solicitud.fechaSolicitud = DateTime.Now;
+                solicitud.usuarioId = usuario.Id;
                 solicitud.autoriza = lvc.autorizador;
                 solicitud.valida = lvc.validador;
                 solicitud.estatusSolicitud = concepto.id;
@@ -114,11 +119,17 @@ namespace SUAMVC.Controllers
                 solicitud.noTrabajadores = 0;
                 solicitud.tipoSolicitud = tipoSolicitud.id;
                 db.Solicituds.Add(solicitud);
-                db.SaveChanges();
+                
 
                 try
                 {
-                    solicitud.folioSolicitud = solicitud.id.ToString().PadLeft(5, '0') + "B" + solicitud.Cliente.Plaza.cveCorta.Trim();
+                    db.SaveChanges();
+                    solicitud.folioSolicitud = folioBaja.valorString.Trim().PadLeft(5, '0') + "B" + solicitud.Cliente.Plaza.cveCorta.Trim();
+                    int folBaja = int.Parse(folioBaja.valorString.Trim());
+                    folBaja = folBaja + 1;
+                    folioBaja.valorString = folBaja.ToString();
+
+                    db.Entry(folioBaja).State = EntityState.Modified;
                     db.Entry(solicitud).State = EntityState.Modified;
                     db.SaveChanges();
                 }

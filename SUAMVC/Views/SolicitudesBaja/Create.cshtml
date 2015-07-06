@@ -46,24 +46,18 @@
                             @Html.DropDownList("plazaId", null, htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.plazaId, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.LabelFor(model => model.fechaSolicitud, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(@Language.fechaBaja, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td>
-                            @Html.EditorFor(model => model.fechaSolicitud, new { htmlAttributes = new { @class = "form-control myDate" } })
-                            @Html.ValidationMessageFor(model => model.fechaSolicitud, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.fechaBaja, new { htmlAttributes = new { @class = "from-control myDate" } })
+                            @Html.ValidationMessageFor(model => model.fechaBaja, "", new { @class = "text-danger" })
                         </td>
                     </tr>
                    
                     <tr>
-                                <td>@Html.Label(@Language.fechaBaja, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                                <td>
-                                    @Html.EditorFor(model => model.fechaFinal, new { htmlAttributes = new { @class = "from-control myDate"} })
-                                    @Html.ValidationMessageFor(model => model.fechaFinal, "", new { @class = "text-danger" })
-                                </td>
                         <td>@Html.Label(@Language.motivoBaja, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td>
                             @Html.conceptosDrownList(usuario.Id, "BAJACON", "conceptoBaja")
-                        </td>
-                        
+                        </td> 
                     </tr>
 
                     <tr>

@@ -106,6 +106,24 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Aguinaldo.
+        /// </summary>
+        public static string aguinaldo {
+            get {
+                return ResourceManager.GetString("aguinaldo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Años Trabajados.
+        /// </summary>
+        public static string anosTrabajados {
+            get {
+                return ResourceManager.GetString("anosTrabajados", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Apellido Materno.
         /// </summary>
         public static string apellidoMaterno {
@@ -592,6 +610,33 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Días al Año.
+        /// </summary>
+        public static string diasAno {
+            get {
+                return ResourceManager.GetString("diasAno", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Días Año Aguinaldo.
+        /// </summary>
+        public static string diasAnoAguinaldo {
+            get {
+                return ResourceManager.GetString("diasAnoAguinaldo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Días de Vacaciones.
+        /// </summary>
+        public static string diasVacaciones {
+            get {
+                return ResourceManager.GetString("diasVacaciones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Editar.
         /// </summary>
         public static string edit {
@@ -682,11 +727,38 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Factor.
+        /// </summary>
+        public static string factor {
+            get {
+                return ResourceManager.GetString("factor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Factores.
         /// </summary>
         public static string factores {
             get {
                 return ResourceManager.GetString("factores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Factor de Integración.
+        /// </summary>
+        public static string factorIntegracion {
+            get {
+                return ResourceManager.GetString("factorIntegracion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Factor Vacaciones.
+        /// </summary>
+        public static string factorVacaciones {
+            get {
+                return ResourceManager.GetString("factorVacaciones", resourceCulture);
             }
         }
         
@@ -768,6 +840,15 @@ namespace SUAMVC.Resources {
         public static string fechaModificacion {
             get {
                 return ResourceManager.GetString("fechaModificacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fecha Registro.
+        /// </summary>
+        public static string fechaRegistro {
+            get {
+                return ResourceManager.GetString("fechaRegistro", resourceCulture);
             }
         }
         
@@ -1128,6 +1209,15 @@ namespace SUAMVC.Resources {
         public static string posicion {
             get {
                 return ResourceManager.GetString("posicion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Prima Vacacional.
+        /// </summary>
+        public static string primaVacacional {
+            get {
+                return ResourceManager.GetString("primaVacacional", resourceCulture);
             }
         }
         

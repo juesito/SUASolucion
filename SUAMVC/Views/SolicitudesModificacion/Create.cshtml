@@ -16,7 +16,6 @@
 {
     @Html.AntiForgeryToken()
 
-
     <div class="panel panel-info">
         <div class="panel-heading">
             Capturar Solicitud Modificación
@@ -44,17 +43,17 @@
                             @Html.DropDownList("plazaId", null, htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.plazaId, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.LabelFor(model => model.fechaSolicitud, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                        <td>
-                            @Html.EditorFor(model => model.fechaSolicitud, new { htmlAttributes = new { @class = "form-control myDate" } })
-                            @Html.ValidationMessageFor(model => model.fechaSolicitud, "", new { @class = "text-danger" })
-                        </td>
-                    </tr>
-                    <tr>
                         <td>@Html.LabelFor(model => model.sdiId, "sdiId", htmlAttributes: new { @class = "control-label col-md-2", id = "sdiIdTxt" })</td>
                         <td>
                             @Html.DropDownList("sdiId", null, htmlAttributes: new { @class = "form-control", id = "sdiId" })
                             @Html.ValidationMessageFor(model => model.sdiId, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(model => model.fechaModificacion, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>
+                            @Html.EditorFor(model => model.fechaModificacion, new { htmlAttributes = new { @class = "form-control myDate" } })
+                            @Html.ValidationMessageFor(model => model.fechaModificacion, "", new { @class = "text-danger" })
                         </td>
                     </tr>
    
