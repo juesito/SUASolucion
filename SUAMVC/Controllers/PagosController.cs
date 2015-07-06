@@ -19,7 +19,7 @@ namespace SUAMVC.Controllers
         // GET: Pagos
         public ActionResult Index()
         {
-            var pagos = db.Pagos.Include(p => p.Asegurado).Include(p => p.ResumenPago);
+            var pagos = db.Pagos.Include(p => p.ResumenPago);
             return View(pagos.ToList());
         }
 
@@ -87,78 +87,54 @@ namespace SUAMVC.Controllers
                     if (existe)
                     {
 
-                        sSQL = "SELECT * FROM Registro_03" +
-                               "  ORDER BY NSS";
+                        sSQL = "SELECT * FROM RESUMEN" +
+                               "  WHERE Reg_Patr = '" + patron.registro + "'" +
+                               "    AND Mes_Ano = '" + periodo + "'" +
+                               "   ORDER BY Reg_Patr";
 
                         DataTable dt2 = suaHelper.ejecutarSQL(sSQL);
 
                         foreach (DataRow rows in dt2.Rows)
                         {
                             Pago pago = new Pago();
-                            Asegurado asegurado = new Asegurado();
 
-                            if (!String.IsNullOrEmpty(rows["NSS"].ToString().Trim()))
-                            {
-                                String nss = rows["NSS"].ToString().Trim();
+                            pago.imss = Decimal.Parse(rows["CTA_FIJ"].ToString()) + Decimal.Parse(rows["CTA_EXC"].ToString()) +
+                                        Decimal.Parse(rows["PRE_DIN"].ToString()) + Decimal.Parse(rows["PRE_ESP"].ToString()) +
+                                        Decimal.Parse(rows["RIE_TRA"].ToString()) + Decimal.Parse(rows["INV_VID"].ToString()) +
+                                        Decimal.Parse(rows["GUA_DER"].ToString());
 
-                                asegurado = (from s in db.Asegurados
-                                             where s.PatroneId.Equals(patron.Id)
-                                                && s.numeroAfiliacion.Equals(nss)
-                                             select s).FirstOrDefault();
+                            pago.rcv = Decimal.Parse(rows["RET_SAR"].ToString()) + Decimal.Parse(rows["CEN_VEJPat"].ToString()) +
+                                       Decimal.Parse(rows["Cen_VEJObr"].ToString());
 
-                                pago.trabajadorId = asegurado.id;
-                                pago.resumenPagoId = resumenPago.id;
+                            pago.infonavit = Decimal.Parse(rows["VIV_SIN"].ToString()) + Decimal.Parse(rows["VIV_CON"].ToString()) +
+                                             Decimal.Parse(rows["AMO_INF"].ToString());
 
-                                pago.ip = rows["IP"].ToString().Trim();
-                                pago.NSS = rows["NSS"].ToString().Trim();
-                                pago.RFC = rows["RFC"].ToString().Trim();
-                                pago.CURP = rows["CURP"].ToString().Trim();
-                                pago.creditoInfonavit = rows["Credito_Infonavit"].ToString().Trim();
-                                pago.fid = rows["FID"].ToString().Trim();
-                                pago.trabajador = rows["Trabajador"].ToString().Trim();
-                                pago.sdi = (!String.IsNullOrEmpty(rows["sdi"].ToString().Trim())) ? Decimal.Parse(rows["sdi"].ToString().Trim()) : 0;
-                                pago.tipoTrabajador = rows["Tipo_Trabajador"].ToString().Trim();
-                                pago.jornadaSemanaReducida = rows["Jornada_Semana_Reducida"].ToString().Trim();
-                                pago.diasCotizadosMes = (!String.IsNullOrEmpty(rows["Dias_Cotizados_Mes"].ToString().Trim())) ? int.Parse(rows["Dias_Cotizados_Mes"].ToString().Trim()) : 0;
-                                pago.diasIncapacidad = (!String.IsNullOrEmpty(rows["Dias_Incapacidad"].ToString().Trim())) ? int.Parse(rows["Dias_Incapacidad"].ToString().Trim()) : 0;
-                                pago.diasAusentismo = (!String.IsNullOrEmpty(rows["Dias_Ausentismo"].ToString().Trim())) ? int.Parse(rows["Dias_Ausentismo"].ToString().Trim()) : 0;
-                                pago.cuotaFija = (!String.IsNullOrEmpty(rows["Cuota_Fija"].ToString().Trim())) ? Decimal.Parse(rows["Cuota_Fija"].ToString().Trim()) : 0;
-                                pago.cuotaExcedente = (!String.IsNullOrEmpty(rows["Cuota_Excedente"].ToString().Trim())) ? Decimal.Parse(rows["Cuota_Excedente"].ToString().Trim()) : 0;
-                                pago.prestacionesDinero = (!String.IsNullOrEmpty(rows["Prestaciones_Dinero"].ToString().Trim())) ? Decimal.Parse(rows["Prestaciones_Dinero"].ToString().Trim()) : 0;
-                                pago.gastosMedicosPensionado = (!String.IsNullOrEmpty(rows["Gastos_Medicos_Pensionados"].ToString().Trim())) ? Decimal.Parse(rows["Gastos_Medicos_Pensionados"].ToString().Trim()) : 0;
-                                pago.riesgoTrabajo = (!String.IsNullOrEmpty(rows["Riesgo_Trabajo"].ToString().Trim())) ? Decimal.Parse(rows["Riesgo_Trabajo"].ToString().Trim()) : 0;
-                                pago.invalidezVida = (!String.IsNullOrEmpty(rows["Invalidez_Vida"].ToString().Trim())) ? Decimal.Parse(rows["Invalidez_Vida"].ToString().Trim()) : 0;
-                                pago.guarderias = (!String.IsNullOrEmpty(rows["Guarderias"].ToString().Trim())) ? Decimal.Parse(rows["Guarderias"].ToString().Trim()) : 0;
-                                pago.actRecargosIMSS = rows["Act_Recargos_IMSS"].ToString().Trim();
-                                pago.diasCotizadosBimestre = (!String.IsNullOrEmpty(rows["Dias_Cotizados_Bimestre"].ToString().Trim())) ? int.Parse(rows["Dias_Cotizados_Bimestre"].ToString().Trim()) : 0;
-                                pago.diasIncapacidadBimestre = (!String.IsNullOrEmpty(rows["Dias_Incapacidad_Bim"].ToString().Trim())) ? int.Parse(rows["Dias_Incapacidad_Bim"].ToString().Trim()) : 0;
-                                pago.diasAusentismoBimestre = (!String.IsNullOrEmpty(rows["Dias_Ausentismo_Bim"].ToString().Trim())) ? int.Parse(rows["Dias_Ausentismo_Bim"].ToString().Trim()) : 0;
-                                pago.retiro = (!String.IsNullOrEmpty(rows["Retiro"].ToString().Trim())) ? Decimal.Parse(rows["Retiro"].ToString().Trim()) : 0;
-                                pago.actRecargosRetiro = rows["Act_Recargos_Retiro"].ToString().Trim();
-                                pago.cesantiaVejezPatronal = (!String.IsNullOrEmpty(rows["Cesantia_Vejez_Patronal"].ToString().Trim())) ? Decimal.Parse(rows["Cesantia_Vejez_Patronal"].ToString().Trim()) : 0;
-                                pago.cesantiaVejezObrera = (!String.IsNullOrEmpty(rows["Cesantia_Vejez_Obrera"].ToString().Trim())) ? Decimal.Parse(rows["Cesantia_Vejez_Obrera"].ToString().Trim()) : 0;
-                                pago.actRecargosCyV = (!String.IsNullOrEmpty(rows["Act_Recargos_CyV"].ToString().Trim())) ? Decimal.Parse(rows["Act_Recargos_CyV"].ToString().Trim()) : 0;
-                                pago.aportacionVoluntaria = (!String.IsNullOrEmpty(rows["Aportacion_Voluntaria"].ToString().Trim())) ? Decimal.Parse(rows["Aportacion_Voluntaria"].ToString().Trim()) : 0;
-                                pago.aportacionComp = (!String.IsNullOrEmpty(rows["Aportacion_Comp"].ToString().Trim())) ? Decimal.Parse(rows["Aportacion_Comp"].ToString().Trim()) : 0;
-                                pago.aportacionPatronal = (!String.IsNullOrEmpty(rows["Aportacion_Patronal"].ToString().Trim())) ? Decimal.Parse(rows["Aportacion_Patronal"].ToString().Trim()) : 0;
-                                pago.amortizacion = (!String.IsNullOrEmpty(rows["Amortizacion"].ToString().Trim())) ? Decimal.Parse(rows["Amortizacion"].ToString().Trim()) : 0;
-                                pago.actIMSS = (!String.IsNullOrEmpty(rows["Act_IMSS"].ToString().Trim())) ? Decimal.Parse(rows["Act_IMSS"].ToString().Trim()) : 0;
-                                pago.recIMSS = (!String.IsNullOrEmpty(rows["Rec_IMSS"].ToString().Trim())) ? Decimal.Parse(rows["Rec_IMSS"].ToString().Trim()) : 0;
-                                pago.actRetiro = (!String.IsNullOrEmpty(rows["Act_Retiro"].ToString().Trim())) ? Decimal.Parse(rows["Act_Retiro"].ToString().Trim()) : 0;
-                                pago.actCesObr = (!String.IsNullOrEmpty(rows["Act_CesObr"].ToString().Trim())) ? Decimal.Parse(rows["Act_CesObr"].ToString().Trim()) : 0;
-                                pago.cuotaExcObr = (!String.IsNullOrEmpty(rows["Cuota_ExcObr"].ToString().Trim())) ? Decimal.Parse(rows["Cuota_ExcObr"].ToString().Trim()) : 0;
-                                pago.cuotaPdObr = (!String.IsNullOrEmpty(rows["Cuota_PdObr"].ToString().Trim())) ? Decimal.Parse(rows["Cuota_PdObr"].ToString().Trim()) : 0;
-                                pago.cuotaGmpObr = (!String.IsNullOrEmpty(rows["Cuota_GmpObr"].ToString().Trim())) ? Decimal.Parse(rows["Cuota_GmpObr"].ToString().Trim()) : 0;
-                                pago.cuotaIvObr = (!String.IsNullOrEmpty(rows["Cuota_IvObr"].ToString().Trim())) ? Decimal.Parse(rows["Cuota_IvObr"].ToString().Trim()) : 0;
-                                pago.actPatIMSS = (!String.IsNullOrEmpty(rows["ActPat_IMSS"].ToString().Trim())) ? Decimal.Parse(rows["ActPat_IMSS"].ToString().Trim()) : 0;
-                                pago.recPatIMSS = (!String.IsNullOrEmpty(rows["RecPat_IMSS"].ToString().Trim())) ? Decimal.Parse(rows["RecPat_IMSS"].ToString().Trim()) : 0;
-                                pago.actObrIMSS = (!String.IsNullOrEmpty(rows["ActObr_IMSS"].ToString().Trim())) ? Decimal.Parse(rows["ActObr_IMSS"].ToString().Trim()) : 0;
-                                pago.recObrIMSS = (!String.IsNullOrEmpty(rows["RecObr_IMSS"].ToString().Trim())) ? Decimal.Parse(rows["RecObr_IMSS"].ToString().Trim()) : 0;
+                            pago.total = pago.imss + pago.rcv + pago.infonavit;
 
-                                //Guardamos el pago.
-                                db.Pagos.Add(pago);
-                                db.SaveChanges();
-                            }//Contiene información de asegurado valida?
+                            pago.recargos = Decimal.Parse(rows["REC_IMS"].ToString()) + Decimal.Parse(rows["REC_SAR"].ToString()) +
+                                            Decimal.Parse(rows["REC_VIV"].ToString());
+
+                            pago.actualizaciones = Decimal.Parse(rows["ACT_IMS"].ToString()) + Decimal.Parse(rows["ACT_SAR"].ToString()) +
+                                                   Decimal.Parse(rows["ACT_VIV"].ToString());
+
+                            pago.granTotal = pago.recargos + pago.actualizaciones;
+
+                            sSQL = "SELECT COUNT(*) FROM RELTRA" +
+                               "  WHERE Reg_Pat = '" + patron.registro + "'" +
+                               "    AND Periodo = '" + periodo + "'" +
+                               "   ORDER BY Reg_Pat";
+
+                            DataTable dt3 = suaHelper.ejecutarSQL(sSQL);
+
+                            foreach (DataRow rows1 in dt3.Rows) {
+                                pago.nt = int.Parse(rows1["1"].ToString());
+                            }
+
+
+
+                            //Guardamos el pago.
+                            db.Pagos.Add(pago);
+                            db.SaveChanges();
                         }
 
                     }
@@ -243,7 +219,6 @@ namespace SUAMVC.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.trabajadorId = new SelectList(db.Asegurados, "id", "numeroAfiliacion", pago.trabajadorId);
             ViewBag.resumenPagoId = new SelectList(db.ResumenPagoes, "id", "ip", pago.resumenPagoId);
             return View(pago);
         }
@@ -260,7 +235,6 @@ namespace SUAMVC.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.trabajadorId = new SelectList(db.Asegurados, "id", "numeroAfiliacion", pago.trabajadorId);
             ViewBag.resumenPagoId = new SelectList(db.ResumenPagoes, "id", "ip", pago.resumenPagoId);
             return View(pago);
         }
@@ -278,7 +252,6 @@ namespace SUAMVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.trabajadorId = new SelectList(db.Asegurados, "id", "numeroAfiliacion", pago.trabajadorId);
             ViewBag.resumenPagoId = new SelectList(db.ResumenPagoes, "id", "ip", pago.resumenPagoId);
             return View(pago);
         }

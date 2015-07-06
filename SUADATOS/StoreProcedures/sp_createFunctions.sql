@@ -199,6 +199,11 @@ BEGIN
 	VALUES 
 		('Movimientos', 'Movimientos registrados en el SIAP', 'Index', 'Movimientos', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
 
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Resumen de Pagos', 'Resumen Pagos en el SIAP', 'Index', 'Pagos', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
 	--Buscamos el modulo de seguridad para insertar las funciones correspondientes
 	SET @moduloId = (SELECT id FROM Modulos WHERE descripcionCorta = 'Carga')
 
@@ -211,6 +216,11 @@ BEGIN
 		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
 	VALUES 
 		('Actualizar Patrones', 'Actualizar los Patrones en el SIAP', 'Index', 'Upload', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
+
+	INSERT INTO Funcions
+		( descripcionCorta, descripcionLarga, accion, controlador, estatus, moduloId, fechaCreacion, usuarioId, tipo)
+	VALUES 
+		('Carga Registro de Pago', 'Cargar Registro de Pagos SUA', 'UploadPagos', 'Pagos', 'A', @moduloId, GETDATE(), @usuarioId, 'M')
 
 
 	INSERT INTO Funcions

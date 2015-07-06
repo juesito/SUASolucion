@@ -1,8 +1,27 @@
 ﻿@model SUADATOS.Empleado
-
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    suaEntities db = new suaEntities();
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    int solicitudId = Model.solicitudId;
+    Solicitud solicitud = db.Solicituds.Find(solicitudId);
+    Pais mexico = db.Paises.Where(s => s.clavePais.Trim().Equals("MEX")).FirstOrDefault();
+
+
+    Model.tramitarTarjeta = 1;
+    Model.Pais = mexico;
+    Model.nacionalidadId = mexico.id;
+
+    Model.esquemaPagoId = solicitud.esquemaId ?? default(int);
+    Model.EsquemasPago = solicitud.EsquemasPago;
+    Model.sdiId = solicitud.sdiId ?? default(int);
+    Model.SDI = solicitud.SDI;
+
 }
 
 @section Menu {
@@ -27,20 +46,23 @@
                 </thead>
                 <tbody style="margin-top:50px; padding-top:50px;">
                     <tr>
-                        <td>
-                            @Html.LabelFor(model => model.nss, htmlAttributes: new { @class = "control-label col-md-2" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model.nss, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.nss, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.LabelFor(model => model.fechaAltaImss, htmlAttributes: new { @class = "control-label col-md-2" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(model => model.fechaAltaImss, new { htmlAttributes = new { @class = "myDate" } })
-                            @Html.ValidationMessageFor(model => model.fechaAltaImss, "", new { @class = "text-danger" })
-                        </td>
+                        @if (solicitud.EsquemasPago.descripcion.Trim().Equals("SyS"))
+                        {
+                            <td>
+                                @Html.LabelFor(model => model.nss, htmlAttributes: new { @class = "control-label col-md-2" })
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.nss, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.nss, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.LabelFor(model => model.fechaAltaImss, htmlAttributes: new { @class = "control-label col-md-2" })
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.fechaAltaImss, new { htmlAttributes = new { @class = "myDate" } })
+                                @Html.ValidationMessageFor(model => model.fechaAltaImss, "", new { @class = "text-danger" })
+                            </td>
+                        }
                     </tr>
 
 
@@ -100,6 +122,7 @@
                         <td></td>
                         <td></td>
                     </tr>
+                    <!--
                     <tr>
                         <td>@Html.LabelFor(model => model.sdiId, "sdiId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td>
@@ -114,6 +137,7 @@
                         <td></td>
                         <td></td>
                     </tr>
+                        -->
                     <tr>
                         <td>@Html.LabelFor(model => model.salarioReal, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td>
@@ -209,12 +233,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(model => model.tramitarTarjeta, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.LabelFor(model => model.tramitarTarjeta, htmlAttributes: new { @class = "control-label col-md-2", id = "tramitarTarjetaTxt" })</td>
                         <td>
                             @Html.Label("Si")
-                            @Html.RadioButtonFor(model => model.tramitarTarjeta, "1", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.RadioButtonFor(model => model.tramitarTarjeta, "1", new { htmlAttributes = new { @class = "form-control", id = "tramitarTarjeta" } })
                             @Html.Label("No")
-                            @Html.RadioButtonFor(model => model.tramitarTarjeta, "0", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.RadioButtonFor(model => model.tramitarTarjeta, "0", new { htmlAttributes = new { @class = "form-control", id = "tramitarTarjetaN" } })
                             @Html.ValidationMessageFor(model => model.tramitarTarjeta, "", new { @class = "text-danger" })
 
                         <td></td>
@@ -229,13 +253,16 @@
                             @Html.ValidationMessageFor(model => model.bancoId, "", new { @class = "text-danger" })
                         </td>
 
-                        <td>@Html.LabelFor(model => model.cuentaBancaria, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.LabelFor(model => model.cuentaBancaria, htmlAttributes: new { @class = "control-label col-md-2", id = "cuentaTxt" })</td>
                         <td>
-                            @Html.EditorFor(model => model.cuentaBancaria, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.cuentaBancaria, new { htmlAttributes = new { @class = "form-control", id = "cuenta" } })
                             @Html.ValidationMessageFor(model => model.cuentaBancaria, "", new { @class = "text-danger" })
                         </td>
-                        <td></td>
-                        <td></td>
+                        <td>@Html.LabelFor(model => model.cuentaClabe, htmlAttributes: new { @class = "control-label col-md-2", id = "cuentaClabeTxt" })</td>
+                        <td>
+                            @Html.EditorFor(model => model.cuentaClabe, new { htmlAttributes = new { @class = "form-control", id = "cuentaClabe" } })
+                            @Html.ValidationMessageFor(model => model.cuentaClabe, "", new { @class = "text-danger" })
+                        </td>
                     </tr>
                     <tr>
                         <td>@Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })</td>
@@ -276,3 +303,28 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script>
+    $(document).ready(function () {
+        //attach with the id od deductions
+        $("#tramitarTarjeta").bind("change", validateCuenta("#tramitarTarjeta"));
+        $("#tramitarTarjetaN").bind("change", validateCuenta("#tramitarTarjetaN"));
+
+    });
+
+    function validateCuenta(id) {
+        var msg = $(id).val();
+        alert(msg + id);
+        if (msg == '1') {
+            $("#cuenta").hide("slow");
+            $('#cuentaTxt').hide("slow");
+            $("#cuentaClabe").hide("slow");
+            $('#cuentaClabeTxt').hide("slow");
+        } else {
+            $("#cuenta").show();
+            $('#cuentaTxt').show();
+            $("#cuentaClabe").show();
+            $('#cuentaClabeTxt').show();
+        }
+    }
+</script>

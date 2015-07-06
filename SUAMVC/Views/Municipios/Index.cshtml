@@ -17,8 +17,33 @@
 <p>
     @Html.ActionLink(@Language.agregar + " " + @Language.municipio, "Create", "Municipios", new { @class = "btn btn-success" })
 </p>
+@using (Html.BeginForm())
+{
+    <div class="marqueeFilter">
+
+        <table style="float:left; margin-top:5px;display:inline-block;">
+            <thead>
+                <tr style="text-align:left;vertical-align:bottom;">
+                    <td style="padding-top:15px">
+                        @Html.Label("Estados:")
+                        @Html.estadosDrownList()
+                    </td>
+                    <td>
+                        <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+}
 <table class="table table-striped tableSua">
     <tr>
+        <th>
+            @Html.DisplayName(@Language.descripcion)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.descripcion)
+        </th>
         <th>
             @Html.DisplayName(@Language.descripcion)
         </th>
@@ -41,6 +66,12 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nomTipo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.gradoMarginacion)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.fechaCreacion)

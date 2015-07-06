@@ -12,6 +12,7 @@
     }
     Usuario usuario = Session["UsuarioData"] as Usuario;
     String msg = TempData["message"] as String;
+    
 
     var grid = new WebGrid(source: Model, rowsPerPage: 10);
     var tableHtml = string.Empty;

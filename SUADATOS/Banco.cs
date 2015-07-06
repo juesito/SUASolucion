@@ -17,6 +17,7 @@ namespace SUADATOS
         public Banco()
         {
             this.Empleados = new HashSet<Empleado>();
+            this.Pagos = new HashSet<Pago>();
         }
     
         public int id { get; set; }
@@ -26,5 +27,6 @@ namespace SUADATOS
     
         public virtual Usuario Usuario { get; set; }
         public virtual ICollection<Empleado> Empleados { get; set; }
+        public virtual ICollection<Pago> Pagos { get; set; }
     }
 }
