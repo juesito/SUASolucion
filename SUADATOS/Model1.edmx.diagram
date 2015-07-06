@@ -118,7 +118,7 @@
         <AssociationConnector Association="suaModel.FK_Empleados_SDIs" />
         <AssociationConnector Association="suaModel.FK_Empleados_Sexos" />
         <AssociationConnector Association="suaModel.FK_Empleados_Usuarios" />
-        <EntityTypeShape EntityType="suaModel.Solicitud" Width="1.5" PointX="15.75" PointY="93" />
+        <EntityTypeShape EntityType="suaModel.Solicitud" Width="1.5" PointX="15.75" PointY="92.875" />
         <AssociationConnector Association="suaModel.FK_Proyectos_Clientes" />
         <AssociationConnector Association="suaModel.FK_Solicitud_Conceptos" />
         <AssociationConnector Association="suaModel.FK_Solicitud_Conceptos1" />

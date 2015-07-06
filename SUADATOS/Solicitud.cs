@@ -30,6 +30,8 @@ namespace SUADATOS
         public Nullable<System.DateTime> fechaTerminoContrato { get; set; }
         public Nullable<System.DateTime> fechaInicial { get; set; }
         public Nullable<System.DateTime> fechaFinal { get; set; }
+        public Nullable<System.DateTime> fechaBaja { get; set; }
+        public Nullable<System.DateTime> fechaModificacion { get; set; }
         public Nullable<int> tipoPersonalId { get; set; }
         public string solicita { get; set; }
         public string valida { get; set; }

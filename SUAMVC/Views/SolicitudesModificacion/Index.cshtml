@@ -29,6 +29,10 @@
     gridColumns.Add(grid.Column("SDI.descripcion", "SDI", format: @<text> @if (@item.sdiId != null)
     {  @item.SDI.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("fechaFinal", "Fecha Final", @<text><div style='width: 6em'>
+               @if (@item.fechaFinal != null)
+               { @item.fechaFinal.ToString("dd-MM-yyyy")}
+               </div></text>, null, canSort: true));
+    gridColumns.Add(grid.Column("fechaModificacion", "Fecha Modificación", @<text><div style='width: 6em'>
                 @if (@item.fechaFinal != null)
                 { @item.fechaFinal.ToString("dd-MM-yyyy")}
             </div></text>, null, canSort: true));

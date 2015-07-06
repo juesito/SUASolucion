@@ -87,7 +87,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio")] Solicitud solicitud)
+        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,fechaBaja,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio")] Solicitud solicitud)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,6 @@ namespace SUAMVC.Controllers
                 Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "baja");
 
                 solicitud.usuarioId = usuario.Id;
-                solicitud.fechaSolicitud = DateTime.Now;
                 solicitud.autoriza = lvc.autorizador;
                 solicitud.valida = lvc.validador;
                 solicitud.estatusSolicitud = concepto.id;
