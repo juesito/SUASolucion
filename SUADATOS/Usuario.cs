@@ -21,7 +21,6 @@ namespace SUADATOS
             this.ContratosClientes = new HashSet<ContratosCliente>();
             this.DatosAdicionalesClientes = new HashSet<DatosAdicionalesCliente>();
             this.Departamentos = new HashSet<Departamento>();
-            this.Empleados = new HashSet<Empleado>();
             this.Empresas = new HashSet<Empresa>();
             this.EsquemasPagoes = new HashSet<EsquemasPago>();
             this.EstadoCivils = new HashSet<EstadoCivil>();
@@ -33,18 +32,19 @@ namespace SUADATOS
             this.Paises = new HashSet<Pais>();
             this.RegimenInfonavits = new HashSet<RegimenInfonavit>();
             this.Residencias = new HashSet<Residencia>();
-            this.ResumenPagoes = new HashSet<ResumenPago>();
             this.RoleFuncions = new HashSet<RoleFuncion>();
             this.RoleModulos = new HashSet<RoleModulo>();
             this.SDIs = new HashSet<SDI>();
             this.Servicios = new HashSet<Servicio>();
             this.Sexos = new HashSet<Sexo>();
-            this.Solicituds = new HashSet<Solicitud>();
             this.TipoContratoes = new HashSet<TipoContrato>();
             this.TipoPersonals = new HashSet<TipoPersonal>();
             this.TopicosUsuarios = new HashSet<TopicosUsuario>();
             this.TopicosUsuarios1 = new HashSet<TopicosUsuario>();
+            this.Empleados = new HashSet<Empleado>();
+            this.Solicituds = new HashSet<Solicitud>();
             this.Pagos = new HashSet<Pago>();
+            this.ResumenPagoes = new HashSet<ResumenPago>();
         }
     
         public int Id { get; set; }
@@ -64,7 +64,6 @@ namespace SUADATOS
         public virtual ICollection<ContratosCliente> ContratosClientes { get; set; }
         public virtual ICollection<DatosAdicionalesCliente> DatosAdicionalesClientes { get; set; }
         public virtual ICollection<Departamento> Departamentos { get; set; }
-        public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual ICollection<Empresa> Empresas { get; set; }
         public virtual ICollection<EsquemasPago> EsquemasPagoes { get; set; }
         public virtual ICollection<EstadoCivil> EstadoCivils { get; set; }
@@ -77,18 +76,19 @@ namespace SUADATOS
         public virtual Plaza Plaza { get; set; }
         public virtual ICollection<RegimenInfonavit> RegimenInfonavits { get; set; }
         public virtual ICollection<Residencia> Residencias { get; set; }
-        public virtual ICollection<ResumenPago> ResumenPagoes { get; set; }
         public virtual ICollection<RoleFuncion> RoleFuncions { get; set; }
         public virtual ICollection<RoleModulo> RoleModulos { get; set; }
         public virtual Role Role { get; set; }
         public virtual ICollection<SDI> SDIs { get; set; }
         public virtual ICollection<Servicio> Servicios { get; set; }
         public virtual ICollection<Sexo> Sexos { get; set; }
-        public virtual ICollection<Solicitud> Solicituds { get; set; }
         public virtual ICollection<TipoContrato> TipoContratoes { get; set; }
         public virtual ICollection<TipoPersonal> TipoPersonals { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios1 { get; set; }
+        public virtual ICollection<Empleado> Empleados { get; set; }
+        public virtual ICollection<Solicitud> Solicituds { get; set; }
         public virtual ICollection<Pago> Pagos { get; set; }
+        public virtual ICollection<ResumenPago> ResumenPagoes { get; set; }
     }
 }

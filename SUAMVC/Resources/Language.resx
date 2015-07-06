@@ -675,4 +675,34 @@
   <data name="SolicitudModificacion" xml:space="preserve">
     <value>Solicitud Modificación</value>
   </data>
+  <data name="aguinaldo" xml:space="preserve">
+    <value>Aguinaldo</value>
+  </data>
+  <data name="anosTrabajados" xml:space="preserve">
+    <value>Años Trabajados</value>
+  </data>
+  <data name="diasAno" xml:space="preserve">
+    <value>Días al Año</value>
+  </data>
+  <data name="diasAnoAguinaldo" xml:space="preserve">
+    <value>Días Año Aguinaldo</value>
+  </data>
+  <data name="diasVacaciones" xml:space="preserve">
+    <value>Días de Vacaciones</value>
+  </data>
+  <data name="factor" xml:space="preserve">
+    <value>Factor</value>
+  </data>
+  <data name="factorIntegracion" xml:space="preserve">
+    <value>Factor de Integración</value>
+  </data>
+  <data name="factorVacaciones" xml:space="preserve">
+    <value>Factor Vacaciones</value>
+  </data>
+  <data name="fechaRegistro" xml:space="preserve">
+    <value>Fecha Registro</value>
+  </data>
+  <data name="primaVacacional" xml:space="preserve">
+    <value>Prima Vacacional</value>
+  </data>
 </root>

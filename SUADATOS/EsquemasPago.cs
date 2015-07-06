@@ -25,8 +25,8 @@ namespace SUADATOS
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
-        public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual ICollection<Solicitud> Solicituds { get; set; }
     }
 }

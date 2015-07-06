@@ -10,6 +10,7 @@ using SUADATOS;
 using System.Data.Entity.Validation;
 using System.Text;
 using SUAMVC.Helpers;
+using SUAMVC.Models;
 
 namespace SUAMVC.Controllers
 {
@@ -93,6 +94,9 @@ namespace SUAMVC.Controllers
                 Cliente cliente = db.Clientes.Find(solicitud.clienteId);
                 ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
                 ToolsHelper th = new ToolsHelper();
+                ParametrosHelper ph = new ParametrosHelper();
+
+                Parametro folioAlta = ph.getParameterByKey("FOLSALTA");
 
                 Concepto concepto = th.obtenerConceptoPorGrupo("ESTASOL", "apertura");
                 Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "alta");
@@ -118,7 +122,13 @@ namespace SUAMVC.Controllers
                 {
                     db.Solicituds.Add(solicitud);
                     db.SaveChanges();
-                    solicitud.folioSolicitud = solicitud.id.ToString().PadLeft(5, '0') + "A" + solicitud.Cliente.Plaza.cveCorta.Trim();
+                    solicitud.folioSolicitud = folioAlta.valorString.Trim().PadLeft(5, '0') + "A" + solicitud.Cliente.Plaza.cveCorta.Trim();
+                    int folAlta = int.Parse(folioAlta.valorString.Trim());
+                    folAlta = folAlta + 1;
+                    folioAlta.valorString = folAlta.ToString();
+
+
+                    db.Entry(folioAlta).State = EntityState.Modified;
                     db.Entry(solicitud).State = EntityState.Modified;
                     db.SaveChanges();
                 }
