@@ -4,7 +4,7 @@
     ViewBag.Title = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
     Usuario usuario = Session["UsuarioData"] as Usuario;
-    
+
     if (!WebSecurity.IsAuthenticated)
     {
         Response.Redirect("~/Home/Index");
@@ -20,68 +20,74 @@
         ¿Desea borrar este registro?
     </div>
     <div class="panel-body" style="font-size:10px;">
-            <table style="font-size:10px;margin:0 auto; width:800px">
-                <tr>
-                    <td>@Html.Label(@Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td>
-                        @Html.DisplayFor(model => model.Cliente.descripcion)
-                    </td>s
-                    <td>@Html.Label(@Language.proyecto, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td>
-                        @Html.DropDownList("proyectoId", null, htmlAttributes: new { @class = "form-control", enabled = false })
-                        @Html.ValidationMessageFor(model => model.proyectoId, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-                <tr>
-                    <td>@Html.Label(@Language.residencia, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td>
-                        @Html.DropDownList("plazaId", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.plazaId, "", new { @class = "text-danger" })
-                    </td>
-                    <td>@Html.LabelFor(model => model.fechaSolicitud, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td>
-                        @Html.DisplayFor(model => model.fechaSolicitud, new { htmlAttributes = new { @class = "form-control myDate" } })
-                        @Html.ValidationMessageFor(model => model.fechaSolicitud, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.Label(@Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.descripcion)
+        </dd>
 
-                <tr>
-                    <td>@Html.Label(@Language.fechaBaja, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td>
-                        @Html.EditorFor(model => model.fechaFinal, new { htmlAttributes = new { @class = "myDate" } })
-                        @Html.ValidationMessageFor(model => model.fechaFinal, "", new { @class = "text-danger" })
-                    </td>
-                    <td>@Html.Label(@Language.motivoBaja, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td>
-                        @Html.conceptosDrownList(usuario.Id, "BAJACON", "conceptoBaja")
-                    </td>
+        <dt>
+            @Html.Label(@Language.proyecto, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Proyecto.descripcion)
+        </dd>
 
-                </tr>
+        <dt>
+            @Html.Label(@Language.residencia, htmlAttributes: new { @class = "control-label col-md-2" })
+        <dt>
+        <dd>
+            @Html.DisplayFor(model => model.plazaId)
+        </dd>
 
-                <tr>
-                    <td>@Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                    <td colspan="3">
-                        @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 4 })
-                        @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3"></td>
-                    <td style="text-align:right;"><input type="submit" value="@Language.agregar" class="btn btn-primary" /></td>
-                </tr>
-            </table>
+        <dt>
+            @Html.LabelFor(model => model.fechaSolicitud, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
 
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
+        <dd>
+            @Html.DisplayFor(model => model.fechaSolicitud)
+        </dd>
 
-    <div class="form-group" style="margin-top:40px;">
-        <input type="submit" value="@Language.borrar" class="btn btn-primary" />
+        <dt>
+            @Html.Label(@Language.fechaBaja, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaFinal)
+        </dd>
+
+        <dt>
+            @Html.Label(@Language.motivoBaja, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
+
+        <dt>
+            @Html.DisplayFor(model => model.conceptoBaja)
+        </dt>
+
+        <dt>
+            @Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.observaciones)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+            {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group" style="margin-top:10px;">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@Language.borrar" class="btn btn-primary" />
+            </div>
+        </div>
+            }
+        </div>
     </div>
-        }
-    </div>
-    </div>
 
-    <div>
-        @Html.ActionLink(@Language.regresar, "Index")
-    </div>
+<div>
+    @Html.ActionLink(@Language.regresar, "Index")
+</div>

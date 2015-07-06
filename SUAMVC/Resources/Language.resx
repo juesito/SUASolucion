@@ -618,4 +618,61 @@
     <value>Motivo de la Baja</value>
     <comment>Etiqueta para motivo baja</comment>
   </data>
+  <data name="fechaModificacion" xml:space="preserve">
+    <value>Fecha de Modificación</value>
+    <comment>Etiqueta para fecha de modificación</comment>
+  </data>
+  <data name="concepDescripcion" xml:space="preserve">
+    <value>Estatus Solicitud</value>
+  </data>
+  <data name="concepDescripcion1" xml:space="preserve">
+    <value>Estatus Nom.</value>
+  </data>
+  <data name="concepDescripcion2" xml:space="preserve">
+    <value>Estatus Jurídico</value>
+  </data>
+  <data name="concepDescripcion3" xml:space="preserve">
+    <value>Estatus Afil.</value>
+  </data>
+  <data name="concepDescripcion4" xml:space="preserve">
+    <value>Estatus Tarj.</value>
+  </data>
+  <data name="desProyecto" xml:space="preserve">
+    <value>Proyecto</value>
+    <comment>Etiqueta para descripcion proyecto</comment>
+  </data>
+  <data name="fechaFinal" xml:space="preserve">
+    <value>Fecha Baja</value>
+    <comment>Etiqueta para fecha final</comment>
+  </data>
+  <data name="fechaInicio" xml:space="preserve">
+    <value>Fecha de Inicio</value>
+    <comment>Etiqueta para fechade inicio</comment>
+  </data>
+  <data name="fechaSolicitud" xml:space="preserve">
+    <value>Fecha de Solicitud</value>
+    <comment>Etiqueta para fecha de solicitud</comment>
+  </data>
+  <data name="folioSolicitud" xml:space="preserve">
+    <value>Folio</value>
+    <comment>Etiqueta para Folio</comment>
+  </data>
+  <data name="noTrabajadores" xml:space="preserve">
+    <value>N° Trabajadores</value>
+    <comment>Etiqueta para numero de trabajadores</comment>
+  </data>
+  <data name="observaciones" xml:space="preserve">
+    <value>Observaciones</value>
+    <comment>Etiqueta para observaciones</comment>
+  </data>
+  <data name="solicita" xml:space="preserve">
+    <value>Solicitó</value>
+    <comment>Etiqueta para Solicitante</comment>
+  </data>
+  <data name="solicitudBaja" xml:space="preserve">
+    <value>Solicitud Baja</value>
+  </data>
+  <data name="SolicitudModificacion" xml:space="preserve">
+    <value>Solicitud Modificación</value>
+  </data>
 </root>
