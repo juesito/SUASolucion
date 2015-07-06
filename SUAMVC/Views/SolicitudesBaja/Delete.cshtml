@@ -1,8 +1,10 @@
 ﻿@model SUADATOS.Solicitud
-
+@using SUADATOS
 @{
     ViewBag.Title = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+
     if (!WebSecurity.IsAuthenticated)
     {
         Response.Redirect("~/Home/Index");
@@ -18,204 +20,74 @@
         ¿Desea borrar este registro?
     </div>
     <div class="panel-body" style="font-size:10px;">
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.folioSolicitud)
-            </dt>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.Label(@Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.descripcion)
+        </dd>
 
-            <dd>
-                @Html.DisplayFor(model => model.folioSolicitud)
-            </dd>
+        <dt>
+            @Html.Label(@Language.proyecto, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Proyecto.descripcion)
+        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.fechaSolicitud)
-            </dt>
+        <dt>
+            @Html.Label(@Language.residencia, htmlAttributes: new { @class = "control-label col-md-2" })
+        <dt>
+        <dd>
+            @Html.DisplayFor(model => model.plazaId)
+        </dd>
 
-            <dd>
-                @Html.DisplayFor(model => model.fechaSolicitud)
-            </dd>
+        <dt>
+            @Html.LabelFor(model => model.fechaSolicitud, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.fechaInicial)
-            </dt>
+        <dd>
+            @Html.DisplayFor(model => model.fechaSolicitud)
+        </dd>
 
-            <dd>
-                @Html.DisplayFor(model => model.fechaInicial)
-            </dd>
+        <dt>
+            @Html.Label(@Language.fechaBaja, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.fechaFinal)
-            </dt>
+        <dd>
+            @Html.DisplayFor(model => model.fechaFinal)
+        </dd>
 
-            <dd>
-                @Html.DisplayFor(model => model.fechaFinal)
-            </dd>
+        <dt>
+            @Html.Label(@Language.motivoBaja, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.solicita)
-            </dt>
+        <dt>
+            @Html.DisplayFor(model => model.conceptoBaja)
+        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.solicita)
-            </dd>
+        <dt>
+            @Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.valida)
-            </dt>
+        <dd>
+            @Html.DisplayFor(model => model.observaciones)
+        </dd>
+    </dl>
 
-            <dd>
-                @Html.DisplayFor(model => model.valida)
-            </dd>
+    @using (Html.BeginForm())
+            {
+        @Html.AntiForgeryToken()
 
-            <dt>
-                @Html.DisplayNameFor(model => model.autoriza)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.autoriza)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.noTrabajadores)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.noTrabajadores)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.observaciones)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.observaciones)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.fechaEnvio)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.fechaEnvio)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Cliente.claveCliente)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Cliente.claveCliente)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Concepto.grupo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Concepto.grupo)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Concepto1.grupo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Concepto1.grupo)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Concepto2.grupo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Concepto2.grupo)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Concepto3.grupo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Concepto3.grupo)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Concepto4.grupo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Concepto4.grupo)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.EsquemasPago.descripcion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.EsquemasPago.descripcion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Plaza.descripcion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Plaza.descripcion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Proyecto.descripcion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Proyecto.descripcion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.SDI.descripcion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.SDI.descripcion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.TipoContrato.descripcion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.TipoContrato.descripcion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.TipoPersonal.descripcion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.TipoPersonal.descripcion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Usuario.nombreUsuario)
-            </dd>
-
-        </dl>
-
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
-
-    <div class="form-group" style="margin-top:40px;">
-        <input type="submit" value="@Language.borrar" class="btn btn-primary" />
-    </div>
-        }
-    </div>
+        <div class="form-group" style="margin-top:10px;">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@Language.borrar" class="btn btn-primary" />
+            </div>
+        </div>
+            }
+        </div>
     </div>
 
-    <div>
-        @Html.ActionLink(@Language.regresar, "Index")
-    </div>
+<div>
+    @Html.ActionLink(@Language.regresar, "Index")
+</div>

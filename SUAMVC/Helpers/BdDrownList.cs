@@ -397,7 +397,8 @@ namespace SUAMVC.Helpers
             {
                 imgBuilder.MergeAttribute("src", url.Content(imagePath));
             }
-            else {
+            else
+            {
                 imgBuilder.MergeAttribute("src", url.Content("~/Content/Images/camera.png"));
             }
             imgBuilder.MergeAttribute("alt", alt);
@@ -410,6 +411,32 @@ namespace SUAMVC.Helpers
             string anchorHtml = anchorBuilder.ToString(TagRenderMode.Normal);
 
             return MvcHtmlString.Create(anchorHtml);
+        }
+
+        //DrowList para Motivo de Baja
+        public static MvcHtmlString conceptosDrownList(this HtmlHelper htmlHelper, int userId, string grupo, string componentId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Concepto> listConceptos = (from s in db.Conceptos
+                                            where s.grupo.Equals(grupo.Trim())
+                                     orderby s.descripcion
+                                     select s).ToList();
+
+            foreach (Concepto item in listConceptos)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componentId, listFields);
         }
     }
 }

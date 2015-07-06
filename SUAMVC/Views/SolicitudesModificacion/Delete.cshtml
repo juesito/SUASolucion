@@ -1,5 +1,5 @@
 ﻿@model SUADATOS.Solicitud
-
+@using SUADATOS
 @{
     ViewBag.Title = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -75,15 +75,7 @@
             @Html.DisplayFor(model => model.autoriza)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.noTrabajadores)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.noTrabajadores)
-        </dd>
-
-        <dt>
+         <dt>
             @Html.DisplayNameFor(model => model.observaciones)
         </dt>
 
@@ -107,54 +99,7 @@
             @Html.DisplayFor(model => model.Cliente.claveCliente)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Concepto.grupo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Concepto.grupo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Concepto1.grupo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Concepto1.grupo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Concepto2.grupo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Concepto2.grupo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Concepto3.grupo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Concepto3.grupo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Concepto4.grupo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Concepto4.grupo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EsquemasPago.descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EsquemasPago.descripcion)
-        </dd>
-
+       
         <dt>
             @Html.DisplayNameFor(model => model.Plaza.descripcion)
         </dt>
@@ -177,22 +122,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.SDI.descripcion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TipoContrato.descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TipoContrato.descripcion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TipoPersonal.descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TipoPersonal.descripcion)
         </dd>
 
         <dt>

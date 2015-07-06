@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using SUADATOS;
 using System.Data.Entity.Validation;
 using System.Text;
+using SUAMVC.Helpers;
 
 namespace SUAMVC.Controllers
 {
@@ -21,7 +22,7 @@ namespace SUAMVC.Controllers
         {
             Concepto tipoSolicitud = db.Conceptos.Where(s => s.grupo.Equals("SOLCON") &&
                 s.descripcion.ToLower().Trim().Contains("modificacion")).FirstOrDefault();
-
+            ;
 
             var solicituds = db.Solicituds.Include(s => s.Cliente).Include(s => s.Concepto).Include(s => s.Concepto1).Include(s => s.Concepto2).Include(s => s.Concepto3).Include(s => s.Concepto4).Include(s => s.EsquemasPago).Include(s => s.Plaza).Include(s => s.Proyecto).Include(s => s.SDI).Include(s => s.TipoContrato).Include(s => s.TipoPersonal).Include(s => s.Usuario);
 
@@ -93,7 +94,13 @@ namespace SUAMVC.Controllers
                 Usuario usuario = Session["usuarioData"] as Usuario;
                 Cliente cliente = db.Clientes.Find(solicitud.clienteId);
                 ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
-                Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("ESTASOL") && s.descripcion.ToLower().Contains("apertura")).First();
+                ToolsHelper th = new ToolsHelper();
+
+                
+                //Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("SOLCON") && s.descripcion.ToLower().Contains("modificacion")).First();
+                Concepto concepto = th.obtenerConceptoPorGrupo("ESTASOL", "apertura");
+                Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "modificacion");
+
                 solicitud.usuarioId = usuario.Id;
                 solicitud.fechaSolicitud = DateTime.Now;
                 solicitud.autoriza = lvc.autorizador;
@@ -107,12 +114,13 @@ namespace SUAMVC.Controllers
                 solicitud.clienteId = cliente.Id;
                 solicitud.folioSolicitud = "";
                 solicitud.noTrabajadores = 0;
+                solicitud.tipoSolicitud = tipoSolicitud.id;
                 db.Solicituds.Add(solicitud);
                 db.SaveChanges();
 
                 try
                 {
-                    solicitud.folioSolicitud = solicitud.id.ToString().PadLeft(5, '0') + "A" + solicitud.Cliente.Plaza.cveCorta.Trim();
+                    solicitud.folioSolicitud = solicitud.id.ToString().PadLeft(5, '0') + "MS" + solicitud.Cliente.Plaza.cveCorta.Trim();
                     db.Entry(solicitud).State = EntityState.Modified;
                     db.SaveChanges();
                 }
@@ -133,6 +141,34 @@ namespace SUAMVC.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
+            ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusSolicitud);
+            ViewBag.estatusNomina = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusNomina);
+            ViewBag.estatusJuridico = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusJuridico);
+            ViewBag.estatusAfiliado = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusAfiliado);
+            ViewBag.estatusTarjeta = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusTarjeta);
+            ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion", solicitud.esquemaId);
+            ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", solicitud.plazaId);
+            ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion", solicitud.proyectoId);
+            ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", solicitud.sdiId);
+            ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion", solicitud.contratoId);
+            ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion", solicitud.tipoPersonalId);
+            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", solicitud.usuarioId);
+            return View(solicitud);
+        }
+
+        // GET: SolicitudesBaja/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Solicitud solicitud = db.Solicituds.Find(id);
+            if (solicitud == null)
+            {
+                return HttpNotFound();
+            }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusSolicitud);
             ViewBag.estatusNomina = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusNomina);
