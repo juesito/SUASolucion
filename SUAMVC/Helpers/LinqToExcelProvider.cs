@@ -22,7 +22,7 @@ namespace SUAMVC.Helpers
         //
         private const string ConnectionStringTemplate = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=Excel 12.0 Xml;";
         //para archivos de 97-2003 usar la siguiente cadena
-        private string ConnectionStringTemplateVeryOld = "provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties=Excel 8.0;";
+        //private string ConnectionStringTemplateVeryOld = "provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties=Excel 8.0;";
 
         /// <summary>
         /// Default constructor

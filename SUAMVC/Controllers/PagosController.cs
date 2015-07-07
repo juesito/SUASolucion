@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using SUADATOS;
 using SUAMVC.Models;
 using System.IO;
+using System.Data.Entity.Validation;
+using System.Text;
 
 namespace SUAMVC.Controllers
 {
@@ -19,7 +21,7 @@ namespace SUAMVC.Controllers
         // GET: Pagos
         public ActionResult Index()
         {
-            var pagos = db.Pagos.Include(p => p.ResumenPago);
+            var pagos = db.Pagos.ToList();
             return View(pagos.ToList());
         }
 
@@ -28,6 +30,9 @@ namespace SUAMVC.Controllers
             return View();
         }
 
+        /**
+         * Se cargan los pagos por periodo y patron via carga masiva desde el SUA.mdb
+         */
         [HttpPost]
         public ActionResult Upload(String patronesId, String periodoId, String ejercicioId)
         {
@@ -43,104 +48,202 @@ namespace SUAMVC.Controllers
                 {
                     Boolean existe = false;
                     SUAHelper suaHelper = new SUAHelper(path);
-                    ResumenPago resumenPago = new ResumenPago();
 
-                    //Preparamos el query del resúmen
-                    String sSQL = "SELECT * FROM Registro_02" +
-                        "  WHERE Registro_Patronal = '" + patron.registro + "'" +
-                        "    AND Periodo_Pago = '" + periodo + "'" +
-                        "ORDER BY Registro_Patronal";
-
-                    DataTable dt = suaHelper.ejecutarSQL(sSQL);
-
-                    foreach (DataRow rows in dt.Rows)
-                    {
-                        resumenPago.ip = rows["IP"].ToString().Trim();
-                        resumenPago.patronId = patron.Id;
-                        resumenPago.rfc = rows["RFC"].ToString().Trim();
-                        resumenPago.periodoPago = periodo;
-                        resumenPago.mes = periodoId;
-                        resumenPago.anno = ejercicioId;
-                        resumenPago.folioSUA = rows["Folio_SUA"].ToString().Trim();
-                        resumenPago.razonSocial = rows["Razon_Social"].ToString().Trim();
-                        resumenPago.calleColonia = rows["Calle_Colonia"].ToString().Trim();
-                        resumenPago.poblacion = rows["Poblacion"].ToString().Trim();
-                        resumenPago.entidadFederativa = rows["Entidad_Federativa"].ToString().Trim();
-                        resumenPago.codigoPostal = rows["CP"].ToString().Trim();
-                        resumenPago.primaRT = rows["Prima_RT"].ToString().Trim();
-                        resumenPago.fechaPrimaRT = rows["Fecha_Prima_RT"].ToString().Trim();
-                        resumenPago.actividadEconomica = rows["Actividad_Economica"].ToString().Trim();
-                        resumenPago.delegacionIMSS = rows["Delegacion_IMSS"].ToString().Trim();
-                        resumenPago.subDelegacionIMMS = rows["SubDelegacion_IMSS"].ToString().Trim();
-                        resumenPago.zonaEconomica = rows["Zona_Economica"].ToString().Trim();
-                        resumenPago.convenioReembolso = rows["Convenio_Rembolso"].ToString().Trim();
-                        resumenPago.tipoCotizacion = rows["Tipo_Cotizacion"].ToString().Trim();
-                        resumenPago.cotizantes = rows["Cotizantes"].ToString().Trim();
-                        resumenPago.apoPat = rows["Apo_Pat"].ToString().Trim();
-                        resumenPago.delSubDel = rows["Del_Subdel"].ToString().Trim();
-                        resumenPago.fechaCreacion = DateTime.Now;
-                        resumenPago.usuarioCreacionId = 1;
-
-                        existe = true;
-                        db.ResumenPagoes.Add(resumenPago);
-                        db.SaveChanges();
-                    }
-
-                    if (existe)
-                    {
-
-                        sSQL = "SELECT * FROM RESUMEN" +
+                    String sSQL = "SELECT * FROM RESUMEN" +
                                "  WHERE Reg_Patr = '" + patron.registro + "'" +
                                "    AND Mes_Ano = '" + periodo + "'" +
                                "   ORDER BY Reg_Patr";
 
-                        DataTable dt2 = suaHelper.ejecutarSQL(sSQL);
+                    DataTable dt2 = suaHelper.ejecutarSQL(sSQL);
 
-                        foreach (DataRow rows in dt2.Rows)
+                    foreach (DataRow rows in dt2.Rows)
+                    {
+                        Pago pago = new Pago();
+
+                        pago.mes = periodoId;
+                        pago.anno = ejercicioId;
+
+                        pago.imss = Decimal.Parse(rows["CTA_FIJ"].ToString()) + Decimal.Parse(rows["CTA_EXC"].ToString()) +
+                                    Decimal.Parse(rows["PRE_DIN"].ToString()) + Decimal.Parse(rows["PRE_ESP"].ToString()) +
+                                    Decimal.Parse(rows["RIE_TRA"].ToString()) + Decimal.Parse(rows["INV_VID"].ToString()) +
+                                    Decimal.Parse(rows["GUA_DER"].ToString());
+
+                        pago.rcv = Decimal.Parse(rows["RET_SAR"].ToString()) + Decimal.Parse(rows["CEN_VEJPat"].ToString()) +
+                                   Decimal.Parse(rows["Cen_VEJObr"].ToString());
+
+                        pago.infonavit = Decimal.Parse(rows["VIV_SIN"].ToString()) + Decimal.Parse(rows["VIV_CON"].ToString()) +
+                                         Decimal.Parse(rows["AMO_INF"].ToString());
+
+                        pago.total = pago.imss + pago.rcv + pago.infonavit;
+
+                        pago.recargos = Decimal.Parse(rows["REC_IMS"].ToString()) + Decimal.Parse(rows["REC_SAR"].ToString()) +
+                                        Decimal.Parse(rows["REC_VIV"].ToString());
+
+                        pago.actualizaciones = Decimal.Parse(rows["ACT_IMS"].ToString()) + Decimal.Parse(rows["ACT_SAR"].ToString()) +
+                                               Decimal.Parse(rows["ACT_VIV"].ToString());
+
+                        pago.granTotal = pago.recargos + pago.actualizaciones;
+
+                        sSQL = "SELECT COUNT(*) FROM RELTRA" +
+                           "  WHERE Reg_Pat = '" + patron.registro + "'" +
+                           "    AND Periodo = '" + periodo + "'";
+
+                        DataTable dt3 = suaHelper.ejecutarSQL(sSQL);
+
+                        foreach (DataRow rows1 in dt3.Rows)
                         {
-                            Pago pago = new Pago();
-                            pago.resumenPagoId = resumenPago.id;
-                            pago.ResumenPago = resumenPago;
-
-                            pago.imss = Decimal.Parse(rows["CTA_FIJ"].ToString()) + Decimal.Parse(rows["CTA_EXC"].ToString()) +
-                                        Decimal.Parse(rows["PRE_DIN"].ToString()) + Decimal.Parse(rows["PRE_ESP"].ToString()) +
-                                        Decimal.Parse(rows["RIE_TRA"].ToString()) + Decimal.Parse(rows["INV_VID"].ToString()) +
-                                        Decimal.Parse(rows["GUA_DER"].ToString());
-
-                            pago.rcv = Decimal.Parse(rows["RET_SAR"].ToString()) + Decimal.Parse(rows["CEN_VEJPat"].ToString()) +
-                                       Decimal.Parse(rows["Cen_VEJObr"].ToString());
-
-                            pago.infonavit = Decimal.Parse(rows["VIV_SIN"].ToString()) + Decimal.Parse(rows["VIV_CON"].ToString()) +
-                                             Decimal.Parse(rows["AMO_INF"].ToString());
-
-                            pago.total = pago.imss + pago.rcv + pago.infonavit;
-
-                            pago.recargos = Decimal.Parse(rows["REC_IMS"].ToString()) + Decimal.Parse(rows["REC_SAR"].ToString()) +
-                                            Decimal.Parse(rows["REC_VIV"].ToString());
-
-                            pago.actualizaciones = Decimal.Parse(rows["ACT_IMS"].ToString()) + Decimal.Parse(rows["ACT_SAR"].ToString()) +
-                                                   Decimal.Parse(rows["ACT_VIV"].ToString());
-
-                            pago.granTotal = pago.recargos + pago.actualizaciones;
-
-                            sSQL = "SELECT COUNT(*) FROM RELTRA" +
-                               "  WHERE Reg_Pat = '" + patron.registro + "'" +
-                               "    AND Periodo = '" + periodo + "'";
-
-                            DataTable dt3 = suaHelper.ejecutarSQL(sSQL);
-
-                            foreach (DataRow rows1 in dt3.Rows) {
-                                pago.nt = int.Parse(rows1[0].ToString());
-                            }
-                            pago.fechaCreacion = DateTime.Now;
-                            pago.usuarioId = 1;
-
-
-                            //Guardamos el pago.
-                            db.Pagos.Add(pago);
-                            db.SaveChanges();
+                            pago.nt = int.Parse(rows1[0].ToString());
                         }
 
+                        pago.patronId = patron.Id;
+                        pago.Patrone = patron;
+                        pago.fechaCreacion = DateTime.Now;
+                        pago.usuarioId = 1;
+
+
+                        //Guardamos el pago.
+                        db.Pagos.Add(pago);
+                        db.SaveChanges();
+                        existe = true;
+
+                        if (existe)
+                        {
+
+                            //Preparamos el query del resúmen
+                            sSQL = "SELECT * FROM Registro_02" +
+                                "  WHERE Registro_Patronal = '" + patron.registro + "'" +
+                                "    AND Periodo_Pago = '" + periodo + "'" +
+                                "ORDER BY Registro_Patronal";
+
+                            DataTable dt = suaHelper.ejecutarSQL(sSQL);
+
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                ResumenPago resumenPago = new ResumenPago();
+                                resumenPago.ip = row["IP"].ToString().Trim();
+                                resumenPago.patronId = patron.Id;
+                                resumenPago.rfc = row["RFC"].ToString().Trim();
+                                resumenPago.periodoPago = periodo;
+                                resumenPago.mes = periodoId;
+                                resumenPago.anno = ejercicioId;
+                                resumenPago.folioSUA = row["Folio_SUA"].ToString().Trim();
+                                resumenPago.razonSocial = row["Razon_Social"].ToString().Trim();
+                                resumenPago.calleColonia = row["Calle_Colonia"].ToString().Trim();
+                                resumenPago.poblacion = row["Poblacion"].ToString().Trim();
+                                resumenPago.entidadFederativa = row["Entidad_Federativa"].ToString().Trim();
+                                resumenPago.codigoPostal = row["CP"].ToString().Trim();
+                                resumenPago.primaRT = row["Prima_RT"].ToString().Trim();
+                                resumenPago.fechaPrimaRT = row["Fecha_Prima_RT"].ToString().Trim();
+                                resumenPago.actividadEconomica = row["Actividad_Economica"].ToString().Trim();
+                                resumenPago.delegacionIMSS = row["Delegacion_IMSS"].ToString().Trim();
+                                resumenPago.subDelegacionIMMS = row["SubDelegacion_IMSS"].ToString().Trim();
+                                resumenPago.zonaEconomica = row["Zona_Economica"].ToString().Trim();
+                                resumenPago.convenioReembolso = row["Convenio_Rembolso"].ToString().Trim();
+                                resumenPago.tipoCotizacion = row["Tipo_Cotizacion"].ToString().Trim();
+                                resumenPago.cotizantes = row["Cotizantes"].ToString().Trim();
+                                resumenPago.apoPat = row["Apo_Pat"].ToString().Trim();
+                                resumenPago.delSubDel = row["Del_Subdel"].ToString().Trim();
+                                resumenPago.fechaCreacion = DateTime.Now;
+                                resumenPago.pagoId = pago.id;
+                                resumenPago.Pago = pago;
+
+                                //Cambiar por el usuario registrado
+                                resumenPago.usuarioCreacionId = 1;
+
+                                db.ResumenPagoes.Add(resumenPago);
+                                db.SaveChanges();
+
+                                //Preparamos el query del resúmen
+                                sSQL = "SELECT * FROM Registro_03";
+
+                                DataTable dt4 = suaHelper.ejecutarSQL(sSQL);
+
+                                foreach (DataRow row2 in dt4.Rows)
+                                {
+
+                                    DetallePago detallePago = new DetallePago();
+                                    detallePago.periodo = periodo;
+                                    detallePago.pagoId = pago.id;
+                                    detallePago.Pago = pago;
+                                    detallePago.nss = row2["nss"].ToString().Trim();
+                                    detallePago.rfc = row2["rfc"].ToString().Trim();
+                                    detallePago.creditoInfonavit = row2["credito_infonavit"].ToString().Trim();
+                                    detallePago.fid = row2["fid"].ToString().Trim();
+                                    detallePago.trabajador = row2["trabajador"].ToString().Trim();
+                                    detallePago.sdi = row2["sdi"].ToString().Trim();
+                                    detallePago.tipoTrabajador = row2["tipo_trabajador"].ToString().Trim();
+                                    detallePago.jornadaSemanaReducida = row2["jornada_semana_reducida"].ToString().Trim();
+                                    detallePago.diasCotizadosMes = row2["dias_Cotizados_Mes"].ToString().Trim();
+                                    detallePago.diasIncapacidad = row2["dias_Incapacidad"].ToString().Trim();
+                                    detallePago.diasAusentismo = row2["dias_Ausentismo"].ToString().Trim();
+                                    detallePago.cuotaFija = decimal.Parse(row2["cuota_fija"].ToString().Trim());
+                                    detallePago.cuotaExcendente = decimal.Parse(row2["Cuota_Excedente"].ToString().Trim());
+                                    detallePago.prestacionesDinero = decimal.Parse(row2["prestaciones_Dinero"].ToString().Trim());
+                                    detallePago.gastosMedicosPensionados = decimal.Parse(row2["gastos_Medicos_Pensionados"].ToString().Trim());
+                                    detallePago.riesgoTrabajo = decimal.Parse(row2["riesgo_Trabajo"].ToString().Trim());
+                                    detallePago.invalidezVida = decimal.Parse(row2["invalidez_Vida"].ToString().Trim());
+                                    detallePago.guarderias = int.Parse(row2["guarderias"].ToString().Trim());
+                                    detallePago.actRecargosImss = decimal.Parse(row2["act_Recargos_Imss"].ToString().Trim());
+                                    detallePago.diasCotizadosBimestre = row2["dias_Cotizados_Bimestre"].ToString().Trim();
+                                    detallePago.diasIncapacidadBimestre = row2["dias_Incapacidad_Bim"].ToString().Trim();
+                                    detallePago.diasAusentismoBimestre = row2["dias_Ausentismo_Bim"].ToString().Trim();
+                                    detallePago.retiro = int.Parse(row2["retiro"].ToString().Trim());
+                                    detallePago.actRecargosRetiro = decimal.Parse(row2["act_Recargos_Retiro"].ToString().Trim());
+                                    detallePago.cesantiaVejezPatronal = decimal.Parse(row2["Cesantia_Vejez_Patronal"].ToString().Trim());
+                                    detallePago.cesantiaVejezObrera = decimal.Parse(row2["Cesantia_Vejez_Obrera"].ToString().Trim());
+                                    detallePago.actRecargosCyV = decimal.Parse(row2["Act_Recargos_CyV"].ToString().Trim());
+                                    detallePago.aportacionVoluntaria = decimal.Parse(row2["Aportacion_Voluntaria"].ToString().Trim());
+                                    if (!String.IsNullOrEmpty(row2["Aportacion_Comp"].ToString()))
+                                    {
+                                        detallePago.aportacionComp = decimal.Parse(row2["Aportacion_Comp"].ToString().Trim());
+                                    }
+                                    detallePago.aportacionPatronal = decimal.Parse(row2["Aportacion_Patronal"].ToString().Trim());
+                                    detallePago.amortizacion = decimal.Parse(row2["Amortizacion"].ToString().Trim());
+                                    detallePago.actImss = row2["Act_IMSS"].ToString().Trim();
+                                    detallePago.recImss = row2["Rec_IMSS"].ToString().Trim();
+                                    detallePago.actRetiro = row2["Act_Retiro"].ToString().Trim();
+                                    detallePago.recRetiro = row2["Rec_Retiro"].ToString().Trim();
+                                    detallePago.actCesPat = row2["Act_CesPat"].ToString().Trim();
+                                    detallePago.recCesPat = row2["Rec_CesPat"].ToString().Trim();
+                                    detallePago.actCesObr = row2["Act_CesObr"].ToString().Trim();
+                                    detallePago.recCesObr = row2["Rec_CesObr"].ToString().Trim();
+                                    detallePago.cuotaExcObr = int.Parse(row2["Cuota_ExcObr"].ToString().Trim());
+                                    if (!String.IsNullOrEmpty(row2["Cuota_PdObr"].ToString()))
+                                    {
+                                        detallePago.cuotaPdObr = decimal.Parse(row2["Cuota_PdObr"].ToString().Trim());
+                                    }
+                                    detallePago.cuotaGmpObr = decimal.Parse(row2["Cuota_GmpObr"].ToString().Trim());
+                                    detallePago.cuotaIvObr = decimal.Parse(row2["Cuota_IvObr"].ToString().Trim());
+                                    detallePago.actPatImss = row2["ActPat_IMSS"].ToString().Trim();
+                                    detallePago.recPatImss = row2["RecPat_IMSS"].ToString().Trim();
+                                    detallePago.actObrImss = row2["ActObr_IMSS"].ToString().Trim();
+                                    detallePago.recObrImss = row2["RecObr_IMSS"].ToString().Trim();
+                                    detallePago.usuarioId = 1;
+                                    detallePago.fechaCreacion = DateTime.Now;
+
+                                    try
+                                    {
+                                        db.DetallePagos.Add(detallePago);
+                                        db.SaveChanges();
+                                    }
+                                    catch (DbEntityValidationException ex)
+                                    {
+                                        StringBuilder sb = new StringBuilder();
+
+                                        foreach (var failure in ex.EntityValidationErrors)
+                                        {
+                                            sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                                            foreach (var error in failure.ValidationErrors)
+                                            {
+                                                sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                                                sb.AppendLine();
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
                     }
                 }
             }
@@ -186,104 +289,19 @@ namespace SUAMVC.Controllers
             return path;
         }
 
-        // GET: Pagos/Details/5
-        public ActionResult Details(int? id)
+        [HttpGet]
+        public ActionResult ResumenPagos(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Pago pago = db.Pagos.Find(id);
-            if (pago == null)
-            {
-                return HttpNotFound();
-            }
-            return View(pago);
-        }
+            PagosResumenModel resumenPagoModel = new PagosResumenModel();
 
-        // GET: Pagos/Create
-        public ActionResult Create()
-        {
-            ViewBag.trabajadorId = new SelectList(db.Asegurados, "id", "numeroAfiliacion");
-            ViewBag.resumenPagoId = new SelectList(db.ResumenPagoes, "id", "ip");
-            return View();
-        }
+            Pago pago = db.Pagos.Where(p => p.id.Equals(id)).FirstOrDefault();
 
-        // POST: Pagos/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,resumenPagoId,ip,NSS,RFC,CURP,creditoInfonavit,fid,trabajador,sdi,tipoTrabajador,jornadaSemanaReducida,diasCotizadosMes,diasIncapacidad,diasAusentismo,cuotaFija,cuotaExcedente,prestacionesDinero,gastosMedicosPensionado,riesgoTrabajo,invalidezVida,guarderias,actRecargosIMSS,diasCotizadosBimestre,diasIncapacidadBimestre,diasAusentismoBimestre,retiro,actRecargosRetiro,cesantiaVejezPatronal,cesantiaVejezObrera,actRecargosCyV,aportacionVoluntaria,aportacionComp,aportacionPatronal,amortizacion,actIMSS,recIMSS,actRetiro,recRetiro,actCesPat,recCesPat,actCesObr,recCesObr,cuotaExcObr,cuotaPdObr,cuotaGmpObr,cuotaIvObr,actPatIMSS,recPatIMSS,actObrIMSS,recObrIMSS,trabajadorId,anoPago,mesPago")] Pago pago)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Pagos.Add(pago);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            List<DetallePago> detallePago = db.DetallePagos.Where(r => r.pagoId.Equals(id)).ToList();
 
-            ViewBag.resumenPagoId = new SelectList(db.ResumenPagoes, "id", "ip", pago.resumenPagoId);
-            return View(pago);
-        }
+            resumenPagoModel.pago = pago;
+            resumenPagoModel.detalle = detallePago;
 
-        // GET: Pagos/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Pago pago = db.Pagos.Find(id);
-            if (pago == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.resumenPagoId = new SelectList(db.ResumenPagoes, "id", "ip", pago.resumenPagoId);
-            return View(pago);
-        }
-
-        // POST: Pagos/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,resumenPagoId,ip,NSS,RFC,CURP,creditoInfonavit,fid,trabajador,sdi,tipoTrabajador,jornadaSemanaReducida,diasCotizadosMes,diasIncapacidad,diasAusentismo,cuotaFija,cuotaExcedente,prestacionesDinero,gastosMedicosPensionado,riesgoTrabajo,invalidezVida,guarderias,actRecargosIMSS,diasCotizadosBimestre,diasIncapacidadBimestre,diasAusentismoBimestre,retiro,actRecargosRetiro,cesantiaVejezPatronal,cesantiaVejezObrera,actRecargosCyV,aportacionVoluntaria,aportacionComp,aportacionPatronal,amortizacion,actIMSS,recIMSS,actRetiro,recRetiro,actCesPat,recCesPat,actCesObr,recCesObr,cuotaExcObr,cuotaPdObr,cuotaGmpObr,cuotaIvObr,actPatIMSS,recPatIMSS,actObrIMSS,recObrIMSS,trabajadorId,anoPago,mesPago")] Pago pago)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(pago).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.resumenPagoId = new SelectList(db.ResumenPagoes, "id", "ip", pago.resumenPagoId);
-            return View(pago);
-        }
-
-        // GET: Pagos/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Pago pago = db.Pagos.Find(id);
-            if (pago == null)
-            {
-                return HttpNotFound();
-            }
-            return View(pago);
-        }
-
-        // POST: Pagos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Pago pago = db.Pagos.Find(id);
-            db.Pagos.Remove(pago);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            return View(resumenPagoModel);
         }
 
         protected override void Dispose(bool disposing)

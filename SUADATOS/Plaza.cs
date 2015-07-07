@@ -21,8 +21,8 @@ namespace SUADATOS
             this.Clientes = new HashSet<Cliente>();
             this.Grupos = new HashSet<Grupos>();
             this.Patrones = new HashSet<Patrone>();
-            this.Usuarios = new HashSet<Usuario>();
             this.Solicituds = new HashSet<Solicitud>();
+            this.Usuarios = new HashSet<Usuario>();
         }
     
         public int id { get; set; }
@@ -35,7 +35,7 @@ namespace SUADATOS
         public virtual ICollection<Cliente> Clientes { get; set; }
         public virtual ICollection<Grupos> Grupos { get; set; }
         public virtual ICollection<Patrone> Patrones { get; set; }
-        public virtual ICollection<Usuario> Usuarios { get; set; }
         public virtual ICollection<Solicitud> Solicituds { get; set; }
+        public virtual ICollection<Usuario> Usuarios { get; set; }
     }
 }

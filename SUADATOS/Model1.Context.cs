@@ -34,6 +34,7 @@ namespace SUADATOS
         public virtual DbSet<ContratosCliente> ContratosClientes { get; set; }
         public virtual DbSet<DatosAdicionalesCliente> DatosAdicionalesClientes { get; set; }
         public virtual DbSet<Departamento> Departamentos { get; set; }
+        public virtual DbSet<DetallePago> DetallePagos { get; set; }
         public virtual DbSet<Empleado> Empleados { get; set; }
         public virtual DbSet<Empresa> Empresas { get; set; }
         public virtual DbSet<EsquemasPago> EsquemasPagoes { get; set; }
@@ -49,6 +50,7 @@ namespace SUADATOS
         public virtual DbSet<Movimiento> Movimientos { get; set; }
         public virtual DbSet<MovimientosAsegurado> MovimientosAseguradoes { get; set; }
         public virtual DbSet<Municipio> Municipios { get; set; }
+        public virtual DbSet<Pago> Pagos { get; set; }
         public virtual DbSet<Pais> Paises { get; set; }
         public virtual DbSet<Parametro> Parametros { get; set; }
         public virtual DbSet<Patrone> Patrones { get; set; }
@@ -56,6 +58,8 @@ namespace SUADATOS
         public virtual DbSet<Proyecto> Proyectos { get; set; }
         public virtual DbSet<RegimenInfonavit> RegimenInfonavits { get; set; }
         public virtual DbSet<Residencia> Residencias { get; set; }
+        public virtual DbSet<RespuestaSolicitud> RespuestaSolicituds { get; set; }
+        public virtual DbSet<ResumenPago> ResumenPagoes { get; set; }
         public virtual DbSet<RoleFuncion> RoleFuncions { get; set; }
         public virtual DbSet<RoleModulo> RoleModulos { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
@@ -67,7 +71,5 @@ namespace SUADATOS
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
-        public virtual DbSet<Pago> Pagos { get; set; }
-        public virtual DbSet<ResumenPago> ResumenPagoes { get; set; }
     }
 }

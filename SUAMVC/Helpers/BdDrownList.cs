@@ -382,6 +382,30 @@ namespace SUAMVC.Helpers
             return htmlHelper.DropDownList(componenteId, listFields);
         }
 
+        public static MvcHtmlString bancosDrownList(this HtmlHelper htmlHelper, int userId, String componenteId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Banco> listBancos = (from s in db.Bancos
+                                                   orderby s.descripcion
+                                                   select s).ToList();
+
+            foreach (Banco item in listBancos)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields);
+        }
+
         /**
          * ActionImage para incluir una imagen en un link
          * 

@@ -1,0 +1,141 @@
+﻿@model SUAMVC.Models.PagosResumenModel
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+@{
+    ViewBag.Title = "UploadFiles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    var grid = new WebGrid(source: Model.detalle, rowsPerPage: 10);
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+    //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+
+    gridColumns.Add(grid.Column("periodo", "Periodo", format: @<text> @if (@item.periodo != null)
+    {  @item.periodo }</text>, canSort: true));
+    gridColumns.Add(grid.Column("nss", "IMSS", format: @<text> @if (@item.nss != null)
+    {  @item.nss }</text>, canSort: true));
+    gridColumns.Add(grid.Column("trabajador", "Nombre", format: @<text> @if (@item.trabajador != null)
+    {  @item.trabajador }</text>, canSort: true));
+    gridColumns.Add(grid.Column("diasCotizadosMes", "Dias", format: @<text> @if (@item.diasCotizadosMes != null)
+    {  @item.diasCotizadosMes }</text>, canSort: true));
+    gridColumns.Add(grid.Column("diasCotizadosMes", "Dias", format: @<text> @if (@item.diasCotizadosMes != null)
+    {  @item.diasCotizadosMes }</text>, canSort: true));
+    gridColumns.Add(grid.Column("sdi", "S.D.I.", format: @<text> @if (@item.sdi != null)
+    {  @item.sdi }</text>, canSort: true));
+    gridColumns.Add(grid.Column("diasIncapacidad", "Incapacidad", format: @<text> @if (@item.diasIncapacidad != null)
+    {  @item.diasIncapacidad }</text>, canSort: true));
+    gridColumns.Add(grid.Column("diasAusentismo", "Ausentismo", format: @<text> @if (@item.diasAusentismo != null)
+    {  @item.diasAusentismo }</text>, canSort: true));
+    gridColumns.Add(grid.Column("cuotaFija", "C.F.", format: @<text> @if (@item.cuotaFija != null)
+    {  @item.cuotaFija }</text>, canSort: true));
+    gridColumns.Add(grid.Column("cuotaExcendente", "Ex.P", format: @<text> @if (@item.cuotaExcendente != null)
+    {  @item.cuotaExcendente }</text>, canSort: true));
+    gridColumns.Add(grid.Column("gastosMedicosPensionados", "G.M.P. Pat.", format: @<text> @if (@item.gastosMedicosPensionados != null)
+    {  @item.gastosMedicosPensionados }</text>, canSort: true));
+    gridColumns.Add(grid.Column("cuotaGmpObr", "G.M.P. Obr.", format: @<text> @if (@item.cuotaGmpObr != null)
+    {  @item.cuotaGmpObr }</text>, canSort: true));
+    gridColumns.Add(grid.Column("riesgoTrabajo", "R.T.", format: @<text> @if (@item.riesgoTrabajo != null)
+    {  @item.riesgoTrabajo }</text>, canSort: true));
+    gridColumns.Add(grid.Column("invalidezVida", "I.V.P", format: @<text> @if (@item.invalidezVida != null)
+    {  @item.invalidezVida }</text>, canSort: true));
+    gridColumns.Add(grid.Column("cuotaIvObr", "I.V.O", format: @<text> @if (@item.cuotaIvObr != null)
+    {  @item.cuotaIvObr }</text>, canSort: true));
+
+
+    sb.Append(grid.GetHtml(
+columns: grid.Columns(gridColumns.ToArray()),
+tableStyle: "table table-striped tableSua"
+));
+
+    tableHtml = sb.ToString();
+}
+
+@section Menu {
+    <div>Registro de Pagos IMSS <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Detalle de Pagos IMMS
+    </div>
+    <div class="panel-body">
+
+        @using (@Html.BeginForm("UploadPDFFiles", "Movimientos", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+        {
+
+            @Html.AntiForgeryToken()
+
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="font-weight:bold;">
+                            @Language.patron:
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.pago.Patrone.registro)
+                        </td>
+                        <td colspan="2">@Html.DisplayFor(model => model.pago.Patrone.nombre)</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold; padding-top:10px">
+                            Periodo de Pago:
+                        </td>
+                        <td style="padding-top:10px">
+                            @Html.DisplayFor(model => model.pago.mes)/@Html.DisplayFor(model => model.pago.anno)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold; padding-top:10px">
+                            Fecha deposito:
+                        </td>
+                        <td style="padding-top:10px">
+                            @Html.EditorFor(model => model.pago.fechaDeposito, new { htmlAttributes = new { @class = "myDate" } })
+                        </td>
+                        <td>Banco:</td>
+                        <td>@Html.bancosDrownList(usuario.Id, "bancoId")</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <table style="width:300px;">
+                                <tr>
+                                    <th>IMSS</th>
+                                    <th>RCV</th>
+                                    <th>Infonavit</th>
+                                    <th>Total</th>
+                                </tr>
+                                <tr>
+                                    <td>@Model.pago.imss</td>
+                                    <td>@Model.pago.rcv</td>
+                                    <td>@Model.pago.infonavit</td>
+                                    <td>@Model.pago.total</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        }
+        <br />
+        <br />
+
+    </div>
+    @if (!tableHtml.IsEmpty())
+    {
+        <div id="table-container" class="table-container">
+            @Html.Raw(tableHtml)
+        </div>
+    }
+</div>
+
+<div>
+    @Html.ActionLink("Regresar", "Index", "Asegurados")
+</div>

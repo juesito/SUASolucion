@@ -16,6 +16,7 @@ namespace SUADATOS
     {
         public Concepto()
         {
+            this.RespuestaSolicituds = new HashSet<RespuestaSolicitud>();
             this.Solicituds = new HashSet<Solicitud>();
             this.Solicituds1 = new HashSet<Solicitud>();
             this.Solicituds2 = new HashSet<Solicitud>();
@@ -31,6 +32,7 @@ namespace SUADATOS
         public int usuarioId { get; set; }
     
         public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<RespuestaSolicitud> RespuestaSolicituds { get; set; }
         public virtual ICollection<Solicitud> Solicituds { get; set; }
         public virtual ICollection<Solicitud> Solicituds1 { get; set; }
         public virtual ICollection<Solicitud> Solicituds2 { get; set; }

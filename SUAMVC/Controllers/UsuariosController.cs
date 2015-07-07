@@ -51,6 +51,7 @@ namespace SUAMVC.Controllers
                                                    descripcion = s.descripcion
                                                }), "id", "descripcion");
             ViewBag.roleId = new SelectList(db.Roles, "id", "descripcion");
+            ViewBag.departamentoId = new SelectList(db.Departamentos, "id", "descripcion");
             return View();
         }
 
@@ -59,7 +60,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,nombreUsuario,contrasena,claveUsuario,email,apellidoMaterno,apellidoPaterno,estatus,fechaIngreso,roleId,plazaId")] Usuario usuario)
+        public ActionResult Create([Bind(Include = "Id,nombreUsuario,contrasena,departamentoId,claveUsuario,email,apellidoMaterno,apellidoPaterno,estatus,fechaIngreso,roleId,plazaId")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
@@ -104,6 +105,7 @@ namespace SUAMVC.Controllers
                                                   descripcion = s.descripcion
                                               }), "id", "descripcion", usuario.plazaId);
             ViewBag.roleId = new SelectList(db.Roles, "id", "descripcion", usuario.roleId);
+            ViewBag.departamentoId = new SelectList(db.Departamentos, "id", "descripcion");
             return View(usuario);
         }
 
@@ -112,7 +114,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,nombreUsuario,contrasena,claveUsuario,email,apellidoMaterno,apellidoPaterno,estatus,fechaIngreso,roleId,plazaId")] Usuario usuario)
+        public ActionResult Edit([Bind(Include = "Id,nombreUsuario,contrasena,claveUsuario,departamentoId,email,apellidoMaterno,apellidoPaterno,estatus,fechaIngreso,roleId,plazaId")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {

@@ -14,8 +14,13 @@ namespace SUADATOS
     
     public partial class Pago
     {
+        public Pago()
+        {
+            this.DetallePagos = new HashSet<DetallePago>();
+            this.ResumenPagoes = new HashSet<ResumenPago>();
+        }
+    
         public int id { get; set; }
-        public int resumenPagoId { get; set; }
         public decimal imss { get; set; }
         public decimal rcv { get; set; }
         public decimal infonavit { get; set; }
@@ -31,9 +36,14 @@ namespace SUADATOS
         public string cedulaAutodeterminacion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
+        public int patronId { get; set; }
+        public string mes { get; set; }
+        public string anno { get; set; }
     
         public virtual Banco Banco { get; set; }
-        public virtual ResumenPago ResumenPago { get; set; }
+        public virtual ICollection<DetallePago> DetallePagos { get; set; }
+        public virtual Patrone Patrone { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<ResumenPago> ResumenPagoes { get; set; }
     }
 }
