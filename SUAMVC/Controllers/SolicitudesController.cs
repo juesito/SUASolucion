@@ -306,7 +306,7 @@ namespace SUAMVC.Controllers
 
             List<WebGridColumn> gridColumns = new List<WebGridColumn>();
             gridColumns.Add(grid.Column("folioSolicitud", "Folio de Solicitud"));
-            gridColumns.Add(grid.Column("proyectoId", "Proyecto"));
+            gridColumns.Add(grid.Column("descripcion", "Proyecto"));
             gridColumns.Add(grid.Column("plazaId", "Residencia"));
             gridColumns.Add(grid.Column("fechaSolicitud", "Fecha Solicitud"));
             gridColumns.Add(grid.Column("esquemaId", "Esquema"));
