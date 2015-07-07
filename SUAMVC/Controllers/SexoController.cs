@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
+using System.Web.Helpers;
 
 namespace SUAMVC.Controllers
 {
@@ -134,6 +135,47 @@ namespace SUAMVC.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [HttpGet]
+        public void GetExcel(String sexoId)
+        {
+
+                    
+            //traigo de la base de datos Sexo los registros
+            var generos = from s in db.Sexos
+                           select s;
+
+            //Valida que la variable no sea nula
+            if (!String.IsNullOrEmpty(sexoId))
+            {
+               //Convierte la variable de string a entero
+                int sexoIdTemp = int.Parse(sexoId);
+                generos = generos.Where(p => p.id.Equals(sexoIdTemp));
+            }
+
+            List<Sexo> allCust = new List<Sexo>();
+
+            allCust = generos.ToList();
+
+            WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
+
+            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
+            gridColumns.Add(grid.Column("descripcion", "Descripcion"));
+            gridColumns.Add(grid.Column("fechaCreacion", "Fecha Alta"));
+            gridColumns.Add(grid.Column("Usuario.nombreUsuario", "Usuario Alta"));
+           
+            string gridData = grid.GetHtml(
+                columns: grid.Columns(gridColumns.ToArray())
+                    ).ToString();
+
+            Response.ClearContent();
+            DateTime date = DateTime.Now;
+            String fileName = "Generos" + date.ToString("ddMMyyyyHHmm") + ".xls";
+            Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+            Response.ContentType = "application/excel";
+            Response.Write(gridData);
+            Response.End();
         }
     }
 }

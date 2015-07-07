@@ -408,6 +408,7 @@
     <Compile Include="Controllers\MunicipiosController.cs" />
     <Compile Include="Controllers\PagosController.cs" />
     <Compile Include="Controllers\PaisController.cs" />
+    <Compile Include="Controllers\PanelSolicitudController.cs" />
     <Compile Include="Controllers\ParametrosController.cs" />
     <Compile Include="Controllers\PatronesController.cs" />
     <Compile Include="Controllers\PlazasController.cs" />
@@ -631,6 +632,11 @@
     <Content Include="Views\Empleados\CargarEmpleadosPorExcel.cshtml" />
     <Content Include="Views\Empleados\Index.cshtml" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
+    <Content Include="Views\PanelSolicitud\Create.cshtml" />
+    <Content Include="Views\PanelSolicitud\Delete.cshtml" />
+    <Content Include="Views\PanelSolicitud\Details.cshtml" />
+    <Content Include="Views\PanelSolicitud\Edit.cshtml" />
+    <Content Include="Views\PanelSolicitud\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

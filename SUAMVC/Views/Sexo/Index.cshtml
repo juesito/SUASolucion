@@ -15,6 +15,10 @@
 
 <p>
     @Html.ActionLink(@Language.agregar + " " + @Language.sexo, "Create", "Sexo", new { @class = "btn btn-success" })
+
+    <a href="@Url.Action("GetExcel", "Sexo")" style="text-align:right">
+        <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="30" height="30" />
+    </a>
 </p>
 
 <table class="table table-striped tableSua">

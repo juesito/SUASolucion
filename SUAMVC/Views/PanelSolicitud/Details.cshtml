@@ -1,0 +1,243 @@
+﻿@model SUADATOS.Solicitud
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Solicitud</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.folioSolicitud)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.folioSolicitud)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaSolicitud)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaSolicitud)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaTerminoContrato)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaTerminoContrato)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaInicial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaInicial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaFinal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaFinal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaBaja)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaBaja)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaModificacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaModificacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.solicita)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.solicita)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.valida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.valida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.autoriza)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.autoriza)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.noTrabajadores)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.noTrabajadores)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.observaciones)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.observaciones)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaEnvio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaEnvio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conceptoBaja)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conceptoBaja)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente.claveCliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.claveCliente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Concepto.grupo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Concepto.grupo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Concepto1.grupo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Concepto1.grupo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Concepto2.grupo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Concepto2.grupo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Concepto3.grupo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Concepto3.grupo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Concepto4.grupo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Concepto4.grupo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Concepto5.grupo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Concepto5.grupo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EsquemasPago.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EsquemasPago.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Plaza.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plaza.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Proyecto.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Proyecto.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SDI.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SDI.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoContrato.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoContrato.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoPersonal.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoPersonal.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usuario.nombreUsuario)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

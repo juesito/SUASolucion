@@ -11,6 +11,7 @@ using System.Data.Entity.Validation;
 using System.Text;
 using SUAMVC.Helpers;
 using SUAMVC.Models;
+using System.Web.Helpers;
 
 namespace SUAMVC.Controllers
 {
@@ -280,5 +281,61 @@ namespace SUAMVC.Controllers
             }
             base.Dispose(disposing);
         }
+
+        [HttpGet]
+        public void GetExcel(string solicitudId)
+        {
+
+            //traigo de la base de datos Solicitudes los registros
+
+            var solicitudes = from s in db.Solicituds
+                             select s;
+
+            //Valida que la variable no sea nula
+            if (!String.IsNullOrEmpty(solicitudId))
+            {
+                int solicitudIdTemp = int.Parse(solicitudId);
+                solicitudes = solicitudes.Where(s => s.id.Equals(solicitudIdTemp));
+            }
+
+            List<Solicitud> allCust = new List<Solicitud>();
+
+            allCust = solicitudes.ToList();
+
+            WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
+
+            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
+            gridColumns.Add(grid.Column("folioSolicitud", "Folio de Solicitud"));
+            gridColumns.Add(grid.Column("proyectoId", "Proyecto"));
+            gridColumns.Add(grid.Column("plazaId", "Residencia"));
+            gridColumns.Add(grid.Column("fechaSolicitud", "Fecha Solicitud"));
+            gridColumns.Add(grid.Column("esquemaId", "Esquema"));
+            gridColumns.Add(grid.Column("sdiId", "SDI"));
+            gridColumns.Add(grid.Column("contratoId", "Tipo de Contrato"));
+            gridColumns.Add(grid.Column("tipoPersonalId", "Tipo de Personal"));
+            gridColumns.Add(grid.Column("fechaInicial", "Fecha Inicial"));
+            gridColumns.Add(grid.Column("fechaFinal", "Fecha Final"));
+            gridColumns.Add(grid.Column("solicita", "Solicita"));
+            gridColumns.Add(grid.Column("observaciones", "Observaciones"));
+            gridColumns.Add(grid.Column("noTrabajadores", "N° Trabajadores"));
+            gridColumns.Add(grid.Column("estatusSolicitud", "Estatus Solicitud"));
+            gridColumns.Add(grid.Column("estatusNomina", "Estatus Nom."));
+            gridColumns.Add(grid.Column("estatusAfiliado", "Estatus Juri."));
+            gridColumns.Add(grid.Column("estatusJuridico", "Estatus Afil."));
+            gridColumns.Add(grid.Column("estatusTarjeta", "Estatus Tarj."));
+
+            string gridData = grid.GetHtml(
+                columns: grid.Columns(gridColumns.ToArray())
+                    ).ToString();
+
+            Response.ClearContent();
+            DateTime date = DateTime.Now;
+            String fileName = "Solicitudes" + date.ToString("ddMMyyyyHHmm") + ".xls";
+            Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+            Response.ContentType = "application/excel";
+            Response.Write(gridData);
+            Response.End();
+        }
+
     }
 }
