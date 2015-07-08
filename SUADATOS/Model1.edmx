@@ -144,7 +144,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="ContratosCliente">
+        <EntityType Name="ContratosClientes">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -167,7 +167,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="DatosAdicionalesCliente">
+        <EntityType Name="DatosAdicionalesClientes">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -259,7 +259,7 @@
           <Property Name="solicitudId" Type="int" Nullable="false" />
           <Property Name="folioEmpleado" Type="nchar" MaxLength="30" />
           <Property Name="nss" Type="nchar" MaxLength="12" />
-          <Property Name="fechaAltaImss" Type="date" />
+          <Property Name="fechaAltaImss" Type="datetime" />
           <Property Name="apellidoMaterno" Type="nchar" MaxLength="60" Nullable="false" />
           <Property Name="apellidoPaterno" Type="nchar" MaxLength="60" Nullable="false" />
           <Property Name="nombre" Type="nchar" MaxLength="60" Nullable="false" />
@@ -275,7 +275,7 @@
           <Property Name="tieneInfonavit" Type="int" Nullable="false" />
           <Property Name="creditoInfonavit" Type="nchar" MaxLength="20" />
           <Property Name="estadoCivilId" Type="int" Nullable="false" />
-          <Property Name="fechaNacimiento" Type="date" Nullable="false" />
+          <Property Name="fechaNacimiento" Type="datetime" Nullable="false" />
           <Property Name="nacionalidadId" Type="int" Nullable="false" />
           <Property Name="estadoNacimientoId" Type="int" Nullable="false" />
           <Property Name="municipioNacimientoId" Type="int" Nullable="false" />
@@ -305,7 +305,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="EsquemasPago">
+        <EntityType Name="EsquemasPagoes">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -314,7 +314,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="EstadoCivil">
+        <EntityType Name="EstadoCivils">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -329,7 +329,6 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="paisId" Type="int" Nullable="false" />
-          <Property Name="entidad" Type="nchar" MaxLength="5" />
           <Property Name="descripcion" Type="nchar" MaxLength="100" />
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
@@ -410,7 +409,7 @@
           <Property Name="tipoIncapacidad" Type="nchar" MaxLength="1" />
           <Property Name="alta" Type="nchar" MaxLength="60" />
         </EntityType>
-        <EntityType Name="ListaValidacionCliente">
+        <EntityType Name="ListaValidacionClientes">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -469,13 +468,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="paisId" Type="int" Nullable="false" />
           <Property Name="estadoId" Type="int" Nullable="false" />
-          <Property Name="entidad" Type="nchar" MaxLength="3" />
-          <Property Name="municipio" Type="nchar" MaxLength="5" />
           <Property Name="descripcion" Type="nchar" MaxLength="100" />
-          <Property Name="tipo" Type="nchar" MaxLength="1" />
-          <Property Name="nomTipo" Type="nchar" MaxLength="200" />
-          <Property Name="region" Type="nchar" MaxLength="200" />
-          <Property Name="gradoMarginacion" Type="nchar" MaxLength="15" />
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
@@ -509,7 +502,6 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="descripcion" Type="nchar" MaxLength="100" />
-          <Property Name="clavePais" Type="nchar" MaxLength="5" />
           <Property Name="naturalez" Type="nchar" MaxLength="1" />
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
@@ -576,7 +568,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="RegimenInfonavit">
+        <EntityType Name="RegimenInfonavits">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -585,7 +577,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Residencia">
+        <EntityType Name="Residencias">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -709,8 +701,8 @@
           <Property Name="fechaTerminoContrato" Type="datetime" />
           <Property Name="fechaInicial" Type="datetime" />
           <Property Name="fechaFinal" Type="datetime" />
-          <Property Name="fechaModificacion" Type="datetime" />
           <Property Name="fechaBaja" Type="datetime" />
+          <Property Name="fechaModificacion" Type="datetime" />
           <Property Name="tipoPersonalId" Type="int" />
           <Property Name="solicita" Type="nchar" MaxLength="60" />
           <Property Name="valida" Type="nchar" MaxLength="60" />
@@ -728,7 +720,7 @@
           <Property Name="tipoSolicitud" Type="int" Nullable="false" />
           <Property Name="conceptoBaja" Type="int" />
         </EntityType>
-        <EntityType Name="TipoContrato">
+        <EntityType Name="TipoContratoes">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -737,7 +729,7 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="TipoPersonal">
+        <EntityType Name="TipoPersonals">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -772,7 +764,6 @@
           <Property Name="fechaIngreso" Type="datetime" Nullable="false" />
           <Property Name="roleId" Type="int" Nullable="false" />
           <Property Name="plazaId" Type="int" Nullable="false" />
-          <Property Name="departamentoId" Type="int" />
         </EntityType>
         <Association Name="FK_Acreditados_Acreditados">
           <End Role="Acreditados" Type="Self.Acreditados" Multiplicity="1" />
@@ -836,48 +827,48 @@
         </Association>
         <Association Name="FK_ContratosCliente_Clientes">
           <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
-          <End Role="ContratosCliente" Type="Self.ContratosCliente" Multiplicity="*" />
+          <End Role="ContratosClientes" Type="Self.ContratosClientes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Clientes">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ContratosCliente">
+            <Dependent Role="ContratosClientes">
               <PropertyRef Name="clienteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ContratosCliente_Usuarios">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="ContratosCliente" Type="Self.ContratosCliente" Multiplicity="*" />
+          <End Role="ContratosClientes" Type="Self.ContratosClientes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ContratosCliente">
+            <Dependent Role="ContratosClientes">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DatosAdicionalesCliente_Clientes">
           <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
-          <End Role="DatosAdicionalesCliente" Type="Self.DatosAdicionalesCliente" Multiplicity="*" />
+          <End Role="DatosAdicionalesClientes" Type="Self.DatosAdicionalesClientes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Clientes">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="DatosAdicionalesCliente">
+            <Dependent Role="DatosAdicionalesClientes">
               <PropertyRef Name="clienteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DatosAdicionalesCliente_Usuarios">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="DatosAdicionalesCliente" Type="Self.DatosAdicionalesCliente" Multiplicity="*" />
+          <End Role="DatosAdicionalesClientes" Type="Self.DatosAdicionalesClientes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="DatosAdicionalesCliente">
+            <Dependent Role="DatosAdicionalesClientes">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
@@ -943,10 +934,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Empleados_EsquemasPago">
-          <End Role="EsquemasPago" Type="Self.EsquemasPago" Multiplicity="1" />
+          <End Role="EsquemasPagoes" Type="Self.EsquemasPagoes" Multiplicity="1" />
           <End Role="Empleados" Type="Self.Empleados" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EsquemasPago">
+            <Principal Role="EsquemasPagoes">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Empleados">
@@ -955,10 +946,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Empleados_EstadoCivil">
-          <End Role="EstadoCivil" Type="Self.EstadoCivil" Multiplicity="1" />
+          <End Role="EstadoCivils" Type="Self.EstadoCivils" Multiplicity="1" />
           <End Role="Empleados" Type="Self.Empleados" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EstadoCivil">
+            <Principal Role="EstadoCivils">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Empleados">
@@ -1064,24 +1055,24 @@
         </Association>
         <Association Name="FK_EsquemasPago_EsquemasPago">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="EsquemasPago" Type="Self.EsquemasPago" Multiplicity="*" />
+          <End Role="EsquemasPagoes" Type="Self.EsquemasPagoes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="EsquemasPago">
+            <Dependent Role="EsquemasPagoes">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EstadoCivil_EstadoCivil">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="EstadoCivil" Type="Self.EstadoCivil" Multiplicity="*" />
+          <End Role="EstadoCivils" Type="Self.EstadoCivils" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="EstadoCivil">
+            <Dependent Role="EstadoCivils">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1172,24 +1163,24 @@
         </Association>
         <Association Name="FK_ListaValidacionCliente_Clientes">
           <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
-          <End Role="ListaValidacionCliente" Type="Self.ListaValidacionCliente" Multiplicity="*" />
+          <End Role="ListaValidacionClientes" Type="Self.ListaValidacionClientes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Clientes">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ListaValidacionCliente">
+            <Dependent Role="ListaValidacionClientes">
               <PropertyRef Name="clienteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ListaValidacionCliente_Usuarios">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="ListaValidacionCliente" Type="Self.ListaValidacionCliente" Multiplicity="*" />
+          <End Role="ListaValidacionClientes" Type="Self.ListaValidacionClientes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ListaValidacionCliente">
+            <Dependent Role="ListaValidacionClientes">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1447,10 +1438,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Proyectos_EsquemasPago">
-          <End Role="EsquemasPago" Type="Self.EsquemasPago" Multiplicity="0..1" />
+          <End Role="EsquemasPagoes" Type="Self.EsquemasPagoes" Multiplicity="0..1" />
           <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EsquemasPago">
+            <Principal Role="EsquemasPagoes">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Solicitud">
@@ -1471,10 +1462,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Proyectos_TipoContrato">
-          <End Role="TipoContrato" Type="Self.TipoContrato" Multiplicity="0..1" />
+          <End Role="TipoContratoes" Type="Self.TipoContratoes" Multiplicity="0..1" />
           <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TipoContrato">
+            <Principal Role="TipoContratoes">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Solicitud">
@@ -1483,10 +1474,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Proyectos_TipoPersonal">
-          <End Role="TipoPersonal" Type="Self.TipoPersonal" Multiplicity="0..1" />
+          <End Role="TipoPersonals" Type="Self.TipoPersonals" Multiplicity="0..1" />
           <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TipoPersonal">
+            <Principal Role="TipoPersonals">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Solicitud">
@@ -1508,24 +1499,24 @@
         </Association>
         <Association Name="FK_RegimenInfonavit_RegimenInfonavit">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="RegimenInfonavit" Type="Self.RegimenInfonavit" Multiplicity="*" />
+          <End Role="RegimenInfonavits" Type="Self.RegimenInfonavits" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="RegimenInfonavit">
+            <Dependent Role="RegimenInfonavits">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Residencia_Residencia">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="Residencia" Type="Self.Residencia" Multiplicity="*" />
+          <End Role="Residencias" Type="Self.Residencias" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Residencia">
+            <Dependent Role="Residencias">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1554,15 +1545,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RespuestaSolicitud_RespuestaSolicitud">
+        <Association Name="FK_RespuestaSolicitud_Solicitud">
           <End Role="Solicitud" Type="Self.Solicitud" Multiplicity="1" />
-          <End Role="RespuestaSolicitud" Type="Self.RespuestaSolicitud" Multiplicity="0..1" />
+          <End Role="RespuestaSolicitud" Type="Self.RespuestaSolicitud" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Solicitud">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="RespuestaSolicitud">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="solicitudId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1820,24 +1811,24 @@
         </Association>
         <Association Name="FK_TipoContrato_TipoContrato">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="TipoContrato" Type="Self.TipoContrato" Multiplicity="*" />
+          <End Role="TipoContratoes" Type="Self.TipoContratoes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="TipoContrato">
+            <Dependent Role="TipoContratoes">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TipoPersonal_TipoPersonal">
           <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="TipoPersonal" Type="Self.TipoPersonal" Multiplicity="*" />
+          <End Role="TipoPersonals" Type="Self.TipoPersonals" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuarios">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="TipoPersonal">
+            <Dependent Role="TipoPersonals">
               <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1863,18 +1854,6 @@
             </Principal>
             <Dependent Role="TopicosUsuarios">
               <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Usuarios_Departamentos">
-          <End Role="Departamentos" Type="Self.Departamentos" Multiplicity="0..1" />
-          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Departamentos">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Usuarios">
-              <PropertyRef Name="departamentoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1909,21 +1888,21 @@
           <EntitySet Name="catalogoMovimientos" EntityType="Self.catalogoMovimientos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Conceptos" EntityType="Self.Conceptos" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ContratosCliente" EntityType="Self.ContratosCliente" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DatosAdicionalesCliente" EntityType="Self.DatosAdicionalesCliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContratosClientes" EntityType="Self.ContratosClientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DatosAdicionalesClientes" EntityType="Self.DatosAdicionalesClientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departamentos" EntityType="Self.Departamentos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetallePagos" EntityType="Self.DetallePagos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empleados" EntityType="Self.Empleados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empresas" EntityType="Self.Empresas" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="EsquemasPago" EntityType="Self.EsquemasPago" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="EstadoCivil" EntityType="Self.EstadoCivil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EsquemasPagoes" EntityType="Self.EsquemasPagoes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstadoCivils" EntityType="Self.EstadoCivils" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estados" EntityType="Self.Estados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Factores" EntityType="Self.Factores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Funcions" EntityType="Self.Funcions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Giros" EntityType="Self.Giros" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grupos" EntityType="Self.Grupos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Incapacidades" EntityType="Self.Incapacidades" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ListaValidacionCliente" EntityType="Self.ListaValidacionCliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListaValidacionClientes" EntityType="Self.ListaValidacionClientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Modulos" EntityType="Self.Modulos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Movimientos" EntityType="Self.Movimientos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MovimientosAseguradoes" EntityType="Self.MovimientosAseguradoes" Schema="dbo" store:Type="Tables" />
@@ -1934,8 +1913,8 @@
           <EntitySet Name="Patrones" EntityType="Self.Patrones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Plazas" EntityType="Self.Plazas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyectos" EntityType="Self.Proyectos" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="RegimenInfonavit" EntityType="Self.RegimenInfonavit" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Residencia" EntityType="Self.Residencia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegimenInfonavits" EntityType="Self.RegimenInfonavits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Residencias" EntityType="Self.Residencias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RespuestaSolicitud" EntityType="Self.RespuestaSolicitud" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ResumenPago" EntityType="Self.ResumenPago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoleFuncions" EntityType="Self.RoleFuncions" Schema="dbo" store:Type="Tables" />
@@ -1945,8 +1924,8 @@
           <EntitySet Name="Servicios" EntityType="Self.Servicios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sexos" EntityType="Self.Sexos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Solicitud" EntityType="Self.Solicitud" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TipoContrato" EntityType="Self.TipoContrato" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TipoPersonal" EntityType="Self.TipoPersonal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoContratoes" EntityType="Self.TipoContratoes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoPersonals" EntityType="Self.TipoPersonals" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TopicosUsuarios" EntityType="Self.TopicosUsuarios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Acreditados_Acreditados" Association="Self.FK_Acreditados_Acreditados">
@@ -1971,19 +1950,19 @@
           </AssociationSet>
           <AssociationSet Name="FK_ContratosCliente_Clientes" Association="Self.FK_ContratosCliente_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
-            <End Role="ContratosCliente" EntitySet="ContratosCliente" />
+            <End Role="ContratosClientes" EntitySet="ContratosClientes" />
           </AssociationSet>
           <AssociationSet Name="FK_ContratosCliente_Usuarios" Association="Self.FK_ContratosCliente_Usuarios">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="ContratosCliente" EntitySet="ContratosCliente" />
+            <End Role="ContratosClientes" EntitySet="ContratosClientes" />
           </AssociationSet>
           <AssociationSet Name="FK_DatosAdicionalesCliente_Clientes" Association="Self.FK_DatosAdicionalesCliente_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
-            <End Role="DatosAdicionalesCliente" EntitySet="DatosAdicionalesCliente" />
+            <End Role="DatosAdicionalesClientes" EntitySet="DatosAdicionalesClientes" />
           </AssociationSet>
           <AssociationSet Name="FK_DatosAdicionalesCliente_Usuarios" Association="Self.FK_DatosAdicionalesCliente_Usuarios">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="DatosAdicionalesCliente" EntitySet="DatosAdicionalesCliente" />
+            <End Role="DatosAdicionalesClientes" EntitySet="DatosAdicionalesClientes" />
           </AssociationSet>
           <AssociationSet Name="FK_Departamentos_Departamentos" Association="Self.FK_Departamentos_Departamentos">
             <End Role="Usuarios" EntitySet="Usuarios" />
@@ -2006,11 +1985,11 @@
             <End Role="Empleados" EntitySet="Empleados" />
           </AssociationSet>
           <AssociationSet Name="FK_Empleados_EsquemasPago" Association="Self.FK_Empleados_EsquemasPago">
-            <End Role="EsquemasPago" EntitySet="EsquemasPago" />
+            <End Role="EsquemasPagoes" EntitySet="EsquemasPagoes" />
             <End Role="Empleados" EntitySet="Empleados" />
           </AssociationSet>
           <AssociationSet Name="FK_Empleados_EstadoCivil" Association="Self.FK_Empleados_EstadoCivil">
-            <End Role="EstadoCivil" EntitySet="EstadoCivil" />
+            <End Role="EstadoCivils" EntitySet="EstadoCivils" />
             <End Role="Empleados" EntitySet="Empleados" />
           </AssociationSet>
           <AssociationSet Name="FK_Empleados_Estados" Association="Self.FK_Empleados_Estados">
@@ -2047,11 +2026,11 @@
           </AssociationSet>
           <AssociationSet Name="FK_EsquemasPago_EsquemasPago" Association="Self.FK_EsquemasPago_EsquemasPago">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="EsquemasPago" EntitySet="EsquemasPago" />
+            <End Role="EsquemasPagoes" EntitySet="EsquemasPagoes" />
           </AssociationSet>
           <AssociationSet Name="FK_EstadoCivil_EstadoCivil" Association="Self.FK_EstadoCivil_EstadoCivil">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="EstadoCivil" EntitySet="EstadoCivil" />
+            <End Role="EstadoCivils" EntitySet="EstadoCivils" />
           </AssociationSet>
           <AssociationSet Name="FK_Estados_Paises" Association="Self.FK_Estados_Paises">
             <End Role="Paises" EntitySet="Paises" />
@@ -2083,11 +2062,11 @@
           </AssociationSet>
           <AssociationSet Name="FK_ListaValidacionCliente_Clientes" Association="Self.FK_ListaValidacionCliente_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
-            <End Role="ListaValidacionCliente" EntitySet="ListaValidacionCliente" />
+            <End Role="ListaValidacionClientes" EntitySet="ListaValidacionClientes" />
           </AssociationSet>
           <AssociationSet Name="FK_ListaValidacionCliente_Usuarios" Association="Self.FK_ListaValidacionCliente_Usuarios">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="ListaValidacionCliente" EntitySet="ListaValidacionCliente" />
+            <End Role="ListaValidacionClientes" EntitySet="ListaValidacionClientes" />
           </AssociationSet>
           <AssociationSet Name="FK_Movimientos_Acreditados" Association="Self.FK_Movimientos_Acreditados">
             <End Role="Acreditados" EntitySet="Acreditados" />
@@ -2174,7 +2153,7 @@
             <End Role="Proyectos" EntitySet="Proyectos" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_EsquemasPago" Association="Self.FK_Proyectos_EsquemasPago">
-            <End Role="EsquemasPago" EntitySet="EsquemasPago" />
+            <End Role="EsquemasPagoes" EntitySet="EsquemasPagoes" />
             <End Role="Solicitud" EntitySet="Solicitud" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_SDIs" Association="Self.FK_Proyectos_SDIs">
@@ -2182,11 +2161,11 @@
             <End Role="Solicitud" EntitySet="Solicitud" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_TipoContrato" Association="Self.FK_Proyectos_TipoContrato">
-            <End Role="TipoContrato" EntitySet="TipoContrato" />
+            <End Role="TipoContratoes" EntitySet="TipoContratoes" />
             <End Role="Solicitud" EntitySet="Solicitud" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_TipoPersonal" Association="Self.FK_Proyectos_TipoPersonal">
-            <End Role="TipoPersonal" EntitySet="TipoPersonal" />
+            <End Role="TipoPersonals" EntitySet="TipoPersonals" />
             <End Role="Solicitud" EntitySet="Solicitud" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_Usuarios" Association="Self.FK_Proyectos_Usuarios">
@@ -2195,11 +2174,11 @@
           </AssociationSet>
           <AssociationSet Name="FK_RegimenInfonavit_RegimenInfonavit" Association="Self.FK_RegimenInfonavit_RegimenInfonavit">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="RegimenInfonavit" EntitySet="RegimenInfonavit" />
+            <End Role="RegimenInfonavits" EntitySet="RegimenInfonavits" />
           </AssociationSet>
           <AssociationSet Name="FK_Residencia_Residencia" Association="Self.FK_Residencia_Residencia">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="Residencia" EntitySet="Residencia" />
+            <End Role="Residencias" EntitySet="Residencias" />
           </AssociationSet>
           <AssociationSet Name="FK_RespuestaSolicitud_Conceptos" Association="Self.FK_RespuestaSolicitud_Conceptos">
             <End Role="Conceptos" EntitySet="Conceptos" />
@@ -2209,7 +2188,7 @@
             <End Role="Departamentos" EntitySet="Departamentos" />
             <End Role="RespuestaSolicitud" EntitySet="RespuestaSolicitud" />
           </AssociationSet>
-          <AssociationSet Name="FK_RespuestaSolicitud_RespuestaSolicitud" Association="Self.FK_RespuestaSolicitud_RespuestaSolicitud">
+          <AssociationSet Name="FK_RespuestaSolicitud_Solicitud" Association="Self.FK_RespuestaSolicitud_Solicitud">
             <End Role="Solicitud" EntitySet="Solicitud" />
             <End Role="RespuestaSolicitud" EntitySet="RespuestaSolicitud" />
           </AssociationSet>
@@ -2299,11 +2278,11 @@
           </AssociationSet>
           <AssociationSet Name="FK_TipoContrato_TipoContrato" Association="Self.FK_TipoContrato_TipoContrato">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="TipoContrato" EntitySet="TipoContrato" />
+            <End Role="TipoContratoes" EntitySet="TipoContratoes" />
           </AssociationSet>
           <AssociationSet Name="FK_TipoPersonal_TipoPersonal" Association="Self.FK_TipoPersonal_TipoPersonal">
             <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="TipoPersonal" EntitySet="TipoPersonal" />
+            <End Role="TipoPersonals" EntitySet="TipoPersonals" />
           </AssociationSet>
           <AssociationSet Name="FK_TopicosUsuario_Usuario" Association="Self.FK_TopicosUsuario_Usuario">
             <End Role="Usuarios" EntitySet="Usuarios" />
@@ -2312,10 +2291,6 @@
           <AssociationSet Name="FK_TopicosUsuario_Usuario2" Association="Self.FK_TopicosUsuario_Usuario2">
             <End Role="Usuarios" EntitySet="Usuarios" />
             <End Role="TopicosUsuarios" EntitySet="TopicosUsuarios" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Usuarios_Departamentos" Association="Self.FK_Usuarios_Departamentos">
-            <End Role="Departamentos" EntitySet="Departamentos" />
-            <End Role="Usuarios" EntitySet="Usuarios" />
           </AssociationSet>
           <AssociationSet Name="FK_Usuarios_Plazas" Association="Self.FK_Usuarios_Plazas">
             <End Role="Plazas" EntitySet="Plazas" />
@@ -2517,10 +2492,6 @@
             <End Role="Departamento" EntitySet="Departamentos" />
             <End Role="RespuestaSolicitud" EntitySet="RespuestaSolicituds" />
           </AssociationSet>
-          <AssociationSet Name="FK_Usuarios_Departamentos" Association="suaModel.FK_Usuarios_Departamentos">
-            <End Role="Departamento" EntitySet="Departamentos" />
-            <End Role="Usuario" EntitySet="Usuarios" />
-          </AssociationSet>
           <AssociationSet Name="FK_detallePagos_Pagos" Association="suaModel.FK_detallePagos_Pagos">
             <End Role="Pago" EntitySet="Pagos" />
             <End Role="DetallePago" EntitySet="DetallePagos" />
@@ -2677,7 +2648,7 @@
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="Residencia" EntitySet="Residencias" />
           </AssociationSet>
-          <AssociationSet Name="FK_RespuestaSolicitud_RespuestaSolicitud" Association="suaModel.FK_RespuestaSolicitud_RespuestaSolicitud">
+          <AssociationSet Name="FK_RespuestaSolicitud_Solicitud" Association="suaModel.FK_RespuestaSolicitud_Solicitud">
             <End Role="Solicitud" EntitySet="Solicituds" />
             <End Role="RespuestaSolicitud" EntitySet="RespuestaSolicituds" />
           </AssociationSet>
@@ -2981,7 +2952,6 @@
           <Property Name="usuarioId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Departamentos_Departamentos" FromRole="Departamento" ToRole="Usuario" />
           <NavigationProperty Name="RespuestaSolicituds" Relationship="suaModel.FK_RespuestaSolicitud_Departamentos" FromRole="Departamento" ToRole="RespuestaSolicitud" />
-          <NavigationProperty Name="Usuarios" Relationship="suaModel.FK_Usuarios_Departamentos" FromRole="Departamento" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="DetallePago">
           <Key>
@@ -3051,7 +3021,7 @@
           <Property Name="solicitudId" Type="Int32" Nullable="false" />
           <Property Name="folioEmpleado" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
           <Property Name="nss" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
-          <Property Name="fechaAltaImss" Type="DateTime" Precision="0" />
+          <Property Name="fechaAltaImss" Type="DateTime" Precision="3" />
           <Property Name="apellidoMaterno" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
           <Property Name="apellidoPaterno" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
           <Property Name="nombre" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="true" />
@@ -3067,7 +3037,7 @@
           <Property Name="tieneInfonavit" Type="Int32" Nullable="false" />
           <Property Name="creditoInfonavit" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
           <Property Name="estadoCivilId" Type="Int32" Nullable="false" />
-          <Property Name="fechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fechaNacimiento" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="nacionalidadId" Type="Int32" Nullable="false" />
           <Property Name="estadoNacimientoId" Type="Int32" Nullable="false" />
           <Property Name="municipioNacimientoId" Type="Int32" Nullable="false" />
@@ -3138,7 +3108,6 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="paisId" Type="Int32" Nullable="false" />
-          <Property Name="entidad" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
           <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="usuarioId" Type="Int32" Nullable="false" />
@@ -3299,13 +3268,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="paisId" Type="Int32" Nullable="false" />
           <Property Name="estadoId" Type="Int32" Nullable="false" />
-          <Property Name="entidad" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
-          <Property Name="municipio1" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
           <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="tipo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="nomTipo" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
-          <Property Name="region" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
-          <Property Name="gradoMarginacion" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
           <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="usuarioId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Empleados" Relationship="suaModel.FK_Empleados_Municipios" FromRole="Municipio" ToRole="Empleado" />
@@ -3348,7 +3311,6 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="clavePais" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
           <Property Name="naturalez" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="usuarioId" Type="Int32" Nullable="false" />
@@ -3466,7 +3428,7 @@
           <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Concepto" Relationship="suaModel.FK_RespuestaSolicitud_Conceptos" FromRole="RespuestaSolicitud" ToRole="Concepto" />
           <NavigationProperty Name="Departamento" Relationship="suaModel.FK_RespuestaSolicitud_Departamentos" FromRole="RespuestaSolicitud" ToRole="Departamento" />
-          <NavigationProperty Name="Solicitud" Relationship="suaModel.FK_RespuestaSolicitud_RespuestaSolicitud" FromRole="RespuestaSolicitud" ToRole="Solicitud" />
+          <NavigationProperty Name="Solicitud" Relationship="suaModel.FK_RespuestaSolicitud_Solicitud" FromRole="RespuestaSolicitud" ToRole="Solicitud" />
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_RespuestaSolicitud_Usuarios" FromRole="RespuestaSolicitud" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="ResumenPago">
@@ -3590,8 +3552,8 @@
           <Property Name="fechaTerminoContrato" Type="DateTime" Precision="3" />
           <Property Name="fechaInicial" Type="DateTime" Precision="3" />
           <Property Name="fechaFinal" Type="DateTime" Precision="3" />
-          <Property Name="fechaModificacion" Type="DateTime" Precision="3" />
           <Property Name="fechaBaja" Type="DateTime" Precision="3" />
+          <Property Name="fechaModificacion" Type="DateTime" Precision="3" />
           <Property Name="tipoPersonalId" Type="Int32" />
           <Property Name="solicita" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
           <Property Name="valida" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
@@ -3619,7 +3581,7 @@
           <NavigationProperty Name="EsquemasPago" Relationship="suaModel.FK_Proyectos_EsquemasPago" FromRole="Solicitud" ToRole="EsquemasPago" />
           <NavigationProperty Name="Plaza" Relationship="suaModel.FK_Solicitud_Plazas" FromRole="Solicitud" ToRole="Plaza" />
           <NavigationProperty Name="Proyecto" Relationship="suaModel.FK_Solicitud_Proyectos" FromRole="Solicitud" ToRole="Proyecto" />
-          <NavigationProperty Name="RespuestaSolicitud" Relationship="suaModel.FK_RespuestaSolicitud_RespuestaSolicitud" FromRole="Solicitud" ToRole="RespuestaSolicitud" />
+          <NavigationProperty Name="RespuestaSolicituds" Relationship="suaModel.FK_RespuestaSolicitud_Solicitud" FromRole="Solicitud" ToRole="RespuestaSolicitud" />
           <NavigationProperty Name="SDI" Relationship="suaModel.FK_Proyectos_SDIs" FromRole="Solicitud" ToRole="SDI" />
           <NavigationProperty Name="TipoContrato" Relationship="suaModel.FK_Proyectos_TipoContrato" FromRole="Solicitud" ToRole="TipoContrato" />
           <NavigationProperty Name="TipoPersonal" Relationship="suaModel.FK_Proyectos_TipoPersonal" FromRole="Solicitud" ToRole="TipoPersonal" />
@@ -3675,13 +3637,11 @@
           <Property Name="fechaIngreso" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="roleId" Type="Int32" Nullable="false" />
           <Property Name="plazaId" Type="Int32" Nullable="false" />
-          <Property Name="departamentoId" Type="Int32" />
           <NavigationProperty Name="Bancos" Relationship="suaModel.FK_Bancos_Bancos" FromRole="Usuario" ToRole="Banco" />
           <NavigationProperty Name="Conceptos" Relationship="suaModel.FK_Conceptos_Usuarios" FromRole="Usuario" ToRole="Concepto" />
           <NavigationProperty Name="ContratosClientes" Relationship="suaModel.FK_ContratosCliente_Usuarios" FromRole="Usuario" ToRole="ContratosCliente" />
           <NavigationProperty Name="DatosAdicionalesClientes" Relationship="suaModel.FK_DatosAdicionalesCliente_Usuarios" FromRole="Usuario" ToRole="DatosAdicionalesCliente" />
           <NavigationProperty Name="Departamentos" Relationship="suaModel.FK_Departamentos_Departamentos" FromRole="Usuario" ToRole="Departamento" />
-          <NavigationProperty Name="Departamento" Relationship="suaModel.FK_Usuarios_Departamentos" FromRole="Usuario" ToRole="Departamento" />
           <NavigationProperty Name="DetallePagos" Relationship="suaModel.FK_detallePagos_Usuarios" FromRole="Usuario" ToRole="DetallePago" />
           <NavigationProperty Name="Empleados" Relationship="suaModel.FK_Empleados_Usuarios" FromRole="Usuario" ToRole="Empleado" />
           <NavigationProperty Name="Empresas" Relationship="suaModel.FK_Empresas_Empresas" FromRole="Usuario" ToRole="Empresa" />
@@ -4127,18 +4087,6 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="RespuestaSolicitud">
-              <PropertyRef Name="departamentoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Usuarios_Departamentos">
-          <End Type="suaModel.Departamento" Role="Departamento" Multiplicity="0..1" />
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Departamento">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Usuario">
               <PropertyRef Name="departamentoId" />
             </Dependent>
           </ReferentialConstraint>
@@ -4611,15 +4559,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RespuestaSolicitud_RespuestaSolicitud">
+        <Association Name="FK_RespuestaSolicitud_Solicitud">
           <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="1" />
-          <End Type="suaModel.RespuestaSolicitud" Role="RespuestaSolicitud" Multiplicity="0..1" />
+          <End Type="suaModel.RespuestaSolicitud" Role="RespuestaSolicitud" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Solicitud">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="RespuestaSolicitud">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="solicitudId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4992,7 +4940,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="ContratosClientes">
             <EntityTypeMapping TypeName="suaModel.ContratosCliente">
-              <MappingFragment StoreEntitySet="ContratosCliente">
+              <MappingFragment StoreEntitySet="ContratosClientes">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="estatus" ColumnName="estatus" />
@@ -5016,7 +4964,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="DatosAdicionalesClientes">
             <EntityTypeMapping TypeName="suaModel.DatosAdicionalesCliente">
-              <MappingFragment StoreEntitySet="DatosAdicionalesCliente">
+              <MappingFragment StoreEntitySet="DatosAdicionalesClientes">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="conceptoFacturacion" ColumnName="conceptoFacturacion" />
@@ -5159,7 +5107,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="EsquemasPagoes">
             <EntityTypeMapping TypeName="suaModel.EsquemasPago">
-              <MappingFragment StoreEntitySet="EsquemasPago">
+              <MappingFragment StoreEntitySet="EsquemasPagoes">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
@@ -5169,7 +5117,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="EstadoCivils">
             <EntityTypeMapping TypeName="suaModel.EstadoCivil">
-              <MappingFragment StoreEntitySet="EstadoCivil">
+              <MappingFragment StoreEntitySet="EstadoCivils">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
@@ -5183,7 +5131,6 @@
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="entidad" ColumnName="entidad" />
                 <ScalarProperty Name="paisId" ColumnName="paisId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
@@ -5272,7 +5219,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="ListaValidacionClientes">
             <EntityTypeMapping TypeName="suaModel.ListaValidacionCliente">
-              <MappingFragment StoreEntitySet="ListaValidacionCliente">
+              <MappingFragment StoreEntitySet="ListaValidacionClientes">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="listaEmailAux" ColumnName="listaEmailAux" />
@@ -5331,13 +5278,7 @@
               <MappingFragment StoreEntitySet="Municipios">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="gradoMarginacion" ColumnName="gradoMarginacion" />
-                <ScalarProperty Name="region" ColumnName="region" />
-                <ScalarProperty Name="nomTipo" ColumnName="nomTipo" />
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="municipio1" ColumnName="municipio" />
-                <ScalarProperty Name="entidad" ColumnName="entidad" />
                 <ScalarProperty Name="estadoId" ColumnName="estadoId" />
                 <ScalarProperty Name="paisId" ColumnName="paisId" />
                 <ScalarProperty Name="id" ColumnName="id" />
@@ -5375,7 +5316,6 @@
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="naturalez" ColumnName="naturalez" />
-                <ScalarProperty Name="clavePais" ColumnName="clavePais" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
@@ -5449,7 +5389,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="RegimenInfonavits">
             <EntityTypeMapping TypeName="suaModel.RegimenInfonavit">
-              <MappingFragment StoreEntitySet="RegimenInfonavit">
+              <MappingFragment StoreEntitySet="RegimenInfonavits">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
@@ -5459,7 +5399,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="Residencias">
             <EntityTypeMapping TypeName="suaModel.Residencia">
-              <MappingFragment StoreEntitySet="Residencia">
+              <MappingFragment StoreEntitySet="Residencias">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
@@ -5594,8 +5534,8 @@
                 <ScalarProperty Name="valida" ColumnName="valida" />
                 <ScalarProperty Name="solicita" ColumnName="solicita" />
                 <ScalarProperty Name="tipoPersonalId" ColumnName="tipoPersonalId" />
-                <ScalarProperty Name="fechaBaja" ColumnName="fechaBaja" />
                 <ScalarProperty Name="fechaModificacion" ColumnName="fechaModificacion" />
+                <ScalarProperty Name="fechaBaja" ColumnName="fechaBaja" />
                 <ScalarProperty Name="fechaFinal" ColumnName="fechaFinal" />
                 <ScalarProperty Name="fechaInicial" ColumnName="fechaInicial" />
                 <ScalarProperty Name="fechaTerminoContrato" ColumnName="fechaTerminoContrato" />
@@ -5612,7 +5552,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="TipoContratoes">
             <EntityTypeMapping TypeName="suaModel.TipoContrato">
-              <MappingFragment StoreEntitySet="TipoContrato">
+              <MappingFragment StoreEntitySet="TipoContratoes">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
@@ -5622,7 +5562,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="TipoPersonals">
             <EntityTypeMapping TypeName="suaModel.TipoPersonal">
-              <MappingFragment StoreEntitySet="TipoPersonal">
+              <MappingFragment StoreEntitySet="TipoPersonals">
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
@@ -5645,7 +5585,6 @@
           <EntitySetMapping Name="Usuarios">
             <EntityTypeMapping TypeName="suaModel.Usuario">
               <MappingFragment StoreEntitySet="Usuarios">
-                <ScalarProperty Name="departamentoId" ColumnName="departamentoId" />
                 <ScalarProperty Name="plazaId" ColumnName="plazaId" />
                 <ScalarProperty Name="roleId" ColumnName="roleId" />
                 <ScalarProperty Name="fechaIngreso" ColumnName="fechaIngreso" />
