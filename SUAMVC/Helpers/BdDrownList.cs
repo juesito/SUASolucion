@@ -307,7 +307,31 @@ namespace SUAMVC.Helpers
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
-            return htmlHelper.DropDownList("sexoId", listFields);
+            return htmlHelper.DropDownList("paisId", listFields);
+        }
+
+        public static MvcHtmlString paisesDrownList(this HtmlHelper htmlHelper, int userId, String componenteId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Pais> listPaises = (from s in db.Paises
+                                     orderby s.naturalez ascending
+                                     select s).ToList();
+
+            foreach (Pais item in listPaises)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields, new { id = "paisId"});
         }
 
         public static MvcHtmlString modulosDrownList(this HtmlHelper htmlHelper)

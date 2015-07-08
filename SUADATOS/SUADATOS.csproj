@@ -72,6 +72,9 @@
     <Compile Include="Acreditado.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="ArchivosEmpleado.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Asegurado.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

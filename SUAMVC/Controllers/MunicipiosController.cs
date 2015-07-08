@@ -141,6 +141,15 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult ObtenerMunicipiosPorId(int estadoId)
+        {
+            List<Municipio> municipios = new List<Municipio>();
+            municipios = db.Municipios.Where(m => m.estadoId == estadoId).ToList();
+            SelectList ciudad = new SelectList(municipios, "Id", "descripcion", 0);
+            return Json(ciudad);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

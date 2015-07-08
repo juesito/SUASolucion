@@ -23,6 +23,7 @@ namespace SUADATOS
             this.Solicituds3 = new HashSet<Solicitud>();
             this.Solicituds4 = new HashSet<Solicitud>();
             this.Solicituds5 = new HashSet<Solicitud>();
+            this.ArchivosEmpleados = new HashSet<ArchivosEmpleado>();
         }
     
         public int id { get; set; }
@@ -39,5 +40,6 @@ namespace SUADATOS
         public virtual ICollection<Solicitud> Solicituds3 { get; set; }
         public virtual ICollection<Solicitud> Solicituds4 { get; set; }
         public virtual ICollection<Solicitud> Solicituds5 { get; set; }
+        public virtual ICollection<ArchivosEmpleado> ArchivosEmpleados { get; set; }
     }
 }

@@ -49,6 +49,17 @@
           <Property Name="permanente" Type="nchar" MaxLength="10" />
           <Property Name="fechaUltimoCalculo" Type="datetime" />
         </EntityType>
+        <EntityType Name="ArchivosEmpleados">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empleadoId" Type="int" Nullable="false" />
+          <Property Name="archivo" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="tipoArchivo" Type="int" Nullable="false" />
+          <Property Name="usuarioId" Type="int" Nullable="false" />
+          <Property Name="fechaCreacoin" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Asegurados">
           <Key>
             <PropertyRef Name="id" />
@@ -795,6 +806,42 @@
             </Principal>
             <Dependent Role="Acreditados">
               <PropertyRef Name="clienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArchivosEmpleados_Conceptos">
+          <End Role="Conceptos" Type="Self.Conceptos" Multiplicity="1" />
+          <End Role="ArchivosEmpleados" Type="Self.ArchivosEmpleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conceptos">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ArchivosEmpleados">
+              <PropertyRef Name="tipoArchivo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArchivosEmpleados_Empleados">
+          <End Role="Empleados" Type="Self.Empleados" Multiplicity="1" />
+          <End Role="ArchivosEmpleados" Type="Self.ArchivosEmpleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleados">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ArchivosEmpleados">
+              <PropertyRef Name="empleadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArchivosEmpleados_Usuarios">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="ArchivosEmpleados" Type="Self.ArchivosEmpleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ArchivosEmpleados">
+              <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1904,6 +1951,7 @@
         </Association>
         <EntityContainer Name="suaModelStoreContainer">
           <EntitySet Name="Acreditados" EntityType="Self.Acreditados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArchivosEmpleados" EntityType="Self.ArchivosEmpleados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Asegurados" EntityType="Self.Asegurados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bancos" EntityType="Self.Bancos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="catalogoMovimientos" EntityType="Self.catalogoMovimientos" Schema="dbo" store:Type="Tables" />
@@ -1956,6 +2004,18 @@
           <AssociationSet Name="FK_Acreditados_Clientes" Association="Self.FK_Acreditados_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
             <End Role="Acreditados" EntitySet="Acreditados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArchivosEmpleados_Conceptos" Association="Self.FK_ArchivosEmpleados_Conceptos">
+            <End Role="Conceptos" EntitySet="Conceptos" />
+            <End Role="ArchivosEmpleados" EntitySet="ArchivosEmpleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArchivosEmpleados_Empleados" Association="Self.FK_ArchivosEmpleados_Empleados">
+            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="ArchivosEmpleados" EntitySet="ArchivosEmpleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArchivosEmpleados_Usuarios" Association="Self.FK_ArchivosEmpleados_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="ArchivosEmpleados" EntitySet="ArchivosEmpleados" />
           </AssociationSet>
           <AssociationSet Name="FK_Asegurados_Clientes" Association="Self.FK_Asegurados_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
@@ -2753,6 +2813,19 @@
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="TopicosUsuario" EntitySet="TopicosUsuarios" />
           </AssociationSet>
+          <EntitySet Name="ArchivosEmpleados" EntityType="suaModel.ArchivosEmpleado" />
+          <AssociationSet Name="FK_ArchivosEmpleados_Conceptos" Association="suaModel.FK_ArchivosEmpleados_Conceptos">
+            <End Role="Concepto" EntitySet="Conceptos" />
+            <End Role="ArchivosEmpleado" EntitySet="ArchivosEmpleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArchivosEmpleados_Empleados" Association="suaModel.FK_ArchivosEmpleados_Empleados">
+            <End Role="Empleado" EntitySet="Empleados" />
+            <End Role="ArchivosEmpleado" EntitySet="ArchivosEmpleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArchivosEmpleados_Usuarios" Association="suaModel.FK_ArchivosEmpleados_Usuarios">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="ArchivosEmpleado" EntitySet="ArchivosEmpleados" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Acreditado">
           <Key>
@@ -2926,6 +2999,7 @@
           <NavigationProperty Name="Solicituds3" Relationship="suaModel.FK_Solicitud_Conceptos3" FromRole="Concepto" ToRole="Solicitud" />
           <NavigationProperty Name="Solicituds4" Relationship="suaModel.FK_Solicitud_Conceptos4" FromRole="Concepto" ToRole="Solicitud" />
           <NavigationProperty Name="Solicituds5" Relationship="suaModel.FK_Solicitud_Conceptos5" FromRole="Concepto" ToRole="Solicitud" />
+          <NavigationProperty Name="ArchivosEmpleados" Relationship="suaModel.FK_ArchivosEmpleados_Conceptos" FromRole="Concepto" ToRole="ArchivosEmpleado" />
         </EntityType>
         <EntityType Name="ContratosCliente">
           <Key>
@@ -3098,6 +3172,7 @@
           <NavigationProperty Name="Sexo" Relationship="suaModel.FK_Empleados_Sexos" FromRole="Empleado" ToRole="Sexo" />
           <NavigationProperty Name="Solicitud" Relationship="suaModel.FK_Empleados_Solicitud" FromRole="Empleado" ToRole="Solicitud" />
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Empleados_Usuarios" FromRole="Empleado" ToRole="Usuario" />
+          <NavigationProperty Name="ArchivosEmpleados" Relationship="suaModel.FK_ArchivosEmpleados_Empleados" FromRole="Empleado" ToRole="ArchivosEmpleado" />
         </EntityType>
         <EntityType Name="Empresa">
           <Key>
@@ -3710,6 +3785,7 @@
           <NavigationProperty Name="TipoPersonals" Relationship="suaModel.FK_TipoPersonal_TipoPersonal" FromRole="Usuario" ToRole="TipoPersonal" />
           <NavigationProperty Name="TopicosUsuarios" Relationship="suaModel.FK_TopicosUsuario_Usuario" FromRole="Usuario" ToRole="TopicosUsuario" />
           <NavigationProperty Name="TopicosUsuarios1" Relationship="suaModel.FK_TopicosUsuario_Usuario2" FromRole="Usuario" ToRole="TopicosUsuario" />
+          <NavigationProperty Name="ArchivosEmpleados" Relationship="suaModel.FK_ArchivosEmpleados_Usuarios" FromRole="Usuario" ToRole="ArchivosEmpleado" />
         </EntityType>
         <Association Name="FK_Acreditados_Acreditados">
           <End Type="suaModel.Acreditado" Role="Acreditado" Multiplicity="1" />
@@ -4839,6 +4915,56 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ArchivosEmpleado">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empleadoId" Type="Int32" Nullable="false" />
+          <Property Name="archivo" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="tipoArchivo" Type="Int32" Nullable="false" />
+          <Property Name="usuarioId" Type="Int32" Nullable="false" />
+          <Property Name="fechaCreacoin" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Concepto" Relationship="suaModel.FK_ArchivosEmpleados_Conceptos" FromRole="ArchivosEmpleado" ToRole="Concepto" />
+          <NavigationProperty Name="Empleado" Relationship="suaModel.FK_ArchivosEmpleados_Empleados" FromRole="ArchivosEmpleado" ToRole="Empleado" />
+          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_ArchivosEmpleados_Usuarios" FromRole="ArchivosEmpleado" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_ArchivosEmpleados_Conceptos">
+          <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="1" />
+          <End Type="suaModel.ArchivosEmpleado" Role="ArchivosEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concepto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ArchivosEmpleado">
+              <PropertyRef Name="tipoArchivo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArchivosEmpleados_Empleados">
+          <End Type="suaModel.Empleado" Role="Empleado" Multiplicity="1" />
+          <End Type="suaModel.ArchivosEmpleado" Role="ArchivosEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ArchivosEmpleado">
+              <PropertyRef Name="empleadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArchivosEmpleados_Usuarios">
+          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="suaModel.ArchivosEmpleado" Role="ArchivosEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ArchivosEmpleado">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5657,6 +5783,18 @@
                 <ScalarProperty Name="contrasena" ColumnName="contrasena" />
                 <ScalarProperty Name="nombreUsuario" ColumnName="nombreUsuario" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArchivosEmpleados">
+            <EntityTypeMapping TypeName="suaModel.ArchivosEmpleado">
+              <MappingFragment StoreEntitySet="ArchivosEmpleados">
+                <ScalarProperty Name="fechaCreacoin" ColumnName="fechaCreacoin" />
+                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
+                <ScalarProperty Name="tipoArchivo" ColumnName="tipoArchivo" />
+                <ScalarProperty Name="archivo" ColumnName="archivo" />
+                <ScalarProperty Name="empleadoId" ColumnName="empleadoId" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

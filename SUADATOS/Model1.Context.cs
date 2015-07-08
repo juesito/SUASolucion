@@ -71,5 +71,6 @@ namespace SUADATOS
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<ArchivosEmpleado> ArchivosEmpleados { get; set; }
     }
 }

@@ -132,6 +132,15 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult ObtenerEstadoPorId(int paisId)
+        {
+            List<Estado> estados = new List<Estado>();
+            estados = db.Estados.Where(m => m.paisId == paisId).ToList();
+            SelectList ciudad = new SelectList(estados, "Id", "descripcion", 0);
+            return Json(ciudad);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

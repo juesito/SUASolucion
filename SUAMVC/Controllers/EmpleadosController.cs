@@ -55,12 +55,13 @@ namespace SUAMVC.Controllers
 
             empleado.Solicitud = solicitud;
             empleado.solicitudId = id;
+            empleado.tramitarTarjeta = 0;
+            empleado.tieneInfonavit = 1;
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion");
             ViewBag.esquemaPagoId = new SelectList(db.EsquemasPagoes, "id", "descripcion");
             ViewBag.estadoCivilId = new SelectList(db.EstadoCivils, "id", "descripcion");
             ViewBag.estadoNacimientoId = new SelectList(db.Estados, "id", "descripcion");
             ViewBag.municipioNacimientoId = new SelectList(db.Municipios, "id", "descripcion");
-            ViewBag.nacionalidadId = new SelectList(db.Paises, "id", "descripcion");
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion");
             ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion");
 
