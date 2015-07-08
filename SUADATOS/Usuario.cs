@@ -61,14 +61,12 @@ namespace SUADATOS
         public System.DateTime fechaIngreso { get; set; }
         public int roleId { get; set; }
         public int plazaId { get; set; }
-        public Nullable<int> departamentoId { get; set; }
     
         public virtual ICollection<Banco> Bancos { get; set; }
         public virtual ICollection<Concepto> Conceptos { get; set; }
         public virtual ICollection<ContratosCliente> ContratosClientes { get; set; }
         public virtual ICollection<DatosAdicionalesCliente> DatosAdicionalesClientes { get; set; }
         public virtual ICollection<Departamento> Departamentos { get; set; }
-        public virtual Departamento Departamento { get; set; }
         public virtual ICollection<DetallePago> DetallePagos { get; set; }
         public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual ICollection<Empresa> Empresas { get; set; }
