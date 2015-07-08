@@ -705,4 +705,51 @@
   <data name="primaVacacional" xml:space="preserve">
     <value>Prima Vacacional</value>
   </data>
+  <data name="departamento" xml:space="preserve">
+    <value>Departamento</value>
+    <comment>Etiqueta para Departamento</comment>
+  </data>
+  <data name="respuestaSolicitud" xml:space="preserve">
+    <value>Respuesta Solicitud</value>
+    <comment>Etiqueta para respuesta solicitud</comment>
+  </data>
+  <data name="banco" xml:space="preserve">
+    <value>Banco</value>
+    <comment>Etiqueta para Banco</comment>
+  </data>
+  <data name="categoria" xml:space="preserve">
+    <value>Categoría</value>
+    <comment>Etiqueta para Categoría</comment>
+  </data>
+  <data name="cuentaBancaria" xml:space="preserve">
+    <value>Cuenta Bancaria</value>
+    <comment>Etiqueta para cuenta Bancaria</comment>
+  </data>
+  <data name="cuentaClabe" xml:space="preserve">
+    <value>Cuenta Clave</value>
+    <comment>Etiqueta para Cuenta Clave</comment>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>E mail</value>
+    <comment>Etiqueta para E mail</comment>
+  </data>
+  <data name="fechaAltaImss" xml:space="preserve">
+    <value>Fecha Alta IMSS</value>
+  </data>
+  <data name="fechaNacimiento" xml:space="preserve">
+    <value>Fecha de Nacimiento</value>
+    <comment>Etiqueta para Fecha de nacimiento</comment>
+  </data>
+  <data name="homoClave" xml:space="preserve">
+    <value>Homoclave</value>
+    <comment>Etiqueta para Homoclave</comment>
+  </data>
+  <data name="nss" xml:space="preserve">
+    <value>NSS</value>
+    <comment>Etiqueta para NSS</comment>
+  </data>
+  <data name="salarioReal" xml:space="preserve">
+    <value>Salario Real</value>
+    <comment>Etiqueta para Salario Real</comment>
+  </data>
 </root>

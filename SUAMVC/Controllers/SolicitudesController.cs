@@ -257,7 +257,7 @@ namespace SUAMVC.Controllers
             {
                 int idTmp = int.Parse(id);
                 solicitud = db.Solicituds.Find(idTmp);
-                Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("ESTASOL") && s.descripcion.Equals("Solicitado")).First();
+                Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("ESTASOL") && s.descripcion.Equals("Enviado")).First();
                 solicitud.estatusSolicitud = concepto.id; 
                 
                 //Email email = new Email();
