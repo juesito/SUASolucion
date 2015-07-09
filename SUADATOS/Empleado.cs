@@ -14,6 +14,11 @@ namespace SUADATOS
     
     public partial class Empleado
     {
+        public Empleado()
+        {
+            this.ArchivosEmpleados = new HashSet<ArchivosEmpleado>();
+        }
+    
         public int id { get; set; }
         public int solicitudId { get; set; }
         public string folioEmpleado { get; set; }
@@ -66,5 +71,6 @@ namespace SUADATOS
         public virtual Sexo Sexo { get; set; }
         public virtual Solicitud Solicitud { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<ArchivosEmpleado> ArchivosEmpleados { get; set; }
     }
 }

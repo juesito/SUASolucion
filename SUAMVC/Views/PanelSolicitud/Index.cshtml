@@ -53,19 +53,19 @@
     {  @item.concepto.descripcion }</text>, canSort: true));
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {
-        gridColumns.Add(grid.Column(header: "NOM.", format: @<text><a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departamentoId ="N" })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "NOM.", format: @<text><a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "N" })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
     if (SecurityUserModel.verificarPermiso("1", "1"))
-    {
-        gridColumns.Add(grid.Column(header: "IMSS.", format: @<text><a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departamentoId ="I" })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
+    {        
+        gridColumns.Add(grid.Column(header: "IMSS.", format: @<text><a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "I" })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
     if (SecurityUserModel.verificarPermiso("1", "1"))
-    {
-        gridColumns.Add(grid.Column(header: "JURID.", format: @<text><a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departamentoId ="J" })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
+    {        
+        gridColumns.Add(grid.Column(header: "JURID.", format: @<text><a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "J" })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
     if (SecurityUserModel.verificarPermiso("1", "1"))
-    {
-        gridColumns.Add(grid.Column(header: "TARJ.", format: @<text><a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departamentoId ="T" })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
+    {        
+        gridColumns.Add(grid.Column(header: "TARJ.", format: @<text><a href="@Url.Action("UploadFile", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "T" })"><img src="~/Content/Images/creditCard.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {

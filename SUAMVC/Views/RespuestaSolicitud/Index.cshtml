@@ -19,20 +19,24 @@
 <table class="table table-striped tableSua">
     <tr>
         <th>
-            @Html.DisplayName(@Language.observaciones)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.fechaAlta)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.grupo)
+            @Html.DisplayName(@Language.folioSolicitud)
         </th>
         <th>
             @Html.DisplayName(@Language.departamento)
         </th>
         <th>
-            @Html.DisplayName(@Language.folioSolicitud)
+            @Html.DisplayName(@Language.grupo)
         </th>
+        <th>
+            @Html.DisplayName(@Language.fechaAlta)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.observaciones)
+        </th>
+        
+        
+        
+        
         <th>
             @Html.DisplayName(@Language.usuarioAlta)
         </th>
@@ -43,23 +47,25 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.observaciones)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fechaCreacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Concepto.grupo)
+                @Html.DisplayFor(modelItem => item.Solicitud.folioSolicitud)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Departamento.descripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Solicitud.folioSolicitud)
+                @Html.DisplayFor(modelItem => item.Concepto.descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fechaCreacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.observaciones)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
             </td>
+            
+            
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.id }) |
