@@ -1,0 +1,181 @@
+﻿@model SUADATOS.Proyecto
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Menu {
+    <div>@Language.catde @Language.acreditados<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+<div>
+    <h4>Proyecto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaSolicitud)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaSolicitud)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaInicial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaInicial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaFinal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaFinal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.solicita)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.solicita)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.valida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.valida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.autoriza)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.autoriza)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.noTrabajadores)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.noTrabajadores)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.observaciones)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.observaciones)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estatusSolicitud)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estatusSolicitud)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estatusNomina)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estatusNomina)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estatusAfiliado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estatusAfiliado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estatusJuridico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estatusJuridico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estatusTarjeta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estatusTarjeta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente.claveCliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.claveCliente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EsquemasPago.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EsquemasPago.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Residencia.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Residencia.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SDI.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SDI.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoContrato.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoContrato.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoPersonal.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoPersonal.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usuario.nombreUsuario)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

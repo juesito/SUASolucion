@@ -16,9 +16,9 @@ namespace SUADATOS
     {
         public Role()
         {
-            this.Usuarios = new HashSet<Usuario>();
-            this.RoleModulos = new HashSet<RoleModulo>();
             this.RoleFuncions = new HashSet<RoleFuncion>();
+            this.RoleModulos = new HashSet<RoleModulo>();
+            this.Usuarios = new HashSet<Usuario>();
         }
     
         public int id { get; set; }
@@ -26,8 +26,8 @@ namespace SUADATOS
         public System.DateTime fechaCreacion { get; set; }
         public string estatus { get; set; }
     
-        public virtual ICollection<Usuario> Usuarios { get; set; }
-        public virtual ICollection<RoleModulo> RoleModulos { get; set; }
         public virtual ICollection<RoleFuncion> RoleFuncions { get; set; }
+        public virtual ICollection<RoleModulo> RoleModulos { get; set; }
+        public virtual ICollection<Usuario> Usuarios { get; set; }
     }
 }

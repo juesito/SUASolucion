@@ -353,24 +353,28 @@
     <value>Modificar</value>
     <comment>Etiqueta para modificar</comment>
   </data>
-  <data name="avisoInc" xml:space="preserve">
-    <value>Aviso Incapacidad</value>
-    <comment>Etiqueta para aviso de incapacidad</comment>
+  <data name="Esquema" xml:space="preserve">
+    <value>Esquema</value>
+    <comment>Etiqueta para esquema</comment>
   </data>
-  <data name="catalogoMovimientos" xml:space="preserve">
-    <value>Catálogo de Movimientos</value>
-    <comment>Etiqueta para catálogo de movimientos</comment>
+  <data name="Esquemas" xml:space="preserve">
+    <value>Esquemas</value>
+    <comment>Etiqueta para esquemas</comment>
   </data>
-  <data name="parametros" xml:space="preserve">
-    <value>Parámetros</value>
-    <comment>Etiqueta para Parámetros</comment>
+  <data name="usuarioAlta" xml:space="preserve">
+    <value>Usuario Alta</value>
+    <comment>Etiqueta para usuario Alta</comment>
   </data>
-  <data name="avanzar" xml:space="preserve">
-    <value>Avanzar una página</value>
-    <comment>Etiqueta para Avanzar</comment>
+  <data name="Bancos" xml:space="preserve">
+    <value>Bancos</value>
+    <comment>Etiqueta para Bancos</comment>
   </data>
-  <data name="retroceder" xml:space="preserve">
-    <value>Retroceder una página</value>
-    <comment>Etiqueta para Retroceder</comment>
+  <data name="sexo" xml:space="preserve">
+    <value>Sexo</value>
+    <comment>Etiqueta para Sexo</comment>
+  </data>
+  <data name="tipoContrato" xml:space="preserve">
+    <value>Tipo de Contrato</value>
+    <comment>Etiqueta para Tipo de Contrato</comment>
   </data>
 </root>
