@@ -18,9 +18,9 @@
             grid.Column("Asegurado.numeroAfiliacion", "Asegurado",  format: @<text> @if (@item.aseguradoId != null) {@item.Asegurado.numeroAfiliacion}</text>, canSort: true),
             grid.Column("Asegurado.nombreTemporal", "Nombre", format: @<text> @if (@item.aseguradoId != null)
             {@item.Asegurado.nombreTemporal}</text>, canSort: true),
-            grid.Column("Acreditado.numeroAfiliacion", "Acreditado",  format: @<text> @if (@item.acreditadoId != null)
+            grid.Column("Incapacidad", "Acreditado",  format: @<text> @if (!@item.tipo.Trim().Equals("I") && @item.acreditadoId != null)
             {@item.Acreditado.numeroAfiliacion}</text>, canSort: true),
-            grid.Column("Acreditado.nombreCompleto", "Nombre", format: @<text> @if (@item.acreditadoId != null)
+            grid.Column("Acreditado.nombreCompleto", "Nombre", format: @<text> @if (!@item.tipo.Trim().Equals("I") && @item.acreditadoId != null)
             {@item.Acreditado.nombreCompleto}</text>, canSort: true),
             grid.Column("lote", "Lote", null, null, true),
             grid.Column("fechaTransaccion", "Fecha Transacción", null, null, true),

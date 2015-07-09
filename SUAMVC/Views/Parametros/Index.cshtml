@@ -1,71 +1,61 @@
 ﻿@model IEnumerable<SUADATOS.Parametro>
+@using System.Text;
+@using SUAMVC.Models
+@using SUADATOS;
 
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
     if (!WebSecurity.IsAuthenticated)
     {
         Response.Redirect("~/Home/Index");
     }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var grid = new WebGrid(source: Model, canPage: false);
+
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+
+    if (SecurityUserModel.verificarPermiso("Parametros", "Crear parametro"))
+    {
+        <p>
+            @Html.ActionLink("Crear Parámetro", "Create", "Parametros", new { @class = "btn btn-success" })
+        </p>
+    }
+    //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+    gridColumns.Add(grid.Column("parametroId", "Tipo", null, null, true));
+    gridColumns.Add(grid.Column("descripcion", "Descripción", null, null, true));
+    gridColumns.Add(grid.Column("valorString", "Valor String", null, null, true));
+    gridColumns.Add(grid.Column("valorMoneda", "Valor Moneda", null, null, true));
+    gridColumns.Add(grid.Column("valorFecha", "Valor Fecha", null, null, true));
+    gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creación", null, null, true));
+    if (SecurityUserModel.verificarPermiso("Parametros", "Editar parametro"))
+    {
+        gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Parametros", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+    if (SecurityUserModel.verificarPermiso("Parametros", "Eliminar parametro"))
+    {
+        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Parametros", new { id = item.id })">
+                <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+            </a></text>));
+    }
+
+    sb.Append(grid.GetHtml(
+        columns: grid.Columns(gridColumns.ToArray()),
+                        tableStyle: "table table-striped tableSua"
+                    ));
+
+    tableHtml = sb.ToString().Trim();
+
 }
 
 @section Menu {
-    <div>Catalogo de Parametros <img src="~/Content/Images/home.png" width="15" height="15" /></div>
+    <div>@Language.catde @Language.parametros <img src="~/Content/Images/boss.png" width="15" height="15" /></div>
 }
 
-<p>
-    @Html.ActionLink("Crear Parametro", "Create")
-</p>
-<table class="table table-striped" style="font-size:10px; width:100%;">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.parametroId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fechaCreacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.valorString)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.valorMoneda)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.valorFecha)
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.parametroId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fechaCreacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.valorString)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.valorMoneda)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.valorFecha)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.id })
-            </td>
-        </tr>
-    }
-
-</table>
+@if (!tableHtml.IsEmpty())
+{
+    @Html.Raw(tableHtml)
+}

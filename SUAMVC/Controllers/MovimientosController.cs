@@ -122,7 +122,7 @@ namespace SUAMVC.Controllers
             if (movimiento.aseguradoId != null)
             {
                 Asegurado asegurado = db.Asegurados.Find(movimiento.aseguradoId);
-                switch(movimiento.tipo.Trim())
+                switch (movimiento.tipo.Trim())
                 {
                     case "A":
                         asegurado.alta = null;
@@ -135,6 +135,11 @@ namespace SUAMVC.Controllers
                         break;
                     case "P":
                         asegurado.permanente = null;
+                        break;
+                    case "I":
+                        Incapacidade incapacidad = db.Incapacidades.Find(movimiento.acreditadoId);
+                        incapacidad.alta = null;
+                        db.Entry(incapacidad).State = EntityState.Modified;
                         break;
                 }
                 db.Entry(asegurado).State = EntityState.Modified;
@@ -436,6 +441,81 @@ namespace SUAMVC.Controllers
             }
 
             return RedirectToAction("Index", "Acreditados");
+        }
+
+
+        public ActionResult UploadFileInc(int id)
+        {
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Incapacidade asegurado = db.Incapacidades.Find(id);
+            if (asegurado == null)
+            {
+                return HttpNotFound();
+            }
+
+            Movimiento movimiento = new Movimiento();
+            DateTime date = DateTime.Now;
+            movimiento.Asegurado = asegurado.Asegurado;
+            movimiento.aseguradoId = asegurado.Asegurado.id;
+            movimiento.acreditadoId = asegurado.id;
+            movimiento.fechaTransaccion = date;
+            movimiento.tipo = "I";
+            ViewBag.Asegurado = asegurado;
+
+
+            return View(movimiento);
+        }
+
+        [HttpPost]
+        public ActionResult UploadPDFFileInc([Bind(Include = "id,aseguardoId,lote,fechaTransaccion,tipo,nombreArchivo")] Movimiento movimiento, String id)
+        {
+            if (!id.Equals(""))
+            {
+                Incapacidade asegurado = db.Incapacidades.Find(Int32.Parse(id));
+                if (Request.Files.Count > 0)
+                {
+                    movimiento.aseguradoId = asegurado.Asegurado.id;
+                    movimiento.acreditadoId = Int32.Parse(id);
+                    /*                   movimiento.Acreditado = acreditado;*/
+
+                    var file = Request.Files[0];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        String path = "C:\\SUA\\Incapacidades\\" + asegurado.Asegurado.numeroAfiliacion + "\\" + movimiento.tipo + "\\"; //Path.Combine("C:\\SUA\\", uploadModel.subFolder);
+                        if (!System.IO.File.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path);
+                        }
+
+                        //var fileName = Path.GetFileName(file.FileName);
+                        var fileName = "Acuse" + Path.GetExtension(file.FileName.Trim());
+                        var pathFinal = Path.Combine(path, fileName);
+                        file.SaveAs(pathFinal);
+
+                        movimiento.nombreArchivo = fileName;
+                        //Move();
+                        String answer = movimiento.tipo;
+                        ViewBag.dbUploaded = true;
+
+                        //Validamos la acción realizada
+                        if (answer.Equals("I"))
+                        {
+                            asegurado.alta = "I";
+                        }
+
+                        movimiento.fechaCreacion = DateTime.Now;
+                        db.Entry(asegurado).State = EntityState.Modified;
+                        db.Movimientos.Add(movimiento);
+                        db.SaveChanges();
+                    }
+                }
+            }
+
+            return RedirectToAction("Index", "Incapacidades");
         }
 
         protected override void Dispose(bool disposing)

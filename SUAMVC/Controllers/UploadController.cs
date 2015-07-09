@@ -13,6 +13,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using Ionic.Zip;
 
 namespace SUAMVC.Controllers
 {
@@ -48,16 +49,21 @@ namespace SUAMVC.Controllers
 
                     var fileName = Path.GetFileName(file.FileName);
                     var pathFinal = Path.Combine(path, fileName);
+                    var pathMDB = path.Trim() + "\\SUA.mdb";
+
                     file.SaveAs(pathFinal);
 
-                    if (RefreshBoss() == 0)
+                    ZipFile zip = ZipFile.Read(pathFinal);
+                    zip.ExtractAll(path, ExtractExistingFileAction.OverwriteSilently);                
+
+                    if (RefreshBoss(path) == 0)
                     {
                         ViewBag.dbUploaded = false;
                     }
                     else {
                         ViewBag.dbUploaded = true;
                     }
-
+                    System.IO.File.Delete(pathMDB);
                     
                 }
             }
@@ -71,14 +77,14 @@ namespace SUAMVC.Controllers
          * 
          */
         
-        public int RefreshBoss() {
+        public int RefreshBoss(String path) {
             SUAHelper sua = null;
             int count = 0;
             Boolean isError = false;
             try
             {               
                 //Realizamos la conexion
-                sua = new SUAHelper();
+                sua = new SUAHelper(path);
 
                 String sSQL = "SELECT REG_PAT, RFC_PAT, NOM_PAT, ACT_PAT, DOM_PAT, " +
                               "       MUN_PAT, CPP_PAT, ENT_PAT, TEL_PAT, REM_PAT, " +
@@ -451,13 +457,13 @@ namespace SUAMVC.Controllers
 
             Patrone patron = db.Patrones.Find(patronesId);
 
-            String path = this.Upload(uploadModel, patron.direccionArchivo);
+            String path = this.Upload(uploadModel, patron.direccionArchivo).Trim();
             if (!path.Equals("")) {
                 this.uploadAcreditado(path);
                 this.uploadAsegurado(path);
             }
-            String path2 = path.Trim() + "\\BACKUP\\";
-            path = path.Trim() + "\\SUA.mdb";
+            String path2 = path + "\\BACKUP\\";
+            path = path + "\\SUA.mdb";
             if (!System.IO.File.Exists(path2))
             {
                System.IO.Directory.CreateDirectory(path2);
@@ -494,6 +500,7 @@ namespace SUAMVC.Controllers
                     if (!subFolder.Equals(""))
                     {
                         path = Path.Combine(rutaParameter.valorString.Trim(), subFolder);
+                        path = path.Trim();
                         if (!System.IO.File.Exists(path))
                         {
                             System.IO.Directory.CreateDirectory(path);
@@ -502,12 +509,16 @@ namespace SUAMVC.Controllers
                     else
                     {
                         path = rutaParameter.valorString.Trim();
+                        path = path.Trim();
                     }
 
                     var fileName = Path.GetFileName(file.FileName);
                     //var path = Path.Combine(Server.MapPath("~/App_LocalResources/"), fileName);
                     var pathFinal = Path.Combine(path, fileName);
                     file.SaveAs(pathFinal);
+                    ZipFile zip = ZipFile.Read(pathFinal);
+                    zip.ExtractAll(path, ExtractExistingFileAction.OverwriteSilently);                
+                    
                     ViewBag.dbUploaded = true;
                     TempData["error"] = false;
                     TempData["viewMessage"] = "Se ha realizado la actualización con exito!";
@@ -611,6 +622,7 @@ namespace SUAMVC.Controllers
                         String cliente = rows["CVE_UBC"].ToString();
 
                         var clienteTemp = db.Clientes.Where(b => b.claveCliente == cliente.Trim()).FirstOrDefault();
+                        var clienteTemp2 = db.Clientes.Where(b => b.claveCliente.Equals("SIN CODIGO")).FirstOrDefault();
 
                         if (clienteTemp != null)
                         {
@@ -619,31 +631,34 @@ namespace SUAMVC.Controllers
                         }
                         else
                         {
-                            Cliente clienteNuevo = new Cliente();
-                            clienteNuevo.claveCliente = cliente;
-                            clienteNuevo.rfc = "PENDIENTE";
-                            clienteNuevo.claveSua = "PENDIENTE";
-                            clienteNuevo.descripcion = "PENDIENTE";
-                            clienteNuevo.ejecutivo = "PENDIENTE";
-                            clienteNuevo.Plaza_id = 1;
-                            clienteNuevo.Grupo_id = 4;
+                            acreditado.Cliente = (Cliente)clienteTemp2;
+                            acreditado.clienteId = clienteTemp2.Id; ;
 
-                            try
-                            {
-                                db.Clientes.Add(clienteNuevo);
-                                db.SaveChanges();
-                                acreditado.clienteId = clienteNuevo.Id;
-                            }
-                            catch (DbEntityValidationException dbEx)
-                            {
-                                foreach (var validationErrors in dbEx.EntityValidationErrors)
-                                {
-                                    foreach (var validationError in validationErrors.ValidationErrors)
-                                    {
-                                        Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
-                                    }
-                                }
-                            }
+                            //Cliente clienteNuevo = new Cliente();
+                            //clienteNuevo.claveCliente = cliente;
+                            //clienteNuevo.rfc = "PENDIENTE";
+                            //clienteNuevo.claveSua = "PENDIENTE";
+                            //clienteNuevo.descripcion = "PENDIENTE";
+                            //clienteNuevo.ejecutivo = "PENDIENTE";
+                            //clienteNuevo.Plaza_id = 1;
+                            //clienteNuevo.Grupo_id = 4;
+
+                            //try
+                            //{
+                            //    db.Clientes.Add(clienteNuevo);
+                            //    db.SaveChanges();
+                            //    acreditado.clienteId = clienteNuevo.Id;
+                            //}
+                            //catch (DbEntityValidationException dbEx)
+                            //{
+                            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                            //    {
+                            //        foreach (var validationError in validationErrors.ValidationErrors)
+                            //        {
+                            //            Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                            //        }
+                            //    }
+                            //}
 
                         }
 
@@ -979,37 +994,40 @@ namespace SUAMVC.Controllers
                         String cliente = rows["CVE_UBC"].ToString();
 
                         var clienteTemp = db.Clientes.Where(b => b.claveCliente == cliente.Trim()).FirstOrDefault();
+                        var clienteTemp2 = db.Clientes.Where(b => b.claveCliente.Equals("SIN CODIGO")).FirstOrDefault();
 
                         if (clienteTemp != null){
                             asegurado.Cliente = (Cliente)clienteTemp;
                             asegurado.ClienteId = clienteTemp.Id;
                         }else
                         {
-                            Cliente clienteNuevo = new Cliente();
-                            clienteNuevo.claveCliente = cliente;
-                            clienteNuevo.rfc = "PENDIENTE";
-                            clienteNuevo.claveSua = "PENDIENTE";
-                            clienteNuevo.descripcion = "PENDIENTE";
-                            clienteNuevo.ejecutivo = "PENDIENTE";
-                            clienteNuevo.Plaza_id = 1;
-                            clienteNuevo.Grupo_id = 4;
+                            asegurado.Cliente = (Cliente)clienteTemp2;
+                            asegurado.ClienteId = clienteTemp2.Id;
+                            //Cliente clienteNuevo = new Cliente();
+                            //clienteNuevo.claveCliente = cliente;
+                            //clienteNuevo.rfc = "PENDIENTE";
+                            //clienteNuevo.claveSua = "PENDIENTE";
+                            //clienteNuevo.descripcion = "PENDIENTE";
+                            //clienteNuevo.ejecutivo = "PENDIENTE";
+                            //clienteNuevo.Plaza_id = 1;
+                            //clienteNuevo.Grupo_id = 4;
 
-                            try
-                            {
-                                db.Clientes.Add(clienteNuevo);
-                                db.SaveChanges();
-                                asegurado.ClienteId = clienteNuevo.Id;
-                            }
-                            catch (DbEntityValidationException dbEx)
-                            {
-                                foreach (var validationErrors in dbEx.EntityValidationErrors)
-                                {
-                                    foreach (var validationError in validationErrors.ValidationErrors)
-                                    {
-                                        Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
-                                    }
-                                }
-                            }
+                            //try
+                            //{
+                            //    db.Clientes.Add(clienteNuevo);
+                            //    db.SaveChanges();
+                            //    asegurado.ClienteId = clienteNuevo.Id;
+                            //}
+                            //catch (DbEntityValidationException dbEx)
+                            //{
+                            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                            //    {
+                            //        foreach (var validationError in validationErrors.ValidationErrors)
+                            //        {
+                            //            Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                            //        }
+                            //    }
+                            //}
 
                         }
 
@@ -1188,7 +1206,7 @@ namespace SUAMVC.Controllers
                     incapacidad.porcentajeIncapacidad = Decimal.Parse(rows["POR_INC"].ToString());
                     incapacidad.indDef = rows["IND_DEF"].ToString();
                     incapacidad.fecTer = DateTime.Parse(rows["FEC_TER"].ToString());
-
+                    incapacidad.tipoIncapacidad = incapacidad.ramSeq.Substring(0, 1);
                     //Guardamos la incapacidad
                     try
                     {
