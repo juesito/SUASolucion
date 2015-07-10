@@ -17,7 +17,6 @@ namespace SUADATOS
         public Solicitud()
         {
             this.Empleados = new HashSet<Empleado>();
-            this.RespuestaSolicituds = new HashSet<RespuestaSolicitud>();
         }
     
         public int id { get; set; }
@@ -31,8 +30,8 @@ namespace SUADATOS
         public Nullable<System.DateTime> fechaTerminoContrato { get; set; }
         public Nullable<System.DateTime> fechaInicial { get; set; }
         public Nullable<System.DateTime> fechaFinal { get; set; }
-        public Nullable<System.DateTime> fechaBaja { get; set; }
         public Nullable<System.DateTime> fechaModificacion { get; set; }
+        public Nullable<System.DateTime> fechaBaja { get; set; }
         public Nullable<int> tipoPersonalId { get; set; }
         public string solicita { get; set; }
         public string valida { get; set; }
@@ -61,7 +60,7 @@ namespace SUADATOS
         public virtual EsquemasPago EsquemasPago { get; set; }
         public virtual Plaza Plaza { get; set; }
         public virtual Proyecto Proyecto { get; set; }
-        public virtual ICollection<RespuestaSolicitud> RespuestaSolicituds { get; set; }
+        public virtual RespuestaSolicitud RespuestaSolicitud { get; set; }
         public virtual SDI SDI { get; set; }
         public virtual TipoContrato TipoContrato { get; set; }
         public virtual TipoPersonal TipoPersonal { get; set; }

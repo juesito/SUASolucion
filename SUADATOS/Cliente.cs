@@ -23,6 +23,7 @@ namespace SUADATOS
             this.ListaValidacionClientes = new HashSet<ListaValidacionCliente>();
             this.Solicituds = new HashSet<Solicitud>();
             this.Proyectos = new HashSet<Proyecto>();
+            this.SumarizadoClientes = new HashSet<SumarizadoCliente>();
         }
     
         public int Id { get; set; }
@@ -55,5 +56,6 @@ namespace SUADATOS
         public virtual Plaza Plaza { get; set; }
         public virtual ICollection<Solicitud> Solicituds { get; set; }
         public virtual ICollection<Proyecto> Proyectos { get; set; }
+        public virtual ICollection<SumarizadoCliente> SumarizadoClientes { get; set; }
     }
 }

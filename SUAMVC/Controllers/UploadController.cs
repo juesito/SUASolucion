@@ -620,14 +620,18 @@ namespace SUAMVC.Controllers
                         else
                         {
                             Cliente clienteNuevo = new Cliente();
-                            clienteNuevo.claveCliente = cliente;
+                            clienteNuevo.claveCliente = cliente.Trim();
                             clienteNuevo.rfc = "PENDIENTE";
                             clienteNuevo.claveSua = "PENDIENTE";
                             clienteNuevo.descripcion = "PENDIENTE";
                             //Validar esto
                             clienteNuevo.ejecutivoContadorId = 1;
-                            clienteNuevo.Plaza_id = 1;
-                            clienteNuevo.Grupo_id = 4;
+                            Grupos grupo = db.Grupos.FirstOrDefault();
+                            Plaza plaza = db.Plazas.FirstOrDefault();
+                            clienteNuevo.Plaza_id = plaza.id;
+                            clienteNuevo.Grupo_id = grupo.Id;
+                            clienteNuevo.Grupos = grupo;
+                            clienteNuevo.Plaza = plaza;
 
                             try
                             {
@@ -987,7 +991,7 @@ namespace SUAMVC.Controllers
                         }else
                         {
                             Cliente clienteNuevo = new Cliente();
-                            clienteNuevo.claveCliente = cliente;
+                            clienteNuevo.claveCliente = cliente.Trim();
                             clienteNuevo.rfc = "PENDIENTE";
                             clienteNuevo.claveSua = "PENDIENTE";
                             clienteNuevo.descripcion = "PENDIENTE";

@@ -61,7 +61,7 @@
 
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {
-        gridColumns.Add(grid.Column(header: "Imagen", format: @<text><a href="@Url.Action("ResumenPagos", "Pagos", new { @id = item.id})"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "Resumen", format: @<text><a href="@Url.Action("ResumenPagos", "Pagos", new { @id = item.id})"><img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
 
     sb.Append(grid.GetHtml(
@@ -79,7 +79,7 @@
     <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catalogo de Asegurados</div>
 }
 
-@using (Html.BeginForm(null, null, FormMethod.Get))
+@using (Html.BeginForm(null, null, FormMethod.Post))
 {
     //MarqueeFilter - Todos los filtros principales
     <div class="marqueeFilter">
@@ -99,9 +99,9 @@
                         @Html.patronesDrownList(usuario.Id)
                     </td>
                     <td>@Html.Label("Periodo :")</td>
-                    <td>@Html.periodosList()</td>
+                    <td>@Html.periodosAutoList()</td>
                     <td>@Html.Label("Ejercicio :")</td>
-                    <td>@Html.ejercicioList()</td>
+                    <td>@Html.ejercicioAutoList()</td>
                 </tr>
             </thead>
         </table>

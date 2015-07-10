@@ -23,6 +23,7 @@ namespace SUADATOS
     
         public int id { get; set; }
         public string descripcion { get; set; }
+        public string clavePais { get; set; }
         public string naturalez { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }

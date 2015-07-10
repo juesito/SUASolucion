@@ -22,7 +22,7 @@ namespace SUAMVC.Controllers
         public ActionResult Index(string id)
         {
 
-            var empleados = db.Empleados.Include(e => e.Banco).Include(e => e.EsquemasPago).Include(e => e.EstadoCivil).Include(e => e.Estado).Include(e => e.Municipio).Include(e => e.Pais).Include(e => e.SDI).Include(e => e.Sexo).Include(e => e.Solicitud).Include(e => e.Usuario);
+            var empleados = db.Empleados.Include(e => e.Banco).Include(e => e.EstadoCivil).Include(e => e.Pais).Include(e => e.Sexo).Include(e => e.Solicitud).Include(e => e.Usuario);
             if (!String.IsNullOrEmpty(id))
             {
                 int idTemp = int.Parse(id);
@@ -79,6 +79,7 @@ namespace SUAMVC.Controllers
             {
                 ToolsHelper th = new ToolsHelper();
                 Usuario usuario = Session["UsuarioData"] as Usuario;
+
                 empleado.fechaCreacion = DateTime.Now;
                 empleado.usuarioId = usuario.Id;
                 empleado.nombreCompleto = empleado.nombre + " " + empleado.apellidoPaterno + " " + empleado.apellidoMaterno;
@@ -86,11 +87,14 @@ namespace SUAMVC.Controllers
                 empleado.rfc = empleado.rfc.Trim();
                 empleado.homoclave = empleado.homoclave.Trim();
 
-                Acreditado acreditado = th.obtenerAcreditadoPorNSS(empleado.nss.Trim());
-
-                if (!(acreditado == null) && !String.IsNullOrEmpty(acreditado.nombre))
+                if (!String.IsNullOrEmpty(empleado.nss))
                 {
-                    empleado.acreditadoId = acreditado.id;
+                    Acreditado acreditado = th.obtenerAcreditadoPorNSS(empleado.nss.Trim());
+
+                    if (!(acreditado == null) && !String.IsNullOrEmpty(acreditado.nombre))
+                    {
+                        empleado.acreditadoId = acreditado.id;
+                    }
                 }
 
                 //Obtenemos el sexo del empleado
@@ -116,7 +120,7 @@ namespace SUAMVC.Controllers
                     //a su vez con ella obtener el folio de Solicitud para generar el folioEmpleado
                     Solicitud solicitud = db.Solicituds.Find(empleado.solicitudId);
                     solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
-                    
+
                     empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
 
                     //Preparamos las entidades para guardar
@@ -141,7 +145,7 @@ namespace SUAMVC.Controllers
                     }
                 }
 
-                return RedirectToAction("Index", new { id = empleado.solicitudId });
+                return RedirectToAction("Index", "Solicitudes", new { id = empleado.solicitudId });
             }
 
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
@@ -228,6 +232,22 @@ namespace SUAMVC.Controllers
             db.Empleados.Remove(empleado);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        public ActionResult CargarArchivo()
+        {
+
+            ToolsHelper th = new ToolsHelper();
+
+            HttpFileCollectionBase files = Request.Files;
+            String destino = "";
+            String nombreArchivo = "";
+            th.cargarArchivo(files, destino, nombreArchivo);
+
+            return RedirectToAction("Edit");
+
         }
 
 

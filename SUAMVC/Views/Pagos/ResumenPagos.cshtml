@@ -3,7 +3,7 @@
 @using SUAMVC.Models
 @using System.Text;
 @{
-    ViewBag.Title = "UploadFiles";
+    ViewBag.Title = "Detalle de Pagos";
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (!WebSecurity.IsAuthenticated)
     {
@@ -16,36 +16,79 @@
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
 
-    gridColumns.Add(grid.Column("periodo", "Periodo", format: @<text> @if (@item.periodo != null)
-    {  @item.periodo }</text>, canSort: true));
-    gridColumns.Add(grid.Column("nss", "IMSS", format: @<text> @if (@item.nss != null)
-    {  @item.nss }</text>, canSort: true));
-    gridColumns.Add(grid.Column("trabajador", "Nombre", format: @<text> @if (@item.trabajador != null)
-    {  @item.trabajador }</text>, canSort: true));
-    gridColumns.Add(grid.Column("diasCotizadosMes", "Dias", format: @<text> @if (@item.diasCotizadosMes != null)
-    {  @item.diasCotizadosMes }</text>, canSort: true));
-    gridColumns.Add(grid.Column("diasCotizadosMes", "Dias", format: @<text> @if (@item.diasCotizadosMes != null)
-    {  @item.diasCotizadosMes }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Pago.anno", "Periodo", format: @<text> @if (@item.Pago.anno != null)
+    {  @item.Pago.anno @item.Pago.mes   }</text>, canSort: true));
+                                                 
+    gridColumns.Add(grid.Column("Asegurado.", "NSS", format: @<text> @if (@item.Asegurado.numeroAfiliacion != null)
+    {  @item.Asegurado.numeroAfiliacion }</text>, canSort: true));
+                         
+    gridColumns.Add(grid.Column("Asegurado", "Nombre", format: @<text> @if (@item.Asegurado.nombreTemporal != null)
+    {  @item.Asegurado.nombreTemporal }</text>, canSort: true));
+                                
+    gridColumns.Add(grid.Column("diasCotizados", "Dias", format: @<text> @if (@item.diasCotizados != null)
+    {  @item.diasCotizados }</text>, canSort: true));
+                                      
     gridColumns.Add(grid.Column("sdi", "S.D.I.", format: @<text> @if (@item.sdi != null)
     {  @item.sdi }</text>, canSort: true));
-    gridColumns.Add(grid.Column("diasIncapacidad", "Incapacidad", format: @<text> @if (@item.diasIncapacidad != null)
+                                      
+    gridColumns.Add(grid.Column("diasIncapacidad", "Inc.", format: @<text> @if (@item.diasIncapacidad != null)
     {  @item.diasIncapacidad }</text>, canSort: true));
-    gridColumns.Add(grid.Column("diasAusentismo", "Ausentismo", format: @<text> @if (@item.diasAusentismo != null)
+    gridColumns.Add(grid.Column("diasAusentismo", "Aus.", format: @<text> @if (@item.diasAusentismo != null)
     {  @item.diasAusentismo }</text>, canSort: true));
+                                    
     gridColumns.Add(grid.Column("cuotaFija", "C.F.", format: @<text> @if (@item.cuotaFija != null)
     {  @item.cuotaFija }</text>, canSort: true));
-    gridColumns.Add(grid.Column("cuotaExcendente", "Ex.P", format: @<text> @if (@item.cuotaExcendente != null)
-    {  @item.cuotaExcendente }</text>, canSort: true));
-    gridColumns.Add(grid.Column("gastosMedicosPensionados", "G.M.P. Pat.", format: @<text> @if (@item.gastosMedicosPensionados != null)
-    {  @item.gastosMedicosPensionados }</text>, canSort: true));
-    gridColumns.Add(grid.Column("cuotaGmpObr", "G.M.P. Obr.", format: @<text> @if (@item.cuotaGmpObr != null)
-    {  @item.cuotaGmpObr }</text>, canSort: true));
-    gridColumns.Add(grid.Column("riesgoTrabajo", "R.T.", format: @<text> @if (@item.riesgoTrabajo != null)
-    {  @item.riesgoTrabajo }</text>, canSort: true));
-    gridColumns.Add(grid.Column("invalidezVida", "I.V.P", format: @<text> @if (@item.invalidezVida != null)
-    {  @item.invalidezVida }</text>, canSort: true));
-    gridColumns.Add(grid.Column("cuotaIvObr", "I.V.O", format: @<text> @if (@item.cuotaIvObr != null)
-    {  @item.cuotaIvObr }</text>, canSort: true));
+    gridColumns.Add(grid.Column("expa", "Ex.P", format: @<text> @if (@item.expa != null)
+    {  @item.expa }</text>, canSort: true));
+                                     
+    gridColumns.Add(grid.Column("exo", "Ex. O.", format: @<text> @if (@item.exo != null)
+    {  @item.exo }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Asegurado", "Ubicación", format: @<text> @if (@item.Asegurado.Cliente.claveCliente != null)
+    {  @item.Asegurado.Cliente.claveCliente }</text>, canSort: true));
+
+    gridColumns.Add(grid.Column("PDP", "PDP", format: @<text> @if (@item.pdp != null)
+    {  @item.pdp }</text>, canSort: true));
+                         
+    gridColumns.Add(grid.Column("GMPP", "GMP. Patron", format: @<text> @if (@item.gmpp != null)
+    {  @item.gmpp }</text>, canSort: true));
+
+    gridColumns.Add(grid.Column("GMPO", "GMP. Obrero", format: @<text> @if (@item.gmpo != null)
+    {  @item.gmpo }</text>, canSort: true));
+
+    gridColumns.Add(grid.Column("rt", "R.T.", format: @<text> @if (@item.rt != null)
+    {  @item.rt }</text>, canSort: true));
+    gridColumns.Add(grid.Column("ivp", "I.V.P", format: @<text> @if (@item.ivp != null)
+    {  @item.ivp }</text>, canSort: true));
+    gridColumns.Add(grid.Column("ivo", "I.V.O", format: @<text> @if (@item.ivo != null)
+    {  @item.ivo }</text>, canSort: true));
+    gridColumns.Add(grid.Column("gps", "G.P.S.", format: @<text> @if (@item.gps != null)
+    {  @item.gps }</text>, canSort: true));
+
+    gridColumns.Add(grid.Column("patronal", "Patronal", format: @<text> @if (@item.patronal != null)
+    {  @item.patronal }</text>, canSort: true));
+
+    gridColumns.Add(grid.Column("obrera", "Obrera", format: @<text> @if (@item.obrera != null)
+    {  @item.obrera }</text>, canSort: true));
+
+    gridColumns.Add(grid.Column("imss", "IMSS", format: @<text> @if (@item.imss != null)
+    {  @item.imss }</text>, canSort: true));
+
+    gridColumns.Add(grid.Column("retiro", "Retiro", format: @<text> @if (@item.retiro != null)
+    {  @item.retiro }</text>, canSort: true));
+    gridColumns.Add(grid.Column("patronalBimestral", "Patronal Bim", format: @<text> @if (@item.patronalBimestral != null)
+    {  @item.patronalBimestral }</text>, canSort: true));
+    gridColumns.Add(grid.Column("obreraBimestral", "Obrera Bim", format: @<text> @if (@item.obreraBimestral != null)
+    {  @item.obreraBimestral }</text>, canSort: true));
+                            
+    gridColumns.Add(grid.Column("rcv", "R.C.V.", format: @<text> @if (@item.rcv != null)
+    {  @item.rcv }</text>, canSort: true)); 
+                          
+    gridColumns.Add(grid.Column("aportacionsc", "Aportacion SC", format: @<text> @if (@item.aportacionsc != null)
+    {  @item.aportacionsc }</text>, canSort: true));
+    gridColumns.Add(grid.Column("aportacioncc", "Aportacion CC", format: @<text> @if (@item.aportacioncc != null)
+    {  @item.aportacioncc }</text>, canSort: true));
+    gridColumns.Add(grid.Column("amortizacion", "Amortizacion", format: @<text> @if (@item.amortizacion != null)
+    {  @item.amortizacion }</text>, canSort: true));
 
 
     sb.Append(grid.GetHtml(
@@ -66,13 +109,11 @@ tableStyle: "table table-striped tableSua"
     </div>
     <div class="panel-body">
 
-        @using (@Html.BeginForm("UploadPDFFiles", "Movimientos", FormMethod.Post,
-            new { enctype = "multipart/form-data" }))
+        @using (@Html.BeginForm("actualizarPagos", "Pagos", FormMethod.Post))
         {
-
             @Html.AntiForgeryToken()
 
-            <table>
+            <table style="font-size:12px;">
                 <tbody>
                     <tr>
                         <td style="font-weight:bold;">
@@ -104,7 +145,7 @@ tableStyle: "table table-striped tableSua"
                     <tr>
                         <td></td>
                         <td colspan="3">
-                            <table style="width:300px;">
+                            <table style="width:300px; margin-top:15px;">
                                 <tr>
                                     <th>IMSS</th>
                                     <th>RCV</th>
@@ -118,6 +159,12 @@ tableStyle: "table table-striped tableSua"
                                     <td>@Model.pago.total</td>
                                 </tr>
                             </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td>
+                            <input class="btn btn-success" type="submit" value="@Language.agregar" />
                         </td>
                     </tr>
 
