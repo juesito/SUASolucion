@@ -14,61 +14,45 @@ namespace SUADATOS
     
     public partial class DetallePago
     {
-        public int @int { get; set; }
+        public int id { get; set; }
         public int pagoId { get; set; }
-        public string periodo { get; set; }
-        public string nss { get; set; }
-        public string rfc { get; set; }
-        public string curp { get; set; }
-        public string creditoInfonavit { get; set; }
-        public string fid { get; set; }
-        public string trabajador { get; set; }
-        public string sdi { get; set; }
-        public string tipoTrabajador { get; set; }
-        public string jornadaSemanaReducida { get; set; }
-        public string diasCotizadosMes { get; set; }
-        public string diasIncapacidad { get; set; }
-        public string diasAusentismo { get; set; }
-        public Nullable<decimal> cuotaFija { get; set; }
-        public Nullable<decimal> cuotaExcendente { get; set; }
-        public Nullable<decimal> prestacionesDinero { get; set; }
-        public Nullable<decimal> gastosMedicosPensionados { get; set; }
-        public Nullable<decimal> riesgoTrabajo { get; set; }
-        public Nullable<decimal> invalidezVida { get; set; }
-        public Nullable<int> guarderias { get; set; }
-        public Nullable<decimal> actRecargosImss { get; set; }
-        public string diasCotizadosBimestre { get; set; }
-        public string diasIncapacidadBimestre { get; set; }
-        public string diasAusentismoBimestre { get; set; }
-        public Nullable<int> retiro { get; set; }
-        public Nullable<decimal> actRecargosRetiro { get; set; }
-        public Nullable<decimal> cesantiaVejezPatronal { get; set; }
-        public Nullable<decimal> cesantiaVejezObrera { get; set; }
-        public Nullable<decimal> actRecargosCyV { get; set; }
-        public Nullable<decimal> aportacionVoluntaria { get; set; }
-        public Nullable<decimal> aportacionComp { get; set; }
-        public Nullable<decimal> aportacionPatronal { get; set; }
+        public int aseguradoId { get; set; }
+        public int diasCotizados { get; set; }
+        public decimal sdi { get; set; }
+        public int diasIncapacidad { get; set; }
+        public int diasAusentismo { get; set; }
+        public int diaCre { get; set; }
+        public decimal cuotaFija { get; set; }
+        public decimal expa { get; set; }
+        public decimal exO { get; set; }
+        public decimal pdp { get; set; }
+        public decimal pdo { get; set; }
+        public decimal gmpp { get; set; }
+        public decimal gmpo { get; set; }
+        public decimal rt { get; set; }
+        public decimal ivp { get; set; }
+        public decimal ivo { get; set; }
+        public decimal gps { get; set; }
+        public Nullable<decimal> retiro { get; set; }
+        public Nullable<decimal> patronal { get; set; }
+        public Nullable<decimal> obrera { get; set; }
+        public Nullable<decimal> imss { get; set; }
+        public Nullable<decimal> rcv { get; set; }
+        public Nullable<decimal> aportacionsc { get; set; }
+        public Nullable<decimal> aportacioncc { get; set; }
         public Nullable<decimal> amortizacion { get; set; }
-        public string actImss { get; set; }
-        public string recImss { get; set; }
-        public string actRetiro { get; set; }
-        public string recRetiro { get; set; }
-        public string actCesPat { get; set; }
-        public string recCesPat { get; set; }
-        public string actCesObr { get; set; }
-        public string recCesObr { get; set; }
-        public Nullable<decimal> cuotaExcObr { get; set; }
-        public Nullable<decimal> cuotaPdObr { get; set; }
-        public Nullable<decimal> cuotaGmpObr { get; set; }
-        public Nullable<decimal> cuotaIvObr { get; set; }
-        public string actPatImss { get; set; }
-        public string recPatImss { get; set; }
-        public string actObrImss { get; set; }
-        public string recObrImss { get; set; }
+        public Nullable<decimal> infonavit { get; set; }
+        public Nullable<decimal> total { get; set; }
+        public Nullable<decimal> patronalBimestral { get; set; }
+        public Nullable<decimal> imssBimestral { get; set; }
+        public Nullable<decimal> obreraBimestral { get; set; }
+        public int patronId { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
+        public virtual Asegurado Asegurado { get; set; }
         public virtual Pago Pago { get; set; }
+        public virtual Patrone Patrone { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
 }

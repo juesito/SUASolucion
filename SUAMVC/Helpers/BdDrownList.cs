@@ -24,6 +24,7 @@ namespace SUAMVC.Helpers
             List<Plaza> listPlazas = (from s in db.Plazas.ToList()
                                       join top in db.TopicosUsuarios on s.id equals top.topicoId
                                       where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(userId)
+                                      && !s.descripcion.Contains("Local")
                                       orderby s.cveCorta, s.descripcion
                                       select s).ToList();
 
@@ -31,7 +32,7 @@ namespace SUAMVC.Helpers
             {
                 String itemId = item.id.ToString().Trim();
                 String descripcion = item.descripcion.Trim();
-                if (descripcion.Contains("Todas"))
+                if (descripcion.Contains("Todas") || descripcion.Contains("Seleccion"))
                 {
                     itemId = "";
                 }
@@ -50,6 +51,7 @@ namespace SUAMVC.Helpers
             List<Plaza> listPlazas = (from s in db.Plazas.ToList()
                                       join top in db.TopicosUsuarios on s.id equals top.topicoId
                                       where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(userId)
+                                      && !s.descripcion.Contains("Local")
                                       orderby s.cveCorta, s.descripcion
                                       select s).ToList();
 
@@ -57,7 +59,7 @@ namespace SUAMVC.Helpers
             {
                 String itemId = item.id.ToString().Trim();
                 String descripcion = item.descripcion.Trim();
-                if (descripcion.Contains("Todas"))
+                if (descripcion.Contains("Todas") || descripcion.Contains("Seleccion"))
                 {
                     itemId = "";
                 }
@@ -87,7 +89,7 @@ namespace SUAMVC.Helpers
                 String itemId = item.Id.ToString().Trim();
                 String descripcion = item.registro.Trim() + "-" + item.nombre.Trim();
 
-                if (descripcion.Contains("Todos"))
+                if (descripcion.Contains("Todos") || descripcion.Contains("Seleccion") )
                 {
                     itemId = "";
                     descripcion = item.nombre.Trim();
@@ -116,7 +118,7 @@ namespace SUAMVC.Helpers
                 String itemId = item.Id.ToString().Trim();
                 String descripcion = item.registro.Trim() + "-" + item.nombre.Trim();
 
-                if (descripcion.Contains("Todos"))
+                if (descripcion.Contains("Todos") || descripcion.Contains("Seleccion"))
                 {
                     itemId = "";
                     descripcion = item.nombre.Trim();
@@ -145,7 +147,7 @@ namespace SUAMVC.Helpers
                 String itemId = item.Id.ToString().Trim();
                 String descripcion = item.registro.Trim() + "-" + item.nombre.Trim();
 
-                if (descripcion.Contains("Todos"))
+                if (descripcion.Contains("Todos") || descripcion.Contains("Seleccion"))
                 {
                     itemId = "";
                     descripcion = item.nombre.Trim();

@@ -46,7 +46,7 @@ namespace SUAMVC.Models
         }
 
         public static void limpiarListaDePermisos(){
-            if (roleFunciones.Count() > 0)
+            if (roleFunciones != null && roleFunciones.Count() > 0)
             {
                 roleFunciones.Clear();
             }

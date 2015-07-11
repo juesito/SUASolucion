@@ -51,17 +51,75 @@
             { @item.fechaDeposito.ToString("dd-MM-yyyy")}
         </div></text>, null, canSort: true));
 
-    gridColumns.Add(grid.Column("bancoId", "Banco", @<text><div style='width: 6em'>
+    gridColumns.Add(grid.Column("item.Pago.bancoId", "Banco", @<text><div style='width: 6em'>
                 @if (@item.bancoId != null)
-                { @item.Banco.decripcion}
+                { @item.Banco.descripcion}
             </div></text>, null, true));
     gridColumns.Add(grid.Column("nt", "NT", null, null, true));
     gridColumns.Add(grid.Column("Patrone.Plaza.Descripcion", "Localidad SUA", null, null, true));
 
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "CL", format: @<text>
+            @if (item.comprobantePago != null)
+            {
+                <a href="@Url.Action("UploadComprobantes", "Pagos", new { @id = item.id})">
+                    <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+            else
+            {
+                <a href="@Url.Action("UploadComprobantes", "Pagos", new { @id = item.id })">
+                    <img src="~/Content/Images/upload.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
 
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {
-        gridColumns.Add(grid.Column(header: "Imagen", format: @<text><a href="@Url.Action("ResumenPagos", "Pagos", new { @id = item.id})"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "RL", format: @<text>
+            @if (item.resumenLiquidacion != null)
+            {
+                <a href="@Url.Action("UploadComprobantes", "Pagos", new { @id = item.id })">
+                    <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+            else
+            {
+                <a href="@Url.Action("UploadComprobantes", "Pagos", new { @id = item.id })">
+                    <img src="~/Content/Images/upload.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
+
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "CA", format: @<text>
+            @if (item.cedulaAutodeterminacion != null)
+            {
+                <a href="@Url.Action("UploadComprobantes", "Pagos", new { @id = item.id })">
+                    <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+            else
+            {
+                <a href="@Url.Action("UploadComprobantes", "Pagos", new { @id = item.id })">
+                    <img src="~/Content/Images/upload.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
+
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "Resumen", format: @<text><a href="@Url.Action("ResumenPagos", "Pagos", new { @id = item.id})"><img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "Resumen", format: @<text><a href="@Url.Action("ResumenPagos", "Pagos", new { @id = item.id})"><img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
 
     sb.Append(grid.GetHtml(
@@ -79,7 +137,7 @@
     <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catalogo de Asegurados</div>
 }
 
-@using (Html.BeginForm(null, null, FormMethod.Get))
+@using (Html.BeginForm(null, null, FormMethod.Post))
 {
     //MarqueeFilter - Todos los filtros principales
     <div class="marqueeFilter">
@@ -99,9 +157,9 @@
                         @Html.patronesDrownList(usuario.Id)
                     </td>
                     <td>@Html.Label("Periodo :")</td>
-                    <td>@Html.periodosList()</td>
+                    <td>@Html.periodosAutoList()</td>
                     <td>@Html.Label("Ejercicio :")</td>
-                    <td>@Html.ejercicioList()</td>
+                    <td>@Html.ejercicioAutoList()</td>
                 </tr>
             </thead>
         </table>
