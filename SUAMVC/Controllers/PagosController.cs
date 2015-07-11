@@ -444,10 +444,27 @@ namespace SUAMVC.Controllers
             return View(resumenPagoModel);
         }
 
-        public ActionResult actualizarPagos() {
+        public ActionResult actualizarPagos([Bind(Include = "id,bancoId,fechaDeposito")]Pago pago, String bancoId)
+        {
+
+            if(pago != null){
+                int bancoTempId = int.Parse(bancoId); 
+                Pago pagoTemp = db.Pagos.Find(pago.id);
+                pagoTemp.fechaDeposito = pago.fechaDeposito;
+                pagoTemp.bancoId = bancoTempId;
+                db.Entry(pagoTemp).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        
+        }
+
+        public ActionResult UploadComprobantes(String id, String comprobanteId) {
+
+            @ViewBag.id = id;
+            @ViewBag.comprobanteId = comprobanteId;
 
             return View();
-        
         }
 
         protected override void Dispose(bool disposing)

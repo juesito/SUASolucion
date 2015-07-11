@@ -113,6 +113,7 @@ tableStyle: "table table-striped tableSua"
         {
             @Html.AntiForgeryToken()
 
+            @Html.HiddenFor(model => model.pago.id)
             <table style="font-size:12px;">
                 <tbody>
                     <tr>
@@ -137,7 +138,7 @@ tableStyle: "table table-striped tableSua"
                             Fecha deposito:
                         </td>
                         <td style="padding-top:10px">
-                            @Html.EditorFor(model => model.pago.fechaDeposito, new { htmlAttributes = new { @class = "myDate" } })
+                            @Html.EditorFor(model => model.pago.fechaDeposito, new { htmlAttributes = new { @class = "myDate", id="fechaDeposito" } })
                         </td>
                         <td>Banco:</td>
                         <td>@Html.bancosDrownList(usuario.Id, "bancoId")</td>
@@ -184,5 +185,5 @@ tableStyle: "table table-striped tableSua"
 </div>
 
 <div>
-    @Html.ActionLink("Regresar", "Index", "Asegurados")
+    @Html.ActionLink("Regresar", "Index", "Pagos")
 </div>
