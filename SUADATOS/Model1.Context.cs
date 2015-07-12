@@ -35,7 +35,6 @@ namespace SUADATOS
         public virtual DbSet<ContratosCliente> ContratosClientes { get; set; }
         public virtual DbSet<DatosAdicionalesCliente> DatosAdicionalesClientes { get; set; }
         public virtual DbSet<Departamento> Departamentos { get; set; }
-        public virtual DbSet<DetallePago> DetallePagoes { get; set; }
         public virtual DbSet<documentosEmpleado> documentosEmpleadoes { get; set; }
         public virtual DbSet<Empleado> Empleados { get; set; }
         public virtual DbSet<Empresa> Empresas { get; set; }
@@ -74,5 +73,6 @@ namespace SUADATOS
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<DetallePago> DetallePago { get; set; }
     }
 }

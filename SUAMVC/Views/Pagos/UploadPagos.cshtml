@@ -23,6 +23,7 @@
         @using (@Html.BeginForm("Upload", "Pagos", FormMethod.Post,
             new { enctype = "multipart/form-data" }))
         {
+            @Html.Hidden("usuarioId", usuario.Id)
             <div class="marqueeFilter">
                 <table style="float:left; margin-top:5px;display:inline-block;">
                     <tbody>

@@ -58,18 +58,19 @@
     gridColumns.Add(grid.Column("nt", "NT", null, null, true));
     gridColumns.Add(grid.Column("Patrone.Plaza.Descripcion", "Localidad SUA", null, null, true));
 
+
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {
         gridColumns.Add(grid.Column(header: "CL", format: @<text>
             @if (item.comprobantePago != null)
             {
-                <a href="@Url.Action("UploadComprobantes", "Pagos", new { @id = item.id})">
+                <a href="@Url.Action("VerComprobante", "Pagos", new { fileNameString = item.comprobantePago})">
                     <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
                 </a>
             }
             else
             {
-                <a href="@Url.Action("UploadComprobantes", "Pagos", new { @id = item.id })">
+                <a href="@Url.Action("UploadComprobantes", "Pagos", new { id = item.id, comprobanteId = "CL" })">
                     <img src="~/Content/Images/upload.png" alt="" style="border:none;" class="icon" />
                 </a>
             }
@@ -81,13 +82,13 @@
         gridColumns.Add(grid.Column(header: "RL", format: @<text>
             @if (item.resumenLiquidacion != null)
             {
-                <a href="@Url.Action("UploadComprobantes", "Pagos", new { @id = item.id })">
+                <a href="@Url.Action("VerComprobante", "Pagos", new { fileNameString = item.comprobantePago })">
                     <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
                 </a>
             }
             else
             {
-                <a href="@Url.Action("UploadComprobantes", "Pagos", new { @id = item.id })">
+                <a href="@Url.Action("UploadComprobantes", "Pagos", new { id = item.id, comprobanteId = "RL" })">
                     <img src="~/Content/Images/upload.png" alt="" style="border:none;" class="icon" />
                 </a>
             }
@@ -99,13 +100,13 @@
         gridColumns.Add(grid.Column(header: "CA", format: @<text>
             @if (item.cedulaAutodeterminacion != null)
             {
-                <a href="@Url.Action("UploadComprobantes", "Pagos", new { @id = item.id })">
+                <a href="@Url.Action("VerComprobante", "Pagos", new { fileNameString = item.comprobantePago })">
                     <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
                 </a>
             }
             else
             {
-                <a href="@Url.Action("UploadComprobantes", "Pagos", new { @id = item.id })">
+                <a href="@Url.Action("UploadComprobantes", "Pagos", new { id = item.id, comprobanteId = "CA" })">
                     <img src="~/Content/Images/upload.png" alt="" style="border:none;" class="icon" />
                 </a>
             }

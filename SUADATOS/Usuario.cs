@@ -22,7 +22,6 @@ namespace SUADATOS
             this.ContratosClientes = new HashSet<ContratosCliente>();
             this.DatosAdicionalesClientes = new HashSet<DatosAdicionalesCliente>();
             this.Departamentos = new HashSet<Departamento>();
-            this.DetallePagoes = new HashSet<DetallePago>();
             this.documentosEmpleadoes = new HashSet<documentosEmpleado>();
             this.Empleados = new HashSet<Empleado>();
             this.Empresas = new HashSet<Empresa>();
@@ -50,6 +49,7 @@ namespace SUADATOS
             this.TipoPersonals = new HashSet<TipoPersonal>();
             this.TopicosUsuarios = new HashSet<TopicosUsuario>();
             this.TopicosUsuarios1 = new HashSet<TopicosUsuario>();
+            this.DetallePago = new HashSet<DetallePago>();
         }
     
         public int Id { get; set; }
@@ -72,7 +72,6 @@ namespace SUADATOS
         public virtual ICollection<DatosAdicionalesCliente> DatosAdicionalesClientes { get; set; }
         public virtual ICollection<Departamento> Departamentos { get; set; }
         public virtual Departamento Departamento { get; set; }
-        public virtual ICollection<DetallePago> DetallePagoes { get; set; }
         public virtual ICollection<documentosEmpleado> documentosEmpleadoes { get; set; }
         public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual ICollection<Empresa> Empresas { get; set; }
@@ -102,5 +101,6 @@ namespace SUADATOS
         public virtual ICollection<TipoPersonal> TipoPersonals { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios1 { get; set; }
+        public virtual ICollection<DetallePago> DetallePago { get; set; }
     }
 }

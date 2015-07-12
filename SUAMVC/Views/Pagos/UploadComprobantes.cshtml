@@ -29,7 +29,7 @@
         Cargar o actualizar los comprobantes de pago - Archivos PDF
     </div>
     <div class="panel-body">
-        @using (@Html.BeginForm("Upload", "Pagos", FormMethod.Post,
+        @using (@Html.BeginForm("GuardarComprobantes", "Pagos", FormMethod.Post,
             new { enctype = "multipart/form-data" }))
         {
             @Html.Hidden("id", id)

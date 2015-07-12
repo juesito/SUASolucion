@@ -2551,7 +2551,6 @@
           <EntitySet Name="ContratosClientes" EntityType="suaModel.ContratosCliente" />
           <EntitySet Name="DatosAdicionalesClientes" EntityType="suaModel.DatosAdicionalesCliente" />
           <EntitySet Name="Departamentos" EntityType="suaModel.Departamento" />
-          <EntitySet Name="DetallePagoes" EntityType="suaModel.DetallePago" />
           <EntitySet Name="documentosEmpleadoes" EntityType="suaModel.documentosEmpleado" />
           <EntitySet Name="Empleados" EntityType="suaModel.Empleado" />
           <EntitySet Name="Empresas" EntityType="suaModel.Empresa" />
@@ -2629,10 +2628,6 @@
           <AssociationSet Name="FK_Asegurados_Clientes" Association="suaModel.FK_Asegurados_Clientes">
             <End Role="Cliente" EntitySet="Clientes" />
             <End Role="Asegurado" EntitySet="Asegurados" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetallePago_Asegurados" Association="suaModel.FK_DetallePago_Asegurados">
-            <End Role="Asegurado" EntitySet="Asegurados" />
-            <End Role="DetallePago" EntitySet="DetallePagoes" />
           </AssociationSet>
           <AssociationSet Name="FK_Incapacidades_Asegurados" Association="suaModel.FK_Incapacidades_Asegurados">
             <End Role="Asegurado" EntitySet="Asegurados" />
@@ -2757,18 +2752,6 @@
           <AssociationSet Name="FK_Usuarios_Departamentos" Association="suaModel.FK_Usuarios_Departamentos">
             <End Role="Departamento" EntitySet="Departamentos" />
             <End Role="Usuario" EntitySet="Usuarios" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetallePago_Pagos" Association="suaModel.FK_DetallePago_Pagos">
-            <End Role="Pago" EntitySet="Pagos" />
-            <End Role="DetallePago" EntitySet="DetallePagoes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetallePago_Patrones" Association="suaModel.FK_DetallePago_Patrones">
-            <End Role="Patrone" EntitySet="Patrones" />
-            <End Role="DetallePago" EntitySet="DetallePagoes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetallePago_Usuarios" Association="suaModel.FK_DetallePago_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="DetallePago" EntitySet="DetallePagoes" />
           </AssociationSet>
           <AssociationSet Name="FK_documentosEmpleado_Empleados" Association="suaModel.FK_documentosEmpleado_Empleados">
             <End Role="Empleado" EntitySet="Empleados" />
@@ -3010,6 +2993,23 @@
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="TopicosUsuario" EntitySet="TopicosUsuarios" />
           </AssociationSet>
+          <EntitySet Name="DetallePago" EntityType="suaModel.DetallePago" />
+          <AssociationSet Name="FK_DetallePago_Asegurados" Association="suaModel.FK_DetallePago_Asegurados">
+            <End Role="Asegurado" EntitySet="Asegurados" />
+            <End Role="DetallePago" EntitySet="DetallePago" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetallePago_Pagos" Association="suaModel.FK_DetallePago_Pagos">
+            <End Role="Pago" EntitySet="Pagos" />
+            <End Role="DetallePago" EntitySet="DetallePago" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetallePago_Patrones" Association="suaModel.FK_DetallePago_Patrones">
+            <End Role="Patrone" EntitySet="Patrones" />
+            <End Role="DetallePago" EntitySet="DetallePago" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetallePago_Usuarios" Association="suaModel.FK_DetallePago_Usuarios">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="DetallePago" EntitySet="DetallePago" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Acreditado">
           <Key>
@@ -3118,12 +3118,12 @@
           <Property Name="Plaza_id" Type="Int32" Nullable="false" />
           <Property Name="salarioDiario" Type="Decimal" Precision="10" Scale="3" />
           <NavigationProperty Name="Cliente" Relationship="suaModel.FK_Asegurados_Clientes" FromRole="Asegurado" ToRole="Cliente" />
-          <NavigationProperty Name="DetallePagoes" Relationship="suaModel.FK_DetallePago_Asegurados" FromRole="Asegurado" ToRole="DetallePago" />
           <NavigationProperty Name="Incapacidades" Relationship="suaModel.FK_Incapacidades_Asegurados" FromRole="Asegurado" ToRole="Incapacidade" />
           <NavigationProperty Name="Movimientos" Relationship="suaModel.FK_Movimientos_Asegurados" FromRole="Asegurado" ToRole="Movimiento" />
           <NavigationProperty Name="MovimientosAseguradoes" Relationship="suaModel.FK_MovimientosAsegurado_Asegurados" FromRole="Asegurado" ToRole="MovimientosAsegurado" />
           <NavigationProperty Name="Patrone" Relationship="suaModel.FK_PatroneAsegurado" FromRole="Asegurado" ToRole="Patrone" />
           <NavigationProperty Name="Plaza" Relationship="suaModel.FK_PlazaAsegurado" FromRole="Asegurado" ToRole="Plaza" />
+          <NavigationProperty Name="DetallePago" Relationship="suaModel.FK_DetallePago_Asegurados" FromRole="Asegurado" ToRole="DetallePago" />
         </EntityType>
         <EntityType Name="Banco">
           <Key>
@@ -3257,50 +3257,6 @@
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Departamentos_Departamentos" FromRole="Departamento" ToRole="Usuario" />
           <NavigationProperty Name="RespuestaSolicituds" Relationship="suaModel.FK_RespuestaSolicitud_Departamentos" FromRole="Departamento" ToRole="RespuestaSolicitud" />
           <NavigationProperty Name="Usuarios" Relationship="suaModel.FK_Usuarios_Departamentos" FromRole="Departamento" ToRole="Usuario" />
-        </EntityType>
-        <EntityType Name="DetallePago">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="pagoId" Type="Int32" Nullable="false" />
-          <Property Name="aseguradoId" Type="Int32" Nullable="false" />
-          <Property Name="diasCotizados" Type="Int32" Nullable="false" />
-          <Property Name="sdi" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-          <Property Name="diasIncapacidad" Type="Int32" Nullable="false" />
-          <Property Name="diasAusentismo" Type="Int32" Nullable="false" />
-          <Property Name="diaCre" Type="Int32" Nullable="false" />
-          <Property Name="cuotaFija" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <Property Name="expa" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <Property Name="exO" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <Property Name="pdp" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <Property Name="pdo" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <Property Name="gmpp" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <Property Name="gmpo" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <Property Name="rt" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <Property Name="ivp" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <Property Name="ivo" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <Property Name="gps" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <Property Name="retiro" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="patronal" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="obrera" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="imss" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="rcv" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="aportacionsc" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="aportacioncc" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="amortizacion" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="infonavit" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="total" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="patronalBimestral" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="imssBimestral" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="obreraBimestral" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="patronId" Type="Int32" Nullable="false" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="usuarioId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Asegurado" Relationship="suaModel.FK_DetallePago_Asegurados" FromRole="DetallePago" ToRole="Asegurado" />
-          <NavigationProperty Name="Pago" Relationship="suaModel.FK_DetallePago_Pagos" FromRole="DetallePago" ToRole="Pago" />
-          <NavigationProperty Name="Patrone" Relationship="suaModel.FK_DetallePago_Patrones" FromRole="DetallePago" ToRole="Patrone" />
-          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_DetallePago_Usuarios" FromRole="DetallePago" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="documentosEmpleado">
           <Key>
@@ -3622,10 +3578,10 @@
           <Property Name="mes" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="true" />
           <Property Name="anno" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Banco" Relationship="suaModel.FK_Pagos_Bancos" FromRole="Pago" ToRole="Banco" />
-          <NavigationProperty Name="DetallePagoes" Relationship="suaModel.FK_DetallePago_Pagos" FromRole="Pago" ToRole="DetallePago" />
           <NavigationProperty Name="Patrone" Relationship="suaModel.FK_Pagos_Patrones" FromRole="Pago" ToRole="Patrone" />
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Pagos_Usuarios" FromRole="Pago" ToRole="Usuario" />
           <NavigationProperty Name="ResumenPagoes" Relationship="suaModel.FK_ResumenPago_Pagos" FromRole="Pago" ToRole="ResumenPago" />
+          <NavigationProperty Name="DetallePago" Relationship="suaModel.FK_DetallePago_Pagos" FromRole="Pago" ToRole="DetallePago" />
         </EntityType>
         <EntityType Name="Pais">
           <Key>
@@ -3686,11 +3642,11 @@
           <Property Name="direccionArchivo" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Acreditados" Relationship="suaModel.FK_PatroneAcreditado" FromRole="Patrone" ToRole="Acreditado" />
           <NavigationProperty Name="Asegurados" Relationship="suaModel.FK_PatroneAsegurado" FromRole="Patrone" ToRole="Asegurado" />
-          <NavigationProperty Name="DetallePagoes" Relationship="suaModel.FK_DetallePago_Patrones" FromRole="Patrone" ToRole="DetallePago" />
           <NavigationProperty Name="Pagos" Relationship="suaModel.FK_Pagos_Patrones" FromRole="Patrone" ToRole="Pago" />
           <NavigationProperty Name="Plaza" Relationship="suaModel.FK_PlazaPatrone" FromRole="Patrone" ToRole="Plaza" />
           <NavigationProperty Name="ResumenPagoes" Relationship="suaModel.FK_ResumenPago_Patrones" FromRole="Patrone" ToRole="ResumenPago" />
           <NavigationProperty Name="SumarizadoClientes" Relationship="suaModel.FK_SumarizadoClientes_Patrones" FromRole="Patrone" ToRole="SumarizadoCliente" />
+          <NavigationProperty Name="DetallePago" Relationship="suaModel.FK_DetallePago_Patrones" FromRole="Patrone" ToRole="DetallePago" />
         </EntityType>
         <EntityType Name="Plaza">
           <Key>
@@ -3990,7 +3946,6 @@
           <NavigationProperty Name="DatosAdicionalesClientes" Relationship="suaModel.FK_DatosAdicionalesCliente_Usuarios" FromRole="Usuario" ToRole="DatosAdicionalesCliente" />
           <NavigationProperty Name="Departamentos" Relationship="suaModel.FK_Departamentos_Departamentos" FromRole="Usuario" ToRole="Departamento" />
           <NavigationProperty Name="Departamento" Relationship="suaModel.FK_Usuarios_Departamentos" FromRole="Usuario" ToRole="Departamento" />
-          <NavigationProperty Name="DetallePagoes" Relationship="suaModel.FK_DetallePago_Usuarios" FromRole="Usuario" ToRole="DetallePago" />
           <NavigationProperty Name="documentosEmpleadoes" Relationship="suaModel.FK_documentosEmpleado_Usuarios" FromRole="Usuario" ToRole="documentosEmpleado" />
           <NavigationProperty Name="Empleados" Relationship="suaModel.FK_Empleados_Usuarios" FromRole="Usuario" ToRole="Empleado" />
           <NavigationProperty Name="Empresas" Relationship="suaModel.FK_Empresas_Empresas" FromRole="Usuario" ToRole="Empresa" />
@@ -4020,6 +3975,7 @@
           <NavigationProperty Name="TipoPersonals" Relationship="suaModel.FK_TipoPersonal_TipoPersonal" FromRole="Usuario" ToRole="TipoPersonal" />
           <NavigationProperty Name="TopicosUsuarios" Relationship="suaModel.FK_TopicosUsuario_Usuario" FromRole="Usuario" ToRole="TopicosUsuario" />
           <NavigationProperty Name="TopicosUsuarios1" Relationship="suaModel.FK_TopicosUsuario_Usuario2" FromRole="Usuario" ToRole="TopicosUsuario" />
+          <NavigationProperty Name="DetallePago" Relationship="suaModel.FK_DetallePago_Usuarios" FromRole="Usuario" ToRole="DetallePago" />
         </EntityType>
         <Association Name="FK_Acreditados_Acreditados">
           <End Type="suaModel.Acreditado" Role="Acreditado" Multiplicity="1" />
@@ -4138,18 +4094,6 @@
             </Principal>
             <Dependent Role="Asegurado">
               <PropertyRef Name="ClienteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetallePago_Asegurados">
-          <End Type="suaModel.Asegurado" Role="Asegurado" Multiplicity="1" />
-          <End Type="suaModel.DetallePago" Role="DetallePago" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Asegurado">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="DetallePago">
-              <PropertyRef Name="aseguradoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4522,42 +4466,6 @@
             </Principal>
             <Dependent Role="Usuario">
               <PropertyRef Name="departamentoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetallePago_Pagos">
-          <End Type="suaModel.Pago" Role="Pago" Multiplicity="1" />
-          <End Type="suaModel.DetallePago" Role="DetallePago" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Pago">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="DetallePago">
-              <PropertyRef Name="pagoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetallePago_Patrones">
-          <End Type="suaModel.Patrone" Role="Patrone" Multiplicity="1" />
-          <End Type="suaModel.DetallePago" Role="DetallePago" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Patrone">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DetallePago">
-              <PropertyRef Name="patronId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetallePago_Usuarios">
-          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="suaModel.DetallePago" Role="DetallePago" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DetallePago">
-              <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5281,6 +5189,98 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DetallePago">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pagoId" Type="Int32" Nullable="false" />
+          <Property Name="aseguradoId" Type="Int32" Nullable="false" />
+          <Property Name="diasCotizados" Type="Int32" Nullable="false" />
+          <Property Name="sdi" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="diasIncapacidad" Type="Int32" Nullable="false" />
+          <Property Name="diasAusentismo" Type="Int32" Nullable="false" />
+          <Property Name="diaCre" Type="Int32" Nullable="false" />
+          <Property Name="cuotaFija" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="expa" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="exO" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="pdp" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="pdo" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="gmpp" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="gmpo" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="rt" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="ivp" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="ivo" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="gps" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="retiro" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="patronal" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="obrera" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="imss" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="rcv" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="aportacionsc" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="aportacioncc" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="amortizacion" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="infonavit" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="total" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="patronalBimestral" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="imssBimestral" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="obreraBimestral" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="patronId" Type="Int32" Nullable="false" />
+          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="usuarioId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Asegurados" Relationship="suaModel.FK_DetallePago_Asegurados" FromRole="DetallePago" ToRole="Asegurado" />
+          <NavigationProperty Name="Pagos" Relationship="suaModel.FK_DetallePago_Pagos" FromRole="DetallePago" ToRole="Pago" />
+          <NavigationProperty Name="Patrones" Relationship="suaModel.FK_DetallePago_Patrones" FromRole="DetallePago" ToRole="Patrone" />
+          <NavigationProperty Name="Usuarios" Relationship="suaModel.FK_DetallePago_Usuarios" FromRole="DetallePago" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_DetallePago_Asegurados">
+          <End Type="suaModel.Asegurado" Role="Asegurado" Multiplicity="1" />
+          <End Type="suaModel.DetallePago" Role="DetallePago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asegurado">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DetallePago">
+              <PropertyRef Name="aseguradoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetallePago_Pagos">
+          <End Type="suaModel.Pago" Role="Pago" Multiplicity="1" />
+          <End Type="suaModel.DetallePago" Role="DetallePago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pago">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DetallePago">
+              <PropertyRef Name="pagoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetallePago_Patrones">
+          <End Type="suaModel.Patrone" Role="Patrone" Multiplicity="1" />
+          <End Type="suaModel.DetallePago" Role="DetallePago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patrone">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetallePago">
+              <PropertyRef Name="patronId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetallePago_Usuarios">
+          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="suaModel.DetallePago" Role="DetallePago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetallePago">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5492,47 +5492,6 @@
                 <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DetallePagoes">
-            <EntityTypeMapping TypeName="suaModel.DetallePago">
-              <MappingFragment StoreEntitySet="DetallePago">
-                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
-                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
-                <ScalarProperty Name="patronId" ColumnName="patronId" />
-                <ScalarProperty Name="obreraBimestral" ColumnName="obreraBimestral" />
-                <ScalarProperty Name="imssBimestral" ColumnName="imssBimestral" />
-                <ScalarProperty Name="patronalBimestral" ColumnName="patronalBimestral" />
-                <ScalarProperty Name="total" ColumnName="total" />
-                <ScalarProperty Name="infonavit" ColumnName="infonavit" />
-                <ScalarProperty Name="amortizacion" ColumnName="amortizacion" />
-                <ScalarProperty Name="aportacioncc" ColumnName="aportacioncc" />
-                <ScalarProperty Name="aportacionsc" ColumnName="aportacionsc" />
-                <ScalarProperty Name="rcv" ColumnName="rcv" />
-                <ScalarProperty Name="imss" ColumnName="imss" />
-                <ScalarProperty Name="obrera" ColumnName="obrera" />
-                <ScalarProperty Name="patronal" ColumnName="patronal" />
-                <ScalarProperty Name="retiro" ColumnName="retiro" />
-                <ScalarProperty Name="gps" ColumnName="gps" />
-                <ScalarProperty Name="ivo" ColumnName="ivo" />
-                <ScalarProperty Name="ivp" ColumnName="ivp" />
-                <ScalarProperty Name="rt" ColumnName="rt" />
-                <ScalarProperty Name="gmpo" ColumnName="gmpo" />
-                <ScalarProperty Name="gmpp" ColumnName="gmpp" />
-                <ScalarProperty Name="pdo" ColumnName="pdo" />
-                <ScalarProperty Name="pdp" ColumnName="pdp" />
-                <ScalarProperty Name="exO" ColumnName="exO" />
-                <ScalarProperty Name="expa" ColumnName="expa" />
-                <ScalarProperty Name="cuotaFija" ColumnName="cuotaFija" />
-                <ScalarProperty Name="diaCre" ColumnName="diaCre" />
-                <ScalarProperty Name="diasAusentismo" ColumnName="diasAusentismo" />
-                <ScalarProperty Name="diasIncapacidad" ColumnName="diasIncapacidad" />
-                <ScalarProperty Name="sdi" ColumnName="sdi" />
-                <ScalarProperty Name="diasCotizados" ColumnName="diasCotizados" />
-                <ScalarProperty Name="aseguradoId" ColumnName="aseguradoId" />
-                <ScalarProperty Name="pagoId" ColumnName="pagoId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -6136,6 +6095,47 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DetallePago">
+            <EntityTypeMapping TypeName="suaModel.DetallePago">
+              <MappingFragment StoreEntitySet="DetallePago">
+                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
+                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+                <ScalarProperty Name="patronId" ColumnName="patronId" />
+                <ScalarProperty Name="obreraBimestral" ColumnName="obreraBimestral" />
+                <ScalarProperty Name="imssBimestral" ColumnName="imssBimestral" />
+                <ScalarProperty Name="patronalBimestral" ColumnName="patronalBimestral" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="infonavit" ColumnName="infonavit" />
+                <ScalarProperty Name="amortizacion" ColumnName="amortizacion" />
+                <ScalarProperty Name="aportacioncc" ColumnName="aportacioncc" />
+                <ScalarProperty Name="aportacionsc" ColumnName="aportacionsc" />
+                <ScalarProperty Name="rcv" ColumnName="rcv" />
+                <ScalarProperty Name="imss" ColumnName="imss" />
+                <ScalarProperty Name="obrera" ColumnName="obrera" />
+                <ScalarProperty Name="patronal" ColumnName="patronal" />
+                <ScalarProperty Name="retiro" ColumnName="retiro" />
+                <ScalarProperty Name="gps" ColumnName="gps" />
+                <ScalarProperty Name="ivo" ColumnName="ivo" />
+                <ScalarProperty Name="ivp" ColumnName="ivp" />
+                <ScalarProperty Name="rt" ColumnName="rt" />
+                <ScalarProperty Name="gmpo" ColumnName="gmpo" />
+                <ScalarProperty Name="gmpp" ColumnName="gmpp" />
+                <ScalarProperty Name="pdo" ColumnName="pdo" />
+                <ScalarProperty Name="pdp" ColumnName="pdp" />
+                <ScalarProperty Name="exO" ColumnName="exO" />
+                <ScalarProperty Name="expa" ColumnName="expa" />
+                <ScalarProperty Name="cuotaFija" ColumnName="cuotaFija" />
+                <ScalarProperty Name="diaCre" ColumnName="diaCre" />
+                <ScalarProperty Name="diasAusentismo" ColumnName="diasAusentismo" />
+                <ScalarProperty Name="diasIncapacidad" ColumnName="diasIncapacidad" />
+                <ScalarProperty Name="sdi" ColumnName="sdi" />
+                <ScalarProperty Name="diasCotizados" ColumnName="diasCotizados" />
+                <ScalarProperty Name="aseguradoId" ColumnName="aseguradoId" />
+                <ScalarProperty Name="pagoId" ColumnName="pagoId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -6149,7 +6149,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
