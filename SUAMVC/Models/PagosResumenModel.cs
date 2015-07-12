@@ -9,6 +9,6 @@ namespace SUAMVC.Models
     public class PagosResumenModel
     {
         public Pago pago{set; get;}
-        public List<DetallePago> detalle{set; get;}
+        public List<ResumenPago> detalle{set; get;}
     }
 }
