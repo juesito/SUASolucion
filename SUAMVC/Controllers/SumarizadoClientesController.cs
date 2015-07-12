@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
+using System.Data.SqlClient;
 
 namespace SUAMVC.Controllers
 {
@@ -15,30 +16,40 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: SumarizadoClientes
-        public ActionResult Index(String plazasId, String patronesId, String periodoId, String ejercicioId)
+        public ActionResult Index(String plazasId, String patronesId, String periodoId, 
+            String ejercicioId, String clientesId, String usuarioId)
         {
-            var sumarizadoClientes = db.SumarizadoClientes.Include(s => s.Cliente).Include(s => s.Patrone).Include(s => s.Usuario);
-            if (!String.IsNullOrEmpty(plazasId))
+            if (!String.IsNullOrEmpty(clientesId))
             {
-                int plazaTempId = int.Parse(plazasId.Trim());
-                sumarizadoClientes = sumarizadoClientes.Where(s => s.Patrone.Plaza_id.Equals(plazaTempId));
-            }
-            if (!String.IsNullOrEmpty(patronesId))
-            {
-                int patronesTempId = int.Parse(patronesId);
-                sumarizadoClientes = sumarizadoClientes.Where(s => s.Patrone.Id.Equals(patronesTempId));
-            }
-            if (!String.IsNullOrEmpty(periodoId))
-            {
-                sumarizadoClientes = sumarizadoClientes.Where(s => s.mes.Trim().Equals(periodoId.Trim()));
-            }
-            if (!String.IsNullOrEmpty(ejercicioId))
-            {
-                sumarizadoClientes = sumarizadoClientes.Where(s => s.anno.Trim().Equals(ejercicioId));
-            }
+                ViewBag.filtered = true;
+                int clienteId = int.Parse(clientesId.Trim());
+                int userId = int.Parse(usuarioId.Trim());
 
-            sumarizadoClientes = sumarizadoClientes.OrderBy(p => p.Patrone.registro);
-            return View(sumarizadoClientes.ToList());
+                int result = db.Database.ExecuteSqlCommand("sp_SumarizadoClientes @usuarioId, @clienteId", new SqlParameter("@usuarioId", userId), new SqlParameter("@clienteId", clienteId));
+                var sumarizadoClientes = db.SumarizadoClientes.Include(s => s.Cliente).Include(s => s.Patrone).Include(s => s.Usuario);
+                if (!String.IsNullOrEmpty(plazasId))
+                {
+                    int plazaTempId = int.Parse(plazasId.Trim());
+                    sumarizadoClientes = sumarizadoClientes.Where(s => s.Patrone.Plaza_id.Equals(plazaTempId));
+                }
+                if (!String.IsNullOrEmpty(patronesId))
+                {
+                    int patronesTempId = int.Parse(patronesId);
+                    sumarizadoClientes = sumarizadoClientes.Where(s => s.Patrone.Id.Equals(patronesTempId));
+                }
+                if (!String.IsNullOrEmpty(periodoId))
+                {
+                    sumarizadoClientes = sumarizadoClientes.Where(s => s.mes.Trim().Equals(periodoId.Trim()));
+                }
+                if (!String.IsNullOrEmpty(ejercicioId))
+                {
+                    sumarizadoClientes = sumarizadoClientes.Where(s => s.anno.Trim().Equals(ejercicioId));
+                }
+
+                sumarizadoClientes = sumarizadoClientes.OrderBy(p => p.Patrone.registro);
+                return View(sumarizadoClientes.ToList());
+            }
+            return View();
         }
 
         // GET: SumarizadoClientes/Details/5
