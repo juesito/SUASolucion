@@ -11,6 +11,7 @@ using SUAMVC.Models;
 using System.IO;
 using System.Data.Entity.Validation;
 using System.Text;
+using SUAMVC.Helpers;
 
 namespace SUAMVC.Controllers
 {
@@ -23,7 +24,8 @@ namespace SUAMVC.Controllers
         {
             var pagos = db.Pagos.ToList();
 
-            if (!String.IsNullOrEmpty(plazasId)) {
+            if (!String.IsNullOrEmpty(plazasId))
+            {
                 int plazaTempId = int.Parse(plazasId.Trim());
                 pagos = pagos.Where(s => s.Patrone.Plaza_id.Equals(plazaTempId)).ToList();
             }
@@ -55,10 +57,12 @@ namespace SUAMVC.Controllers
          * Se cargan los pagos por periodo y patron via carga masiva desde el SUA.mdb
          */
         [HttpPost]
-        public ActionResult Upload(String patronesId, String periodoId, String ejercicioId)
+        public ActionResult Upload(String patronesId, String periodoId, String ejercicioId, String usuarioId)
         {
-            if (!String.IsNullOrEmpty(patronesId) && !String.IsNullOrEmpty(periodoId) && !String.IsNullOrEmpty(ejercicioId))
+            if (!String.IsNullOrEmpty(patronesId) && !String.IsNullOrEmpty(periodoId) && !String.IsNullOrEmpty(ejercicioId)
+                && !String.IsNullOrEmpty(usuarioId))
             {
+                int userId = int.Parse(usuarioId.Trim());
                 String periodo = ejercicioId.Trim() + periodoId.Trim();
                 int mes = int.Parse(periodoId.Trim());
 
@@ -83,6 +87,12 @@ namespace SUAMVC.Controllers
                     foreach (DataRow rows in dt2.Rows)
                     {
                         Pago pago = new Pago();
+                        pago = db.Pagos.Where(p => p.patronId.Equals(patron.Id) && p.mes.Trim().Equals(periodoId.Trim()) && p.anno.Trim().Equals(ejercicioId.Trim())).FirstOrDefault();
+                        Boolean actualizar = false;
+
+                        if (!String.IsNullOrEmpty(pago.mes)) {
+                            actualizar = true;
+                        }
 
                         pago.mes = periodoId;
                         pago.anno = ejercicioId;
@@ -119,18 +129,24 @@ namespace SUAMVC.Controllers
                             pago.nt = int.Parse(rows1[0].ToString());
                         }
 
-                        if (pago.nt == 0) {
+                        if (pago.nt == 0)
+                        {
                             break;
                         }
 
                         pago.patronId = patron.Id;
                         pago.Patrone = patron;
                         pago.fechaCreacion = DateTime.Now;
-                        pago.usuarioId = 1;
-
+                        pago.usuarioId = userId;
 
                         //Guardamos el pago.
-                        db.Pagos.Add(pago);
+                        if (actualizar)
+                        {
+                            db.Entry(pago).State = EntityState.Modified;
+                        }
+                        else {
+                            db.Pagos.Add(pago);
+                        }                        
                         db.SaveChanges();
                         existe = true;
 
@@ -147,18 +163,28 @@ namespace SUAMVC.Controllers
 
                             foreach (DataRow row2 in dt4.Rows)
                             {
+                                Boolean actualizarDetalle = false;
 
                                 DetallePago detallePago = new DetallePago();
                                 String nss = row2["Num_Afi"].ToString().Trim();
 
                                 Asegurado asegurado = db.Asegurados.Where(a => a.numeroAfiliacion.Equals(nss.Trim())).FirstOrDefault();
 
-                                detallePago.pagoId = pago.id;
-                                detallePago.Pago = pago;
-                                detallePago.aseguradoId = asegurado.id;
-                                detallePago.Asegurado = asegurado;
-                                detallePago.patronId = patron.Id;
-                                detallePago.Patrone = patron;
+                                detallePago = db.DetallePago.Where(dp => dp.pagoId.Equals(pago.id) && dp.aseguradoId.Equals(asegurado.id)).FirstOrDefault();
+
+                                if (String.IsNullOrEmpty(detallePago.Asegurados.nombre))
+                                {
+                                    detallePago.pagoId = pago.id;
+                                    detallePago.Pagos = pago;
+                                    detallePago.aseguradoId = asegurado.id;
+                                    detallePago.Asegurados = asegurado;
+                                    detallePago.patronId = patron.Id;
+                                    detallePago.Patrones = patron;
+                                    
+                                }
+                                else {
+                                    actualizarDetalle = true;
+                                }
 
                                 detallePago.diasCotizados = int.Parse(row2["dia_cot"].ToString().Trim());
                                 detallePago.sdi = decimal.Parse(row2["sal_dia"].ToString().Trim());
@@ -280,7 +306,6 @@ namespace SUAMVC.Controllers
                                     detallePago.gps = decimal.Parse(row2["GPS"].ToString().Trim());
                                 }
 
-
                                 detallePago.patronal = detallePago.cuotaFija + detallePago.expa + detallePago.pdp + detallePago.gmpp + detallePago.rt + detallePago.ivp + detallePago.gps;
                                 detallePago.obrera = detallePago.exO + detallePago.pdo + detallePago.gmpo + detallePago.ivo;
                                 detallePago.imss = detallePago.patronal + detallePago.obrera;
@@ -292,7 +317,7 @@ namespace SUAMVC.Controllers
                                     sSQL = "SELECT * FROM RELTRABIM " +
                                            "  WHERE Reg_Pat = '" + patron.registro + "'" +
                                            "    AND Periodo = '" + periodo + "'" +
-                                           "    AND Num_Afi = '" + asegurado.numeroAfiliacion.Trim() + "'"  +
+                                           "    AND Num_Afi = '" + asegurado.numeroAfiliacion.Trim() + "'" +
                                            "   ORDER BY Reg_Pat";
 
                                     DataTable dt5 = suaHelper.ejecutarSQL(sSQL);
@@ -357,14 +382,19 @@ namespace SUAMVC.Controllers
                                     }
                                 } //El periodo es bimestre
 
-
-
-                                detallePago.usuarioId = 1;
+                                detallePago.usuarioId = userId;
                                 detallePago.fechaCreacion = DateTime.Now;
 
                                 try
                                 {
-                                    db.DetallePagoes.Add(detallePago);
+                                    if (actualizarDetalle)
+                                    {
+                                        db.Entry(detallePago).State = EntityState.Modified;
+                                    }
+                                    else {
+                                        db.DetallePago.Add(detallePago);
+                                    }
+                                    
                                     db.SaveChanges();
                                 }
                                 catch (DbEntityValidationException ex)
@@ -436,7 +466,7 @@ namespace SUAMVC.Controllers
 
             Pago pago = db.Pagos.Where(p => p.id.Equals(id)).FirstOrDefault();
 
-            List<DetallePago> detallePago = db.DetallePagoes.Where(r => r.pagoId.Equals(id)).ToList();
+            List<DetallePago> detallePago = db.DetallePago.Where(r => r.pagoId.Equals(id)).ToList();
 
             resumenPagoModel.pago = pago;
             resumenPagoModel.detalle = detallePago;
@@ -447,8 +477,9 @@ namespace SUAMVC.Controllers
         public ActionResult actualizarPagos([Bind(Include = "id,bancoId,fechaDeposito")]Pago pago, String bancoId)
         {
 
-            if(pago != null){
-                int bancoTempId = int.Parse(bancoId); 
+            if (pago != null)
+            {
+                int bancoTempId = int.Parse(bancoId);
                 Pago pagoTemp = db.Pagos.Find(pago.id);
                 pagoTemp.fechaDeposito = pago.fechaDeposito;
                 pagoTemp.bancoId = bancoTempId;
@@ -456,15 +487,77 @@ namespace SUAMVC.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
-        
+
         }
 
-        public ActionResult UploadComprobantes(String id, String comprobanteId) {
+        public ActionResult UploadComprobantes(String id, String comprobanteId)
+        {
 
             @ViewBag.id = id;
             @ViewBag.comprobanteId = comprobanteId;
 
             return View();
+        }
+
+        public ActionResult GuardarComprobantes(String id, String comprobanteId)
+        {
+
+            if (!String.IsNullOrEmpty(id))
+            {
+                ToolsHelper th = new ToolsHelper();
+                ParametrosHelper ph = new ParametrosHelper();
+
+                Parametro parametro = ph.getParameterByKey("COMPRUTA");
+                String destino = parametro.valorString.Trim() + comprobanteId.Trim();
+
+                String fileName = th.cargarArchivo(Request.Files, destino);
+
+                int idTemp = int.Parse(id.Trim());
+
+                Pago pago = db.Pagos.Find(idTemp);
+                if (comprobanteId.Trim().Equals("CL"))
+                {
+                    pago.comprobantePago = fileName.Trim();
+                }
+                else
+                    if (comprobanteId.Trim().Equals("RL"))
+                    {
+                        pago.resumenLiquidacion = fileName.Trim();
+                    }
+                    else
+                    {
+                        pago.cedulaAutodeterminacion = fileName.Trim();
+                    }
+
+                db.Entry(pago).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult VerComprobante(String fileNameString)
+        {
+            if (!String.IsNullOrEmpty(fileNameString))
+            {
+
+                var fileName = fileNameString.Trim();
+
+                if (System.IO.File.Exists(fileName))
+                {
+                    FileStream fs = new FileStream(fileName, FileMode.Open);
+
+                    return File(fs, "application/pdf");
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         protected override void Dispose(bool disposing)

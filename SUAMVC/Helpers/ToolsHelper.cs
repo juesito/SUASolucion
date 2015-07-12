@@ -92,12 +92,12 @@ namespace SUAMVC.Helpers
         {
 
             String path = "";
-            String msg = "";
 
             ParametrosHelper parameterHelper = new ParametrosHelper();
             Parametro rutaParameter = parameterHelper.getParameterByKey("SUARUTA");
 
             var file = files[0];
+            String filenameFinal = "";
 
             if (file != null && file.ContentLength > 0)
             {
@@ -117,12 +117,12 @@ namespace SUAMVC.Helpers
 
                 var fileName = Path.GetFileName(file.FileName);
                 var pathFinal = Path.Combine(path, fileName);
+                filenameFinal = pathFinal.ToString();
                 file.SaveAs(pathFinal);
-                msg = "Se ha cargado el archivo con exito!";
             }
 
 
-            return msg;
+            return filenameFinal;
         }
 
     }

@@ -21,7 +21,7 @@ namespace SUADATOS
             this.ContratosClientes = new HashSet<ContratosCliente>();
             this.DatosAdicionalesClientes = new HashSet<DatosAdicionalesCliente>();
             this.Departamentos = new HashSet<Departamento>();
-            this.DetallePagoes = new HashSet<DetallePago>();
+            this.documentosEmpleadoes = new HashSet<documentosEmpleado>();
             this.Empleados = new HashSet<Empleado>();
             this.Empresas = new HashSet<Empresa>();
             this.EsquemasPagoes = new HashSet<EsquemasPago>();
@@ -48,6 +48,7 @@ namespace SUADATOS
             this.TopicosUsuarios1 = new HashSet<TopicosUsuario>();
             this.ArchivosEmpleados = new HashSet<ArchivosEmpleado>();
             this.SumarizadoClientes = new HashSet<SumarizadoCliente>();
+            this.DetallePago = new HashSet<DetallePago>();
         }
     
         public int Id { get; set; }
@@ -96,5 +97,6 @@ namespace SUADATOS
         public virtual ICollection<TopicosUsuario> TopicosUsuarios1 { get; set; }
         public virtual ICollection<ArchivosEmpleado> ArchivosEmpleados { get; set; }
         public virtual ICollection<SumarizadoCliente> SumarizadoClientes { get; set; }
+        public virtual ICollection<DetallePago> DetallePago { get; set; }
     }
 }
