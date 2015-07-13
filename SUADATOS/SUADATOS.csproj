@@ -205,6 +205,9 @@
     <Compile Include="RoleModulo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="SalarialesEmpleado.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="SDI.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

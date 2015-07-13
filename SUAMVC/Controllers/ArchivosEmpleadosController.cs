@@ -23,32 +23,22 @@ namespace SUAMVC.Controllers
         public ActionResult Index(String empleadoId)
         {
             var archivosEmpleados = db.ArchivoEmpleadoes.Include(a => a.Concepto).Include(a => a.Empleado).Include(a => a.Usuario);
-            if (!String.IsNullOrEmpty(empleadoId)) {
+            if (!String.IsNullOrEmpty(empleadoId))
+            {
                 int empId = int.Parse(empleadoId.Trim());
                 Empleado empleado = db.Empleados.Find(empId);
                 @ViewBag.folioEmpleado = empleado.folioEmpleado;
                 archivosEmpleados = archivosEmpleados.Where(a => a.empleadoId.Equals(empId));
+            }
+            else {
+                return RedirectToAction("Index", "Empleados");
             }
             archivosEmpleados = archivosEmpleados.OrderBy(a => a.fechaCreacion);
 
             return View(archivosEmpleados.ToList());
         }
 
-        // GET: ArchivosEmpleados/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ArchivoEmpleado archivosEmpleado = db.ArchivoEmpleadoes.Find(id);
-            if (archivosEmpleado == null)
-            {
-                return HttpNotFound();
-            }
-            return View(archivosEmpleado);
-        }
-
+                
         // GET: ArchivosEmpleados/Create
         public ActionResult Create(String empleadoId)
         {
@@ -155,43 +145,6 @@ namespace SUAMVC.Controllers
             fileName = th.cargarArchivo(files, destino);
 
             return fileName;
-        }
-
-        // GET: ArchivosEmpleados/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ArchivoEmpleado archivosEmpleado = db.ArchivoEmpleadoes.Find(id);
-            if (archivosEmpleado == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.tipoArchivo = new SelectList(db.Conceptos, "id", "grupo", archivosEmpleado.tipoArchivo);
-            ViewBag.empleadoId = new SelectList(db.Empleados, "id", "folioEmpleado", archivosEmpleado.empleadoId);
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", archivosEmpleado.usuarioId);
-            return View(archivosEmpleado);
-        }
-
-        // POST: ArchivosEmpleados/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,empleadoId,archivo,tipoArchivo,usuarioId,fechaCreacion")] ArchivoEmpleado archivosEmpleado)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(archivosEmpleado).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.tipoArchivo = new SelectList(db.Conceptos, "id", "grupo", archivosEmpleado.tipoArchivo);
-            ViewBag.empleadoId = new SelectList(db.Empleados, "id", "folioEmpleado", archivosEmpleado.empleadoId);
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", archivosEmpleado.usuarioId);
-            return View(archivosEmpleado);
         }
 
         // GET: ArchivosEmpleados/Delete/5

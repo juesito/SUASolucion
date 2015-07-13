@@ -65,6 +65,7 @@ namespace SUADATOS
         public virtual DbSet<RoleFuncion> RoleFuncions { get; set; }
         public virtual DbSet<RoleModulo> RoleModulos { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<SalarialesEmpleado> SalarialesEmpleadoes { get; set; }
         public virtual DbSet<SDI> SDIs { get; set; }
         public virtual DbSet<Servicio> Servicios { get; set; }
         public virtual DbSet<Sexo> Sexos { get; set; }

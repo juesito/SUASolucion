@@ -120,7 +120,7 @@ namespace SUAMVC.Controllers
                     //a su vez con ella obtener el folio de Solicitud para generar el folioEmpleado
                     Solicitud solicitud = db.Solicituds.Find(empleado.solicitudId);
                     solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
-                    
+
                     empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
 
                     //Preparamos las entidades para guardar
@@ -166,11 +166,21 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            DatosEmpleadoModel datosEmpleadoModel = new DatosEmpleadoModel();
             Empleado empleado = db.Empleados.Find(id);
+
             if (empleado == null)
             {
                 return HttpNotFound();
             }
+            int empleadoId = id ?? default(int);
+            DocumentoEmpleado documentosEmpleado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleadoId)).FirstOrDefault();
+            SalarialesEmpleado salarialesEmpleado = db.SalarialesEmpleadoes.Where(se => se.empleadoId.Equals(empleadoId)).FirstOrDefault();
+
+            datosEmpleadoModel.empleado = empleado;
+            datosEmpleadoModel.datosEmpleado = documentosEmpleado;
+            datosEmpleadoModel.salarialesEmpleado = salarialesEmpleado;
+
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
             ViewBag.esquemaPagoId = new SelectList(db.EsquemasPagoes, "id", "descripcion", empleado.esquemaPagoId);
             ViewBag.estadoCivilId = new SelectList(db.EstadoCivils, "id", "descripcion", empleado.estadoCivilId);
@@ -181,7 +191,7 @@ namespace SUAMVC.Controllers
             ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion", empleado.sexoId);
             ViewBag.solicitudId = new SelectList(db.Solicituds, "id", "solicita", empleado.solicitudId);
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", empleado.usuarioId);
-            return View(empleado);
+            return View(datosEmpleadoModel);
         }
 
         // POST: Empleados/Edit/5
@@ -250,7 +260,7 @@ namespace SUAMVC.Controllers
 
         }
 
-        
+
 
 
         public ActionResult CargarEmpleadosPorExcel(int id)

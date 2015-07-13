@@ -681,6 +681,28 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="estatus" Type="char" MaxLength="2" Nullable="false" />
         </EntityType>
+        <EntityType Name="SalarialesEmpleado">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empleadoId" Type="int" Nullable="false" />
+          <Property Name="salarioMensual" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="salarioHrsExtra" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="descuentos" Type="int" />
+          <Property Name="montoInfonavit" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="creditoFonacot" Type="nchar" MaxLength="20" />
+          <Property Name="importeFonacot" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="fonacotDescuentos" Type="int" />
+          <Property Name="numeroPrestamo" Type="nchar" MaxLength="20" />
+          <Property Name="importePrestamo" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="prestamoDescuentos" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="porcientoPension" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="importePension" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="periodoId" Type="int" />
+          <Property Name="fechaCaptura" Type="datetime" Nullable="false" />
+          <Property Name="usuarioId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="SDIs">
           <Key>
             <PropertyRef Name="id" />
@@ -1802,6 +1824,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SalarialesEmpleado_Conceptos">
+          <End Role="Conceptos" Type="Self.Conceptos" Multiplicity="0..1" />
+          <End Role="SalarialesEmpleado" Type="Self.SalarialesEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conceptos">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SalarialesEmpleado">
+              <PropertyRef Name="periodoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalarialesEmpleado_Empleados">
+          <End Role="Empleados" Type="Self.Empleados" Multiplicity="1" />
+          <End Role="SalarialesEmpleado" Type="Self.SalarialesEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleados">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SalarialesEmpleado">
+              <PropertyRef Name="empleadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalarialesEmpleado_Usuarios">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="SalarialesEmpleado" Type="Self.SalarialesEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalarialesEmpleado">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SDIs_Clientes">
           <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
           <End Role="SDIs" Type="Self.SDIs" Multiplicity="*" />
@@ -2119,6 +2177,7 @@
           <EntitySet Name="RoleFuncions" EntityType="Self.RoleFuncions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoleModulos" EntityType="Self.RoleModulos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalarialesEmpleado" EntityType="Self.SalarialesEmpleado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SDIs" EntityType="Self.SDIs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Servicios" EntityType="Self.Servicios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sexos" EntityType="Self.Sexos" Schema="dbo" store:Type="Tables" />
@@ -2460,6 +2519,18 @@
             <End Role="Usuarios" EntitySet="Usuarios" />
             <End Role="RoleModulos" EntitySet="RoleModulos" />
           </AssociationSet>
+          <AssociationSet Name="FK_SalarialesEmpleado_Conceptos" Association="Self.FK_SalarialesEmpleado_Conceptos">
+            <End Role="Conceptos" EntitySet="Conceptos" />
+            <End Role="SalarialesEmpleado" EntitySet="SalarialesEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalarialesEmpleado_Empleados" Association="Self.FK_SalarialesEmpleado_Empleados">
+            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="SalarialesEmpleado" EntitySet="SalarialesEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalarialesEmpleado_Usuarios" Association="Self.FK_SalarialesEmpleado_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="SalarialesEmpleado" EntitySet="SalarialesEmpleado" />
+          </AssociationSet>
           <AssociationSet Name="FK_SDIs_Clientes" Association="Self.FK_SDIs_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
             <End Role="SDIs" EntitySet="SDIs" />
@@ -2598,6 +2669,7 @@
           <EntitySet Name="RoleFuncions" EntityType="suaModel.RoleFuncion" />
           <EntitySet Name="RoleModulos" EntityType="suaModel.RoleModulo" />
           <EntitySet Name="Roles" EntityType="suaModel.Role" />
+          <EntitySet Name="SalarialesEmpleadoes" EntityType="suaModel.SalarialesEmpleado" />
           <EntitySet Name="SDIs" EntityType="suaModel.SDI" />
           <EntitySet Name="Servicios" EntityType="suaModel.Servicio" />
           <EntitySet Name="Sexos" EntityType="suaModel.Sexo" />
@@ -2735,6 +2807,10 @@
             <End Role="Concepto" EntitySet="Conceptos" />
             <End Role="RespuestaSolicitud" EntitySet="RespuestaSolicituds" />
           </AssociationSet>
+          <AssociationSet Name="FK_SalarialesEmpleado_Conceptos" Association="suaModel.FK_SalarialesEmpleado_Conceptos">
+            <End Role="Concepto" EntitySet="Conceptos" />
+            <End Role="SalarialesEmpleado" EntitySet="SalarialesEmpleadoes" />
+          </AssociationSet>
           <AssociationSet Name="FK_Solicitud_Conceptos" Association="suaModel.FK_Solicitud_Conceptos">
             <End Role="Concepto" EntitySet="Conceptos" />
             <End Role="Solicitud" EntitySet="Solicituds" />
@@ -2834,6 +2910,10 @@
           <AssociationSet Name="FK_Empleados_Usuarios" Association="suaModel.FK_Empleados_Usuarios">
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="Empleado" EntitySet="Empleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalarialesEmpleado_Empleados" Association="suaModel.FK_SalarialesEmpleado_Empleados">
+            <End Role="Empleado" EntitySet="Empleados" />
+            <End Role="SalarialesEmpleado" EntitySet="SalarialesEmpleadoes" />
           </AssociationSet>
           <AssociationSet Name="FK_Empresas_Empresas" Association="suaModel.FK_Empresas_Empresas">
             <End Role="Usuario" EntitySet="Usuarios" />
@@ -2982,6 +3062,10 @@
           <AssociationSet Name="FK_Usuarios_Usuarios" Association="suaModel.FK_Usuarios_Usuarios">
             <End Role="Role" EntitySet="Roles" />
             <End Role="Usuario" EntitySet="Usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalarialesEmpleado_Usuarios" Association="suaModel.FK_SalarialesEmpleado_Usuarios">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="SalarialesEmpleado" EntitySet="SalarialesEmpleadoes" />
           </AssociationSet>
           <AssociationSet Name="FK_SDIs_SDIs" Association="suaModel.FK_SDIs_SDIs">
             <End Role="Usuario" EntitySet="Usuarios" />
@@ -3217,6 +3301,7 @@
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Conceptos_Usuarios" FromRole="Concepto" ToRole="Usuario" />
           <NavigationProperty Name="DocumentoEmpleadoes" Relationship="suaModel.FK_documentosEmpleado_Conceptos" FromRole="Concepto" ToRole="DocumentoEmpleado" />
           <NavigationProperty Name="RespuestaSolicituds" Relationship="suaModel.FK_RespuestaSolicitud_Conceptos" FromRole="Concepto" ToRole="RespuestaSolicitud" />
+          <NavigationProperty Name="SalarialesEmpleadoes" Relationship="suaModel.FK_SalarialesEmpleado_Conceptos" FromRole="Concepto" ToRole="SalarialesEmpleado" />
           <NavigationProperty Name="Solicituds" Relationship="suaModel.FK_Solicitud_Conceptos" FromRole="Concepto" ToRole="Solicitud" />
           <NavigationProperty Name="Solicituds1" Relationship="suaModel.FK_Solicitud_Conceptos1" FromRole="Concepto" ToRole="Solicitud" />
           <NavigationProperty Name="Solicituds2" Relationship="suaModel.FK_Solicitud_Conceptos2" FromRole="Concepto" ToRole="Solicitud" />
@@ -3405,6 +3490,7 @@
           <NavigationProperty Name="Sexo" Relationship="suaModel.FK_Empleados_Sexos" FromRole="Empleado" ToRole="Sexo" />
           <NavigationProperty Name="Solicitud" Relationship="suaModel.FK_Empleados_Solicitud" FromRole="Empleado" ToRole="Solicitud" />
           <NavigationProperty Name="Usuario" Relationship="suaModel.FK_Empleados_Usuarios" FromRole="Empleado" ToRole="Usuario" />
+          <NavigationProperty Name="SalarialesEmpleadoes" Relationship="suaModel.FK_SalarialesEmpleado_Empleados" FromRole="Empleado" ToRole="SalarialesEmpleado" />
         </EntityType>
         <EntityType Name="Empresa">
           <Key>
@@ -3851,6 +3937,31 @@
           <NavigationProperty Name="RoleModulos" Relationship="suaModel.FK_RoleModulos_Roles" FromRole="Role" ToRole="RoleModulo" />
           <NavigationProperty Name="Usuarios" Relationship="suaModel.FK_Usuarios_Usuarios" FromRole="Role" ToRole="Usuario" />
         </EntityType>
+        <EntityType Name="SalarialesEmpleado">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empleadoId" Type="Int32" Nullable="false" />
+          <Property Name="salarioMensual" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="salarioHrsExtra" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="descuentos" Type="Int32" />
+          <Property Name="montoInfonavit" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="creditoFonacot" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="importeFonacot" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="fonacotDescuentos" Type="Int32" />
+          <Property Name="numeroPrestamo" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="importePrestamo" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="prestamoDescuentos" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="porcientoPension" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="importePension" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="periodoId" Type="Int32" />
+          <Property Name="fechaCaptura" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="usuarioId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Concepto" Relationship="suaModel.FK_SalarialesEmpleado_Conceptos" FromRole="SalarialesEmpleado" ToRole="Concepto" />
+          <NavigationProperty Name="Empleado" Relationship="suaModel.FK_SalarialesEmpleado_Empleados" FromRole="SalarialesEmpleado" ToRole="Empleado" />
+          <NavigationProperty Name="Usuario" Relationship="suaModel.FK_SalarialesEmpleado_Usuarios" FromRole="SalarialesEmpleado" ToRole="Usuario" />
+        </EntityType>
         <EntityType Name="SDI">
           <Key>
             <PropertyRef Name="id" />
@@ -4035,6 +4146,7 @@
           <NavigationProperty Name="RoleFuncions" Relationship="suaModel.FK_RoleFunciones_RoleUsuarios" FromRole="Usuario" ToRole="RoleFuncion" />
           <NavigationProperty Name="RoleModulos" Relationship="suaModel.FK_RoleModulos_Usuarios" FromRole="Usuario" ToRole="RoleModulo" />
           <NavigationProperty Name="Role" Relationship="suaModel.FK_Usuarios_Usuarios" FromRole="Usuario" ToRole="Role" />
+          <NavigationProperty Name="SalarialesEmpleadoes" Relationship="suaModel.FK_SalarialesEmpleado_Usuarios" FromRole="Usuario" ToRole="SalarialesEmpleado" />
           <NavigationProperty Name="SDIs" Relationship="suaModel.FK_SDIs_SDIs" FromRole="Usuario" ToRole="SDI" />
           <NavigationProperty Name="Servicios" Relationship="suaModel.FK_Servicios_Servicios" FromRole="Usuario" ToRole="Servicio" />
           <NavigationProperty Name="Sexos" Relationship="suaModel.FK_Sexos_Sexos" FromRole="Usuario" ToRole="Sexo" />
@@ -4429,6 +4541,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SalarialesEmpleado_Conceptos">
+          <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="0..1" />
+          <End Type="suaModel.SalarialesEmpleado" Role="SalarialesEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concepto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SalarialesEmpleado">
+              <PropertyRef Name="periodoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Solicitud_Conceptos">
           <End Type="suaModel.Concepto" Role="Concepto" Multiplicity="1" />
           <End Type="suaModel.Solicitud" Role="Solicitud" Multiplicity="*" />
@@ -4726,6 +4850,18 @@
             </Principal>
             <Dependent Role="Empleado">
               <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalarialesEmpleado_Empleados">
+          <End Type="suaModel.Empleado" Role="Empleado" Multiplicity="1" />
+          <End Type="suaModel.SalarialesEmpleado" Role="SalarialesEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SalarialesEmpleado">
+              <PropertyRef Name="empleadoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5170,6 +5306,18 @@
             </Principal>
             <Dependent Role="Usuario">
               <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalarialesEmpleado_Usuarios">
+          <End Type="suaModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="suaModel.SalarialesEmpleado" Role="SalarialesEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalarialesEmpleado">
+              <PropertyRef Name="usuarioId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6035,6 +6183,29 @@
                 <ScalarProperty Name="estatus" ColumnName="estatus" />
                 <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalarialesEmpleadoes">
+            <EntityTypeMapping TypeName="suaModel.SalarialesEmpleado">
+              <MappingFragment StoreEntitySet="SalarialesEmpleado">
+                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
+                <ScalarProperty Name="fechaCaptura" ColumnName="fechaCaptura" />
+                <ScalarProperty Name="periodoId" ColumnName="periodoId" />
+                <ScalarProperty Name="importePension" ColumnName="importePension" />
+                <ScalarProperty Name="porcientoPension" ColumnName="porcientoPension" />
+                <ScalarProperty Name="prestamoDescuentos" ColumnName="prestamoDescuentos" />
+                <ScalarProperty Name="importePrestamo" ColumnName="importePrestamo" />
+                <ScalarProperty Name="numeroPrestamo" ColumnName="numeroPrestamo" />
+                <ScalarProperty Name="fonacotDescuentos" ColumnName="fonacotDescuentos" />
+                <ScalarProperty Name="importeFonacot" ColumnName="importeFonacot" />
+                <ScalarProperty Name="creditoFonacot" ColumnName="creditoFonacot" />
+                <ScalarProperty Name="montoInfonavit" ColumnName="montoInfonavit" />
+                <ScalarProperty Name="descuentos" ColumnName="descuentos" />
+                <ScalarProperty Name="salarioHrsExtra" ColumnName="salarioHrsExtra" />
+                <ScalarProperty Name="salarioMensual" ColumnName="salarioMensual" />
+                <ScalarProperty Name="empleadoId" ColumnName="empleadoId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

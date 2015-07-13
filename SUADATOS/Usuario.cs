@@ -41,6 +41,7 @@ namespace SUADATOS
             this.ResumenPagoes = new HashSet<ResumenPago>();
             this.RoleFuncions = new HashSet<RoleFuncion>();
             this.RoleModulos = new HashSet<RoleModulo>();
+            this.SalarialesEmpleadoes = new HashSet<SalarialesEmpleado>();
             this.SDIs = new HashSet<SDI>();
             this.Servicios = new HashSet<Servicio>();
             this.Sexos = new HashSet<Sexo>();
@@ -93,6 +94,7 @@ namespace SUADATOS
         public virtual ICollection<RoleFuncion> RoleFuncions { get; set; }
         public virtual ICollection<RoleModulo> RoleModulos { get; set; }
         public virtual Role Role { get; set; }
+        public virtual ICollection<SalarialesEmpleado> SalarialesEmpleadoes { get; set; }
         public virtual ICollection<SDI> SDIs { get; set; }
         public virtual ICollection<Servicio> Servicios { get; set; }
         public virtual ICollection<Sexo> Sexos { get; set; }
