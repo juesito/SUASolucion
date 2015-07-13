@@ -89,11 +89,11 @@ namespace SUAMVC.Controllers
 
                 if (!String.IsNullOrEmpty(empleado.nss))
                 {
-                    Acreditado acreditado = th.obtenerAcreditadoPorNSS(empleado.nss.Trim());
+                    Asegurado asegurado = th.obtenerAseguradoPorNSS(empleado.nss.Trim());
 
-                    if (!(acreditado == null) && !String.IsNullOrEmpty(acreditado.nombre))
+                    if (!(asegurado == null) && !String.IsNullOrEmpty(asegurado.nombre))
                     {
-                        empleado.acreditadoId = acreditado.id;
+                        empleado.aseguradoId = asegurado.id;
                     }
                 }
 
@@ -166,11 +166,21 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            DatosEmpleadoModel datosEmpleadoModel = new DatosEmpleadoModel();
             Empleado empleado = db.Empleados.Find(id);
+
             if (empleado == null)
             {
                 return HttpNotFound();
             }
+            int empleadoId = id ?? default(int);
+            DocumentoEmpleado documentosEmpleado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleadoId)).FirstOrDefault();
+            SalarialesEmpleado salarialesEmpleado = db.SalarialesEmpleadoes.Where(se => se.empleadoId.Equals(empleadoId)).FirstOrDefault();
+
+            datosEmpleadoModel.empleado = empleado;
+            datosEmpleadoModel.datosEmpleado = documentosEmpleado;
+            datosEmpleadoModel.salarialesEmpleado = salarialesEmpleado;
+
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
             ViewBag.esquemaPagoId = new SelectList(db.EsquemasPagoes, "id", "descripcion", empleado.esquemaPagoId);
             ViewBag.estadoCivilId = new SelectList(db.EstadoCivils, "id", "descripcion", empleado.estadoCivilId);
@@ -181,7 +191,7 @@ namespace SUAMVC.Controllers
             ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion", empleado.sexoId);
             ViewBag.solicitudId = new SelectList(db.Solicituds, "id", "solicita", empleado.solicitudId);
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", empleado.usuarioId);
-            return View(empleado);
+            return View(datosEmpleadoModel);
         }
 
         // POST: Empleados/Edit/5
@@ -249,6 +259,8 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Edit");
 
         }
+
+
 
 
         public ActionResult CargarEmpleadosPorExcel(int id)

@@ -170,16 +170,16 @@ namespace SUAMVC.Controllers
 
                                 Asegurado asegurado = db.Asegurados.Where(a => a.numeroAfiliacion.Equals(nss.Trim())).FirstOrDefault();
 
-                                detallePago = db.DetallePago.Where(dp => dp.pagoId.Equals(pago.id) && dp.aseguradoId.Equals(asegurado.id)).FirstOrDefault();
+                                detallePago = db.DetallePagoes.Where(dp => dp.pagoId.Equals(pago.id) && dp.aseguradoId.Equals(asegurado.id)).FirstOrDefault();
 
-                                if (String.IsNullOrEmpty(detallePago.Asegurados.nombre))
+                                if (String.IsNullOrEmpty(detallePago.Asegurado.nombre))
                                 {
                                     detallePago.pagoId = pago.id;
-                                    detallePago.Pagos = pago;
+                                    detallePago.Pago = pago;
                                     detallePago.aseguradoId = asegurado.id;
-                                    detallePago.Asegurados = asegurado;
+                                    detallePago.Asegurado = asegurado;
                                     detallePago.patronId = patron.Id;
-                                    detallePago.Patrones = patron;
+                                    detallePago.Patrone = patron;
                                     
                                 }
                                 else {
@@ -392,7 +392,7 @@ namespace SUAMVC.Controllers
                                         db.Entry(detallePago).State = EntityState.Modified;
                                     }
                                     else {
-                                        db.DetallePago.Add(detallePago);
+                                        db.DetallePagoes.Add(detallePago);
                                     }
                                     
                                     db.SaveChanges();
@@ -466,7 +466,7 @@ namespace SUAMVC.Controllers
 
             Pago pago = db.Pagos.Where(p => p.id.Equals(id)).FirstOrDefault();
 
-            List<DetallePago> detallePago = db.DetallePago.Where(r => r.pagoId.Equals(id)).ToList();
+            List<DetallePago> detallePago = db.DetallePagoes.Where(r => r.pagoId.Equals(id)).ToList();
 
             resumenPagoModel.pago = pago;
             resumenPagoModel.detalle = detallePago;

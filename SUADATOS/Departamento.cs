@@ -17,6 +17,7 @@ namespace SUADATOS
         public Departamento()
         {
             this.RespuestaSolicituds = new HashSet<RespuestaSolicitud>();
+            this.Usuarios = new HashSet<Usuario>();
         }
     
         public int id { get; set; }
@@ -26,5 +27,6 @@ namespace SUADATOS
     
         public virtual Usuario Usuario { get; set; }
         public virtual ICollection<RespuestaSolicitud> RespuestaSolicituds { get; set; }
+        public virtual ICollection<Usuario> Usuarios { get; set; }
     }
 }

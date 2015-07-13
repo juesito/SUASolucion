@@ -187,6 +187,35 @@ namespace SUAMVC.Helpers
             return htmlHelper.DropDownList("clientesId", listFields, new { onchange = "submit()" });
         }
 
+        public static MvcHtmlString clientesNSDrownList(this HtmlHelper htmlHelper, int userId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Cliente> list = (from s in db.Clientes.ToList()
+                                  join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                  where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(userId)
+                                  orderby s.claveCliente, s.descripcion
+                                  select s).ToList();
+
+
+            foreach (Cliente item in list)
+            {
+                String itemId = item.Id.ToString().Trim();
+                String descripcion = item.claveCliente.Trim() + "-" + item.descripcion.Trim();
+
+                if (item.claveCliente.Trim().Contains("Todos"))
+                {
+                    itemId = "";
+                    descripcion = item.descripcion.Trim();
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList("clienteId", listFields);
+        }
+
         public static MvcHtmlString gruposDrownList(this HtmlHelper htmlHelper, int userId)
         {
 

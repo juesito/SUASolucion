@@ -12,16 +12,17 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class ArchivosEmpleado
+    public partial class CuentaEmpleado
     {
         public int id { get; set; }
         public int empleadoId { get; set; }
-        public string archivo { get; set; }
-        public int tipoArchivo { get; set; }
+        public int bancoId { get; set; }
+        public string cuenta { get; set; }
+        public string cuentaClabe { get; set; }
+        public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
-        public System.DateTime fechaCreacoin { get; set; }
     
-        public virtual Concepto Concepto { get; set; }
+        public virtual Banco Banco { get; set; }
         public virtual Empleado Empleado { get; set; }
         public virtual Usuario Usuario { get; set; }
     }

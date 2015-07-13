@@ -43,5 +43,7 @@ namespace SUADATOS
         public int usuarioCreacionId { get; set; }
     
         public virtual Pago Pago { get; set; }
+        public virtual Patrone Patrone { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

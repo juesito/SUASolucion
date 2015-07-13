@@ -13,8 +13,6 @@
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     
-    <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script> -->
     <script src="~/Content/jquery-ui-1.11.4/jquery-ui.js"></script>
     <link rel="stylesheet" href="~/Content/jquery-ui-1.11.4/jquery-ui.css" />
     <script src="~/Scripts/date_time.js"></script>
@@ -26,6 +24,27 @@
         $(function () {
             $(".myDate").datepicker({ dateFormat: 'dd/mm/yy' });
         });
+    </script>
+
+    <script type="text/javascript">
+    $(function () {
+        $(".myNoDayBeforeDate").datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
+    });
+    </script>
+
+    <script type="text/javascript">
+    $(function () {
+        $(".myImmsDate").datepicker({ dateFormat: 'dd/mm/yy', minDate: -5, maxDate: "+5D" });
+    });
+    </script>
+    <script>
+    $(function () {
+        $(".myBornDate").datepicker({
+            dateFormat: 'dd/mm/yy',
+            changeMonth: true,
+            changeYear: true
+        });
+    });
     </script>
 
     <script type="text/javascript">

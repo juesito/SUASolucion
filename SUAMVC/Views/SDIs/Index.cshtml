@@ -19,6 +19,12 @@
 <table class="table table-striped tableSua">
     <tr>
         <th>
+            @Html.DisplayName(@Language.cliente)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.cliente)
+        </th>
+        <th>
             @Html.DisplayName(@Language.descripcion)
         </th>
         <th>
@@ -33,6 +39,12 @@
     @foreach (var item in Model)
     {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.claveCliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.descripcion)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.descripcion)
             </td>

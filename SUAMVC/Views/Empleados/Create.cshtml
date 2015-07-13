@@ -76,10 +76,10 @@
                                 @Html.ValidationMessageFor(model => model.nss, "", new { @class = "text-danger" })
                             </td>
                             <td>
-                                @Html.Label(Language.fechaAltaImss, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.Label(Language.fechaAltaImss, htmlAttributes: new { @class = "control-label col-md-2 " })
                             </td>
                             <td>
-                                @Html.EditorFor(model => model.fechaAltaImss, new { htmlAttributes = new { @class = "myDate" } })
+                                @Html.EditorFor(model => model.fechaAltaImss, new { htmlAttributes = new { @class = "myImmsDate" } })
                                 @Html.ValidationMessageFor(model => model.fechaAltaImss, "", new { @class = "text-danger" })
                             </td>
                         }
@@ -191,7 +191,7 @@
 
                         <td>@Html.LabelFor(model => model.fechaNacimiento, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td>
-                            @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new { @class = "myDate" } })
+                            @Html.EditorFor(model => model.fechaNacimiento, new {htmlAttributes = new { @class = "myBornDate" }} )
                             @Html.ValidationMessageFor(model => model.fechaNacimiento, "", new { @class = "text-danger" })
                         </td>
                         <td></td>

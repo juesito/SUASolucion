@@ -803,24 +803,6 @@ namespace SUAMVC.Controllers
 
             Decimal newValue = Decimal.Parse("0.0");
             //Empezamos con los calculos
-/*            if (tipoDescuento.Trim().Equals("1"))
-            {
-
-                // Descuento tipo porcentaje
-                acreditado.sd = 0;
-                acreditado.cuotaFija = 0;
-                acreditado.vsm = 0;
-                acreditado.porcentaje = valueToCalculate / 100;
-
-
-                newValue = (sdi * 60);
-                newValue = newValue * (valueToCalculate / 100);
-                newValue = newValue + sinfon;
-
-                acreditado.descuentoBimestral = newValue;
-
-            }
-            else */
             if (tipoDescuento.Trim().Equals("2"))
             {
                 // Descuento tipo cuota fija
@@ -1279,7 +1261,7 @@ namespace SUAMVC.Controllers
                     //Validamos que ese movimiento no se haya guardado anteriormente
                     var movTemp = (from s in db.MovimientosAseguradoes
                                   .Where(s => s.aseguradoId.Equals(aseguradoId)
-                                  && s.catalogoMovimiento.tipo.Equals(tipoMov.Trim())
+                                  && s.CatalogoMovimiento.tipo.Equals(tipoMov.Trim())
                                   && s.fechaInicio.Equals(movimiento.fechaInicio))
                                    select s).FirstOrDefault();
                     
@@ -1309,18 +1291,18 @@ namespace SUAMVC.Controllers
                             }
                         }
 
-                        var tipoTemp = db.catalogoMovimientos.Where(b => b.tipo == tipoMov).FirstOrDefault();
+                        var tipoTemp = db.CatalogoMovimientos.Where(b => b.tipo == tipoMov).FirstOrDefault();
 
                         if (tipoTemp != null)
                         {
-                            movimiento.catalogoMovimiento = (catalogoMovimiento)tipoTemp;
+                            movimiento.CatalogoMovimiento = (CatalogoMovimiento)tipoTemp;
                         }
                         else
                         {
-                            catalogoMovimiento catMov = new catalogoMovimiento();
+                            CatalogoMovimiento catMov = new CatalogoMovimiento();
                             catMov.id = 1;
                             catMov.tipo = "01";
-                            movimiento.catalogoMovimiento = catMov;
+                            movimiento.CatalogoMovimiento = catMov;
                         }
 
                         movimiento.credito = rows["NUM_CRE"].ToString();
@@ -1378,7 +1360,7 @@ namespace SUAMVC.Controllers
             //obtenemos el ultimo reingreso, si existe.
             var movTemp = (from s in db.MovimientosAseguradoes
                                   .Where(s => s.aseguradoId.Equals(aseguradoId)
-                                   && s.catalogoMovimiento.tipo.Equals("08"))
+                                   && s.CatalogoMovimiento.tipo.Equals("08"))
                                   .OrderByDescending(s => s.fechaInicio)
                            select s).FirstOrDefault();
 
@@ -1394,9 +1376,9 @@ namespace SUAMVC.Controllers
 
             var movTemp2 = (from s in db.MovimientosAseguradoes
                             where s.aseguradoId.Equals(aseguradoId) &&
-                                 (s.catalogoMovimiento.tipo.Equals("01") || s.catalogoMovimiento.tipo.Equals("02") ||
-                                  s.catalogoMovimiento.tipo.Equals("07") || s.catalogoMovimiento.tipo.Equals("08") ||
-                                  s.catalogoMovimiento.tipo.Equals("13"))
+                                 (s.CatalogoMovimiento.tipo.Equals("01") || s.CatalogoMovimiento.tipo.Equals("02") ||
+                                  s.CatalogoMovimiento.tipo.Equals("07") || s.CatalogoMovimiento.tipo.Equals("08") ||
+                                  s.CatalogoMovimiento.tipo.Equals("13"))
                             orderby s.fechaInicio descending
                             select s).ToList();
 
@@ -1409,13 +1391,13 @@ namespace SUAMVC.Controllers
                     break;
                 }
 
-                if (movto.catalogoMovimiento.tipo.Trim().Equals("08"))
+                if (movto.CatalogoMovimiento.tipo.Trim().Equals("08"))
                 {
                     asegurado.salarioDiario = Decimal.Parse(movto.sdi.ToString());
                     asegurado.salarioImss = Decimal.Parse(movto.sdi.ToString());
                 }
-                else if (movto.catalogoMovimiento.tipo.Trim().Equals("01") || movto.catalogoMovimiento.tipo.Trim().Equals("07") ||
-                         movto.catalogoMovimiento.tipo.Trim().Equals("13"))
+                else if (movto.CatalogoMovimiento.tipo.Trim().Equals("01") || movto.CatalogoMovimiento.tipo.Trim().Equals("07") ||
+                         movto.CatalogoMovimiento.tipo.Trim().Equals("13"))
                 {
                     long annos = DatesHelper.DateDiffInYears(asegurado.fechaAlta, ahora);
                     if (annos.Equals(0))
@@ -1433,7 +1415,7 @@ namespace SUAMVC.Controllers
                         asegurado.salarioDiario = 0;
                     }
                 }
-                else if (movto.catalogoMovimiento.tipo.Trim().Equals("02"))
+                else if (movto.CatalogoMovimiento.tipo.Trim().Equals("02"))
                 {
                     asegurado.salarioDiario = 0;
                     asegurado.salarioImss = 0;
