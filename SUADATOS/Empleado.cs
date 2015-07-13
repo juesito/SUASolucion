@@ -16,7 +16,8 @@ namespace SUADATOS
     {
         public Empleado()
         {
-            this.ArchivosEmpleados = new HashSet<ArchivosEmpleado>();
+            this.ArchivoEmpleadoes = new HashSet<ArchivoEmpleado>();
+            this.DocumentoEmpleadoes = new HashSet<DocumentoEmpleado>();
         }
     
         public int id { get; set; }
@@ -41,8 +42,8 @@ namespace SUADATOS
         public int estadoCivilId { get; set; }
         public System.DateTime fechaNacimiento { get; set; }
         public int nacionalidadId { get; set; }
-        public int estadoNacimientoId { get; set; }
-        public int municipioNacimientoId { get; set; }
+        public Nullable<int> estadoNacimientoId { get; set; }
+        public Nullable<int> municipioNacimientoId { get; set; }
         public string calleNumero { get; set; }
         public string colonia { get; set; }
         public string edoMunicipio { get; set; }
@@ -61,7 +62,9 @@ namespace SUADATOS
         public string foto { get; set; }
     
         public virtual Acreditado Acreditado { get; set; }
+        public virtual ICollection<ArchivoEmpleado> ArchivoEmpleadoes { get; set; }
         public virtual Banco Banco { get; set; }
+        public virtual ICollection<DocumentoEmpleado> DocumentoEmpleadoes { get; set; }
         public virtual EsquemasPago EsquemasPago { get; set; }
         public virtual EstadoCivil EstadoCivil { get; set; }
         public virtual Estado Estado { get; set; }
@@ -71,6 +74,5 @@ namespace SUADATOS
         public virtual Sexo Sexo { get; set; }
         public virtual Solicitud Solicitud { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual ICollection<ArchivosEmpleado> ArchivosEmpleados { get; set; }
     }
 }

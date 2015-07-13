@@ -29,9 +29,7 @@
     {  @item.Plaza.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("fechaSolicitud", "Fecha Solicitud", @<text><div style='width: 6em'>@item.fechaSolicitud.ToString("dd-MM-yyyy")</div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("EsquemasPago.descripcion", "Esquema", format: @<text> @if (@item.esquemaId != null)
-    {  @item.EsquemasPago.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("SDI.descripcion", "SDI", format: @<text> @if (@item.sdiId != null)
-    {  @item.SDI.descripcion }</text>, canSort: true));
+    {  @item.EsquemasPago.descripcion }</text>, canSort: true));    
     gridColumns.Add(grid.Column("TipoContrato.descripcion", "Tipo Contrato", format: @<text> @if (@item.contratoId != null)
     {  @item.TipoContrato.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("TipoPersonal.descripcion", "Tipo Personal", format: @<text> @if (@item.tipoPersonalId != null)

@@ -1,4 +1,5 @@
 ﻿@model SUADATOS.SDI
+@using SUADATOS
 
 @{
     ViewBag.Title = "Create";
@@ -7,6 +8,7 @@
     {
         Response.Redirect("~/Home/Index");
     }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
 }
 @section Menu {
     <div>Catálogo de SDI<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
@@ -22,6 +24,12 @@
         <div class="panel-body" style="font-size:10px;">
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.Label(Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.clientesNSDrownList(usuario.Id)
+                    </div>
+                </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">

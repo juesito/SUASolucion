@@ -46,7 +46,7 @@ namespace SUAMVC.Helpers
         /**
          * Cargamos archivo modificando el nombre del archivo
          * 
-         */ 
+         */
         public String cargarArchivo(HttpFileCollectionBase files, String destino, String nombreArchivo)
         {
 
@@ -123,6 +123,64 @@ namespace SUAMVC.Helpers
 
 
             return filenameFinal;
+        }
+
+        public String getMimeType(String path)
+        {
+            String mimeType = "";
+
+            String extension = Path.GetExtension(path);
+
+            if (extension.Trim().Equals(".pdf"))
+            {
+                mimeType = "application/pdf";
+            }
+            else if (extension.Trim().Equals(".doc"))
+            {
+                mimeType = "application/msword";
+            }
+            else if (extension.Trim().Equals(".docx"))
+            {
+                mimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+            }
+            else if (extension.Trim().Equals(".xls"))
+            {
+                mimeType = "application/vnd.ms-excel";
+            }
+            else if (extension.Trim().Equals(".xlsx"))
+            {
+                mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            }
+            else if (extension.Trim().Equals(".ppt"))
+            {
+                mimeType = "application/vnd.ms-powerpoint";
+            }
+            else if (extension.Trim().Equals(".pptx"))
+            {
+                mimeType = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+            }
+            else if (extension.Trim().Equals(".ppsx"))
+            {
+                mimeType = "application/vnd.openxmlformats-officedocument.presentationml.slideshow";
+            }
+
+            return mimeType;
+        }
+
+        public void BorrarArchivo(String fileName) {
+
+            if (System.IO.File.Exists(fileName))
+            {
+                try
+                {
+                    System.IO.File.Delete(fileName);
+                }
+                catch (System.IO.IOException e)
+                {
+                    Console.WriteLine(e.Message);
+                    return;
+                }
+            }
         }
 
     }

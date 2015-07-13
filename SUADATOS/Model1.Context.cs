@@ -26,15 +26,17 @@ namespace SUADATOS
         }
     
         public virtual DbSet<Acreditado> Acreditados { get; set; }
+        public virtual DbSet<ArchivoEmpleado> ArchivoEmpleadoes { get; set; }
         public virtual DbSet<Asegurado> Asegurados { get; set; }
         public virtual DbSet<Banco> Bancos { get; set; }
-        public virtual DbSet<catalogoMovimiento> catalogoMovimientos { get; set; }
+        public virtual DbSet<CatalogoMovimiento> CatalogoMovimientos { get; set; }
         public virtual DbSet<Cliente> Clientes { get; set; }
         public virtual DbSet<Concepto> Conceptos { get; set; }
         public virtual DbSet<ContratosCliente> ContratosClientes { get; set; }
         public virtual DbSet<DatosAdicionalesCliente> DatosAdicionalesClientes { get; set; }
         public virtual DbSet<Departamento> Departamentos { get; set; }
-        public virtual DbSet<DetallePago> DetallePagos { get; set; }
+        public virtual DbSet<DetallePago> DetallePagoes { get; set; }
+        public virtual DbSet<DocumentoEmpleado> DocumentoEmpleadoes { get; set; }
         public virtual DbSet<Empleado> Empleados { get; set; }
         public virtual DbSet<Empresa> Empresas { get; set; }
         public virtual DbSet<EsquemasPago> EsquemasPagoes { get; set; }
@@ -67,6 +69,7 @@ namespace SUADATOS
         public virtual DbSet<Servicio> Servicios { get; set; }
         public virtual DbSet<Sexo> Sexos { get; set; }
         public virtual DbSet<Solicitud> Solicituds { get; set; }
+        public virtual DbSet<SumarizadoCliente> SumarizadoClientes { get; set; }
         public virtual DbSet<TipoContrato> TipoContratoes { get; set; }
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }

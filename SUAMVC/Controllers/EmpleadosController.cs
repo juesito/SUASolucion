@@ -250,6 +250,8 @@ namespace SUAMVC.Controllers
 
         }
 
+        
+
 
         public ActionResult CargarEmpleadosPorExcel(int id)
         {
@@ -308,7 +310,7 @@ namespace SUAMVC.Controllers
         public ActionResult BajaEmpleados(string id, string clienteId)
         {
 
-            var empleados = db.Empleados.Include(e => e.Banco).Include(e => e.EsquemasPago).Include(e => e.EstadoCivil).Include(e => e.Estado).Include(e => e.Municipio).Include(e => e.Pais).Include(e => e.SDI).Include(e => e.Sexo).Include(e => e.Solicitud).Include(e => e.Usuario);
+            var empleados = db.Empleados.Include(e => e.Banco).Include(e => e.EsquemasPago).Include(e => e.EstadoCivil).Include(e => e.Estado).Include(e => e.Municipio).Include(e => e.Pais).Include(e => e.Sexo).Include(e => e.Solicitud).Include(e => e.Usuario);
             if (!String.IsNullOrEmpty(id))
             {
                 int idTemp = int.Parse(id);

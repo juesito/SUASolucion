@@ -19,7 +19,11 @@ namespace SUAMVC.Controllers
         public ActionResult Index(string estatusId)
         {
 
-            var solicituds = db.Solicituds.Include(s => s.Cliente).Include(s => s.Concepto).Include(s => s.Concepto1).Include(s => s.Concepto2).Include(s => s.Concepto3).Include(s => s.Concepto4).Include(s => s.Concepto5).Include(s => s.EsquemasPago).Include(s => s.Plaza).Include(s => s.Proyecto).Include(s => s.SDI).Include(s => s.TipoContrato).Include(s => s.TipoPersonal).Include(s => s.Usuario);
+            var solicituds = db.Solicituds.Include(s => s.Cliente).Include(s => s.Concepto).
+                Include(s => s.Concepto1).Include(s => s.Concepto2).Include(s => s.Concepto3).
+                Include(s => s.Concepto4).Include(s => s.Concepto5).Include(s => s.EsquemasPago).
+                Include(s => s.Plaza).Include(s => s.Proyecto).Include(s => s.TipoContrato).
+                Include(s => s.TipoPersonal).Include(s => s.Usuario);
 
             ToolsHelper cp = new ToolsHelper();
             Concepto concepto = cp.obtenerConceptoPorGrupo("ESTASOL", "Apertura");

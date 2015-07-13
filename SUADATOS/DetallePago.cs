@@ -50,9 +50,9 @@ namespace SUADATOS
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
-        public virtual Asegurado Asegurados { get; set; }
-        public virtual Pago Pagos { get; set; }
-        public virtual Patrone Patrones { get; set; }
-        public virtual Usuario Usuarios { get; set; }
+        public virtual Asegurado Asegurado { get; set; }
+        public virtual Pago Pago { get; set; }
+        public virtual Patrone Patrone { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }
