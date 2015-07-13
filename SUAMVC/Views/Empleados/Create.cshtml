@@ -55,7 +55,7 @@
     @Html.HiddenFor(model => model.solicitudId)
     <div class="panel panel-info">
         <div class="panel-heading">
-            Capturar Departamento
+            Capturar Empleado
         </div>
         <div class="panel-body" style="font-size:10px;">
             <table style="margin: 0 auto;">
@@ -303,7 +303,7 @@
                     </tr>
                     <tr>
                         <td colspan="6">
-                            <input type="submit" value="@Language.agregar" class="btn btn-default" />
+                            <input type="submit" value="@Language.agregar" class="btn btn-primary" />
                         </td>
                     </tr>
                 </tbody>
@@ -314,7 +314,7 @@
 
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(Language.regresar, "Index")
 </div>
 
 <script>

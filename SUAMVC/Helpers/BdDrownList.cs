@@ -74,7 +74,7 @@ namespace SUAMVC.Helpers
         public static MvcHtmlString patronesDrownList(this HtmlHelper htmlHelper, int userId)
         {
 
-            db = new suaEntities();            
+            db = new suaEntities();
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<Patrone> list = (from s in db.Patrones.ToList()
@@ -89,7 +89,7 @@ namespace SUAMVC.Helpers
                 String itemId = item.Id.ToString().Trim();
                 String descripcion = item.registro.Trim() + "-" + item.nombre.Trim();
 
-                if (descripcion.Contains("Todos") || descripcion.Contains("Seleccion") )
+                if (descripcion.Contains("Todos") || descripcion.Contains("Seleccion"))
                 {
                     itemId = "";
                     descripcion = item.nombre.Trim();
@@ -223,8 +223,8 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<EsquemasPago> listEsquemas = (from s in db.EsquemasPagoes
-                                      orderby s.descripcion
-                                      select s).ToList();
+                                               orderby s.descripcion
+                                               select s).ToList();
 
             foreach (EsquemasPago item in listEsquemas)
             {
@@ -247,8 +247,8 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<TipoContrato> listContratos = (from s in db.TipoContratoes
-                                               orderby s.descripcion
-                                               select s).ToList();
+                                                orderby s.descripcion
+                                                select s).ToList();
 
             foreach (TipoContrato item in listContratos)
             {
@@ -261,7 +261,7 @@ namespace SUAMVC.Helpers
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
-            return htmlHelper.DropDownList("contratoId", listFields, new { id = htmlId});
+            return htmlHelper.DropDownList("contratoId", listFields, new { id = htmlId });
         }
 
         public static MvcHtmlString sexosDrownList(this HtmlHelper htmlHelper, int userId)
@@ -271,8 +271,8 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<Sexo> listSexos = (from s in db.Sexos
-                                                orderby s.descripcion
-                                                select s).ToList();
+                                    orderby s.descripcion
+                                    select s).ToList();
 
             foreach (Sexo item in listSexos)
             {
@@ -295,8 +295,8 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<Pais> listPaises = (from s in db.Paises
-                                    orderby s.naturalez ascending
-                                    select s).ToList();
+                                     orderby s.naturalez ascending
+                                     select s).ToList();
 
             foreach (Pais item in listPaises)
             {
@@ -333,7 +333,7 @@ namespace SUAMVC.Helpers
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
-            return htmlHelper.DropDownList(componenteId, listFields, new { id = "paisId"});
+            return htmlHelper.DropDownList(componenteId, listFields, new { id = "paisId" });
         }
 
         public static MvcHtmlString modulosDrownList(this HtmlHelper htmlHelper)
@@ -343,8 +343,8 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<Modulo> listModulos = (from s in db.Modulos
-                                     orderby s.descripcionCorta 
-                                     select s).ToList();
+                                        orderby s.descripcionCorta
+                                        select s).ToList();
 
             foreach (Modulo item in listModulos)
             {
@@ -391,8 +391,8 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<TipoPersonal> listTipoPersonal = (from s in db.TipoPersonals
-                                     orderby s.descripcion
-                                     select s).ToList();
+                                                   orderby s.descripcion
+                                                   select s).ToList();
 
             foreach (TipoPersonal item in listTipoPersonal)
             {
@@ -415,8 +415,8 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<Banco> listBancos = (from s in db.Bancos
-                                                   orderby s.descripcion
-                                                   select s).ToList();
+                                      orderby s.descripcion
+                                      select s).ToList();
 
             foreach (Banco item in listBancos)
             {
@@ -471,8 +471,8 @@ namespace SUAMVC.Helpers
 
             List<Concepto> listConceptos = (from s in db.Conceptos
                                             where s.grupo.Equals(grupo.Trim())
-                                     orderby s.descripcion
-                                     select s).ToList();
+                                            orderby s.descripcion
+                                            select s).ToList();
 
             foreach (Concepto item in listConceptos)
             {
@@ -486,6 +486,30 @@ namespace SUAMVC.Helpers
             }
 
             return htmlHelper.DropDownList(componentId, listFields);
+
+        }
+        public static MvcHtmlString proyectoDrownList(this HtmlHelper htmlHelper, int userId, string componenteId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Proyecto> listProyecto = (from p in db.Proyectos
+                                      orderby p.descripcion
+                                      select p).ToList();
+
+            foreach (Proyecto item in listProyecto)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields);
         }
     }
 }

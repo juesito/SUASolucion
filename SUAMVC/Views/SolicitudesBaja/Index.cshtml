@@ -31,7 +31,7 @@
                 { @item.fechaFinal.ToString("dd-MM-yyyy")}
             </div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", @<text><div style='width: 6em'>
-                    @if (@item.fechaFinal != null)
+                    @if (@item.fechaBaja != null)
                     { @item.fechaFinal.ToString("dd-MM-yyyy")}
                 </div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("solicita", "Solicitó", format: @<text> @if (@item.solicita != null)
@@ -62,7 +62,7 @@
     }
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {
-        gridColumns.Add(grid.Column(header: "Personal", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text><a href="@Url.Action("BajaEmpleados", "Empleados", new { id = item.id, clienteId = item.clienteId})"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {

@@ -61,6 +61,7 @@ namespace SUADATOS
         public string foto { get; set; }
     
         public virtual Acreditado Acreditado { get; set; }
+        public virtual ICollection<ArchivosEmpleado> ArchivosEmpleados { get; set; }
         public virtual Banco Banco { get; set; }
         public virtual EsquemasPago EsquemasPago { get; set; }
         public virtual EstadoCivil EstadoCivil { get; set; }
@@ -71,6 +72,5 @@ namespace SUADATOS
         public virtual Sexo Sexo { get; set; }
         public virtual Solicitud Solicitud { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual ICollection<ArchivosEmpleado> ArchivosEmpleados { get; set; }
     }
 }
