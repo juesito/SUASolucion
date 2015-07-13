@@ -89,11 +89,11 @@ namespace SUAMVC.Controllers
 
                 if (!String.IsNullOrEmpty(empleado.nss))
                 {
-                    Acreditado acreditado = th.obtenerAcreditadoPorNSS(empleado.nss.Trim());
+                    Asegurado asegurado = th.obtenerAseguradoPorNSS(empleado.nss.Trim());
 
-                    if (!(acreditado == null) && !String.IsNullOrEmpty(acreditado.nombre))
+                    if (!(asegurado == null) && !String.IsNullOrEmpty(asegurado.nombre))
                     {
-                        empleado.acreditadoId = acreditado.id;
+                        empleado.aseguradoId = asegurado.id;
                     }
                 }
 

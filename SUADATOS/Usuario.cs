@@ -20,6 +20,7 @@ namespace SUADATOS
             this.Bancos = new HashSet<Banco>();
             this.Conceptos = new HashSet<Concepto>();
             this.ContratosClientes = new HashSet<ContratosCliente>();
+            this.CuentaEmpleadoes = new HashSet<CuentaEmpleado>();
             this.DatosAdicionalesClientes = new HashSet<DatosAdicionalesCliente>();
             this.Departamentos = new HashSet<Departamento>();
             this.DetallePagoes = new HashSet<DetallePago>();
@@ -30,6 +31,7 @@ namespace SUADATOS
             this.EstadoCivils = new HashSet<EstadoCivil>();
             this.Estados = new HashSet<Estado>();
             this.Factores = new HashSet<Factore>();
+            this.FamiliaresEmpleadoes = new HashSet<FamiliaresEmpleado>();
             this.Giros = new HashSet<Giro>();
             this.ListaValidacionClientes = new HashSet<ListaValidacionCliente>();
             this.Municipios = new HashSet<Municipio>();
@@ -70,6 +72,7 @@ namespace SUADATOS
         public virtual ICollection<Banco> Bancos { get; set; }
         public virtual ICollection<Concepto> Conceptos { get; set; }
         public virtual ICollection<ContratosCliente> ContratosClientes { get; set; }
+        public virtual ICollection<CuentaEmpleado> CuentaEmpleadoes { get; set; }
         public virtual ICollection<DatosAdicionalesCliente> DatosAdicionalesClientes { get; set; }
         public virtual ICollection<Departamento> Departamentos { get; set; }
         public virtual Departamento Departamento { get; set; }
@@ -81,6 +84,7 @@ namespace SUADATOS
         public virtual ICollection<EstadoCivil> EstadoCivils { get; set; }
         public virtual ICollection<Estado> Estados { get; set; }
         public virtual ICollection<Factore> Factores { get; set; }
+        public virtual ICollection<FamiliaresEmpleado> FamiliaresEmpleadoes { get; set; }
         public virtual ICollection<Giro> Giros { get; set; }
         public virtual ICollection<ListaValidacionCliente> ListaValidacionClientes { get; set; }
         public virtual ICollection<Municipio> Municipios { get; set; }

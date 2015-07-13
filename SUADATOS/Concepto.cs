@@ -18,6 +18,7 @@ namespace SUADATOS
         {
             this.ArchivoEmpleadoes = new HashSet<ArchivoEmpleado>();
             this.DocumentoEmpleadoes = new HashSet<DocumentoEmpleado>();
+            this.FamiliaresEmpleadoes = new HashSet<FamiliaresEmpleado>();
             this.RespuestaSolicituds = new HashSet<RespuestaSolicitud>();
             this.SalarialesEmpleadoes = new HashSet<SalarialesEmpleado>();
             this.Solicituds = new HashSet<Solicitud>();
@@ -37,6 +38,7 @@ namespace SUADATOS
         public virtual ICollection<ArchivoEmpleado> ArchivoEmpleadoes { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual ICollection<DocumentoEmpleado> DocumentoEmpleadoes { get; set; }
+        public virtual ICollection<FamiliaresEmpleado> FamiliaresEmpleadoes { get; set; }
         public virtual ICollection<RespuestaSolicitud> RespuestaSolicituds { get; set; }
         public virtual ICollection<SalarialesEmpleado> SalarialesEmpleadoes { get; set; }
         public virtual ICollection<Solicitud> Solicituds { get; set; }
