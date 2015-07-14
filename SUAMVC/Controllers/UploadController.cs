@@ -1292,7 +1292,7 @@ namespace SUAMVC.Controllers
                     //Validamos que ese movimiento no se haya guardado anteriormente
                     var movTemp = (from s in db.MovimientosAseguradoes
                                   .Where(s => s.aseguradoId.Equals(aseguradoId)
-                                  && s.catalogoMovimiento.tipo.Equals(tipoMov.Trim())
+                                  && s.CatalogoMovimiento.tipo.Equals(tipoMov.Trim())
                                   && s.fechaInicio.Equals(movimiento.fechaInicio))
                                    select s).FirstOrDefault();
                     
@@ -1326,7 +1326,7 @@ namespace SUAMVC.Controllers
 
                         if (tipoTemp != null)
                         {
-                            movimiento.catalogoMovimiento = (catalogoMovimiento)tipoTemp;
+                            movimiento.CatalogoMovimiento = (CatalogoMovimiento)tipoTemp;
                         }
                         else
                         {
