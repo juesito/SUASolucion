@@ -31,7 +31,6 @@ namespace SUADATOS
             this.EstadoCivils = new HashSet<EstadoCivil>();
             this.Estados = new HashSet<Estado>();
             this.Factores = new HashSet<Factore>();
-            this.FamiliaresEmpleadoes = new HashSet<FamiliaresEmpleado>();
             this.Giros = new HashSet<Giro>();
             this.ListaValidacionClientes = new HashSet<ListaValidacionCliente>();
             this.Municipios = new HashSet<Municipio>();
@@ -53,6 +52,7 @@ namespace SUADATOS
             this.TipoPersonals = new HashSet<TipoPersonal>();
             this.TopicosUsuarios = new HashSet<TopicosUsuario>();
             this.TopicosUsuarios1 = new HashSet<TopicosUsuario>();
+            this.FamiliaresEmpleadoes = new HashSet<FamiliaresEmpleado>();
         }
     
         public int Id { get; set; }
@@ -84,7 +84,6 @@ namespace SUADATOS
         public virtual ICollection<EstadoCivil> EstadoCivils { get; set; }
         public virtual ICollection<Estado> Estados { get; set; }
         public virtual ICollection<Factore> Factores { get; set; }
-        public virtual ICollection<FamiliaresEmpleado> FamiliaresEmpleadoes { get; set; }
         public virtual ICollection<Giro> Giros { get; set; }
         public virtual ICollection<ListaValidacionCliente> ListaValidacionClientes { get; set; }
         public virtual ICollection<Municipio> Municipios { get; set; }
@@ -108,5 +107,6 @@ namespace SUADATOS
         public virtual ICollection<TipoPersonal> TipoPersonals { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios1 { get; set; }
+        public virtual ICollection<FamiliaresEmpleado> FamiliaresEmpleadoes { get; set; }
     }
 }

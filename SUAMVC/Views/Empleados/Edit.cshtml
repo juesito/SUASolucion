@@ -294,6 +294,20 @@
                     <dd>
                         @Html.EditorFor(model => model.datosEmpleado.tipoSangre)
                     </dd>
+                    <dt>
+                        @Html.Label("Datos Familiares:")
+                    </dt>
+
+                    <dd>
+                        <a href="@Url.Action("create", "FamiliaresEmpleados" , new { empleadoid=Model.empleado.id })" 
+                           title="Cargar Documentos">
+                            <img src="~/Content/Images/people-b.png" alt="" style="border:none;" class="icon" />
+                        </a>
+                        <a href="@Url.Action("index", "FamiliaresEmpleados" , new { empleadoid=Model.empleado.id })" 
+                           title="Cargar Documentos">
+                            <img src="~/Content/Images/fileSearch.png" alt="" style="border:none;" class="icon" />
+                        </a>
+                    </dd>
                 </dl>
             </div>
             <div class="right-Marquee">
