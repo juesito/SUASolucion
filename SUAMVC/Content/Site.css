@@ -373,3 +373,31 @@ table-fixed {
     .marqueeFilter td {
         min-width:50px;    
     }
+
+.left-Marquee {
+    float:left;
+    clear:right;
+    display:inline;
+    vertical-align:top;
+    height:400px;
+    width:500px;
+    border-right: 1px dotted #151E49;
+}
+.right-Marquee {
+    float:left;
+    display:inline;
+    vertical-align:top;
+    height:400px;
+    width:500px;
+}
+
+.foto-Marquee {
+    height:200px;
+    width:200px;
+    padding-top:30px;
+    margin:50px 20px;
+    border:1px solid #151E49;
+    border-radius: 25px;
+    background: #2A538A;
+    text-align:center;
+}

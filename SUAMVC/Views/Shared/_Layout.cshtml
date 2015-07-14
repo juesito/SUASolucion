@@ -9,11 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - SUA Solution</title>
 
-    <script src="~/Scripts/jquery-2.1.3.min.js"></script>
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+    
+    <script src="~/Content/jquery-ui-1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="~/Content/jquery-ui-1.11.4/jquery-ui.css" />
     <script src="~/Scripts/date_time.js"></script>
 
     @Styles.Render("/Content/Site.css")
@@ -24,6 +25,34 @@
             $(".myDate").datepicker({ dateFormat: 'dd/mm/yy' });
         });
     </script>
+
+    <script type="text/javascript">
+    $(function () {
+        $(".myNoDayBeforeDate").datepicker({ dateFormat: 'dd/mm/yy', minDate: 0 });
+    });
+    </script>
+
+    <script type="text/javascript">
+    $(function () {
+        $(".myImmsDate").datepicker({ dateFormat: 'dd/mm/yy', minDate: -5, maxDate: "+5D" });
+    });
+    </script>
+    <script>
+    $(function () {
+        $(".myBornDate").datepicker({
+            dateFormat: 'dd/mm/yy',
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+    </script>
+
+    <script type="text/javascript">
+    $(function () {
+        $("#tabs").tabs();
+    });
+    </script>
+
 </head>
 <body>
     <div class="header">
@@ -35,9 +64,9 @@
                 <span id="updateTime"></span>
                 <script type="text/javascript">
                     var d = new Date();
-                    
+
                     document.getElementById("updateTime").innerHTML = d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2) + " " + d.getHours() + ":" + d.getMinutes();
-                    </script>
+                </script>
                 @Html.ActionLink(Language.bt_exit, "Logout", "Usuarios")
             }
             else
@@ -55,18 +84,18 @@
                     <h3 style="color:#057B35">@Language.company_subtitle</h3>
                 </div>
             </div>
-            
+
         </div>
     </div>
     <div class="menu">
         <div class="textMenu">
-            @RenderSection("Menu")
+            @RenderSection("menu")
         </div>
         <div class="login">
             @if (Request.IsAuthenticated)
             {
                 <div class="container-sua">
-                    @Html.Partial("_MenuLayout")                    
+                    @Html.Partial("_MenuLayout")
                 </div>
 
             }

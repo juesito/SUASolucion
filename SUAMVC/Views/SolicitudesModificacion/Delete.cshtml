@@ -1,0 +1,154 @@
+﻿@model SUADATOS.Solicitud
+@using SUADATOS
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+@section Menu {
+    <div> Eliminar Solicitud<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        ¿Desea borrar este registro?
+    </div>
+    <div class="panel-body" style="font-size:10px;">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.folioSolicitud)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.folioSolicitud)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaSolicitud)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaSolicitud)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaInicial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaInicial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaFinal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaFinal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.solicita)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.solicita)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.valida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.valida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.autoriza)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.autoriza)
+        </dd>
+
+         <dt>
+            @Html.DisplayNameFor(model => model.observaciones)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.observaciones)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaEnvio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaEnvio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente.claveCliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.claveCliente)
+        </dd>
+
+       
+        <dt>
+            @Html.DisplayNameFor(model => model.Plaza.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plaza.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Proyecto.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Proyecto.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SDI.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SDI.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usuario.nombreUsuario)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+        {
+        @Html.AntiForgeryToken()
+
+    <div class="form-group" style="margin-top:40px;">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="@Language.borrar" class="btn btn-primary" />
+        </div>
+    </div>
+        }
+        </div>
+    </div>
+            
+       
+
+        <div>
+            @Html.ActionLink(@Language.regresar, "Index")
+        </div>

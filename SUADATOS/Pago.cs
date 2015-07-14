@@ -17,6 +17,7 @@ namespace SUADATOS
         public Pago()
         {
             this.DetallePagoes = new HashSet<DetallePago>();
+            this.ResumenPagoes = new HashSet<ResumenPago>();
         }
     
         public int id { get; set; }
@@ -43,5 +44,6 @@ namespace SUADATOS
         public virtual ICollection<DetallePago> DetallePagoes { get; set; }
         public virtual Patrone Patrone { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<ResumenPago> ResumenPagoes { get; set; }
     }
 }

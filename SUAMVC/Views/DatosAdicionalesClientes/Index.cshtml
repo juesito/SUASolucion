@@ -1,0 +1,67 @@
+﻿@model IEnumerable<SUADATOS.DatosAdicionalesCliente>
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+     Cliente cliente = TempData["cliente"] as Cliente;
+
+
+    var grid = new WebGrid(source: Model, canPage: true, rowsPerPage: 15);
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+
+        //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+
+    //Agregamos las columnas al grid
+    gridColumns.Add(grid.Column("porcentajeComNomina", "porcentajeComNomina", null, null, true));
+    gridColumns.Add(grid.Column("ivaNomina", "IVA Nomina", null, null, true));
+    gridColumns.Add(grid.Column("ivaIAS", "IVA IAS", null, null, true));
+    gridColumns.Add(grid.Column("porcentajeComFlujo", "porcentajeComFlujo", null, null, true));
+    gridColumns.Add(grid.Column("ivaFlujo", "IVA Flujo", null, null, true));
+    gridColumns.Add(grid.Column("costoSocial", "Costo Social", null, null, true));
+    gridColumns.Add(grid.Column("conceptoFacturacion", "Concepto Facturación"));
+    gridColumns.Add(grid.Column("fechaCreacion", "Fecha Alta", null, null, true));
+    gridColumns.Add(grid.Column("Cliente.claveCliente", "Clave Cliente", null, null, true));
+    gridColumns.Add(grid.Column("Usuario.nombreUsuario", "Usuario Alta",@<text><div style='width: 23em'>@item.usuarioId</div></text>, null, true));
+    gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "DatosAdicionalesClientes", new { id = item.id })">
+        <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+    </a></text>));
+    gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "DatosAdicionalesClientes", new { id = item.id })">
+            <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+        </a></text>));
+   
+            <p>
+                @Html.ActionLink(@Language.agregar + " " + @Language.datAdiCliente, "Create", "DatosAdicionalesClientes", new { clienteId = cliente.Id }, new { @class = "btn btn-success" })
+            </p>
+
+    sb.Append(
+   grid.GetHtml(
+   columns:
+       grid.Columns(gridColumns.ToArray()),
+                                   tableStyle: "table table-striped tableSua"
+                   ));
+
+    tableHtml = sb.ToString();
+
+}
+
+    @section Menu {
+      <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catálogo de Datos Adicionales Cliente </div>
+    }
+<p>Listas de datos adicionales para el cliente: @cliente.descripcion</p>
+
+    @if (!tableHtml.IsEmpty())
+    {
+        <div id="table-container" class="table-container">
+            @Html.Raw(tableHtml)
+        </div>
+    }
+

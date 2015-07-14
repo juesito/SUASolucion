@@ -1,0 +1,61 @@
+﻿@model IEnumerable<SUADATOS.ArchivoEmpleado>
+@using SUADATOS
+@using System.Text;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+
+    String folioEmpleado = "";
+    if (ViewBag.folioEmpleado != null) {
+        folioEmpleado = ViewBag.folioEmpleado;
+    }
+    
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+
+    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+    var gridColumns = new List<WebGridColumn>();
+
+    gridColumns.Add(grid.Column("Usuario.nombreUsuario", "Usuario", null, null, true));
+    gridColumns.Add(grid.Column("archivo", "Archivo", null, null, true));
+    gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creacion", null, null, true));
+    gridColumns.Add(grid.Column(header: "Archivo", format: @<text>
+        <a href="@Url.Action("VerDocumento", "ArchivosEmpleados", new { fileNameString = item.archivo})">
+            <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
+        </a>
+
+    </text>));
+
+    gridColumns.Add(grid.Column(header: "Borrar", format: @<text>
+        <a href="@Url.Action("Delete", "ArchivosEmpleados", new { id = item.id})">
+            <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+        </a>
+
+    </text>));
+
+
+    sb.Append(grid.GetHtml(
+       columns: grid.Columns(gridColumns.ToArray()),
+                       tableStyle: "table table-striped tableSua"));
+
+    tableHtml = sb.ToString();
+
+}
+@section Menu {
+    <div>Archivos empleados<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+<h2 style="color:#2E538A;">Empleado: @folioEmpleado.Trim()</h2>
+
+@if (!tableHtml.IsEmpty())
+{
+    <div id="table-container" class="table-container">
+        @Html.Raw(tableHtml)
+    </div>
+}

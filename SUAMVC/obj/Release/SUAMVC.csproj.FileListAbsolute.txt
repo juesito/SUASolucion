@@ -1,0 +1,105 @@
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\SUAMVC.dll.config
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\SUAMVC.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\SUAMVC.pdb
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\EntityFramework.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\EntityFramework.SqlServer.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\Microsoft.Web.Helpers.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\SUADATOS.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Helpers.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Mvc.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Razor.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.WebPages.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.WebPages.Razor.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\WebMatrix.Data.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\WebMatrix.WebData.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\SUADATOS.pdb
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\EntityFramework.xml
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\EntityFramework.SqlServer.xml
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Helpers.xml
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Razor.xml
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.WebPages.xml
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.WebPages.Razor.xml
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\WebMatrix.Data.xml
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\WebMatrix.WebData.xml
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Mvc.xml
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\es\System.Web.Helpers.resources.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\es\System.Web.Razor.resources.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\es\System.Web.WebPages.resources.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\bin\es\System.Web.Mvc.resources.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.csprojResolveAssemblyReference.cache
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.dll
+C:\Users\Leonor\documents\visual studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.pdb
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\SUAMVC.dll.config
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\SUAMVC.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\SUAMVC.pdb
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\EntityFramework.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\EntityFramework.SqlServer.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Microsoft.Web.Helpers.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\SUADATOS.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Helpers.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Mvc.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Razor.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.WebPages.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.WebPages.Razor.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\WebMatrix.Data.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\WebMatrix.WebData.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\SUADATOS.pdb
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\EntityFramework.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\EntityFramework.SqlServer.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Helpers.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Razor.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.WebPages.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.WebPages.Razor.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\WebMatrix.Data.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\WebMatrix.WebData.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Mvc.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\es\System.Web.Helpers.resources.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\es\System.Web.Razor.resources.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\es\System.Web.WebPages.resources.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\es\System.Web.Mvc.resources.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.csprojResolveAssemblyReference.cache
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.pdb
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Antlr3.Runtime.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Newtonsoft.Json.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Optimization.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\WebGrease.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Antlr3.Runtime.pdb
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Newtonsoft.Json.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Optimization.xml
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Antlr3.Runtime.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Newtonsoft.Json.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Optimization.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\WebGrease.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Antlr3.Runtime.pdb
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Newtonsoft.Json.xml
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\System.Web.Optimization.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\PagedList.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\PagedList.Mvc.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\PagedList.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\PagedList.Mvc.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.Resources.Language.resources
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.csproj.GenerateResource.Cache
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\PagedList.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\PagedList.Mvc.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\PagedList.xml
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\PagedList.Mvc.xml
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.Resources.Language.resources
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.csproj.GenerateResource.Cache
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\es-MX\SUAMVC.resources.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\AntiXssLibrary.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\HtmlSanitizationLibrary.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\ModelMetadataExtensions.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\WebActivator.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\AntiXssLibrary.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\HtmlSanitizationLibrary.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.Resources.Language.es-MX.resources
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\es-MX\SUAMVC.resources.dll

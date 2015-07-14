@@ -16,6 +16,8 @@ namespace SUADATOS
     {
         public Banco()
         {
+            this.CuentaEmpleadoes = new HashSet<CuentaEmpleado>();
+            this.Empleados = new HashSet<Empleado>();
             this.Pagos = new HashSet<Pago>();
         }
     
@@ -24,7 +26,9 @@ namespace SUADATOS
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
-        public virtual ICollection<Pago> Pagos { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<CuentaEmpleado> CuentaEmpleadoes { get; set; }
+        public virtual ICollection<Empleado> Empleados { get; set; }
+        public virtual ICollection<Pago> Pagos { get; set; }
     }
 }

@@ -1,0 +1,118 @@
+﻿@model SUADATOS.DatosAdicionalesCliente
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+@section Menu {
+    <div>Catálogo de Datos Adicionales Clientes<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        Detalle Cliente
+    </div>
+    <div class="panel-body" style="font-size:10px;">
+        <div class="form-horizontal">
+            <dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.porcentajeComNomina)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.porcentajeComNomina)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ivaNomina)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ivaNomina)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.porcentajeComIAS)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.porcentajeComIAS)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ivaIAS)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ivaIAS)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.porcentajeComFlujo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.porcentajeComFlujo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ivaFlujo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ivaFlujo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.costoSocial)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.costoSocial)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.conceptoFacturacion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.conceptoFacturacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fechaCreacion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fechaCreacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Cliente.claveCliente)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Cliente.claveCliente)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Usuario.nombreUsuario)
+            </dd>
+
+            </dl>
+        </div>
+        </div>
+    </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+            @Html.ActionLink(@Language.regresar, "Index")
+        </p>

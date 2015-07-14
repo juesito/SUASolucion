@@ -1,0 +1,52 @@
+﻿@model SUADATOS.ArchivoEmpleado
+@using SUADATOS;
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+}
+@section Menu {
+    <div>@Language.agregar Archivo Empleados<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+
+
+<div id="cargarArchivo">
+    @using (@Html.BeginForm("Create", "ArchivosEmpleados", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("usuarioId", usuario.Id)
+        @Html.HiddenFor(model => model.empleadoId)
+        @Html.HiddenFor(model => model.Empleado)
+        <div class="marqueeFilter">
+            <table style="float:left; margin-top:5px;display:inline-block;">
+                <tbody>
+                    <tr>
+                        <td>@Html.LabelFor(model => model.tipoArchivo, "tipoArchivo", htmlAttributes: new { @class = "control-label col-md-2" })></td>
+                        <td>
+                            @Html.conceptosDrownList(usuario.Id, "ARCHEMP", "tipoArchivo")
+                            @Html.ValidationMessageFor(model => model.tipoArchivo, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="file">
+                                @FileUpload.GetHtml(initialNumberOfFiles: 1,
+                allowMoreFilesToBeAdded: false,
+                includeFormTag: true,
+                uploadText: "Cargar Documento")
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -1,0 +1,110 @@
+﻿@model SUADATOS.Solicitud
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+@section Menu {
+    <div>@Language.modificar Solicitud<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Editar Solicitud Modificación
+        </div>
+        <div class="panel-body" style="font-size:10px;">
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <table style="font-size:10px;margin:0 auto; width:700px">
+                    <tr>
+                        <td>@Html.Label(@Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>
+                            @Html.DropDownList("clienteId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.clienteId, "", new { @class = "text-danger" })
+                        </td>
+                        <td>@Html.Label(@Language.proyecto, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>
+                            @Html.DropDownList("proyectoId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.proyectoId, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.Label(@Language.residencia, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>
+                            @Html.DropDownList("plazaId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.plazaId, "", new { @class = "text-danger" })
+                        </td>
+                        <td>@Html.LabelFor(model => model.fechaSolicitud, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>
+                            @Html.EditorFor(model => model.fechaSolicitud, new { htmlAttributes = new { @class = "form-control myDate" } })
+                            @Html.ValidationMessageFor(model => model.fechaSolicitud, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(model => model.sdiId, "sdiId", htmlAttributes: new { @class = "control-label col-md-2", id = "sdiIdTxt" })</td>
+                        <td>
+                            @Html.DropDownList("sdiId", null, htmlAttributes: new { @class = "form-control", id = "sdiId" })
+                            @Html.ValidationMessageFor(model => model.sdiId, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+
+                </table>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"> Autorizaciones</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table style="font-size:10px;margin:0 auto; width:700px">
+                            <tr>
+                                <td>@Html.LabelFor(model => model.solicita, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                                <td>
+                                    @Html.EditorFor(model => model.solicita, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.solicita, "", new { @class = "text-danger" })
+                                </td>
+                                <td>@Html.LabelFor(model => model.valida, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                                <td>
+                                    @Html.EditorFor(model => model.valida, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.valida, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.autoriza, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                                <td>
+                                    @Html.EditorFor(model => model.autoriza, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.autoriza, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                                <td colspan="3">
+                                    @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 4 })
+                                    @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"></td>
+                                <td style="text-align:right;"><input type="submit" value="@Language.guardar" class="btn btn-primary" /></td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+        <div>
+            @Html.ActionLink(@Language.regresar, "Index")
+        </div>

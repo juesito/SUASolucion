@@ -12,6 +12,17 @@ namespace SUAMVC.Helpers
     {
         suaEntities db = new suaEntities();
 
+        //<summary>
+        //Obtenemos los conceptos por grupo y valor.
+        //
+        public Concepto obtenerConceptoPorGrupo(String grupoId, String value)
+        {
+            Concepto concepto = db.Conceptos.Where(s => s.grupo.ToLower().Trim().Equals(grupoId.ToLower().Trim())
+                && s.descripcion.ToLower().Trim().Equals(value.ToLower().Trim())).First();
+
+            return concepto;
+        }
+
         public Asegurado obtenerAseguradoPorNSS(String NSS)
         {
             Asegurado asegurado = db.Asegurados.Where(s => s.numeroAfiliacion.Trim().Equals(NSS)).First();
@@ -35,7 +46,7 @@ namespace SUAMVC.Helpers
         /**
          * Cargamos archivo modificando el nombre del archivo
          * 
-         */ 
+         */
         public String cargarArchivo(HttpFileCollectionBase files, String destino, String nombreArchivo)
         {
 
@@ -46,7 +57,6 @@ namespace SUAMVC.Helpers
             Parametro rutaParameter = parameterHelper.getParameterByKey("SUARUTA");
 
             var file = files[0];
-            var fileName = "";
 
             if (file != null && file.ContentLength > 0)
             {
@@ -64,14 +74,14 @@ namespace SUAMVC.Helpers
                     path = rutaParameter.valorString.Trim();
                 }
 
-                fileName = Path.GetFileName(file.FileName);
+                var fileName = Path.GetFileName(file.FileName);
                 var pathFinal = Path.Combine(path, nombreArchivo);
                 file.SaveAs(pathFinal);
                 msg = "Se ha cargado el archivo con exito!";
             }
 
 
-            return fileName;
+            return msg;
         }
 
         /**
@@ -82,13 +92,13 @@ namespace SUAMVC.Helpers
         {
 
             String path = "";
-            String msg = "";
 
             ParametrosHelper parameterHelper = new ParametrosHelper();
             Parametro rutaParameter = parameterHelper.getParameterByKey("SUARUTA");
 
             var file = files[0];
-            var fileName = "";
+            String filenameFinal = "";
+
             if (file != null && file.ContentLength > 0)
             {
 
@@ -105,14 +115,72 @@ namespace SUAMVC.Helpers
                     path = rutaParameter.valorString.Trim();
                 }
 
-                fileName = Path.GetFileName(file.FileName);
+                var fileName = Path.GetFileName(file.FileName);
                 var pathFinal = Path.Combine(path, fileName);
+                filenameFinal = pathFinal.ToString();
                 file.SaveAs(pathFinal);
-                msg = "Se ha cargado el archivo con exito!";
             }
 
 
-            return fileName;
+            return filenameFinal;
+        }
+
+        public String getMimeType(String path)
+        {
+            String mimeType = "";
+
+            String extension = Path.GetExtension(path);
+
+            if (extension.Trim().Equals(".pdf"))
+            {
+                mimeType = "application/pdf";
+            }
+            else if (extension.Trim().Equals(".doc"))
+            {
+                mimeType = "application/msword";
+            }
+            else if (extension.Trim().Equals(".docx"))
+            {
+                mimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+            }
+            else if (extension.Trim().Equals(".xls"))
+            {
+                mimeType = "application/vnd.ms-excel";
+            }
+            else if (extension.Trim().Equals(".xlsx"))
+            {
+                mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            }
+            else if (extension.Trim().Equals(".ppt"))
+            {
+                mimeType = "application/vnd.ms-powerpoint";
+            }
+            else if (extension.Trim().Equals(".pptx"))
+            {
+                mimeType = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+            }
+            else if (extension.Trim().Equals(".ppsx"))
+            {
+                mimeType = "application/vnd.openxmlformats-officedocument.presentationml.slideshow";
+            }
+
+            return mimeType;
+        }
+
+        public void BorrarArchivo(String fileName) {
+
+            if (System.IO.File.Exists(fileName))
+            {
+                try
+                {
+                    System.IO.File.Delete(fileName);
+                }
+                catch (System.IO.IOException e)
+                {
+                    Console.WriteLine(e.Message);
+                    return;
+                }
+            }
         }
 
     }

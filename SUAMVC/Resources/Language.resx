@@ -222,7 +222,7 @@
     <comment>Etiqueta para aviso de retención</comment>
   </data>
   <data name="catde" xml:space="preserve">
-    <value>Catalogo de</value>
+    <value>Catálogo de</value>
     <comment>Etiqueta para Catalogo de</comment>
   </data>
   <data name="cliente" xml:space="preserve">
@@ -282,7 +282,7 @@
     <comment>Etiqueta para Patrón</comment>
   </data>
   <data name="plaza" xml:space="preserve">
-    <value>Plaza</value>
+    <value>Plazas</value>
     <comment>Etiqueta para la plaza</comment>
   </data>
   <data name="porcentaje" xml:space="preserve">
@@ -346,39 +346,410 @@
     <comment>Etiqueta para Factores</comment>
   </data>
   <data name="funciones" xml:space="preserve">
-    <value>Funciones</value>
+    <value>Función</value>
     <comment>Etiqueta para funciones</comment>
   </data>
   <data name="modificar" xml:space="preserve">
     <value>Modificar</value>
     <comment>Etiqueta para modificar</comment>
   </data>
-  <data name="avisoInc" xml:space="preserve">
-    <value>Aviso Incapacidad</value>
-    <comment>Etiqueta para aviso de incapacidad</comment>
+  <data name="esquema" xml:space="preserve">
+    <value>Esquemas Pago</value>
+    <comment>Etiqueta para esquema</comment>
   </data>
-  <data name="catalogoMovimientos" xml:space="preserve">
-    <value>Catálogo de Movimientos</value>
-    <comment>Etiqueta para catálogo de movimientos</comment>
-  </data>
-  <data name="parametros" xml:space="preserve">
-    <value>Parámetros</value>
-    <comment>Etiqueta para Parámetros</comment>
-  </data>
-  <data name="avanzar" xml:space="preserve">
-    <value>Avanzar una página</value>
-    <comment>Etiqueta para Avanzar</comment>
-  </data>
-  <data name="retroceder" xml:space="preserve">
-    <value>Retroceder una página</value>
-    <comment>Etiqueta para Retroceder</comment>
-  </data>
-  <data name="Bancos" xml:space="preserve">
-    <value>Bancos</value>
-    <comment>Etiqueta para Banos</comment>
+  <data name="Esquemas" xml:space="preserve">
+    <value>Esquemas</value>
+    <comment>Etiqueta para esquemas</comment>
   </data>
   <data name="usuarioAlta" xml:space="preserve">
-    <value>Usuario de Alta</value>
-    <comment>Etiqueta para Usuario de Alta</comment>
+    <value>Usuario Alta</value>
+    <comment>Etiqueta para usuario Alta</comment>
+  </data>
+  <data name="proyecto" xml:space="preserve">
+    <value>Proyecto</value>
+    <comment>Etiqueta para proyecto</comment>
+  </data>
+  <data name="residencia" xml:space="preserve">
+    <value>Residencias</value>
+    <comment>Etiqueta para residencia</comment>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="guardar" xml:space="preserve">
+    <value>Guardar</value>
+    <comment>Etiqueta para Guardar</comment>
+  </data>
+  <data name="regresar" xml:space="preserve">
+    <value>Regresar</value>
+    <comment>Etiqueta para boton Regrear</comment>
+  </data>
+  <data name="sexo" xml:space="preserve">
+    <value>Genero</value>
+    <comment>Etiqueta para Sexo</comment>
+  </data>
+  <data name="tipoContrato" xml:space="preserve">
+    <value>Tipo de Contrato</value>
+  </data>
+  <data name="detalle" xml:space="preserve">
+    <value>Detalle</value>
+    <comment>Etiqueta para Detalle</comment>
+  </data>
+  <data name="bancos" xml:space="preserve">
+    <value>Bancos</value>
+    <comment>Etiqueta para Bancos</comment>
+  </data>
+  <data name="estadoCivil" xml:space="preserve">
+    <value>Estado Civil</value>
+    <comment>Etiqueta para Estado Civil</comment>
+  </data>
+  <data name="regInfonavit" xml:space="preserve">
+    <value>Régimen Infonavit</value>
+    <comment>Etiqueta paara RI</comment>
+  </data>
+  <data name="tipoPersonal" xml:space="preserve">
+    <value>Tipo de Personal</value>
+    <comment>Etiqueta para Tipo de Personal</comment>
+  </data>
+  <data name="descPais" xml:space="preserve">
+    <value>Descripcion País</value>
+    <comment>Etiqueta para Descripción País</comment>
+  </data>
+  <data name="estado" xml:space="preserve">
+    <value>Estado</value>
+    <comment>Etiqueta para Estado</comment>
+  </data>
+  <data name="municipio" xml:space="preserve">
+    <value>Municipio</value>
+    <comment>Etiqueta de Municipio</comment>
+  </data>
+  <data name="naturaleza" xml:space="preserve">
+    <value>Naturaleza</value>
+    <comment>Etiqueta para Naturaleza</comment>
+  </data>
+  <data name="pais" xml:space="preserve">
+    <value>País</value>
+    <comment>Etiqueta para País</comment>
+  </data>
+  <data name="controlador" xml:space="preserve">
+    <value>Controlador</value>
+    <comment>Etiqueta para Controlador</comment>
+  </data>
+  <data name="desCorta" xml:space="preserve">
+    <value>Descripción Corta</value>
+    <comment>Etiqueta para Descripción Corta</comment>
+  </data>
+  <data name="desLarga" xml:space="preserve">
+    <value>Descripción Larga</value>
+    <comment>Etiqueta para Descripción Larga</comment>
+  </data>
+  <data name="estatus" xml:space="preserve">
+    <value>Estatus</value>
+    <comment>Etiqueta para Estatus</comment>
+  </data>
+  <data name="modulDes" xml:space="preserve">
+    <value>Módulo</value>
+    <comment>Etiqueta para Módulo</comment>
+  </data>
+  <data name="tipo" xml:space="preserve">
+    <value>Tipo</value>
+    <comment>Etiqueta para Tipo</comment>
+  </data>
+  <data name="usuarioID" xml:space="preserve">
+    <value>Usuario ID</value>
+    <comment>Etiqueta para Usuario ID</comment>
+  </data>
+  <data name="parametro" xml:space="preserve">
+    <value>Parámetro</value>
+    <comment>Etiqueta para Parámetro</comment>
+  </data>
+  <data name="parametroId" xml:space="preserve">
+    <value>Parámetro ID</value>
+    <comment>Etiqueta para Parámetro</comment>
+  </data>
+  <data name="rol" xml:space="preserve">
+    <value>Rol</value>
+    <comment>Etiqueta para Rol</comment>
+  </data>
+  <data name="archivo1" xml:space="preserve">
+    <value>Archivo 1</value>
+  </data>
+  <data name="archivo2" xml:space="preserve">
+    <value>Archivo 2</value>
+  </data>
+  <data name="archivo3" xml:space="preserve">
+    <value>Archivo 3</value>
+  </data>
+  <data name="autorizador" xml:space="preserve">
+    <value>Autorizador</value>
+    <comment>Etiqueta para Autorizador</comment>
+  </data>
+  <data name="catDatAdCliente" xml:space="preserve">
+    <value>Catálogo de Datos Adicionales Cliente</value>
+    <comment>Etiqueta de Catalogo de Datos Adicionales Cliente</comment>
+  </data>
+  <data name="claGrupo" xml:space="preserve">
+    <value>Clave Grupo</value>
+    <comment>Etiqueta para Clave Grupo</comment>
+  </data>
+  <data name="claveCliente" xml:space="preserve">
+    <value>Clave Cliente</value>
+    <comment>Etiqueta para clave Cliente</comment>
+  </data>
+  <data name="clienteId" xml:space="preserve">
+    <value>Cliente ID</value>
+  </data>
+  <data name="concepFacturacion" xml:space="preserve">
+    <value>Concepto de Facturación</value>
+  </data>
+  <data name="contCliente" xml:space="preserve">
+    <value>Contrato Cliente</value>
+  </data>
+  <data name="costSocial" xml:space="preserve">
+    <value>Costo Social</value>
+  </data>
+  <data name="cveCorta" xml:space="preserve">
+    <value>Clave Corta</value>
+    <comment>Etiqueta para clave Corta</comment>
+  </data>
+  <data name="dep" xml:space="preserve">
+    <value>Departamento</value>
+    <comment>Etiqueta para Departamento</comment>
+  </data>
+  <data name="emailAutorizador" xml:space="preserve">
+    <value>Email Autorizador</value>
+    <comment>Etiqueta para Email Autorizador</comment>
+  </data>
+  <data name="emailValidador" xml:space="preserve">
+    <value>Email Validador</value>
+    <comment>Etiqueta pra email Validador</comment>
+  </data>
+  <data name="empresa" xml:space="preserve">
+    <value>Empresa</value>
+  </data>
+  <data name="fechaFirma" xml:space="preserve">
+    <value>Fecha Firma</value>
+  </data>
+  <data name="firmo" xml:space="preserve">
+    <value>Firmó</value>
+  </data>
+  <data name="giro" xml:space="preserve">
+    <value>Giro</value>
+    <comment>Etiqueta para Giro</comment>
+  </data>
+  <data name="indicador" xml:space="preserve">
+    <value>Indicador</value>
+    <comment>Etiqueta para Indicador</comment>
+  </data>
+  <data name="ivaFlujo" xml:space="preserve">
+    <value>IVA Flujo</value>
+  </data>
+  <data name="ivaIAS" xml:space="preserve">
+    <value>IVA IAS</value>
+  </data>
+  <data name="ivaNomina" xml:space="preserve">
+    <value>IVA Nómina</value>
+  </data>
+  <data name="listaEmailAux" xml:space="preserve">
+    <value>Lista Email Auxiliar</value>
+    <comment>Etiqueta para Email Autorizador</comment>
+  </data>
+  <data name="lvalCliente" xml:space="preserve">
+    <value>Lista de Validación Cliente</value>
+    <comment>Etiqueta para Lista Validación Cliente</comment>
+  </data>
+  <data name="nomCorto" xml:space="preserve">
+    <value>Nombre Corto</value>
+    <comment>Etiqueta para Nombre Corto</comment>
+  </data>
+  <data name="plazaId" xml:space="preserve">
+    <value>Plaza ID</value>
+    <comment>Etiqueta para Plaza ID</comment>
+  </data>
+  <data name="posicion" xml:space="preserve">
+    <value>Posición</value>
+    <comment>Etiqueta para Posición</comment>
+  </data>
+  <data name="testigo" xml:space="preserve">
+    <value>Testigo</value>
+  </data>
+  <data name="validador" xml:space="preserve">
+    <value>Validador</value>
+    <comment>Etiqueta para validador</comment>
+  </data>
+  <data name="datAdiCliente" xml:space="preserve">
+    <value>Datos Adicionales Cliente</value>
+    <comment>Etiqueta para Datos Adicionales Cliente</comment>
+  </data>
+  <data name="ejecutivo" xml:space="preserve">
+    <value>Ejecutivo</value>
+    <comment>Etiqueta para Ejecutivo</comment>
+  </data>
+  <data name="solicitud" xml:space="preserve">
+    <value>Solicitud</value>
+    <comment>Etiqueta para Solicitud</comment>
+  </data>
+  <data name="actaConstitutivaEmpresa" xml:space="preserve">
+    <value>Acta Constitutiva Empresa</value>
+  </data>
+  <data name="comprobanteDomicilio" xml:space="preserve">
+    <value>Comprobante de Domicilio</value>
+  </data>
+  <data name="contratosClientes" xml:space="preserve">
+    <value>Contrato Cliente</value>
+  </data>
+  <data name="fechaFinalVigencia" xml:space="preserve">
+    <value>Fecha Final Vigencia</value>
+  </data>
+  <data name="fechaInicioVigencia" xml:space="preserve">
+    <value>Fecha Inicial Vigencia</value>
+  </data>
+  <data name="ifeRepresentanteLegal" xml:space="preserve">
+    <value>IFE Representante Legal</value>
+  </data>
+  <data name="poderRepresentanteLegal" xml:space="preserve">
+    <value>Poder Representante Legal</value>
+  </data>
+  <data name="concepto" xml:space="preserve">
+    <value>Concepto</value>
+    <comment>Etiqueta para Concepto</comment>
+  </data>
+  <data name="motivoBaja" xml:space="preserve">
+    <value>Motivo de la Baja</value>
+    <comment>Etiqueta para motivo baja</comment>
+  </data>
+  <data name="fechaModificacion" xml:space="preserve">
+    <value>Fecha de Modificación</value>
+    <comment>Etiqueta para fecha de modificación</comment>
+  </data>
+  <data name="concepDescripcion" xml:space="preserve">
+    <value>Estatus Solicitud</value>
+  </data>
+  <data name="concepDescripcion1" xml:space="preserve">
+    <value>Estatus Nom.</value>
+  </data>
+  <data name="concepDescripcion2" xml:space="preserve">
+    <value>Estatus Jurídico</value>
+  </data>
+  <data name="concepDescripcion3" xml:space="preserve">
+    <value>Estatus Afil.</value>
+  </data>
+  <data name="concepDescripcion4" xml:space="preserve">
+    <value>Estatus Tarj.</value>
+  </data>
+  <data name="desProyecto" xml:space="preserve">
+    <value>Proyecto</value>
+    <comment>Etiqueta para descripcion proyecto</comment>
+  </data>
+  <data name="fechaFinal" xml:space="preserve">
+    <value>Fecha Baja</value>
+    <comment>Etiqueta para fecha final</comment>
+  </data>
+  <data name="fechaInicio" xml:space="preserve">
+    <value>Fecha de Inicio</value>
+    <comment>Etiqueta para fechade inicio</comment>
+  </data>
+  <data name="fechaSolicitud" xml:space="preserve">
+    <value>Fecha de Solicitud</value>
+    <comment>Etiqueta para fecha de solicitud</comment>
+  </data>
+  <data name="folioSolicitud" xml:space="preserve">
+    <value>Folio</value>
+    <comment>Etiqueta para Folio</comment>
+  </data>
+  <data name="noTrabajadores" xml:space="preserve">
+    <value>N° Trabajadores</value>
+    <comment>Etiqueta para numero de trabajadores</comment>
+  </data>
+  <data name="observaciones" xml:space="preserve">
+    <value>Observaciones</value>
+    <comment>Etiqueta para observaciones</comment>
+  </data>
+  <data name="solicita" xml:space="preserve">
+    <value>Solicitó</value>
+    <comment>Etiqueta para Solicitante</comment>
+  </data>
+  <data name="solicitudBaja" xml:space="preserve">
+    <value>Solicitud Baja</value>
+  </data>
+  <data name="SolicitudModificacion" xml:space="preserve">
+    <value>Solicitud Modificación</value>
+  </data>
+  <data name="aguinaldo" xml:space="preserve">
+    <value>Aguinaldo</value>
+  </data>
+  <data name="anosTrabajados" xml:space="preserve">
+    <value>Años Trabajados</value>
+  </data>
+  <data name="diasAno" xml:space="preserve">
+    <value>Días al Año</value>
+  </data>
+  <data name="diasAnoAguinaldo" xml:space="preserve">
+    <value>Días Año Aguinaldo</value>
+  </data>
+  <data name="diasVacaciones" xml:space="preserve">
+    <value>Días de Vacaciones</value>
+  </data>
+  <data name="factor" xml:space="preserve">
+    <value>Factor</value>
+  </data>
+  <data name="factorIntegracion" xml:space="preserve">
+    <value>Factor de Integración</value>
+  </data>
+  <data name="factorVacaciones" xml:space="preserve">
+    <value>Factor Vacaciones</value>
+  </data>
+  <data name="fechaRegistro" xml:space="preserve">
+    <value>Fecha Registro</value>
+  </data>
+  <data name="primaVacacional" xml:space="preserve">
+    <value>Prima Vacacional</value>
+  </data>
+  <data name="departamento" xml:space="preserve">
+    <value>Departamento</value>
+    <comment>Etiqueta para Departamento</comment>
+  </data>
+  <data name="respuestaSolicitud" xml:space="preserve">
+    <value>Respuesta Solicitud</value>
+    <comment>Etiqueta para respuesta solicitud</comment>
+  </data>
+  <data name="banco" xml:space="preserve">
+    <value>Banco</value>
+    <comment>Etiqueta para Banco</comment>
+  </data>
+  <data name="categoria" xml:space="preserve">
+    <value>Categoría</value>
+    <comment>Etiqueta para Categoría</comment>
+  </data>
+  <data name="cuentaBancaria" xml:space="preserve">
+    <value>Cuenta Bancaria</value>
+    <comment>Etiqueta para cuenta Bancaria</comment>
+  </data>
+  <data name="cuentaClabe" xml:space="preserve">
+    <value>Cuenta Clave</value>
+    <comment>Etiqueta para Cuenta Clave</comment>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>E mail</value>
+    <comment>Etiqueta para E mail</comment>
+  </data>
+  <data name="fechaAltaImss" xml:space="preserve">
+    <value>Fecha Alta IMSS</value>
+  </data>
+  <data name="fechaNacimiento" xml:space="preserve">
+    <value>Fecha de Nacimiento</value>
+    <comment>Etiqueta para Fecha de nacimiento</comment>
+  </data>
+  <data name="homoClave" xml:space="preserve">
+    <value>Homoclave</value>
+    <comment>Etiqueta para Homoclave</comment>
+  </data>
+  <data name="nss" xml:space="preserve">
+    <value>NSS</value>
+    <comment>Etiqueta para NSS</comment>
+  </data>
+  <data name="salarioReal" xml:space="preserve">
+    <value>Salario Real</value>
+    <comment>Etiqueta para Salario Real</comment>
   </data>
 </root>

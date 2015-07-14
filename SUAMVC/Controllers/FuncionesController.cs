@@ -15,9 +15,14 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Funciones
-        public ActionResult Index()
+        public ActionResult Index(String moduloId)
         {
             var funcions = db.Funcions.Include(f => f.Modulo);
+            if (!String.IsNullOrEmpty(moduloId)) {
+                int moduloIntId = int.Parse(moduloId);
+                funcions = funcions.Where(f => f.moduloId.Equals(moduloIntId));
+            }
+            
             return View(funcions.ToList());
         }
 
@@ -52,6 +57,12 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Usuario loggeado
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
+                funcion.fechaCreacion = DateTime.Now;
+                funcion.usuarioId = usuario.Id;
+                funcion.estatus = "A";
                 db.Funcions.Add(funcion);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,10 +93,15 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,moduloId,descripcionCorta,descripcionLarga,accion,controlador,estatus,usuarioId,fechaCreacion,tipo")] Funcion funcion)
+        public ActionResult Edit([Bind(Include = "id,moduloId,descripcionCorta,descripcionLarga,accion,controlador,estatus,tipo")] Funcion funcion)
         {
             if (ModelState.IsValid)
             {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
+                funcion.fechaCreacion = DateTime.Now;
+                funcion.usuarioId = usuario.Id;
+                funcion.estatus = "A";
                 db.Entry(funcion).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -1,0 +1,93 @@
+﻿@model SUADATOS.Solicitud
+@using SUADATOS
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+@section Menu {
+    <div> Eliminar Solicitud<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        ¿Desea borrar este registro?
+    </div>
+    <div class="panel-body" style="font-size:10px;">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.Label(@Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.descripcion)
+        </dd>
+
+        <dt>
+            @Html.Label(@Language.proyecto, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Proyecto.descripcion)
+        </dd>
+
+        <dt>
+            @Html.Label(@Language.residencia, htmlAttributes: new { @class = "control-label col-md-2" })
+        <dt>
+        <dd>
+            @Html.DisplayFor(model => model.plazaId)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.fechaSolicitud, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaSolicitud)
+        </dd>
+
+        <dt>
+            @Html.Label(@Language.fechaBaja, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaFinal)
+        </dd>
+
+        <dt>
+            @Html.Label(@Language.motivoBaja, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
+
+        <dt>
+            @Html.DisplayFor(model => model.conceptoBaja)
+        </dt>
+
+        <dt>
+            @Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.observaciones)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+            {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group" style="margin-top:10px;">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@Language.borrar" class="btn btn-primary" />
+            </div>
+        </div>
+            }
+        </div>
+    </div>
+
+<div>
+    @Html.ActionLink(@Language.regresar, "Index")
+</div>

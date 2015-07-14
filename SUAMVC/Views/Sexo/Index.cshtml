@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
 }
 
 @section Menu {
@@ -10,9 +14,14 @@
 }
 
 <p>
-    @Html.ActionLink(@Language.agregar + " " + @Language.sexo, "Create", "EsquemaPagos", new { @class = "btn btn-success" })
+    @Html.ActionLink(@Language.agregar + " " + @Language.sexo, "Create", "Sexo", new { @class = "btn btn-success" })
+
+    <a href="@Url.Action("GetExcel", "Sexo")" style="text-align:right">
+        <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="30" height="30" />
+    </a>
 </p>
-<table class="table">
+
+<table class="table table-striped tableSua">
     <tr>
         <th>
             @Html.DisplayName(@Language.descripcion)
@@ -26,23 +35,27 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaCreacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fechaCreacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit","Sexo", new { id = item.id })" title="@Language.edit">
+                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+                </a>|
+                <a href="@Url.Action("Delete", "Sexo", new { id = item.id })" title="@Language.borrar">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a>
+            </td>
+        </tr>
+    }
 
 </table>

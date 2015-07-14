@@ -10,43 +10,52 @@
 }
 
 @section Menu {
-    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Borrar Plaza </div>
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> @Language.catde @Language.plaza </div>
 }
 
-<h3>Confirmación para eliminar la plaza</h3>
-<div>
-    <hr />
+<div class="panel panel-info">
+    <div class="panel-heading">
+        ¿Desea borrar este registro?
+    </div>
+    <div class="panel-body" style="font-size:10px;">
     <dl class="dl-horizontal">
- 
+
         <dt>
-            @Html.DisplayNameFor(model => model.cveCorta)
+            @Html.DisplayName(@Language.cveCorta)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.cveCorta)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.descripcion)
+            @Html.DisplayName(@Language.descripcion)
         </dt>
-       <dd>
+        <dd>
             @Html.DisplayFor(model => model.descripcion)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.indicador)
+            @Html.DisplayName(@Language.indicador)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.indicador)
         </dd>
 
-     </dl>
+    </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+        {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-success" /> |
-            @Html.ActionLink("Regresar", "Index")
+        <div class="form-group" style="margin-top:10px;">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Eliminar" class="btn btn-primary" />
+            </div>
+       </div>
+            }
         </div>
-    }
+    </div>
+
+<div>
+    @Html.ActionLink(@Language.regresar, "Index")
 </div>

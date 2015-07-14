@@ -15,7 +15,7 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Clientes
-        public ActionResult Index(String plazasId)
+        public ActionResult Index(String plazasId,String clientesId)
         {
             Usuario user = Session["UsuarioData"] as Usuario;
 
@@ -43,9 +43,10 @@ namespace SUAMVC.Controllers
                                                    id = s.id,
                                                    FUllName = s.descripcion
                                                }).Distinct(), "id", "FullName");
+
             return View(clientes.ToList().OrderBy(p => p.descripcion));
         }
-
+    
         // GET: Clientes/Details/5
         public ActionResult Details(int? id)
         {
@@ -81,7 +82,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,Plaza_id,Grupo_id,ejecutivo")] Cliente cliente)
+        public ActionResult Create([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,Plaza_id,Grupo_id,ejecutivoContadorId")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +94,8 @@ namespace SUAMVC.Controllers
                     cliente.claveSua = cliente.claveSua.ToUpper();
                     cliente.descripcion = cliente.descripcion.ToUpper();
                     cliente.rfc = cliente.rfc.ToUpper();
-                    cliente.ejecutivo = cliente.ejecutivo.ToUpper();
+                    //Validar esto
+                    cliente.ejecutivoContadorId = cliente.Id;
                     db.Clientes.Add(cliente);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -141,7 +143,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,Plaza_id,Grupo_id,ejecutivo")] Cliente cliente)
+        public ActionResult Edit([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,Plaza_id,Grupo_id,ejecutivoContadorId")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -149,7 +151,7 @@ namespace SUAMVC.Controllers
                 cliente.claveSua = cliente.claveSua.ToUpper();
                 cliente.descripcion = cliente.descripcion.ToUpper();
                 cliente.rfc = cliente.rfc.ToUpper();
-                cliente.ejecutivo = cliente.ejecutivo.ToUpper();
+                cliente.ejecutivoContadorId = cliente.Id;
                 db.Entry(cliente).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

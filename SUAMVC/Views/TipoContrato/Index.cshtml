@@ -3,17 +3,21 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
 }
 
 @section Menu {
-    <div>@Language.catde @Language.tipoContrato<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>@Language.catde @Language.tipoContrato <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 
 <p>
-    @Html.ActionLink(@Language.agregar + " " + @Language.tipoContrato, "Create", "EsquemaPagos", new { @class = "btn btn-success" })
+    @Html.ActionLink(@Language.agregar + " " + @Language.tipoContrato, "Create", "TipoContrato", new { @class = "btn btn-success" })
 </p>
-<table class="table">
+<table class="table table-striped tableSua">
     <tr>
         <th>
             @Html.DisplayName(@Language.descripcion)
@@ -27,23 +31,27 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaCreacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fechaCreacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit","TipoContrato", new { id = item.id })" title="@Language.edit">
+                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+                </a>|
+                <a href="@Url.Action("Delete", "TipoContrato", new { id = item.id })" title="@Language.borrar">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a>
+            </td>
+        </tr>
+    }
 
 </table>
