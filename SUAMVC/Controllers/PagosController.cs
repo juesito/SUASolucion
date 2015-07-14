@@ -330,7 +330,7 @@ namespace SUAMVC.Controllers
 
                                     DataTable dt5 = suaHelper.ejecutarSQL(sSQL);
 
-                                    foreach (DataRow row5 in dt5.Rows)
+                                    foreach (DataRow row5 in dt5.Rows )
                                     {
 
                                         if (String.IsNullOrEmpty(row5["Retiro"].ToString()))
