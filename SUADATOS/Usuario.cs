@@ -16,25 +16,15 @@ namespace SUADATOS
     {
         public Usuario()
         {
-            this.Bancos = new HashSet<Banco>();
-            this.EsquemasPagoes = new HashSet<EsquemasPago>();
-            this.EstadoCivils = new HashSet<EstadoCivil>();
-            this.Estados = new HashSet<Estado>();
-            this.Factores = new HashSet<Factore>();
-            this.Municipios = new HashSet<Municipio>();
-            this.Paises = new HashSet<Pais>();
-            this.RegimenInfonavits = new HashSet<RegimenInfonavit>();
-            this.Residencias = new HashSet<Residencia>();
-            this.ResumenPagoes = new HashSet<ResumenPago>();
-            this.RoleFuncions = new HashSet<RoleFuncion>();
             this.RoleModulos = new HashSet<RoleModulo>();
-            this.SDIs = new HashSet<SDI>();
-            this.Sexos = new HashSet<Sexo>();
-            this.TipoContratoes = new HashSet<TipoContrato>();
-            this.TipoPersonals = new HashSet<TipoPersonal>();
+            this.RoleFuncions = new HashSet<RoleFuncion>();
             this.TopicosUsuarios = new HashSet<TopicosUsuario>();
             this.TopicosUsuarios1 = new HashSet<TopicosUsuario>();
-            this.Proyectos = new HashSet<Proyecto>();
+            this.Factores = new HashSet<Factore>();
+            this.DetallePagoes = new HashSet<DetallePago>();
+            this.Pagos = new HashSet<Pago>();
+            this.Bancos = new HashSet<Banco>();
+            this.SumarizadoClientes = new HashSet<SumarizadoCliente>();
         }
     
         public int Id { get; set; }
@@ -48,27 +38,20 @@ namespace SUADATOS
         public System.DateTime fechaIngreso { get; set; }
         public int roleId { get; set; }
         public int plazaId { get; set; }
+        public Nullable<int> departamentoId { get; set; }
     
-        public virtual ICollection<Banco> Bancos { get; set; }
-        public virtual ICollection<EsquemasPago> EsquemasPagoes { get; set; }
-        public virtual ICollection<EstadoCivil> EstadoCivils { get; set; }
-        public virtual ICollection<Estado> Estados { get; set; }
-        public virtual ICollection<Factore> Factores { get; set; }
-        public virtual ICollection<Municipio> Municipios { get; set; }
-        public virtual ICollection<Pais> Paises { get; set; }
-        public virtual ICollection<RegimenInfonavit> RegimenInfonavits { get; set; }
-        public virtual ICollection<Residencia> Residencias { get; set; }
-        public virtual ICollection<ResumenPago> ResumenPagoes { get; set; }
-        public virtual ICollection<RoleFuncion> RoleFuncions { get; set; }
-        public virtual ICollection<RoleModulo> RoleModulos { get; set; }
         public virtual Role Role { get; set; }
-        public virtual ICollection<SDI> SDIs { get; set; }
-        public virtual ICollection<Sexo> Sexos { get; set; }
-        public virtual ICollection<TipoContrato> TipoContratoes { get; set; }
-        public virtual ICollection<TipoPersonal> TipoPersonals { get; set; }
+        public virtual ICollection<RoleModulo> RoleModulos { get; set; }
+        public virtual ICollection<RoleFuncion> RoleFuncions { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios1 { get; set; }
+        public virtual ICollection<Factore> Factores { get; set; }
         public virtual Plaza Plaza { get; set; }
-        public virtual ICollection<Proyecto> Proyectos { get; set; }
+        public virtual Usuario Usuarios1 { get; set; }
+        public virtual Usuario Usuario1 { get; set; }
+        public virtual ICollection<DetallePago> DetallePagoes { get; set; }
+        public virtual ICollection<Pago> Pagos { get; set; }
+        public virtual ICollection<Banco> Bancos { get; set; }
+        public virtual ICollection<SumarizadoCliente> SumarizadoClientes { get; set; }
     }
 }

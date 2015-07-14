@@ -24,6 +24,12 @@ namespace SUAMVC.Models
         {
             Boolean perfilConPermiso = false;
 
+            if (modulo.Equals("1") && funcion.Equals("1"))
+            {
+                perfilConPermiso = true;
+                return perfilConPermiso;
+            }
+
             if (roleFunciones.Count() > 0)
             {
                 RoleFuncion roleFuncion = roleFunciones
@@ -40,7 +46,7 @@ namespace SUAMVC.Models
         }
 
         public static void limpiarListaDePermisos(){
-            if (roleFunciones.Count() > 0)
+            if (roleFunciones != null && roleFunciones.Count() > 0)
             {
                 roleFunciones.Clear();
             }

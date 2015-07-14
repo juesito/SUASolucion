@@ -1,6 +1,6 @@
 ﻿@using SUADATOS;
 @{
-    ViewBag.Title = "Upload";
+    ViewBag.Title = "Cargar Comprobantes";
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (!WebSecurity.IsAuthenticated)
     {
@@ -9,39 +9,42 @@
     var message = @TempData["viewMessage"];
     var isError = TempData["error"];
     Usuario usuario = Session["UsuarioData"] as Usuario;
+
+    String id = "";
+    if (ViewBag.id != null)
+        id = ViewBag.id;
+
+    String comprobanteId = "";
+    if (ViewBag.comprobanteId != null)
+        comprobanteId = ViewBag.comprobanteId;
+
 }
 
 @section Menu {
-    <div>Cargar Pagos - Archivo SUA <img src="~/Content/Images/home.png" width="15" height="15" /></div>
+    <div>Cargar Comprobantes - Archivo SUA <img src="~/Content/Images/home.png" width="15" height="15" /></div>
 }
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        Cargar o actualizar los pagos por periodo - Archivo SUA
+        Cargar o actualizar los comprobantes de pago - Archivos PDF
     </div>
     <div class="panel-body">
-        @using (@Html.BeginForm("Upload", "Pagos", FormMethod.Post,
+        @using (@Html.BeginForm("GuardarComprobantes", "Pagos", FormMethod.Post,
             new { enctype = "multipart/form-data" }))
         {
-            @Html.Hidden("usuarioId", usuario.Id)
+            @Html.Hidden("id", id)
+            @Html.Hidden("comprobanteId", comprobanteId)
+
             <div class="marqueeFilter">
                 <table style="float:left; margin-top:5px;display:inline-block;">
                     <tbody>
                         <tr>
-                            <td>@Html.Label("Patron :")</td>
-                            <td>@Html.patronesNoChangeKeysDrownList(usuario.Id)</td>
-                            <td style="column-span:4">  @Html.Label("Periodo :")</td>
-                            <td>@Html.periodosList()</td>
-                            <td>@Html.Label("Ejercicio :")</td>
-                            <td>@Html.ejercicioList()</td>
-                        </tr>
-                        <tr style="margin-top:25px">
-                            <td colspan="4" style="margin-top:25px">
-                                <div class="file" style="margin-top:15px">
+                            <td colspan="4">
+                                <div class="file">
                                     @FileUpload.GetHtml(initialNumberOfFiles: 1,
                 allowMoreFilesToBeAdded: false,
                 includeFormTag: true,
-                uploadText: "Subir SUA.mdb")
+                uploadText: "Cargar Comprobante *.pdf")
                                 </div>
                             </td>
                         </tr>
@@ -62,3 +65,4 @@
         }
     }
 </div>
+

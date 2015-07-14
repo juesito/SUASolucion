@@ -14,12 +14,8 @@ namespace SUADATOS
     
     public partial class ResumenPago
     {
-        public ResumenPago()
-        {
-            this.Pagos = new HashSet<Pago>();
-        }
-    
         public int id { get; set; }
+        public int pagoId { get; set; }
         public string ip { get; set; }
         public int patronId { get; set; }
         public string rfc { get; set; }
@@ -45,9 +41,5 @@ namespace SUADATOS
         public string delSubDel { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioCreacionId { get; set; }
-    
-        public virtual ICollection<Pago> Pagos { get; set; }
-        public virtual Patrone Patrone { get; set; }
-        public virtual Usuario Usuario { get; set; }
     }
 }

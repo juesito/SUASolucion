@@ -142,6 +142,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Bancos.
+        /// </summary>
+        public static string Bancos {
+            get {
+                return ResourceManager.GetString("Bancos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Borrar.
         /// </summary>
         public static string borrar {
@@ -615,6 +624,15 @@ namespace SUAMVC.Resources {
         public static string ubicacion {
             get {
                 return ResourceManager.GetString("ubicacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuario de Alta.
+        /// </summary>
+        public static string usuarioAlta {
+            get {
+                return ResourceManager.GetString("usuarioAlta", resourceCulture);
             }
         }
         

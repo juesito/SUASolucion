@@ -14,62 +14,34 @@ namespace SUADATOS
     
     public partial class Pago
     {
-        public int id { get; set; }
-        public int resumenPagoId { get; set; }
-        public string ip { get; set; }
-        public string NSS { get; set; }
-        public string RFC { get; set; }
-        public string CURP { get; set; }
-        public string creditoInfonavit { get; set; }
-        public string fid { get; set; }
-        public string trabajador { get; set; }
-        public Nullable<decimal> sdi { get; set; }
-        public string tipoTrabajador { get; set; }
-        public string jornadaSemanaReducida { get; set; }
-        public Nullable<int> diasCotizadosMes { get; set; }
-        public Nullable<int> diasIncapacidad { get; set; }
-        public Nullable<int> diasAusentismo { get; set; }
-        public Nullable<decimal> cuotaFija { get; set; }
-        public Nullable<decimal> cuotaExcedente { get; set; }
-        public Nullable<decimal> prestacionesDinero { get; set; }
-        public Nullable<decimal> gastosMedicosPensionado { get; set; }
-        public Nullable<decimal> riesgoTrabajo { get; set; }
-        public Nullable<decimal> invalidezVida { get; set; }
-        public Nullable<decimal> guarderias { get; set; }
-        public string actRecargosIMSS { get; set; }
-        public Nullable<int> diasCotizadosBimestre { get; set; }
-        public Nullable<int> diasIncapacidadBimestre { get; set; }
-        public Nullable<int> diasAusentismoBimestre { get; set; }
-        public Nullable<decimal> retiro { get; set; }
-        public string actRecargosRetiro { get; set; }
-        public Nullable<decimal> cesantiaVejezPatronal { get; set; }
-        public Nullable<decimal> cesantiaVejezObrera { get; set; }
-        public Nullable<decimal> actRecargosCyV { get; set; }
-        public Nullable<decimal> aportacionVoluntaria { get; set; }
-        public Nullable<decimal> aportacionComp { get; set; }
-        public Nullable<decimal> aportacionPatronal { get; set; }
-        public Nullable<decimal> amortizacion { get; set; }
-        public Nullable<decimal> actIMSS { get; set; }
-        public Nullable<decimal> recIMSS { get; set; }
-        public Nullable<decimal> actRetiro { get; set; }
-        public Nullable<decimal> recRetiro { get; set; }
-        public Nullable<decimal> actCesPat { get; set; }
-        public Nullable<decimal> recCesPat { get; set; }
-        public Nullable<decimal> actCesObr { get; set; }
-        public Nullable<decimal> recCesObr { get; set; }
-        public Nullable<decimal> cuotaExcObr { get; set; }
-        public Nullable<decimal> cuotaPdObr { get; set; }
-        public Nullable<decimal> cuotaGmpObr { get; set; }
-        public Nullable<decimal> cuotaIvObr { get; set; }
-        public Nullable<decimal> actPatIMSS { get; set; }
-        public Nullable<decimal> recPatIMSS { get; set; }
-        public Nullable<decimal> actObrIMSS { get; set; }
-        public Nullable<decimal> recObrIMSS { get; set; }
-        public int trabajadorId { get; set; }
-        public int anoPago { get; set; }
-        public int mesPago { get; set; }
+        public Pago()
+        {
+            this.DetallePagoes = new HashSet<DetallePago>();
+        }
     
-        public virtual Asegurado Asegurado { get; set; }
-        public virtual ResumenPago ResumenPago { get; set; }
+        public int id { get; set; }
+        public decimal imss { get; set; }
+        public decimal rcv { get; set; }
+        public decimal infonavit { get; set; }
+        public decimal total { get; set; }
+        public decimal recargos { get; set; }
+        public decimal actualizaciones { get; set; }
+        public decimal granTotal { get; set; }
+        public Nullable<System.DateTime> fechaDeposito { get; set; }
+        public Nullable<int> bancoId { get; set; }
+        public Nullable<int> nt { get; set; }
+        public string comprobantePago { get; set; }
+        public string resumenLiquidacion { get; set; }
+        public string cedulaAutodeterminacion { get; set; }
+        public System.DateTime fechaCreacion { get; set; }
+        public int usuarioId { get; set; }
+        public int patronId { get; set; }
+        public string mes { get; set; }
+        public string anno { get; set; }
+    
+        public virtual Banco Banco { get; set; }
+        public virtual ICollection<DetallePago> DetallePagoes { get; set; }
+        public virtual Patrone Patrone { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

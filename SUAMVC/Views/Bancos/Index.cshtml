@@ -1,49 +1,52 @@
 ﻿@model IEnumerable<SUADATOS.Banco>
+@using System.Text;
+@using SUAMVC.Models
+@using SUADATOS;
 
 @{
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var grid = new WebGrid(source: Model, canPage: false);
+
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+
+   <p>
+       @Html.ActionLink("Crear Banco", "Create", "Bancos", new { @class = "btn btn-success" })
+  </p>
+
+    //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+    gridColumns.Add(grid.Column("descripcion", "Banco", null, null, true));
+    gridColumns.Add(grid.Column("fechaCreacion", "Fecha creación", null, null, true));
+    gridColumns.Add(grid.Column("usuario.nombreUsuario", "Usuario de alta", null, null, true));
+    gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Bancos", new { id = item.id })">
+                <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+            </a></text>));
+    gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Bancos", new { id = item.id })">
+                <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+            </a></text>));
+
+    sb.Append(grid.GetHtml(
+        columns: grid.Columns(gridColumns.ToArray()),
+                        tableStyle: "table table-striped tableSua"
+                    ));
+
+    tableHtml = sb.ToString().Trim();
+
 }
 
-<@section menu {
-    <div>@Language.catde @Language.Bancos<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+@section Menu {
+    <div>@Language.catde @Language.Bancos <img src="~/Content/Images/boss.png" width="15" height="15" /></div>
 }
 
-<p>
-    @Html.ActionLink(@Language.agregar + " " + Language.Bancos, "Create", "Bancos", new { @class = "btn btn-success" })
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayName(@Language.descripcion)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.fechaAlta)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.usuarioAlta)
-         
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaCreacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
+@if (!tableHtml.IsEmpty())
+{
+    @Html.Raw(tableHtml)
 }
-
-</table>

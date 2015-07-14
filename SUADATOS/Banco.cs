@@ -14,11 +14,17 @@ namespace SUADATOS
     
     public partial class Banco
     {
+        public Banco()
+        {
+            this.Pagos = new HashSet<Pago>();
+        }
+    
         public int id { get; set; }
         public string descripcion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
+        public virtual ICollection<Pago> Pagos { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
 }

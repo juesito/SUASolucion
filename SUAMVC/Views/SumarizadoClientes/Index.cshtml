@@ -1,0 +1,110 @@
+﻿@model IEnumerable<SUADATOS.SumarizadoCliente>
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+
+    if (ViewBag.filtered != null)
+    {
+        //Creamos una lista de columnas
+        var gridColumns = new List<WebGridColumn>();
+
+        gridColumns.Add(grid.Column("Patrone.registro", "Reg. Patronal", format: @<text> @if (@item.Patrone.registro != null)
+        {  @item.Patrone.registro   }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("anno", "Año", format: @<text> @if (@item.anno != null)
+        {  @item.anno }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("mes", "mes", format: @<text> @if (@item.mes != null)
+        {  @item.mes }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("Cliente.claveCliente", "ID. Cliente", format: @<text> @if (@item.Cliente.claveCliente != null)
+        {  @item.Cliente.claveCliente }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("Cliente.descripcion", "Nombre", format: @<text> @if (@item.Cliente.descripcion != null)
+        {  @item.Cliente.descripcion }</text>, canSort: true));
+        gridColumns.Add(grid.Column("Cliente.Grupos.claveGrupo", "ID. Grupo", format: @<text> @if (@item.Cliente.Grupos.claveGrupo != null)
+        {  @item.Cliente.Grupos.claveGrupo }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("imss", "IMSS", format: @<text>@item.imss.ToString("#,##0.00")</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("rcv", "RCV", format: @<text>@item.rcv.ToString("#,##0.00")</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("infonavit", "Infonavit", format: @<text>@item.infonavit.ToString("#,##0.00")</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("total", "Total", format: @<text>@item.total.ToString("#,##0.00")</text>, canSort: true));
+        gridColumns.Add(grid.Column("nt", "NT", format: @<text> @if (@item.nt != null)
+        {  @item.nt }</text>, canSort: true));
+        gridColumns.Add(grid.Column("Patrone.Plaza.cveCorta", "Plaza", format: @<text> @if (@item.Patrone.Plaza.cveCorta != null)
+        {  @item.Patrone.Plaza.cveCorta }</text>, canSort: true));
+
+        sb.Append(grid.GetHtml(
+    columns: grid.Columns(gridColumns.ToArray()),
+    tableStyle: "table table-striped tableSua"
+    ));
+
+        tableHtml = sb.ToString();
+    }
+
+
+}
+
+@section Menu {
+    <div>Resum por cliente<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post))
+{
+    //MarqueeFilter - Todos los filtros principales
+    @Html.Hidden("usuarioId", usuario.Id)
+    <div class="marqueeFilter">
+        <table style="float:left; margin-top:5px;display:inline-block;">
+            <thead>
+                <tr style="text-align:left;vertical-align:bottom;">
+                    <td style="padding-top:15px">
+                        <b>@Language.plaza:</b>
+                    </td>
+                    <td>
+                        @Html.plazasDrownList(usuario.Id)
+                    </td>
+                    <td>
+                        <b>@Language.patron:</b>
+                    </td>
+                    <td>
+                        @Html.patronesDrownList(usuario.Id)
+                    </td>
+                    <td>@Html.Label("Periodo :")</td>
+                    <td>@Html.periodosAutoList()</td>
+                    <td>@Html.Label("Ejercicio :")</td>
+                    <td>@Html.ejercicioAutoList()</td>
+                    <td>@Html.Label("ubicación/Cliente :")</td>
+                    <td>@Html.clientesDrownList(usuario.Id)</td>
+                    <td style="padding-right:10px; padding-left:10px" rowspan="2">
+                        <a href="@Url.Action("GetExcel", "SumarizadoClientes", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                                periodoId = @ViewBag.periodoId, ejercicioId = @ViewBag.ejercicioId})" style="text-align:right">
+                            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="35" height="35" />
+                        </a>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+}
+@if (!tableHtml.IsEmpty())
+{
+    <div id="table-container" class="table-container">
+        @Html.Raw(tableHtml)
+    </div>
+}

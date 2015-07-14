@@ -1430,6 +1430,7 @@ namespace SUAMVC.Controllers
                 else if (movto.catalogoMovimiento.tipo.Trim().Equals("01") || movto.catalogoMovimiento.tipo.Trim().Equals("07") ||
                          movto.catalogoMovimiento.tipo.Trim().Equals("13"))
                 {
+                    asegurado.salarioImss = Decimal.Parse(movto.sdi.ToString());
                     long annos = DatesHelper.DateDiffInYears(asegurado.fechaAlta, ahora);
                     if (annos.Equals(0))
                     {
@@ -1439,7 +1440,6 @@ namespace SUAMVC.Controllers
                     if (factor != null)
                     {
                         asegurado.salarioDiario = Decimal.Parse(movto.sdi.Trim()) / factor.factorIntegracion;
-                        asegurado.salarioImss = Decimal.Parse(movto.sdi.ToString());
                     }
                     else
                     {
