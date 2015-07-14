@@ -120,7 +120,7 @@ namespace SUAMVC.Controllers
                     //a su vez con ella obtener el folio de Solicitud para generar el folioEmpleado
                     Solicitud solicitud = db.Solicituds.Find(empleado.solicitudId);
                     solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
-
+                    
                     empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
 
                     //Preparamos las entidades para guardar
@@ -320,14 +320,23 @@ namespace SUAMVC.Controllers
         public ActionResult BajaEmpleados(string id, string clienteId)
         {
 
-            var empleados = db.Empleados.Include(e => e.Banco).Include(e => e.EsquemasPago).Include(e => e.EstadoCivil).Include(e => e.Estado).Include(e => e.Municipio).Include(e => e.Pais).Include(e => e.Sexo).Include(e => e.Solicitud).Include(e => e.Usuario);
-            if (!String.IsNullOrEmpty(id))
-            {
-                int idTemp = int.Parse(id);
-                empleados = empleados.Where(s => s.Solicitud.Equals(idTemp));
+            List<Empleado> listEmpleados = new List<Empleado>();
+            int clienteTempId = int.Parse(clienteId);
+            int solicitudId = int.Parse(id);
+            Solicitud solicitud = db.Solicituds.Find(solicitudId);
+
+            var empleados = db.Empleados.Where(c => c.Solicitud.clienteId.Equals(clienteTempId));
+            //if (!String.IsNullOrEmpty(id))
+            //{
+            //    int idTemp = int.Parse(id);
+            //    empleados = empleados.Where(s => s.Solicitud.Equals(idTemp));
+            //}
+            foreach (Empleado emp in empleados) {
+                emp.fechaBaja = solicitud.fechaBaja;
+                listEmpleados.Add(emp);
             }
 
-            return View(empleados.ToList());
+            return View(listEmpleados);
         }
 
         protected override void Dispose(bool disposing)
