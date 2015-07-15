@@ -93,7 +93,6 @@ namespace SUAMVC.Helpers
         {
 
             String path = "";
-            String msg = "";
 
             ParametrosHelper parameterHelper = new ParametrosHelper();
             Parametro rutaParameter = parameterHelper.getParameterByKey("SUARUTA");
