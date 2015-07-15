@@ -17,6 +17,7 @@ namespace SUADATOS
         public Proyecto()
         {
             this.Solicituds = new HashSet<Solicitud>();
+            this.Solicituds1 = new HashSet<Solicitud1>();
         }
     
         public int id { get; set; }
@@ -24,8 +25,10 @@ namespace SUADATOS
         public string descripcion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
+        public int usuaNvarioId { get; set; }
     
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<Solicitud> Solicituds { get; set; }
+        public virtual ICollection<Solicitud1> Solicituds1 { get; set; }
     }
 }

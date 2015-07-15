@@ -12,14 +12,20 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class Giro
+    public partial class EstadoCivil1
     {
+        public EstadoCivil1()
+        {
+            this.Empleados = new HashSet<Empleado>();
+        }
+    
         public int id { get; set; }
         public string descripcion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
         public int usuaNvarioId { get; set; }
     
+        public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual UsuaNvario UsuaNvario { get; set; }
     }

@@ -29,6 +29,7 @@ namespace SUADATOS
         public int usuarioId { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public string tipo { get; set; }
+        public int usuaNvarioId { get; set; }
     
         public virtual Modulo Modulo { get; set; }
         public virtual ICollection<RoleFuncion> RoleFuncions { get; set; }

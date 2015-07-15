@@ -27,6 +27,15 @@ namespace SUADATOS
             this.Solicituds3 = new HashSet<Solicitud>();
             this.Solicituds4 = new HashSet<Solicitud>();
             this.Solicituds5 = new HashSet<Solicitud>();
+            this.ArchivosEmpleados = new HashSet<ArchivosEmpleado>();
+            this.documentosEmpleadoes = new HashSet<documentosEmpleado>();
+            this.RespuestaSolicituds1 = new HashSet<RespuestaSolicitud1>();
+            this.Solicituds6 = new HashSet<Solicitud1>();
+            this.Solicituds11 = new HashSet<Solicitud1>();
+            this.Solicituds21 = new HashSet<Solicitud1>();
+            this.Solicituds31 = new HashSet<Solicitud1>();
+            this.Solicituds41 = new HashSet<Solicitud1>();
+            this.Solicituds51 = new HashSet<Solicitud1>();
         }
     
         public int id { get; set; }
@@ -34,7 +43,9 @@ namespace SUADATOS
         public string descripcion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
+        public int usuaNvarioId { get; set; }
     
+        public virtual ICollection<ArchivoEmpleado> ArchivoEmpleadoes { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual ICollection<DocumentoEmpleado> DocumentoEmpleadoes { get; set; }
         public virtual ICollection<FamiliaresEmpleado> FamiliaresEmpleadoes { get; set; }
@@ -46,5 +57,15 @@ namespace SUADATOS
         public virtual ICollection<Solicitud> Solicituds3 { get; set; }
         public virtual ICollection<Solicitud> Solicituds4 { get; set; }
         public virtual ICollection<Solicitud> Solicituds5 { get; set; }
+        public virtual ICollection<ArchivosEmpleado> ArchivosEmpleados { get; set; }
+        public virtual ICollection<documentosEmpleado> documentosEmpleadoes { get; set; }
+        public virtual ICollection<RespuestaSolicitud1> RespuestaSolicituds1 { get; set; }
+        public virtual ICollection<Solicitud1> Solicituds6 { get; set; }
+        public virtual ICollection<Solicitud1> Solicituds11 { get; set; }
+        public virtual ICollection<Solicitud1> Solicituds21 { get; set; }
+        public virtual ICollection<Solicitud1> Solicituds31 { get; set; }
+        public virtual ICollection<Solicitud1> Solicituds41 { get; set; }
+        public virtual ICollection<Solicitud1> Solicituds51 { get; set; }
+        public virtual UsuaNvario UsuaNvario { get; set; }
     }
 }

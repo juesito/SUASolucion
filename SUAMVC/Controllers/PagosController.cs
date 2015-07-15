@@ -178,7 +178,7 @@ namespace SUAMVC.Controllers
 
                                 Asegurado asegurado = db.Asegurados.Where(a => a.numeroAfiliacion.Equals(nss.Trim())).FirstOrDefault();
 
-                                detallePago = db.DetallePagos.Where(dp => dp.pagoId.Equals(pago.id) && dp.aseguradoId.Equals(asegurado.id)).FirstOrDefault();
+                                detallePago = db.DetallePagoes.Where(dp => dp.pagoId.Equals(pago.id) && dp.aseguradoId.Equals(asegurado.id)).FirstOrDefault();
 
                                 if (detallePago != null)
                                 {
@@ -401,7 +401,7 @@ namespace SUAMVC.Controllers
                                     }
                                     else
                                     {
-                                        db.DetallePagos.Add(detallePago);
+                                        db.DetallePagoes.Add(detallePago);
                                     }
 
                                     db.SaveChanges();
@@ -479,7 +479,7 @@ namespace SUAMVC.Controllers
 
             Pago pago = db.Pagos.Where(p => p.id.Equals(id)).FirstOrDefault();
 
-            List<DetallePago> detallePago = db.DetallePagos.Where(r => r.pagoId.Equals(id)).ToList();
+            List<DetallePago> detallePago = db.DetallePagoes.Where(r => r.pagoId.Equals(id)).ToList();
 
             resumenPagoModel.pago = pago;
             resumenPagoModel.detalle = detallePago;
@@ -583,7 +583,7 @@ namespace SUAMVC.Controllers
 
             Pago pago = db.Pagos.Where(p => p.id.Equals(id)).FirstOrDefault();
 
-            List<DetallePago> detallePago = db.DetallePagos.Where(r => r.pagoId.Equals(id)).ToList();
+            List<DetallePago> detallePago = db.DetallePagoes.Where(r => r.pagoId.Equals(id)).ToList();
 
             List<DetallePago> allCust = new List<DetallePago>();
 

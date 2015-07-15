@@ -61,6 +61,10 @@
       <HintPath>..\packages\AntiXSS.4.3.0\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\zip\zip-v1.9\Release\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="LinqToExcel">
       <HintPath>..\packages\LinqToExcel.1.10.1\lib\LinqToExcel.dll</HintPath>
     </Reference>
@@ -160,6 +164,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\AntiXssLibrary.dll" />
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\HtmlSanitizationLibrary.dll" />
+    <Content Include="bin\Ionic.Zip.dll" />
+    <Content Include="bin\LinqToExcel.dll" />
+    <Content Include="bin\log4net.dll" />
+    <Content Include="bin\Microsoft.Web.Helpers.dll" />
+    <Content Include="bin\ModelMetadataExtensions.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\PagedList.dll" />
+    <Content Include="bin\PagedList.Mvc.dll" />
+    <Content Include="bin\Remotion.Data.Linq.dll" />
+    <Content Include="bin\Remotion.dll" />
+    <Content Include="bin\Remotion.Interfaces.dll" />
+    <Content Include="bin\SUADATOS.dll" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\WebActivator.dll" />
+    <Content Include="bin\WebGrease.dll" />
+    <Content Include="bin\WebMatrix.Data.dll" />
+    <Content Include="bin\WebMatrix.WebData.dll" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -1049,6 +1081,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="bin\bin\es-MX\" />
+    <Folder Include="bin\es-MX\" />
+    <Folder Include="bin\es\" />
+    <Folder Include="bin\x64\" />
+    <Folder Include="bin\x86\" />
     <Folder Include="Interfases\" />
   </ItemGroup>
   <ItemGroup>

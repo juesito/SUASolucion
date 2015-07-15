@@ -12,14 +12,23 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class Giro
+    public partial class DatosAdicionalesCliente1
     {
         public int id { get; set; }
-        public string descripcion { get; set; }
+        public int clienteId { get; set; }
+        public Nullable<decimal> porcentajeComNomina { get; set; }
+        public Nullable<decimal> ivaNomina { get; set; }
+        public Nullable<decimal> porcentajeComIAS { get; set; }
+        public Nullable<decimal> ivaIAS { get; set; }
+        public Nullable<decimal> porcentajeComFlujo { get; set; }
+        public Nullable<decimal> ivaFlujo { get; set; }
+        public Nullable<decimal> costoSocial { get; set; }
+        public Nullable<int> conceptoFacturacion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
         public int usuaNvarioId { get; set; }
     
+        public virtual Cliente Cliente { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual UsuaNvario UsuaNvario { get; set; }
     }

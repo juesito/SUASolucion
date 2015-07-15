@@ -12,14 +12,29 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class Giro
+    public partial class ContratosCliente1
     {
         public int id { get; set; }
+        public int clienteId { get; set; }
         public string descripcion { get; set; }
+        public string archivo1 { get; set; }
+        public string archivo2 { get; set; }
+        public string archivo3 { get; set; }
+        public System.DateTime fechaFirma { get; set; }
+        public string firmo { get; set; }
+        public string testigo { get; set; }
+        public string actaConstitutivaEmpresa { get; set; }
+        public string poderRepresentanteLegal { get; set; }
+        public string ifeRepresentanteLegal { get; set; }
+        public string comprobanteDomicilio { get; set; }
+        public Nullable<System.DateTime> fechaInicioVigencia { get; set; }
+        public Nullable<System.DateTime> fechaFinalVigencia { get; set; }
+        public string estatus { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
         public int usuaNvarioId { get; set; }
     
+        public virtual Cliente Cliente { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual UsuaNvario UsuaNvario { get; set; }
     }

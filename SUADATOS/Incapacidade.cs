@@ -37,7 +37,7 @@ namespace SUADATOS
         public string tipoIncapacidad { get; set; }
         public string alta { get; set; }
     
-        public virtual ICollection<MovimientosAsegurado> MovimientosAseguradoes { get; set; }
         public virtual Asegurado Asegurado { get; set; }
+        public virtual ICollection<MovimientosAsegurado> MovimientosAseguradoes { get; set; }
     }
 }

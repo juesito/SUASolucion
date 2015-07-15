@@ -1322,7 +1322,7 @@ namespace SUAMVC.Controllers
                             }
                         }
 
-                        var tipoTemp = db.catalogoMovimientos.Where(b => b.tipo == tipoMov).FirstOrDefault();
+                        var tipoTemp = db.CatalogoMovimientos.Where(b => b.tipo == tipoMov).FirstOrDefault();
 
                         if (tipoTemp != null)
                         {
@@ -1330,10 +1330,10 @@ namespace SUAMVC.Controllers
                         }
                         else
                         {
-                            catalogoMovimiento catMov = new catalogoMovimiento();
+                            CatalogoMovimiento catMov = new CatalogoMovimiento();
                             catMov.id = 1;
                             catMov.tipo = "01";
-                            movimiento.catalogoMovimiento = catMov;
+                            movimiento.CatalogoMovimiento = catMov;
                         }
 
                         movimiento.credito = rows["NUM_CRE"].ToString();

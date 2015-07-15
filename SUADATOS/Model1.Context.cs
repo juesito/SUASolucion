@@ -26,21 +26,25 @@ namespace SUADATOS
         }
     
         public virtual DbSet<Acreditado> Acreditados { get; set; }
+        public virtual DbSet<ArchivoEmpleado> ArchivoEmpleadoes { get; set; }
         public virtual DbSet<Asegurado> Asegurados { get; set; }
         public virtual DbSet<Banco> Bancos { get; set; }
-        public virtual DbSet<catalogoMovimiento> catalogoMovimientos { get; set; }
+        public virtual DbSet<CatalogoMovimiento> CatalogoMovimientos { get; set; }
         public virtual DbSet<Cliente> Clientes { get; set; }
         public virtual DbSet<Concepto> Conceptos { get; set; }
         public virtual DbSet<ContratosCliente> ContratosClientes { get; set; }
+        public virtual DbSet<CuentaEmpleado> CuentaEmpleadoes { get; set; }
         public virtual DbSet<DatosAdicionalesCliente> DatosAdicionalesClientes { get; set; }
         public virtual DbSet<Departamento> Departamentos { get; set; }
-        public virtual DbSet<DetallePago> DetallePagos { get; set; }
+        public virtual DbSet<DetallePago> DetallePagoes { get; set; }
+        public virtual DbSet<DocumentoEmpleado> DocumentoEmpleadoes { get; set; }
         public virtual DbSet<Empleado> Empleados { get; set; }
         public virtual DbSet<Empresa> Empresas { get; set; }
         public virtual DbSet<EsquemasPago> EsquemasPagoes { get; set; }
         public virtual DbSet<EstadoCivil> EstadoCivils { get; set; }
         public virtual DbSet<Estado> Estados { get; set; }
         public virtual DbSet<Factore> Factores { get; set; }
+        public virtual DbSet<FamiliaresEmpleado> FamiliaresEmpleadoes { get; set; }
         public virtual DbSet<Funcion> Funcions { get; set; }
         public virtual DbSet<Giro> Giros { get; set; }
         public virtual DbSet<Grupos> Grupos { get; set; }
@@ -63,13 +67,33 @@ namespace SUADATOS
         public virtual DbSet<RoleFuncion> RoleFuncions { get; set; }
         public virtual DbSet<RoleModulo> RoleModulos { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<SalarialesEmpleado> SalarialesEmpleadoes { get; set; }
         public virtual DbSet<SDI> SDIs { get; set; }
         public virtual DbSet<Servicio> Servicios { get; set; }
         public virtual DbSet<Sexo> Sexos { get; set; }
         public virtual DbSet<Solicitud> Solicituds { get; set; }
+        public virtual DbSet<SumarizadoCliente> SumarizadoClientes { get; set; }
         public virtual DbSet<TipoContrato> TipoContratoes { get; set; }
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<ArchivosEmpleado> ArchivosEmpleados { get; set; }
+        public virtual DbSet<catalogoMovimiento1> catalogoMovimiento1 { get; set; }
+        public virtual DbSet<ContratosCliente1> ContratosCliente1 { get; set; }
+        public virtual DbSet<DatosAdicionalesCliente1> DatosAdicionalesCliente1 { get; set; }
+        public virtual DbSet<DetallePago1> DetallePago1 { get; set; }
+        public virtual DbSet<documentosEmpleado> documentosEmpleadoes { get; set; }
+        public virtual DbSet<EsquemasPago1> EsquemasPago1 { get; set; }
+        public virtual DbSet<EstadoCivil1> EstadoCivil1 { get; set; }
+        public virtual DbSet<ListaValidacionCliente1> ListaValidacionCliente1 { get; set; }
+        public virtual DbSet<RegimenInfonavit1> RegimenInfonavit1 { get; set; }
+        public virtual DbSet<Residencia1> Residencia1 { get; set; }
+        public virtual DbSet<RespuestaSolicitud1> RespuestaSolicitud1 { get; set; }
+        public virtual DbSet<ResumenPago1> ResumenPago1 { get; set; }
+        public virtual DbSet<Solicitud1> Solicitud1 { get; set; }
+        public virtual DbSet<TipoContrato1> TipoContrato1 { get; set; }
+        public virtual DbSet<TipoPersonal1> TipoPersonal1 { get; set; }
+        public virtual DbSet<TopicosUsuaNvario> TopicosUsuaNvarios { get; set; }
+        public virtual DbSet<UsuaNvario> UsuaNvarios { get; set; }
     }
 }

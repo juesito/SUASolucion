@@ -21,6 +21,8 @@ namespace SUADATOS
             this.DocumentoEmpleadoes = new HashSet<DocumentoEmpleado>();
             this.FamiliaresEmpleadoes = new HashSet<FamiliaresEmpleado>();
             this.SalarialesEmpleadoes = new HashSet<SalarialesEmpleado>();
+            this.ArchivosEmpleados = new HashSet<ArchivosEmpleado>();
+            this.documentosEmpleadoes = new HashSet<documentosEmpleado>();
         }
     
         public int id { get; set; }
@@ -63,6 +65,8 @@ namespace SUADATOS
         public Nullable<System.DateTime> fechaBaja { get; set; }
         public Nullable<int> aseguradoId { get; set; }
         public string foto { get; set; }
+        public int usuaNvarioId { get; set; }
+        public Nullable<int> acreditadoId { get; set; }
     
         public virtual ICollection<ArchivoEmpleado> ArchivoEmpleadoes { get; set; }
         public virtual Asegurado Asegurado { get; set; }
@@ -78,6 +82,15 @@ namespace SUADATOS
         public virtual Sexo Sexo { get; set; }
         public virtual Solicitud Solicitud { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<FamiliaresEmpleado> FamiliaresEmpleadoes { get; set; }
+        public virtual ICollection<SalarialesEmpleado> SalarialesEmpleadoes { get; set; }
+        public virtual Acreditado Acreditado { get; set; }
         public virtual ICollection<ArchivosEmpleado> ArchivosEmpleados { get; set; }
+        public virtual ICollection<documentosEmpleado> documentosEmpleadoes { get; set; }
+        public virtual EsquemasPago1 EsquemasPago1 { get; set; }
+        public virtual EstadoCivil1 EstadoCivil1 { get; set; }
+        public virtual Solicitud1 Solicitud1 { get; set; }
+        public virtual Acreditado Acreditado1 { get; set; }
+        public virtual UsuaNvario UsuaNvario { get; set; }
     }
 }

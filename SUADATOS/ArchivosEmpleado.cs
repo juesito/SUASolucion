@@ -12,14 +12,18 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class Giro
+    public partial class ArchivosEmpleado
     {
         public int id { get; set; }
-        public string descripcion { get; set; }
-        public System.DateTime fechaCreacion { get; set; }
+        public int empleadoId { get; set; }
+        public string archivo { get; set; }
+        public int tipoArchivo { get; set; }
         public int usuarioId { get; set; }
+        public System.DateTime fechaCreacoin { get; set; }
         public int usuaNvarioId { get; set; }
     
+        public virtual Concepto Concepto { get; set; }
+        public virtual Empleado Empleado { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual UsuaNvario UsuaNvario { get; set; }
     }

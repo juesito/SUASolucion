@@ -31,10 +31,13 @@ namespace SUADATOS
         public string gradoMarginacion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
+        public string municipio11 { get; set; }
+        public int usuaNvarioId { get; set; }
     
         public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual Estado Estado { get; set; }
         public virtual Pais Pais { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual UsuaNvario UsuaNvario { get; set; }
     }
 }
