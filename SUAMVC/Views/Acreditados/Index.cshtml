@@ -17,7 +17,7 @@
     }
 
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: Model, rowsPerPage: 12);
+    var grid = new WebGrid(source: Model, rowsPerPage: 12, canPage: false);
     @functions {
         static IHtmlString ShowPDF(string id)
         {
@@ -186,30 +186,58 @@
                 </thead>
             </table>
         </div>
-
-
     </div>
 
 
                         //Etiqueta de No. de registros
                         if (ViewBag.registros != null)
                         {
-                            <div style="column-span:inherit; height:20px; font-size:10px; text-align:center; padding-top:10px">
-                                <div style="margin-right:4px;display:inline-block;vertical-align:top;">
-                                    <p style="font-weight:bold">Registros: @Html.Label(Language.registros, Convert.ToString((int)ViewBag.registros))</p>
-                                </div>
-                                @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
-                                {
-                                    <div style="margin-right:4px;display:inline-block;vertical-align:top;">
-                                        <p style="font-weight:bold">
-                                            Activos:
-                                            @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
-                                        </p>
-                                    </div>
-                                }
-                                <div style="display:inline-block;">
-                                    @Html.SearchStatusList()
-                                </div>
+                            <div style="margin-right:4px;display:inline-block;vertical-align:top;">
+
+                                <table style="margin-left:20px; margin-top:10px; width:100% ">
+                                    <thead>
+                                        <tr>
+                                            <td style="padding-left:15px; text-align:center; width:85%">
+                                                <a href="@Url.Action("Retrocede", "Acreditados", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                                                        clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador,
+                                                        statusId = @ViewBag.statusId, numeroPagina = @ViewData["numeroPagina"]
+                                                        })" style="text-align:right" id="adelante">
+                                                    <img src="~/Content/Images/arrow_left.png" title="@Language.retroceder" alt="@Language.retroceder" style="border:none;" width="25" height="25" />
+                                                </a>
+
+                                                <input name="numeroPagina" type="text" id="numeroPagina" value="@ViewData["numeroPagina"]" style="width:30px;height:25px" />
+                                                <input type="submit" value="Ir a" />
+
+                                                <a href="@Url.Action("Avanza", "Acreditados", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                                                        clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador,
+                                                        statusId = @ViewBag.statusId, numeroPagina = @ViewData["numeroPagina"]
+                                                        })" style="text-align:right" id="adelante">
+                                                    <img src="~/Content/Images/arrow_right.png" title="@Language.avanzar" alt="@Language.avanzar" style="border:none;" width="25" height="25" />
+                                                </a>
+                                            </td>
+
+                                            <td style="height:20px; font-size:10px;width:6%">
+                                                <p style="font-weight:bold">
+                                                    Registros:
+                                                    @Html.Label(Language.registros, Convert.ToString((int)ViewBag.registros))
+                                                </p>
+                                            </td>
+                                            @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
+                                            {
+                                                <td style="height:20px; font-size:10px;width:5%">
+                                                    <p style="font-weight:bold">
+                                                        Activos:
+                                                        @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
+                                                    </p>
+                                                </td>
+                                            }
+                                            <td style="display:inline-block;height:20px; font-size:10px;width:5%;vertical-align:top">
+                                                @Html.SearchStatusList()
+                                            </td>
+                                        </tr>
+
+                                    </thead>
+                                </table>
                             </div>
                         }
                         //Tabla de resultados

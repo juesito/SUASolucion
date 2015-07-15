@@ -52,6 +52,7 @@ namespace SUAMVC.Controllers
             {
                 plaza.descripcion = plaza.descripcion.ToUpper();
                 plaza.cveCorta = plaza.cveCorta.ToUpper();
+                plaza.indicador = plaza.indicador.ToUpper();
                 db.Plazas.Add(plaza);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -84,6 +85,9 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                plaza.descripcion = plaza.descripcion.ToUpper();
+                plaza.cveCorta = plaza.cveCorta.ToUpper();
+                plaza.indicador = plaza.indicador.ToUpper();
                 db.Entry(plaza).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

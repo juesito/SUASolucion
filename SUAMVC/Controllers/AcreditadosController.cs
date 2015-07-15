@@ -21,7 +21,7 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         private void setVariables(String plazasId, String patronesId, String clientesId,
-            String gruposId, String opcion, String valor, String statusId)
+            String gruposId, String opcion, String valor, String statusId, String numeroPagina)
         {
             if (!String.IsNullOrEmpty(plazasId))
             {
@@ -51,17 +51,21 @@ namespace SUAMVC.Controllers
             {
                 ViewBag.statusId = statusId;
             }
+            if (!String.IsNullOrEmpty(numeroPagina))
+            {
+                ViewData["numeroPagina"] = numeroPagina;
+            }
 
         }
         // GET: Acreditados
         public ActionResult Index(String plazasId, String patronesId, String clientesId, 
-            String gruposId, String currentPlaza, String currentPatron, String currentCliente, 
-            String currentGrupo, String opcion, String valor, String statusId, int page = 1)
+            String gruposId, String currentPlaza, String currentPatron, String currentCliente,
+            String currentGrupo, String opcion, String valor, String statusId, String numeroPagina, int page = 1)
         {
 
             Usuario user = Session["UsuarioData"] as Usuario;
 
-            setVariables(plazasId, patronesId, clientesId, gruposId,  opcion,  valor,  statusId);
+            setVariables(plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId, numeroPagina);
 
             var plazasAsignadas = (from x in db.TopicosUsuarios
                                    where x.usuarioId.Equals(user.Id)
@@ -211,7 +215,22 @@ namespace SUAMVC.Controllers
             ViewBag.activos = acreditados.Where(s => !s.fechaBaja.HasValue).Count();
             ViewBag.registros = acreditados.Count();
 
-            return View(acreditados.ToList());
+            var acreditados2 = acreditados.OrderBy(s => s.nombreCompleto).Take(12).ToList();
+            if (numeroPagina != null)
+            {
+                ViewData["numeroPagina"] = numeroPagina;
+                int numeroPag = int.Parse(numeroPagina.Trim());
+                if (numeroPag != 0)
+                {
+                    acreditados2 = acreditados.OrderBy(s => s.nombreCompleto).Skip(((numeroPag - 1) * 12)).Take(12).ToList();
+                }
+            }
+            else
+            {
+                ViewData["numeroPagina"] = 1;
+            }
+
+            return View(acreditados2);
         }
 
         public ActionResult UploadFile(int id)
@@ -608,6 +627,32 @@ namespace SUAMVC.Controllers
                 TempData["buscador"] = "1";
             }
             return RedirectToAction("Index", new { plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId });
+        }
+
+        [HttpGet]
+        public ActionResult Avanza(String plazasId, String patronesId, String clientesId,
+            String gruposId, String opcion, String valor, String statusId, String numeroPagina)
+        {
+            int numeroPag = int.Parse(numeroPagina.Trim());
+            numeroPag = numeroPag + 1;
+            numeroPagina = numeroPag.ToString();
+            ViewData["numeroPagina"] = numeroPagina;
+            return RedirectToAction("Index", new { plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId, numeroPagina });
+        }
+
+
+        [HttpGet]
+        public ActionResult Retrocede(String plazasId, String patronesId, String clientesId,
+            String gruposId, String opcion, String valor, String statusId, String numeroPagina)
+        {
+            int numeroPag = int.Parse(numeroPagina.Trim());
+            if (numeroPag != 1)
+            {
+                numeroPag = numeroPag - 1;
+                numeroPagina = numeroPag.ToString();
+                ViewData["numeroPagina"] = numeroPagina;
+            }
+            return RedirectToAction("Index", new { plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId, numeroPagina });
         }
 
         protected override void Dispose(bool disposing)

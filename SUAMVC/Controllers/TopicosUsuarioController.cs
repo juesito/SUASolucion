@@ -20,7 +20,7 @@ namespace SUAMVC.Controllers
                                                 select new
                                                 {
                                                     id = s.Id,
-                                                    nombreUsuario = s.nombreUsuario
+                                                    nombreUsuario = s.claveUsuario
                                                 }).Distinct(), "id", "nombreUsuario");
 
             if (!String.IsNullOrEmpty(usuarioId))

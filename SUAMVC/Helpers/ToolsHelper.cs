@@ -57,6 +57,7 @@ namespace SUAMVC.Helpers
             Parametro rutaParameter = parameterHelper.getParameterByKey("SUARUTA");
 
             var file = files[0];
+            var fileName = "";
 
             if (file != null && file.ContentLength > 0)
             {
@@ -74,14 +75,14 @@ namespace SUAMVC.Helpers
                     path = rutaParameter.valorString.Trim();
                 }
 
-                var fileName = Path.GetFileName(file.FileName);
+                fileName = Path.GetFileName(file.FileName);
                 var pathFinal = Path.Combine(path, nombreArchivo);
                 file.SaveAs(pathFinal);
                 msg = "Se ha cargado el archivo con exito!";
             }
 
 
-            return msg;
+            return fileName;
         }
 
         /**
@@ -92,13 +93,13 @@ namespace SUAMVC.Helpers
         {
 
             String path = "";
+            String msg = "";
 
             ParametrosHelper parameterHelper = new ParametrosHelper();
             Parametro rutaParameter = parameterHelper.getParameterByKey("SUARUTA");
 
             var file = files[0];
-            String filenameFinal = "";
-
+            var fileName = "";
             if (file != null && file.ContentLength > 0)
             {
 
@@ -115,14 +116,14 @@ namespace SUAMVC.Helpers
                     path = rutaParameter.valorString.Trim();
                 }
 
-                var fileName = Path.GetFileName(file.FileName);
+                fileName = Path.GetFileName(file.FileName);
                 var pathFinal = Path.Combine(path, fileName);
-                filenameFinal = pathFinal.ToString();
                 file.SaveAs(pathFinal);
+                msg = "Se ha cargado el archivo con exito!";
             }
 
 
-            return filenameFinal;
+            return fileName;
         }
 
         public String getMimeType(String path)

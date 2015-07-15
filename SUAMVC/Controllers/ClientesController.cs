@@ -90,6 +90,8 @@ namespace SUAMVC.Controllers
 
                 if (clienteTemp == null)
                 {
+                    cliente.claveCliente = cliente.claveCliente.ToUpper();
+                    cliente.claveSua = cliente.claveSua.ToUpper();
                     cliente.descripcion = cliente.descripcion.ToUpper();
                     cliente.rfc = cliente.rfc.ToUpper();
                     //Validar esto
@@ -145,6 +147,8 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                cliente.claveCliente = cliente.claveCliente.ToUpper();
+                cliente.claveSua = cliente.claveSua.ToUpper();
                 cliente.descripcion = cliente.descripcion.ToUpper();
                 cliente.rfc = cliente.rfc.ToUpper();
                 cliente.ejecutivoContadorId = cliente.Id;

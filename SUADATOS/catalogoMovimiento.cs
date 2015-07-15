@@ -12,9 +12,9 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class CatalogoMovimiento
+    public partial class catalogoMovimiento
     {
-        public CatalogoMovimiento()
+        public catalogoMovimiento()
         {
             this.MovimientosAseguradoes = new HashSet<MovimientosAsegurado>();
         }

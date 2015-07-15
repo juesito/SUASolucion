@@ -60,6 +60,7 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                grupos.claveGrupo = grupos.claveGrupo.ToUpper();
                 grupos.nombre = grupos.nombre.ToUpper();
                 grupos.nombreCorto = grupos.nombreCorto.ToUpper();
                 grupos.estatus = "A";
@@ -111,6 +112,9 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                grupos.claveGrupo = grupos.claveGrupo.ToUpper();
+                grupos.nombre = grupos.nombre.ToUpper();
+                grupos.nombreCorto = grupos.nombreCorto.ToUpper();
                 db.Entry(grupos).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

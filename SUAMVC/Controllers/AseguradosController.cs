@@ -26,7 +26,7 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         private void setVariables(String plazasId, String patronesId, String clientesId,
-           String gruposId, String opcion, String valor, String statusId)
+           String gruposId, String opcion, String valor, String statusId, String numeroPagina)
         {
             if (!String.IsNullOrEmpty(plazasId))
             {
@@ -56,19 +56,24 @@ namespace SUAMVC.Controllers
             {
                 ViewBag.statusId = statusId;
             }
+            if (!String.IsNullOrEmpty(numeroPagina))
+            {
+                ViewData["numeroPagina"] = numeroPagina;
+            }
 
         }
 
         // GET: Aseguradoes
         public ActionResult Index(String plazasId, String patronesId, String clientesId,
             String gruposId, String currentPlaza, String currentPatron, String currentCliente,
-            String currentGrupo, String opcion, String valor, String statusId, int page = 1, String sortOrder = null,
-            String lastSortOrder = null)
+            String currentGrupo, String opcion, String valor, String statusId, String numeroPagina, int page = 1, String sortOrder = null,
+            String lastSortOrder = null)    
         {
+
 
             Usuario user = Session["UsuarioData"] as Usuario;
 
-            setVariables(plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId);
+            setVariables(plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId, numeroPagina);
 
             var plazasAsignadas = (from x in db.TopicosUsuarios
                                    where x.usuarioId.Equals(user.Id)
@@ -172,13 +177,13 @@ namespace SUAMVC.Controllers
 
             if (!String.IsNullOrEmpty(opcion))
             {
-
                 switch (opcion)
                 {
                     case "1":
                         asegurados = asegurados.Where(s => s.Patrone.registro.Contains(valor));
                         break;
                     case "2":
+                        ViewData["numeroPagina"] = "1";
                         asegurados = asegurados.Where(s => s.numeroAfiliacion.Contains(valor));
                         break;
                     case "3":
@@ -191,10 +196,12 @@ namespace SUAMVC.Controllers
                         asegurados = asegurados.Where(s => s.nombre.Contains(valor));
                         break;
                     case "6":
-                        asegurados = asegurados.Where(s => s.fechaAlta.ToString().Contains(valor));
+                        DateTime valor2 = DateTime.Parse(valor);
+                        asegurados = asegurados.Where(s => s.fechaAlta.Year == valor2.Year && s.fechaAlta.Month == valor2.Month && s.fechaAlta.Day == valor2.Day);
                         break;
                     case "7":
-                        asegurados = asegurados.Where(s => s.fechaBaja.ToString().Contains(valor));
+                        valor2 = DateTime.Parse(valor);
+                        asegurados = asegurados.Where(s => s.fechaBaja.Value.Year == valor2.Year && s.fechaBaja.Value.Month == valor2.Month && s.fechaBaja.Value.Day == valor2.Day);
                         break;
                     case "8":
                         asegurados = asegurados.Where(s => s.salarioImss.ToString().Contains(valor.Trim()));
@@ -236,9 +243,21 @@ namespace SUAMVC.Controllers
             ViewBag.activos = asegurados.Where(s => !s.fechaBaja.HasValue).Count();
             ViewBag.registros = asegurados.Count();
 
-            asegurados = asegurados.OrderBy(s => s.nombreTemporal);
+ //           asegurados = asegurados.OrderBy(s => s.nombreTemporal);
+            var asegurados2 = asegurados.OrderBy(s => s.nombreTemporal).Take(12).ToList();
+            if (numeroPagina != null)
+            {
+                numeroPagina = ViewData["numeroPagina"].ToString();
+                int numeroPag = int.Parse(numeroPagina.Trim());
+                if (numeroPag != 0)
+                {
+                    asegurados2 = asegurados.OrderBy(s => s.nombreTemporal).Skip(((numeroPag - 1) * 12)).Take(12).ToList();
+                }
+            }else{
+                ViewData["numeroPagina"] = 1;
+            }
 
-            return View(asegurados.ToList());
+            return View(asegurados2);
         }
 
         // GET: Aseguradoes/Details/5
@@ -253,6 +272,8 @@ namespace SUAMVC.Controllers
             {
                 return HttpNotFound();
             }
+
+            TempData["idAsegurado"] = id;
             return View(asegurado);
         }
 
@@ -506,9 +527,12 @@ namespace SUAMVC.Controllers
 
             List<WebGridColumn> gridColumns = new List<WebGridColumn>();
             gridColumns.Add(grid.Column("Patrone.registro", "Registro "));
-            gridColumns.Add(grid.Column("numeroAfiliacion", "Numero Afiliacion"));
+            gridColumns.Add(grid.Column("numeroAfiliacion", "Numero Afiliacion",format: (item) => String.Format("{0,11:S}", item.numeroAfiliacion)));
             gridColumns.Add(grid.Column("curp", "CURP"));
             gridColumns.Add(grid.Column("rfc", "RFC"));
+            gridColumns.Add(grid.Column("apellidoPaterno", "Nombre"));
+            gridColumns.Add(grid.Column("apellidoMaterno", "Nombre"));
+            gridColumns.Add(grid.Column("nombres", "Nombre"));
             gridColumns.Add(grid.Column("nombreTemporal", "Nombre"));
             gridColumns.Add(grid.Column("fechaAlta", "Fecha Alta", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
             gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => item.fechaBaja != null ? String.Format("{0:yyyy-MM-dd}", item.fechaBaja) : String.Empty));
@@ -539,7 +563,7 @@ namespace SUAMVC.Controllers
         }
 
         // GET: Aseguradoes/Delete/5
-        public ActionResult DeleteMovs(int id)
+        public ActionResult DeleteMovs(int idAseguraR, int id)
         {
             if (id == 0)
             {
@@ -548,11 +572,11 @@ namespace SUAMVC.Controllers
             MovimientosAsegurado asegurado = db.MovimientosAseguradoes.Find(id);
             db.MovimientosAseguradoes.Remove(asegurado);
             db.SaveChanges();
-            return View(asegurado);
+            return RedirectToAction("Details", new { id = idAseguraR });
         }
 
         public ActionResult ActivaVariable(String buscador, String plazasId, String patronesId, String clientesId,
-            String gruposId, String opcion, String valor, String statusId)
+            String gruposId, String opcion, String valor, String statusId, String numeroPagina)
         {
             if (buscador != null)
             {
@@ -569,9 +593,34 @@ namespace SUAMVC.Controllers
             {
                 TempData["buscador"] = "1";
             }
-            return RedirectToAction("Index", new { plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId });
+            return RedirectToAction("Index", new { plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId, numeroPagina });
         }
 
+        [HttpGet]
+        public ActionResult Avanza(String plazasId, String patronesId, String clientesId,
+            String gruposId, String opcion, String valor, String statusId, String numeroPagina)
+        {
+            int numeroPag = int.Parse(numeroPagina.Trim());
+            numeroPag = numeroPag + 1;
+            numeroPagina = numeroPag.ToString();
+            ViewData["numeroPagina"] = numeroPagina;
+            return RedirectToAction("Index", new { plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId, numeroPagina });
+        }
+
+  
+        [HttpGet]
+        public ActionResult Retrocede(String plazasId, String patronesId, String clientesId,
+            String gruposId, String opcion, String valor, String statusId, String numeroPagina)
+        {
+            int numeroPag = int.Parse(numeroPagina.Trim());
+            if (numeroPag != 1)
+            {
+                numeroPag = numeroPag - 1;
+                numeroPagina = numeroPag.ToString();
+                ViewData["numeroPagina"] = numeroPagina;
+            }
+            return RedirectToAction("Index", new { plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId, numeroPagina });
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -22,7 +22,7 @@ namespace SUAMVC.Controllers
         // GET: ArchivosEmpleados
         public ActionResult Index(String empleadoId)
         {
-            var archivosEmpleados = db.ArchivoEmpleadoes.Include(a => a.Concepto).Include(a => a.Empleado).Include(a => a.Usuario);
+            var archivosEmpleados = db.ArchivosEmpleados.Include(a => a.Concepto).Include(a => a.Empleado).Include(a => a.Usuario);
             if (!String.IsNullOrEmpty(empleadoId))
             {
                 int empId = int.Parse(empleadoId.Trim());
@@ -33,7 +33,7 @@ namespace SUAMVC.Controllers
             else {
                 return RedirectToAction("Index", "Empleados");
             }
-            archivosEmpleados = archivosEmpleados.OrderBy(a => a.fechaCreacion);
+            archivosEmpleados = archivosEmpleados.OrderBy(a => a.fechaCreacoin);
 
             return View(archivosEmpleados.ToList());
         }
@@ -42,7 +42,7 @@ namespace SUAMVC.Controllers
         // GET: ArchivosEmpleados/Create
         public ActionResult Create(String empleadoId)
         {
-            ArchivoEmpleado archivoEmpleado = new ArchivoEmpleado();
+            ArchivosEmpleado archivoEmpleado = new ArchivosEmpleado();
             if (!String.IsNullOrEmpty(empleadoId))
             {
                 int emplId = int.Parse(empleadoId);
@@ -60,7 +60,7 @@ namespace SUAMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,empleadoId,archivo,tipoArchivo,usuarioId,fechaCreacion")] 
-            ArchivoEmpleado archivosEmpleado, String usuarioId)
+            ArchivosEmpleado archivosEmpleado, String usuarioId)
         {
             if (ModelState.IsValid)
             {
@@ -75,12 +75,12 @@ namespace SUAMVC.Controllers
                     archivosEmpleado.archivo = GuardarDocumentos(usuarioId, archivosEmpleado.empleadoId,
                         archivosEmpleado.tipoArchivo, archivosEmpleado.Empleado.folioEmpleado, files);
 
-                    archivosEmpleado.fechaCreacion = DateTime.Now;
+                    archivosEmpleado.fechaCreacoin = DateTime.Now;
                     //Guardamos nuestras entidades
 
                     try
                     {
-                        db.ArchivoEmpleadoes.Add(archivosEmpleado);
+                        db.ArchivosEmpleados.Add(archivosEmpleado);
                         db.SaveChanges();
                     }
                     catch (DbEntityValidationException dbEx)
@@ -154,7 +154,7 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArchivoEmpleado archivosEmpleado = db.ArchivoEmpleadoes.Find(id);
+            ArchivosEmpleado archivosEmpleado = db.ArchivosEmpleados.Find(id);
             if (archivosEmpleado == null)
             {
                 return HttpNotFound();
@@ -169,9 +169,9 @@ namespace SUAMVC.Controllers
         {
             ToolsHelper th = new ToolsHelper();
             
-            ArchivoEmpleado archivosEmpleado = db.ArchivoEmpleadoes.Find(id);
+            ArchivosEmpleado archivosEmpleado = db.ArchivosEmpleados.Find(id);
             th.BorrarArchivo(archivosEmpleado.archivo.Trim());
-            db.ArchivoEmpleadoes.Remove(archivosEmpleado);
+            db.ArchivosEmpleados.Remove(archivosEmpleado);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
