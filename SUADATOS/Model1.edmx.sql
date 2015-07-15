@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/14/2015 16:13:46
--- Generated from EDMX file: C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUASolucion\SUADATOS\Model1.edmx
+-- Date Created: 07/15/2015 14:59:47
+-- Generated from EDMX file: C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUADATOS\Model1.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -703,7 +703,7 @@ GO
 
 -- Creating table 'CuentaEmpleadoes'
 CREATE TABLE [dbo].[CuentaEmpleadoes] (
-    [id] int IDENTITY(1,1) NOT NULL,
+    [id] int  NOT NULL,
     [empleadoId] int  NOT NULL,
     [bancoId] int  NOT NULL,
     [cuenta] nchar(20)  NULL,
@@ -903,7 +903,7 @@ GO
 
 -- Creating table 'FamiliaresEmpleadoes'
 CREATE TABLE [dbo].[FamiliaresEmpleadoes] (
-    [id] int IDENTITY(1,1) NOT NULL,
+    [id] int  NOT NULL,
     [empleadoId] int  NOT NULL,
     [parentescoId] int  NOT NULL,
     [nombre] nchar(60)  NULL,
