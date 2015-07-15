@@ -1292,7 +1292,7 @@ namespace SUAMVC.Controllers
                     //Validamos que ese movimiento no se haya guardado anteriormente
                     var movTemp = (from s in db.MovimientosAseguradoes
                                   .Where(s => s.aseguradoId.Equals(aseguradoId)
-                                  && s.CatalogoMovimiento.tipo.Equals(tipoMov.Trim())
+                                  && s.catalogoMovimiento.tipo.Equals(tipoMov.Trim())
                                   && s.fechaInicio.Equals(movimiento.fechaInicio))
                                    select s).FirstOrDefault();
                     
@@ -1322,18 +1322,18 @@ namespace SUAMVC.Controllers
                             }
                         }
 
-                        var tipoTemp = db.CatalogoMovimientos.Where(b => b.tipo == tipoMov).FirstOrDefault();
+                        var tipoTemp = db.catalogoMovimientos.Where(b => b.tipo == tipoMov).FirstOrDefault();
 
                         if (tipoTemp != null)
                         {
-                            movimiento.CatalogoMovimiento = (CatalogoMovimiento)tipoTemp;
+                            movimiento.catalogoMovimiento = (catalogoMovimiento)tipoTemp;
                         }
                         else
                         {
-                            CatalogoMovimiento catMov = new CatalogoMovimiento();
+                            catalogoMovimiento catMov = new catalogoMovimiento();
                             catMov.id = 1;
                             catMov.tipo = "01";
-                            movimiento.CatalogoMovimiento = catMov;
+                            movimiento.catalogoMovimiento = catMov;
                         }
 
                         movimiento.credito = rows["NUM_CRE"].ToString();

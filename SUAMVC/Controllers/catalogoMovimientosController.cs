@@ -17,7 +17,7 @@ namespace SUAMVC.Controllers
         // GET: catalogoMovimientos
         public ActionResult Index()
         {
-            return View(db.CatalogoMovimientos.ToList());
+            return View(db.catalogoMovimientos.ToList());
         }
 
         // GET: catalogoMovimientos/Details/5
@@ -27,7 +27,7 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CatalogoMovimiento catalogoMovimiento = db.CatalogoMovimientos.Find(id);
+            catalogoMovimiento catalogoMovimiento = db.catalogoMovimientos.Find(id);
             if (catalogoMovimiento == null)
             {
                 return HttpNotFound();
@@ -46,12 +46,12 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,tipo,descripcion,fechaCreacion")] CatalogoMovimiento catalogoMovimiento)
+        public ActionResult Create([Bind(Include = "id,tipo,descripcion,fechaCreacion")] catalogoMovimiento catalogoMovimiento)
         {
             if (ModelState.IsValid)
             {
                 catalogoMovimiento.descripcion = catalogoMovimiento.descripcion.ToUpper();
-                db.CatalogoMovimientos.Add(catalogoMovimiento);
+                db.catalogoMovimientos.Add(catalogoMovimiento);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -66,7 +66,7 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CatalogoMovimiento catalogoMovimiento = db.CatalogoMovimientos.Find(id);
+            catalogoMovimiento catalogoMovimiento = db.catalogoMovimientos.Find(id);
             if (catalogoMovimiento == null)
             {
                 return HttpNotFound();
@@ -79,7 +79,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,tipo,descripcion,fechaCreacion")] CatalogoMovimiento catalogoMovimiento)
+        public ActionResult Edit([Bind(Include = "id,tipo,descripcion,fechaCreacion")] catalogoMovimiento catalogoMovimiento)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +98,7 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CatalogoMovimiento catalogoMovimiento = db.CatalogoMovimientos.Find(id);
+            catalogoMovimiento catalogoMovimiento = db.catalogoMovimientos.Find(id);
             if (catalogoMovimiento == null)
             {
                 return HttpNotFound();
@@ -111,8 +111,8 @@ namespace SUAMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            CatalogoMovimiento catalogoMovimiento = db.CatalogoMovimientos.Find(id);
-            db.CatalogoMovimientos.Remove(catalogoMovimiento);
+            catalogoMovimiento catalogoMovimiento = db.catalogoMovimientos.Find(id);
+            db.catalogoMovimientos.Remove(catalogoMovimiento);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

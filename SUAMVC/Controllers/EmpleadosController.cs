@@ -174,12 +174,12 @@ namespace SUAMVC.Controllers
                 return HttpNotFound();
             }
             int empleadoId = id ?? default(int);
-            DocumentoEmpleado documentosEmpleado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleadoId)).FirstOrDefault();
-            SalarialesEmpleado salarialesEmpleado = db.SalarialesEmpleadoes.Where(se => se.empleadoId.Equals(empleadoId)).FirstOrDefault();
+//            DocumentoEmpleado documentosEmpleado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleadoId)).FirstOrDefault();
+//            SalarialesEmpleado salarialesEmpleado = db.SalarialesEmpleadoes.Where(se => se.empleadoId.Equals(empleadoId)).FirstOrDefault();
 
             datosEmpleadoModel.empleado = empleado;
-            datosEmpleadoModel.datosEmpleado = documentosEmpleado;
-            datosEmpleadoModel.salarialesEmpleado = salarialesEmpleado;
+ //           datosEmpleadoModel.datosEmpleado = documentosEmpleado;
+ //           datosEmpleadoModel.salarialesEmpleado = salarialesEmpleado;
 
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
             ViewBag.esquemaPagoId = new SelectList(db.EsquemasPagoes, "id", "descripcion", empleado.esquemaPagoId);

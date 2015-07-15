@@ -18,21 +18,15 @@ namespace SUADATOS
         {
             this.Empleados = new HashSet<Empleado>();
             this.Solicituds = new HashSet<Solicitud>();
-            this.Solicituds1 = new HashSet<Solicitud1>();
         }
     
         public int id { get; set; }
         public string descripcion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
-        public int clienteId { get; set; }
-        public int usuaNvarioId { get; set; }
     
-        public virtual Cliente Cliente { get; set; }
         public virtual ICollection<Empleado> Empleados { get; set; }
-        public virtual Usuario Usuario { get; set; }
         public virtual ICollection<Solicitud> Solicituds { get; set; }
-        public virtual ICollection<Solicitud1> Solicituds1 { get; set; }
-        public virtual UsuaNvario UsuaNvario { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

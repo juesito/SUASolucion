@@ -20,11 +20,9 @@ namespace SUADATOS
         public int tipoArchivo { get; set; }
         public int usuarioId { get; set; }
         public System.DateTime fechaCreacoin { get; set; }
-        public int usuaNvarioId { get; set; }
     
         public virtual Concepto Concepto { get; set; }
         public virtual Empleado Empleado { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual UsuaNvario UsuaNvario { get; set; }
     }
 }

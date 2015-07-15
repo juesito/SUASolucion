@@ -17,11 +17,9 @@ namespace SUADATOS
         public Asegurado()
         {
             this.DetallePagoes = new HashSet<DetallePago>();
-            this.Empleados = new HashSet<Empleado>();
             this.Incapacidades = new HashSet<Incapacidade>();
             this.Movimientos = new HashSet<Movimiento>();
             this.MovimientosAseguradoes = new HashSet<MovimientosAsegurado>();
-            this.DetallePagoes1 = new HashSet<DetallePago1>();
         }
     
         public int id { get; set; }
@@ -29,9 +27,6 @@ namespace SUADATOS
         public string CURP { get; set; }
         public string RFC { get; set; }
         public string nombre { get; set; }
-        public string apellidoMaterno { get; set; }
-        public string apellidoPaterno { get; set; }
-        public string nombres { get; set; }
         public Nullable<decimal> salarioImss { get; set; }
         public Nullable<decimal> salarioInfo { get; set; }
         public System.DateTime fechaAlta { get; set; }
@@ -61,15 +56,16 @@ namespace SUADATOS
         public string permanente { get; set; }
         public int Plaza_id { get; set; }
         public Nullable<decimal> salarioDiario { get; set; }
+        public string apellidoPaterno { get; set; }
+        public string apellidoMaterno { get; set; }
+        public string nombres { get; set; }
     
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<DetallePago> DetallePagoes { get; set; }
-        public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual ICollection<Incapacidade> Incapacidades { get; set; }
         public virtual ICollection<Movimiento> Movimientos { get; set; }
         public virtual ICollection<MovimientosAsegurado> MovimientosAseguradoes { get; set; }
         public virtual Patrone Patrone { get; set; }
         public virtual Plaza Plaza { get; set; }
-        public virtual ICollection<DetallePago1> DetallePagoes1 { get; set; }
     }
 }

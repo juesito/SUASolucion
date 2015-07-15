@@ -30,11 +30,9 @@ namespace SUADATOS
         public string tipoSangre { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
-        public int usuaNvarioId { get; set; }
     
         public virtual Concepto Concepto { get; set; }
         public virtual Empleado Empleado { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual UsuaNvario UsuaNvario { get; set; }
     }
 }

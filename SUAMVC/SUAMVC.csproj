@@ -816,7 +816,6 @@
     <Compile Include="Controllers\EstadoCivilController.cs" />
     <Compile Include="Controllers\EstadoController.cs" />
     <Compile Include="Controllers\FactoresController.cs" />
-    <Compile Include="Controllers\FamiliaresEmpleadosController.cs" />
     <Compile Include="Controllers\FuncionesController.cs" />
     <Compile Include="Controllers\GirosController.cs" />
     <Compile Include="Controllers\GruposController.cs" />

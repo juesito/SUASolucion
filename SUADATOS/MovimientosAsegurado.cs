@@ -26,8 +26,7 @@ namespace SUADATOS
         public string estatus { get; set; }
     
         public virtual Asegurado Asegurado { get; set; }
-        public virtual CatalogoMovimiento CatalogoMovimiento { get; set; }
+        public virtual catalogoMovimiento catalogoMovimiento { get; set; }
         public virtual Incapacidade Incapacidade { get; set; }
-        public virtual catalogoMovimiento1 catalogoMovimiento { get; set; }
     }
 }

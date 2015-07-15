@@ -23,12 +23,7 @@ namespace SUADATOS
             this.ListaValidacionClientes = new HashSet<ListaValidacionCliente>();
             this.Solicituds = new HashSet<Solicitud>();
             this.Proyectos = new HashSet<Proyecto>();
-            this.SDIs = new HashSet<SDI>();
             this.SumarizadoClientes = new HashSet<SumarizadoCliente>();
-            this.ContratosClientes1 = new HashSet<ContratosCliente1>();
-            this.DatosAdicionalesClientes1 = new HashSet<DatosAdicionalesCliente1>();
-            this.ListaValidacionClientes1 = new HashSet<ListaValidacionCliente1>();
-            this.Solicituds1 = new HashSet<Solicitud1>();
         }
     
         public int Id { get; set; }
@@ -51,21 +46,6 @@ namespace SUADATOS
         public Nullable<int> tipoClienteId { get; set; }
         public string numeroCuenta { get; set; }
         public Nullable<int> tipoServicioId { get; set; }
-        public string ejecutivo { get; set; }
-        public string clavesuaNva { get; set; }
-        public string nombre1 { get; set; }
-        public string direccionFiscal1 { get; set; }
-        public string contacto1 { get; set; }
-        public string telefono1 { get; set; }
-        public string direccionOficina1 { get; set; }
-        public string email1 { get; set; }
-        public string actividadPrincipal1 { get; set; }
-        public Nullable<System.DateTime> fechaContratacion1 { get; set; }
-        public Nullable<int> empresaFacturadoraId1 { get; set; }
-        public Nullable<int> ejecutivoContadorId1 { get; set; }
-        public Nullable<int> tipoClienteId1 { get; set; }
-        public string numeroCuenta1 { get; set; }
-        public Nullable<int> tipoServicioId1 { get; set; }
     
         public virtual ICollection<Acreditado> Acreditados { get; set; }
         public virtual ICollection<Asegurado> Asegurados { get; set; }
@@ -76,11 +56,6 @@ namespace SUADATOS
         public virtual Plaza Plaza { get; set; }
         public virtual ICollection<Solicitud> Solicituds { get; set; }
         public virtual ICollection<Proyecto> Proyectos { get; set; }
-        public virtual ICollection<SDI> SDIs { get; set; }
         public virtual ICollection<SumarizadoCliente> SumarizadoClientes { get; set; }
-        public virtual ICollection<ContratosCliente1> ContratosClientes1 { get; set; }
-        public virtual ICollection<DatosAdicionalesCliente1> DatosAdicionalesClientes1 { get; set; }
-        public virtual ICollection<ListaValidacionCliente1> ListaValidacionClientes1 { get; set; }
-        public virtual ICollection<Solicitud1> Solicituds1 { get; set; }
     }
 }

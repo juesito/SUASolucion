@@ -19,11 +19,9 @@ namespace SUADATOS
         public int moduloId { get; set; }
         public int usuarioCreacionId { get; set; }
         public System.DateTime fechaCreacion { get; set; }
-        public int usuaNvarioCreacionId { get; set; }
     
         public virtual Modulo Modulo { get; set; }
         public virtual Role Role { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual UsuaNvario UsuaNvario { get; set; }
     }
 }

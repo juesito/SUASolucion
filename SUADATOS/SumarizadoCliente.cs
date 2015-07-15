@@ -26,11 +26,9 @@ namespace SUADATOS
         public int usuarioId { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int clienteId { get; set; }
-        public int usuaNvarioId { get; set; }
     
         public virtual Cliente Cliente { get; set; }
         public virtual Patrone Patrone { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual UsuaNvario UsuaNvario { get; set; }
     }
 }

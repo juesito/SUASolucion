@@ -22,8 +22,6 @@ namespace SUADATOS
             this.Pagos = new HashSet<Pago>();
             this.ResumenPagoes = new HashSet<ResumenPago>();
             this.SumarizadoClientes = new HashSet<SumarizadoCliente>();
-            this.DetallePagoes1 = new HashSet<DetallePago1>();
-            this.ResumenPagoes1 = new HashSet<ResumenPago1>();
         }
     
         public int Id { get; set; }
@@ -61,7 +59,5 @@ namespace SUADATOS
         public virtual Plaza Plaza { get; set; }
         public virtual ICollection<ResumenPago> ResumenPagoes { get; set; }
         public virtual ICollection<SumarizadoCliente> SumarizadoClientes { get; set; }
-        public virtual ICollection<DetallePago1> DetallePagoes1 { get; set; }
-        public virtual ICollection<ResumenPago1> ResumenPagoes1 { get; set; }
     }
 }

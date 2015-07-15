@@ -27,9 +27,7 @@ namespace SUADATOS
         public Nullable<decimal> factorIntegracion { get; set; }
         public System.DateTime fechaRegistro { get; set; }
         public int usuarioId { get; set; }
-        public int usuaNvarioId { get; set; }
     
         public virtual Usuario Usuario { get; set; }
-        public virtual UsuaNvario UsuaNvario { get; set; }
     }
 }

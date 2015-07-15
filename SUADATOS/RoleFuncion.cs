@@ -19,11 +19,9 @@ namespace SUADATOS
         public int funcionId { get; set; }
         public int usuarioCreacionId { get; set; }
         public System.DateTime fechaCreacion { get; set; }
-        public int usuaNvarioCreacionId { get; set; }
     
         public virtual Funcion Funcion { get; set; }
         public virtual Role Role { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual UsuaNvario UsuaNvario { get; set; }
     }
 }

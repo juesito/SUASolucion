@@ -19,7 +19,6 @@ namespace SUADATOS
             this.RoleFuncions = new HashSet<RoleFuncion>();
             this.RoleModulos = new HashSet<RoleModulo>();
             this.Usuarios = new HashSet<Usuario>();
-            this.UsuaNvarios = new HashSet<UsuaNvario>();
         }
     
         public int id { get; set; }
@@ -30,6 +29,5 @@ namespace SUADATOS
         public virtual ICollection<RoleFuncion> RoleFuncions { get; set; }
         public virtual ICollection<RoleModulo> RoleModulos { get; set; }
         public virtual ICollection<Usuario> Usuarios { get; set; }
-        public virtual ICollection<UsuaNvario> UsuaNvarios { get; set; }
     }
 }

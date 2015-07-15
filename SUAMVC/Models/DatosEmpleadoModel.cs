@@ -9,7 +9,7 @@ namespace SUAMVC.Models
     public class DatosEmpleadoModel
     {
         public Empleado empleado { get; set; }
-        public DocumentoEmpleado datosEmpleado { get; set; }
-        public SalarialesEmpleado salarialesEmpleado { get; set; }
+        public documentosEmpleado datosEmpleado { get; set; }
+//        public SalarialesEmpleado salarialesEmpleado { get; set; }
     }
 }

@@ -16,11 +16,8 @@ namespace SUADATOS
     {
         public Empleado()
         {
-            this.ArchivoEmpleadoes = new HashSet<ArchivoEmpleado>();
-            this.CuentaEmpleadoes = new HashSet<CuentaEmpleado>();
-            this.DocumentoEmpleadoes = new HashSet<DocumentoEmpleado>();
-            this.SalarialesEmpleadoes = new HashSet<SalarialesEmpleado>();
-            this.FamiliaresEmpleadoes = new HashSet<FamiliaresEmpleado>();
+            this.ArchivosEmpleados = new HashSet<ArchivosEmpleado>();
+            this.documentosEmpleadoes = new HashSet<documentosEmpleado>();
         }
     
         public int id { get; set; }
@@ -64,11 +61,10 @@ namespace SUADATOS
         public Nullable<int> aseguradoId { get; set; }
         public string foto { get; set; }
     
-        public virtual ICollection<ArchivoEmpleado> ArchivoEmpleadoes { get; set; }
-        public virtual Asegurado Asegurado { get; set; }
+        public virtual Acreditado Acreditado { get; set; }
+        public virtual ICollection<ArchivosEmpleado> ArchivosEmpleados { get; set; }
         public virtual Banco Banco { get; set; }
-        public virtual ICollection<CuentaEmpleado> CuentaEmpleadoes { get; set; }
-        public virtual ICollection<DocumentoEmpleado> DocumentoEmpleadoes { get; set; }
+        public virtual ICollection<documentosEmpleado> documentosEmpleadoes { get; set; }
         public virtual EsquemasPago EsquemasPago { get; set; }
         public virtual EstadoCivil EstadoCivil { get; set; }
         public virtual Estado Estado { get; set; }
@@ -78,7 +74,5 @@ namespace SUADATOS
         public virtual Sexo Sexo { get; set; }
         public virtual Solicitud Solicitud { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual ICollection<SalarialesEmpleado> SalarialesEmpleadoes { get; set; }
-        public virtual ICollection<FamiliaresEmpleado> FamiliaresEmpleadoes { get; set; }
     }
 }
