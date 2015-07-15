@@ -31,6 +31,7 @@
     gridColumns.Add(grid.Column("carDel", "Delegación", null, null, true));
     gridColumns.Add(grid.Column("codigoPostal", "C. P.", @<text><div style='width: 5em'>@item.codigoPostal</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("direccionArchivo", "Carpeta", null, null, true));
+    gridColumns.Add(grid.Column("porcentajeNomina", "% sobre nómina", null, null, true));
     if (SecurityUserModel.verificarPermiso("Patrones", "Editar patron"))
     { 
         gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Patrones", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
