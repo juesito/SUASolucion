@@ -18,6 +18,7 @@ namespace SUADATOS
         {
             this.ArchivoEmpleadoes = new HashSet<ArchivoEmpleado>();
             this.DocumentoEmpleadoes = new HashSet<DocumentoEmpleado>();
+            this.FamiliaresEmpleadoes = new HashSet<FamiliaresEmpleado>();
             this.RespuestaSolicituds = new HashSet<RespuestaSolicitud>();
             this.SalarialesEmpleadoes = new HashSet<SalarialesEmpleado>();
             this.Solicituds = new HashSet<Solicitud>();
@@ -26,7 +27,6 @@ namespace SUADATOS
             this.Solicituds3 = new HashSet<Solicitud>();
             this.Solicituds4 = new HashSet<Solicitud>();
             this.Solicituds5 = new HashSet<Solicitud>();
-            this.FamiliaresEmpleadoes = new HashSet<FamiliaresEmpleado>();
         }
     
         public int id { get; set; }
@@ -35,8 +35,10 @@ namespace SUADATOS
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
+        public virtual ICollection<ArchivoEmpleado> ArchivoEmpleadoes { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual ICollection<DocumentoEmpleado> DocumentoEmpleadoes { get; set; }
+        public virtual ICollection<FamiliaresEmpleado> FamiliaresEmpleadoes { get; set; }
         public virtual ICollection<RespuestaSolicitud> RespuestaSolicituds { get; set; }
         public virtual ICollection<SalarialesEmpleado> SalarialesEmpleadoes { get; set; }
         public virtual ICollection<Solicitud> Solicituds { get; set; }
@@ -45,6 +47,5 @@ namespace SUADATOS
         public virtual ICollection<Solicitud> Solicituds3 { get; set; }
         public virtual ICollection<Solicitud> Solicituds4 { get; set; }
         public virtual ICollection<Solicitud> Solicituds5 { get; set; }
-        public virtual ICollection<FamiliaresEmpleado> FamiliaresEmpleadoes { get; set; }
     }
 }

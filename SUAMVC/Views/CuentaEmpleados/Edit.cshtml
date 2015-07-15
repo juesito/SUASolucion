@@ -1,0 +1,76 @@
+﻿@model SUADATOS.CuentaEmpleado
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+
+    int empleadoId = Model.empleadoId;
+}
+
+@section Menu {
+    <div>Editar Cuentas<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.fechaCreacion)
+        @Html.HiddenFor(model => model.usuarioId)
+        @Html.HiddenFor(model => model.empleadoId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.empleadoId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Empleado.nombreCompleto)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.bancoId, "bancoId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.bancosDrownList(usuario.Id, "bancoId")
+                @Html.ValidationMessageFor(model => model.bancoId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cuenta, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cuenta, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cuenta, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cuentaClabe, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cuentaClabe, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cuentaClabe, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<div style="display:inline-block;font-size:10px;">
+    <a href="@Url.Action("Index", "CuentaEmpleados", new { empleadoId = empleadoId })">
+        <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+    </a>
+</div>

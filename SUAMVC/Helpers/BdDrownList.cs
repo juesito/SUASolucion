@@ -540,5 +540,26 @@ namespace SUAMVC.Helpers
 
             return htmlHelper.DropDownList(componenteId, listFields);
         }
+
+        public static MvcHtmlString cuentasPorEmpleadoDrownList(this HtmlHelper htmlHelper, int userId, String componenteId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<CuentaEmpleado> listCuentas = (from s in db.CuentaEmpleadoes.ToList()
+                                      where s.usuarioId.Equals(userId) 
+                                      orderby s.Banco.descripcion
+                                      select s).ToList();
+
+            foreach (CuentaEmpleado item in listCuentas)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.Banco.descripcion.Trim() + " - " + item.cuenta;
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields);
+        }
     }
 }

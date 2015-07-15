@@ -245,18 +245,26 @@ namespace SUAMVC.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult CargarArchivo()
-        {
+        [HttpGet]
+        public ActionResult SubirFoto(int empleadoId) { 
+            
+            Empleado empleado = db.Empleados.Find(empleadoId);
 
+            return View(empleado);
+        }
+
+        [HttpPost]
+        public ActionResult GuardarFoto(int id)
+        {
+            ParametrosHelper ph = new ParametrosHelper();
+            Parametro parametro = ph.getParameterByKey("IMGFOLDER");
             ToolsHelper th = new ToolsHelper();
 
             HttpFileCollectionBase files = Request.Files;
-            String destino = "";
-            String nombreArchivo = "";
-            th.cargarArchivo(files, destino, nombreArchivo);
+            String destino = parametro.valorString.Trim();
+            th.cargarArchivo(files, destino);
 
-            return RedirectToAction("Edit");
+            return RedirectToAction("Edit", "Empleados", new { empleadoId = id});
 
         }
 

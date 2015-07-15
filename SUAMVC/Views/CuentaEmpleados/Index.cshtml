@@ -1,11 +1,12 @@
-﻿@model IEnumerable<SUADATOS.FamiliaresEmpleado>
+﻿@model IEnumerable<SUADATOS.CuentaEmpleado>
 @using SUADATOS
 @using SUAMVC.Models
 @using System.Text;
 
 @{
-    ViewBag.Title = "Familiares empleado";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
     if (!WebSecurity.IsAuthenticated)
     {
         Response.Redirect("~/Home/Index");
@@ -19,18 +20,17 @@
 
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
-    gridColumns.Add(grid.Column("nombreCompleto", "Nombre", null, null, true));
-    gridColumns.Add(grid.Column("Concepto.descripcion", "Parentesco", null, null, true));
-    gridColumns.Add(grid.Column("telefonoCelular", "Celular", null, null, true));
-    gridColumns.Add(grid.Column("telefonoCasa", "Tel. Casa", null, null, true));
-    gridColumns.Add(grid.Column("email", "Email", null, null, true));
-    gridColumns.Add(grid.Column("fechaCreacion", "F. Creación", null, null, true));
+    gridColumns.Add(grid.Column("Empleado.nombreCompleto", "Nombre", null, null, true));
+    gridColumns.Add(grid.Column("Banco.descripcion", "Banco", null, null, true));
+    gridColumns.Add(grid.Column("cuenta", "Cuenta", null, null, true));
+    gridColumns.Add(grid.Column("cuentaClabe", "Cuenta Clabe", null, null, true));
+    gridColumns.Add(grid.Column("fechaCreacion", "F.Creacion", null, null, true));
     gridColumns.Add(grid.Column(header: Language.edit, format: @<text>
-        <a href="@Url.Action("Edit", "FamiliaresEmpleados", new { id = item.id })">
+        <a href="@Url.Action("Edit", "CuentaEmpleados", new { id = item.id })">
             <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
         </a></text>));
     gridColumns.Add(grid.Column(header: Language.borrar, format: @<text>
-            <a href="@Url.Action("Delete", "FamiliaresEmpleados", new { id = item.id })">
+            <a href="@Url.Action("Delete", "CuentaEmpleados", new { id = item.id })">
                 <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
             </a></text>));
 
@@ -41,11 +41,10 @@ tableStyle: "table table-striped tableSua"
 ));
 
     tableHtml = sb.ToString().Trim();
-
 }
 
 @section Menu {
-    <div>Datos Familiares Empleado<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Cuentas Empleados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 <div class="marqueeFilter">
@@ -60,15 +59,14 @@ tableStyle: "table table-striped tableSua"
                 </td>
                 <td style="padding-left:10px;">@Html.Label(empleado.nombreCompleto)</td>
                 <td style="padding-left:30px">
-                    <a href="@Url.Action("Create", "FamiliaresEmpleados", new { empleadoId = empleado.id})">
-                        <img src="~/Content/Images/people-b.png" alt="" style="border:none;" class="icon" title="@Language.agregar" />
+                    <a href="@Url.Action("Create", "CuentaEmpleados", new { empleadoId = empleado.id})">
+                        <img src="~/Content/Images/atm.png" alt="" style="border:none;" class="icon" title="@Language.agregar" />
                     </a>
                 </td>
             </tr>
         </thead>
     </table>
 </div>
-
 @if (!tableHtml.IsEmpty())
 {
     <div id="table-container" class="table-container">

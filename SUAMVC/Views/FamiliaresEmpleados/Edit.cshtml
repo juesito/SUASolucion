@@ -1,8 +1,19 @@
 ﻿@model SUADATOS.FamiliaresEmpleado
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Modificar Cuenta Empleado";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+
+    int empleadoId = Model.empleadoId;
 }
 
 <h2>Edit</h2>

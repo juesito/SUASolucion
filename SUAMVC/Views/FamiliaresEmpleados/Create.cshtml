@@ -1,8 +1,18 @@
 ﻿@model SUADATOS.FamiliaresEmpleado
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    
+    int empleadoId = Model.empleadoId;
 }
 @section Menu {
     <div>Ver empleado :<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
@@ -88,7 +98,8 @@
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<div style="display:inline-block;font-size:10px;">
+    <a href="@Url.Action("Index", "FamiliaresEmpleados", new { empleadoId = empleadoId })">
+        <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+    </a>
 </div>

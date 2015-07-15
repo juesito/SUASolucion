@@ -164,13 +164,16 @@
             <div class="right-Marquee">
                 <div class="foto-Marquee">
                     @if (!String.IsNullOrEmpty(foto))
-                {
-                <img src="@Url.Content(Model.empleado.foto.Trim())" alt="@Model.empleado.foto" width="120" height="130" />
-                }
-                else
-                {
-                <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
-                }
+                    {
+                        <a href="@Url.Action("SubirFoto", "Empleados" , new { empleadoid=Model.empleado.id })"
+                           title="Cargar Documentos">
+                            <img src="@Url.Content(Model.empleado.foto.Trim())" alt="@Model.empleado.foto" width="120" height="130" />
+                        </a>
+                    }
+                    else
+                    {
+                        <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
+                    }
 
                 </div>
             </div>
@@ -299,11 +302,11 @@
                     </dt>
 
                     <dd>
-                        <a href="@Url.Action("create", "FamiliaresEmpleados" , new { empleadoid=Model.empleado.id })" 
+                        <a href="@Url.Action("create", "FamiliaresEmpleados" , new { empleadoid=Model.empleado.id })"
                            title="Cargar Documentos">
                             <img src="~/Content/Images/people-b.png" alt="" style="border:none;" class="icon" />
                         </a>
-                        <a href="@Url.Action("index", "FamiliaresEmpleados" , new { empleadoid=Model.empleado.id })" 
+                        <a href="@Url.Action("index", "FamiliaresEmpleados" , new { empleadoid=Model.empleado.id })"
                            title="Cargar Documentos">
                             <img src="~/Content/Images/fileSearch.png" alt="" style="border:none;" class="icon" />
                         </a>
@@ -321,9 +324,6 @@
                         <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
                     }
                 </div>
-
-
-
             </div>
             <a href="@Url.Action("create", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id })" id="cargarLink"
                title="Cargar Documentos">
@@ -366,7 +366,11 @@
                     </dt>
 
                     <dd>
-                        @Html.bancosDrownList(usuario.Id, "bancoId")
+                        @Html.cuentasPorEmpleadoDrownList(usuario.Id, "bancoId")
+                        <a href="@Url.Action("index", "CuentaEmpleados" , new { empleadoid=Model.empleado.id })"
+                           title="Agregar Cuentas">
+                            <img src="~/Content/Images/bank.png" alt="" style="border:none;" class="icon" />
+                        </a>
                     </dd>
                     <dt>
                         @Html.DisplayNameFor(model => model.empleado.creditoInfonavit)
@@ -476,9 +480,10 @@
     </div>
     <input name="Guadar" type="submit" value="@Language.guardar" style="font-size:10px;float:right; display:inline-block;" />
 }
-<div>
-
-    @Html.ActionLink("Back to List", "Index")
+<div style="display:inline-block;font-size:10px;">
+    <a href="@Url.Action("Index", "Empleados")">
+        <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+    </a>
 </div>
 
 <script>
