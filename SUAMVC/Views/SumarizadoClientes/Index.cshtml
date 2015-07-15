@@ -38,17 +38,13 @@
         gridColumns.Add(grid.Column("Cliente.Grupos.claveGrupo", "ID. Grupo", format: @<text> @if (@item.Cliente.Grupos.claveGrupo != null)
         {  @item.Cliente.Grupos.claveGrupo }</text>, canSort: true));
 
-        gridColumns.Add(grid.Column("imss", "IMSS", format: @<text> @if (@item.imss != null)
-        {  @item.imss }</text>, canSort: true));
+        gridColumns.Add(grid.Column("imss", "IMSS", format: @<text>@item.imss.ToString("#,##0.00")</text>, canSort: true));
 
-        gridColumns.Add(grid.Column("rcv", "RCV", format: @<text> @if (@item.rcv != null)
-        {  @item.rcv }</text>, canSort: true));
+        gridColumns.Add(grid.Column("rcv", "RCV", format: @<text>@item.rcv.ToString("#,##0.00")</text>, canSort: true));
 
-        gridColumns.Add(grid.Column("infonavit", "Infonavit", format: @<text> @if (@item.infonavit != null)
-        {  @item.infonavit }</text>, canSort: true));
+        gridColumns.Add(grid.Column("infonavit", "Infonavit", format: @<text>@item.infonavit.ToString("#,##0.00")</text>, canSort: true));
 
-        gridColumns.Add(grid.Column("total", "Total", format: @<text> @if (@item.total != null)
-        {  @item.total }</text>, canSort: true));
+        gridColumns.Add(grid.Column("total", "Total", format: @<text>@item.total.ToString("#,##0.00")</text>, canSort: true));
         gridColumns.Add(grid.Column("nt", "NT", format: @<text> @if (@item.nt != null)
         {  @item.nt }</text>, canSort: true));
         gridColumns.Add(grid.Column("Patrone.Plaza.cveCorta", "Plaza", format: @<text> @if (@item.Patrone.Plaza.cveCorta != null)
@@ -95,6 +91,12 @@
                     <td>@Html.ejercicioAutoList()</td>
                     <td>@Html.Label("ubicación/Cliente :")</td>
                     <td>@Html.clientesDrownList(usuario.Id)</td>
+                    <td style="padding-right:10px; padding-left:10px" rowspan="2">
+                        <a href="@Url.Action("GetExcel", "SumarizadoClientes", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                                periodoId = @ViewBag.periodoId, ejercicioId = @ViewBag.ejercicioId})" style="text-align:right">
+                            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="35" height="35" />
+                        </a>
+                    </td>
                 </tr>
             </thead>
         </table>

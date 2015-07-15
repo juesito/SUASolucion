@@ -27,10 +27,12 @@ namespace SUADATOS
         public string naturalez { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
+        public int usuaNvarioId { get; set; }
     
         public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual ICollection<Estado> Estados { get; set; }
         public virtual ICollection<Municipio> Municipios { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual UsuaNvario UsuaNvario { get; set; }
     }
 }

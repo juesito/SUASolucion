@@ -28,14 +28,17 @@ namespace SUAMVC.Helpers
                                       orderby s.cveCorta, s.descripcion
                                       select s).ToList();
 
+            String itemId = "";
+            String descripcion = "Todas";
+            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             foreach (Plaza item in listPlazas)
             {
-                String itemId = item.id.ToString().Trim();
-                String descripcion = item.descripcion.Trim();
-                if (descripcion.Contains("Todas") || descripcion.Contains("Seleccion"))
-                {
-                    itemId = "";
-                }
+                itemId = item.id.ToString().Trim();
+                descripcion = item.descripcion.Trim();
+                //if (descripcion.Contains("Todas") || descripcion.Contains("Seleccion"))
+                //{
+                //    itemId = "";
+                //}
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
@@ -55,14 +58,17 @@ namespace SUAMVC.Helpers
                                       orderby s.cveCorta, s.descripcion
                                       select s).ToList();
 
+            String itemId = "";
+            String descripcion = "Todas";
+            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             foreach (Plaza item in listPlazas)
             {
-                String itemId = item.id.ToString().Trim();
-                String descripcion = item.descripcion.Trim();
-                if (descripcion.Contains("Todas") || descripcion.Contains("Seleccion"))
-                {
-                    itemId = "";
-                }
+                itemId = item.id.ToString().Trim();
+                descripcion = item.descripcion.Trim();
+                //if (descripcion.Contains("Todas") || descripcion.Contains("Seleccion"))
+                //{
+                //    itemId = "";
+                //}
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
@@ -84,16 +90,19 @@ namespace SUAMVC.Helpers
                                   select s).ToList();
 
 
+            String itemId = "";
+            String descripcion = "Todos";
+            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             foreach (Patrone item in list)
             {
-                String itemId = item.Id.ToString().Trim();
-                String descripcion = item.registro.Trim() + "-" + item.nombre.Trim();
+                itemId = item.Id.ToString().Trim();
+                descripcion = item.registro.Trim() + "-" + item.nombre.Trim();
 
                 if (descripcion.Contains("Todos") || descripcion.Contains("Seleccion"))
-                {
-                    itemId = "";
-                    descripcion = item.nombre.Trim();
-                }
+                //{
+                //    itemId = "";
+                //    descripcion = item.nombre.Trim();
+                //}
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
@@ -113,16 +122,19 @@ namespace SUAMVC.Helpers
                                   select s).ToList();
 
 
+            String itemId = "";
+            String descripcion = "Todos";
+            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             foreach (Patrone item in list)
             {
-                String itemId = item.Id.ToString().Trim();
-                String descripcion = item.registro.Trim() + "-" + item.nombre.Trim();
+                itemId = item.Id.ToString().Trim();
+                descripcion = item.registro.Trim() + "-" + item.nombre.Trim();
 
-                if (descripcion.Contains("Todos") || descripcion.Contains("Seleccion"))
-                {
-                    itemId = "";
-                    descripcion = item.nombre.Trim();
-                }
+                //if (descripcion.Contains("Todos") || descripcion.Contains("Seleccion"))
+                //{
+                //    itemId = "";
+                //    descripcion = item.nombre.Trim();
+                //}
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
@@ -142,16 +154,19 @@ namespace SUAMVC.Helpers
                                   select s).ToList();
 
 
+            String itemId = "";
+            String descripcion = "Todos";
+            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             foreach (Patrone item in list)
             {
-                String itemId = item.Id.ToString().Trim();
-                String descripcion = item.registro.Trim() + "-" + item.nombre.Trim();
+                itemId = item.Id.ToString().Trim();
+                descripcion = item.registro.Trim() + "-" + item.nombre.Trim();
 
-                if (descripcion.Contains("Todos") || descripcion.Contains("Seleccion"))
-                {
-                    itemId = "";
-                    descripcion = item.nombre.Trim();
-                }
+                //if (descripcion.Contains("Todos") || descripcion.Contains("Seleccion"))
+                //{
+                //    itemId = "";
+                //    descripcion = item.nombre.Trim();
+                //}
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
@@ -171,16 +186,19 @@ namespace SUAMVC.Helpers
                                   select s).ToList();
 
 
+            String itemId = "";
+            String descripcion = "Todos";
+            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             foreach (Cliente item in list)
             {
-                String itemId = item.Id.ToString().Trim();
-                String descripcion = item.claveCliente.Trim() + "-" + item.descripcion.Trim();
+                itemId = item.Id.ToString().Trim();
+                descripcion = item.claveCliente.Trim() + "-" + item.descripcion.Trim();
 
-                if (item.claveCliente.Trim().Contains("Todos"))
-                {
-                    itemId = "";
-                    descripcion = item.descripcion.Trim();
-                }
+                //if (item.claveCliente.Trim().Contains("Todos"))
+                //{
+                //    itemId = "";
+                //    descripcion = item.descripcion.Trim();
+                //}
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
@@ -200,16 +218,19 @@ namespace SUAMVC.Helpers
                                   select s).ToList();
 
 
+            String itemId = "";
+            String descripcion = "Todos";
+            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             foreach (Cliente item in list)
             {
-                String itemId = item.Id.ToString().Trim();
-                String descripcion = item.claveCliente.Trim() + "-" + item.descripcion.Trim();
+                itemId = item.Id.ToString().Trim();
+                descripcion = item.claveCliente.Trim() + "-" + item.descripcion.Trim();
 
-                if (item.claveCliente.Trim().Contains("Todos"))
-                {
-                    itemId = "";
-                    descripcion = item.descripcion.Trim();
-                }
+                //if (item.claveCliente.Trim().Contains("Todos"))
+                //{
+                //    itemId = "";
+                //    descripcion = item.descripcion.Trim();
+                //}
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
@@ -229,16 +250,19 @@ namespace SUAMVC.Helpers
                                  orderby s.claveGrupo, s.nombre
                                  select s).Distinct().ToList();
 
+            String itemId = "";
+            String descripcion = "Todos";
+            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             foreach (Grupos item in list)
             {
-                String itemId = item.Id.ToString().Trim();
-                String descripcion = item.claveGrupo.Trim() + "-" + item.nombre.Trim();
+                itemId = item.Id.ToString().Trim();
+                descripcion = item.claveGrupo.Trim() + "-" + item.nombre.Trim();
 
-                if (item.claveGrupo.Trim().Contains("Todos"))
-                {
-                    itemId = "";
-                    descripcion = item.nombre.Trim();
-                }
+                //if (item.claveGrupo.Trim().Contains("Todos"))
+                //{
+                //    itemId = "";
+                //    descripcion = item.nombre.Trim();
+                //}
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 

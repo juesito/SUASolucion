@@ -35,7 +35,7 @@
 
         <div class="form-actions no-color">
             <div class="form-actions no-color">
-                @Html.ActionLink("Eliminar", "DeleteMovs", "Asegurados", new { id = Model.id }, new { @class = "btn btn-success" })
+                @Html.ActionLink("Eliminar", "DeleteMovs", "Asegurados", new { idAseguraR = Model.aseguradoId, id = Model.id}, new { @class = "btn btn-success" })
                 @Html.ActionLink("Regresar", "Details", new { id = Model.aseguradoId })
             </div>
 

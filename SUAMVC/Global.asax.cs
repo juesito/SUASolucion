@@ -15,5 +15,10 @@ namespace SUAMVC
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
+
+        public void Session_Start()
+        {
+            Session.Timeout = 600;
+        }
     }
 }

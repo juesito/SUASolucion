@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
 using System.Data.SqlClient;
+using System.Web.Helpers;
+
 
 namespace SUAMVC.Controllers
 {
@@ -16,7 +18,7 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: SumarizadoClientes
-        public ActionResult Index(String plazasId, String patronesId, String periodoId, 
+        public ActionResult Index(String plazasId, String patronesId, String periodoId,
             String ejercicioId, String clientesId, String usuarioId)
         {
             if (!String.IsNullOrEmpty(clientesId))
@@ -158,6 +160,76 @@ namespace SUAMVC.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        [HttpGet]
+        public void GetExcel(String plazasId, String patronesId, String periodoId,
+            String ejercicioId, String clientesId, String usuarioId)
+        {
+            var sumarizadoClientes = db.SumarizadoClientes.Include(s => s.Cliente).Include(s => s.Patrone).Include(s => s.Usuario);
+            if (!String.IsNullOrEmpty(clientesId))
+            {
+                ViewBag.filtered = true;
+                int clienteId = int.Parse(clientesId.Trim());
+                int userId = int.Parse(usuarioId.Trim());
+
+                int result = db.Database.ExecuteSqlCommand("sp_SumarizadoClientes @usuarioId, @clienteId", new SqlParameter("@usuarioId", userId), new SqlParameter("@clienteId", clienteId));
+                sumarizadoClientes = db.SumarizadoClientes.Include(s => s.Cliente).Include(s => s.Patrone).Include(s => s.Usuario);
+                if (!String.IsNullOrEmpty(plazasId))
+                {
+                    int plazaTempId = int.Parse(plazasId.Trim());
+                    sumarizadoClientes = sumarizadoClientes.Where(s => s.Patrone.Plaza_id.Equals(plazaTempId));
+                }
+                if (!String.IsNullOrEmpty(patronesId))
+                {
+                    int patronesTempId = int.Parse(patronesId);
+                    sumarizadoClientes = sumarizadoClientes.Where(s => s.Patrone.Id.Equals(patronesTempId));
+                }
+                if (!String.IsNullOrEmpty(periodoId))
+                {
+                    sumarizadoClientes = sumarizadoClientes.Where(s => s.mes.Trim().Equals(periodoId.Trim()));
+                }
+                if (!String.IsNullOrEmpty(ejercicioId))
+                {
+                    sumarizadoClientes = sumarizadoClientes.Where(s => s.anno.Trim().Equals(ejercicioId));
+                }
+            }
+
+            sumarizadoClientes = sumarizadoClientes.OrderBy(p => p.Patrone.registro);
+            List<SumarizadoCliente> allCust = new List<SumarizadoCliente>();
+
+            allCust = sumarizadoClientes.ToList();
+
+            WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
+
+            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
+
+            gridColumns.Add(grid.Column("Patrone.registro", "Reg. Patronal", null, null, true));
+            gridColumns.Add(grid.Column("anno", "Año", null, null, true));
+            gridColumns.Add(grid.Column("mes", "Mes", null, null, true));
+            gridColumns.Add(grid.Column("Cliente.claveCliente", "ID. Cliente", null, null, true));
+            gridColumns.Add(grid.Column("Cliente.descripcion", "Nombre", null, null, true));
+            gridColumns.Add(grid.Column("Cliente.Grupos.claveGrupo", "ID. Grupo", null, null, true));
+            gridColumns.Add(grid.Column("imss", "IMSS", null, null, true));
+            gridColumns.Add(grid.Column("rcv", "RCV", null, null, true));
+            gridColumns.Add(grid.Column("infonavit", "Infonavit", null, null, true));
+            gridColumns.Add(grid.Column("total", "Total", null, null, true));
+            gridColumns.Add(grid.Column("nt", "NT", null, null, true));
+            gridColumns.Add(grid.Column("Patrone.Plaza.cveCorta", "Plaza", null, null, true));
+
+            string gridData = grid.GetHtml(
+                columns: grid.Columns(gridColumns.ToArray())
+                    ).ToString();
+
+            Response.ClearContent();
+            DateTime date = DateTime.Now;
+            String fileName = "ClientesPagos-" + date.ToString("ddMMyyyyHHmm") + ".xls";
+            Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+            Response.ContentType = "application/excel";
+            Response.Write(gridData);
+            Response.End();
+        }
+
 
         protected override void Dispose(bool disposing)
         {

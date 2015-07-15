@@ -30,14 +30,14 @@
                         <tr>
                             <td>@Html.Label("Patron :")</td>
                             <td>@Html.patronesNoChangeKeysDrownList(usuario.Id)</td>
-                            <td>@Html.Label("Periodo :")</td>
+                            <td style="column-span:4">  @Html.Label("Periodo :")</td>
                             <td>@Html.periodosList()</td>
                             <td>@Html.Label("Ejercicio :")</td>
                             <td>@Html.ejercicioList()</td>
                         </tr>
-                        <tr>
-                            <td colspan="4">
-                                <div class="file">
+                        <tr style="margin-top:25px">
+                            <td colspan="4" style="margin-top:25px">
+                                <div class="file" style="margin-top:15px">
                                     @FileUpload.GetHtml(initialNumberOfFiles: 1,
                 allowMoreFilesToBeAdded: false,
                 includeFormTag: true,
@@ -47,9 +47,9 @@
                         </tr>
                     </tbody>
                 </table>
-                </div>
-                }
             </div>
+        }
+    </div>
     @if (isError != null)
     {
         if (isError.Equals(false))

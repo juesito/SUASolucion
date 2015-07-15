@@ -77,5 +77,23 @@ namespace SUADATOS
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<ArchivosEmpleado> ArchivosEmpleados { get; set; }
+        public virtual DbSet<catalogoMovimiento1> catalogoMovimiento1 { get; set; }
+        public virtual DbSet<ContratosCliente1> ContratosCliente1 { get; set; }
+        public virtual DbSet<DatosAdicionalesCliente1> DatosAdicionalesCliente1 { get; set; }
+        public virtual DbSet<DetallePago1> DetallePago1 { get; set; }
+        public virtual DbSet<documentosEmpleado> documentosEmpleadoes { get; set; }
+        public virtual DbSet<EsquemasPago1> EsquemasPago1 { get; set; }
+        public virtual DbSet<EstadoCivil1> EstadoCivil1 { get; set; }
+        public virtual DbSet<ListaValidacionCliente1> ListaValidacionCliente1 { get; set; }
+        public virtual DbSet<RegimenInfonavit1> RegimenInfonavit1 { get; set; }
+        public virtual DbSet<Residencia1> Residencia1 { get; set; }
+        public virtual DbSet<RespuestaSolicitud1> RespuestaSolicitud1 { get; set; }
+        public virtual DbSet<ResumenPago1> ResumenPago1 { get; set; }
+        public virtual DbSet<Solicitud1> Solicitud1 { get; set; }
+        public virtual DbSet<TipoContrato1> TipoContrato1 { get; set; }
+        public virtual DbSet<TipoPersonal1> TipoPersonal1 { get; set; }
+        public virtual DbSet<TopicosUsuaNvario> TopicosUsuaNvarios { get; set; }
+        public virtual DbSet<UsuaNvario> UsuaNvarios { get; set; }
     }
 }

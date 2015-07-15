@@ -12,6 +12,9 @@ using System.IO;
 using System.Data.Entity.Validation;
 using System.Text;
 using SUAMVC.Helpers;
+using System.Web.Helpers;
+using Ionic.Zip;
+
 
 namespace SUAMVC.Controllers
 {
@@ -90,12 +93,16 @@ namespace SUAMVC.Controllers
                         pago = db.Pagos.Where(p => p.patronId.Equals(patron.Id) && p.mes.Trim().Equals(periodoId.Trim()) && p.anno.Trim().Equals(ejercicioId.Trim())).FirstOrDefault();
                         Boolean actualizar = false;
 
-                        if (!String.IsNullOrEmpty(pago.mes)) {
+                        if (pago != null)
+                        {
                             actualizar = true;
                         }
-
-                        pago.mes = periodoId;
-                        pago.anno = ejercicioId;
+                        else
+                        {
+                            pago = new Pago();
+                            pago.mes = periodoId;
+                            pago.anno = ejercicioId;
+                        }
 
                         pago.imss = Decimal.Parse(rows["CTA_FIJ"].ToString()) + Decimal.Parse(rows["CTA_EXC"].ToString()) +
                                     Decimal.Parse(rows["PRE_DIN"].ToString()) + Decimal.Parse(rows["PRE_ESP"].ToString()) +
@@ -139,14 +146,15 @@ namespace SUAMVC.Controllers
                         pago.fechaCreacion = DateTime.Now;
                         pago.usuarioId = userId;
 
-                        //Guardamos el pago.
+ //                       Guardamos el pago.
                         if (actualizar)
                         {
                             db.Entry(pago).State = EntityState.Modified;
                         }
-                        else {
+                        else
+                        {
                             db.Pagos.Add(pago);
-                        }                        
+                        }
                         db.SaveChanges();
                         existe = true;
 
@@ -172,20 +180,20 @@ namespace SUAMVC.Controllers
 
                                 detallePago = db.DetallePagoes.Where(dp => dp.pagoId.Equals(pago.id) && dp.aseguradoId.Equals(asegurado.id)).FirstOrDefault();
 
-                                if (String.IsNullOrEmpty(detallePago.Asegurado.nombre))
+                                if (detallePago != null)
                                 {
+                                    actualizarDetalle = true;
+                                }
+                                else
+                                {
+                                    detallePago = new DetallePago();
                                     detallePago.pagoId = pago.id;
                                     detallePago.Pago = pago;
                                     detallePago.aseguradoId = asegurado.id;
                                     detallePago.Asegurado = asegurado;
                                     detallePago.patronId = patron.Id;
                                     detallePago.Patrone = patron;
-                                    
                                 }
-                                else {
-                                    actualizarDetalle = true;
-                                }
-
                                 detallePago.diasCotizados = int.Parse(row2["dia_cot"].ToString().Trim());
                                 detallePago.sdi = decimal.Parse(row2["sal_dia"].ToString().Trim());
 
@@ -391,10 +399,11 @@ namespace SUAMVC.Controllers
                                     {
                                         db.Entry(detallePago).State = EntityState.Modified;
                                     }
-                                    else {
+                                    else
+                                    {
                                         db.DetallePagoes.Add(detallePago);
                                     }
-                                    
+
                                     db.SaveChanges();
                                 }
                                 catch (DbEntityValidationException ex)
@@ -415,6 +424,8 @@ namespace SUAMVC.Controllers
 
                         }
                     }
+//                    path = path + "\\SUA.mdb";
+//                    System.IO.File.Delete(path);
                 }
             }
             return RedirectToAction("UploadPagos");
@@ -450,6 +461,8 @@ namespace SUAMVC.Controllers
                     //var path = Path.Combine(Server.MapPath("~/App_LocalResources/"), fileName);
                     var pathFinal = Path.Combine(path, fileName);
                     file.SaveAs(pathFinal);
+                    ZipFile zip = ZipFile.Read(pathFinal);
+                    zip.ExtractAll(path, ExtractExistingFileAction.OverwriteSilently);
                     ViewBag.dbUploaded = true;
                     TempData["error"] = false;
                     TempData["viewMessage"] = "Se ha realizado la actualización con exito!";
@@ -541,7 +554,11 @@ namespace SUAMVC.Controllers
             if (!String.IsNullOrEmpty(fileNameString))
             {
 
-                var fileName = fileNameString.Trim();
+                ParametrosHelper ph = new ParametrosHelper();
+
+                Parametro parametro = ph.getParameterByKey("COMPRUTA");
+                Parametro rutaParameter = ph.getParameterByKey("SUARUTA");
+                var fileName = rutaParameter.valorString.Trim() + parametro.valorString.Trim() + fileNameString.Trim();
 
                 if (System.IO.File.Exists(fileName))
                 {
@@ -558,6 +575,135 @@ namespace SUAMVC.Controllers
             {
                 return RedirectToAction("Index");
             }
+        }
+
+        [HttpGet]
+        public void ExcelDetalle(int id)
+        {
+
+            Pago pago = db.Pagos.Where(p => p.id.Equals(id)).FirstOrDefault();
+
+            List<DetallePago> detallePago = db.DetallePagoes.Where(r => r.pagoId.Equals(id)).ToList();
+
+            List<DetallePago> allCust = new List<DetallePago>();
+
+            allCust = detallePago;
+
+            WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
+
+            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
+
+            gridColumns.Add(grid.Column("Pago.Patrone.registro", "Patrón", null, null, true));
+            gridColumns.Add(grid.Column("Pago.mes", "Periodo", null, null, true));
+            gridColumns.Add(grid.Column("Pago.anno", "Ejercicio", null, null, true));
+            gridColumns.Add(grid.Column("Pago.fechaDeposito", "Fecha depósito", null, null, true));
+            gridColumns.Add(grid.Column("Pago.imss", "IMSS", null, null, true));
+            gridColumns.Add(grid.Column("Pago.rcv", "RCV", null, null, true));
+            gridColumns.Add(grid.Column("Pago.infonavit", "Infonavit", null, null, true));
+            gridColumns.Add(grid.Column("Pago.total", "Total", null, null, true));
+            gridColumns.Add(grid.Column("Asegurado.numeroAfiliacion", "NSS", null, null, true));
+            gridColumns.Add(grid.Column("Asegurado.nombreTemporal", "Nombre", null, null, true));
+            gridColumns.Add(grid.Column("diasCotizados", "Dias", null, null, true));
+            gridColumns.Add(grid.Column("sdi", "S.D.I.", null, null, true));
+            gridColumns.Add(grid.Column("diasIncapacidad", "Inc.", null, null, true));
+            gridColumns.Add(grid.Column("diasAusentismo", "Aus.", null, null, true));
+            gridColumns.Add(grid.Column("cuotaFija", "C.F.", null, null, true));
+            gridColumns.Add(grid.Column("expa", "Ex.P", null, null, true));
+            gridColumns.Add(grid.Column("exo", "Ex. O.", null, null, true));
+            gridColumns.Add(grid.Column("Asegurado.Cliente.claveCliente", "Ubicación", null, null, true));
+            gridColumns.Add(grid.Column("PDP", "PDP", null, null, true));
+            gridColumns.Add(grid.Column("GMPP", "GMP. Patron", null, null, true));
+            gridColumns.Add(grid.Column("GMPO", "GMP. Obrero", null, null, true));
+            gridColumns.Add(grid.Column("rt", "R.T.", null, null, true));
+            gridColumns.Add(grid.Column("ivp", "I.V.P", null, null, true));
+            gridColumns.Add(grid.Column("ivo", "I.V.O", null, null, true));
+            gridColumns.Add(grid.Column("gps", "G.P.S.", null, null, true));
+            gridColumns.Add(grid.Column("patronal", "Patronal", null, null, true));
+            gridColumns.Add(grid.Column("obrera", "Obrera", null, null, true));
+            gridColumns.Add(grid.Column("imss", "IMSS", null, null, true));
+            gridColumns.Add(grid.Column("retiro", "Retiro", null, null, true));
+            gridColumns.Add(grid.Column("patronalBimestral", "Patronal Bim", null, null, true));
+            gridColumns.Add(grid.Column("obreraBimestral", "Obrera Bim", null, null, true));
+            gridColumns.Add(grid.Column("rcv", "R.C.V.", null, null, true));
+            gridColumns.Add(grid.Column("aportacionsc", "Aportacion SC", null, null, true));
+            gridColumns.Add(grid.Column("aportacioncc", "Aportacion CC", null, null, true));
+            gridColumns.Add(grid.Column("amortizacion", "Amortizacion", null, null, true));
+
+            string gridData = grid.GetHtml(
+                columns: grid.Columns(gridColumns.ToArray())
+                    ).ToString();
+
+            Response.ClearContent();
+            DateTime date = DateTime.Now;
+            String fileName = "DetallePagos-" + date.ToString("ddMMyyyyHHmm") + ".xls";
+            Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+            Response.ContentType = "application/excel";
+            Response.Write(gridData);
+            Response.End();
+        }
+
+
+
+        [HttpGet]
+        public void GetExcel(String plazasId, String patronesId, String periodoId, String ejercicioId)
+        {
+            var pagos = db.Pagos.ToList();
+
+            if (!String.IsNullOrEmpty(plazasId))
+            {
+                int plazaTempId = int.Parse(plazasId.Trim());
+                pagos = pagos.Where(s => s.Patrone.Plaza_id.Equals(plazaTempId)).ToList();
+            }
+            if (!String.IsNullOrEmpty(patronesId))
+            {
+                int patronesTempId = int.Parse(patronesId);
+                pagos = pagos.Where(s => s.Patrone.Id.Equals(patronesTempId)).ToList();
+            }
+            if (!String.IsNullOrEmpty(periodoId))
+            {
+                pagos = pagos.Where(s => s.mes.Trim().Equals(periodoId.Trim())).ToList();
+            }
+            if (!String.IsNullOrEmpty(ejercicioId))
+            {
+                pagos = pagos.Where(s => s.anno.Trim().Equals(ejercicioId)).ToList();
+            }
+
+            pagos = pagos.OrderBy(p => p.Patrone.registro).ToList();
+            List<Pago> allCust = new List<Pago>();
+
+            allCust = pagos.ToList();
+
+            WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
+
+            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
+
+            gridColumns.Add(grid.Column("Patrone.registro", "Reg. Patronal", null, null, true));
+            gridColumns.Add(grid.Column("Patrone.nombre", "ID. Empresa", null, null, true));
+            gridColumns.Add(grid.Column("mes", "Mes", null, null, true));
+            gridColumns.Add(grid.Column("anno", "Año", null, null, true));
+            gridColumns.Add(grid.Column("imss", "IMSS", null, null, true));
+            gridColumns.Add(grid.Column("rcv", "RCV", null, null, true));
+            gridColumns.Add(grid.Column("infonavit", "Infonavit", null, null, true));
+            gridColumns.Add(grid.Column("total", "Total", null, null, true));
+            gridColumns.Add(grid.Column("recargos", "Recargos", null, null, true));
+            gridColumns.Add(grid.Column("actualizaciones", "Actualizaciones", null, null, true));
+            gridColumns.Add(grid.Column("granTotal", "Gran Total", null, null, true));
+            gridColumns.Add(grid.Column("fechaDeposito", "F.Deposito", format: (item) => item.fechaDeposito != null ? String.Format("{0:yyyy-MM-dd}", item.fechaDeposito) : String.Empty));
+            gridColumns.Add(grid.Column("bancoId", "Banco", format: (item) => item.bancoid != null ? String.Format("{0,11:S}", item.Banco.descripcion) : String.Empty));
+            gridColumns.Add(grid.Column("nt", "NT", null, null, true));
+            gridColumns.Add(grid.Column("Patrone.Plaza.Descripcion", "Localidad SUA", null, null, true));
+
+            string gridData = grid.GetHtml(
+                columns: grid.Columns(gridColumns.ToArray())
+                    ).ToString();
+
+            Response.ClearContent();
+            DateTime date = DateTime.Now;
+            String fileName = "Pagos-" + date.ToString("ddMMyyyyHHmm") + ".xls";
+            Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+            Response.ContentType = "application/excel";
+            Response.Write(gridData);
+            Response.End();
         }
 
         protected override void Dispose(bool disposing)

@@ -126,6 +126,15 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                string value = Request["SampleChkIntBool"];
+                if (value.Substring(0, 4) == "true") 
+                {
+                    patrone.direccionArchivo = patrone.registro;
+                }
+                else
+                {
+                    patrone.direccionArchivo = null;
+                }
                 db.Entry(patrone).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

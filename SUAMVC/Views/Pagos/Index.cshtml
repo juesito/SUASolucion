@@ -39,13 +39,13 @@
     gridColumns.Add(grid.Column("Patrone.nombre", "ID. Empresa", null, null, true));
     gridColumns.Add(grid.Column("mes", "Mes", null, null, true));
     gridColumns.Add(grid.Column("anno", "Año", null, null, true));
-    gridColumns.Add(grid.Column("imss", "IMSS", null, null, true));
-    gridColumns.Add(grid.Column("rcv", "RCV", null, null, true));
-    gridColumns.Add(grid.Column("infonavit", "Infonavit", null, null, true));
-    gridColumns.Add(grid.Column("total", "Total", null, null, true));
-    gridColumns.Add(grid.Column("recargos", "Recargos", null, null, true));
-    gridColumns.Add(grid.Column("actualizaciones", "Actualizaciones", null, null, true));
-    gridColumns.Add(grid.Column("granTotal", "Gran Total", null, null, true));
+    gridColumns.Add(grid.Column("imss", "IMSS", format: @<text>@if(@item.imss != null) {@item.imss.ToString("#,##0.00")}</text>, canSort: true));
+    gridColumns.Add(grid.Column("rcv", "RCV", format: @<text>@item.rcv.ToString("#,##0.00")</text>, canSort: true));
+    gridColumns.Add(grid.Column("infonavit", "Infonavit", format: @<text>@item.infonavit.ToString("#,##0.00")</text>, canSort: true));
+    gridColumns.Add(grid.Column("total", "Total", format: @<text>@item.total.ToString("#,##0.00")</text>, canSort: true));
+    gridColumns.Add(grid.Column("recargos", "Recargos", format: @<text>@item.recargos.ToString("#,##0.00")</text>, canSort: true));
+    gridColumns.Add(grid.Column("actualizaciones", "Actualizaciones", format: @<text>@item.actualizaciones.ToString("#,##0.00")</text>, canSort: true));
+    gridColumns.Add(grid.Column("granTotal", "Gran Total", format: @<text>@item.granTotal.ToString("#,##0.00")</text>, canSort: true));
     gridColumns.Add(grid.Column("fechaDeposito", "F. Deposito", @<text><div style='width: 6em'>
             @if (@item.fechaDeposito != null)
             { @item.fechaDeposito.ToString("dd-MM-yyyy")}
@@ -61,16 +61,16 @@
 
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {
-        gridColumns.Add(grid.Column(header: "CL", format: @<text>
+        gridColumns.Add(grid.Column(header: "CP", format: @<text>
             @if (item.comprobantePago != null)
             {
-                <a href="@Url.Action("VerComprobante", "Pagos", new { fileNameString = item.comprobantePago})">
+                <a href="@Url.Action("VerComprobante", "Pagos", new { fileNameString = "CP\\" + item.comprobantePago })">
                     <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
                 </a>
             }
             else
             {
-                <a href="@Url.Action("UploadComprobantes", "Pagos", new { id = item.id, comprobanteId = "CL" })">
+                <a href="@Url.Action("UploadComprobantes", "Pagos", new { id = item.id, comprobanteId = "CP" })">
                     <img src="~/Content/Images/upload.png" alt="" style="border:none;" class="icon" />
                 </a>
             }
@@ -82,7 +82,7 @@
         gridColumns.Add(grid.Column(header: "RL", format: @<text>
             @if (item.resumenLiquidacion != null)
             {
-                <a href="@Url.Action("VerComprobante", "Pagos", new { fileNameString = item.comprobantePago })">
+                <a href="@Url.Action("VerComprobante", "Pagos", new { fileNameString = "RL\\" + item.resumenLiquidacion })">
                     <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
                 </a>
             }
@@ -100,7 +100,7 @@
         gridColumns.Add(grid.Column(header: "CA", format: @<text>
             @if (item.cedulaAutodeterminacion != null)
             {
-                <a href="@Url.Action("VerComprobante", "Pagos", new { fileNameString = item.comprobantePago })">
+                <a href="@Url.Action("VerComprobante", "Pagos", new { fileNameString = "CA\\" + item.cedulaAutodeterminacion })">
                     <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
                 </a>
             }
@@ -113,7 +113,11 @@
         </text>));
     }
 
- 
+    if (SecurityUserModel.verificarPermiso("1", "1"))
+    {
+        gridColumns.Add(grid.Column(header: "Excel", format: @<text><a href="@Url.Action("ExcelDetalle", "Pagos", new { @id = item.id})"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {
         gridColumns.Add(grid.Column(header: "Resumen", format: @<text><a href="@Url.Action("ResumenPagos", "Pagos", new { @id = item.id})"><img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" /></a></text>));
@@ -131,7 +135,7 @@
 }
 
 @section Menu {
-    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Catalogo de Asegurados</div>
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Registro de Pagos</div>
 }
 
 @using (Html.BeginForm(null, null, FormMethod.Post))
@@ -157,6 +161,12 @@
                     <td>@Html.periodosAutoList()</td>
                     <td>@Html.Label("Ejercicio :")</td>
                     <td>@Html.ejercicioAutoList()</td>
+                    <td style="padding-right:10px; padding-left:10px" rowspan="2">
+                        <a href="@Url.Action("GetExcel", "Pagos", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                                periodoId = @ViewBag.periodoId, ejercicioId = @ViewBag.ejercicioId})" style="text-align:right">
+                            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="35" height="35" />
+                        </a>
+                    </td>
                 </tr>
             </thead>
         </table>

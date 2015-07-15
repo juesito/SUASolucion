@@ -37,7 +37,7 @@ namespace SUAMVC.Models
             Boolean isExist = false;
 
             String sSQL = "SELECT * FROM Usuarios WHERE claveUsuario = @username " +
-                " AND contrasena = @pass ";
+                " AND contrasena = @pass AND estatus = 'A' ";
 
             SqlParameter pNick = new SqlParameter("username", _username);
             SqlParameter pPass = new SqlParameter("pass", _password);

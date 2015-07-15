@@ -50,6 +50,7 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                catalogoMovimiento.descripcion = catalogoMovimiento.descripcion.ToUpper();
                 db.CatalogoMovimientos.Add(catalogoMovimiento);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,6 +83,7 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                catalogoMovimiento.descripcion = catalogoMovimiento.descripcion.ToUpper();
                 db.Entry(catalogoMovimiento).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
