@@ -162,7 +162,7 @@ namespace SUAMVC.Controllers
             return View();
         }
 
-        //Asignamos el topico al usuario
+        //Asignamos el topico al usuario*
         public ActionResult asignarTopico(String usuarioId, String topico, String[] ids)
         {
 

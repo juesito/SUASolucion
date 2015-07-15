@@ -32,6 +32,25 @@ namespace SUAMVC.Controllers
             return View(empleados.ToList());
         }
 
+        //agregar empleado
+        public ActionResult asignarEmpleado(String[] ids)
+        {
+            Empleado empleado = new Empleado();
+            if (ids != null && ids.Length > 0)
+            {
+                foreach (String empleadoId in ids)
+                {
+                    //buscar el empleadoiD en db.Empleados y cambia el estatus a B. con la fecha de baja de la solicitud
+                    int empleadoTempId = int.Parse(empleadoId);
+                    empleado = db.Empleados.Find(empleadoTempId);
+                    empleado.estatus = "B";
+                }
+            }
+            db.Entry(empleado).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         // GET: Empleados/Details/5
         public ActionResult Details(int? id)
         {
