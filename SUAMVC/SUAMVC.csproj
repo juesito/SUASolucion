@@ -61,8 +61,14 @@
       <HintPath>..\packages\AntiXSS.4.3.0\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
       <Private>True</Private>
     </Reference>
+<<<<<<< HEAD
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
+=======
+    <Reference Include="Ionic.Zip, Version=1.9.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
+      <Private>True</Private>
+>>>>>>> origin/2daEtapa
     </Reference>
     <Reference Include="LinqToExcel">
       <HintPath>..\packages\LinqToExcel.1.10.1\lib\LinqToExcel.dll</HintPath>
@@ -392,6 +398,7 @@
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\ConceptosController.cs" />
     <Compile Include="Controllers\ContratosClientesController.cs" />
+    <Compile Include="Controllers\CuentaEmpleadosController.cs" />
     <Compile Include="Controllers\DatosAdicionalesClientesController.cs" />
     <Compile Include="Controllers\DepartamentosController.cs" />
     <Compile Include="Controllers\EmpleadosController.cs" />
@@ -655,6 +662,17 @@
     <Content Include="Views\RespuestaSolicitud\Edit.cshtml" />
     <Content Include="Views\RespuestaSolicitud\Index.cshtml" />
     <Content Include="Views\SumarizadoClientes\Index.cshtml" />
+    <Content Include="Views\CuentaEmpleados\Create.cshtml" />
+    <Content Include="Views\CuentaEmpleados\Delete.cshtml" />
+    <Content Include="Views\CuentaEmpleados\Details.cshtml" />
+    <Content Include="Views\CuentaEmpleados\Edit.cshtml" />
+    <Content Include="Views\CuentaEmpleados\Index.cshtml" />
+    <Content Include="Views\Empleados\SubirFoto.cshtml" />
+    <Content Include="Views\FamiliaresEmpleados\Create.cshtml" />
+    <Content Include="Views\FamiliaresEmpleados\Delete.cshtml" />
+    <Content Include="Views\FamiliaresEmpleados\Details.cshtml" />
+    <Content Include="Views\FamiliaresEmpleados\Edit.cshtml" />
+    <Content Include="Views\FamiliaresEmpleados\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
