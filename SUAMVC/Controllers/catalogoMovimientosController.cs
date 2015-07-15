@@ -46,12 +46,12 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,tipo,descripcion,fechaCreacion")] catalogoMovimiento catalogoMovimiento)
+        public ActionResult Create([Bind(Include = "id,tipo,descripcion,fechaCreacion")] CatalogoMovimiento catalogoMovimiento)
         {
             if (ModelState.IsValid)
             {
                 catalogoMovimiento.descripcion = catalogoMovimiento.descripcion.ToUpper();
-                db.catalogoMovimientos.Add(catalogoMovimiento);
+                db.CatalogoMovimientos.Add(catalogoMovimiento);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -79,7 +79,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,tipo,descripcion,fechaCreacion")] catalogoMovimiento catalogoMovimiento)
+        public ActionResult Edit([Bind(Include = "id,tipo,descripcion,fechaCreacion")] CatalogoMovimiento catalogoMovimiento)
         {
             if (ModelState.IsValid)
             {

@@ -182,7 +182,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="empleadoId" Type="int" Nullable="false" />
           <Property Name="bancoId" Type="int" Nullable="false" />
           <Property Name="cuenta" Type="nchar" MaxLength="20" />
@@ -3493,7 +3493,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="empleadoId" Type="Int32" Nullable="false" />
           <Property Name="bancoId" Type="Int32" Nullable="false" />
           <Property Name="cuenta" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />

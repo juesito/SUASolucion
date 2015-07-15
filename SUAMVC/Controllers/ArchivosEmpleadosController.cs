@@ -60,7 +60,7 @@ namespace SUAMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,empleadoId,archivo,tipoArchivo,usuarioId,fechaCreacion")] 
-            ArchivosEmpleado archivosEmpleado, String usuarioId)
+            ArchivoEmpleado archivosEmpleado, String usuarioId)
         {
             if (ModelState.IsValid)
             {

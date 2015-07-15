@@ -40,7 +40,7 @@ namespace SUAMVC.Controllers
             {
                 foreach (String empleadoId in ids)
                 {
-                    //buscar el empleadoiD en db.Empleados y cambia el estatus a B. con la fecha de baja de la solicitud
+ //buscar el empleadoiD en db.Empleados y cambia el estatus a B. con la fecha de baja de la solicitud
                     int empleadoTempId = int.Parse(empleadoId);
                     empleado = db.Empleados.Find(empleadoTempId);
                     empleado.estatus = "B";
