@@ -97,9 +97,20 @@
 
 @if (!tableHtml.IsEmpty())
 {
-    <div id="table-container" class="table-container">
-        @Html.Raw(tableHtml)
-    </div>
+    using (Html.BeginForm("asignarEmpleado", "Empleados"))
+    {
+        <div id="table-container" class="table-container">
+            <div class="bottom">
+                <div id="i18n-options-container">
+                    <input type="checkbox" id="selectAll" name="slall" /> Todos
+                </div>
+            </div>
+            @Html.Raw(tableHtml)
+            <div id="i18n-options-container" class="panel-footer">
+                <input type="submit" value="" class="rarrow_button" title="Asignar Función" />
+            </div>
+        </div>
+    }
 }
 
 <script type="text/javascript">

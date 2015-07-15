@@ -50,7 +50,6 @@ namespace SUADATOS
         public string STyPS { get; set; }
         public int Plaza_id { get; set; }
         public string direccionArchivo { get; set; }
-        public Nullable<int> porcentajeNomina { get; set; }
     
         public virtual ICollection<Acreditado> Acreditados { get; set; }
         public virtual ICollection<Asegurado> Asegurados { get; set; }
