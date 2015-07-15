@@ -382,6 +382,7 @@
     <Compile Include="Code52.i18n\LanguageFilterAttribute.cs" />
     <Compile Include="Code52.i18n\LocalizationHelpers.cs" />
     <Compile Include="Controllers\AcreditadosController.cs" />
+    <Compile Include="Controllers\ArchivosEmpleadosController.cs" />
     <Compile Include="Controllers\AseguradosController.cs" />
     <Compile Include="Controllers\BancosController.cs" />
     <Compile Include="Controllers\catalogoMovimientosController.cs" />
@@ -414,6 +415,7 @@
     <Compile Include="Controllers\PlazasController.cs" />
     <Compile Include="Controllers\ProyectosController.cs" />
     <Compile Include="Controllers\RegimenInfonavitController.cs" />
+    <Compile Include="Controllers\RespuestaSolicitudController.cs" />
     <Compile Include="Controllers\RoleFuncionesController.cs" />
     <Compile Include="Controllers\RoleModulosController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
@@ -422,6 +424,7 @@
     <Compile Include="Controllers\SolicitudesBajaController.cs" />
     <Compile Include="Controllers\SolicitudesController.cs" />
     <Compile Include="Controllers\SolicitudesModificacionController.cs" />
+    <Compile Include="Controllers\SumarizadoClientesController.cs" />
     <Compile Include="Controllers\TipoContratoController.cs" />
     <Compile Include="Controllers\TipoPersonalController.cs" />
     <Compile Include="Controllers\TopicosUsuarioController.cs" />
@@ -438,9 +441,11 @@
     <Compile Include="Helpers\ToolsHelper.cs" />
     <Compile Include="Models\AseguradoMovimientosModel.cs" />
     <Compile Include="Models\DatesHelper.cs" />
+    <Compile Include="Models\DatosEmpleadoModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\MenuItem.cs" />
+    <Compile Include="Models\PagosResumenModel.cs" />
     <Compile Include="Models\ParametrosHelper.cs" />
     <Compile Include="Models\PersonalExcelLayout.cs" />
     <Compile Include="Models\RoleFuncionesModel.cs" />
@@ -637,6 +642,16 @@
     <Content Include="Views\PanelSolicitud\Details.cshtml" />
     <Content Include="Views\PanelSolicitud\Edit.cshtml" />
     <Content Include="Views\PanelSolicitud\Index.cshtml" />
+    <Content Include="Views\ArchivosEmpleados\Create.cshtml" />
+    <Content Include="Views\ArchivosEmpleados\Delete.cshtml" />
+    <Content Include="Views\ArchivosEmpleados\Index.cshtml" />
+    <Content Include="Views\Empleados\BajaEmpleados.cshtml" />
+    <Content Include="Views\RespuestaSolicitud\Create.cshtml" />
+    <Content Include="Views\RespuestaSolicitud\Delete.cshtml" />
+    <Content Include="Views\RespuestaSolicitud\Details.cshtml" />
+    <Content Include="Views\RespuestaSolicitud\Edit.cshtml" />
+    <Content Include="Views\RespuestaSolicitud\Index.cshtml" />
+    <Content Include="Views\SumarizadoClientes\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
