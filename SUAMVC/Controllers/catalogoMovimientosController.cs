@@ -17,7 +17,7 @@ namespace SUAMVC.Controllers
         // GET: catalogoMovimientos
         public ActionResult Index()
         {
-            return View(db.catalogoMovimientos.ToList());
+            return View(db.CatalogoMovimientos.ToList());
         }
 
         // GET: catalogoMovimientos/Details/5
@@ -27,7 +27,7 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            catalogoMovimiento catalogoMovimiento = db.catalogoMovimientos.Find(id);
+            CatalogoMovimiento catalogoMovimiento = db.CatalogoMovimientos.Find(id);
             if (catalogoMovimiento == null)
             {
                 return HttpNotFound();
@@ -66,7 +66,7 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            catalogoMovimiento catalogoMovimiento = db.catalogoMovimientos.Find(id);
+            CatalogoMovimiento catalogoMovimiento = db.CatalogoMovimientos.Find(id);
             if (catalogoMovimiento == null)
             {
                 return HttpNotFound();
@@ -98,7 +98,7 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            catalogoMovimiento catalogoMovimiento = db.catalogoMovimientos.Find(id);
+            CatalogoMovimiento catalogoMovimiento = db.CatalogoMovimientos.Find(id);
             if (catalogoMovimiento == null)
             {
                 return HttpNotFound();
@@ -111,8 +111,8 @@ namespace SUAMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            catalogoMovimiento catalogoMovimiento = db.catalogoMovimientos.Find(id);
-            db.catalogoMovimientos.Remove(catalogoMovimiento);
+            CatalogoMovimiento catalogoMovimiento = db.CatalogoMovimientos.Find(id);
+            db.CatalogoMovimientos.Remove(catalogoMovimiento);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
