@@ -12,23 +12,23 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class Banco
+    public partial class FamiliaresEmpleado
     {
-        public Banco()
-        {
-            this.CuentaEmpleadoes = new HashSet<CuentaEmpleado>();
-            this.Empleados = new HashSet<Empleado>();
-            this.Pagos = new HashSet<Pago>();
-        }
-    
         public int id { get; set; }
-        public string descripcion { get; set; }
+        public int empleadoId { get; set; }
+        public int parentescoId { get; set; }
+        public string nombre { get; set; }
+        public string apellidoMaterno { get; set; }
+        public string apellidoPaterno { get; set; }
+        public string nombreCompleto { get; set; }
+        public string telefonoCelular { get; set; }
+        public string telefonoCasa { get; set; }
+        public string email { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
+        public virtual Concepto Concepto { get; set; }
+        public virtual Empleado Empleado { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual ICollection<CuentaEmpleado> CuentaEmpleadoes { get; set; }
-        public virtual ICollection<Empleado> Empleados { get; set; }
-        public virtual ICollection<Pago> Pagos { get; set; }
     }
 }

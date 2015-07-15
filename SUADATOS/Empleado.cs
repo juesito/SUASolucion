@@ -64,10 +64,11 @@ namespace SUADATOS
         public Nullable<int> aseguradoId { get; set; }
         public string foto { get; set; }
     
-        public virtual Acreditado Acreditado { get; set; }
-        public virtual ICollection<ArchivosEmpleado> ArchivosEmpleados { get; set; }
+        public virtual ICollection<ArchivoEmpleado> ArchivoEmpleadoes { get; set; }
+        public virtual Asegurado Asegurado { get; set; }
         public virtual Banco Banco { get; set; }
-        public virtual ICollection<documentosEmpleado> documentosEmpleadoes { get; set; }
+        public virtual ICollection<CuentaEmpleado> CuentaEmpleadoes { get; set; }
+        public virtual ICollection<DocumentoEmpleado> DocumentoEmpleadoes { get; set; }
         public virtual EsquemasPago EsquemasPago { get; set; }
         public virtual EstadoCivil EstadoCivil { get; set; }
         public virtual Estado Estado { get; set; }

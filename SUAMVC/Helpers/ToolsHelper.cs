@@ -51,7 +51,6 @@ namespace SUAMVC.Helpers
         {
 
             String path = "";
-            String msg = "";
 
             ParametrosHelper parameterHelper = new ParametrosHelper();
             Parametro rutaParameter = parameterHelper.getParameterByKey("SUARUTA");
@@ -78,7 +77,6 @@ namespace SUAMVC.Helpers
                 fileName = Path.GetFileName(file.FileName);
                 var pathFinal = Path.Combine(path, nombreArchivo);
                 file.SaveAs(pathFinal);
-                msg = "Se ha cargado el archivo con exito!";
             }
 
 
@@ -93,7 +91,6 @@ namespace SUAMVC.Helpers
         {
 
             String path = "";
-            String msg = "";
 
             ParametrosHelper parameterHelper = new ParametrosHelper();
             Parametro rutaParameter = parameterHelper.getParameterByKey("SUARUTA");
@@ -119,7 +116,6 @@ namespace SUAMVC.Helpers
                 fileName = Path.GetFileName(file.FileName);
                 var pathFinal = Path.Combine(path, fileName);
                 file.SaveAs(pathFinal);
-                msg = "Se ha cargado el archivo con exito!";
             }
 
 
