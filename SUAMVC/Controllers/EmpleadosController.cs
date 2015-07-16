@@ -19,23 +19,25 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Empleados
-        public ActionResult Index(string id)
+        public ActionResult Index(string id, string estatus)
         {
 
             var empleados = db.Empleados.Include(e => e.Banco).Include(e => e.EstadoCivil).Include(e => e.Pais).Include(e => e.Sexo).Include(e => e.Solicitud).Include(e => e.Usuario);
             if (!String.IsNullOrEmpty(id))
             {
                 int idTemp = int.Parse(id);
-                empleados = empleados.Where(s => s.solicitudId.Equals(idTemp));
+                empleados = empleados.Where(s => s.solicitudId.Equals(idTemp)&& s.estatus.Equals(estatus));
             }
 
             return View(empleados.ToList());
         }
 
         //agregar empleado
-        public ActionResult asignarEmpleado(String[] ids)
+        public ActionResult asignarEmpleado(String[] ids, string solicitudId)
         {
             Empleado empleado = new Empleado();
+            int solicitudTempId = int.Parse(solicitudId);
+            Solicitud solicitud = db.Solicituds.Find(solicitudTempId);
             if (ids != null && ids.Length > 0)
             {
                 foreach (String empleadoId in ids)
@@ -43,12 +45,28 @@ namespace SUAMVC.Controllers
  //buscar el empleadoiD en db.Empleados y cambia el estatus a B. con la fecha de baja de la solicitud
                     int empleadoTempId = int.Parse(empleadoId);
                     empleado = db.Empleados.Find(empleadoTempId);
+                    
+                    Solicitud solicitudEmpleado = db.Solicituds.Find(empleado.solicitudId);
+                    solicitudEmpleado.noTrabajadores = solicitudEmpleado.noTrabajadores - 1;
                     empleado.estatus = "B";
+                    empleado.fechaBaja = solicitud.fechaBaja;
+
+
+ //Solicitud para modificar el noTrabjadores
+                    solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
+
+                    empleado.solicitudId = solicitud.id;
+                    empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
+
+                    db.Entry(solicitudEmpleado).State = EntityState.Modified;
+                    db.Entry(solicitud).State = EntityState.Modified;
+                    db.Entry(empleado).State = EntityState.Modified;
+                    db.SaveChanges();
                 }
+                
             }
-            db.Entry(empleado).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return RedirectToAction("BajaEmpleados", "Empleados", new {id=solicitud.id, clienteId = solicitud.clienteId });
         }
 
         // GET: Empleados/Details/5
@@ -344,20 +362,16 @@ namespace SUAMVC.Controllers
 
         //BAJA EMPLEADOS
         // GET: BajaEmpleados
-        public ActionResult BajaEmpleados(string id, string clienteId)
+        public ActionResult BajaEmpleados(int id, string clienteId)
         {
 
             List<Empleado> listEmpleados = new List<Empleado>();
             int clienteTempId = int.Parse(clienteId);
-            int solicitudId = int.Parse(id);
-            Solicitud solicitud = db.Solicituds.Find(solicitudId);
+            Solicitud solicitud = db.Solicituds.Find(id);
 
-            var empleados = db.Empleados.Where(c => c.Solicitud.clienteId.Equals(clienteTempId));
-            //if (!String.IsNullOrEmpty(id))
-            //{
-            //    int idTemp = int.Parse(id);
-            //    empleados = empleados.Where(s => s.Solicitud.Equals(idTemp));
-            //}
+            ViewBag.solicitudId = id;
+
+            var empleados = db.Empleados.Where(c => c.Solicitud.clienteId.Equals(clienteTempId) && c.estatus.Equals("A"));
             foreach (Empleado emp in empleados) {
                 emp.fechaBaja = solicitud.fechaBaja;
                 listEmpleados.Add(emp);

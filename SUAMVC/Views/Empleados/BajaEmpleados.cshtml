@@ -5,6 +5,7 @@
 
 @{
     ViewBag.Title = "Empleados registrados";
+    int solicitudId = ViewBag.solicitudId;
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (!WebSecurity.IsAuthenticated)
     {
@@ -97,7 +98,7 @@
 
 @if (!tableHtml.IsEmpty())
 {
-    using (Html.BeginForm("asignarEmpleado", "Empleados"))
+    using (Html.BeginForm("asignarEmpleado", "Empleados", new {solicitudId=solicitudId}))
     {
         <div id="table-container" class="table-container">
             <div class="bottom">
