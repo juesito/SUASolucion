@@ -250,6 +250,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="bin\Debug\SUADATOS.dll.config" />
     <None Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -269,7 +270,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Debug\SUADATOS.dll" />
+    <Content Include="bin\Debug\SUADATOS.pdb" />
     <Content Include="Model1.edmx.sql" />
     <Content Include="StoreProcedures\InsertAdditionalFuncitions.sql" />
     <Content Include="StoreProcedures\spCreateActionFunctions.sql" />
@@ -280,7 +281,7 @@
     <Content Include="StoreProcedures\sp_createParameters.sql" />
     <Content Include="StoreProcedures\sp_createRoles.sql" />
     <Content Include="StoreProcedures\sp_SumarizadoClientes.sql" />
-    <Content Include="SUADATOS.dll" />
+    <Content Include="bin\Debug\SUADATOS.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
