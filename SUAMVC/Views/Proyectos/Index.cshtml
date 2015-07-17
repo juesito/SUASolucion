@@ -22,13 +22,13 @@
             @Html.DisplayName(@Language.descripcion)
         </th>
         <th>
+            @Html.DisplayName(@Language.claveCliente)
+        </th>
+        <th>
             @Html.DisplayName(@Language.fechaAlta)
         </th>
         <th>
             @Html.DisplayName(@Language.usuarioAlta)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.claveCliente)
         </th>
         <th></th>
     </tr>
@@ -40,13 +40,13 @@
                 @Html.DisplayFor(modelItem => item.descripcion)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Cliente.claveCliente)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.fechaCreacion)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.usuarioId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cliente.claveCliente)
             </td>
             <td>
                 <a href="@Url.Action("Edit","Proyectos", new { id = item.id })" title="@Language.edit">

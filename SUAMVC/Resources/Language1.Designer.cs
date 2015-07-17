@@ -1258,6 +1258,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a parametros.
+        /// </summary>
+        public static string parametros {
+            get {
+                return ResourceManager.GetString("parametros", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Patrón.
         /// </summary>
         public static string patron {

@@ -760,4 +760,8 @@
     <value>Retroceder</value>
     <comment>Etiqueta para Retroceder en paginado</comment>
   </data>
+  <data name="parametros" xml:space="preserve">
+    <value>parametros</value>
+    <comment>Etiqueta Parámetros</comment>
+  </data>
 </root>
