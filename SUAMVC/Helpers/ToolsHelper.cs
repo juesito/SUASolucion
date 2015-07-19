@@ -18,7 +18,7 @@ namespace SUAMVC.Helpers
         public Concepto obtenerConceptoPorGrupo(String grupoId, String value)
         {
             Concepto concepto = db.Conceptos.Where(s => s.grupo.ToLower().Trim().Equals(grupoId.ToLower().Trim())
-                && s.descripcion.ToLower().Trim().Equals(value.ToLower().Trim())).FirstOrDefault();
+                && s.descripcion.ToLower().Trim().Contains(value.ToLower().Trim())).FirstOrDefault();
 
             return concepto;
         }

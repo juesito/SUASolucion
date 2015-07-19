@@ -11,6 +11,7 @@ using SUAMVC.Helpers;
 using SUAMVC.Models;
 using System.Data.Entity.Validation;
 using System.Text;
+using System.IO;
 
 namespace SUAMVC.Controllers
 {
@@ -22,18 +23,28 @@ namespace SUAMVC.Controllers
         public ActionResult Index(string id)
         {
 
+            Solicitud solicitud = new Solicitud();
+            List<Empleado> empleadosList = new List<Empleado>();
+
             if (String.IsNullOrEmpty(id))
             {
-                return RedirectToAction("Index", "Solicitud");
+                empleadosList = (from s in db.SolicitudEmpleadoes
+                                 where s.estatus.Equals("A")
+                                 orderby s.id
+                                 select s.Empleado).ToList();
+            }
+            else {
+                int idTemp = int.Parse(id);
+                solicitud = db.Solicituds.Find(idTemp);
+                
+                ViewBag.solicitud = solicitud;
+
+                empleadosList = (from s in db.SolicitudEmpleadoes
+                                                where s.solicitudId.Equals(idTemp)
+                                                orderby s.id
+                                                select s.Empleado).ToList();
             }
 
-            int idTemp = int.Parse(id);
-            Solicitud solicitud = db.Solicituds.Find(idTemp);
-
-            List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
-                                            where s.solicitudId.Equals(idTemp)
-                                            orderby s.id
-                                            select s.Empleado).ToList();
 
             SolicitudEmpleadoModel solicitudEmpleadoModel = new SolicitudEmpleadoModel();
 
@@ -205,14 +216,36 @@ namespace SUAMVC.Controllers
             {
                 return HttpNotFound();
             }
-            int empleadoId = id ?? default(int);
-            Solicitud solicitud = obtenerSolicitudActiva(empleadoId);
-            //            DocumentoEmpleado documentosEmpleado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleadoId)).FirstOrDefault();
-            //            SalarialesEmpleado salarialesEmpleado = db.SalarialesEmpleadoes.Where(se => se.empleadoId.Equals(empleadoId)).FirstOrDefault();
+            ToolsHelper th = new ToolsHelper();
 
+            //Obtenemos los tipos de documentos 
+            Concepto cv = th.obtenerConceptoPorGrupo("ARCHEMP", "CV");
+            Concepto docVarios = th.obtenerConceptoPorGrupo("ARCHEMP", "Documento");
+            Concepto contratos = th.obtenerConceptoPorGrupo("ARCHEMP", "Contratos");
+            Concepto psicometria = th.obtenerConceptoPorGrupo("ARCHEMP", "Psicometria");
+            Concepto confidencial = th.obtenerConceptoPorGrupo("ARCHEMP", "Confidencial");
+
+            // Obtenemos los documentos cargados para el empleado
+            ViewBag.docsCv = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+                && de.tipoArchivo.Equals(cv.id)).Count();
+            ViewBag.docsVarios = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+                && de.tipoArchivo.Equals(docVarios.id)).Count();
+            ViewBag.docsContratos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+                && de.tipoArchivo.Equals(contratos.id)).Count();
+            ViewBag.docsPsicomentricos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+                && de.tipoArchivo.Equals(psicometria.id)).Count();
+            ViewBag.docsConfidencial = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+                && de.tipoArchivo.Equals(confidencial.id)).Count();
+
+            //Obtenemos la solicitud del empleado
+            Solicitud solicitud = obtenerSolicitudActiva(empleado.id);
+            DocumentoEmpleado documentosEmpleado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)).FirstOrDefault();
+            SalarialesEmpleado salarialesEmpleado = db.SalarialesEmpleadoes.Where(se => se.empleadoId.Equals(empleado.id)).FirstOrDefault();
+
+            datosEmpleadoModel.solicitud = solicitud;
             datosEmpleadoModel.empleado = empleado;
-            //           datosEmpleadoModel.datosEmpleado = documentosEmpleado;
-            //           datosEmpleadoModel.salarialesEmpleado = salarialesEmpleado;
+            datosEmpleadoModel.datosEmpleado = documentosEmpleado;
+            datosEmpleadoModel.salarialesEmpleado = salarialesEmpleado;
 
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
             ViewBag.esquemaPagoId = new SelectList(db.EsquemasPagoes, "id", "descripcion", empleado.esquemaPagoId);
@@ -278,6 +311,10 @@ namespace SUAMVC.Controllers
         }
 
 
+        /*
+         * Nos vamos a la vista para subir la foto
+         * 
+         */
         [HttpGet]
         public ActionResult SubirFoto(int empleadoId)
         {
@@ -287,6 +324,9 @@ namespace SUAMVC.Controllers
             return View(empleado);
         }
 
+        /*
+         * Guardamos la foto del empleado segun su Id
+         */
         [HttpPost]
         public ActionResult GuardarFoto(int id)
         {
@@ -295,10 +335,36 @@ namespace SUAMVC.Controllers
             ToolsHelper th = new ToolsHelper();
 
             HttpFileCollectionBase files = Request.Files;
-            String destino = parametro.valorString.Trim();
-            th.cargarArchivo(files, destino);
+            String destino = parametro.valorString.Trim() + id + "\\" ;
+            String name = th.cargarArchivo(files, destino);
 
-            return RedirectToAction("Edit", "Empleados", new { empleadoId = id });
+            Empleado empleado = db.Empleados.Find(id);
+
+            if (empleado.foto.Contains(destino)) {
+                th.BorrarArchivo(empleado.foto);
+            }
+
+            empleado.foto = destino.Trim() + name.Trim();
+
+            db.Entry(empleado).State = EntityState.Modified;
+            try { 
+                db.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                foreach (var failure in ex.EntityValidationErrors)
+                {
+                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                    foreach (var error in failure.ValidationErrors)
+                    {
+                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                        sb.AppendLine();
+                    }
+                }
+            }
+            return RedirectToAction("Edit", "Empleados", new { id = id });
 
         }
 
@@ -348,13 +414,7 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Index", "Solicitudes");
         }
 
-        public ActionResult cambiarFoto(int id)
-        {
-
-
-            return RedirectToAction("Edit");
-        }
-
+      
         //BAJA EMPLEADOS
         // GET: BajaEmpleados
         public ActionResult BajaEmpleados(string id, string clienteId)
@@ -442,6 +502,25 @@ namespace SUAMVC.Controllers
 
         }
 
+
+        public ActionResult MyFoto(String foto)
+        {
+
+            FileInfo f = new FileInfo(foto);
+            
+            if (f.Exists)
+            {
+                FileStream s = f.Open(FileMode.Open, FileAccess.Read);
+
+                return File(s, "image/*");
+            }else{
+                f = new FileInfo("~/Content/Images/camera.png");
+                 FileStream s = f.Open(FileMode.Open, FileAccess.Read);
+                return File(s, "image/*");
+            }
+
+            
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

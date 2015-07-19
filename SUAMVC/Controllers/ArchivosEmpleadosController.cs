@@ -20,29 +20,50 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: ArchivosEmpleados
-        public ActionResult Index(String empleadoId)
+        public ActionResult Index(String empleadoId, String tipo)
         {
-            var archivosEmpleados = db.ArchivosEmpleados.Include(a => a.Concepto).Include(a => a.Empleado).Include(a => a.Usuario);
-            if (!String.IsNullOrEmpty(empleadoId))
+            if (!String.IsNullOrEmpty(tipo))
             {
-                int empId = int.Parse(empleadoId.Trim());
-                Empleado empleado = db.Empleados.Find(empId);
-                @ViewBag.folioEmpleado = empleado.folioEmpleado;
-                archivosEmpleados = archivosEmpleados.Where(a => a.empleadoId.Equals(empId));
+                ToolsHelper th = new ToolsHelper();
+                Concepto tipoArchivo = th.obtenerConceptoPorGrupo("ARCHEMP", tipo);
+
+                if (!String.IsNullOrEmpty(empleadoId) && tipoArchivo != null)
+                {
+                    int empId = int.Parse(empleadoId.Trim());
+                    Empleado empleado = db.Empleados.Find(empId);
+
+                    //Filtramos los archivos por id y tipo documento
+                    var archivosEmpleados = db.ArchivoEmpleadoes.
+                        Include(a => a.Concepto).Include(a => a.Empleado).Include(a => a.Usuario)
+                        .Where(a => a.empleadoId.Equals(empId) && a.tipoArchivo.Equals(tipoArchivo.id));;
+                    
+                    //Asignamos las variables a mostrar en la vista
+                    ViewBag.empleadoId = empleado.id;
+                    ViewBag.folioEmpleado = empleado.folioEmpleado;
+                    ViewBag.tipoArchivo = tipoArchivo.descripcion;
+                    ViewBag.nombreEmpleado = empleado.nombreCompleto;
+
+                    //ordenamos por fecha de creación
+                    archivosEmpleados = archivosEmpleados.OrderBy(a => a.fechaCreacion);
+
+                    return View(archivosEmpleados.ToList());
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Empleados");
+                }//empleadoId y tipoArchivo Diferente de Null?
             }
             else {
                 return RedirectToAction("Index", "Empleados");
-            }
-            archivosEmpleados = archivosEmpleados.OrderBy(a => a.fechaCreacion);
-
-            return View(archivosEmpleados.ToList());
+            }//tipoArchivo Diferente de Null?
+           
         }
 
                 
         // GET: ArchivosEmpleados/Create
         public ActionResult Create(String empleadoId)
         {
-            ArchivosEmpleado archivoEmpleado = new ArchivosEmpleado();
+            ArchivoEmpleado archivoEmpleado = new ArchivoEmpleado();
             if (!String.IsNullOrEmpty(empleadoId))
             {
                 int emplId = int.Parse(empleadoId);
@@ -60,7 +81,7 @@ namespace SUAMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,empleadoId,archivo,tipoArchivo,usuarioId,fechaCreacion")] 
-            ArchivosEmpleado archivosEmpleado, String usuarioId)
+            ArchivoEmpleado archivosEmpleado, String usuarioId)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +101,7 @@ namespace SUAMVC.Controllers
 
                     try
                     {
-                        db.ArchivosEmpleados.Add(archivosEmpleado);
+                        db.ArchivoEmpleadoes.Add(archivosEmpleado);
                         db.SaveChanges();
                     }
                     catch (DbEntityValidationException dbEx)
@@ -154,7 +175,7 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArchivosEmpleado archivosEmpleado = db.ArchivosEmpleados.Find(id);
+            ArchivoEmpleado archivosEmpleado = db.ArchivoEmpleadoes.Find(id);
             if (archivosEmpleado == null)
             {
                 return HttpNotFound();
@@ -169,9 +190,9 @@ namespace SUAMVC.Controllers
         {
             ToolsHelper th = new ToolsHelper();
 
-            ArchivosEmpleado archivosEmpleado = db.ArchivosEmpleados.Find(id);
+            ArchivoEmpleado archivosEmpleado = db.ArchivoEmpleadoes.Find(id);
             th.BorrarArchivo(archivosEmpleado.archivo.Trim());
-            db.ArchivosEmpleados.Remove(archivosEmpleado);
+            db.ArchivoEmpleadoes.Remove(archivosEmpleado);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -32,21 +32,21 @@
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.empleado.Solicitud.Cliente.descripcion)
+                        @Html.DisplayFor(model => model.solicitud.Cliente.descripcion)
                     </dd>
                     <dt>
                         @Html.Label(Language.proyecto)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.empleado.Solicitud.Proyecto.descripcion)
+                        @Html.DisplayFor(model => model.solicitud.Proyecto.descripcion)
                     </dd>
                     <dt>
                         @Html.Label(Language.plaza)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.empleado.Solicitud.Plaza.descripcion)
+                        @Html.DisplayFor(model => model.solicitud.Plaza.descripcion)
                     </dd>
                     <dt>
                         @Html.DisplayName(@Language.apellidoPaterno)
@@ -167,7 +167,7 @@
                     {
                         <a href="@Url.Action("SubirFoto", "Empleados" , new { empleadoid=Model.empleado.id })"
                            title="Cargar Documentos">
-                            <img src="@Url.Content(Model.empleado.foto.Trim())" alt="@Model.empleado.foto" width="120" height="130" />
+                            <img src="@Url.Action("MyFoto", "Empleados", new{ foto = Model.empleado.foto.Trim()})" alt="@Model.empleado.foto" width="120" height="130" />
                         </a>
                     }
                     else
@@ -317,18 +317,91 @@
                 <div class="foto-Marquee">
                     @if (!String.IsNullOrEmpty(foto))
                     {
-                        <img src="@Url.Content(Model.empleado.foto.Trim())" alt="@Model.empleado.nombre" width="120" height="130" />
+                        <img src="@Url.Action("MyFoto", "Empleados", new{ foto = Model.empleado.foto.Trim()})" alt="@Model.empleado.foto" width="120" height="130" />
                     }
                     else
                     {
                         <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
                     }
                 </div>
+                <div class="right-Marquee-inside">
+                    <table class="menu-archivos-table">
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "cv" })"
+                                   title="Ver documentos">
+                                    <img src="~/Content/Images/cv.png" alt="" style="border:none;" class="icon" />
+                                </a>
+                            </td>
+                            <td>Documentos CV</td>
+                            <td>
+                                @ViewBag.docsCv
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Documentos V" })"
+                                   title="Ver documentos">
+                                    <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
+                                </a>
+                            </td>
+                            <td>Documentos Varios</td>
+                            <td>
+                                @ViewBag.docsVarios
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Contratos" })"
+                                   title="Ver documentos">
+                                    <img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" />
+                                </a>
+                            </td>
+                            <td>Documentos Contratos</td>
+                            <td>
+                                @ViewBag.docsContratos
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Psicomentrico" })"
+                                   title="Ver documentos">
+                                    <img src="~/Content/Images/history.png" alt="" style="border:none;" class="icon" />
+                                </a>
+                            </td>
+                            <td>Documentos Psicometricos</td>
+                            <td>
+                                @ViewBag.docsPsicomentricos
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Confidencial" })"
+                                   title="Ver documentos">
+                                    <img src="~/Content/Images/people-b.png" alt="" style="border:none;" class="icon" />
+                                </a>
+                            </td>
+                            <td>Documentos Confidenciales</td>
+                            <td>
+                                @ViewBag.docsConfidencial
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("create", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id })" id="cargarLink"
+                                   title="Cargar Documentos">
+                                    <img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" />
+                                </a>
+                            </td>
+                            <td>
+                                <p>@Language.agregar Documentos</p>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
             </div>
-            <a href="@Url.Action("create", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id })" id="cargarLink"
-               title="Cargar Documentos">
-                <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
-            </a>
+
         </div>
         <div id="tabs-3" style="overflow:hidden; min-height:401px;">
             <div class="left-Marquee">
@@ -422,7 +495,7 @@
                 <div class="foto-Marquee">
                     @if (!String.IsNullOrEmpty(foto))
                     {
-                        <img src="@Url.Content(Model.empleado.foto.Trim())" alt="@Model.empleado.nombre" width="120" height="130" />
+                        <img src="@Url.Action("MyFoto", "Empleados", new{ foto = Model.empleado.foto.Trim()})" alt="@Model.empleado.foto" width="120" height="130" />
                     }
                     else
                     {
@@ -468,7 +541,7 @@
                 <div class="foto-Marquee">
                     @if (!String.IsNullOrEmpty(foto))
                     {
-                        <img src="@Url.Content(Model.empleado.foto.Trim())" alt="@Model.empleado.nombre" width="120" height="130" />
+                        <img src="@Url.Action("MyFoto", "Empleados", new{ foto = Model.empleado.foto.Trim()})" alt="@Model.empleado.foto" width="120" height="130" />
                     }
                     else
                     {
