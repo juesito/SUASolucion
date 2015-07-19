@@ -380,6 +380,27 @@ namespace SUAMVC.Controllers
             return View(listEmpleados);
         }
 
+        //Modificar Empleado
+        // GET: ModificarEmpleado
+        public ActionResult ModificarEmpleado(int id, string clienteId)
+        {
+
+            List<Empleado> listEmpleados = new List<Empleado>();
+            int clienteTempId = int.Parse(clienteId);
+            Solicitud solicitud = db.Solicituds.Find(id);
+
+            ViewBag.solicitudId = id;
+
+            var empleados = db.Empleados.Where(c => c.Solicitud.clienteId.Equals(clienteTempId) && c.estatus.Equals("A"));
+            foreach (Empleado emp in empleados)
+            {
+                emp.fechaBaja = solicitud.fechaBaja;
+                listEmpleados.Add(emp);
+            }
+
+            return View(listEmpleados);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
