@@ -72,7 +72,6 @@ namespace SUADATOS
         public virtual DbSet<Servicio> Servicios { get; set; }
         public virtual DbSet<Sexo> Sexos { get; set; }
         public virtual DbSet<Solicitud> Solicituds { get; set; }
-        public virtual DbSet<SolicitudEmpleado> SolicitudEmpleadoes { get; set; }
         public virtual DbSet<SumarizadoCliente> SumarizadoClientes { get; set; }
         public virtual DbSet<TipoContrato> TipoContratoes { get; set; }
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }

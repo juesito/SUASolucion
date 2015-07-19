@@ -94,6 +94,7 @@ namespace SUAMVC.Controllers
 
                 proyecto.fechaCreacion = DateTime.Now;
                 proyecto.usuarioId = usuario.Id;
+                proyecto.descripcion = proyecto.descripcion.Trim();
                 db.Entry(proyecto).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

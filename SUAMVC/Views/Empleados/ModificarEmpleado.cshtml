@@ -31,11 +31,15 @@
 
 
     gridColumns.Add(grid.Column("fechaAltaImss", "Fecha Ingreso", @<text><div style='width: 6em'>@item.fechaCreacion.ToString("dd-MM-yyyy")</div></text>, null, canSort: true));
-    gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja",
+    gridColumns.Add(grid.Column("fechaModificacion", "Fecha Modificación",
         @<text><div style='width: 6em'>
                 @if (@item.fechaBaja != null)
                 { @item.fechaBaja.ToString("dd-MM-yyyy")}
             </div></text>, null, canSort: true));
+    gridColumns.Add(grid.Column("sdiId", "SDI", @<text> @if (@item.sdi != null)
+    {@item.sdiId.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("banco", "Banco", @<text> @if (@item.banco != null)
+    {@item.banco.descripcion }</text>, canSort: true));
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {
         gridColumns.Add(grid.Column(header: "Ver", format: @<text><a href="@Url.Action("Details", "Empleados", new { id = item.id })"><img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" /></a></text>));
@@ -98,7 +102,7 @@
 
 @if (!tableHtml.IsEmpty())
 {
-    using (Html.BeginForm("asignarEmpleado", "Empleados", new {solicitudId=solicitudId}))
+    using (Html.BeginForm("asignarEmpleado", "Empleados", new { solicitudId = solicitudId }))
     {
         <div id="table-container" class="table-container">
             <div class="bottom">
