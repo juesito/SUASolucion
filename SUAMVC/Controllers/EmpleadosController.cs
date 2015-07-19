@@ -22,14 +22,25 @@ namespace SUAMVC.Controllers
         public ActionResult Index(string id)
         {
 
-            var empleados = db.Empleados.Include(e => e.Banco).Include(e => e.EstadoCivil).Include(e => e.Pais).Include(e => e.Sexo).Include(e => e.Solicitud).Include(e => e.Usuario);
-            if (!String.IsNullOrEmpty(id))
+            if (String.IsNullOrEmpty(id))
             {
-                int idTemp = int.Parse(id);
-                empleados = empleados.Where(s => s.solicitudId.Equals(idTemp));
+                return RedirectToAction("Index", "Solicitud");
             }
 
-            return View(empleados.ToList());
+            int idTemp = int.Parse(id);
+            Solicitud solicitud = db.Solicituds.Find(idTemp);
+
+            List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
+                                            where s.solicitudId.Equals(idTemp)
+                                            orderby s.id
+                                            select s.Empleado).ToList();
+
+            SolicitudEmpleadoModel solicitudEmpleadoModel = new SolicitudEmpleadoModel();
+
+            solicitudEmpleadoModel.solicitud = solicitud;
+            solicitudEmpleadoModel.empleados = empleadosList;
+
+            return View(solicitudEmpleadoModel);
         }
 
         //agregar empleado
@@ -40,7 +51,7 @@ namespace SUAMVC.Controllers
             {
                 foreach (String empleadoId in ids)
                 {
- //buscar el empleadoiD en db.Empleados y cambia el estatus a B. con la fecha de baja de la solicitud
+                    //buscar el empleadoiD en db.Empleados y cambia el estatus a B. con la fecha de baja de la solicitud
                     int empleadoTempId = int.Parse(empleadoId);
                     empleado = db.Empleados.Find(empleadoTempId);
                     empleado.estatus = "B";
@@ -72,10 +83,10 @@ namespace SUAMVC.Controllers
             Empleado empleado = new Empleado();
             Solicitud solicitud = db.Solicituds.Find(id);
 
-            empleado.Solicitud = solicitud;
-            empleado.solicitudId = id;
             empleado.tramitarTarjeta = 0;
             empleado.tieneInfonavit = 1;
+            ViewBag.solicitudId = id;
+
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion");
             ViewBag.esquemaPagoId = new SelectList(db.EsquemasPagoes, "id", "descripcion");
             ViewBag.estadoCivilId = new SelectList(db.EstadoCivils, "id", "descripcion");
@@ -92,7 +103,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,solicitudId,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,nombreCompleto,rfc,homoclave,curp,sexoId,sdiId,esquemaPagoId,salarioReal,categoria,tieneInfonavit,creditoInfonavit,estadoCivilId,fechaNacimiento,nacionalidadId,estadoNacimientoId,municipioNacimientoId,calleNumero,colonia,edoMunicipio,codigoPostal,tramitarTarjeta,bancoId,cuentaBancaria,email,observaciones,usuarioId,fechaCreacion,estatus")] Empleado empleado)
+        public ActionResult Create([Bind(Include = "id,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,nombreCompleto,rfc,homoclave,curp,sexoId,sdiId,esquemaPagoId,salarioReal,categoria,tieneInfonavit,creditoInfonavit,estadoCivilId,fechaNacimiento,nacionalidadId,estadoNacimientoId,municipioNacimientoId,calleNumero,colonia,edoMunicipio,codigoPostal,tramitarTarjeta,bancoId,cuentaBancaria,email,observaciones,usuarioId,fechaCreacion,estatus")] Empleado empleado, int solicitudId)
         {
             if (ModelState.IsValid)
             {
@@ -131,15 +142,17 @@ namespace SUAMVC.Controllers
                 empleado.foto = empleado.foto.Trim();
                 db.Empleados.Add(empleado);
 
+
                 try
                 {
                     db.SaveChanges();
+                    crearSolicitudEmpleado(empleado.id, solicitudId, usuario.Id, "Alta");
 
                     //Obtenemos la solicitud par modificar el noTrabjadores
                     //a su vez con ella obtener el folio de Solicitud para generar el folioEmpleado
-                    Solicitud solicitud = db.Solicituds.Find(empleado.solicitudId);
+                    Solicitud solicitud = obtenerSolicitudActiva(empleado.id);
                     solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
-                    
+
                     empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
 
                     //Preparamos las entidades para guardar
@@ -164,7 +177,7 @@ namespace SUAMVC.Controllers
                     }
                 }
 
-                return RedirectToAction("Index", "Solicitudes", new { id = empleado.solicitudId });
+                return RedirectToAction("Index", "Solicitudes", new { id = solicitudId });
             }
 
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
@@ -193,12 +206,13 @@ namespace SUAMVC.Controllers
                 return HttpNotFound();
             }
             int empleadoId = id ?? default(int);
-//            DocumentoEmpleado documentosEmpleado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleadoId)).FirstOrDefault();
-//            SalarialesEmpleado salarialesEmpleado = db.SalarialesEmpleadoes.Where(se => se.empleadoId.Equals(empleadoId)).FirstOrDefault();
+            Solicitud solicitud = obtenerSolicitudActiva(empleadoId);
+            //            DocumentoEmpleado documentosEmpleado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleadoId)).FirstOrDefault();
+            //            SalarialesEmpleado salarialesEmpleado = db.SalarialesEmpleadoes.Where(se => se.empleadoId.Equals(empleadoId)).FirstOrDefault();
 
             datosEmpleadoModel.empleado = empleado;
- //           datosEmpleadoModel.datosEmpleado = documentosEmpleado;
- //           datosEmpleadoModel.salarialesEmpleado = salarialesEmpleado;
+            //           datosEmpleadoModel.datosEmpleado = documentosEmpleado;
+            //           datosEmpleadoModel.salarialesEmpleado = salarialesEmpleado;
 
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
             ViewBag.esquemaPagoId = new SelectList(db.EsquemasPagoes, "id", "descripcion", empleado.esquemaPagoId);
@@ -208,7 +222,7 @@ namespace SUAMVC.Controllers
             ViewBag.nacionalidadId = new SelectList(db.Paises, "id", "descripcion", empleado.nacionalidadId);
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", empleado.sdiId);
             ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion", empleado.sexoId);
-            ViewBag.solicitudId = new SelectList(db.Solicituds, "id", "solicita", empleado.solicitudId);
+            ViewBag.solicitudId = new SelectList(db.Solicituds, "id", "solicita", solicitud.id);
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", empleado.usuarioId);
             return View(datosEmpleadoModel);
         }
@@ -265,8 +279,9 @@ namespace SUAMVC.Controllers
 
 
         [HttpGet]
-        public ActionResult SubirFoto(int empleadoId) { 
-            
+        public ActionResult SubirFoto(int empleadoId)
+        {
+
             Empleado empleado = db.Empleados.Find(empleadoId);
 
             return View(empleado);
@@ -283,11 +298,9 @@ namespace SUAMVC.Controllers
             String destino = parametro.valorString.Trim();
             th.cargarArchivo(files, destino);
 
-            return RedirectToAction("Edit", "Empleados", new { empleadoId = id});
+            return RedirectToAction("Edit", "Empleados", new { empleadoId = id });
 
         }
-
-
 
 
         public ActionResult CargarEmpleadosPorExcel(int id)
@@ -352,18 +365,81 @@ namespace SUAMVC.Controllers
             int solicitudId = int.Parse(id);
             Solicitud solicitud = db.Solicituds.Find(solicitudId);
 
-            var empleados = db.Empleados.Where(c => c.Solicitud.clienteId.Equals(clienteTempId));
-            //if (!String.IsNullOrEmpty(id))
-            //{
-            //    int idTemp = int.Parse(id);
-            //    empleados = empleados.Where(s => s.Solicitud.Equals(idTemp));
-            //}
-            foreach (Empleado emp in empleados) {
+            List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
+                                            join e in db.Empleados on s.empleadoId equals e.id
+                                            where e.estatus.Equals("A")
+                                            orderby s.id
+                                            select s.Empleado).ToList();
+
+            foreach (Empleado emp in empleadosList)
+            {
                 emp.fechaBaja = solicitud.fechaBaja;
                 listEmpleados.Add(emp);
             }
 
             return View(listEmpleados);
+        }
+
+        public ActionResult validarNss(String nss)
+        {
+            ToolsHelper th = new ToolsHelper();
+            Empleado empleado = th.obtenerEmpleadoPorNSS(nss.Trim());
+
+
+
+            if (empleado == null)
+            {
+                ViewBag.editMode = true;
+                return Json("");
+            }
+            else
+            {
+                ViewBag.editMode = false;
+                // Json(new { ok = true, newurl = Url.Action("Create") });
+                return RedirectToAction("Create", "Empleados", empleado);
+            }
+        }
+
+        public Solicitud obtenerSolicitudActiva(int empleadoId)
+        {
+
+            Solicitud solicitud = (from s in db.SolicitudEmpleadoes
+                                   where s.empleadoId.Equals(empleadoId)
+                                   && s.estatus.Equals("A")
+                                   select s.Solicitud).FirstOrDefault();
+            return solicitud;
+        }
+
+        /*
+         * Se crea el registro para relacionar empleados con solicitud
+         */
+        public void crearSolicitudEmpleado(int empleadoId, int solicitudId, int usuarioId, String tipo)
+        {
+            ToolsHelper th = new ToolsHelper();
+            Concepto concepto = th.obtenerConceptoPorGrupo("SOLCON", tipo);
+
+            var solicitudesEmpleado = db.SolicitudEmpleadoes.Where(se => se.empleadoId.Equals(empleadoId)
+                && se.estatus.Equals("A")).ToList();
+
+            foreach (SolicitudEmpleado solist in solicitudesEmpleado)
+            {
+                solist.estatus = "B";
+                db.Entry(solist).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            //Creamos y guardamos el registro para el amarre de la soicitud
+            SolicitudEmpleado solicitudEmpleado = new SolicitudEmpleado();
+            solicitudEmpleado.empleadoId = empleadoId;
+            solicitudEmpleado.solicitudId = solicitudId;
+            solicitudEmpleado.estatus = "A";
+            solicitudEmpleado.tipoId = concepto.id;
+            solicitudEmpleado.fechaCreacion = DateTime.Now;
+            solicitudEmpleado.usuarioId = usuarioId;
+
+            db.SolicitudEmpleadoes.Add(solicitudEmpleado);
+            db.SaveChanges();
+
         }
 
         protected override void Dispose(bool disposing)

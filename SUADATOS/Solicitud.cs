@@ -16,7 +16,7 @@ namespace SUADATOS
     {
         public Solicitud()
         {
-            this.Empleados = new HashSet<Empleado>();
+            this.SolicitudEmpleadoes = new HashSet<SolicitudEmpleado>();
         }
     
         public int id { get; set; }
@@ -56,7 +56,6 @@ namespace SUADATOS
         public virtual Concepto Concepto3 { get; set; }
         public virtual Concepto Concepto4 { get; set; }
         public virtual Concepto Concepto5 { get; set; }
-        public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual EsquemasPago EsquemasPago { get; set; }
         public virtual Plaza Plaza { get; set; }
         public virtual Proyecto Proyecto { get; set; }
@@ -65,5 +64,6 @@ namespace SUADATOS
         public virtual TipoContrato TipoContrato { get; set; }
         public virtual TipoPersonal TipoPersonal { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<SolicitudEmpleado> SolicitudEmpleadoes { get; set; }
     }
 }

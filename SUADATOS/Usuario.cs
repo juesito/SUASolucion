@@ -48,6 +48,7 @@ namespace SUADATOS
             this.Servicios = new HashSet<Servicio>();
             this.Sexos = new HashSet<Sexo>();
             this.Solicituds = new HashSet<Solicitud>();
+            this.SolicitudEmpleadoes = new HashSet<SolicitudEmpleado>();
             this.SumarizadoClientes = new HashSet<SumarizadoCliente>();
             this.TipoContratoes = new HashSet<TipoContrato>();
             this.TipoPersonals = new HashSet<TipoPersonal>();
@@ -103,6 +104,7 @@ namespace SUADATOS
         public virtual ICollection<Servicio> Servicios { get; set; }
         public virtual ICollection<Sexo> Sexos { get; set; }
         public virtual ICollection<Solicitud> Solicituds { get; set; }
+        public virtual ICollection<SolicitudEmpleado> SolicitudEmpleadoes { get; set; }
         public virtual ICollection<SumarizadoCliente> SumarizadoClientes { get; set; }
         public virtual ICollection<TipoContrato> TipoContratoes { get; set; }
         public virtual ICollection<TipoPersonal> TipoPersonals { get; set; }
