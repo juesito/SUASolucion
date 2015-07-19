@@ -22,10 +22,10 @@
             @Html.DisplayName(@Language.descripcion)
         </th>
         <th>
-            @Html.DisplayName(@Language.fechaAlta)
+            @Html.DisplayName(@Language.pais)
         </th>
         <th>
-            @Html.DisplayName(@Language.pais)
+            @Html.DisplayName(@Language.fechaAlta)
         </th>
         <th>
             @Html.DisplayName(@Language.usuarioAlta)
@@ -39,10 +39,10 @@
             @Html.DisplayFor(modelItem => item.descripcion)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.fechaCreacion)
+            @Html.DisplayFor(modelItem => item.Pais.descripcion)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Pais.descripcion)
+            @Html.DisplayFor(modelItem => item.fechaCreacion)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)

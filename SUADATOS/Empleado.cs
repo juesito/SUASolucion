@@ -21,10 +21,10 @@ namespace SUADATOS
             this.DocumentoEmpleadoes = new HashSet<DocumentoEmpleado>();
             this.FamiliaresEmpleadoes = new HashSet<FamiliaresEmpleado>();
             this.SalarialesEmpleadoes = new HashSet<SalarialesEmpleado>();
+            this.SolicitudEmpleadoes = new HashSet<SolicitudEmpleado>();
         }
     
         public int id { get; set; }
-        public int solicitudId { get; set; }
         public string folioEmpleado { get; set; }
         public string nss { get; set; }
         public Nullable<System.DateTime> fechaAltaImss { get; set; }
@@ -76,9 +76,9 @@ namespace SUADATOS
         public virtual Pais Pais { get; set; }
         public virtual SDI SDI { get; set; }
         public virtual Sexo Sexo { get; set; }
-        public virtual Solicitud Solicitud { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual ICollection<FamiliaresEmpleado> FamiliaresEmpleadoes { get; set; }
         public virtual ICollection<SalarialesEmpleado> SalarialesEmpleadoes { get; set; }
+        public virtual ICollection<SolicitudEmpleado> SolicitudEmpleadoes { get; set; }
     }
 }

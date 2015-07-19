@@ -59,6 +59,7 @@ namespace SUAMVC.Controllers
                         {
                             var topicoTemp = (from t in db.Plazas
                                               where t.indicador.Equals("U")
+                                              orderby t.descripcion
                                               select new { t.id, t.descripcion }).ToList();
                             topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.id, x.descripcion)));
 
@@ -87,6 +88,7 @@ namespace SUAMVC.Controllers
                         else
                         {
                             var topicoTemp = (from t in db.Clientes
+                                              orderby t.descripcion
                                               select new { t.Id, t.descripcion }).ToList();
                             topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.descripcion)));
 
@@ -115,6 +117,7 @@ namespace SUAMVC.Controllers
                         else
                         {
                             var topicoTemp = (from t in db.Patrones
+                                              orderby t.nombre
                                               select new { t.Id, t.nombre, t.registro }).ToList();
                             topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.registro + " - " + x.nombre)));
 
@@ -139,6 +142,7 @@ namespace SUAMVC.Controllers
                         else
                         {
                             var topicoTemp = (from t in db.Grupos
+                                              orderby t.nombre
                                               select new { t.Id, t.claveGrupo, t.nombre }).ToList();
                             topicoTemp.ToList().ForEach(x => tpum.topicos.Add(new Topico(x.Id, x.claveGrupo + " - " + x.nombre)));
 
@@ -153,7 +157,7 @@ namespace SUAMVC.Controllers
                         break;
 
                 }
-
+                
                 return View(tpum);
 
 

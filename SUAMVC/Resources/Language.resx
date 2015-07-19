@@ -752,4 +752,16 @@
     <value>Salario Real</value>
     <comment>Etiqueta para Salario Real</comment>
   </data>
+  <data name="avanzar" xml:space="preserve">
+    <value>Avanzar</value>
+    <comment>Etiqueta para Avanzar en paginado</comment>
+  </data>
+  <data name="retroceder" xml:space="preserve">
+    <value>Retroceder</value>
+    <comment>Etiqueta para Retroceder en paginado</comment>
+  </data>
+  <data name="parametros" xml:space="preserve">
+    <value>parametros</value>
+    <comment>Etiqueta Parámetros</comment>
+  </data>
 </root>

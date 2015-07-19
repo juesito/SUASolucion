@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SUADATOS.Empleado>
+﻿@model  SUAMVC.Models.SolicitudEmpleadoModel
 @using SUADATOS
 @using SUAMVC.Models
 @using System.Text;
@@ -12,7 +12,7 @@
     }
     Usuario usuario = Session["UsuarioData"] as Usuario;
 
-    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+    var grid = new WebGrid(source: Model.empleados, rowsPerPage: 10);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
     //Creamos una lista de columnas
