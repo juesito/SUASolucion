@@ -32,18 +32,18 @@ namespace SUAMVC.Controllers
                                  where s.estatus.Equals("A")
                                  orderby s.id
                                  select s.Empleado).ToList();
->>>>>>> origin/2daEtapa
             }
-            else {
-            int idTemp = int.Parse(id);
+            else
+            {
+                int idTemp = int.Parse(id);
                 solicitud = db.Solicituds.Find(idTemp);
 
                 ViewBag.solicitud = solicitud;
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
-                                            where s.solicitudId.Equals(idTemp)
-                                            orderby s.id
-                                            select s.Empleado).ToList();
+                                 where s.solicitudId.Equals(idTemp)
+                                 orderby s.id
+                                 select s.Empleado).ToList();
             }
 
 
@@ -59,8 +59,12 @@ namespace SUAMVC.Controllers
         public ActionResult asignarEmpleado(String[] ids, string solicitudId)
         {
             Empleado empleado = new Empleado();
+            Usuario usuario = Session["UsuarioData"] as Usuario;
             int solicitudTempId = int.Parse(solicitudId);
             Solicitud solicitud = db.Solicituds.Find(solicitudTempId);
+
+            ToolsHelper th = new ToolsHelper();
+
             if (ids != null && ids.Length > 0)
             {
                 foreach (String empleadoId in ids)
@@ -68,28 +72,30 @@ namespace SUAMVC.Controllers
                     //buscar el empleadoiD en db.Empleados y cambia el estatus a B. con la fecha de baja de la solicitud
                     int empleadoTempId = int.Parse(empleadoId);
                     empleado = db.Empleados.Find(empleadoTempId);
-                    
-                    Solicitud solicitudEmpleado = db.Solicituds.Find(empleado.solicitudId);
+
+                    //Obtenemos la solicitud antigua
+                    Solicitud solicitudEmpleado = obtenerSolicitudActiva(empleado.id);
                     solicitudEmpleado.noTrabajadores = solicitudEmpleado.noTrabajadores - 1;
                     empleado.estatus = "B";
                     empleado.fechaBaja = solicitud.fechaBaja;
 
-
- //Solicitud para modificar el noTrabjadores
+                    //Solicitud para modificar el noTrabjadores
                     solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
 
-                    empleado.solicitudId = solicitud.id;
+                    //Creamos el registro en solicitudEmpleados para agregar el empleado a otra solicitud activa
+                    crearSolicitudEmpleado(empleado.id, solicitud.id, usuario.Id, "Baja");
+                    
                     empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
 
                     db.Entry(solicitudEmpleado).State = EntityState.Modified;
                     db.Entry(solicitud).State = EntityState.Modified;
-            db.Entry(empleado).State = EntityState.Modified;
-            db.SaveChanges();
-        }
+                    db.Entry(empleado).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
 
             }
 
-            return RedirectToAction("BajaEmpleados", "Empleados", new {id=solicitud.id, clienteId = solicitud.clienteId });
+            return RedirectToAction("BajaEmpleados", "Empleados", new { id = solicitud.id, clienteId = solicitud.clienteId });
         }
 
         // GET: Empleados/Details/5
@@ -354,19 +360,21 @@ namespace SUAMVC.Controllers
             ToolsHelper th = new ToolsHelper();
 
             HttpFileCollectionBase files = Request.Files;
-            String destino = parametro.valorString.Trim() + id + "\\" ;
+            String destino = parametro.valorString.Trim() + id + "\\";
             String name = th.cargarArchivo(files, destino);
 
             Empleado empleado = db.Empleados.Find(id);
 
-            if (empleado.foto.Contains(destino)) {
+            if (empleado.foto.Contains(destino))
+            {
                 th.BorrarArchivo(empleado.foto);
             }
 
             empleado.foto = destino.Trim() + name.Trim();
 
             db.Entry(empleado).State = EntityState.Modified;
-            try { 
+            try
+            {
                 db.SaveChanges();
             }
             catch (DbEntityValidationException ex)
@@ -441,16 +449,9 @@ namespace SUAMVC.Controllers
 
             List<Empleado> listEmpleados = new List<Empleado>();
             int clienteTempId = int.Parse(clienteId);
-<<<<<<< HEAD
             Solicitud solicitud = db.Solicituds.Find(id);
 
             ViewBag.solicitudId = id;
-
-            var empleados = db.Empleados.Where(c => c.Solicitud.clienteId.Equals(clienteTempId) && c.estatus.Equals("A"));
-            foreach (Empleado emp in empleados) {
-=======
-            int solicitudId = int.Parse(id);
-            Solicitud solicitud = db.Solicituds.Find(solicitudId);
 
             List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
                                             join e in db.Empleados on s.empleadoId equals e.id
@@ -460,7 +461,6 @@ namespace SUAMVC.Controllers
 
             foreach (Empleado emp in empleadosList)
             {
->>>>>>> origin/2daEtapa
                 emp.fechaBaja = solicitud.fechaBaja;
                 listEmpleados.Add(emp);
             }
@@ -468,7 +468,6 @@ namespace SUAMVC.Controllers
             return View(listEmpleados);
         }
 
-<<<<<<< HEAD
         //Modificar Empleado
         // GET: ModificarEmpleado
         public ActionResult ModificarEmpleado(int id, string clienteId)
@@ -480,15 +479,21 @@ namespace SUAMVC.Controllers
 
             ViewBag.solicitudId = id;
 
-            var empleados = db.Empleados.Where(c => c.Solicitud.clienteId.Equals(clienteTempId) && c.estatus.Equals("A"));
-            foreach (Empleado emp in empleados)
+            List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
+                                            join e in db.Empleados on s.empleadoId equals e.id
+                                            where s.Solicitud.clienteId.Equals(clienteTempId)
+                                            && e.estatus.Equals("A")
+                                            orderby s.id
+                                            select s.Empleado).ToList();
+            foreach (Empleado emp in empleadosList)
             {
                 emp.fechaBaja = solicitud.fechaBaja;
                 listEmpleados.Add(emp);
             }
 
             return View(listEmpleados);
-=======
+        }
+
         public ActionResult validarNss(String nss)
         {
             ToolsHelper th = new ToolsHelper();
@@ -556,19 +561,21 @@ namespace SUAMVC.Controllers
         {
 
             FileInfo f = new FileInfo(foto);
-            
+
             if (f.Exists)
             {
                 FileStream s = f.Open(FileMode.Open, FileAccess.Read);
 
                 return File(s, "image/*");
-            }else{
+            }
+            else
+            {
                 f = new FileInfo("~/Content/Images/camera.png");
-                 FileStream s = f.Open(FileMode.Open, FileAccess.Read);
+                FileStream s = f.Open(FileMode.Open, FileAccess.Read);
                 return File(s, "image/*");
-        }
+            }
 
-            
+
         }
         protected override void Dispose(bool disposing)
         {
