@@ -12,28 +12,19 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class SalarialesEmpleado
+    public partial class SolicitudEmpleado
     {
         public int id { get; set; }
+        public int solicitudId { get; set; }
         public int empleadoId { get; set; }
-        public Nullable<decimal> salarioMensual { get; set; }
-        public Nullable<decimal> salarioHrsExtra { get; set; }
-        public Nullable<int> descuentos { get; set; }
-        public Nullable<decimal> montoInfonavit { get; set; }
-        public string creditoFonacot { get; set; }
-        public Nullable<decimal> importeFonacot { get; set; }
-        public Nullable<int> fonacotDescuentos { get; set; }
-        public string numeroPrestamo { get; set; }
-        public Nullable<decimal> importePrestamo { get; set; }
-        public Nullable<decimal> prestamoDescuentos { get; set; }
-        public Nullable<decimal> porcientoPension { get; set; }
-        public Nullable<decimal> importePension { get; set; }
-        public Nullable<int> periodoId { get; set; }
+        public int tipoId { get; set; }
+        public string estatus { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
         public virtual Concepto Concepto { get; set; }
         public virtual Empleado Empleado { get; set; }
+        public virtual Solicitud Solicitud { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
 }

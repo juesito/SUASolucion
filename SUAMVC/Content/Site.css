@@ -29,8 +29,8 @@ textarea {
 }
 
 .table-container {
-    overflow-x:scroll;
-    min-height:450px;
+    overflow-x: scroll;
+    min-height: 450px;
 }
 
 .icon { /*Some CSS to set the background image (not tested) */
@@ -93,7 +93,7 @@ textarea {
     padding: 0px;
     margin-top: 2px;
     text-align: left;
-/*    width: 40%;  */
+    /*    width: 40%;  */
     height: 40px;
     margin-left: 0px;
     margin-right: 0px;
@@ -323,14 +323,14 @@ table-fixed {
     display: block;
 }
 
-.table-fixed  tr:after {
+    .table-fixed tr:after {
         content: ' ';
         display: block;
         visibility: hidden;
         clear: both;
     }
 
-.table-fixed thead th {
+    .table-fixed thead th {
         height: 30px;
         /*text-align: left;*/
     }
@@ -345,59 +345,86 @@ table-fixed {
 }
 
 
-.table-fixed tbody td, .table-fixed thead th {
+    .table-fixed tbody td, .table-fixed thead th {
         float: left;
-        white-space:nowrap;
+        white-space: nowrap;
     }
 
 .marqueeFilter {
-    background-color:#F9F9F9;
-    min-height:150px;
-    border-spacing:1.0rem;
-    min-height:80px;
-    border:1px #2E538A solid;
+    background-color: #F9F9F9;
+    min-height: 150px;
+    border-spacing: 1.0rem;
+    min-height: 80px;
+    border: 1px #2E538A solid;
     color: #2E538A;
     box-shadow: 10px 10px 1px #2E538A;
-    -moz-border-radius-bottomleft:3px;
-	-webkit-border-bottom-left-radius:3px;
-    border-bottom-left-radius:3px;
-    margin-bottom:10px;
-    padding-left:10px;
-
+    -moz-border-radius-bottomleft: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    margin-bottom: 10px;
+    padding-left: 10px;
 }
 
     .marqueeFilter table {
-        font-size:11px;    
+        font-size: 11px;
     }
 
     .marqueeFilter td {
-        min-width:50px;    
+        min-width: 50px;
     }
 
 .left-Marquee {
-    float:left;
-    clear:right;
-    display:inline;
-    vertical-align:top;
-    height:400px;
-    width:500px;
-    border-right: 1px dotted #151E49;
+    float: left;
+    clear: right;
+    display: inline;
+    vertical-align: top;
+    height: 400px;
+    width: 500px;
 }
+
 .right-Marquee {
-    float:left;
-    display:inline;
-    vertical-align:top;
-    height:400px;
-    width:500px;
+    float: left;
+    display: inline;
+    vertical-align: top;
+    height: 400px;
+    width: 550px;
+}
+
+.right-Marquee-inside {
+    float: right;
+    vertical-align: top;
+    height: 350px;
+    width: 250px;
+    border: 1px solid #2E538A;
+    display: inline-block;
+    margin: 20px 20px;
+    background-color: #B0E1EE;
+    border-radius: 25px;
 }
 
 .foto-Marquee {
-    height:200px;
-    width:200px;
-    padding-top:30px;
-    margin:50px 20px;
-    border:1px solid #151E49;
+    height: 200px;
+    width: 200px;
+    padding-top: 30px;
+    margin: 50px 20px;
+    border: 1px solid #151E49;
     border-radius: 25px;
     background: #2A538A;
-    text-align:center;
+    text-align: center;
+    clear: both;
+    display: inline-block;
 }
+
+.menu-archivos-table {
+    border-radius: 25px;
+    border: none;
+    background-color: #B0E1EE;
+    width: 200px;
+    height: 340px;
+    color:#2A538A;
+}
+
+    .menu-archivos-table td {
+        margin: 10px;
+        padding: 10px;
+    }

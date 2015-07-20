@@ -1,12 +1,17 @@
-﻿@model SUADATOS.Empleado
+﻿@model SUAMVC.Models.DatosEmpleadoModel
+@using SUADATOS
+@using SUAMVC.Models
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalles de empleado";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+
+    String foto = Model.empleado.foto;
 }
 
 @section Menu {
-    <div>Ver empleado : @Html.DisplayFor(model => model.nombreCompleto)<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Ver empleado : @Html.DisplayFor(model => model.empleado.nombreCompleto)<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 <div id="tabs" style="font-size:10px;">
@@ -16,7 +21,9 @@
         <li><a href="#tabs-3">Salariales</a></li>
         <li><a href="#tabs-4">SUA</a></li>
     </ul>
-    <div id="tabs-1" style="overflow:hidden; min-height:401px;">
+
+    <!-- Pestaña numero 1 datos personales -->
+    <div id="tabs-1" style="overflow:hidden; min-height:470px;">
         <div class="left-Marquee">
             <dl class="dl-horizontal">
                 <dt>
@@ -24,117 +31,117 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Solicitud.Cliente.descripcion)
+                    @Html.DisplayFor(model => model.solicitud.Cliente.descripcion)
                 </dd>
                 <dt>
                     @Html.Label(Language.proyecto)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Solicitud.Proyecto.descripcion)
+                    @Html.DisplayFor(model => model.solicitud.Proyecto.descripcion)
                 </dd>
                 <dt>
                     @Html.Label(Language.plaza)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Solicitud.Plaza.descripcion)
+                    @Html.DisplayFor(model => model.solicitud.Plaza.descripcion)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.apellidoPaterno)
+                    @Html.DisplayName(@Language.apellidoPaterno)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.apellidoPaterno)
+                    @Html.DisplayFor(model => model.empleado.apellidoPaterno)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.apellidoMaterno)
+                    @Html.DisplayName(@Language.apellidoMaterno)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.apellidoMaterno)
+                    @Html.DisplayFor(model => model.empleado.apellidoMaterno)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.nombre)
+                    @Html.DisplayName(@Language.nombre)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.nombre)
+                    @Html.DisplayFor(model => model.empleado.nombre)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.nss)
+                    @Html.DisplayName(@Language.nss)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.nss)
+                    @Html.DisplayFor(model => model.empleado.nss)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.categoria)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.categoria)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.fechaCreacion)
+                    @Html.DisplayName(@Language.categoria)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.fechaCreacion)
+                    @Html.DisplayFor(model => model.empleado.categoria)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.fechaBaja)
+                    @Html.DisplayName(@Language.fechaAlta)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.fechaBaja)
+                    @Html.DisplayFor(model => model.empleado.fechaCreacion)
+                </dd>
+                <dt>
+                    @Html.DisplayName(@Language.fechaBaja)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.empleado.fechaBaja, new { htmlAttributes = new { @class = "myDate" } })
                 </dd>
                 <dt>
                     @Html.Label(Language.sexo)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Sexo.descripcion)
+                    @Html.DisplayFor(model => model.empleado.Sexo.descripcion)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.rfc)
+                    @Html.DisplayName(@Language.rfc)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.rfc)
+                    @Html.DisplayFor(model => model.empleado.rfc)
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.homoclave)
+                    @Html.DisplayName(@Language.homoClave)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.homoclave)
+                    @Html.DisplayFor(model => model.empleado.homoclave)
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.curp)
+                    @Html.DisplayName(@Language.curp)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.curp)
+                    @Html.DisplayFor(model => model.empleado.curp)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.fechaNacimiento)
+                    @Html.DisplayName(@Language.fechaNacimiento)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.fechaNacimiento)
+                    @Html.DisplayFor(model => model.empleado.fechaNacimiento, new { htmlAttributes = new { @class = "myBornDate" } })
                 </dd>
                 <dt>
                     @Html.Label(Language.estado)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Estado.descripcion)
+                    @Html.DisplayFor(model => model.empleado.Estado.descripcion)
                 </dd>
                 <dt>
                     @Html.Label(Language.municipio)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Municipio.descripcion)
+                    @Html.DisplayFor(model => model.empleado.Municipio.descripcion)
                 </dd>
 
                 <dt>
@@ -142,23 +149,33 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Pais.descripcion)
+                    @Html.DisplayFor(model => model.empleado.Pais.descripcion)
                 </dd>
                 <dt>
-                    @Html.DisplayNameFor(model => model.email)
+                    @Html.DisplayName(Language.email)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.email)
+                    @Html.DisplayFor(model => model.empleado.email)
                 </dd>
+                <dt>@Html.LabelFor(model => model.empleado.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.empleado.observaciones, new { htmlAttributes = new { @class = "form-control" } })
+                </dd>
+                <dt style="margin-top:10px;">
+                    <a href="@Url.Action("Index", "Empleados")">
+                        <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+                    </a>
+                </dt>
             </dl>
         </div>
+        <!-- marquesina de la derecha -->
         <div class="right-Marquee">
+            <!-- Marquesina para la foto -->
             <div class="foto-Marquee">
-                @if (!String.IsNullOrEmpty(Model.foto))
+                @if (!String.IsNullOrEmpty(foto))
                 {
-                    <img src="@Url.Content(Model.foto.Trim())" alt="@Model.foto" width="120" height="130" />
-
+                    <img src="@Url.Action("MyFoto", "Empleados", new{ foto = Model.empleado.foto.Trim()})" alt="@Model.empleado.foto" width="120" height="130" />
                 }
                 else
                 {
@@ -166,103 +183,342 @@
                 }
             </div>
         </div>
+
     </div>
-    <div id="tabs-2" style="overflow:hidden; min-height:401px;">
-        <div class="left-Marquee">
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.calleNumero)
-                </dt>
+    <!-- Pestaña numero 2 datos documentos -->
+    <div id="tabs-2" style="overflow:hidden; min-height:470px;">
+        @using (Html.BeginForm("GuardarDocumentos", "Empleados"))
+        {
+            @Html.HiddenFor(model => model.empleado.id)
+            @Html.AntiForgeryToken()
+            <div class="left-Marquee">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.empleado.calleNumero)
+                    </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.calleNumero)
-                </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.empleado.calleNumero)
+                    </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.colonia)
-                </dt>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.empleado.colonia)
+                    </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.colonia)
-                </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.empleado.colonia)
+                    </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.edoMunicipio)
-                </dt>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.empleado.edoMunicipio)
+                    </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.edoMunicipio)
-                </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.empleado.edoMunicipio)
+                    </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.codigoPostal)
-                </dt>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.empleado.codigoPostal)
+                    </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.codigoPostal)
-                </dd>
-            </dl>
-        </div>
-        <div class="right-Marquee">
-            <div class="foto-Marquee">
-                @if (!String.IsNullOrEmpty(Model.foto))
-                {
-                    <img src="@Url.Content(Model.foto.Trim())" alt="@Model.nombre" width="120" height="130" />
-                }
-                else
-                {
-                    <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
-                }
+                    <dd>
+                        @Html.DisplayFor(model => model.empleado.codigoPostal)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.datosEmpleado.actividades)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.datosEmpleado.actividades)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.datosEmpleado.domicilioOficina)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.datosEmpleado.domicilioOficina)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.datosEmpleado.fechaAntiguedad)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.datosEmpleado.fechaAntiguedad)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.datosEmpleado.salarioVSM)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.datosEmpleado.salarioVSM)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.datosEmpleado.jornadaLaboralId)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.salarialesEmpleado.Concepto.descripcion)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.datosEmpleado.diasDescanso)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.datosEmpleado.diasDescanso)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.datosEmpleado.salarioNominal)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.datosEmpleado.salarioNominal)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.datosEmpleado.diasVacaciones)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.datosEmpleado.diasVacaciones)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.datosEmpleado.diasAguinaldo)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.datosEmpleado.diasAguinaldo)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.datosEmpleado.otros)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.datosEmpleado.otros)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.datosEmpleado.telefono)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.datosEmpleado.telefono)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.datosEmpleado.tipoSangre)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.datosEmpleado.tipoSangre)
+                    </dd>
+                    <dt>
+                        @Html.Label("Datos Familiares:")
+                    </dt>
+
+                    <dd>
+                        <a href="@Url.Action("index", "FamiliaresEmpleados" , new { empleadoid=Model.empleado.id })"
+                           title="Mostrar datos familiares">
+                            <img src="~/Content/Images/fileSearch.png" alt="" style="border:none;" class="icon" />
+                        </a>
+                    </dd>
+                    <dt style="margin-top:10px;">
+                        <a href="@Url.Action("Index", "Empleados")">
+                            <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+                        </a>
+                    </dt>
+                </dl>
             </div>
-        </div>
-    </div>
-    <div id="tabs-3" style="overflow:hidden; min-height:401px;">
-        <div class="left-Marquee">
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.SDI.descripcion)
-                </dt>
+            <!-- marquesina de la derecha -->
+            <div class="right-Marquee">
+                <!-- Marquesina para la foto -->
+                <div class="foto-Marquee">
+                    @if (!String.IsNullOrEmpty(foto))
+                    {
+                        <img src="@Url.Action("MyFoto", "Empleados", new{ foto = Model.empleado.foto.Trim()})" alt="@Model.empleado.foto" width="120" height="130" />
+                    }
+                    else
+                    {
+                        <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
+                    }
+                </div>
+                <!-- Marquesina para colocar los documentos -->
+                <div class="right-Marquee-inside">
+                    <table class="menu-archivos-table">
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "cv" })"
+                                   title="Ver documentos">
+                                    <img src="~/Content/Images/cv.png" alt="" style="border:none;" class="icon" />
+                                </a>
+                            </td>
+                            <td>Documentos CV</td>
+                            <td>
+                                @ViewBag.docsCv
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Documentos V" })"
+                                   title="Ver documentos">
+                                    <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
+                                </a>
+                            </td>
+                            <td>Documentos Varios</td>
+                            <td>
+                                @ViewBag.docsVarios
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Contratos" })"
+                                   title="Ver documentos">
+                                    <img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" />
+                                </a>
+                            </td>
+                            <td>Documentos Contratos</td>
+                            <td>
+                                @ViewBag.docsContratos
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Psicometrico" })"
+                                   title="Ver documentos">
+                                    <img src="~/Content/Images/history.png" alt="" style="border:none;" class="icon" />
+                                </a>
+                            </td>
+                            <td>Documentos Psicometricos</td>
+                            <td>
+                                @ViewBag.docsPsicometricos
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Confidencial" })"
+                                   title="Ver documentos">
+                                    <img src="~/Content/Images/people-b.png" alt="" style="border:none;" class="icon" />
+                                </a>
+                            </td>
+                            <td>Documentos Confidenciales</td>
+                            <td>
+                                @ViewBag.docsConfidencial
+                            </td>
+                        </tr>
+                    </table>
 
-                <dd>
-                    @Html.DisplayFor(model => model.SDI.descripcion)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.salarioReal)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.salarioReal)
-                </dd>
-                <dt>
-                    @Html.Label(Language.bancos)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Banco.descripcion)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.creditoInfonavit)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.creditoInfonavit)
-                </dd>
-            </dl>
-        </div>
-        <div class="right-Marquee">
-            <div class="foto-Marquee">
-                @if (!String.IsNullOrEmpty(Model.foto))
-                {
-                    <img src="@Url.Content(Model.foto.Trim())" alt="@Model.nombre" width="120" height="130" />
-                }
-                else
-                {
-                    <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
-                }
+                </div>
             </div>
-        </div>
+        }
     </div>
-    <div id="tabs-4" style="overflow:hidden; min-height:401px;">
+    <!-- Pestaña numero 3 datos salariales -->
+    <div id="tabs-3" style="overflow:hidden; min-height:470px;">
+        @using (Html.BeginForm("GuardarSalariales", "Empleados"))
+        {
+            @Html.HiddenFor(model => model.empleado.id)
+            @Html.AntiForgeryToken()
+            <div class="left-Marquee">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.empleado.SDI.descripcion)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.empleado.SDI.descripcion)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.empleado.salarioReal)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.empleado.salarioReal)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.salarialesEmpleado.salarioMensual)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.salarialesEmpleado.salarioMensual)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.salarialesEmpleado.salarioHrsExtra)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.salarialesEmpleado.salarioHrsExtra)
+                    </dd>
+                    <dt>
+                        @Html.Label(Language.bancos)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.empleado.Banco.descripcion)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.empleado.creditoInfonavit)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.empleado.creditoInfonavit)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.salarialesEmpleado.montoInfonavit)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.salarialesEmpleado.montoInfonavit)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.salarialesEmpleado.importeFonacot)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.salarialesEmpleado.importeFonacot)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.salarialesEmpleado.porcientoPension)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.salarialesEmpleado.porcientoPension)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.salarialesEmpleado.periodoId)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.salarialesEmpleado.Concepto.descripcion)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.salarialesEmpleado.importePension)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.salarialesEmpleado.importePension)
+                    </dd>
+                    <dt style="margin-top:10px;">
+                        <a href="@Url.Action("Index", "Empleados")">
+                            <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+                        </a>
+                    </dt>
+                </dl>
+            </div>
+        <!-- marquesina de la derecha -->
+            <div class="right-Marquee">
+                <!-- Marquesina para la foto -->
+                <div class="foto-Marquee">
+                    @if (!String.IsNullOrEmpty(foto))
+                    {
+                        <img src="@Url.Action("MyFoto", "Empleados", new{ foto = Model.empleado.foto.Trim()})" alt="@Model.empleado.foto" width="120" height="130" />
+                    }
+                    else
+                    {
+                        <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
+                    }
+                </div>
+
+            </div>
+        }
+    </div>
+    <!-- Pestaña numero 4 datos del SUA -->
+    <div id="tabs-4" style="overflow:hidden; min-height:470px;">
         <div class="left-Marquee">
             <dl class="dl-horizontal">
                 <dt>
@@ -270,47 +526,65 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Acreditado.sdi)
+                    @Html.DisplayFor(model => model.empleado.Asegurado.salarioDiario)
                 </dd>
                 <dt>
                     @Html.Label("Sal. Diario IMMS")
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Acreditado.sd)
+                    @Html.DisplayFor(model => model.empleado.Asegurado.salarioDiario)
                 </dd>
                 <dt>
                     @Html.Label("Registro Patronal")
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Acreditado.Patrone.registro)
+                    @Html.DisplayFor(model => model.empleado.Asegurado.Patrone.registro)
                 </dd>
                 <dt>
                     @Html.Label("Nombre Patron")
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Acreditado.Patrone.nombre)
+                    @Html.DisplayFor(model => model.empleado.Asegurado.Patrone.nombre)
                 </dd>
             </dl>
         </div>
+        <!-- marquesina de la derecha -->
         <div class="right-Marquee">
+            <!-- Marquesina para la foto -->
             <div class="foto-Marquee">
-                @if (!String.IsNullOrEmpty(Model.foto))
+                @if (!String.IsNullOrEmpty(foto))
                 {
-                    <img src="@Url.Content(Model.foto.Trim())" alt="@Model.nombre" width="120" height="130" />
+                    <a href="@Url.Action("SubirFoto", "Empleados" , new { empleadoid=Model.empleado.id })"
+                       title="Subir Fotografia">
+                        <img src="@Url.Action("MyFoto", "Empleados", new{ foto = Model.empleado.foto.Trim()})" alt="@Model.empleado.foto" width="120" height="130" />
+                    </a>
                 }
                 else
                 {
                     <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
                 }
             </div>
+
         </div>
     </div>
 </div>
 
 
-<p>
-    @Html.ActionLink(Language.regresar, "Index")
-</p>
+
+
+<script>
+    $(document).ready(function () {
+        //attach with the id od deductions
+        $("#cargarArchivo").hide("slow");
+        $("#cargarLink").bind("click", showDialog);
+
+    });
+
+    function showDialog() {
+        $("#cargarArchivo").show("slow");
+        $("#documentoId").val = "DOC";
+    }
+</script>

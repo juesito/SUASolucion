@@ -18,16 +18,23 @@ namespace SUAMVC.Helpers
         public Concepto obtenerConceptoPorGrupo(String grupoId, String value)
         {
             Concepto concepto = db.Conceptos.Where(s => s.grupo.ToLower().Trim().Equals(grupoId.ToLower().Trim())
-                && s.descripcion.ToLower().Trim().Equals(value.ToLower().Trim())).First();
+                && s.descripcion.ToLower().Trim().Contains(value.ToLower().Trim())).FirstOrDefault();
 
             return concepto;
         }
 
         public Asegurado obtenerAseguradoPorNSS(String NSS)
         {
-            Asegurado asegurado = db.Asegurados.Where(s => s.numeroAfiliacion.Trim().Equals(NSS)).First();
+            Asegurado asegurado = db.Asegurados.Where(s => s.numeroAfiliacion.Trim().Equals(NSS)).FirstOrDefault();
 
             return asegurado;
+        }
+
+        public Empleado obtenerEmpleadoPorNSS(String NSS)
+        {
+            Empleado empleado = db.Empleados.Where(s => s.nss.Trim().Equals(NSS.Trim())).FirstOrDefault();
+
+            return empleado;
         }
 
         public Acreditado obtenerAcreditadoPorNSS(String NSS)

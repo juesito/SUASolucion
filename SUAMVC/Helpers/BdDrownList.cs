@@ -348,7 +348,7 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<Pais> listPaises = (from s in db.Paises
-                                     orderby s.naturalez ascending
+                                     orderby s.naturalez descending
                                      select s).ToList();
 
             foreach (Pais item in listPaises)
@@ -372,7 +372,7 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<Pais> listPaises = (from s in db.Paises
-                                     orderby s.naturalez ascending
+                                     orderby s.naturalez descending
                                      select s).ToList();
 
             foreach (Pais item in listPaises)

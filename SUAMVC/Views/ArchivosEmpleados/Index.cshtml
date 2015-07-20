@@ -10,11 +10,7 @@
         Response.Redirect("~/Home/Index");
     }
 
-    String folioEmpleado = "";
-    if (ViewBag.folioEmpleado != null) {
-        folioEmpleado = ViewBag.folioEmpleado;
-    }
-    
+
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
     Usuario usuario = Session["UsuarioData"] as Usuario;
@@ -51,7 +47,38 @@
     <div>Archivos empleados<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<h2 style="color:#2E538A;">Empleado: @folioEmpleado.Trim()</h2>
+<div class="marqueeFilter">
+    <table style="float:left; margin-top:5px;display:inline-block;">
+        <thead>
+            <tr style="text-align:left;vertical-align:bottom;">
+                <td>
+                    Empleado:
+                </td>
+                <td>
+                    <b>@ViewBag.folioEmpleado</b>
+                </td>
+                <td style="padding-left:15px">
+                    <b>@ViewBag.nombreEmpleado.Trim()</b>
+                </td>
+                <td style="padding-left:15px">
+                    Tipo de documentos:
+                </td>
+                <td>
+                    <b>@ViewBag.tipoArchivo.Trim()</b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="@Url.Action("Edit", "Empleados", new { id = @ViewBag.empleadoId })">
+                        <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+                    </a>
+                </td>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
 
 @if (!tableHtml.IsEmpty())
 {
