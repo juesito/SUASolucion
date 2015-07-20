@@ -62,10 +62,43 @@
 }
 @using (Html.BeginForm())
 {
-    <p>
-        Rol:@Html.DropDownList("roleId", "Seleccione")
-        Modulo:@Html.DropDownList("moduleId", "Seleccione")
-    </p><input class="btn btn-success" type="submit" value="Buscar" />
+    <div class="marqueeFilter">
+        <table style="float:left; margin-top:5px;display:inline-block;">
+            <thead>
+                <tr style="text-align:left;vertical-align:bottom;">
+                    <td>
+                        Rol:
+                    </td>
+                    <td>
+                        @Html.DropDownList("roleId", "Seleccione")
+                    </td>
+                    <td style="padding-left:15px">
+                        Modulo:
+                    </td>
+                    <td style="padding-left:15px">
+                        @Html.DropDownList("moduleId", "Seleccione")
+                    </td>
+                    <td>
+                        Tipo Función:
+                    </td>
+                    <td>
+                        @Html.DropDownList("tipo", new SelectList(
+                  new List<Object>{
+                       new { value = "A" , text = "Acción"  },
+                       new { value = "M" , text = "Ménu" }},
+                  "value",
+                  "text",
+                   2))
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input class="btn btn-success" type="submit" value="Buscar" />
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
 }
 
 <div id="contenedor">

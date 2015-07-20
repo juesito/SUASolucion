@@ -116,8 +116,6 @@ namespace SUAMVC.Controllers
                 solicitud.folioSolicitud = "";
                 solicitud.noTrabajadores = 0;
                 solicitud.tipoSolicitud = tipoSolicitud.id;
-                
-                
 
                 try
                 {
@@ -150,7 +148,7 @@ namespace SUAMVC.Controllers
                 return RedirectToAction("Index");
             }
 
-                ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
+            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusSolicitud);
             ViewBag.estatusNomina = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusNomina);
             ViewBag.estatusJuridico = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusJuridico);
@@ -258,11 +256,11 @@ namespace SUAMVC.Controllers
                 int idTmp = int.Parse(id);
                 solicitud = db.Solicituds.Find(idTmp);
                 Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("ESTASOL") && s.descripcion.Equals("Enviado")).First();
-                solicitud.estatusSolicitud = concepto.id; 
-                
-                //Email email = new Email();
-                //email.enviarPorClienteTipo(solicitud.clienteId, "A", solicitud.id);
-                
+                solicitud.estatusSolicitud = concepto.id;
+
+                Email email = new Email();
+                email.enviarPorClienteTipo("A", solicitud.id, true);
+
                 db.Entry(solicitud).State = EntityState.Modified;
                 db.SaveChanges();
 
@@ -289,7 +287,7 @@ namespace SUAMVC.Controllers
             //traigo de la base de datos Solicitudes los registros
 
             var solicitudes = from s in db.Solicituds
-                             select s;
+                              select s;
 
             //Valida que la variable no sea nula
             if (!String.IsNullOrEmpty(solicitudId))
