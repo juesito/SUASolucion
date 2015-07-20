@@ -35,8 +35,8 @@ namespace SUAMVC.Controllers
                     //Filtramos los archivos por id y tipo documento
                     var archivosEmpleados = db.ArchivoEmpleadoes.
                         Include(a => a.Concepto).Include(a => a.Empleado).Include(a => a.Usuario)
-                        .Where(a => a.empleadoId.Equals(empId) && a.tipoArchivo.Equals(tipoArchivo.id));;
-                    
+                        .Where(a => a.empleadoId.Equals(empId) && a.tipoArchivo.Equals(tipoArchivo.id));
+
                     //Asignamos las variables a mostrar en la vista
                     ViewBag.empleadoId = empleado.id;
                     ViewBag.folioEmpleado = empleado.folioEmpleado;
@@ -48,18 +48,41 @@ namespace SUAMVC.Controllers
 
                     return View(archivosEmpleados.ToList());
                 }
+
                 else
                 {
                     return RedirectToAction("Index", "Empleados");
                 }//empleadoId y tipoArchivo Diferente de Null?
             }
-            else {
-                return RedirectToAction("Index", "Empleados");
-            }//tipoArchivo Diferente de Null?
-           
+            else
+            {
+                if (!String.IsNullOrEmpty(empleadoId))
+                {
+                    int empId = int.Parse(empleadoId.Trim());
+                    Empleado empleado = db.Empleados.Find(empId);
+
+                    //Filtramos los archivos por id y tipo documento
+                    var archivosEmpleados = db.ArchivoEmpleadoes.
+                        Include(a => a.Concepto).Include(a => a.Empleado).Include(a => a.Usuario)
+                        .Where(a => a.empleadoId.Equals(empId));
+
+                    //Asignamos las variables a mostrar en la vista
+                    ViewBag.empleadoId = empleado.id;
+                    ViewBag.folioEmpleado = empleado.folioEmpleado;
+                    ViewBag.tipoArchivo = "Todos: CV, Confidencial, Psicometrico, Documentos varios";
+                    ViewBag.nombreEmpleado = empleado.nombreCompleto;
+
+                    //ordenamos por fecha de creación
+                    archivosEmpleados = archivosEmpleados.OrderBy(a => a.fechaCreacion);
+
+                    return View(archivosEmpleados.ToList());
+                }//tipoArchivo Diferente de Null?
+
+            }
+            return RedirectToAction("Index", "Empleados");
         }
 
-                
+
         // GET: ArchivosEmpleados/Create
         public ActionResult Create(String empleadoId)
         {

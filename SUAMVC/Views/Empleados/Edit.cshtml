@@ -13,18 +13,21 @@
 @section Menu {
     <div>Ver empleado : @Html.DisplayFor(model => model.empleado.nombreCompleto)<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
-@using (Html.BeginForm())
-{
-    <div id="tabs" style="font-size:10px;">
-        <ul>
-            <li><a href="#tabs-1">Generales</a></li>
-            <li><a href="#tabs-2">Documentos</a></li>
-            <li><a href="#tabs-3">Salariales</a></li>
-            <li><a href="#tabs-4">SUA</a></li>
-        </ul>
 
-        @Html.AntiForgeryToken()
-        <div id="tabs-1" style="overflow:hidden; min-height:401px;">
+<div id="tabs" style="font-size:10px;">
+    <ul>
+        <li><a href="#tabs-1">Generales</a></li>
+        <li><a href="#tabs-2">Documentos</a></li>
+        <li><a href="#tabs-3">Salariales</a></li>
+        <li><a href="#tabs-4">SUA</a></li>
+    </ul>
+
+    <!-- Pestaña numero 1 datos personales -->
+    <div id="tabs-1" style="overflow:hidden; min-height:470px;">
+        @using (Html.BeginForm("Edit", "Empleados"))
+        {
+            @Html.HiddenFor(model => model.empleado.id)
+            @Html.AntiForgeryToken()
             <div class="left-Marquee">
                 <dl class="dl-horizontal">
                     <dt>
@@ -159,14 +162,27 @@
                     <dd>
                         @Html.EditorFor(model => model.empleado.email)
                     </dd>
+                    <dt>@Html.LabelFor(model => model.empleado.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })</dt>
+                    <dd>
+                        @Html.EditorFor(model => model.empleado.observaciones, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.empleado.observaciones, "", new { @class = "text-danger" })
+                    </dd>
+                    <dt style="margin-top:10px;">
+                        <a href="@Url.Action("Index", "Empleados")">
+                            <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+                        </a>
+                    </dt>
+                    <dd style="margin-top:10px;"><input name="Guadar" type="submit" value="@Language.guardar" /></dd>
                 </dl>
             </div>
+            <!-- marquesina de la derecha -->
             <div class="right-Marquee">
+                <!-- Marquesina para la foto -->
                 <div class="foto-Marquee">
                     @if (!String.IsNullOrEmpty(foto))
                     {
                         <a href="@Url.Action("SubirFoto", "Empleados" , new { empleadoid=Model.empleado.id })"
-                           title="Cargar Documentos">
+                           title="Subir Fotografia">
                             <img src="@Url.Action("MyFoto", "Empleados", new{ foto = Model.empleado.foto.Trim()})" alt="@Model.empleado.foto" width="120" height="130" />
                         </a>
                     }
@@ -174,12 +190,17 @@
                     {
                         <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
                     }
-
                 </div>
             </div>
 
-        </div>
-        <div id="tabs-2" style="overflow:hidden; min-height:401px;">
+        }
+    </div>
+    <!-- Pestaña numero 2 datos documentos -->
+    <div id="tabs-2" style="overflow:hidden; min-height:470px;">
+        @using (Html.BeginForm("GuardarDocumentos", "Empleados"))
+        {
+            @Html.HiddenFor(model => model.empleado.id)
+            @Html.AntiForgeryToken()
             <div class="left-Marquee">
                 <dl class="dl-horizontal">
                     <dt>
@@ -311,19 +332,31 @@
                             <img src="~/Content/Images/fileSearch.png" alt="" style="border:none;" class="icon" />
                         </a>
                     </dd>
+                    <dt style="margin-top:10px;">
+                        <a href="@Url.Action("Index", "Empleados")">
+                            <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+                        </a>
+                    </dt>
+                    <dd style="margin-top:10px;"><input name="Guadar" type="submit" value="@Language.guardar" /></dd>
                 </dl>
             </div>
+            <!-- marquesina de la derecha -->
             <div class="right-Marquee">
+                <!-- Marquesina para la foto -->
                 <div class="foto-Marquee">
                     @if (!String.IsNullOrEmpty(foto))
                     {
+                    <a href="@Url.Action("SubirFoto", "Empleados" , new { empleadoid=Model.empleado.id })"
+                       title="Subir Fotografia">
                         <img src="@Url.Action("MyFoto", "Empleados", new{ foto = Model.empleado.foto.Trim()})" alt="@Model.empleado.foto" width="120" height="130" />
+                    </a>
                     }
                     else
                     {
-                        <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
+                    <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
                     }
                 </div>
+                <!-- Marquesina para colocar los documentos -->
                 <div class="right-Marquee-inside">
                     <table class="menu-archivos-table">
                         <tr>
@@ -364,14 +397,14 @@
                         </tr>
                         <tr>
                             <td>
-                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Psicomentrico" })"
+                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Psicometrico" })"
                                    title="Ver documentos">
                                     <img src="~/Content/Images/history.png" alt="" style="border:none;" class="icon" />
                                 </a>
                             </td>
                             <td>Documentos Psicometricos</td>
                             <td>
-                                @ViewBag.docsPsicomentricos
+                                @ViewBag.docsPsicometricos
                             </td>
                         </tr>
                         <tr>
@@ -401,9 +434,14 @@
 
                 </div>
             </div>
-
-        </div>
-        <div id="tabs-3" style="overflow:hidden; min-height:401px;">
+        }
+    </div>
+    <!-- Pestaña numero 3 datos salariales -->
+    <div id="tabs-3" style="overflow:hidden; min-height:470px;">
+        @using (Html.BeginForm("GuardarSalariales", "Empleados"))
+        {
+            @Html.HiddenFor(model => model.empleado.id)
+            @Html.AntiForgeryToken()
             <div class="left-Marquee">
                 <dl class="dl-horizontal">
                     <dt>
@@ -488,76 +526,92 @@
                     <dd>
                         @Html.EditorFor(model => model.salarialesEmpleado.importePension)
                     </dd>
+                    <dt style="margin-top:10px;">
+                        <a href="@Url.Action("Index", "Empleados")">
+                            <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+                        </a>
+                    </dt>
+                    <dd style="margin-top:10px;"><input name="Guadar" type="submit" value="@Language.guardar" /></dd>
 
                 </dl>
             </div>
+        <!-- marquesina de la derecha -->
             <div class="right-Marquee">
+                <!-- Marquesina para la foto -->
                 <div class="foto-Marquee">
                     @if (!String.IsNullOrEmpty(foto))
-                    {
+                {
+                    <a href="@Url.Action("SubirFoto", "Empleados" , new { empleadoid=Model.empleado.id })"
+                       title="Subir Fotografia">
                         <img src="@Url.Action("MyFoto", "Empleados", new{ foto = Model.empleado.foto.Trim()})" alt="@Model.empleado.foto" width="120" height="130" />
-                    }
-                    else
-                    {
-                        <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
-                    }
+                    </a>
+                }
+                else
+                {
+                    <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
+                }
                 </div>
+
             </div>
+        }
+    </div>
+    <!-- Pestaña numero 4 datos del SUA -->
+    <div id="tabs-4" style="overflow:hidden; min-height:470px;">
+        <div class="left-Marquee">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.Label("SDI")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.empleado.Asegurado.salarioDiario)
+                </dd>
+                <dt>
+                    @Html.Label("Sal. Diario IMMS")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.empleado.Asegurado.salarioDiario)
+                </dd>
+                <dt>
+                    @Html.Label("Registro Patronal")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.empleado.Asegurado.Patrone.registro)
+                </dd>
+                <dt>
+                    @Html.Label("Nombre Patron")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.empleado.Asegurado.Patrone.nombre)
+                </dd>
+            </dl>
         </div>
-        <div id="tabs-4" style="overflow:hidden; min-height:401px;">
-            <div class="left-Marquee">
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.Label("SDI")
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.empleado.Asegurado.salarioDiario)
-                    </dd>
-                    <dt>
-                        @Html.Label("Sal. Diario IMMS")
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.empleado.Asegurado.salarioDiario)
-                    </dd>
-                    <dt>
-                        @Html.Label("Registro Patronal")
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.empleado.Asegurado.Patrone.registro)
-                    </dd>
-                    <dt>
-                        @Html.Label("Nombre Patron")
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.empleado.Asegurado.Patrone.nombre)
-                    </dd>
-                </dl>
-            </div>
-            <div class="right-Marquee">
-                <div class="foto-Marquee">
-                    @if (!String.IsNullOrEmpty(foto))
-                    {
+        <!-- marquesina de la derecha -->
+        <div class="right-Marquee">
+            <!-- Marquesina para la foto -->
+            <div class="foto-Marquee">
+                @if (!String.IsNullOrEmpty(foto))
+                {
+                    <a href="@Url.Action("SubirFoto", "Empleados" , new { empleadoid=Model.empleado.id })"
+                       title="Subir Fotografia">
                         <img src="@Url.Action("MyFoto", "Empleados", new{ foto = Model.empleado.foto.Trim()})" alt="@Model.empleado.foto" width="120" height="130" />
-                    }
-                    else
-                    {
-                        <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
-                    }
-                </div>
+                    </a>
+                }
+                else
+                {
+                    <img src="~/Content/Images/camera.png" alt="NoFoto" width="120" height="130" />
+                }
             </div>
+
         </div>
     </div>
-    <input name="Guadar" type="submit" value="@Language.guardar" style="font-size:10px;float:right; display:inline-block;" />
-}
-<div style="display:inline-block;font-size:10px;">
-    <a href="@Url.Action("Index", "Empleados")">
-        <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
-    </a>
 </div>
+
+
+
 
 <script>
     $(document).ready(function () {

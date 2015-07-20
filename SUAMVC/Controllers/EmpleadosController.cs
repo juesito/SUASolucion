@@ -84,7 +84,7 @@ namespace SUAMVC.Controllers
 
                     //Creamos el registro en solicitudEmpleados para agregar el empleado a otra solicitud activa
                     crearSolicitudEmpleado(empleado.id, solicitud.id, usuario.Id, "Baja");
-                    
+
                     empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
 
                     db.Entry(solicitudEmpleado).State = EntityState.Modified;
@@ -105,12 +105,45 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            DatosEmpleadoModel datosEmpleadoModel = new DatosEmpleadoModel();
             Empleado empleado = db.Empleados.Find(id);
+
             if (empleado == null)
             {
                 return HttpNotFound();
             }
-            return View(empleado);
+            ToolsHelper th = new ToolsHelper();
+
+            //Obtenemos los tipos de documentos 
+            Concepto cv = th.obtenerConceptoPorGrupo("ARCHEMP", "CV");
+            Concepto docVarios = th.obtenerConceptoPorGrupo("ARCHEMP", "Documento");
+            Concepto contratos = th.obtenerConceptoPorGrupo("ARCHEMP", "Contratos");
+            Concepto psicometria = th.obtenerConceptoPorGrupo("ARCHEMP", "Psicometria");
+            Concepto confidencial = th.obtenerConceptoPorGrupo("ARCHEMP", "Confidencial");
+
+            // Obtenemos los documentos cargados para el empleado
+            ViewBag.docsCv = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+                && de.tipoArchivo.Equals(cv.id)).Count();
+            ViewBag.docsVarios = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+                && de.tipoArchivo.Equals(docVarios.id)).Count();
+            ViewBag.docsContratos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+                && de.tipoArchivo.Equals(contratos.id)).Count();
+            ViewBag.docsPsicometricos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+                && de.tipoArchivo.Equals(psicometria.id)).Count();
+            ViewBag.docsConfidencial = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+                && de.tipoArchivo.Equals(confidencial.id)).Count();
+
+            //Obtenemos la solicitud del empleado
+            Solicitud solicitud = obtenerSolicitudActiva(empleado.id);
+            DocumentoEmpleado documentosEmpleado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)).FirstOrDefault();
+            SalarialesEmpleado salarialesEmpleado = db.SalarialesEmpleadoes.Where(se => se.empleadoId.Equals(empleado.id)).FirstOrDefault();
+
+            datosEmpleadoModel.solicitud = solicitud;
+            datosEmpleadoModel.empleado = empleado;
+            datosEmpleadoModel.datosEmpleado = documentosEmpleado;
+            datosEmpleadoModel.salarialesEmpleado = salarialesEmpleado;
+
+            return View(datosEmpleadoModel);
         }
 
         // GET: Empleados/Create
@@ -257,7 +290,7 @@ namespace SUAMVC.Controllers
                 && de.tipoArchivo.Equals(docVarios.id)).Count();
             ViewBag.docsContratos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(contratos.id)).Count();
-            ViewBag.docsPsicomentricos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsPsicometricos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(psicometria.id)).Count();
             ViewBag.docsConfidencial = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(confidencial.id)).Count();
@@ -272,16 +305,6 @@ namespace SUAMVC.Controllers
             datosEmpleadoModel.datosEmpleado = documentosEmpleado;
             datosEmpleadoModel.salarialesEmpleado = salarialesEmpleado;
 
-            ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
-            ViewBag.esquemaPagoId = new SelectList(db.EsquemasPagoes, "id", "descripcion", empleado.esquemaPagoId);
-            ViewBag.estadoCivilId = new SelectList(db.EstadoCivils, "id", "descripcion", empleado.estadoCivilId);
-            ViewBag.estadoNacimientoId = new SelectList(db.Estados, "id", "descripcion", empleado.estadoNacimientoId);
-            ViewBag.municipioNacimientoId = new SelectList(db.Municipios, "id", "descripcion", empleado.municipioNacimientoId);
-            ViewBag.nacionalidadId = new SelectList(db.Paises, "id", "descripcion", empleado.nacionalidadId);
-            ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", empleado.sdiId);
-            ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion", empleado.sexoId);
-            ViewBag.solicitudId = new SelectList(db.Solicituds, "id", "solicita", solicitud.id);
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", empleado.usuarioId);
             return View(datosEmpleadoModel);
         }
 
@@ -290,23 +313,165 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,solicitudId,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,nombreCompleto,rfc,homoclave,curp,sexoId,sdiId,esquemaPagoId,salarioReal,categoria,tieneInfonavit,creditoInfonavit,estadoCivilId,fechaNacimiento,nacionalidadId,estadoNacimientoId,municipioNacimientoId,calleNumero,colonia,edoMunicipio,codigoPostal,tramitarTarjeta,bancoId,cuentaBancaria,email,observaciones,usuarioId,fechaCreacion,estatus")] Empleado empleado)
+        public ActionResult Edit([Bind(Include = "id,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,rfc,homoclave,curp,categoria, fechaNacimiento,email,observaciones")] Empleado empleado, int sexoId)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(empleado).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                Empleado empleadoModificado = db.Empleados.Find(empleado.id);
+
+                empleadoModificado.nss = empleado.nss;
+                empleadoModificado.fechaAltaImss = empleado.fechaAltaImss;
+                empleadoModificado.apellidoMaterno = empleado.apellidoMaterno;
+                empleadoModificado.apellidoPaterno = empleado.apellidoPaterno;
+                empleadoModificado.nombre = empleado.nombre;
+                empleadoModificado.rfc = empleado.rfc;
+                empleadoModificado.homoclave = empleado.homoclave;
+                empleadoModificado.curp = empleado.curp;
+                empleadoModificado.sexoId = sexoId;
+                //empleadoModificado.estadoCivilId = empleado.estadoCivilId;
+                empleadoModificado.categoria = empleado.categoria;
+                empleadoModificado.fechaNacimiento = empleado.fechaNacimiento;
+                //empleadoModificado.nacionalidadId = paisId;
+                //empleadoModificado.estadoNacimientoId = empleado.estadoNacimientoId;
+                //empleadoModificado.municipioNacimientoId = empleado.municipioNacimientoId;
+                empleadoModificado.email = empleado.email;
+                empleadoModificado.observaciones = empleado.observaciones;
+
+                try
+                {
+                    db.Entry(empleadoModificado).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    foreach (var failure in ex.EntityValidationErrors)
+                    {
+                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                        foreach (var error in failure.ValidationErrors)
+                        {
+                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                            sb.AppendLine();
+                        }
+                    }
+                }
+                return RedirectToAction("Edit", "Empleados", new { id = empleado.id });
             }
-            ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
-            ViewBag.esquemaPagoId = new SelectList(db.EsquemasPagoes, "id", "descripcion", empleado.esquemaPagoId);
-            ViewBag.estadoCivilId = new SelectList(db.EstadoCivils, "id", "descripcion", empleado.estadoCivilId);
-            ViewBag.estadoNacimientoId = new SelectList(db.Estados, "id", "descripcion", empleado.estadoNacimientoId);
-            ViewBag.municipioNacimientoId = new SelectList(db.Municipios, "id", "descripcion", empleado.municipioNacimientoId);
-            ViewBag.nacionalidadId = new SelectList(db.Paises, "id", "descripcion", empleado.nacionalidadId);
-            ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", empleado.sdiId);
-            ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion", empleado.sexoId);
             return View(empleado);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarDocumentos([Bind(Include = "id,calleNumero,colonia,edoMunicipio,codigoPostal")] Empleado empleado,
+            [Bind(Include = "actividades, domicilioOficina, fechaAntiguedad, salarioVSM, diasDescanso, salarioNominal,diasVacaciones,diasAguinaldo,otros,telefono,tipoSangre")] DocumentoEmpleado datosEmpleado, int jornadaLaboralId)
+        {
+            if (ModelState.IsValid)
+            {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+                Empleado empleadoModificado = db.Empleados.Find(empleado.id);
+                empleadoModificado.calleNumero = empleado.calleNumero;
+                empleadoModificado.colonia = empleado.colonia;
+                empleadoModificado.edoMunicipio = empleado.edoMunicipio;
+                empleadoModificado.codigoPostal = empleado.codigoPostal;
+
+                DocumentoEmpleado documentoEmpleadoModificado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)).FirstOrDefault();
+
+
+                //Hay que buscar en internet como se puede hacer esto porque se ve que esta jodido
+                if (documentoEmpleadoModificado != null)
+                {
+                    documentoEmpleadoModificado.empleadoId = empleado.id;
+                    documentoEmpleadoModificado.actividades = datosEmpleado.actividades;
+                    documentoEmpleadoModificado.domicilioOficina = datosEmpleado.domicilioOficina;
+                    documentoEmpleadoModificado.fechaAntiguedad = datosEmpleado.fechaAntiguedad;
+                    documentoEmpleadoModificado.salarioVSM = datosEmpleado.salarioVSM;
+                    documentoEmpleadoModificado.jornadaLaboralId = jornadaLaboralId;
+                    documentoEmpleadoModificado.diasDescanso = datosEmpleado.diasDescanso;
+                    documentoEmpleadoModificado.salarioNominal = datosEmpleado.salarioNominal;
+                    documentoEmpleadoModificado.diasVacaciones = datosEmpleado.diasVacaciones;
+                    documentoEmpleadoModificado.diasAguinaldo = datosEmpleado.diasAguinaldo;
+                    documentoEmpleadoModificado.otros = datosEmpleado.otros;
+                    documentoEmpleadoModificado.tipoSangre = datosEmpleado.tipoSangre;
+
+                    db.Entry(documentoEmpleadoModificado).State = EntityState.Modified;
+                }
+                else
+                {
+                    documentoEmpleadoModificado = new DocumentoEmpleado();
+                    documentoEmpleadoModificado.empleadoId = empleado.id;
+                    documentoEmpleadoModificado.actividades = datosEmpleado.actividades;
+                    documentoEmpleadoModificado.domicilioOficina = datosEmpleado.domicilioOficina;
+                    documentoEmpleadoModificado.fechaAntiguedad = datosEmpleado.fechaAntiguedad;
+                    documentoEmpleadoModificado.salarioVSM = datosEmpleado.salarioVSM;
+                    documentoEmpleadoModificado.jornadaLaboralId = jornadaLaboralId;
+                    documentoEmpleadoModificado.diasDescanso = datosEmpleado.diasDescanso;
+                    documentoEmpleadoModificado.salarioNominal = datosEmpleado.salarioNominal;
+                    documentoEmpleadoModificado.diasVacaciones = datosEmpleado.diasVacaciones;
+                    documentoEmpleadoModificado.diasAguinaldo = datosEmpleado.diasAguinaldo;
+                    documentoEmpleadoModificado.otros = datosEmpleado.otros;
+                    documentoEmpleadoModificado.tipoSangre = datosEmpleado.tipoSangre;
+                    documentoEmpleadoModificado.fechaCreacion = DateTime.Now;
+                    documentoEmpleadoModificado.usuarioId = usuario.Id;
+
+                    db.DocumentoEmpleadoes.Add(documentoEmpleadoModificado);
+                }
+
+                db.Entry(empleadoModificado).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Edit", "Empleados", new { id = empleado.id });
+            }
+            return RedirectToAction("Edit", "Empleados", new { id = empleado.id });
+        }
+
+        public ActionResult GuardarSalariales([Bind(Include = "id,salarioReal,creditoInfonavit")] Empleado empleado,
+            [Bind(Include = "salarioMensual, salarioHrsExtra, montoInfonavit,importeFonacot,porcientoPension, periodoId, importePension")] SalarialesEmpleado salarialesEmpleado, int bancoId)
+        {
+            if (ModelState.IsValid)
+            {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+                Empleado empleadoModificado = db.Empleados.Find(empleado.id);
+                empleadoModificado.salarioReal = empleado.salarioReal;
+                empleadoModificado.bancoId = bancoId;
+                empleadoModificado.creditoInfonavit = empleado.creditoInfonavit;
+
+                SalarialesEmpleado documentoEmpleadoModificado = db.SalarialesEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)).FirstOrDefault();
+
+                if (documentoEmpleadoModificado != null)
+                {
+                    documentoEmpleadoModificado.empleadoId = empleado.id;
+                    documentoEmpleadoModificado.salarioMensual = salarialesEmpleado.salarioMensual;
+                    documentoEmpleadoModificado.salarioHrsExtra = salarialesEmpleado.salarioHrsExtra;
+                    documentoEmpleadoModificado.montoInfonavit = salarialesEmpleado.montoInfonavit;
+                    documentoEmpleadoModificado.importeFonacot = salarialesEmpleado.importeFonacot;
+                    documentoEmpleadoModificado.porcientoPension = salarialesEmpleado.porcientoPension;
+                    documentoEmpleadoModificado.periodoId = salarialesEmpleado.periodoId;
+                    documentoEmpleadoModificado.importePension = salarialesEmpleado.importePension;
+
+                    db.Entry(documentoEmpleadoModificado).State = EntityState.Modified;
+                }
+                else
+                {
+                    documentoEmpleadoModificado = new SalarialesEmpleado();
+                    documentoEmpleadoModificado.empleadoId = empleado.id;
+                    documentoEmpleadoModificado.salarioMensual = salarialesEmpleado.salarioMensual;
+                    documentoEmpleadoModificado.salarioHrsExtra = salarialesEmpleado.salarioHrsExtra;
+                    documentoEmpleadoModificado.montoInfonavit = salarialesEmpleado.montoInfonavit;
+                    documentoEmpleadoModificado.importeFonacot = salarialesEmpleado.importeFonacot;
+                    documentoEmpleadoModificado.porcientoPension = salarialesEmpleado.porcientoPension;
+                    documentoEmpleadoModificado.periodoId = salarialesEmpleado.periodoId;
+                    documentoEmpleadoModificado.importePension = salarialesEmpleado.importePension;
+                    documentoEmpleadoModificado.fechaCreacion = DateTime.Now;
+                    documentoEmpleadoModificado.usuarioId = usuario.Id;
+
+                    db.SalarialesEmpleadoes.Add(documentoEmpleadoModificado);
+                }
+
+                db.Entry(empleadoModificado).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Edit", "Empleados", new { id = empleado.id });
+            }
+            return RedirectToAction("Edit", "Empleados", new { id = empleado.id });
         }
 
         // GET: Empleados/Delete/5
@@ -330,6 +495,15 @@ namespace SUAMVC.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Empleado empleado = db.Empleados.Find(id);
+
+            Solicitud solicitud = obtenerSolicitudActiva(id);
+            solicitud.noTrabajadores = solicitud.noTrabajadores - 1;
+
+            SolicitudEmpleado solEmp = db.SolicitudEmpleadoes.Where(se => se.solicitudId.Equals(solicitud.id)
+                && se.empleadoId.Equals(id)).FirstOrDefault();
+
+            db.SolicitudEmpleadoes.Remove(solEmp);
+            db.Entry(solicitud).State = EntityState.Modified;
             db.Empleados.Remove(empleado);
             db.SaveChanges();
             return RedirectToAction("Index");

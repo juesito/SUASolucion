@@ -29,7 +29,7 @@ namespace SUADATOS
         public Nullable<decimal> porcientoPension { get; set; }
         public Nullable<decimal> importePension { get; set; }
         public Nullable<int> periodoId { get; set; }
-        public System.DateTime fechaCaptura { get; set; }
+        public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
         public virtual Concepto Concepto { get; set; }
