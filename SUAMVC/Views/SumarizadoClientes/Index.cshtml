@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SUADATOS.SumarizadoCliente>
+﻿@model SUAMVC.Models.SumarizadoClienteModel
 @using SUADATOS
 @using SUAMVC.Models
 @using System.Text;
@@ -12,59 +12,67 @@
         Response.Redirect("~/Home/Index");
     }
     Usuario usuario = Session["UsuarioData"] as Usuario;
-    var grid = new WebGrid(source: Model, rowsPerPage: 10);
     var tableHtml = string.Empty;
-    var sb = new StringBuilder();
 
-    if (ViewBag.filtered != null)
+    if (Model != null)
     {
-        //Creamos una lista de columnas
-        var gridColumns = new List<WebGridColumn>();
+        var grid = new WebGrid(source: Model.sumarizadoCliente, rowsPerPage: 10);
+        var sb = new StringBuilder();
 
-        gridColumns.Add(grid.Column("Patrone.registro", "Reg. Patronal", format: @<text> @if (@item.Patrone.registro != null)
-        {  @item.Patrone.registro   }</text>, canSort: true));
+        if (ViewBag.filtered != null)
+        {
+            //Creamos una lista de columnas
+            var gridColumns = new List<WebGridColumn>();
 
-        gridColumns.Add(grid.Column("anno", "Año", format: @<text> @if (@item.anno != null)
-        {  @item.anno }</text>, canSort: true));
+            gridColumns.Add(grid.Column("Patrone.registro", "Reg. Patronal", format: @<text> @if (@item.Patrone.registro != null)
+            {  @item.Patrone.registro   }</text>, canSort: true));
 
-        gridColumns.Add(grid.Column("mes", "mes", format: @<text> @if (@item.mes != null)
-        {  @item.mes }</text>, canSort: true));
+            gridColumns.Add(grid.Column("anno", "Año", format: @<text> @if (@item.anno != null)
+            {  @item.anno }</text>, canSort: true));
 
-        gridColumns.Add(grid.Column("Cliente.claveCliente", "ID. Cliente", format: @<text> @if (@item.Cliente.claveCliente != null)
-        {  @item.Cliente.claveCliente }</text>, canSort: true));
+            gridColumns.Add(grid.Column("mes", "mes", format: @<text> @if (@item.mes != null)
+            {  @item.mes }</text>, canSort: true));
 
-        gridColumns.Add(grid.Column("Cliente.descripcion", "Nombre", format: @<text> @if (@item.Cliente.descripcion != null)
-        {  @item.Cliente.descripcion }</text>, canSort: true));
-        gridColumns.Add(grid.Column("Cliente.Grupos.claveGrupo", "ID. Grupo", format: @<text> @if (@item.Cliente.Grupos.claveGrupo != null)
-        {  @item.Cliente.Grupos.claveGrupo }</text>, canSort: true));
+            gridColumns.Add(grid.Column("Cliente.claveCliente", "ID. Cliente", format: @<text> @if (@item.Cliente.claveCliente != null)
+            {  @item.Cliente.claveCliente }</text>, canSort: true));
 
-        gridColumns.Add(grid.Column("imss", "IMSS", format: @<text>@if (@item.imss != null)
-        { @item.imss.ToString("#,##0.00")}</text>, canSort: true));
+            gridColumns.Add(grid.Column("Cliente.descripcion", "Nombre", format: @<text> @if (@item.Cliente.descripcion != null)
+            {  @item.Cliente.descripcion }</text>, canSort: true));
+            gridColumns.Add(grid.Column("Cliente.Grupos.claveGrupo", "ID. Grupo", format: @<text> @if (@item.Cliente.Grupos.claveGrupo != null)
+            {  @item.Cliente.Grupos.claveGrupo }</text>, canSort: true));
 
-        gridColumns.Add(grid.Column("rcv", "RCV", format: @<text>@if (@item.rcv != null)
-        { @item.rcv.ToString("#,##0.00")}</text>, canSort: true));
+            gridColumns.Add(grid.Column("imss", "IMSS", format: @<text>@if (@item.imss != null)
+            { @item.imss.ToString("#,##0.00")}</text>, canSort: true));
 
-        gridColumns.Add(grid.Column("infonavit", "Infonavit", format: @<text>@if (@item.infornavit != null)
-        { @item.infonavit.ToString("#,##0.00")}</text>, canSort: true));
+            gridColumns.Add(grid.Column("rcv", "RCV", format: @<text>@if (@item.rcv != null)
+            { @item.rcv.ToString("#,##0.00")}</text>, canSort: true));
 
-        gridColumns.Add(grid.Column("total", "Total", format: @<text>@if (@item.total != null)
-        { @item.total.ToString("#,##0.00")}</text>, canSort: true));
-        gridColumns.Add(grid.Column("nt", "NT", format: @<text> @if (@item.nt != null)
-        {  @item.nt }</text>, canSort: true));
-        gridColumns.Add(grid.Column("Patrone.Plaza.cveCorta", "Plaza", format: @<text> @if (@item.Patrone.Plaza.cveCorta != null)
-        {  @item.Patrone.Plaza.cveCorta }</text>, canSort: true));
+            gridColumns.Add(grid.Column("infonavit", "Infonavit", format: @<text>@if (@item.infonavit != null)
+            { @item.infonavit.ToString("#,##0.00")}</text>, canSort: true));
 
-        sb.Append(grid.GetHtml(
-    columns: grid.Columns(gridColumns.ToArray()),
-    tableStyle: "table table-striped tableSua"
-    ));
+            gridColumns.Add(grid.Column("total", "Total", format: @<text>@if (@item.total != null)
+            { @item.total.ToString("#,##0.00")}</text>, canSort: true));
+            gridColumns.Add(grid.Column("nt", "NT", format: @<text> @if (@item.nt != null)
+            {  @item.nt }</text>, canSort: true));
+            gridColumns.Add(grid.Column("Patrone.Plaza.cveCorta", "Plaza", format: @<text> @if (@item.Patrone.Plaza.cveCorta != null)
+            {  @item.Patrone.Plaza.cveCorta }</text>, canSort: true));
 
-        tableHtml = sb.ToString();
+            sb.Append(grid.GetHtml(
+        columns: grid.Columns(gridColumns.ToArray()),
+        tableStyle: "table table-striped tableSua"
+        ));
+
+            String footer = "<tfoot><tr> " +
+                        "<td>Totales:</td> <td colspan=5></td>" +
+                        "<td>" + @Model.sumarizadoAcumulado.sumImss + "</td><td>" + @Model.sumarizadoAcumulado.sumRcv + " </td>" +
+                        "<td>" + @Model.sumarizadoAcumulado.sumInfonavit + "</td><td>" + @Model.sumarizadoAcumulado.sumTotal + "</td>" +
+                        "<td>" + @Model.sumarizadoAcumulado.sumNt + "</td></tr></tfoot></table>";
+            tableHtml = sb.ToString().Replace("</table>", footer).Trim(); 
+        }
     }
 
 
 }
-
 @section Menu {
     <div>Resum por cliente<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
@@ -103,6 +111,7 @@
                     </td>
                 </tr>
             </thead>
+
         </table>
     </div>
 }
@@ -110,5 +119,8 @@
 {
     <div id="table-container" class="table-container">
         @Html.Raw(tableHtml)
+        <div>
+            
+        </div>
     </div>
 }

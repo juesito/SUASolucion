@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using SUADATOS;
 using System.Data.SqlClient;
 using System.Web.Helpers;
+using SUAMVC.Models;
 
 
 namespace SUAMVC.Controllers
@@ -21,6 +22,7 @@ namespace SUAMVC.Controllers
         public ActionResult Index(String plazasId, String patronesId, String periodoId,
             String ejercicioId, String clientesId, String usuarioId)
         {
+            SumarizadoClienteModel sumarizadoClienteModel = new SumarizadoClienteModel();
             if (!String.IsNullOrEmpty(clientesId))
             {
                 ViewBag.filtered = true;
@@ -49,7 +51,21 @@ namespace SUAMVC.Controllers
                 }
 
                 sumarizadoClientes = sumarizadoClientes.OrderBy(p => p.Patrone.registro);
-                return View(sumarizadoClientes.ToList());
+                
+                sumarizadoClienteModel.sumarizadoCliente = sumarizadoClientes.ToList();
+                SumarizadoAcumulado sa = new SumarizadoAcumulado();
+
+                foreach (SumarizadoCliente sc in sumarizadoClientes) {
+                    sa.sumImss = sa.sumImss + System.Convert.ToDouble(sc.imss);
+                    sa.sumRcv = sa.sumRcv + System.Convert.ToDouble(sc.rcv);
+                    sa.sumInfonavit = sa.sumInfonavit + System.Convert.ToDouble(sc.infonavit);
+                    sa.sumTotal = sa.sumTotal + System.Convert.ToDouble(sc.total);
+                    sa.sumNt = sa.sumNt + System.Convert.ToDouble(sc.nt);
+                }
+
+                sumarizadoClienteModel.sumarizadoAcumulado = sa;
+
+                return View(sumarizadoClienteModel);
             }
             return View();
         }

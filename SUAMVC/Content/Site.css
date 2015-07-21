@@ -270,6 +270,15 @@ tfoot {
     border: none;
 }
 
+.raddEmployee_button {
+    background: url(Images/addEmployee1.png) no-repeat;
+    background-size: 30px 30px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border: none;
+}
+
 .rpdf_button {
     background: url(Images/pdf.gif) no-repeat;
     background-size: 20px 20px;
