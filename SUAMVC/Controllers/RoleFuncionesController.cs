@@ -12,7 +12,7 @@ namespace SUAMVC.Controllers
     {
         private suaEntities db = new suaEntities();
         // GET: RoleFunciones
-        public ActionResult Index(String roleId, String moduleId)
+        public ActionResult Index(String roleId, String moduleId, String tipo)
         {
             ViewBag.roleId = new SelectList(db.Roles, "id", "descripcion");
             ViewBag.moduleId = new SelectList(db.Modulos, "id", "descripcionCorta");
@@ -29,6 +29,7 @@ namespace SUAMVC.Controllers
                 roleFuncion.funciones = new List<Funcion>();
                 roleFuncion.funcionesByRole = new List<Funcion>();
 
+                //Obtenemos las funciones activas en el rol seleccionado
                 var roleFuncionesIds = (from x in db.RoleFuncions
                                         where x.roleId.Equals(id)
                                         select x.funcionId);
@@ -40,6 +41,7 @@ namespace SUAMVC.Controllers
                     var funciones = (from m in db.Funcions
                                      where m.moduloId.Equals(lmoduleId)
                                      && !roleFuncionesIds.Contains(m.id)
+                                     && m.tipo.Trim().Equals(tipo.Trim())
                                      select m).ToList();
                     funciones.ToList().ForEach(x => roleFuncion.funciones.Add(x));
                 }
@@ -47,6 +49,7 @@ namespace SUAMVC.Controllers
                 {
                     var funciones = (from m in db.Funcions
                                      where m.moduloId.Equals(lmoduleId)
+                                     && m.tipo.Trim().Equals(tipo.Trim())
                                      select m).ToList();
                     funciones.ToList().ForEach(x => roleFuncion.funciones.Add(x));
                 }

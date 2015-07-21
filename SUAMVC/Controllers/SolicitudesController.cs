@@ -22,11 +22,17 @@ namespace SUAMVC.Controllers
         // GET: Solicitudes
         public ActionResult Index(string clientesId, String folioId)
         {
+            ToolsHelper th = new ToolsHelper();
+            Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "alta");
+            Usuario usuario = Session["UsuarioData"] as Usuario;
 
-            Concepto tipoSolicitud = db.Conceptos.Where(s => s.grupo.Equals("SOLCON") &&
-                s.descripcion.ToLower().Trim().Contains("alta")).FirstOrDefault();
-
-            var solicituds = db.Solicituds.Include(s => s.Cliente).Include(s => s.Concepto).Include(s => s.Concepto1).Include(s => s.Concepto2).Include(s => s.Concepto3).Include(s => s.Concepto4).Include(s => s.EsquemasPago).Include(s => s.Plaza).Include(s => s.Proyecto).Include(s => s.TipoContrato).Include(s => s.TipoPersonal).Include(s => s.Usuario);
+            //Buscamos las solicitudes que puede ver ese usuario
+            //de acuerdo a sus clientes permitidos
+            var solicituds = (from s in db.Solicituds
+                              join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
+                              where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
+                              orderby s.fechaSolicitud
+                              select s).ToList();
 
             if (!String.IsNullOrEmpty(clientesId))
             {
@@ -34,17 +40,16 @@ namespace SUAMVC.Controllers
                 Cliente cliente = db.Clientes.Find(clienteId);
                 if (!cliente.descripcion.ToLower().Contains("seleccion"))
                 {
-
-                    solicituds = solicituds.Where(s => s.clienteId.Equals(clienteId));
+                    solicituds = solicituds.Where(s => s.clienteId.Equals(clienteId)).ToList();
                 }
-            }
+            }// Se va a filtrar por cliente ?
             if (!String.IsNullOrEmpty(folioId))
             {
-                solicituds = solicituds.Where(s => s.folioSolicitud.Contains(folioId));
-            }
+                solicituds = solicituds.Where(s => s.folioSolicitud.Contains(folioId)).ToList();
+            }//Se va a filtrar por folio?
 
-            //Filtramos solo solicitudes de Alta
-            solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(tipoSolicitud.id));
+            //Filtrar por el tipo de solicitud=baja
+            solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(tipoSolicitud.id)).ToList();
 
             return View(solicituds.ToList());
         }
@@ -116,8 +121,6 @@ namespace SUAMVC.Controllers
                 solicitud.folioSolicitud = "";
                 solicitud.noTrabajadores = 0;
                 solicitud.tipoSolicitud = tipoSolicitud.id;
-                
-                
 
                 try
                 {
@@ -150,7 +153,7 @@ namespace SUAMVC.Controllers
                 return RedirectToAction("Index");
             }
 
-                ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
+            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusSolicitud);
             ViewBag.estatusNomina = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusNomina);
             ViewBag.estatusJuridico = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusJuridico);
@@ -258,11 +261,11 @@ namespace SUAMVC.Controllers
                 int idTmp = int.Parse(id);
                 solicitud = db.Solicituds.Find(idTmp);
                 Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("ESTASOL") && s.descripcion.Equals("Enviado")).First();
-                solicitud.estatusSolicitud = concepto.id; 
-                
-                //Email email = new Email();
-                //email.enviarPorClienteTipo(solicitud.clienteId, "A", solicitud.id);
-                
+                solicitud.estatusSolicitud = concepto.id;
+
+                Email email = new Email();
+                email.enviarPorClienteTipo("A", solicitud.id, true);
+
                 db.Entry(solicitud).State = EntityState.Modified;
                 db.SaveChanges();
 
@@ -289,7 +292,7 @@ namespace SUAMVC.Controllers
             //traigo de la base de datos Solicitudes los registros
 
             var solicitudes = from s in db.Solicituds
-                             select s;
+                              select s;
 
             //Valida que la variable no sea nula
             if (!String.IsNullOrEmpty(solicitudId))

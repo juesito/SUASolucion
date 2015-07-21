@@ -137,11 +137,20 @@ tableStyle: "table table-striped tableSua"
                 <tr style="text-align:left;vertical-align:bottom;">
                     <td style="padding-top:15px">
                         @Html.Label("Cliente:")
+                        </td><td>
                         @Html.clientesDrownList(usuario.Id)
                     </td>
                     <td>
                         @Html.Label("Folio:")
+                    </td>
+                    <td>
                         @Html.Editor("folioId")
+                    </td>
+                    <td>
+                        @Html.Label("Proyecto:")
+                    </td>
+                    <td>
+                        @Html.proyectoDrownList(usuario.Id, "proyectoId")
                     </td>
                     <td>
                         <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />

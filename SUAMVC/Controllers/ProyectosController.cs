@@ -15,10 +15,21 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Proyectos
-        public ActionResult Index()
+        public ActionResult Index(String clienteId)
         {
-            var proyectos = db.Proyectos.Include(p => p.Cliente);
-            return View(proyectos.ToList());
+            
+            if (!String.IsNullOrEmpty(clienteId)) { 
+                var proyectos = db.Proyectos.Include(p => p.Cliente);
+                int clienteTempId = int.Parse(clienteId.Trim());
+                proyectos = proyectos.Where(p => p.clienteId.Equals(clienteTempId)).OrderBy(p => p.fechaCreacion);
+
+                ViewBag.clienteId = clienteTempId;
+
+                return View(proyectos.ToList());
+            }
+
+            List<Proyecto> list = new List<Proyecto>();
+            return View(list);
         }
 
         // GET: Proyectos/Details/5
@@ -37,9 +48,9 @@ namespace SUAMVC.Controllers
         }
 
         // GET: Proyectos/Create
-        public ActionResult Create()
+        public ActionResult Create(int clienteId)
         {
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
+            ViewBag.clienteId = clienteId;
             return View();
         }
 
@@ -58,10 +69,9 @@ namespace SUAMVC.Controllers
                 proyecto.usuarioId = usuario.Id;
                 db.Proyectos.Add(proyecto);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { clienteId = proyecto.clienteId});
             }
 
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", proyecto.clienteId);
             return View(proyecto);
         }
 
@@ -77,7 +87,6 @@ namespace SUAMVC.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", proyecto.clienteId);
             return View(proyecto);
         }
 
@@ -97,9 +106,8 @@ namespace SUAMVC.Controllers
                 proyecto.descripcion = proyecto.descripcion.Trim();
                 db.Entry(proyecto).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { clienteId = proyecto.id});
             }
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", proyecto.clienteId);
             return View(proyecto);
         }
 

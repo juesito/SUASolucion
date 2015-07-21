@@ -15,10 +15,21 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: SDIs
-        public ActionResult Index()
+        public ActionResult Index(String clienteId)
         {
-            var sDIs = db.SDIs.Include(s => s.Usuario);
-            return View(sDIs.ToList());
+            if (!String.IsNullOrEmpty(clienteId))
+            {
+                var sDIs = db.SDIs.Include(p => p.Cliente);
+                int clienteTempId = int.Parse(clienteId.Trim());
+                sDIs = sDIs.Where(p => p.clienteId.Equals(clienteTempId)).OrderBy(p => p.fechaCreacion);
+
+                ViewBag.clienteId = clienteTempId;
+
+                return View(sDIs.ToList());
+            }
+
+            List<SDI> list = new List<SDI>();
+            return View(list);
         }
 
         // GET: SDIs/Details/5
@@ -37,9 +48,9 @@ namespace SUAMVC.Controllers
         }
 
         // GET: SDIs/Create
-        public ActionResult Create()
+        public ActionResult Create(int clienteId)
         {
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario");
+            ViewBag.clienteId = clienteId;
             return View();
         }
 
@@ -58,7 +69,7 @@ namespace SUAMVC.Controllers
                 sDI.usuarioId = usuario.Id;
                 db.SDIs.Add(sDI);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { clienteId = sDI.clienteId });
             }
 
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", sDI.usuarioId);
@@ -96,7 +107,7 @@ namespace SUAMVC.Controllers
                 sDI.usuarioId = usuario.Id;
                 db.Entry(sDI).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { clienteId = sDI.clienteId });
             }
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", sDI.usuarioId);
             return View(sDI);
