@@ -644,12 +644,13 @@ namespace SUAMVC.Controllers
 
         //Modificar Empleado
         // GET: ModificarEmpleado
-        public ActionResult ModificarEmpleado(int id, string clienteId)
+        public ActionResult ModificarEmpleado(int id, string clienteId, string solicitudId)
         {
 
             List<Empleado> listEmpleados = new List<Empleado>();
             int clienteTempId = int.Parse(clienteId);
             Solicitud solicitud = db.Solicituds.Find(id);
+       
 
             ViewBag.solicitudId = id;
 
@@ -659,12 +660,19 @@ namespace SUAMVC.Controllers
                                             && e.estatus.Equals("A")
                                             orderby s.id
                                             select s.Empleado).ToList();
+            
+          
+           
+            
+
             foreach (Empleado emp in empleadosList)
             {
-                emp.fechaBaja = solicitud.fechaBaja;
+                emp.fechaModificacion = solicitud.fechaModificacion;
                 listEmpleados.Add(emp);
+                
             }
-
+            db.Entry(solicitud).State = EntityState.Modified;
+            db.SaveChanges();
             return View(listEmpleados);
         }
 
@@ -751,6 +759,33 @@ namespace SUAMVC.Controllers
 
 
         }
+
+        public ActionResult ModificarSalario()
+        {
+
+            var empleadoId = Request["EmpleadoId"];
+            var sdiId = Request["Sdi"];
+            if (empleadoId != null && sdiId != null)
+            {
+                int empleadoTempId = int.Parse(empleadoId);
+                int sdiTempId = int.Parse(sdiId);
+
+                Empleado empleado = db.Empleados.Find(empleadoTempId);
+                empleado.sdiId = sdiTempId;
+
+                db.Entry(empleado).State = EntityState.Modified;
+                db.SaveChanges();
+
+            }
+
+
+            return Json(Response.Output);
+
+        }
+
+
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
