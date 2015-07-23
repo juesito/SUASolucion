@@ -764,4 +764,55 @@
     <value>parametros</value>
     <comment>Etiqueta Parámetros</comment>
   </data>
+  <data name="contacto" xml:space="preserve">
+    <value>Contacto</value>
+  </data>
+  <data name="direcFiscal" xml:space="preserve">
+    <value>Direección Fiscal</value>
+    <comment>Etiqueta para direccion fiscal</comment>
+  </data>
+  <data name="empFacturadora" xml:space="preserve">
+    <value>Empresa Facturadora</value>
+  </data>
+  <data name="claveUsuario" xml:space="preserve">
+    <value>Clave Usuario</value>
+  </data>
+  <data name="contrasena" xml:space="preserve">
+    <value>Contraseña</value>
+    <comment>Etiqueta para contraseña</comment>
+  </data>
+  <data name="eliminar" xml:space="preserve">
+    <value />
+  </data>
+  <data name="servicio" xml:space="preserve">
+    <value>Servicio</value>
+    <comment>Etiqueta para servicios</comment>
+  </data>
+  <data name="actividadPrincipal" xml:space="preserve">
+    <value>Actividad Principal</value>
+  </data>
+  <data name="claveSua" xml:space="preserve">
+    <value>Clave SUA</value>
+  </data>
+  <data name="direccionFiscal" xml:space="preserve">
+    <value>Dirección Fiscal</value>
+  </data>
+  <data name="direccionOficina" xml:space="preserve">
+    <value>Dirección de Oficina</value>
+  </data>
+  <data name="ejecutivoContador" xml:space="preserve">
+    <value>Ejecutivo Contador</value>
+  </data>
+  <data name="empresaFacturadora" xml:space="preserve">
+    <value>Empresa Facturadora</value>
+  </data>
+  <data name="numeroCuenta" xml:space="preserve">
+    <value>Número de Cuenta</value>
+  </data>
+  <data name="telefono" xml:space="preserve">
+    <value>Teléfono</value>
+  </data>
+  <data name="tipoServicio" xml:space="preserve">
+    <value>Tipo de Servicio</value>
+  </data>
 </root>
