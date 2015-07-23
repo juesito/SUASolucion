@@ -447,6 +447,7 @@
     <Compile Include="Models\AseguradoMovimientosModel.cs" />
     <Compile Include="Models\DatesHelper.cs" />
     <Compile Include="Models\DatosEmpleadoModel.cs" />
+    <Compile Include="Models\DestinatorModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\MenuItem.cs" />
@@ -576,10 +577,6 @@
     <Content Include="Views\Incapacidades\Details.cshtml" />
     <Content Include="Views\Incapacidades\Edit.cshtml" />
     <Content Include="Views\Incapacidades\Index.cshtml" />
-    <Content Include="Views\Pagos\Create.cshtml" />
-    <Content Include="Views\Pagos\Delete.cshtml" />
-    <Content Include="Views\Pagos\Details.cshtml" />
-    <Content Include="Views\Pagos\Edit.cshtml" />
     <Content Include="Views\Pagos\Index.cshtml" />
     <Content Include="Views\Pagos\UploadPagos.cshtml" />
     <Content Include="Views\Proyectos\Create.cshtml" />
@@ -669,6 +666,8 @@
     <Content Include="Views\FamiliaresEmpleados\Details.cshtml" />
     <Content Include="Views\FamiliaresEmpleados\Edit.cshtml" />
     <Content Include="Views\FamiliaresEmpleados\Index.cshtml" />
+    <Content Include="Views\Pagos\ResumenPagos.cshtml" />
+    <Content Include="Views\Pagos\UploadComprobantes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -20,7 +20,7 @@
     }
     Usuario usuario = Session["UsuarioData"] as Usuario;
 
-    var grid = new WebGrid(source: Model, rowsPerPage: 12);
+    var grid = new WebGrid(source: Model, canPage: false);
     @functions {
         static IHtmlString ShowPDF(string id)
         {
@@ -157,10 +157,17 @@
                     <td>
                         @Html.patronesDrownList(usuario.Id)
                     </td>
-                    <td>@Html.Label("Periodo :")</td>
-                    <td>@Html.periodosAutoList()</td>
-                    <td>@Html.Label("Ejercicio :")</td>
-                    <td>@Html.ejercicioAutoList()</td>
+                    <td>
+                        <b>@Language.periodo:</b>
+                    </td>
+                    <td>@Html.periodosAutoList()
+                    </td>
+                    <td>
+                        <b>@Language.ejercicio:</b>
+                    </td>
+                    <td>
+                        @Html.ejercicioAutoList()
+                    </td>
                     <td style="padding-right:10px; padding-left:10px" rowspan="2">
                         <a href="@Url.Action("GetExcel", "Pagos", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
                                 periodoId = @ViewBag.periodoId, ejercicioId = @ViewBag.ejercicioId})" style="text-align:right">

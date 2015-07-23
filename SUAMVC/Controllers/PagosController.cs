@@ -80,252 +80,144 @@ namespace SUAMVC.Controllers
                     Boolean existe = false;
                     SUAHelper suaHelper = new SUAHelper(path);
 
-                    String sSQL = "SELECT * FROM RESUMEN" +
+                    String sSQL = "SELECT COUNT(*) FROM RESUMEN" +
                                "  WHERE Reg_Patr = '" + patron.registro + "'" +
-                               "    AND Mes_Ano = '" + periodo + "'" +
-                               "   ORDER BY Reg_Patr";
+                               "    AND Mes_Ano = '" + periodo + "'";
 
-                    DataTable dt2 = suaHelper.ejecutarSQL(sSQL);
+                    DataTable dt3 = suaHelper.ejecutarSQL(sSQL);
+                    
+                    int registros = 0;
 
-                    foreach (DataRow rows in dt2.Rows)
+                    foreach (DataRow rows1 in dt3.Rows)
                     {
-                        Pago pago = new Pago();
-                        pago = db.Pagos.Where(p => p.patronId.Equals(patron.Id) && p.mes.Trim().Equals(periodoId.Trim()) && p.anno.Trim().Equals(ejercicioId.Trim())).FirstOrDefault();
-                        Boolean actualizar = false;
+                        registros = int.Parse(rows1[0].ToString());
+                    }
 
-                        if (pago != null)
+                    if (registros == 0)
+                    {
+                        ViewBag.dbUploaded = true;
+                        TempData["error"] = true;
+                        TempData["viewMessage"] = "No hay datos para el periodo seleccionado!";
+                    }
+                    else
+                    { 
+                        sSQL = "SELECT * FROM RESUMEN" +
+                                   "  WHERE Reg_Patr = '" + patron.registro + "'" +
+                                   "    AND Mes_Ano = '" + periodo + "'" +
+                                   "   ORDER BY Reg_Patr";
+
+                        DataTable dt2 = suaHelper.ejecutarSQL(sSQL);
+
+                        foreach (DataRow rows in dt2.Rows)
                         {
-                            actualizar = true;
-                        }
-                        else
-                        {
-                            pago = new Pago();
-                        pago.mes = periodoId;
-                        pago.anno = ejercicioId;
-                        }
+                            Pago pago = new Pago();
+                            pago = db.Pagos.Where(p => p.patronId.Equals(patron.Id) && p.mes.Trim().Equals(periodoId.Trim()) && p.anno.Trim().Equals(ejercicioId.Trim())).FirstOrDefault();
+                            Boolean actualizar = false;
 
-                        pago.imss = Decimal.Parse(rows["CTA_FIJ"].ToString()) + Decimal.Parse(rows["CTA_EXC"].ToString()) +
-                                    Decimal.Parse(rows["PRE_DIN"].ToString()) + Decimal.Parse(rows["PRE_ESP"].ToString()) +
-                                    Decimal.Parse(rows["RIE_TRA"].ToString()) + Decimal.Parse(rows["INV_VID"].ToString()) +
-                                    Decimal.Parse(rows["GUA_DER"].ToString());
-
-                        pago.rcv = Decimal.Parse(rows["RET_SAR"].ToString()) + Decimal.Parse(rows["CEN_VEJPat"].ToString()) +
-                                   Decimal.Parse(rows["Cen_VEJObr"].ToString());
-
-                        pago.infonavit = Decimal.Parse(rows["VIV_SIN"].ToString()) + Decimal.Parse(rows["VIV_CON"].ToString()) +
-                                         Decimal.Parse(rows["AMO_INF"].ToString());
-
-                        pago.total = pago.imss + pago.rcv + pago.infonavit;
-
-                        pago.recargos = Decimal.Parse(rows["REC_IMS"].ToString()) + Decimal.Parse(rows["REC_SAR"].ToString()) +
-                                        Decimal.Parse(rows["REC_VIV"].ToString());
-
-                        pago.actualizaciones = Decimal.Parse(rows["ACT_IMS"].ToString()) + Decimal.Parse(rows["ACT_SAR"].ToString()) +
-                                               Decimal.Parse(rows["ACT_VIV"].ToString());
-
-                        pago.granTotal = pago.recargos + pago.actualizaciones;
-
-                        sSQL = "SELECT COUNT(*) FROM RELTRA" +
-                           "  WHERE Reg_Pat = '" + patron.registro + "'" +
-                           "    AND Periodo = '" + periodo + "'";
-
-                        DataTable dt3 = suaHelper.ejecutarSQL(sSQL);
-
-                        foreach (DataRow rows1 in dt3.Rows)
-                        {
-                            pago.nt = int.Parse(rows1[0].ToString());
-                        }
-
-                        if (pago.nt == 0)
-                        {
-                            break;
-                        }
-
-                        pago.patronId = patron.Id;
-                        pago.Patrone = patron;
-                        pago.fechaCreacion = DateTime.Now;
-                        pago.usuarioId = userId;
-
- //                       Guardamos el pago.
-                        if (actualizar)
-                        {
-                            db.Entry(pago).State = EntityState.Modified;
-                        }
-                        else
-                        {
-                            db.Pagos.Add(pago);
-                        }                        
-                        db.SaveChanges();
-                        existe = true;
-
-                        if (existe)
-                        {
-
-                            //Preparamos el query del resúmen
-                            sSQL = "SELECT * FROM RELTRA " +
-                                   "  WHERE Reg_Pat = '" + patron.registro + "'" +
-                                   "    AND Periodo = '" + periodo + "'" +
-                                   "   ORDER BY Reg_Pat";
-
-                            DataTable dt4 = suaHelper.ejecutarSQL(sSQL);
-
-                            foreach (DataRow row2 in dt4.Rows)
+                            if (pago != null)
                             {
-                                Boolean actualizarDetalle = false;
+                                actualizar = true;
+                            }
+                            else
+                            {
+                                pago = new Pago();
+                                pago.mes = periodoId;
+                                pago.anno = ejercicioId;
+                            }
 
-                                DetallePago detallePago = new DetallePago();
-                                String nss = row2["Num_Afi"].ToString().Trim();
+                            pago.imss = Decimal.Parse(rows["CTA_FIJ"].ToString()) + Decimal.Parse(rows["CTA_EXC"].ToString()) +
+                                        Decimal.Parse(rows["PRE_DIN"].ToString()) + Decimal.Parse(rows["PRE_ESP"].ToString()) +
+                                        Decimal.Parse(rows["RIE_TRA"].ToString()) + Decimal.Parse(rows["INV_VID"].ToString()) +
+                                        Decimal.Parse(rows["GUA_DER"].ToString());
 
-                                Asegurado asegurado = db.Asegurados.Where(a => a.numeroAfiliacion.Equals(nss.Trim())).FirstOrDefault();
+                            pago.rcv = Decimal.Parse(rows["RET_SAR"].ToString()) + Decimal.Parse(rows["CEN_VEJPat"].ToString()) +
+                                       Decimal.Parse(rows["Cen_VEJObr"].ToString());
 
-                                detallePago = db.DetallePagoes.Where(dp => dp.pagoId.Equals(pago.id) && dp.aseguradoId.Equals(asegurado.id)).FirstOrDefault();
+                            pago.infonavit = Decimal.Parse(rows["VIV_SIN"].ToString()) + Decimal.Parse(rows["VIV_CON"].ToString()) +
+                                             Decimal.Parse(rows["AMO_INF"].ToString());
 
-                                if (detallePago != null)
-                                {
-                                    actualizarDetalle = true;
-                                }
-                                else
-                                {
-                                    detallePago = new DetallePago();
-                                    detallePago.pagoId = pago.id;
-                                    detallePago.Pago = pago;
-                                    detallePago.aseguradoId = asegurado.id;
-                                    detallePago.Asegurado = asegurado;
-                                    detallePago.patronId = patron.Id;
-                                    detallePago.Patrone = patron;
-                                }
-                                detallePago.diasCotizados = int.Parse(row2["dia_cot"].ToString().Trim());
-                                detallePago.sdi = decimal.Parse(row2["sal_dia"].ToString().Trim());
+                            pago.total = pago.imss + pago.rcv + pago.infonavit;
 
-                                if (String.IsNullOrEmpty(row2["Dia_Inc"].ToString()))
-                                {
-                                    detallePago.diasIncapacidad = 0;
-                                }
-                                else
-                                {
-                                    detallePago.diasIncapacidad = int.Parse(row2["Dia_Inc"].ToString().Trim());
-                                }
+                            pago.recargos = Decimal.Parse(rows["REC_IMS"].ToString()) + Decimal.Parse(rows["REC_SAR"].ToString()) +
+                                            Decimal.Parse(rows["REC_VIV"].ToString());
 
-                                if (String.IsNullOrEmpty(row2["Dia_Aus"].ToString()))
-                                {
-                                    detallePago.diasAusentismo = 0;
-                                }
-                                else
-                                {
-                                    detallePago.diasAusentismo = int.Parse(row2["Dia_Aus"].ToString().Trim());
-                                }
+                            pago.actualizaciones = Decimal.Parse(rows["ACT_IMS"].ToString()) + Decimal.Parse(rows["ACT_SAR"].ToString()) +
+                                                   Decimal.Parse(rows["ACT_VIV"].ToString());
 
-                                if (String.IsNullOrEmpty(row2["CF"].ToString()))
-                                {
-                                    detallePago.cuotaFija = 0;
-                                }
-                                else
-                                {
-                                    detallePago.cuotaFija = decimal.Parse(row2["CF"].ToString().Trim());
-                                }
+                            pago.granTotal = pago.recargos + pago.actualizaciones;
 
-                                if (String.IsNullOrEmpty(row2["EXPA"].ToString()))
-                                {
-                                    detallePago.expa = 0;
-                                }
-                                else
-                                {
-                                    detallePago.expa = decimal.Parse(row2["EXPA"].ToString().Trim());
-                                }
+                            int newMes = mes / 2;
+                            String newPeriodo = ejercicioId.Trim() + "0" + newMes.ToString();
+                            if (esBimestral)
+                            {
+                                sSQL = "SELECT COUNT(*) FROM (SELECT DISTINCT Num_Afi FROM RELTRABIM" +
+                               "  WHERE Reg_Pat = '" + patron.registro + "'" +
+                               "    AND Periodo = '" + newPeriodo + "')";
+                            }
+                            else
+                            {
 
-                                if (String.IsNullOrEmpty(row2["EXO"].ToString()))
-                                {
-                                    detallePago.exO = 0;
-                                }
-                                else
-                                {
-                                    detallePago.exO = decimal.Parse(row2["EXO"].ToString().Trim());
-                                }
+                                sSQL = "SELECT COUNT(*) FROM (SELECT DISTINCT Num_Afi FROM RELTRA" +
+                               "  WHERE Reg_Pat = '" + patron.registro + "'" +
+                               "    AND Periodo = '" + periodo + "')";
+                            }
 
-                                if (String.IsNullOrEmpty(row2["PDP"].ToString()))
-                                {
-                                    detallePago.pdp = 0;
-                                }
-                                else
-                                {
-                                    detallePago.pdp = decimal.Parse(row2["PDP"].ToString().Trim());
-                                }
+                            dt3 = suaHelper.ejecutarSQL(sSQL);
 
-                                if (String.IsNullOrEmpty(row2["PDO"].ToString()))
-                                {
-                                    detallePago.pdo = 0;
-                                }
-                                else
-                                {
-                                    detallePago.pdo = decimal.Parse(row2["PDO"].ToString().Trim());
-                                }
+                            foreach (DataRow rows1 in dt3.Rows)
+                            {
+                                pago.nt = int.Parse(rows1[0].ToString());
+                            }
 
-                                if (String.IsNullOrEmpty(row2["GMPP"].ToString()))
-                                {
-                                    detallePago.gmpp = 0;
-                                }
-                                else
-                                {
-                                    detallePago.gmpp = decimal.Parse(row2["GMPP"].ToString().Trim());
-                                }
+                            if (pago.nt == 0)
+                            {
+                                ViewBag.dbUploaded = true;
+                                TempData["error"] = true;
+                                TempData["viewMessage"] = "No hay datos para el periodo seleccionado!";
+                                break;
+                            }
 
-                                if (String.IsNullOrEmpty(row2["GMPO"].ToString()))
-                                {
-                                    detallePago.gmpo = 0;
-                                }
-                                else
-                                {
-                                    detallePago.gmpo = decimal.Parse(row2["GMPO"].ToString().Trim());
-                                }
+                            pago.patronId = patron.Id;
+                            pago.Patrone = patron;
+                            pago.fechaCreacion = DateTime.Now;
+                            pago.usuarioId = userId;
 
-                                if (String.IsNullOrEmpty(row2["RT"].ToString()))
-                                {
-                                    detallePago.rt = 0;
-                                }
-                                else
-                                {
-                                    detallePago.rt = decimal.Parse(row2["RT"].ToString().Trim());
-                                }
+                            //                       Guardamos el pago.
+                            if (actualizar)
+                            {
+                                db.Entry(pago).State = EntityState.Modified;
+                            }
+                            else
+                            {
+                                db.Pagos.Add(pago);
+                            }
+                            db.SaveChanges();
+                            existe = true;
 
-                                if (String.IsNullOrEmpty(row2["IVP"].ToString()))
-                                {
-                                    detallePago.ivp = 0;
-                                }
-                                else
-                                {
-                                    detallePago.ivp = decimal.Parse(row2["IVP"].ToString().Trim());
-                                }
+                            if (existe)
+                            {
 
-                                if (String.IsNullOrEmpty(row2["IVO"].ToString()))
-                                {
-                                    detallePago.ivo = 0;
-                                }
-                                else
-                                {
-                                    detallePago.ivo = decimal.Parse(row2["IVO"].ToString().Trim());
-                                }
+                                List<DetallePago> listDetalle = new List<DetallePago>();
 
-                                if (String.IsNullOrEmpty(row2["GPS"].ToString()))
-                                {
-                                    detallePago.gps = 0;
-                                }
-                                else
-                                {
-                                    detallePago.gps = decimal.Parse(row2["GPS"].ToString().Trim());
-                                }
+                                var detalle = from d in db.DetallePagoes
+                                                       where d.pagoId.Equals(pago.id)
+                                                       select d;
+                                listDetalle = detalle.ToList();
 
-                                detallePago.patronal = detallePago.cuotaFija + detallePago.expa + detallePago.pdp + detallePago.gmpp + detallePago.rt + detallePago.ivp + detallePago.gps;
-                                detallePago.obrera = detallePago.exO + detallePago.pdo + detallePago.gmpo + detallePago.ivo;
-                                detallePago.imss = detallePago.patronal + detallePago.obrera;
+                                foreach (DetallePago detFor in listDetalle)
+                                {
+                                    DetallePago det = new DetallePago();
+                                    det = detFor;
+                                    db.DetallePagoes.Remove(det);
+                                    db.SaveChanges();
+                                }
 
                                 if (esBimestral)
                                 {
-
                                     // Se guardan los datos bimestrales.
                                     sSQL = "SELECT * FROM RELTRABIM " +
                                            "  WHERE Reg_Pat = '" + patron.registro + "'" +
-                                           "    AND Periodo = '" + periodo + "'" +
-                                           "    AND Num_Afi = '" + asegurado.numeroAfiliacion.Trim() + "'" +
+                                           "    AND Periodo = '" + newPeriodo + "'" +
                                            "   ORDER BY Reg_Pat";
 
                                     DataTable dt5 = suaHelper.ejecutarSQL(sSQL);
@@ -333,99 +225,427 @@ namespace SUAMVC.Controllers
                                     foreach (DataRow row5 in dt5.Rows)
                                     {
 
-                                        if (String.IsNullOrEmpty(row5["Retiro"].ToString()))
-                                        {
-                                            detallePago.retiro = 0;
-                                        }
-                                        else
-                                        {
-                                            detallePago.retiro = decimal.Parse(row5["Retiro"].ToString().Trim());
-                                        }
-                                        if (String.IsNullOrEmpty(row5["CyVP"].ToString()))
-                                        {
-                                            detallePago.patronalBimestral = 0;
-                                        }
-                                        else
-                                        {
-                                            detallePago.patronalBimestral = decimal.Parse(row5["CyVP"].ToString().Trim());
-                                        }
-                                        if (String.IsNullOrEmpty(row5["CyVO"].ToString()))
-                                        {
-                                            detallePago.obreraBimestral = 0;
-                                        }
-                                        else
-                                        {
-                                            detallePago.obreraBimestral = decimal.Parse(row5["CyVO"].ToString().Trim());
-                                        }
+                                        DetallePago detallePago = new DetallePago();
+                                        String nss = row5["Num_Afi"].ToString().Trim();
+                                        String tipoMov = row5["Tip_Mov"].ToString().Trim();
+                                        DateTime fecMovBim = DateTime.Parse(row5["Fec_Mov"].ToString());
 
-                                        detallePago.rcv = detallePago.retiro + detallePago.patronal + detallePago.obrera;
+                                        Asegurado asegurado = db.Asegurados.Where(a => a.numeroAfiliacion.Equals(nss.Trim())).FirstOrDefault();
 
-                                        if (String.IsNullOrEmpty(row5["Aportasc"].ToString()))
-                                        {
-                                            detallePago.aportacionsc = 0;
+                                        if (asegurado != null) 
+                                        { 
+                                            if (String.IsNullOrEmpty(row5["Retiro"].ToString()))
+                                            {
+                                                detallePago.retiro = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.retiro = decimal.Parse(row5["Retiro"].ToString().Trim());
+                                            }
+                                            if (String.IsNullOrEmpty(row5["CyVP"].ToString()))
+                                            {
+                                                detallePago.patronalBimestral = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.patronalBimestral = decimal.Parse(row5["CyVP"].ToString().Trim());
+                                            }
+                                            if (String.IsNullOrEmpty(row5["CyVO"].ToString()))
+                                            {
+                                                detallePago.obreraBimestral = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.obreraBimestral = decimal.Parse(row5["CyVO"].ToString().Trim());
+                                            }
+
+                                            detallePago.rcv = detallePago.retiro + detallePago.patronal + detallePago.obrera;
+
+                                            if (String.IsNullOrEmpty(row5["Aportasc"].ToString()))
+                                            {
+                                                detallePago.aportacionsc = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.aportacionsc = decimal.Parse(row5["Aportasc"].ToString().Trim());
+                                            }
+                                            if (String.IsNullOrEmpty(row5["Aportacc"].ToString()))
+                                            {
+                                                detallePago.aportacioncc = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.aportacioncc = decimal.Parse(row5["Aportacc"].ToString().Trim());
+                                            }
+                                            if (String.IsNullOrEmpty(row5["Amortiza"].ToString()))
+                                            {
+                                                detallePago.amortizacion = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.amortizacion = decimal.Parse(row5["Amortiza"].ToString().Trim());
+                                            }
+                                            detallePago.pagoId = pago.id;
+                                            detallePago.Pago = pago;
+                                            detallePago.aseguradoId = asegurado.id;
+                                            detallePago.Asegurado = asegurado;
+                                            detallePago.patronId = patron.Id;
+                                            detallePago.Patrone = patron;
+
+                                            detallePago.infonavit = detallePago.aportacionsc + detallePago.aportacioncc + detallePago.amortizacion;
+                                            // aqui estaba un for }                                  
+                                            sSQL = "SELECT * FROM RELTRA " +
+                                                   "  WHERE Reg_Pat = '" + patron.registro + "'" +
+                                                   "   AND Periodo = '" + periodo + "'" +
+                                                   "   AND Num_Afi = '" + asegurado.numeroAfiliacion.Trim() + "'";
+//                                                   "   AND Fec_Mov = '" + fecMov + "'";
+
+                                            DataTable dt4 = suaHelper.ejecutarSQL(sSQL);
+
+                                            foreach (DataRow row2 in dt4.Rows)
+                                            {
+                                                DateTime fecMovTra = DateTime.Parse(row2["Fec_Mov"].ToString());
+                                                if (fecMovBim.Equals(fecMovTra))
+                                                {
+                                                    detallePago.diasCotizados = int.Parse(row2["dia_cot"].ToString().Trim());
+                                                    detallePago.sdi = decimal.Parse(row2["sal_dia"].ToString().Trim());
+
+                                                    if (String.IsNullOrEmpty(row2["Dia_Inc"].ToString()))
+                                                    {
+                                                        detallePago.diasIncapacidad = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.diasIncapacidad = int.Parse(row2["Dia_Inc"].ToString().Trim());
+                                                    }
+
+                                                    if (String.IsNullOrEmpty(row2["Dia_Aus"].ToString()))
+                                                    {
+                                                        detallePago.diasAusentismo = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.diasAusentismo = int.Parse(row2["Dia_Aus"].ToString().Trim());
+                                                    }
+
+                                                    if (String.IsNullOrEmpty(row2["CF"].ToString()))
+                                                    {
+                                                        detallePago.cuotaFija = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.cuotaFija = decimal.Parse(row2["CF"].ToString().Trim());
+                                                    }
+
+                                                    if (String.IsNullOrEmpty(row2["EXPA"].ToString()))
+                                                    {
+                                                        detallePago.expa = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.expa = decimal.Parse(row2["EXPA"].ToString().Trim());
+                                                    }
+
+                                                    if (String.IsNullOrEmpty(row2["EXO"].ToString()))
+                                                    {
+                                                        detallePago.exO = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.exO = decimal.Parse(row2["EXO"].ToString().Trim());
+                                                    }
+
+                                                    if (String.IsNullOrEmpty(row2["PDP"].ToString()))
+                                                    {
+                                                        detallePago.pdp = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.pdp = decimal.Parse(row2["PDP"].ToString().Trim());
+                                                    }
+
+                                                    if (String.IsNullOrEmpty(row2["PDO"].ToString()))
+                                                    {
+                                                        detallePago.pdo = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.pdo = decimal.Parse(row2["PDO"].ToString().Trim());
+                                                    }
+
+                                                    if (String.IsNullOrEmpty(row2["GMPP"].ToString()))
+                                                    {
+                                                        detallePago.gmpp = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.gmpp = decimal.Parse(row2["GMPP"].ToString().Trim());
+                                                    }
+
+                                                    if (String.IsNullOrEmpty(row2["GMPO"].ToString()))
+                                                    {
+                                                        detallePago.gmpo = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.gmpo = decimal.Parse(row2["GMPO"].ToString().Trim());
+                                                    }
+
+                                                    if (String.IsNullOrEmpty(row2["RT"].ToString()))
+                                                    {
+                                                        detallePago.rt = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.rt = decimal.Parse(row2["RT"].ToString().Trim());
+                                                    }
+
+                                                    if (String.IsNullOrEmpty(row2["IVP"].ToString()))
+                                                    {
+                                                        detallePago.ivp = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.ivp = decimal.Parse(row2["IVP"].ToString().Trim());
+                                                    }
+
+                                                    if (String.IsNullOrEmpty(row2["IVO"].ToString()))
+                                                    {
+                                                        detallePago.ivo = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.ivo = decimal.Parse(row2["IVO"].ToString().Trim());
+                                                    }
+
+                                                    if (String.IsNullOrEmpty(row2["GPS"].ToString()))
+                                                    {
+                                                        detallePago.gps = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.gps = decimal.Parse(row2["GPS"].ToString().Trim());
+                                                    }
+                                                    break;
+                                                }
+                                            }
+                                            detallePago.patronal = detallePago.cuotaFija + detallePago.expa + detallePago.pdp + detallePago.gmpp + detallePago.rt + detallePago.ivp + detallePago.gps;
+                                            detallePago.obrera = detallePago.exO + detallePago.pdo + detallePago.gmpo + detallePago.ivo;
+                                            detallePago.imss = detallePago.patronal + detallePago.obrera;
+                                            detallePago.usuarioId = userId;
+                                            detallePago.fechaCreacion = DateTime.Now;
+                                            try
+                                            {
+                                                db.DetallePagoes.Add(detallePago);
+                                                db.SaveChanges();
+                                            }
+                                            catch (DbEntityValidationException ex)
+                                            {
+                                                StringBuilder sb = new StringBuilder();
+
+                                                foreach (var failure in ex.EntityValidationErrors)
+                                                {
+                                                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                                                    foreach (var error in failure.ValidationErrors)
+                                                    {
+                                                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                                                        sb.AppendLine();
+                                                    }
+                                                }
+                                            }
                                         }
                                         else
                                         {
-                                            detallePago.aportacionsc = decimal.Parse(row5["Aportasc"].ToString().Trim());
+                                            TempData["error"] = true;
+                                            TempData["viewMessage"] = "No se terminó el proceso. Asegurados no actualizados. Favor de verificar...";
+                                            break;
                                         }
-                                        if (String.IsNullOrEmpty(row5["Aportacc"].ToString()))
-                                        {
-                                            detallePago.aportacioncc = 0;
-                                        }
-                                        else
-                                        {
-                                            detallePago.aportacioncc = decimal.Parse(row5["Aportacc"].ToString().Trim());
-                                        }
-                                        if (String.IsNullOrEmpty(row5["Amortiza"].ToString()))
-                                        {
-                                            detallePago.amortizacion = 0;
-                                        }
-                                        else
-                                        {
-                                            detallePago.amortizacion = decimal.Parse(row5["Amortiza"].ToString().Trim());
-                                        }
-
-                                        detallePago.infonavit = detallePago.aportacionsc + detallePago.aportacioncc + detallePago.amortizacion;
-
                                     }
-                                } //El periodo es bimestre
-
-                                detallePago.usuarioId = userId;
-                                detallePago.fechaCreacion = DateTime.Now;
-
-                                try
+                                } //El periodo no es bimestre
+                                else
                                 {
-                                    if (actualizarDetalle)
-                                    {
-                                        db.Entry(detallePago).State = EntityState.Modified;
-                                    }
-                                    else
-                                    {
-                                        db.DetallePagoes.Add(detallePago);
-                                    }
-                                    
-                                    db.SaveChanges();
-                                }
-                                catch (DbEntityValidationException ex)
-                                {
-                                    StringBuilder sb = new StringBuilder();
+                                    //Preparamos el query del resúmen
+                                    sSQL = "SELECT * FROM RELTRA " +
+                                           "  WHERE Reg_Pat = '" + patron.registro + "'" +
+                                           "   AND Periodo = '" + periodo + "'" +
+                                           "   ORDER BY Reg_Pat";
 
-                                    foreach (var failure in ex.EntityValidationErrors)
+                                    DataTable dt6 = suaHelper.ejecutarSQL(sSQL);
+
+                                    foreach (DataRow row2 in dt6.Rows)
                                     {
-                                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
-                                        foreach (var error in failure.ValidationErrors)
+                                        DetallePago detallePago = new DetallePago();
+                                        String nss = row2["Num_Afi"].ToString().Trim();
+
+                                        Asegurado asegurado = db.Asegurados.Where(a => a.numeroAfiliacion.Equals(nss.Trim())).FirstOrDefault();
+
+                                        if (asegurado != null)
                                         {
-                                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
-                                            sb.AppendLine();
+                                            detallePago = new DetallePago();
+                                            detallePago.pagoId = pago.id;
+                                            detallePago.Pago = pago;
+                                            detallePago.aseguradoId = asegurado.id;
+                                            detallePago.Asegurado = asegurado;
+                                            detallePago.patronId = patron.Id;
+                                            detallePago.Patrone = patron;
+                                            detallePago.diasCotizados = int.Parse(row2["dia_cot"].ToString().Trim());
+                                            detallePago.sdi = decimal.Parse(row2["sal_dia"].ToString().Trim());
+
+                                            if (String.IsNullOrEmpty(row2["Dia_Inc"].ToString()))
+                                            {
+                                                detallePago.diasIncapacidad = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.diasIncapacidad = int.Parse(row2["Dia_Inc"].ToString().Trim());
+                                            }
+
+                                            if (String.IsNullOrEmpty(row2["Dia_Aus"].ToString()))
+                                            {
+                                                detallePago.diasAusentismo = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.diasAusentismo = int.Parse(row2["Dia_Aus"].ToString().Trim());
+                                            }
+
+                                            if (String.IsNullOrEmpty(row2["CF"].ToString()))
+                                            {
+                                                detallePago.cuotaFija = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.cuotaFija = decimal.Parse(row2["CF"].ToString().Trim());
+                                            }
+
+                                            if (String.IsNullOrEmpty(row2["EXPA"].ToString()))
+                                            {
+                                                detallePago.expa = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.expa = decimal.Parse(row2["EXPA"].ToString().Trim());
+                                            }
+
+                                            if (String.IsNullOrEmpty(row2["EXO"].ToString()))
+                                            {
+                                                detallePago.exO = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.exO = decimal.Parse(row2["EXO"].ToString().Trim());
+                                            }
+
+                                            if (String.IsNullOrEmpty(row2["PDP"].ToString()))
+                                            {
+                                                detallePago.pdp = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.pdp = decimal.Parse(row2["PDP"].ToString().Trim());
+                                            }
+
+                                            if (String.IsNullOrEmpty(row2["PDO"].ToString()))
+                                            {
+                                                detallePago.pdo = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.pdo = decimal.Parse(row2["PDO"].ToString().Trim());
+                                            }
+
+                                            if (String.IsNullOrEmpty(row2["GMPP"].ToString()))
+                                            {
+                                                detallePago.gmpp = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.gmpp = decimal.Parse(row2["GMPP"].ToString().Trim());
+                                            }
+
+                                            if (String.IsNullOrEmpty(row2["GMPO"].ToString()))
+                                            {
+                                                detallePago.gmpo = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.gmpo = decimal.Parse(row2["GMPO"].ToString().Trim());
+                                            }
+
+                                            if (String.IsNullOrEmpty(row2["RT"].ToString()))
+                                            {
+                                                detallePago.rt = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.rt = decimal.Parse(row2["RT"].ToString().Trim());
+                                            }
+
+                                            if (String.IsNullOrEmpty(row2["IVP"].ToString()))
+                                            {
+                                                detallePago.ivp = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.ivp = decimal.Parse(row2["IVP"].ToString().Trim());
+                                            }
+
+                                            if (String.IsNullOrEmpty(row2["IVO"].ToString()))
+                                            {
+                                                detallePago.ivo = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.ivo = decimal.Parse(row2["IVO"].ToString().Trim());
+                                            }
+
+                                            if (String.IsNullOrEmpty(row2["GPS"].ToString()))
+                                            {
+                                                detallePago.gps = 0;
+                                            }
+                                            else
+                                            {
+                                                detallePago.gps = decimal.Parse(row2["GPS"].ToString().Trim());
+                                            }
+
+                                            detallePago.patronal = detallePago.cuotaFija + detallePago.expa + detallePago.pdp + detallePago.gmpp + detallePago.rt + detallePago.ivp + detallePago.gps;
+                                            detallePago.obrera = detallePago.exO + detallePago.pdo + detallePago.gmpo + detallePago.ivo;
+                                            detallePago.imss = detallePago.patronal + detallePago.obrera;
+                                            detallePago.usuarioId = userId;
+                                            detallePago.fechaCreacion = DateTime.Now;
+                                            try
+                                            {
+                                                db.DetallePagoes.Add(detallePago);
+                                                db.SaveChanges();
+                                            }
+                                            catch (DbEntityValidationException ex)
+                                            {
+                                                StringBuilder sb = new StringBuilder();
+
+                                                foreach (var failure in ex.EntityValidationErrors)
+                                                {
+                                                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                                                    foreach (var error in failure.ValidationErrors)
+                                                    {
+                                                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                                                        sb.AppendLine();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            TempData["error"] = true;
+                                            TempData["viewMessage"] = "No se terminó el proceso. Asegurados no actualizados. Favor de verificar...";
+                                            break;
                                         }
                                     }
                                 }
                             }
-
                         }
                     }
-//                    path = path + "\\SUA.mdb";
-//                    System.IO.File.Delete(path);
+ //                   path = path + "SUA.MDB";
+ //                   System.IO.File.Delete(path);
                 }
             }
             return RedirectToAction("UploadPagos");
@@ -528,7 +748,7 @@ namespace SUAMVC.Controllers
                 int idTemp = int.Parse(id.Trim());
 
                 Pago pago = db.Pagos.Find(idTemp);
-                if (comprobanteId.Trim().Equals("CL"))
+                if (comprobanteId.Trim().Equals("CP"))
                 {
                     pago.comprobantePago = fileName.Trim();
                 }
