@@ -16,6 +16,7 @@ namespace SUADATOS
     {
         public Solicitud()
         {
+            this.RespuestaSolicituds = new HashSet<RespuestaSolicitud>();
             this.SolicitudEmpleadoes = new HashSet<SolicitudEmpleado>();
         }
     
@@ -59,7 +60,7 @@ namespace SUADATOS
         public virtual EsquemasPago EsquemasPago { get; set; }
         public virtual Plaza Plaza { get; set; }
         public virtual Proyecto Proyecto { get; set; }
-        public virtual RespuestaSolicitud RespuestaSolicitud { get; set; }
+        public virtual ICollection<RespuestaSolicitud> RespuestaSolicituds { get; set; }
         public virtual SDI SDI { get; set; }
         public virtual TipoContrato TipoContrato { get; set; }
         public virtual TipoPersonal TipoPersonal { get; set; }

@@ -61,6 +61,7 @@ namespace SUADATOS
         public System.DateTime fechaCreacion { get; set; }
         public string estatus { get; set; }
         public Nullable<System.DateTime> fechaBaja { get; set; }
+        public Nullable<System.DateTime> fechaModificacion { get; set; }
         public Nullable<int> aseguradoId { get; set; }
         public string foto { get; set; }
     

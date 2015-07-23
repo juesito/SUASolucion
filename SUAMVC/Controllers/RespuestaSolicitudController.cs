@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
+using SUAMVC.Helpers;
 
 namespace SUAMVC.Controllers
 {
@@ -37,9 +38,9 @@ namespace SUAMVC.Controllers
         }
 
         // GET: RespuestaSolicitud/Create
-        public ActionResult Create(string departId, string folioSolicitudId)
+        public ActionResult Create(string departId, string solicitudId)
         {
-            int folioSolicitudTempId = int.Parse(folioSolicitudId);
+            int folioSolicitudTempId = int.Parse(solicitudId);
             Departamento dep = new Departamento();
             if (departId.Equals("N"))
             {
@@ -79,39 +80,59 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,solicitudId,departamentoId,estatusId,observaciones,usuarioId,fechaCreacion")] RespuestaSolicitud respuestaSolicitud)
+        public ActionResult Create([Bind(Include = "id,solicitudId,departamentoId,estatusId,observaciones,usuarioId,fechaCreacion")] RespuestaSolicitud respuestaSolicitud, String solicitudId)
         {
             if (ModelState.IsValid)
             {
-                Usuario usuario = Session["UsuarioData"] as Usuario;
-                respuestaSolicitud.fechaCreacion = DateTime.Now;
-                respuestaSolicitud.usuarioId = usuario.Id;
-                db.RespuestaSolicituds.Add(respuestaSolicitud);
-                db.SaveChanges();
 
+                if (String.IsNullOrEmpty(solicitudId))
+                {
+                    return RedirectToAction("Index", "PanelSolicitud");
+                }
+                else
+                {
+                    Usuario usuario = Session["UsuarioData"] as Usuario;
+                    respuestaSolicitud.fechaCreacion = DateTime.Now;
+                    respuestaSolicitud.usuarioId = usuario.Id;
+                    db.RespuestaSolicituds.Add(respuestaSolicitud);
+                    db.SaveChanges();
 
-                Departamento departamento = db.Departamentos.Find(respuestaSolicitud.departamentoId);
-                Solicitud solicitud = db.Solicituds.Find(respuestaSolicitud.solicitudId);
+                    Departamento departamento = db.Departamentos.Find(respuestaSolicitud.departamentoId);
+                    Solicitud solicitud = db.Solicituds.Find(respuestaSolicitud.solicitudId);
 
-                if (departamento.descripcion.Contains("Juridico"))
-                {
-                    solicitud.estatusJuridico = respuestaSolicitud.estatusId;
+                    if (departamento.descripcion.Contains("Juridico"))
+                    {
+                        solicitud.estatusJuridico = respuestaSolicitud.estatusId;
+                    }
+                    else if (departamento.descripcion.Contains("Nomina"))
+                    {
+                        solicitud.estatusNomina = respuestaSolicitud.estatusId;
+                    }
+                    else if (departamento.descripcion.Contains("IMSS"))
+                    {
+                        solicitud.estatusAfiliado = respuestaSolicitud.estatusId;
+                    }
+                    else if (departamento.descripcion.Contains("Tarjeta"))
+                    {
+                        solicitud.estatusTarjeta = respuestaSolicitud.estatusId;
+                    }
+
+                    ToolsHelper th = new ToolsHelper();
+                    Concepto estatusObservaciones = th.obtenerConceptoPorGrupo("ESTASOL", "Observacion");
+                    if (!String.IsNullOrEmpty(respuestaSolicitud.observaciones))
+                    {
+                        solicitud.estatusSolicitud = estatusObservaciones.id;
+                    }
+                    else if (!solicitud.estatusSolicitud.Equals(estatusObservaciones.id))
+                    {
+                        Concepto estatusEnProceso = th.obtenerConceptoPorGrupo("ESTASOL", "En Proceso");
+                        solicitud.estatusSolicitud = estatusEnProceso.id;
+                    }
+
+                    db.Entry(solicitud).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "PanelSolicitud");
                 }
-                else if (departamento.descripcion.Contains("Nomina"))
-                {
-                    solicitud.estatusNomina = respuestaSolicitud.estatusId;
-                }
-                else if (departamento.descripcion.Contains("IMSS"))
-                {
-                    solicitud.estatusAfiliado = respuestaSolicitud.estatusId;
-                }
-                else if (departamento.descripcion.Contains("Tarjeta"))
-                {
-                    solicitud.estatusTarjeta = respuestaSolicitud.estatusId;
-                }
-                db.Entry(solicitud).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index", "PanelSolicitud");
             }
             ViewBag.estatusId = new SelectList(db.Conceptos, "id", "grupo", respuestaSolicitud.estatusId);
             ViewBag.departamentoId = new SelectList(db.Departamentos, "id", "descripcion", respuestaSolicitud.departamentoId);

@@ -22,29 +22,32 @@ namespace SUAMVC.Controllers
         public ActionResult Index(string clientesId, String folioId)
         {
             //Obtener tipo de solicitud mediante un concepto
-            Concepto tipoSolicitud = db.Conceptos.Where(s => s.grupo.Equals("SOLCON") && 
+            Concepto tipoSolicitud = db.Conceptos.Where(s => s.grupo.Equals("SOLCON") &&
                 s.descripcion.ToLower().Trim().Contains("baja")).FirstOrDefault();
-                ;
+            Usuario usuario = Session["UsuarioData"] as Usuario;
 
-            var solicituds = db.Solicituds.Include(s => s.Cliente).Include(s => s.Concepto).Include(s => s.Concepto1).Include(s => s.Concepto2).Include(s => s.Concepto3).Include(s => s.Concepto4).Include(s => s.EsquemasPago).Include(s => s.Plaza).Include(s => s.Proyecto).Include(s => s.TipoContrato).Include(s => s.TipoPersonal).Include(s => s.Usuario);
+            var solicituds = (from s in db.Solicituds
+                              join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
+                              where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
+                              orderby s.fechaSolicitud
+                              select s).ToList();
+
             if (!String.IsNullOrEmpty(clientesId))
             {
                 int clienteId = int.Parse(clientesId);
                 Cliente cliente = db.Clientes.Find(clienteId);
                 if (!cliente.descripcion.ToLower().Contains("seleccion"))
                 {
-
-                    solicituds = solicituds.Where(s => s.clienteId.Equals(clienteId));
+                    solicituds = solicituds.Where(s => s.clienteId.Equals(clienteId)).ToList();
                 }
-            }
-
+            }// Se va a filtrar por cliente ?
             if (!String.IsNullOrEmpty(folioId))
             {
-                solicituds = solicituds.Where(s => s.folioSolicitud.Contains(folioId));
-            }
+                solicituds = solicituds.Where(s => s.folioSolicitud.Contains(folioId)).ToList();
+            }//Se va a filtrar por folio?
 
             //Filtrar por el tipo de solicitud=baja
-            solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(tipoSolicitud.id));
+            solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(tipoSolicitud.id)).ToList();
 
             return View(solicituds.ToList());
         }
@@ -119,7 +122,7 @@ namespace SUAMVC.Controllers
                 solicitud.noTrabajadores = 0;
                 solicitud.tipoSolicitud = tipoSolicitud.id;
                 db.Solicituds.Add(solicitud);
-                
+
 
                 try
                 {
@@ -136,7 +139,7 @@ namespace SUAMVC.Controllers
                 catch (DbEntityValidationException ex)
                 {
                     StringBuilder sb = new StringBuilder();
-                    
+
                     foreach (var failure in ex.EntityValidationErrors)
                     {
                         sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
