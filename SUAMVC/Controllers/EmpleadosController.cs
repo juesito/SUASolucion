@@ -590,6 +590,8 @@ namespace SUAMVC.Controllers
                     //List<PersonalExcelLayout> pel = ex.getPersonalDatos(@"C:\SUA\Layouts\" + file.FileName);
                     LinqToExcelProvider provider = new LinqToExcelProvider(@"C:\SUA\Layouts\" + file.FileName);
 
+                    provider.readExcel("datos");
+
                     var query = (from row in provider.GetWorkSheet("datos")
                                  let item = new PersonalExcelLayout
                                  {
