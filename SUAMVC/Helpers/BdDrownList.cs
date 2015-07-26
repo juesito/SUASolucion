@@ -678,5 +678,35 @@ namespace SUAMVC.Helpers
 
             return htmlHelper.DropDownList(componenteId, listFields, new { @class = htmlclass});
         }
+
+        public static MvcHtmlString sdiDrownList(this HtmlHelper htmlHelper, int userId, String componenteId, int clienteId, String htmlclass)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<SDI> listSdis = (from s in db.SDIs.ToList()
+                                  join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
+                                  where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(userId)
+                                  && !s.descripcion.Contains("Local") && s.clienteId.Equals(clienteId)
+                                  orderby s.descripcion
+                                  select s).ToList();
+
+            String itemId = "";
+            String descripcion = "Todas";
+            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            foreach (SDI item in listSdis)
+            {
+                itemId = item.id.ToString().Trim();
+                descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas") || descripcion.Contains("Seleccion"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields, new { @class = htmlclass });
+        }
     }
 }

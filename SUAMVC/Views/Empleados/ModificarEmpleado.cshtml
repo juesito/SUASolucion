@@ -45,9 +45,10 @@
             </div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("SDI",
                         style: "col4",
-                        format: @<text>
+                        format: @<text>@if (@item.sdi != null) { 
                             <span id="sdi.descripcion" class="display-mode">@item.sdi.descripcion</span>
                             @Html.sdiDrownList(usuario.Id, "sdiId", "edit-mode")
+                        }
                         </text>));
     gridColumns.Add(grid.Column("banco", "Banco", @<text> @if (@item.banco != null)
     {@item.banco.descripcion }</text>, canSort: true));
