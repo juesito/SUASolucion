@@ -814,5 +814,20 @@
   </data>
   <data name="tipoServicio" xml:space="preserve">
     <value>Tipo de Servicio</value>
+    </data>
+  <data name="ejercicio" xml:space="preserve">
+    <value>Ejercicio</value>
+    <comment>Etiquetapara Ejercicio</comment>
   </data>
+    
+  <data name="periodo" xml:space="preserve">
+    <value>Periodo</value>
+    <comment>Etiqueta para Periodo</comment>
+  </data>
+  <data name="avisoInc" xml:space="preserve">
+    <value>Aviso Incapacidad</value>
+    <comment>Etiqueta para columna subir acuse</comment>
+  </data>
+  
+  
 </root>

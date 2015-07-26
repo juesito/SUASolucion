@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<SUADATOS.SDI>
-@using SUADATOS
 
 @{
     ViewBag.Title = "Index";
@@ -8,38 +7,15 @@
     {
         Response.Redirect("~/Home/Index");
     }
-    Usuario usuario = Session["UsuarioData"] as Usuario;
 }
 
 @section Menu {
     <div>@Language.catde @Language.sdi<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-@if (ViewBag.clienteId != null)
-{
-    <p>
-        @Html.ActionLink(@Language.agregar + " " + @Language.sdi, "Create", "SDIs", new { clienteId = ViewBag.clienteId }, new { @class = "btn btn-success" })
-    </p>
-}
-@using (Html.BeginForm())
-{
-    <div class="marqueeFilter">
-
-        <table style="float:left; margin-top:5px;display:inline-block;">
-            <thead>
-                <tr style="text-align:left;vertical-align:bottom;">
-                    <td style="padding-top:15px">
-                        @Html.Label("Cliente:")
-                        @Html.clientesDrownList(usuario.Id, "clienteId")
-                    </td>
-                    <td>
-                        <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
-                    </td>
-                </tr>
-            </thead>
-        </table>
-    </div>
-}
+<p>
+    @Html.ActionLink(@Language.agregar + " " + @Language.sdi, "Create", "EsquemasSDI", new { @class = "btn btn-success" })
+</p>  
 <table class="table table-striped tableSua">
     <tr>
         <th>
@@ -56,10 +32,6 @@
         </th>
         <th>
             @Html.DisplayName(@Language.usuarioAlta)
-        </th>
-        <th>
-            @Html.DisplayName(Language.edit)
-            @Html.DisplayName(Language.borrar)
         </th>
         <th></th>
     </tr>

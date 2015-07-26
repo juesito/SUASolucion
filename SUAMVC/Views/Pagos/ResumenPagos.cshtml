@@ -10,7 +10,7 @@
         Response.Redirect("~/Home/Index");
     }
     Usuario usuario = Session["UsuarioData"] as Usuario;
-    var grid = new WebGrid(source: Model.detalle, rowsPerPage: 10 );
+    var grid = new WebGrid(source: Model.detalle, canPage: false);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
     //Creamos una lista de columnas

@@ -196,6 +196,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Aviso Incapacidad.
+        /// </summary>
+        public static string avisoInc {
+            get {
+                return ResourceManager.GetString("avisoInc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Aviso Ret..
         /// </summary>
         public static string avisoRet {
@@ -786,6 +795,15 @@ namespace SUAMVC.Resources {
         public static string ejecutivoContador {
             get {
                 return ResourceManager.GetString("ejecutivoContador", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ejercicio.
+        /// </summary>
+        public static string ejercicio {
+            get {
+                return ResourceManager.GetString("ejercicio", resourceCulture);
             }
         }
         
@@ -1389,6 +1407,15 @@ namespace SUAMVC.Resources {
         public static string patron {
             get {
                 return ResourceManager.GetString("patron", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Periodo.
+        /// </summary>
+        public static string periodo {
+            get {
+                return ResourceManager.GetString("periodo", resourceCulture);
             }
         }
         
