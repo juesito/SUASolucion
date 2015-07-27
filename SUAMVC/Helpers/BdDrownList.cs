@@ -708,5 +708,71 @@ namespace SUAMVC.Helpers
 
             return htmlHelper.DropDownList(componenteId, listFields, new { @class = htmlclass });
         }
+        public static MvcHtmlString empresasDrownList(this HtmlHelper htmlHelper, string componenteId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Empresa> listEmpresas = (from s in db.Empresas
+                                          orderby s.descripcion
+                                          select s).ToList();
+
+            foreach (Empresa item in listEmpresas)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields);
+        }
+        public static MvcHtmlString serviciosDrownList(this HtmlHelper htmlHelper, string componenteId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Servicio> listEmpresas = (from s in db.Servicios
+                                           orderby s.descripcion
+                                           select s).ToList();
+
+            foreach (Servicio item in listEmpresas)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields);
+        }
+        public static MvcHtmlString usuariosDrownList(this HtmlHelper htmlHelper, string componenteId, string tipo)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Usuario> listusuarios = (from s in db.Usuarios.ToList()
+                                          where s.Role.descripcion.Trim().Equals(tipo.Trim())
+                                          orderby s.nombreUsuario
+                                          select s).ToList();
+
+            foreach (Usuario item in listusuarios)
+            {
+                listFields.Add(new SelectListItem { Value = item.Id.ToString(), Text = item.nombreUsuario.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields);
+
+
+        }
     }
 }
