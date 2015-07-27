@@ -65,6 +65,9 @@ namespace SUAMVC.Controllers
         // GET: Clientes/Create
         public ActionResult Create()
         {
+            ViewBag.EmpresaFacturacion_id = new SelectList(db.Empresas);
+                                                            
+                                                             
             ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
                                                where s.indicador.Equals("U")
                                                orderby s.descripcion
@@ -74,15 +77,16 @@ namespace SUAMVC.Controllers
                                                    descripcion = s.descripcion
                                                }), "id", "descripcion");
             ViewBag.Grupo_id = new SelectList(db.Grupos, "id", "nombreCorto");
+
+
             return View();
         }
-
         // POST: Clientes/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,Plaza_id,Grupo_id,ejecutivoContadorId")] Cliente cliente)
+        public ActionResult Create([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,nombre,direccionFiscal,contacto,telefono,direccionOficina,email,actividadPrincipal,fechaContratacion,empresaFacturadoraId,tipoClienteId,numeroCuenta,tipoServicioId,Plaza_id,Grupo_id,ejecutivoContadorId")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -94,6 +98,20 @@ namespace SUAMVC.Controllers
                     cliente.claveSua = cliente.claveSua.ToUpper();
                     cliente.descripcion = cliente.descripcion.ToUpper();
                     cliente.rfc = cliente.rfc.ToUpper();
+                    cliente.descripcion = cliente.descripcion.ToUpper();
+                    cliente.nombre = cliente.nombre;
+                    cliente.direccionFiscal = cliente.direccionFiscal;
+                    cliente.contacto = cliente.contacto;
+                    cliente.telefono = cliente.telefono;
+                    cliente.direccionOficina = cliente.direccionOficina;
+                    cliente.email = cliente.email;
+                    cliente.actividadPrincipal = cliente.actividadPrincipal;
+                    cliente.fechaContratacion = cliente.fechaContratacion;
+                    cliente.empresaFacturadoraId = cliente.empresaFacturadoraId;
+                    cliente.tipoClienteId = cliente.tipoClienteId;
+                    cliente.numeroCuenta = cliente.numeroCuenta;
+                    cliente.tipoServicioId = cliente.tipoServicioId;
+                    
                     //Validar esto
                     cliente.ejecutivoContadorId = cliente.Id;
                     db.Clientes.Add(cliente);

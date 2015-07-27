@@ -10,131 +10,120 @@ using SUADATOS;
 
 namespace SUAMVC.Controllers
 {
-    public class SDIsController : Controller
+    public class ServiciosController : Controller
     {
         private suaEntities db = new suaEntities();
 
-        // GET: SDIs
-        public ActionResult Index(String clienteId)
+        // GET: Servicios
+        public ActionResult Index()
         {
-            if (!String.IsNullOrEmpty(clienteId))
-            {
-                var sDIs = db.SDIs.Include(p => p.Cliente);
-                int clienteTempId = int.Parse(clienteId.Trim());
-                sDIs = sDIs.Where(p => p.clienteId.Equals(clienteTempId)).OrderBy(p => p.fechaCreacion);
-
-                ViewBag.clienteId = clienteTempId;
-
-                return View(sDIs.ToList());
-            }
-
-            List<SDI> list = new List<SDI>();
-            return View(list);
+            var servicios = db.Servicios.Include(s => s.Usuario);
+            return View(servicios.ToList());
         }
 
-        // GET: SDIs/Details/5
+        // GET: Servicios/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SDI sDI = db.SDIs.Find(id);
-            if (sDI == null)
+            Servicio servicio = db.Servicios.Find(id);
+            if (servicio == null)
             {
                 return HttpNotFound();
             }
-            return View(sDI);
+            return View(servicio);
         }
 
-        // GET: SDIs/Create
-        public ActionResult Create(int clienteId)
+        // GET: Servicios/Create
+        public ActionResult Create()
         {
-            ViewBag.clienteId = clienteId;
+            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario");
             return View();
         }
 
-        // POST: SDIs/Create
+        // POST: Servicios/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,descripcion,fechaCreacion,usuarioId,clienteId")] SDI sDI)
+        public ActionResult Create([Bind(Include = "id,descripcion,fechaCreacion,usuarioId")] Servicio servicio)
         {
             if (ModelState.IsValid)
             {
                 Usuario usuario = Session["UsuarioData"] as Usuario;
 
-                sDI.fechaCreacion = DateTime.Now;
-                sDI.usuarioId = usuario.Id;
-                db.SDIs.Add(sDI);
+                servicio.fechaCreacion = DateTime.Now;
+                servicio.usuarioId = usuario.Id;
+                db.Servicios.Add(servicio);
                 db.SaveChanges();
-                return RedirectToAction("Index", new { clienteId = sDI.clienteId });
+                return RedirectToAction("Index");
             }
 
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", sDI.usuarioId);
-            return View(sDI);
+            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", servicio.usuarioId);
+            return View(servicio);
         }
 
-        // GET: SDIs/Edit/5
+        // GET: Servicios/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SDI sDI = db.SDIs.Find(id);
-            if (sDI == null)
+            Servicio servicio = db.Servicios.Find(id);
+            if (servicio == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", sDI.usuarioId);
-            return View(sDI);
+            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", servicio.usuarioId);
+            return View(servicio);
         }
 
-        // POST: SDIs/Edit/5
+        // POST: Servicios/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,descripcion,fechaCreacion,usuarioId,clienteId")] SDI sDI)
+        public ActionResult Edit([Bind(Include = "id,descripcion,fechaCreacion,usuarioId")] Servicio servicio)
         {
             if (ModelState.IsValid)
             {
                 Usuario usuario = Session["UsuarioData"] as Usuario;
 
-                sDI.fechaCreacion = DateTime.Now;
-                sDI.usuarioId = usuario.Id;
-                db.Entry(sDI).State = EntityState.Modified;
+                servicio.fechaCreacion = DateTime.Now;
+                servicio.usuarioId = usuario.Id;
+                db.Entry(servicio).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index", new { clienteId = sDI.clienteId });
+                return RedirectToAction("Index");
             }
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", sDI.usuarioId);
-            return View(sDI);
+            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", servicio.usuarioId);
+            return View(servicio);
         }
 
-        // GET: SDIs/Delete/5
+        // GET: Servicios/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SDI sDI = db.SDIs.Find(id);
-            if (sDI == null)
+            Servicio servicio = db.Servicios.Find(id);
+            if (servicio == null)
             {
                 return HttpNotFound();
             }
-            return View(sDI);
+            return View(servicio);
         }
 
-        // POST: SDIs/Delete/5
+        // POST: Servicios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            SDI sDI = db.SDIs.Find(id);
-            db.SDIs.Remove(sDI);
+            Servicio servicio = db.Servicios.Find(id);
+            db.Servicios.Remove(servicio);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
