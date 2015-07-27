@@ -8,6 +8,32 @@
     suaEntities db = new suaEntities();
 }
 
+<script language="javascript" type="text/javascript">
+    function obtenerProyectos(_clienteId) {
+        var procemessage = "<option value='0'> Por favor espere...</option>";
+        $("#proyectoId").html(procemessage).show();
+        var url = "/Proyectos/ObtenerProyectosPorClienteId/";
+
+        $.ajax({
+            url: url,
+            data: { clienteId: _clienteId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "<option value='0'>Seleccione su proyecto</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#proyectoId").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+</script>
+
 @section Menu {
     <div>Alta de solicitudes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
@@ -29,24 +55,24 @@
                     <tr>
                         <td class="pull-right"> @Html.Label(@Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td>
-                            @Html.DropDownList("clienteId", null, new {style = "width:200px;height:25px" })
+                            @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:25px")
                             @Html.ValidationMessageFor(model => model.clienteId, "", new { @class = "text-danger" })
                         </td>
                     </tr>
                     <tr>
                         <td class="pull-right">@Html.Label(@Language.proyecto, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td style="padding-top:8px">
-                            @Html.DropDownList("proyectoId", null, new {style = "width:200px;height:25px" })
+                            @Html.DropDownList("proyectoId", null, new { style = "width:200px;height:25px", id = "proyectoId" })
                             @Html.ValidationMessageFor(model => model.proyectoId, "", new { @class = "text-danger" })
                         </td>
                     </tr>
                     <tr>
                         <td class="pull-right">@Html.Label(@Language.residencia, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                        <td style ="padding-top:8px">
+                        <td style="padding-top:8px">
                             @Html.plazasDrownListNS(usuario.Id, "plazaId")
                             @Html.ValidationMessageFor(model => model.plazaId, "", new { @class = "text-danger" })
-                            </td>
-</tr>
+                        </td>
+                    </tr>
                     <tr>
                         <td class="pull-right">@Html.LabelFor(model => model.fechaSolicitud, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td style="padding-top:8px">
@@ -65,18 +91,18 @@
                     <tr>
                         <td class="pull-right">@Html.LabelFor(model => model.sdiId, "sdi", htmlAttributes: new { @class = "control-label col-md-2", id = "sdiIdTxt" })</td>
                         <td style="padding-top:8px">
-                            @Html.DropDownList("sdiId", null, htmlAttributes: new {style = "width:100px;height:25px", id = "sdiId" })
+                            @Html.DropDownList("sdiId", null, htmlAttributes: new { style = "width:100px;height:25px", id = "sdiId" })
                             @Html.ValidationMessageFor(model => model.sdiId, "", new { @class = "text-danger" })
                         </td>
 
                     </tr>
                     <tr>
                         <td class="pull-right">@Html.LabelFor(model => model.contratoId, "contrato", htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                        <td style ="padding-top:8px">
+                        <td style="padding-top:8px">
                             @Html.contratosDrownList(usuario.Id, "contratoId")
                             @Html.ValidationMessageFor(model => model.contratoId, "", new { @class = "text-danger" })
-                            </td>
-</tr>
+                        </td>
+                    </tr>
 
                     <tr>
                         <td class="pull-right">@Html.LabelFor(model => model.fechaTerminoContrato, htmlAttributes: new { @class = "control-label col-md-2", id = "fechaTContratoTxt" })</td>
@@ -100,7 +126,7 @@
                             @Html.ValidationMessageFor(model => model.fechaInicial, "", new { @class = "text-danger" })
                         </td>
                     </tr>
-                    <tr >
+                    <tr>
                         <td class="pull-right">@Html.LabelFor(model => model.fechaFinal, htmlAttributes: new { @class = "control-label col-md-2", id = "fechaFinalTxt" })</td>
                         <td style="padding-top:8px">
                             @Html.EditorFor(model => model.fechaFinal, new { htmlAttributes = new { @class = "myDate", id = "fechaFinal" } })
@@ -108,41 +134,21 @@
                         </td>
                     </tr>
 
-                            <tr>
-                                <td class="pull-right">@Html.LabelFor(model => model.solicita, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                                <td style="padding-top:8px">
-                                    @Html.EditorFor(model => model.solicita, new { style = "width:270px;height:30px" })
-                                    @Html.ValidationMessageFor(model => model.solicita, "", new { @class = "text-danger" })
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="pull-right">@Html.LabelFor(model => model.valida, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                                <td style="padding-top:8px">
-                                    @Html.EditorFor(model => model.valida, new { style = "width:270px;height:30px" })
-                                    @Html.ValidationMessageFor(model => model.valida, "", new { @class = "text-danger" })
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="pull-right">@Html.LabelFor(model => model.autoriza, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                                <td style="padding-top:8px">
-                                    @Html.EditorFor(model => model.autoriza, new { style = "width:270px;height:30px" })
-                                    @Html.ValidationMessageFor(model => model.autoriza, "", new { @class = "text-danger" })
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="pull-right">@Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                                <td style="padding-top:8px" 
-                                     colspan="3">
-                                    @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 4 })
-                                    @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="3"></td>
-                                <td style="text-align:right;"><input type="submit" value="@Language.agregar" class="btn btn-primary" /></td>
-                            </tr>
+                
+                    <tr>
+                        <td class="pull-right">@Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td style="padding-top:8px"
+                            colspan="3">
+                            @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 4 })
+                            @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td style="text-align:right;"><input type="submit" value="@Language.agregar" class="btn btn-primary" /></td>
+                    </tr>
 
-                        </table>
+                </table>
             </div>
         </div>
     </div>
@@ -153,6 +159,11 @@
 </div>
 <script>
     $(document).ready(function () {
+        var msg = $("#esquemaId :selected").text();
+        if (msg == "IAS") {
+            $("#sdiId").hide("fast");
+            $('#sdiIdTxt').hide("fast");
+        }
         //attach with the id od deductions
         $("#esquemaId").bind("change", validateEsquema);
         $("#contratoId").bind("change", validateContrato);

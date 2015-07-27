@@ -237,6 +237,39 @@ namespace SUAMVC.Helpers
             return htmlHelper.DropDownList(componenteId, listFields, new { onchange = "submit()" });
         }
 
+        public static MvcHtmlString clientesDrownList(this HtmlHelper htmlHelper, int userId, String componenteId, String _onchange, String estyle)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Cliente> list = (from s in db.Clientes.ToList()
+                                  join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                  where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(userId)
+                                  orderby s.claveCliente, s.descripcion
+                                  select s).ToList();
+
+
+            String itemId = "";
+            String descripcion = "Todos";
+            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            foreach (Cliente item in list)
+            {
+                itemId = item.Id.ToString().Trim();
+                descripcion = item.claveCliente.Trim() + "-" + item.descripcion.Trim();
+
+                if (item.claveCliente.Trim().Contains("Todos"))
+                {
+                    itemId = "";
+                    descripcion = item.descripcion.Trim();
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields, new { style = estyle, onchange = _onchange });
+        }
+
+
         public static MvcHtmlString clientesNSDrownList(this HtmlHelper htmlHelper, int userId)
         {
 
