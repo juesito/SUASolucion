@@ -137,6 +137,15 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult ObtenerProyectosPorClienteId(int clienteId)
+        {
+            List<Proyecto> proyectos = new List<Proyecto>();
+            proyectos = db.Proyectos.Where(m => m.clienteId == clienteId).ToList();
+            SelectList proyecto = new SelectList(proyectos, "Id", "descripcion", 0);
+            return Json(proyecto);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
