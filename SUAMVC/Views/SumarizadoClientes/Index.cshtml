@@ -16,7 +16,7 @@
 
     if (Model != null)
     {
-        var grid = new WebGrid(source: Model.sumarizadoCliente, rowsPerPage: 10);
+        var grid = new WebGrid(source: Model.sumarizadoCliente, rowsPerPage: 50);
         var sb = new StringBuilder();
 
         if (ViewBag.filtered != null)
@@ -53,9 +53,13 @@
             gridColumns.Add(grid.Column("total", "Total", format: @<text>@if (@item.total != null)
             { @item.total.ToString("#,##0.00")}</text>, canSort: true));
             gridColumns.Add(grid.Column("nt", "NT", format: @<text> @if (@item.nt != null)
-            {  @item.nt }</text>, canSort: true));
+            { @item.nt.ToString("#,##0")}</text>, canSort: true));
             gridColumns.Add(grid.Column("Patrone.Plaza.cveCorta", "Plaza", format: @<text> @if (@item.Patrone.Plaza.cveCorta != null)
             {  @item.Patrone.Plaza.cveCorta }</text>, canSort: true));
+            if (SecurityUserModel.verificarPermiso("1", "1"))
+            {
+                gridColumns.Add(grid.Column(header: "Excel", format: @<text><a href="@Url.Action("ExcelDetalle", "SumarizadoClientes", new { @anio = item.anno, @mes = item.mes, @idPatron = item.patronId, @idCliente = item.cliente.claveCliente })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+            }
 
             sb.Append(grid.GetHtml(
         columns: grid.Columns(gridColumns.ToArray()),
@@ -64,10 +68,10 @@
 
             String footer = "<tfoot><tr> " +
                         "<td>Totales:</td> <td colspan=5></td>" +
-                        "<td>" + @Model.sumarizadoAcumulado.sumImss + "</td><td>" + @Model.sumarizadoAcumulado.sumRcv + " </td>" +
-                        "<td>" + @Model.sumarizadoAcumulado.sumInfonavit + "</td><td>" + @Model.sumarizadoAcumulado.sumTotal + "</td>" +
-                        "<td>" + @Model.sumarizadoAcumulado.sumNt + "</td></tr></tfoot></table>";
-            tableHtml = sb.ToString().Replace("</table>", footer).Trim(); 
+                        "<td>" + @String.Format("{0:C}", @Model.sumarizadoAcumulado.sumImss) + "</td><td>" + @String.Format("{0:C}", @Model.sumarizadoAcumulado.sumRcv) + " </td>" +
+                        "<td>" + @String.Format("{0:C}", @Model.sumarizadoAcumulado.sumInfonavit) + "</td><td>" + @String.Format("{0:C}", @Model.sumarizadoAcumulado.sumTotal) + "</td>" +
+                        "<td>" + @String.Format("{0:0,0}", @Model.sumarizadoAcumulado.sumNt) + "</td></tr></tfoot></table>";
+            tableHtml = sb.ToString().Replace("</table>", footer).Trim();
         }
     }
 

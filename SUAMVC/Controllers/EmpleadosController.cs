@@ -667,7 +667,7 @@ namespace SUAMVC.Controllers
 
             foreach (Empleado emp in empleadosList)
             {
-                emp.fechaModificacion = solicitud.fechaModificacion;
+                emp.fechaCreacion = DateTime.Parse(solicitud.fechaModificacion.ToString());
                 listEmpleados.Add(emp);
                 
             }

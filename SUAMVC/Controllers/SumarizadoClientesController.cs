@@ -23,14 +23,43 @@ namespace SUAMVC.Controllers
             String ejercicioId, String clientesId, String usuarioId)
         {
             SumarizadoClienteModel sumarizadoClienteModel = new SumarizadoClienteModel();
-            if (!String.IsNullOrEmpty(clientesId))
-            {
-                ViewBag.filtered = true;
-                int clienteId = int.Parse(clientesId.Trim());
-                int userId = int.Parse(usuarioId.Trim());
+            Usuario user = Session["UsuarioData"] as Usuario;
+            ViewBag.filtered = true;
 
-                int result = db.Database.ExecuteSqlCommand("sp_SumarizadoClientes @usuarioId, @clienteId", new SqlParameter("@usuarioId", userId), new SqlParameter("@clienteId", clienteId));
-                var sumarizadoClientes = db.SumarizadoClientes.Include(s => s.Cliente).Include(s => s.Patrone).Include(s => s.Usuario);
+
+            var plazasAsignadas = (from x in db.TopicosUsuarios
+                                   where x.usuarioId.Equals(user.Id)
+                                   && x.tipo.Equals("P")
+                                   select x.topicoId);
+
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
+
+            var clientesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("C")
+                                     select x.topicoId);
+
+            //Query principal
+            int result = db.Database.ExecuteSqlCommand("sp_SumarizadoClientesTodos @usuarioId", new SqlParameter("@usuarioId", user.Id));
+            var sumarizadoClientes = from s in db.SumarizadoClientes
+                             join cli in db.Clientes on s.clienteId equals cli.Id
+                             where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
+                                   clientesAsignados.Contains(s.Cliente.Id) &&
+                                   patronesAsignados.Contains(s.patronId) &&
+                                   s.usuarioId.Equals(user.Id)
+                             select s;
+            
+ //            var sumarizadoClientes = db.SumarizadoClientes.Include(s => s.Cliente).Include(s => s.Patrone).Include(s => s.Usuario);
+
+
+                if (!String.IsNullOrEmpty(clientesId))
+                {
+                    int clienteId = int.Parse(clientesId.Trim());
+                    sumarizadoClientes = sumarizadoClientes.Where(s => s.clienteId.Equals(clienteId));
+                }
                 if (!String.IsNullOrEmpty(plazasId))
                 {
                     int plazaTempId = int.Parse(plazasId.Trim());
@@ -50,7 +79,7 @@ namespace SUAMVC.Controllers
                     sumarizadoClientes = sumarizadoClientes.Where(s => s.anno.Trim().Equals(ejercicioId));
                 }
 
-                sumarizadoClientes = sumarizadoClientes.OrderBy(p => p.Patrone.registro);
+            sumarizadoClientes = sumarizadoClientes.OrderBy(p => p.Patrone.registro);
                 
                 sumarizadoClienteModel.sumarizadoCliente = sumarizadoClientes.ToList();
                 SumarizadoAcumulado sa = new SumarizadoAcumulado();
@@ -63,11 +92,9 @@ namespace SUAMVC.Controllers
                     sa.sumNt = sa.sumNt + System.Convert.ToDouble(sc.nt);
                 }
 
-                sumarizadoClienteModel.sumarizadoAcumulado = sa;
+            sumarizadoClienteModel.sumarizadoAcumulado = sa;
 
-                return View(sumarizadoClienteModel);
-            }
-            return View();
+            return View(sumarizadoClienteModel);
         }
 
         // GET: SumarizadoClientes/Details/5
@@ -240,6 +267,75 @@ namespace SUAMVC.Controllers
             Response.ClearContent();
             DateTime date = DateTime.Now;
             String fileName = "ClientesPagos-" + date.ToString("ddMMyyyyHHmm") + ".xls";
+            Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+            Response.ContentType = "application/excel";
+            Response.Write(gridData);
+            Response.End();
+        }
+
+        [HttpGet]
+        public void ExcelDetalle(String anio, String mes, String idPatron, String idCliente)
+        {
+
+     //       int anioTemp = int.Parse(anio.Trim());
+     //       int mesTemp = int.Parse(mes.Trim());
+            int idPatronTemp = int.Parse(idPatron.Trim());
+     //       int idClienteTemp = int.Parse(idCliente.Trim());
+
+            Pago pago = db.Pagos.Where(p => p.patronId.Equals(idPatronTemp) && p.anno.Equals(anio) && p.mes.Equals(mes)).FirstOrDefault();
+
+            List<DetallePago> detallePago = db.DetallePagoes.Where(r => r.pagoId.Equals(pago.id) && r.Asegurado.Cliente.claveCliente.Equals(idCliente)).ToList();
+
+            List<DetallePago> allCust = new List<DetallePago>();
+
+            allCust = detallePago;
+
+            WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
+
+            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
+
+            gridColumns.Add(grid.Column("Pago.Patrone.registro", "Patrón", null, null, true));
+            gridColumns.Add(grid.Column("Pago.mes", "Periodo", null, null, true));
+            gridColumns.Add(grid.Column("Pago.anno", "Ejercicio", null, null, true));
+            gridColumns.Add(grid.Column("Pago.fechaDeposito", "Fecha depósito", null, null, true));
+            gridColumns.Add(grid.Column("Asegurado.numeroAfiliacion", "NSS", null, null, true));
+            gridColumns.Add(grid.Column("Asegurado.nombreTemporal", "Nombre", null, null, true));
+            gridColumns.Add(grid.Column("diasCotizados", "Dias", null, null, true));
+            gridColumns.Add(grid.Column("sdi", "S.D.I.", null, null, true));
+            gridColumns.Add(grid.Column("diasIncapacidad", "Inc.", null, null, true));
+            gridColumns.Add(grid.Column("diasAusentismo", "Aus.", null, null, true));
+            gridColumns.Add(grid.Column("cuotaFija", "C.F.", null, null, true));
+            gridColumns.Add(grid.Column("expa", "Ex.P", null, null, true));
+            gridColumns.Add(grid.Column("exo", "Ex. O.", null, null, true));
+            gridColumns.Add(grid.Column("Asegurado.Cliente.claveCliente", "Ubicación", null, null, true));
+            gridColumns.Add(grid.Column("PDP", "PDP", null, null, true));
+            gridColumns.Add(grid.Column("GMPP", "GMP. Patron", null, null, true));
+            gridColumns.Add(grid.Column("GMPO", "GMP. Obrero", null, null, true));
+            gridColumns.Add(grid.Column("rt", "R.T.", null, null, true));
+            gridColumns.Add(grid.Column("ivp", "I.V.P", null, null, true));
+            gridColumns.Add(grid.Column("ivo", "I.V.O", null, null, true));
+            gridColumns.Add(grid.Column("gps", "G.P.S.", null, null, true));
+            gridColumns.Add(grid.Column("patronal", "Patronal", null, null, true));
+            gridColumns.Add(grid.Column("obrera", "Obrera", null, null, true));
+            gridColumns.Add(grid.Column("imss", "IMSS", null, null, true));
+            gridColumns.Add(grid.Column("diasCotizBim", "Diascotizados Bim", null, null, true));
+            gridColumns.Add(grid.Column("retiro", "Retiro", null, null, true));
+            gridColumns.Add(grid.Column("patronalBimestral", "Patronal Bim", null, null, true));
+            gridColumns.Add(grid.Column("obreraBimestral", "Obrera Bim", null, null, true));
+            gridColumns.Add(grid.Column("rcv", "R.C.V.", null, null, true));
+            gridColumns.Add(grid.Column("aportacionsc", "Aportacion SC", null, null, true));
+            gridColumns.Add(grid.Column("aportacioncc", "Aportacion CC", null, null, true));
+            gridColumns.Add(grid.Column("amortizacion", "Amortizacion", null, null, true));
+            gridColumns.Add(grid.Column("infonavit", "Infonavit", null, null, true));
+            gridColumns.Add(grid.Column("total", "Total", null, null, true));
+
+            string gridData = grid.GetHtml(
+                columns: grid.Columns(gridColumns.ToArray())
+                    ).ToString();
+
+            Response.ClearContent();
+            DateTime date = DateTime.Now;
+            String fileName = "DetallePagosCliente-" + date.ToString("ddMMyyyyHHmm") + ".xls";
             Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
             Response.ContentType = "application/excel";
             Response.Write(gridData);

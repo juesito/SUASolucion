@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SUADATOS.Pago>
+﻿@model SUAMVC.Models.PagosModel
 @using SUADATOS
 @using SUAMVC.Models
 @using System.Text;
@@ -20,7 +20,7 @@
     }
     Usuario usuario = Session["UsuarioData"] as Usuario;
 
-    var grid = new WebGrid(source: Model, canPage: false);
+    var grid = new WebGrid(source: Model.pagos, canPage: false);
     @functions {
         static IHtmlString ShowPDF(string id)
         {
@@ -33,7 +33,7 @@
 
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
-    gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
+    @*gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));*@
 
     gridColumns.Add(grid.Column("Patrone.registro", "Reg. Patronal", null, null, true));
     gridColumns.Add(grid.Column("Patrone.nombre", "ID. Empresa", null, null, true));
@@ -46,6 +46,7 @@
     gridColumns.Add(grid.Column("recargos", "Recargos", format: @<text>@item.recargos.ToString("#,##0.00")</text>, canSort: true));
     gridColumns.Add(grid.Column("actualizaciones", "Actualizaciones", format: @<text>@item.actualizaciones.ToString("#,##0.00")</text>, canSort: true));
     gridColumns.Add(grid.Column("granTotal", "Gran Total", format: @<text>@item.granTotal.ToString("#,##0.00")</text>, canSort: true));
+    gridColumns.Add(grid.Column("nt", "NT", null, null, true));
     gridColumns.Add(grid.Column("fechaDeposito", "F. Deposito", @<text><div style='width: 6em'>
             @if (@item.fechaDeposito != null)
             { @item.fechaDeposito.ToString("dd-MM-yyyy")}
@@ -55,11 +56,10 @@
                 @if (@item.bancoId != null)
                 { @item.Banco.descripcion}
             </div></text>, null, true));
-    gridColumns.Add(grid.Column("nt", "NT", null, null, true));
     gridColumns.Add(grid.Column("Patrone.Plaza.Descripcion", "Localidad SUA", null, null, true));
 
 
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("RegistroPagos", "ColumnasPDF"))
     {
         gridColumns.Add(grid.Column(header: "CP", format: @<text>
             @if (item.comprobantePago != null)
@@ -75,10 +75,7 @@
                 </a>
             }
         </text>));
-    }
 
-    if (SecurityUserModel.verificarPermiso("1", "1"))
-    {
         gridColumns.Add(grid.Column(header: "RL", format: @<text>
             @if (item.resumenLiquidacion != null)
             {
@@ -93,10 +90,7 @@
                 </a>
             }
         </text>));
-    }
 
-    if (SecurityUserModel.verificarPermiso("1", "1"))
-    {
         gridColumns.Add(grid.Column(header: "CA", format: @<text>
             @if (item.cedulaAutodeterminacion != null)
             {
@@ -113,12 +107,9 @@
         </text>));
     }
 
-    if (SecurityUserModel.verificarPermiso("1", "1"))
-    {
-        gridColumns.Add(grid.Column(header: "Excel", format: @<text><a href="@Url.Action("ExcelDetalle", "Pagos", new { @id = item.id})"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
+    gridColumns.Add(grid.Column(header: "Excel", format: @<text><a href="@Url.Action("ExcelDetalle", "Pagos", new { @id = item.id})"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
 
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+        if (SecurityUserModel.verificarPermiso("RegistroPagos", "ColumnasPDF"))
     {
         gridColumns.Add(grid.Column(header: "Resumen", format: @<text><a href="@Url.Action("ResumenPagos", "Pagos", new { @id = item.id})"><img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
@@ -128,8 +119,13 @@
                         tableStyle: "table table-striped tableSua"
                     ));
 
-    //sb =
-    tableHtml = sb.ToString().Replace("{}", "<input type='checkbox' id='selectAll' name='slall' />").Trim();
+    String footer = "<tfoot><tr> " +
+                "<td>Totales:</td> <td colspan=3></td>" +
+                "<td>" + @String.Format("{0:C}", @Model.pagosFooter.sumImss) + "</td><td>" + @String.Format("{0:C}", @Model.pagosFooter.sumRcv) + " </td>" +
+                "<td>" + @String.Format("{0:C}", @Model.pagosFooter.sumInfonavit) + "</td><td>" + @String.Format("{0:C}", @Model.pagosFooter.sumTotal) + "</td>" +
+                "<td>" + @String.Format("{0:C}", @Model.pagosFooter.sumRecargos) + "</td><td>" + @String.Format("{0:C}", @Model.pagosFooter.sumActualiz) + "</td>" +
+                "<td>" + @String.Format("{0:C}", @Model.pagosFooter.sumGTotal) + "</td><td>" + @String.Format("{0:0,0}", @Model.pagosFooter.sumNt) + "</td></tr></tfoot></table>";
+    tableHtml = sb.ToString().Replace("</table>", footer).Trim();
 
 //    var flagMenu = @ViewBag.flagMenus;
 }

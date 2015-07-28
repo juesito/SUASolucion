@@ -193,16 +193,16 @@ table-sua {
 
 .footer {
     background-color: #151E49;
-    color: #ffffff;
+    color: #000000;
 }
 
 tfoot {
     background-color: #fff;
-    color: #dddddd;
+    color: #000000;
     display: table-footer-group;
     vertical-align: middle;
     border-color: inherit;
-    font-size: 12px;
+    font-size: 10px;
 }
 
     tfoot td {
