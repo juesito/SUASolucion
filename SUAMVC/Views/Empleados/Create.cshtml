@@ -87,7 +87,7 @@
             <table style="margin: 0 auto;">
                 <thead>
                     <tr style="background-color:#2E538A; color:white; min-height:20px; font-size:15px;">
-                        <th colspan="6" style="margin: 0 auto; text-align:center;">@Html.Label("Folio de Solicitud " + solicitud.folioSolicitud)</th>
+                        <th colspan="6" style="margin: 0 auto; text-align:center;">@Html.Label("Folio de Solicitud " + solicitud.folioSolicitud + " Cliente:" + solicitud.Cliente.descripcion)</th>
                     </tr>
                 </thead>
                 <tbody style="margin-top:50px; padding-top:50px;">
@@ -161,7 +161,21 @@
                     <td></td>
                     <td></td>
                 </tr>
-
+                    <tr>
+                        <td>@Html.LabelFor(model => model.esquemaPagoId, "esquemaPagoId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>
+                            @Html.DisplayFor(model => model.EsquemasPago.descripcion, new { @Id = "esquemaPago"})
+                            @Html.ValidationMessageFor(model => model.esquemaPagoId, "", new { @class = "text-danger" })
+                        </td>
+                        <td>@Html.LabelFor(model => model.sdiId, "sdiId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>
+                            @Html.sdiDrownList(usuario.Id, "sdiId", solicitud.clienteId, "")
+                            @Html.ValidationMessageFor(model => model.sdiId, "", new { @class = "text-danger" })
+                        </td>
+                        
+                        <td></td>
+                        <td></td>
+                    </tr>
                 <tr>
                     <td>@Html.LabelFor(model => model.salarioReal, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                     <td>

@@ -120,7 +120,10 @@ tableStyle: "table table-striped tableSua"
 }
 
 <p>
-    @Html.ActionLink(@Language.agregar, "Create", "Solicitudes", new { @class = "btn btn-success" })
+    @if (SecurityUserModel.verificarPermiso("Agregar Solicitud", "Se agrega solicitud de alta empleados"))
+    {
+        @Html.ActionLink(@Language.agregar, "Create", "Solicitudes", new { @class = "btn btn-success" })
+    }
 
     <a href="@Url.Action("GetExcel", "Solicitudes")" style="text-align:right">
         <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="30" height="30" />

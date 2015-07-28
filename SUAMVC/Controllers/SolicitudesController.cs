@@ -80,7 +80,7 @@ namespace SUAMVC.Controllers
             ViewBag.estatusTarjeta = new SelectList(db.Conceptos, "id", "grupo");
             ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion");
             ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion");
-            ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion");
+            ViewBag.proyectoId = new SelectList(db.Proyectos.Where(s => s.descripcion.Trim().Equals("Seleccion")), "id", "descripcion");
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion");
             ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion");
             ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion");

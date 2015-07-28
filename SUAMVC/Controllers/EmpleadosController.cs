@@ -122,20 +122,20 @@ namespace SUAMVC.Controllers
             Concepto confidencial = th.obtenerConceptoPorGrupo("ARCHEMP", "Confidencial");
 
             // Obtenemos los documentos cargados para el empleado
-            ViewBag.docsCv = db.ArchivosEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsCv = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(cv.id)).Count();
-            ViewBag.docsVarios = db.ArchivosEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsVarios = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(docVarios.id)).Count();
-            ViewBag.docsContratos = db.ArchivosEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsContratos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(contratos.id)).Count();
-            ViewBag.docsPsicometricos = db.ArchivosEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsPsicometricos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(psicometria.id)).Count();
-            ViewBag.docsConfidencial = db.ArchivosEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsConfidencial = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(confidencial.id)).Count();
 
             //Obtenemos la solicitud del empleado
             Solicitud solicitud = obtenerSolicitudActiva(empleado.id);
-            DocumentosEmpleado documentosEmpleado = db.DocumentosEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)).FirstOrDefault();
+            DocumentoEmpleado documentosEmpleado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)).FirstOrDefault();
             SalarialesEmpleado salarialesEmpleado = db.SalarialesEmpleadoes.Where(se => se.empleadoId.Equals(empleado.id)).FirstOrDefault();
 
             datosEmpleadoModel.solicitud = solicitud;
@@ -154,6 +154,7 @@ namespace SUAMVC.Controllers
 
             empleado.tramitarTarjeta = 0;
             empleado.tieneInfonavit = 1;
+            empleado.esquemaPagoId = solicitud.esquemaId;
             ViewBag.solicitudId = id;
 
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion");
@@ -161,7 +162,6 @@ namespace SUAMVC.Controllers
             ViewBag.estadoCivilId = new SelectList(db.EstadoCivils, "id", "descripcion");
             ViewBag.estadoNacimientoId = new SelectList(db.Estados, "id", "descripcion");
             ViewBag.municipioNacimientoId = new SelectList(db.Municipios, "id", "descripcion");
-            ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion");
             ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion");
 
             return View(empleado);
@@ -284,20 +284,20 @@ namespace SUAMVC.Controllers
             Concepto confidencial = th.obtenerConceptoPorGrupo("ARCHEMP", "Confidencial");
 
             // Obtenemos los documentos cargados para el empleado
-            ViewBag.docsCv = db.ArchivosEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsCv = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(cv.id)).Count();
-            ViewBag.docsVarios = db.ArchivosEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsVarios = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(docVarios.id)).Count();
-            ViewBag.docsContratos = db.ArchivosEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsContratos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(contratos.id)).Count();
-            ViewBag.docsPsicometricos = db.ArchivosEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsPsicometricos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(psicometria.id)).Count();
-            ViewBag.docsConfidencial = db.ArchivosEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsConfidencial = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(confidencial.id)).Count();
 
             //Obtenemos la solicitud del empleado
             Solicitud solicitud = obtenerSolicitudActiva(empleado.id);
-            DocumentosEmpleado documentosEmpleado = db.DocumentosEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)).FirstOrDefault();
+            DocumentoEmpleado documentosEmpleado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)).FirstOrDefault();
             SalarialesEmpleado salarialesEmpleado = db.SalarialesEmpleadoes.Where(se => se.empleadoId.Equals(empleado.id)).FirstOrDefault();
 
             datosEmpleadoModel.solicitud = solicitud;
@@ -364,7 +364,7 @@ namespace SUAMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult GuardarDocumentos([Bind(Include = "id,calleNumero,colonia,edoMunicipio,codigoPostal")] Empleado empleado,
-            [Bind(Include = "actividades, domicilioOficina, fechaAntiguedad, salarioVSM, diasDescanso, salarioNominal,diasVacaciones,diasAguinaldo,otros,telefono,tipoSangre")] DocumentosEmpleado datosEmpleado, int jornadaLaboralId)
+            [Bind(Include = "actividades, domicilioOficina, fechaAntiguedad, salarioVSM, diasDescanso, salarioNominal,diasVacaciones,diasAguinaldo,otros,telefono,tipoSangre")] DocumentoEmpleado datosEmpleado, int jornadaLaboralId)
         {
             if (ModelState.IsValid)
             {
@@ -375,7 +375,7 @@ namespace SUAMVC.Controllers
                 empleadoModificado.edoMunicipio = empleado.edoMunicipio;
                 empleadoModificado.codigoPostal = empleado.codigoPostal;
 
-                DocumentosEmpleado documentoEmpleadoModificado = db.DocumentosEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)).FirstOrDefault();
+                DocumentoEmpleado documentoEmpleadoModificado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)).FirstOrDefault();
 
 
                 //Hay que buscar en internet como se puede hacer esto porque se ve que esta jodido
@@ -398,7 +398,7 @@ namespace SUAMVC.Controllers
                 }
                 else
                 {
-                    documentoEmpleadoModificado = new DocumentosEmpleado();
+                    documentoEmpleadoModificado = new DocumentoEmpleado();
                     documentoEmpleadoModificado.empleadoId = empleado.id;
                     documentoEmpleadoModificado.actividades = datosEmpleado.actividades;
                     documentoEmpleadoModificado.domicilioOficina = datosEmpleado.domicilioOficina;
@@ -414,7 +414,7 @@ namespace SUAMVC.Controllers
                     documentoEmpleadoModificado.fechaCreacion = DateTime.Now;
                     documentoEmpleadoModificado.usuarioId = usuario.Id;
 
-                    db.DocumentosEmpleadoes.Add(documentoEmpleadoModificado);
+                    db.DocumentoEmpleadoes.Add(documentoEmpleadoModificado);
                 }
 
                 db.Entry(empleadoModificado).State = EntityState.Modified;
@@ -461,7 +461,7 @@ namespace SUAMVC.Controllers
                     documentoEmpleadoModificado.porcientoPension = salarialesEmpleado.porcientoPension;
                     documentoEmpleadoModificado.periodoId = salarialesEmpleado.periodoId;
                     documentoEmpleadoModificado.importePension = salarialesEmpleado.importePension;
-                    documentoEmpleadoModificado.fechaCaptura = DateTime.Now;
+                    documentoEmpleadoModificado.fechaCreacion = DateTime.Now;
                     documentoEmpleadoModificado.usuarioId = usuario.Id;
 
                     db.SalarialesEmpleadoes.Add(documentoEmpleadoModificado);
@@ -589,6 +589,8 @@ namespace SUAMVC.Controllers
                     ExcelHelper ex = new ExcelHelper();
                     //List<PersonalExcelLayout> pel = ex.getPersonalDatos(@"C:\SUA\Layouts\" + file.FileName);
                     LinqToExcelProvider provider = new LinqToExcelProvider(@"C:\SUA\Layouts\" + file.FileName);
+
+                    provider.readExcel("datos");
 
                     var query = (from row in provider.GetWorkSheet("datos")
                                  let item = new PersonalExcelLayout

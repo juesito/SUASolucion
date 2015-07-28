@@ -237,6 +237,39 @@ namespace SUAMVC.Helpers
             return htmlHelper.DropDownList(componenteId, listFields, new { onchange = "submit()" });
         }
 
+        public static MvcHtmlString clientesDrownList(this HtmlHelper htmlHelper, int userId, String componenteId, String _onchange, String estyle)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Cliente> list = (from s in db.Clientes.ToList()
+                                  join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                  where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(userId)
+                                  orderby s.claveCliente, s.descripcion
+                                  select s).ToList();
+
+
+            String itemId = "";
+            String descripcion = "Todos";
+            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            foreach (Cliente item in list)
+            {
+                itemId = item.Id.ToString().Trim();
+                descripcion = item.claveCliente.Trim() + "-" + item.descripcion.Trim();
+
+                if (item.claveCliente.Trim().Contains("Todos"))
+                {
+                    itemId = "";
+                    descripcion = item.descripcion.Trim();
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields, new { style = estyle, onchange = _onchange });
+        }
+
+
         public static MvcHtmlString clientesNSDrownList(this HtmlHelper htmlHelper, int userId)
         {
 
@@ -677,6 +710,102 @@ namespace SUAMVC.Helpers
             }
 
             return htmlHelper.DropDownList(componenteId, listFields, new { @class = htmlclass});
+        }
+
+        public static MvcHtmlString sdiDrownList(this HtmlHelper htmlHelper, int userId, String componenteId, int clienteId, String htmlclass)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<SDI> listSdis = (from s in db.SDIs.ToList()
+                                  join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
+                                  where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(userId)
+                                  && !s.descripcion.Contains("Local") && s.clienteId.Equals(clienteId)
+                                  orderby s.descripcion
+                                  select s).ToList();
+
+            String itemId = "";
+            String descripcion = "Todas";
+            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            foreach (SDI item in listSdis)
+            {
+                itemId = item.id.ToString().Trim();
+                descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas") || descripcion.Contains("Seleccion"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields, new { @class = htmlclass });
+        }
+        public static MvcHtmlString empresasDrownList(this HtmlHelper htmlHelper, string componenteId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Empresa> listEmpresas = (from s in db.Empresas
+                                          orderby s.descripcion
+                                          select s).ToList();
+
+            foreach (Empresa item in listEmpresas)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields);
+        }
+        public static MvcHtmlString serviciosDrownList(this HtmlHelper htmlHelper, string componenteId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Servicio> listEmpresas = (from s in db.Servicios
+                                           orderby s.descripcion
+                                           select s).ToList();
+
+            foreach (Servicio item in listEmpresas)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields);
+        }
+        public static MvcHtmlString usuariosDrownList(this HtmlHelper htmlHelper, string componenteId, string tipo)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Usuario> listusuarios = (from s in db.Usuarios.ToList()
+                                          where s.Role.descripcion.Trim().Equals(tipo.Trim())
+                                          orderby s.nombreUsuario
+                                          select s).ToList();
+
+            foreach (Usuario item in listusuarios)
+            {
+                listFields.Add(new SelectListItem { Value = item.Id.ToString(), Text = item.nombreUsuario.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields);
+
+
         }
     }
 }

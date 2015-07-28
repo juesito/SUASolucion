@@ -19,7 +19,7 @@ namespace SUAMVC.Controllers
         {
             if (!String.IsNullOrEmpty(clienteId))
             {
-                var sDIs = db.SDIs.Include(p => p.clienteId);
+                var sDIs = db.SDIs.Include(p => p.Cliente);
                 int clienteTempId = int.Parse(clienteId.Trim());
                 sDIs = sDIs.Where(p => p.clienteId.Equals(clienteTempId)).OrderBy(p => p.fechaCreacion);
 

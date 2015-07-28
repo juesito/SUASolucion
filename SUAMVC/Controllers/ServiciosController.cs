@@ -10,131 +10,120 @@ using SUADATOS;
 
 namespace SUAMVC.Controllers
 {
-    public class FuncionesController : Controller
+    public class ServiciosController : Controller
     {
         private suaEntities db = new suaEntities();
 
-        // GET: Funciones
-        public ActionResult Index(String moduloId, String tipo)
+        // GET: Servicios
+        public ActionResult Index()
         {
-            var funcions = db.Funcions.Include(f => f.Modulo);
-            if (!String.IsNullOrEmpty(moduloId)) {
-                int moduloIntId = int.Parse(moduloId);
-                funcions = funcions.Where(f => f.moduloId.Equals(moduloIntId));
-            }
-            if (!String.IsNullOrEmpty(tipo)) {
-                funcions = funcions.Where(f => f.tipo.Equals(tipo.Trim()));
-            }
-            
-            return View(funcions.ToList());
+            var servicios = db.Servicios.Include(s => s.Usuario);
+            return View(servicios.ToList());
         }
 
-        // GET: Funciones/Details/5
+        // GET: Servicios/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Funcion funcion = db.Funcions.Find(id);
-            if (funcion == null)
+            Servicio servicio = db.Servicios.Find(id);
+            if (servicio == null)
             {
                 return HttpNotFound();
             }
-            return View(funcion);
+            return View(servicio);
         }
 
-        // GET: Funciones/Create
+        // GET: Servicios/Create
         public ActionResult Create()
         {
-            ViewBag.moduloId = new SelectList(db.Modulos, "id", "descripcionCorta");
+            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario");
             return View();
         }
 
-        // POST: Funciones/Create
+        // POST: Servicios/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,moduloId,descripcionCorta,descripcionLarga,accion,controlador,estatus,usuarioId,fechaCreacion,tipo")] Funcion funcion)
+        public ActionResult Create([Bind(Include = "id,descripcion,fechaCreacion,usuarioId")] Servicio servicio)
         {
             if (ModelState.IsValid)
             {
-                //Usuario loggeado
                 Usuario usuario = Session["UsuarioData"] as Usuario;
 
-                funcion.fechaCreacion = DateTime.Now;
-                funcion.usuarioId = usuario.Id;
-                funcion.estatus = "A";
-                db.Funcions.Add(funcion);
+                servicio.fechaCreacion = DateTime.Now;
+                servicio.usuarioId = usuario.Id;
+                db.Servicios.Add(servicio);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.moduloId = new SelectList(db.Modulos, "id", "descripcionCorta", funcion.moduloId);
-            return View(funcion);
+            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", servicio.usuarioId);
+            return View(servicio);
         }
 
-        // GET: Funciones/Edit/5
+        // GET: Servicios/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Funcion funcion = db.Funcions.Find(id);
-            if (funcion == null)
+            Servicio servicio = db.Servicios.Find(id);
+            if (servicio == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.moduloId = new SelectList(db.Modulos, "id", "descripcionCorta", funcion.moduloId);
-            return View(funcion);
+            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", servicio.usuarioId);
+            return View(servicio);
         }
 
-        // POST: Funciones/Edit/5
+        // POST: Servicios/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,moduloId,descripcionCorta,descripcionLarga,accion,controlador,estatus,tipo")] Funcion funcion)
+        public ActionResult Edit([Bind(Include = "id,descripcion,fechaCreacion,usuarioId")] Servicio servicio)
         {
             if (ModelState.IsValid)
             {
                 Usuario usuario = Session["UsuarioData"] as Usuario;
 
-                funcion.fechaCreacion = DateTime.Now;
-                funcion.usuarioId = usuario.Id;
-                funcion.estatus = "A";
-                db.Entry(funcion).State = EntityState.Modified;
+                servicio.fechaCreacion = DateTime.Now;
+                servicio.usuarioId = usuario.Id;
+                db.Entry(servicio).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.moduloId = new SelectList(db.Modulos, "id", "descripcionCorta", funcion.moduloId);
-            return View(funcion);
+            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", servicio.usuarioId);
+            return View(servicio);
         }
 
-        // GET: Funciones/Delete/5
+        // GET: Servicios/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Funcion funcion = db.Funcions.Find(id);
-            if (funcion == null)
+            Servicio servicio = db.Servicios.Find(id);
+            if (servicio == null)
             {
                 return HttpNotFound();
             }
-            return View(funcion);
+            return View(servicio);
         }
 
-        // POST: Funciones/Delete/5
+        // POST: Servicios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Funcion funcion = db.Funcions.Find(id);
-            db.Funcions.Remove(funcion);
+            Servicio servicio = db.Servicios.Find(id);
+            db.Servicios.Remove(servicio);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
