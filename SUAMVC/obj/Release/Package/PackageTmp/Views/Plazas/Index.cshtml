@@ -1,32 +1,57 @@
 ﻿@model IEnumerable<SUADATOS.Plaza>
+@using System.Text;
+@using SUAMVC.Models
+@using SUADATOS;
 
 @{
-    ViewBag.Title = "Plazas";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: Model, canPage: false); 
+    var grid = new WebGrid(source: Model, canPage: false);
+
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+
+    if (SecurityUserModel.verificarPermiso("Plazas", "Crear plaza"))
+    {
+         <p>
+            @Html.ActionLink("Crear Plaza", "Create", "Plazas", new { @class = "btn btn-success" })
+        </p>
+    }
+    //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+    gridColumns.Add(grid.Column("cveCorta", "Clave corta", null, null, true));
+    gridColumns.Add(grid.Column("descripcion", "Descripción", null, null, true));
+    gridColumns.Add(grid.Column("indicador", "Patrón/Usuario", null, null, true));
+    if (SecurityUserModel.verificarPermiso("Plazas", "Editar plaza"))
+    {
+        gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Plazas", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+    if (SecurityUserModel.verificarPermiso("Plazas", "Eliminar plaza"))
+    {
+        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Plazas", new { id = item.id })">
+            <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+
+    sb.Append(grid.GetHtml(
+        columns: grid.Columns(gridColumns.ToArray()),
+                        tableStyle: "table table-striped tableSua"
+                    ));
+
+    tableHtml = sb.ToString().Trim();
+
 }
 
 @section Menu {
-    <div>Catalogo de Plazas <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>@Language.catde @Language.plaza <img src="~/Content/Images/boss.png" width="15" height="15" /></div>
 }
 
-<p>
-    @Html.ActionLink("Crear Plaza", "Create", "Plazas", new { @class = "btn btn-success" })
-</p>
-@grid.GetHtml(
-    columns:
-        grid.Columns(
-            grid.Column("cveCorta", "Clave corta", null, null, true),
-            grid.Column("descripcion", "Descripción", null, null, true),
-            grid.Column("indicador", "Patrón/Usuario", null, null, true),
-            grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Plazas", new { id = item.id })">
-                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
-                </a></text>),
 
-            grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Plazas", new { id = item.id })">
-                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
-                </a></text>)
-             ),
-             tableStyle: "table table-strsiped tableSua"
-        )
-
+@if (!tableHtml.IsEmpty())
+{
+    @Html.Raw(tableHtml)
+}

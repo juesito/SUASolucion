@@ -6,6 +6,33 @@
     var isError = TempData["error"];
 }
 
+<script language="javascript" type="text/javascript">
+    function GetCity(_stateId) {
+        var procemessage = "<option value='0'> Please wait...</option>";
+        $("#ddlcity").html(procemessage).show();
+        var url = "/Test/GetCityByStaeId/";
+
+        $.ajax({
+            url: url,
+            data: { stateid: _stateId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "<option value='0'>Select City</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#ddlcity").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+</script>
+
+
 @section Menu {
     <div>Actualizar Archivo SUA sin Procesar <img src="~/Content/Images/home.png" width="15" height="15" /></div>
 }
@@ -21,29 +48,27 @@
 
                 @if (!IsPost)
                 {
-                    <div class="row">
-                        <div class="col-md-12" style="padding-top:10px; width:100px;">
-                            @Html.Label("Plaza :")
-
-                        </div>
-                        <div class="col-md-3" style="padding-top:10px; width:500px;">
-                            <p>@Html.DropDownList("plazasId", null, new { onchange = "document.location.href = '/Upload/GoOnlyUploadFile?plazasId=' + this.options[this.selectedIndex].value;" })</p>
-                        </div>
-                        <div class="col-md-12" style="padding-top:60px; width:100px;">
-                            @Html.Label("Patron :")
-
-                        </div>
-                        <div class="col-md-3" style="padding-top:10px; width:500px;">
-                            @Html.DropDownList("patronesId")
-                        </div>
-                        <div class="file" style="padding-top:80px;">
-                            @FileUpload.GetHtml(initialNumberOfFiles: 1,
+                    <table>
+                        <tr>
+                            <td>@Html.Label("Plaza :")</td>
+                            <td>@Html.DropDownList("plazasId", null, new { onchange = "document.location.href = '/Upload/GoOnlyUploadFile?plazasId=' + this.options[this.selectedIndex].value;" })</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.Label("Patron :")</td>
+                            <td>@Html.DropDownList("patronesId")</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="file" style="padding-top:80px;">
+                                    @FileUpload.GetHtml(initialNumberOfFiles: 1,
                             allowMoreFilesToBeAdded: false,
                             includeFormTag: true,
                             uploadText: "Subir SUA.mdb")
-                        </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
 
-                    </div>
                 }
             </div>
         </div>

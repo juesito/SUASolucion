@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "UploadFiles";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
     var grid = new WebGrid(source: Model.allAsegurado, rowsPerPage: 12);
 }
 

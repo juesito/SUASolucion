@@ -72,7 +72,7 @@
     <Compile Include="Acreditado.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ArchivoEmpleado.cs">
+    <Compile Include="ArchivosEmpleado.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Asegurado.cs">
@@ -105,7 +105,7 @@
     <Compile Include="DetallePago.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="DocumentoEmpleado.cs">
+    <Compile Include="DocumentosEmpleado.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Empleado.cs">
@@ -226,6 +226,9 @@
     <Compile Include="Solicitud.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="SolicitudEmpleado.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="SumarizadoCliente.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -269,7 +272,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Debug\SUADATOS.dll" />
+    <Content Include="bin\Debug\EntityFramework.dll" />
     <Content Include="Model1.edmx.sql" />
     <Content Include="StoreProcedures\InsertAdditionalFuncitions.sql" />
     <Content Include="StoreProcedures\spCreateActionFunctions.sql" />
@@ -280,7 +283,7 @@
     <Content Include="StoreProcedures\sp_createParameters.sql" />
     <Content Include="StoreProcedures\sp_createRoles.sql" />
     <Content Include="StoreProcedures\sp_SumarizadoClientes.sql" />
-    <Content Include="SUADATOS.dll" />
+    <Content Include="bin\Debug\SUADATOS.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -12,6 +12,8 @@ namespace SUADATOS
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class suaEntities : DbContext
     {
@@ -25,8 +27,9 @@ namespace SUADATOS
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Parametro> Parametros { get; set; }
         public virtual DbSet<Acreditado> Acreditados { get; set; }
-        public virtual DbSet<ArchivoEmpleado> ArchivoEmpleadoes { get; set; }
+        public virtual DbSet<ArchivosEmpleado> ArchivosEmpleados { get; set; }
         public virtual DbSet<Asegurado> Asegurados { get; set; }
         public virtual DbSet<Banco> Bancos { get; set; }
         public virtual DbSet<CatalogoMovimiento> CatalogoMovimientos { get; set; }
@@ -37,7 +40,7 @@ namespace SUADATOS
         public virtual DbSet<DatosAdicionalesCliente> DatosAdicionalesClientes { get; set; }
         public virtual DbSet<Departamento> Departamentos { get; set; }
         public virtual DbSet<DetallePago> DetallePagoes { get; set; }
-        public virtual DbSet<DocumentoEmpleado> DocumentoEmpleadoes { get; set; }
+        public virtual DbSet<DocumentosEmpleado> DocumentosEmpleadoes { get; set; }
         public virtual DbSet<Empleado> Empleados { get; set; }
         public virtual DbSet<Empresa> Empresas { get; set; }
         public virtual DbSet<EsquemasPago> EsquemasPagoes { get; set; }
@@ -56,7 +59,6 @@ namespace SUADATOS
         public virtual DbSet<Municipio> Municipios { get; set; }
         public virtual DbSet<Pago> Pagos { get; set; }
         public virtual DbSet<Pais> Paises { get; set; }
-        public virtual DbSet<Parametro> Parametros { get; set; }
         public virtual DbSet<Patrone> Patrones { get; set; }
         public virtual DbSet<Plaza> Plazas { get; set; }
         public virtual DbSet<Proyecto> Proyectos { get; set; }
@@ -72,10 +74,89 @@ namespace SUADATOS
         public virtual DbSet<Servicio> Servicios { get; set; }
         public virtual DbSet<Sexo> Sexos { get; set; }
         public virtual DbSet<Solicitud> Solicituds { get; set; }
+        public virtual DbSet<SolicitudEmpleado> SolicitudEmpleadoes { get; set; }
         public virtual DbSet<SumarizadoCliente> SumarizadoClientes { get; set; }
         public virtual DbSet<TipoContrato> TipoContratoes { get; set; }
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
+    
+        public virtual int sp_createCatalogoMovimientos()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_createCatalogoMovimientos");
+        }
+    
+        public virtual int sp_createConcepts(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_createConcepts", usuarioIdParameter);
+        }
+    
+        public virtual int sp_createFunctions(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_createFunctions", usuarioIdParameter);
+        }
+    
+        public virtual int sp_createModules()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_createModules");
+        }
+    
+        public virtual int sp_createParameters()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_createParameters");
+        }
+    
+        public virtual int sp_createRoles()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_createRoles");
+        }
+    
+        public virtual int sp_SumarizadoClientes(Nullable<int> usuarioId, Nullable<int> clienteId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            var clienteIdParameter = clienteId.HasValue ?
+                new ObjectParameter("clienteId", clienteId) :
+                new ObjectParameter("clienteId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_SumarizadoClientes", usuarioIdParameter, clienteIdParameter);
+        }
+    
+        public virtual int sp_SumarizadoClientesTodos(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_SumarizadoClientesTodos", usuarioIdParameter);
+        }
+    
+        public virtual int spCreateActionFunctions(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spCreateActionFunctions", usuarioIdParameter);
+        }
+    
+        public virtual int spCreateFactorss(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spCreateFactorss", usuarioIdParameter);
+        }
     }
 }

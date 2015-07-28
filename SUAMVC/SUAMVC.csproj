@@ -73,6 +73,22 @@
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.InfoPath.Client.Internal.CLRHost">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft Office\Office15\Microsoft.Office.InfoPath.Client.Internal.CLRHost.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.InfoPath.FormControl, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft Office\Office15\Microsoft.Office.InfoPath.FormControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.InfoPath.SemiTrust, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft Office\Office15\Microsoft.Office.Interop.InfoPath.SemiTrust.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.InfoPath.Xml, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft Office\Office15\Microsoft.Office.Interop.InfoPath.Xml.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.Web.Helpers">
       <HintPath>..\packages\Microsoft.AspNet.WebHelpers.3.2.3\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
@@ -445,6 +461,8 @@
     <Compile Include="Helpers\StatusDrownList.cs" />
     <Compile Include="Helpers\ToolsHelper.cs" />
     <Compile Include="Models\AseguradoMovimientosModel.cs" />
+    <Compile Include="Models\PagosModel.cs" />
+    <Compile Include="Models\PagosFooter.cs" />
     <Compile Include="Models\DatesHelper.cs" />
     <Compile Include="Models\DatosEmpleadoModel.cs" />
     <Compile Include="Models\DestinatorModel.cs" />
@@ -460,6 +478,8 @@
     <Compile Include="Models\SetupModel.cs" />
     <Compile Include="Models\SolicitudEmpleadoModel.cs" />
     <Compile Include="Models\SUAHelper.cs" />
+    <Compile Include="Models\SumarizadoAcumulado.cs" />
+    <Compile Include="Models\SumarizadoClienteModel.cs" />
     <Compile Include="Models\Topico.cs" />
     <Compile Include="Models\TopicosPorUsuarioModel.cs" />
     <Compile Include="Models\UploadModel.cs" />
