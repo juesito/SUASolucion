@@ -10,60 +10,188 @@
 }
 
 @section Menu {
-    <div>Eliminar Cliente <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>@Language.catde Clientes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<h3>Confirmación para eliminar el Cliente</h3><div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.claveCliente)
-        </dt>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        ¿Desea borrar este registro?
+    </div>
+    <div class="panel-body" style="font-size:10px;">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName(@Language.claveCliente)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.claveCliente)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.claveCliente)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.claveSua)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.claveSua)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.claveSua)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.claveSua)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.rfc)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.rfc)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.rfc)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.rfc)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.descripcion)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.descripcion)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.descripcion)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.descripcion)
+            </dd>
+            //
+            <dt>
+                @Html.DisplayName(@Language.nombre)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ejecutivo)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.nombre)
+            </dd>
+            <dt>
+                @Html.DisplayName(@Language.direccionFiscal)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ejecutivo)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.direccionFiscal)
+            </dd>
 
-    </dl>
+            <dt>
+                @Html.DisplayName(@Language.contacto)
+            </dt>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+            <dd>
+                @Html.DisplayFor(model => model.contacto)
+            </dd>
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-success" /> |
-            @Html.ActionLink("Regresar", "Index")
+            <dt>
+                @Html.DisplayName(@Language.telefono)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.telefono)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.direccionOficina)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.direccionOficina)
+            </dd>
+            <dt>
+                @Html.DisplayName(@Language.email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.email)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.actividadPrincipal)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.actividadPrincipal)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.fechaAlta)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fechaContratacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.fechaAlta)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fechaContratacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.empresaFacturadora)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.empresaFacturadoraId)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.ejecutivoContador)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ejecutivoContadorId)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.plaza)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Plaza_id)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.plaza)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Plaza_id)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.grupo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Grupo_id)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.numeroCuenta)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.numeroCuenta)
+            </dd>
+
+            <dt>
+                @Html.DisplayName(@Language.tipoServicio)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.tipoServicioId)
+            </dd>
+
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+    <div class="form-group" style="margin-top:40px;">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="@Language.borrar" class="btn btn-primary" />
         </div>
-    }
-</div>
+    </div>
+        }
+
+        <div>
+            @Html.ActionLink(@Language.regresar, "Index")
+        </div>
+          

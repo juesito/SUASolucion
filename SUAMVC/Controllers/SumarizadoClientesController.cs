@@ -11,7 +11,6 @@ using System.Data.SqlClient;
 using System.Web.Helpers;
 using SUAMVC.Models;
 
-
 namespace SUAMVC.Controllers
 {
     public class SumarizadoClientesController : Controller
@@ -277,14 +276,23 @@ namespace SUAMVC.Controllers
         public void ExcelDetalle(String anio, String mes, String idPatron, String idCliente)
         {
 
-     //       int anioTemp = int.Parse(anio.Trim());
-     //       int mesTemp = int.Parse(mes.Trim());
+            int anioTemp = int.Parse(anio.Trim());
+            int mesTemp = int.Parse(mes.Trim());
             int idPatronTemp = int.Parse(idPatron.Trim());
-     //       int idClienteTemp = int.Parse(idCliente.Trim());
+ //           int idClienteTemp = int.Parse(idCliente.Trim());
 
             Pago pago = db.Pagos.Where(p => p.patronId.Equals(idPatronTemp) && p.anno.Equals(anio) && p.mes.Equals(mes)).FirstOrDefault();
 
             List<DetallePago> detallePago = db.DetallePagoes.Where(r => r.pagoId.Equals(pago.id) && r.Asegurado.Cliente.claveCliente.Equals(idCliente)).ToList();
+
+
+            //List<DetallePago> detallePago = (from s in db.DetallePagoes
+            //                         join pag in db.Pagos on s.pagoId equals pag.id
+            //                         join aseg in db.Asegurados on s.aseguradoId equals aseg.id
+            //                         join cli in db.Clientes on aseg.ClienteId equals cli.Id
+            //                         where pag.mes.Equals("06") 
+            //                         orderby aseg.ClienteId, pag.patronId
+            //                         select s).ToList();
 
             List<DetallePago> allCust = new List<DetallePago>();
 
@@ -297,9 +305,10 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("Pago.Patrone.registro", "Patrón", null, null, true));
             gridColumns.Add(grid.Column("Pago.mes", "Periodo", null, null, true));
             gridColumns.Add(grid.Column("Pago.anno", "Ejercicio", null, null, true));
-            gridColumns.Add(grid.Column("Pago.fechaDeposito", "Fecha depósito", null, null, true));
-            gridColumns.Add(grid.Column("Asegurado.numeroAfiliacion", "NSS", null, null, true));
+            //gridColumns.Add(grid.Column("Pago.fechaDeposito", "Fecha depósito", null, null, true));
+            gridColumns.Add(grid.Column("Asegurado.numeroAfiliacion", "NSS", format: (item) => String.Format("{00000000000}", item.Asegurado.numeroAfiliacion)));
             gridColumns.Add(grid.Column("Asegurado.nombreTemporal", "Nombre", null, null, true));
+            gridColumns.Add(grid.Column("Asegurado.Cliente.claveCliente", "Ubicación", null, null, true));
             gridColumns.Add(grid.Column("diasCotizados", "Dias", null, null, true));
             gridColumns.Add(grid.Column("sdi", "S.D.I.", null, null, true));
             gridColumns.Add(grid.Column("diasIncapacidad", "Inc.", null, null, true));
@@ -307,7 +316,6 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("cuotaFija", "C.F.", null, null, true));
             gridColumns.Add(grid.Column("expa", "Ex.P", null, null, true));
             gridColumns.Add(grid.Column("exo", "Ex. O.", null, null, true));
-            gridColumns.Add(grid.Column("Asegurado.Cliente.claveCliente", "Ubicación", null, null, true));
             gridColumns.Add(grid.Column("PDP", "PDP", null, null, true));
             gridColumns.Add(grid.Column("GMPP", "GMP. Patron", null, null, true));
             gridColumns.Add(grid.Column("GMPO", "GMP. Obrero", null, null, true));

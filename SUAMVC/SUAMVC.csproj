@@ -151,6 +151,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -203,6 +204,39 @@
     <Content Include="Content\Images\see.png" />
     <Content Include="Content\Images\send.png" />
     <Content Include="Content\Images\show.png" />
+    <Content Include="Content\jquery-ui-1.11.4\external\jquery\jquery.js" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_flat_0_2E538A_40x100.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_glass_0_2E538A_1x400.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_glass_0_D5E2F3_1x400.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_highlight-soft_0_2E538A_1x100.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Content\jquery-ui-1.11.4\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\jquery-ui-1.11.4\index.html" />
+    <Content Include="Content\jquery-ui-1.11.4\jquery-ui.css" />
+    <Content Include="Content\jquery-ui-1.11.4\jquery-ui.js" />
+    <Content Include="Content\jquery-ui-1.11.4\jquery-ui.min.css" />
+    <Content Include="Content\jquery-ui-1.11.4\jquery-ui.min.js" />
+    <Content Include="Content\jquery-ui-1.11.4\jquery-ui.structure.css" />
+    <Content Include="Content\jquery-ui-1.11.4\jquery-ui.structure.min.css" />
+    <Content Include="Content\jquery-ui-1.11.4\jquery-ui.theme.css" />
+    <Content Include="Content\jquery-ui-1.11.4\jquery-ui.theme.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Icon.png" />
     <Content Include="Scripts\cldr.js" />
@@ -461,6 +495,7 @@
     <Compile Include="Helpers\StatusDrownList.cs" />
     <Compile Include="Helpers\ToolsHelper.cs" />
     <Compile Include="Models\AseguradoMovimientosModel.cs" />
+    <Compile Include="Models\DestinatorModel.cs" />
     <Compile Include="Models\PagosModel.cs" />
     <Compile Include="Models\PagosFooter.cs" />
     <Compile Include="Models\DatesHelper.cs" />
@@ -484,15 +519,11 @@
     <Compile Include="Models\UploadModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Language.Designer.cs" />
     <Compile Include="Resources\Language.es-MX.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Language.es-MX.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\Language1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Language.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -596,10 +627,7 @@
     <Content Include="Views\Incapacidades\Details.cshtml" />
     <Content Include="Views\Incapacidades\Edit.cshtml" />
     <Content Include="Views\Incapacidades\Index.cshtml" />
-    <Content Include="Views\Pagos\Create.cshtml" />
-    <Content Include="Views\Pagos\Delete.cshtml" />
     <Content Include="Views\Pagos\Details.cshtml" />
-    <Content Include="Views\Pagos\Edit.cshtml" />
     <Content Include="Views\Pagos\Index.cshtml" />
     <Content Include="Views\Pagos\UploadPagos.cshtml" />
     <Content Include="Views\Proyectos\Create.cshtml" />
@@ -689,6 +717,8 @@
     <Content Include="Views\FamiliaresEmpleados\Details.cshtml" />
     <Content Include="Views\FamiliaresEmpleados\Edit.cshtml" />
     <Content Include="Views\FamiliaresEmpleados\Index.cshtml" />
+    <Content Include="Views\Pagos\MantPDFPagos.cshtml" />
+    <Content Include="Views\Pagos\DeletePDFs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -715,6 +745,35 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Language1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

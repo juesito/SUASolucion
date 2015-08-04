@@ -1,0 +1,28 @@
+﻿@model IEnumerable<SUADATOS.Pago>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+}
+
+@section Menu {
+    <div>Movimientos <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+
+@grid.GetHtml(
+    columns:
+            grid.Columns(
+            grid.Column("Patrone.registro", "Reg. Patronal", null, null, true),
+            grid.Column("Patrone.nombre", "ID. Empresa", null, null, true),
+            grid.Column("mes", "Mes", null, null, true),
+            grid.Column("anno", "Año", null, null, true),
+            grid.Column("comprobantePago", "CP", null, null, true),
+            grid.Column("resumenLiquidacion", "RL", null, null, true),
+            grid.Column("cedulaAutodeterminacion", "CA", null, null, true),
+            grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("DeletePDFs", "Pagos", new { id = item.id })">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a></text>)),
+                                                tableStyle: "table table-striped tableSua"
+                                )

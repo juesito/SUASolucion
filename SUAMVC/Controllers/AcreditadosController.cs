@@ -129,6 +129,7 @@ namespace SUAMVC.Controllers
                               where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
                                     clientesAsignados.Contains(s.Cliente.Id) &&
                                     patronesAsignados.Contains(s.PatroneId)
+                              orderby s.nombreCompleto
                              select s;
 
             if (!String.IsNullOrEmpty(plazasId))
@@ -215,22 +216,22 @@ namespace SUAMVC.Controllers
             ViewBag.activos = acreditados.Where(s => !s.fechaBaja.HasValue).Count();
             ViewBag.registros = acreditados.Count();
 
-            var acreditados2 = acreditados.OrderBy(s => s.nombreCompleto).Take(12).ToList();
-            if (numeroPagina != null)
-            {
-                ViewData["numeroPagina"] = numeroPagina;
-                int numeroPag = int.Parse(numeroPagina.Trim());
-                if (numeroPag != 0)
-                {
-                    acreditados2 = acreditados.OrderBy(s => s.nombreCompleto).Skip(((numeroPag - 1) * 12)).Take(12).ToList();
-                }
-            }
-            else
-            {
-                ViewData["numeroPagina"] = 1;
-            }
+            //var acreditados2 = acreditados.OrderBy(s => s.nombreCompleto).Take(12).ToList();
+            //if (numeroPagina != null)
+            //{
+            //    ViewData["numeroPagina"] = numeroPagina;
+            //    int numeroPag = int.Parse(numeroPagina.Trim());
+            //    if (numeroPag != 0)
+            //    {
+            //        acreditados2 = acreditados.OrderBy(s => s.nombreCompleto).Skip(((numeroPag - 1) * 12)).Take(12).ToList();
+            //    }
+            //}
+            //else
+            //{
+            //    ViewData["numeroPagina"] = 1;
+            //}
 
-            return View(acreditados2);
+            return View(acreditados.ToList());
         }
 
         public ActionResult UploadFile(int id)

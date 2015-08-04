@@ -653,7 +653,7 @@ namespace SUAMVC.Controllers
                                                 detallePago2.patronId = patron.Id;
                                                 detallePago2.Patrone = patron;
 
-                                                detallePago2.diasCotizados = int.Parse(row2["dia_cot"].ToString().Trim());
+                                                detallePago2.diasCotizados = 0;
                                                 detallePago2.sdi = decimal.Parse(row2["sal_dia"].ToString().Trim());
 
                                                 detallePago2.usuarioId = userId;
@@ -749,7 +749,7 @@ namespace SUAMVC.Controllers
                     suaHelper.cerrarConexion();
                 }
             }
-            
+
             return RedirectToAction("UploadPagos");
         }
 
@@ -918,13 +918,14 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("Pago.Patrone.registro", "Patrón", null, null, true));
             gridColumns.Add(grid.Column("Pago.mes", "Periodo", null, null, true));
             gridColumns.Add(grid.Column("Pago.anno", "Ejercicio", null, null, true));
-            gridColumns.Add(grid.Column("Pago.fechaDeposito", "Fecha depósito", null, null, true));
+            //gridColumns.Add(grid.Column("Pago.fechaDeposito", "Fecha depósito", null, null, true));
             //gridColumns.Add(grid.Column("Pago.imss", "IMSS", null, null, true));
             //gridColumns.Add(grid.Column("Pago.rcv", "RCV", null, null, true));
             //gridColumns.Add(grid.Column("Pago.infonavit", "Infonavit", null, null, true));
             //gridColumns.Add(grid.Column("Pago.total", "Total", null, null, true));
-            gridColumns.Add(grid.Column("Asegurado.numeroAfiliacion", "NSS", format: (item) => String.Format("{000000000000}", item.Asegurado.numeroAfiliacion)));
+            gridColumns.Add(grid.Column("Asegurado.numeroAfiliacion", "NSS", format: (item) => String.Format("{0,22:D11}", item.Asegurado.numeroAfiliacion)));
             gridColumns.Add(grid.Column("Asegurado.nombreTemporal", "Nombre", null, null, true));
+            gridColumns.Add(grid.Column("Asegurado.Cliente.claveCliente", "Ubicación", null, null, true));
             gridColumns.Add(grid.Column("diasCotizados", "Dias", null, null, true));
             gridColumns.Add(grid.Column("sdi", "S.D.I.", null, null, true));
             gridColumns.Add(grid.Column("diasIncapacidad", "Inc.", null, null, true));
@@ -932,7 +933,6 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("cuotaFija", "C.F.", null, null, true));
             gridColumns.Add(grid.Column("expa", "Ex.P", null, null, true));
             gridColumns.Add(grid.Column("exo", "Ex. O.", null, null, true));
-            gridColumns.Add(grid.Column("Asegurado.Cliente.claveCliente", "Ubicación", null, null, true));
             gridColumns.Add(grid.Column("PDP", "PDP", null, null, true));
             gridColumns.Add(grid.Column("GMPP", "GMP. Patron", null, null, true));
             gridColumns.Add(grid.Column("GMPO", "GMP. Obrero", null, null, true));
@@ -961,7 +961,7 @@ namespace SUAMVC.Controllers
             Response.ClearContent();
             DateTime date = DateTime.Now;
             String fileName = "DetallePagos-" + date.ToString("ddMMyyyyHHmm") + ".xls";
-            string sStyle = @" .CssText { mso-number-format:\@; } ";
+            //            string sStyle = @" .CssText { mso-number-format:\@; } ";
             Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
             Response.ContentType = "application/excel";
             Response.ClearContent();
@@ -1013,7 +1013,6 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("recargos", "Recargos", null, null, true));
             gridColumns.Add(grid.Column("actualizaciones", "Actualizaciones", null, null, true));
             gridColumns.Add(grid.Column("granTotal", "Gran Total", null, null, true));
-            gridColumns.Add(grid.Column("fechaDeposito", "F.Deposito", format: (item) => item.fechaDeposito != null ? String.Format("{0:yyyy-MM-dd}", item.fechaDeposito) : String.Empty));
             gridColumns.Add(grid.Column("bancoId", "Banco", format: (item) => item.bancoid != null ? String.Format("{0,11:S}", item.Banco.descripcion) : String.Empty));
             gridColumns.Add(grid.Column("nt", "NT", null, null, true));
             gridColumns.Add(grid.Column("Patrone.Plaza.Descripcion", "Localidad SUA", null, null, true));
@@ -1023,7 +1022,7 @@ namespace SUAMVC.Controllers
                     ).ToString();
 
             //            Response.ClearContent();
-            string sStyle = @" .CssText { mso-number-format:\@; } ";
+            //           string sStyle = @" .CssText { mso-number-format:\@; } ";
             DateTime date = DateTime.Now;
             String fileName = "Pagos-" + date.ToString("ddMMyyyyHHmm") + ".xls";
             //Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
@@ -1090,13 +1089,108 @@ namespace SUAMVC.Controllers
             Response.ClearContent();
             DateTime date = DateTime.Now;
             String fileName = "DetallePagos-" + date.ToString("ddMMyyyyHHmm") + ".xls";
-            string sStyle = @" .CssText { mso-number-format:\@; } ";
+            //            string sStyle = @" .CssText { mso-number-format:\@; } ";
             Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
             Response.ContentType = "application/excel";
             Response.ClearContent();
             Response.Write(gridData);
             Response.End();
         }
+
+        // GET: Pagos
+        public ActionResult MantPDFPagos(String plazasId, String patronesId, String periodoId, String ejercicioId)
+        {
+
+            Usuario user = Session["UsuarioData"] as Usuario;
+
+            var plazasAsignadas = (from x in db.TopicosUsuarios
+                                   where x.usuarioId.Equals(user.Id)
+                                   && x.tipo.Equals("P")
+                                   select x.topicoId);
+
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
+
+            //Query principal
+            var pagos = from s in db.Pagos
+                        //                                     where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
+                        where patronesAsignados.Contains(s.patronId)
+                        select s;
+
+            if (!String.IsNullOrEmpty(plazasId))
+            {
+                int plazaTempId = int.Parse(plazasId.Trim());
+                pagos = pagos.Where(s => s.Patrone.Plaza_id.Equals(plazaTempId));
+            }
+            if (!String.IsNullOrEmpty(patronesId))
+            {
+                int patronesTempId = int.Parse(patronesId);
+                pagos = pagos.Where(s => s.Patrone.Id.Equals(patronesTempId));
+            }
+            if (!String.IsNullOrEmpty(periodoId))
+            {
+                pagos = pagos.Where(s => s.mes.Trim().Equals(periodoId.Trim()));
+            }
+            if (!String.IsNullOrEmpty(ejercicioId))
+            {
+                pagos = pagos.Where(s => s.anno.Trim().Equals(ejercicioId));
+            }
+
+            pagos = pagos.OrderBy(p => p.Patrone.registro);
+
+            return View(pagos.ToList());
+
+        }
+
+        // GET: Movimientos/Delete/5
+        public ActionResult DeletePDFs(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Pago pago = db.Pagos.Find(id);
+            if (pago == null)
+            {
+                return HttpNotFound();
+            }
+            return View(pago);
+        }
+
+        // POST: Movimientos/Delete/5
+        public ActionResult DeletePDFConf(String pagoId, IEnumerable<bool> SampleChkIntBool)
+        {
+            if (!pagoId.Equals(""))
+            {
+                Pago pagos = db.Pagos.Find(Int32.Parse(pagoId));
+
+                string value = Request["SampleChkIntBool"];
+                if (value.Substring(0, 4) == "true")
+                {
+                    pagos.comprobantePago = null;
+                }
+
+                value = Request["SampleChkIntBool2"];
+                if (value.Substring(0, 4) == "true")
+                {
+                    pagos.resumenLiquidacion = null;
+                }
+
+                value = Request["SampleChkIntBool3"];
+                if (value.Substring(0, 4) == "true")
+                {
+                    pagos.cedulaAutodeterminacion = null;
+                }
+                
+                db.Entry(pagos).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("EliminaPDFs", "Pagos");
+        }
+
 
         protected override void Dispose(bool disposing)
         {

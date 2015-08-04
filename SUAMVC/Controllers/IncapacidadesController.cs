@@ -140,6 +140,7 @@ namespace SUAMVC.Controllers
                                    clientesAsignados.Contains(s.Asegurado.Cliente.Id) &&
                                    patronesAsignados.Contains(s.Asegurado.PatroneId) &&
                                    gruposAsignados.Contains(s.Asegurado.Cliente.Grupo_id)
+                             orderby s.Asegurado.nombreTemporal
                              select s;
 
             //Comenzamos los filtros
@@ -225,22 +226,22 @@ namespace SUAMVC.Controllers
             ViewBag.registros = incapacidades.Count();
 
 //            incapacidades = incapacidades.OrderBy(s => s.Asegurado.nombreTemporal);
-            var incapacidades2 = incapacidades.OrderBy(s => s.Asegurado.nombreTemporal).Take(12).ToList();
-            if (numeroPagina != null)
-            {
-                ViewData["numeroPagina"] = numeroPagina;
-                int numeroPag = int.Parse(numeroPagina.Trim());
-                if (numeroPag != 0)
-                {
-                    incapacidades2 = incapacidades.OrderBy(s => s.Asegurado.nombreTemporal).Skip(((numeroPag - 1) * 12)).Take(12).ToList();
-                }
-            }
-            else
-            {
-                ViewData["numeroPagina"] = 1;
-            }
+            //var incapacidades2 = incapacidades.OrderBy(s => s.Asegurado.nombreTemporal).Take(12).ToList();
+            //if (numeroPagina != null)
+            //{
+            //    ViewData["numeroPagina"] = numeroPagina;
+            //    int numeroPag = int.Parse(numeroPagina.Trim());
+            //    if (numeroPag != 0)
+            //    {
+            //        incapacidades2 = incapacidades.OrderBy(s => s.Asegurado.nombreTemporal).Skip(((numeroPag - 1) * 12)).Take(12).ToList();
+            //    }
+            //}
+            //else
+            //{
+            //    ViewData["numeroPagina"] = 1;
+            //}
 
-            return View(incapacidades2);
+            return View(incapacidades.ToList());
         }
 
         // GET: Aseguradoes/Details/5

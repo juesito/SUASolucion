@@ -145,6 +145,7 @@ namespace SUAMVC.Controllers
                                    clientesAsignados.Contains(s.Cliente.Id) &&
                                    patronesAsignados.Contains(s.PatroneId) &&
                                    gruposAsignados.Contains(s.Cliente.Grupo_id)
+                             orderby s.nombreTemporal
                              select s;
 
             //Comenzamos los filtros
@@ -244,20 +245,20 @@ namespace SUAMVC.Controllers
             ViewBag.registros = asegurados.Count();
 
  //           asegurados = asegurados.OrderBy(s => s.nombreTemporal);
-            var asegurados2 = asegurados.OrderBy(s => s.nombreTemporal).Take(12).ToList();
-            if (numeroPagina != null)
-            {
-                numeroPagina = ViewData["numeroPagina"].ToString();
-                int numeroPag = int.Parse(numeroPagina.Trim());
-                if (numeroPag != 0)
-                {
-                    asegurados2 = asegurados.OrderBy(s => s.nombreTemporal).Skip(((numeroPag - 1) * 12)).Take(12).ToList();
-                }
-            }else{
-                ViewData["numeroPagina"] = 1;
-            }
+            //var asegurados2 = asegurados.OrderBy(s => s.nombreTemporal).Take(12).ToList();
+            //if (numeroPagina != null)
+            //{
+            //    numeroPagina = ViewData["numeroPagina"].ToString();
+            //    int numeroPag = int.Parse(numeroPagina.Trim());
+            //    if (numeroPag != 0)
+            //    {
+            //        asegurados2 = asegurados.OrderBy(s => s.nombreTemporal).Skip(((numeroPag - 1) * 12)).Take(12).ToList();
+            //    }
+            //}else{
+            //    ViewData["numeroPagina"] = 1;
+            //}
 
-            return View(asegurados2);
+            return View(asegurados.ToList());
         }
 
         // GET: Aseguradoes/Details/5
