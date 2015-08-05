@@ -214,6 +214,7 @@ namespace SUAMVC.Controllers
             ToolsHelper th = new ToolsHelper();
 
             ArchivoEmpleado archivosEmpleado = db.ArchivoEmpleadoes.Find(id);
+            archivosEmpleado = db.ArchivoEmpleadoes.Find(id);
             th.BorrarArchivo(archivosEmpleado.archivo.Trim());
             db.ArchivoEmpleadoes.Remove(archivosEmpleado);
             db.SaveChanges();
