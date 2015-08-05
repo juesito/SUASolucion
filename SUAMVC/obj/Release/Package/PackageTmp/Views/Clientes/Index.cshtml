@@ -5,7 +5,54 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: Model,canPage: false); 
+
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+
+    var grid = new WebGrid(source: Model, canPage: true, rowsPerPage: 10);
+
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+
+    //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+
+    //Agregamos las columnas al grid
+    gridColumns.Add(grid.Column("claveCliente", "Clave Cliente", null, null, true));
+    gridColumns.Add(grid.Column("claveSUA", "Clave SUA", null, null, true));
+    gridColumns.Add(grid.Column("rfc", "RFC", null, null, true));
+    gridColumns.Add(grid.Column("descripcion", "Descripción", null, null, true));
+    gridColumns.Add(grid.Column("Plaza.cveCorta", "Plaza", null, null, true));
+    gridColumns.Add(grid.Column("Grupos.nombreCorto", "Grupo", null, null, true));
+    gridColumns.Add(grid.Column("ejecutivoContadorId", "Ejecutivo", @<text><div style='width: 23em'>@item.ejecutivoContadorId</div></text>, null, true));
+    gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Clientes", new { id = item.id })">
+                <img src="~/Content/Images/edit.png" alt="" CC class="icon" />
+            </a></text>));
+    gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Clientes", new { id = item.id })">
+                <img src="~/Content/Images/delete.png" alt="" style="text-align:center;" class="icon" />
+                </a></text>));
+    gridColumns.Add(grid.Column(header: @Language.lvalCliente, format: @<text><a href="@Url.Action("Index", "ListaValidacionClientes", new { id = item.id })">
+                <img src="~/Content/Images/list.png" alt="" style="text-align:center;" class="icon" />
+                 </a></text>));
+    gridColumns.Add(grid.Column(header: @Language.datAdiCliente, format: @<text><a href="@Url.Action("Index", "DatosAdicionalesClientes", new { id = item.id })">
+                <img src="~/Content/Images/list.png" alt="" style="text-align:center;" class="icon" />
+                </a></text>));
+    gridColumns.Add(grid.Column(header: @Language.contratosClientes, format: @<text><a href="@Url.Action("Index", "ContratosClientes", new { id = item.id })">
+                 <img src="~/Content/Images/list.png" alt="" style="text-align:center;" class="icon" />
+                 </a></text>));
+
+
+    sb.Append(
+    grid.GetHtml(
+    columns:
+        grid.Columns(gridColumns.ToArray()),
+                                    tableStyle: "table table-striped tableSua"
+                    ));
+
+    tableHtml = sb.ToString();
+
 }
 
 @section Menu {
@@ -26,27 +73,11 @@
     @Html.ActionLink("Crear Cliente", "Create", "Clientes", new { @class = "btn btn-success" })
 </p>
 
+@if (!tableHtml.IsEmpty())
+    {
+<div id="table-container" class="table-container">
+    @Html.Raw(tableHtml)
+</div>
+    }
 
-@grid.GetHtml(
-    columns:
-        grid.Columns(
-            grid.Column("claveCliente", "Clave Cliente", null, null, true),
-            grid.Column("claveSUA", "Clave SUA", null, null, true),
-            grid.Column("rfc", "RFC", null, null, true),
-            grid.Column("descripcion", "Descripción", null, null, true),
-            grid.Column("Plaza.cveCorta", "Plaza", null, null, true),
-            grid.Column("Grupos.nombreCorto", "Grupo", null, null, true),
-
-            grid.Column("ejecutivo", "Ejecutivo", @<text><div style='width: 23em'>@item.ejecutivo</div></text>, null, true),
-            grid.Column(header: "Consultar", format: @<text><a href="@Url.Action("Details", "Clientes", new { id = item.id })">
-                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
-                </a></text>),
-            grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Clientes", new { id = item.id })">
-                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
-                </a></text>),
-            grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Clientes", new { id = item.id })">
-                <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
-                </a></text>)),
-                                    tableStyle: "table table-striped tableSua"
-                    )
 

@@ -153,7 +153,7 @@ namespace SUAMVC.Helpers
         {
 
             return htmlHelper.DropDownList("ejercicioId", new List<SelectListItem>() { 
-                new SelectListItem { Text = "Seleccione", Value = "" }, 
+                new SelectListItem { Text = "Todos", Value = "" }, 
                 new SelectListItem { Text = "2010", Value = "2010" }, 
                 new SelectListItem { Text = "2011", Value = "2011" }, 
                 new SelectListItem { Text = "2012", Value = "2012" },

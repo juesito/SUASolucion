@@ -1,0 +1,78 @@
+﻿@model SUADATOS.Pago
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+@section Menu {
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" />Eliminar PDF</div>
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Seleccione el PDF a eliminar
+    </div>
+    <div class="panel-body">
+
+        @using (@Html.BeginForm("DeletePDFs", "Pagos", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+        {
+
+            @Html.AntiForgeryToken()
+
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="font-weight:bold; padding-top:20px">
+                            Registro Patronal:
+                        </td>
+                        <td style="padding-top:20px; padding-left:20px">
+                            @Html.DisplayFor(model => model.Patrone.registro)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold; padding-top:20px">
+                            ID Empresa:
+                        </td>
+                        <td style="padding-top:20px;padding-left:20px">
+                            @Html.DisplayFor(model => model.Patrone.nombre)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold; padding-top:20px">
+                            Seleccione PDF:
+                        </td>
+                        <td style="font-weight:bold; padding-top:20px; padding-left:20px">
+                            @Html.Label("CP")
+                            @Html.CheckBox("SampleChkIntBool", Model == null ? false : (Model.comprobantePago.IsEmpty() ? false : true), new { @value = "true" })
+                        </td>
+                        <td style="font-weight:bold; padding-top:20px; padding-left:20px">
+                            @Html.Label("RL")
+                            @Html.CheckBox("SampleChkIntBool2", Model == null ? false : (Model.resumenLiquidacion.IsEmpty() ? false : true), new { @value = "true" })
+                        </td>
+                        <td style="font-weight:bold; padding-top:20px; padding-left:20px">
+                            @Html.Label("CA")
+                            @Html.CheckBox("SampleChkIntBool3", Model == null ? false : (Model.cedulaAutodeterminacion.IsEmpty() ? false : true), new { @value = "true" })
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <br />
+    <div class="form-group" style="margin-top:10px;">
+        <div class="col-md-offset-2 col-md-10">
+            <a href="@Url.Action("DeletePDFConf", "Pagos", new { pagoId = Model.id, check = "SampleChkIntBool" })" style="text-align:right">
+                <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+            </a>
+        </div>
+    </div>        }
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Regresar", "MantPDFPagos", "Pagos")
+</div>

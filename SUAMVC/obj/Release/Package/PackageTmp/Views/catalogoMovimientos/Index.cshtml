@@ -1,31 +1,58 @@
 ﻿@model IEnumerable<SUADATOS.catalogoMovimiento>
+@using System.Text;
+@using SUAMVC.Models
+@using SUADATOS;
 
 @{
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+    var grid = new WebGrid(source: Model, canPage: false);
+
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+
+    if (SecurityUserModel.verificarPermiso("CatalogoMovimientos", "Crear catalogoMov"))
+    {
+        <p>
+            @Html.ActionLink("Crear Movimiento", "Create", "CatalogoMovimientos", new { @class = "btn btn-success" })
+        </p>
+    }
+    //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+    gridColumns.Add(grid.Column("tipo", "Clave", null, null, true));
+    gridColumns.Add(grid.Column("descripcion", "Descripción", null, null, true));
+    gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creación", null, null, true));
+    if (SecurityUserModel.verificarPermiso("CatalogoMovimientos", "Editar catalogoMov"))
+    {
+        gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "catalogoMovimientos", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+    if (SecurityUserModel.verificarPermiso("CatalogoMovimientos", "Eliminar catalogoMov"))
+    {
+        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "catalogoMovimientos", new { id = item.id })">
+                <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+            </a></text>));
+    }
+
+    sb.Append(grid.GetHtml(
+        columns: grid.Columns(gridColumns.ToArray()),
+                        tableStyle: "table table-striped tableSua"
+                    ));
+
+    tableHtml = sb.ToString().Trim();
+
 }
 
 @section Menu {
-    <div>Catalogo de Movimientos <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>@Language.catde @Language.catalogoMovimientos <img src="~/Content/Images/boss.png" width="15" height="15" /></div>
 }
-@grid.GetHtml(
-    columns:
-        grid.Columns(
-            grid.Column("tipo", "Clave", null, null, true),
-            grid.Column("descripcion", "Descripción", null, null, true),
-            grid.Column("fechaCreacion", "Fecha Creación", null, null, true),
-            grid.Column(header: "Consultar", format: @<text><a href="@Url.Action("Details", "CatalogoMovimientos", new { id = item.id })">
-                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
-                </a></text>),
-            grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "CatalogoMovimientos", new { id = item.id })">
-                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
-                </a></text>),
-            grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "CatalogoMovimientos", new { id = item.id })">
-                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
-                </a></text>)),
-                                        tableStyle: "table table-striped tableSua"
-                        )
-<p>
-    @Html.ActionLink("Crear Movimiento", "Create", "CatalogoMovimientos", new { @class = "btn btn-success" })
-</p>
+
+
+@if (!tableHtml.IsEmpty())
+{
+    @Html.Raw(tableHtml)
+}

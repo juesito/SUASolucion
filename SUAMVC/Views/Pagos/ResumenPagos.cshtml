@@ -10,7 +10,7 @@
         Response.Redirect("~/Home/Index");
     }
     Usuario usuario = Session["UsuarioData"] as Usuario;
-    var grid = new WebGrid(source: Model.detalle, canPage: false);
+    var grid = new WebGrid(source: Model.detalle, rowsPerPage: 50);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
     //Creamos una lista de columnas
@@ -73,6 +73,9 @@
 
     gridColumns.Add(grid.Column("imss", "IMSS", format: @<text>@if (@item.imss != null)
     {@item.imss.ToString("#,##0.00")}</text>, canSort: true));
+
+    gridColumns.Add(grid.Column("diasCotizBim", "Dias Bim", format: @<text> @if (@item.diasCotizBim != null)
+    {  @item.diasCotizBim }</text>, canSort: true));
 
     gridColumns.Add(grid.Column("retiro", "Retiro", format: @<text>@if (@item.retiro != null)
     {@item.retiro.ToString("#,##0.00")}</text>, canSort: true));

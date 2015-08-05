@@ -98,7 +98,7 @@ namespace SUAMVC.Helpers
                 itemId = item.Id.ToString().Trim();
                 descripcion = item.registro.Trim() + "-" + item.nombre.Trim();
 
-                if (descripcion.Contains("Todos") || descripcion.Contains("Seleccion"))
+                //if (descripcion.Contains("Todos") || descripcion.Contains("Seleccion"))
                 //{
                 //    itemId = "";
                 //    descripcion = item.nombre.Trim();

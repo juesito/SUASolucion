@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
     var grid = new WebGrid(source: Model, canPage: false); 
 }
 @section Menu {
@@ -19,6 +23,8 @@
             grid.Column("email", "Email", null, null, true),
             grid.Column("plaza.descripcion", "Plaza", null, null, true),
             grid.Column("role.descripcion", "Perfil", null, null, true),
+            grid.Column("Departamento.descripcion", "Departamento", format: @<text> @if (@item.departamentoId != null)
+    {  @item.departamento.descripcion }</text>, canSort: true),
             grid.Column("fechaIngreso","Fecha Ingreso", @<text><div style='width: 6em'>@item.fechaIngreso.ToString("dd-MM-yyyy")     </div></text>, null,canSort: true),
             grid.Column("estatus", "Estatus", null, null, true),
             grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Usuarios", new { id = item.id })">

@@ -49,6 +49,7 @@ namespace SUADATOS
         public int patronId { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
+        public Nullable<int> diasCotizBim { get; set; }
     
         public virtual Asegurado Asegurado { get; set; }
         public virtual Pago Pago { get; set; }

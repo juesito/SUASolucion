@@ -14,6 +14,11 @@ using System.Text;
 using SUAMVC.Helpers;
 using System.Web.Helpers;
 using Ionic.Zip;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using Microsoft;
+using System.Windows;
+
 
 
 namespace SUAMVC.Controllers
@@ -25,30 +30,67 @@ namespace SUAMVC.Controllers
         // GET: Pagos
         public ActionResult Index(String plazasId, String patronesId, String periodoId, String ejercicioId)
         {
-            var pagos = db.Pagos.ToList();
+
+            PagosModel pagosModel = new PagosModel();
+
+            Usuario user = Session["UsuarioData"] as Usuario;
+
+            var plazasAsignadas = (from x in db.TopicosUsuarios
+                                   where x.usuarioId.Equals(user.Id)
+                                   && x.tipo.Equals("P")
+                                   select x.topicoId);
+
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
+
+            //Query principal
+            var pagos = from s in db.Pagos
+                        //                                     where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
+                        where patronesAsignados.Contains(s.patronId)
+                        select s;
 
             if (!String.IsNullOrEmpty(plazasId))
             {
                 int plazaTempId = int.Parse(plazasId.Trim());
-                pagos = pagos.Where(s => s.Patrone.Plaza_id.Equals(plazaTempId)).ToList();
+                pagos = pagos.Where(s => s.Patrone.Plaza_id.Equals(plazaTempId));
             }
             if (!String.IsNullOrEmpty(patronesId))
             {
                 int patronesTempId = int.Parse(patronesId);
-                pagos = pagos.Where(s => s.Patrone.Id.Equals(patronesTempId)).ToList();
+                pagos = pagos.Where(s => s.Patrone.Id.Equals(patronesTempId));
             }
             if (!String.IsNullOrEmpty(periodoId))
             {
-                pagos = pagos.Where(s => s.mes.Trim().Equals(periodoId.Trim())).ToList();
+                pagos = pagos.Where(s => s.mes.Trim().Equals(periodoId.Trim()));
             }
             if (!String.IsNullOrEmpty(ejercicioId))
             {
-                pagos = pagos.Where(s => s.anno.Trim().Equals(ejercicioId)).ToList();
+                pagos = pagos.Where(s => s.anno.Trim().Equals(ejercicioId));
             }
 
-            pagos = pagos.OrderBy(p => p.Patrone.registro).ToList();
+            pagos = pagos.OrderBy(p => p.Patrone.registro);
 
-            return View(pagos.ToList());
+            pagosModel.pagos = pagos.ToList();
+            PagosFooter sa = new PagosFooter();
+
+            foreach (Pago sc in pagos)
+            {
+                sa.sumImss = sa.sumImss + System.Convert.ToDouble(sc.imss);
+                sa.sumRcv = sa.sumRcv + System.Convert.ToDouble(sc.rcv);
+                sa.sumInfonavit = sa.sumInfonavit + System.Convert.ToDouble(sc.infonavit);
+                sa.sumTotal = sa.sumTotal + System.Convert.ToDouble(sc.total);
+                sa.sumNt = sa.sumNt + System.Convert.ToDouble(sc.nt);
+                sa.sumRecargos = sa.sumRecargos + System.Convert.ToDouble(sc.recargos);
+                sa.sumActualiz = sa.sumActualiz + System.Convert.ToDouble(sc.actualizaciones);
+                sa.sumGTotal = sa.sumGTotal + System.Convert.ToDouble(sc.granTotal);
+            }
+
+            pagosModel.pagosFooter = sa;
+
+            return View(pagosModel);
+
         }
 
         public ActionResult UploadPagos()
@@ -85,7 +127,7 @@ namespace SUAMVC.Controllers
                                "    AND Mes_Ano = '" + periodo + "'";
 
                     DataTable dt3 = suaHelper.ejecutarSQL(sSQL);
-                    
+
                     int registros = 0;
 
                     foreach (DataRow rows1 in dt3.Rows)
@@ -100,7 +142,7 @@ namespace SUAMVC.Controllers
                         TempData["viewMessage"] = "No hay datos para el periodo seleccionado!";
                     }
                     else
-                    { 
+                    {
                         sSQL = "SELECT * FROM RESUMEN" +
                                    "  WHERE Reg_Patr = '" + patron.registro + "'" +
                                    "    AND Mes_Ano = '" + periodo + "'" +
@@ -144,7 +186,7 @@ namespace SUAMVC.Controllers
                             pago.actualizaciones = Decimal.Parse(rows["ACT_IMS"].ToString()) + Decimal.Parse(rows["ACT_SAR"].ToString()) +
                                                    Decimal.Parse(rows["ACT_VIV"].ToString());
 
-                            pago.granTotal = pago.recargos + pago.actualizaciones;
+                            pago.granTotal = pago.imss + pago.rcv + pago.infonavit + pago.recargos + pago.actualizaciones;
 
                             int newMes = mes / 2;
                             String newPeriodo = ejercicioId.Trim() + "0" + newMes.ToString();
@@ -200,8 +242,8 @@ namespace SUAMVC.Controllers
                                 List<DetallePago> listDetalle = new List<DetallePago>();
 
                                 var detalle = from d in db.DetallePagoes
-                                                       where d.pagoId.Equals(pago.id)
-                                                       select d;
+                                              where d.pagoId.Equals(pago.id)
+                                              select d;
                                 listDetalle = detalle.ToList();
 
                                 foreach (DetallePago detFor in listDetalle)
@@ -212,283 +254,47 @@ namespace SUAMVC.Controllers
                                     db.SaveChanges();
                                 }
 
-                                if (esBimestral)
+                                sSQL = "SELECT * FROM RELTRA " +
+                                       "  WHERE Reg_Pat = '" + patron.registro + "'" +
+                                       "   AND Periodo = '" + periodo + "'" +
+                                       "   ORDER BY Num_Afi ";
+
+                                DataTable dt6 = suaHelper.ejecutarSQL(sSQL);
+                                String nss2 = "0";
+
+                                foreach (DataRow row2 in dt6.Rows)
                                 {
-                                    // Se guardan los datos bimestrales.
-                                    sSQL = "SELECT * FROM RELTRABIM " +
-                                           "  WHERE Reg_Pat = '" + patron.registro + "'" +
-                                           "    AND Periodo = '" + newPeriodo + "'" +
-                                           "   ORDER BY Reg_Pat";
+                                    String nss = row2["Num_Afi"].ToString().Trim();
+                                    DetallePago detallePago = new DetallePago();
+                                    Asegurado asegurado = db.Asegurados.Where(a => a.numeroAfiliacion.Equals(nss.Trim())).FirstOrDefault();
 
-                                    DataTable dt5 = suaHelper.ejecutarSQL(sSQL);
-
-                                    foreach (DataRow row5 in dt5.Rows)
+                                    if (asegurado != null)
                                     {
+                                        detallePago = new DetallePago();
+                                        detallePago.pagoId = pago.id;
+                                        detallePago.Pago = pago;
+                                        detallePago.aseguradoId = asegurado.id;
+                                        detallePago.Asegurado = asegurado;
+                                        detallePago.patronId = patron.Id;
+                                        detallePago.Patrone = patron;
+                                        detallePago.cuotaFija = 0;
+                                        detallePago.expa = 0;
+                                        detallePago.pdp = 0;
+                                        detallePago.gmpp = 0;
+                                        detallePago.rt = 0;
+                                        detallePago.ivp = 0;
+                                        detallePago.gps = 0;
+                                        detallePago.obrera = 0;
+                                        detallePago.exO = 0;
+                                        detallePago.pdo = 0;
+                                        detallePago.gmpo = 0;
+                                        detallePago.ivo = 0;
+                                        detallePago.rcv = 0;
+                                        detallePago.infonavit = 0;
 
-                                        DetallePago detallePago = new DetallePago();
-                                        String nss = row5["Num_Afi"].ToString().Trim();
-                                        String tipoMov = row5["Tip_Mov"].ToString().Trim();
-                                        DateTime fecMovBim = DateTime.Parse(row5["Fec_Mov"].ToString());
-
-                                        Asegurado asegurado = db.Asegurados.Where(a => a.numeroAfiliacion.Equals(nss.Trim())).FirstOrDefault();
-
-                                        if (asegurado != null) 
-                                        { 
-                                            if (String.IsNullOrEmpty(row5["Retiro"].ToString()))
-                                            {
-                                                detallePago.retiro = 0;
-                                            }
-                                            else
-                                            {
-                                                detallePago.retiro = decimal.Parse(row5["Retiro"].ToString().Trim());
-                                            }
-                                            if (String.IsNullOrEmpty(row5["CyVP"].ToString()))
-                                            {
-                                                detallePago.patronalBimestral = 0;
-                                            }
-                                            else
-                                            {
-                                                detallePago.patronalBimestral = decimal.Parse(row5["CyVP"].ToString().Trim());
-                                            }
-                                            if (String.IsNullOrEmpty(row5["CyVO"].ToString()))
-                                            {
-                                                detallePago.obreraBimestral = 0;
-                                            }
-                                            else
-                                            {
-                                                detallePago.obreraBimestral = decimal.Parse(row5["CyVO"].ToString().Trim());
-                                            }
-
-                                            detallePago.rcv = detallePago.retiro + detallePago.patronal + detallePago.obrera;
-
-                                            if (String.IsNullOrEmpty(row5["Aportasc"].ToString()))
-                                            {
-                                                detallePago.aportacionsc = 0;
-                                            }
-                                            else
-                                            {
-                                                detallePago.aportacionsc = decimal.Parse(row5["Aportasc"].ToString().Trim());
-                                            }
-                                            if (String.IsNullOrEmpty(row5["Aportacc"].ToString()))
-                                            {
-                                                detallePago.aportacioncc = 0;
-                                            }
-                                            else
-                                            {
-                                                detallePago.aportacioncc = decimal.Parse(row5["Aportacc"].ToString().Trim());
-                                            }
-                                            if (String.IsNullOrEmpty(row5["Amortiza"].ToString()))
-                                            {
-                                                detallePago.amortizacion = 0;
-                                            }
-                                            else
-                                            {
-                                                detallePago.amortizacion = decimal.Parse(row5["Amortiza"].ToString().Trim());
-                                            }
-                                            detallePago.pagoId = pago.id;
-                                            detallePago.Pago = pago;
-                                            detallePago.aseguradoId = asegurado.id;
-                                            detallePago.Asegurado = asegurado;
-                                            detallePago.patronId = patron.Id;
-                                            detallePago.Patrone = patron;
-
-                                            detallePago.infonavit = detallePago.aportacionsc + detallePago.aportacioncc + detallePago.amortizacion;
-                                            // aqui estaba un for }                                  
-                                            sSQL = "SELECT * FROM RELTRA " +
-                                                   "  WHERE Reg_Pat = '" + patron.registro + "'" +
-                                                   "   AND Periodo = '" + periodo + "'" +
-                                                   "   AND Num_Afi = '" + asegurado.numeroAfiliacion.Trim() + "'";
-//                                                   "   AND Fec_Mov = '" + fecMov + "'";
-
-                                            DataTable dt4 = suaHelper.ejecutarSQL(sSQL);
-
-                                            foreach (DataRow row2 in dt4.Rows)
-                                            {
-                                                DateTime fecMovTra = DateTime.Parse(row2["Fec_Mov"].ToString());
-                                                if (fecMovBim.Equals(fecMovTra))
-                                                {
-                                                    detallePago.diasCotizados = int.Parse(row2["dia_cot"].ToString().Trim());
-                                                    detallePago.sdi = decimal.Parse(row2["sal_dia"].ToString().Trim());
-
-                                                    if (String.IsNullOrEmpty(row2["Dia_Inc"].ToString()))
-                                                    {
-                                                        detallePago.diasIncapacidad = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        detallePago.diasIncapacidad = int.Parse(row2["Dia_Inc"].ToString().Trim());
-                                                    }
-
-                                                    if (String.IsNullOrEmpty(row2["Dia_Aus"].ToString()))
-                                                    {
-                                                        detallePago.diasAusentismo = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        detallePago.diasAusentismo = int.Parse(row2["Dia_Aus"].ToString().Trim());
-                                                    }
-
-                                                    if (String.IsNullOrEmpty(row2["CF"].ToString()))
-                                                    {
-                                                        detallePago.cuotaFija = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        detallePago.cuotaFija = decimal.Parse(row2["CF"].ToString().Trim());
-                                                    }
-
-                                                    if (String.IsNullOrEmpty(row2["EXPA"].ToString()))
-                                                    {
-                                                        detallePago.expa = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        detallePago.expa = decimal.Parse(row2["EXPA"].ToString().Trim());
-                                                    }
-
-                                                    if (String.IsNullOrEmpty(row2["EXO"].ToString()))
-                                                    {
-                                                        detallePago.exO = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        detallePago.exO = decimal.Parse(row2["EXO"].ToString().Trim());
-                                                    }
-
-                                                    if (String.IsNullOrEmpty(row2["PDP"].ToString()))
-                                                    {
-                                                        detallePago.pdp = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        detallePago.pdp = decimal.Parse(row2["PDP"].ToString().Trim());
-                                                    }
-
-                                                    if (String.IsNullOrEmpty(row2["PDO"].ToString()))
-                                                    {
-                                                        detallePago.pdo = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        detallePago.pdo = decimal.Parse(row2["PDO"].ToString().Trim());
-                                                    }
-
-                                                    if (String.IsNullOrEmpty(row2["GMPP"].ToString()))
-                                                    {
-                                                        detallePago.gmpp = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        detallePago.gmpp = decimal.Parse(row2["GMPP"].ToString().Trim());
-                                                    }
-
-                                                    if (String.IsNullOrEmpty(row2["GMPO"].ToString()))
-                                                    {
-                                                        detallePago.gmpo = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        detallePago.gmpo = decimal.Parse(row2["GMPO"].ToString().Trim());
-                                                    }
-
-                                                    if (String.IsNullOrEmpty(row2["RT"].ToString()))
-                                                    {
-                                                        detallePago.rt = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        detallePago.rt = decimal.Parse(row2["RT"].ToString().Trim());
-                                                    }
-
-                                                    if (String.IsNullOrEmpty(row2["IVP"].ToString()))
-                                                    {
-                                                        detallePago.ivp = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        detallePago.ivp = decimal.Parse(row2["IVP"].ToString().Trim());
-                                                    }
-
-                                                    if (String.IsNullOrEmpty(row2["IVO"].ToString()))
-                                                    {
-                                                        detallePago.ivo = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        detallePago.ivo = decimal.Parse(row2["IVO"].ToString().Trim());
-                                                    }
-
-                                                    if (String.IsNullOrEmpty(row2["GPS"].ToString()))
-                                                    {
-                                                        detallePago.gps = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        detallePago.gps = decimal.Parse(row2["GPS"].ToString().Trim());
-                                                    }
-                                                    break;
-                                                }
-                                            }
-                                            detallePago.patronal = detallePago.cuotaFija + detallePago.expa + detallePago.pdp + detallePago.gmpp + detallePago.rt + detallePago.ivp + detallePago.gps;
-                                            detallePago.obrera = detallePago.exO + detallePago.pdo + detallePago.gmpo + detallePago.ivo;
-                                            detallePago.imss = detallePago.patronal + detallePago.obrera;
-                                            detallePago.usuarioId = userId;
-                                            detallePago.fechaCreacion = DateTime.Now;
-                                            try
-                                            {
-                                                db.DetallePagoes.Add(detallePago);
-                                                db.SaveChanges();
-                                            }
-                                            catch (DbEntityValidationException ex)
-                                            {
-                                                StringBuilder sb = new StringBuilder();
-
-                                                foreach (var failure in ex.EntityValidationErrors)
-                                                {
-                                                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
-                                                    foreach (var error in failure.ValidationErrors)
-                                                    {
-                                                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
-                                                        sb.AppendLine();
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else
+                                        detallePago.diasCotizados = int.Parse(row2["dia_cot"].ToString().Trim());
+                                        if (detallePago.diasCotizados != 0)
                                         {
-                                            TempData["error"] = true;
-                                            TempData["viewMessage"] = "No se terminó el proceso. Asegurados no actualizados. Favor de verificar...";
-                                            break;
-                                        }
-                                    }
-                                } //El periodo no es bimestre
-                                else
-                                {
-                                    //Preparamos el query del resúmen
-                                    sSQL = "SELECT * FROM RELTRA " +
-                                           "  WHERE Reg_Pat = '" + patron.registro + "'" +
-                                           "   AND Periodo = '" + periodo + "'" +
-                                           "   ORDER BY Reg_Pat";
-
-                                    DataTable dt6 = suaHelper.ejecutarSQL(sSQL);
-
-                                    foreach (DataRow row2 in dt6.Rows)
-                                    {
-                                        DetallePago detallePago = new DetallePago();
-                                        String nss = row2["Num_Afi"].ToString().Trim();
-
-                                        Asegurado asegurado = db.Asegurados.Where(a => a.numeroAfiliacion.Equals(nss.Trim())).FirstOrDefault();
-
-                                        if (asegurado != null)
-                                        {
-                                            detallePago = new DetallePago();
-                                            detallePago.pagoId = pago.id;
-                                            detallePago.Pago = pago;
-                                            detallePago.aseguradoId = asegurado.id;
-                                            detallePago.Asegurado = asegurado;
-                                            detallePago.patronId = patron.Id;
-                                            detallePago.Patrone = patron;
-                                            detallePago.diasCotizados = int.Parse(row2["dia_cot"].ToString().Trim());
                                             detallePago.sdi = decimal.Parse(row2["sal_dia"].ToString().Trim());
 
                                             if (String.IsNullOrEmpty(row2["Dia_Inc"].ToString()))
@@ -607,14 +413,103 @@ namespace SUAMVC.Controllers
                                             {
                                                 detallePago.gps = decimal.Parse(row2["GPS"].ToString().Trim());
                                             }
-
                                             detallePago.patronal = detallePago.cuotaFija + detallePago.expa + detallePago.pdp + detallePago.gmpp + detallePago.rt + detallePago.ivp + detallePago.gps;
                                             detallePago.obrera = detallePago.exO + detallePago.pdo + detallePago.gmpo + detallePago.ivo;
                                             detallePago.imss = detallePago.patronal + detallePago.obrera;
                                             detallePago.usuarioId = userId;
                                             detallePago.fechaCreacion = DateTime.Now;
+                                            detallePago.retiro = 0;
+                                            detallePago.patronalBimestral = 0;
+                                            detallePago.obreraBimestral = 0;
+                                            detallePago.aportacionsc = 0;
+                                            detallePago.aportacioncc = 0;
+                                            detallePago.amortizacion = 0;
+                                            detallePago.infonavit = 0;
+                                            detallePago.diasCotizBim = 0;
+                                            detallePago.rcv = 0;
+
+                                            if (nss != nss2 && esBimestral)
+                                            {
+
+                                                // Se guardan los datos bimestrales.
+                                                sSQL = "SELECT * FROM RELTRABIM " +
+                                                       "  WHERE Reg_Pat = '" + patron.registro + "'" +
+                                                       "    AND Periodo = '" + newPeriodo + "'" +
+                                                       "    AND Num_Afi = '" + nss + "'";
+
+                                                DataTable dt5 = suaHelper.ejecutarSQL(sSQL);
+
+                                                foreach (DataRow row5 in dt5.Rows)
+                                                {
+
+                                                    if (String.IsNullOrEmpty(row5["dia_cot"].ToString()))
+                                                    {
+                                                        detallePago.diasCotizBim = detallePago.diasCotizBim + 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.diasCotizBim = detallePago.diasCotizBim + int.Parse(row5["dia_cot"].ToString().Trim());
+                                                    }
+
+                                                    if (String.IsNullOrEmpty(row5["Retiro"].ToString()))
+                                                    {
+                                                        detallePago.retiro = detallePago.retiro + 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.retiro = detallePago.retiro + decimal.Parse(row5["Retiro"].ToString().Trim());
+                                                    }
+                                                    if (String.IsNullOrEmpty(row5["CyVP"].ToString()))
+                                                    {
+                                                        detallePago.patronalBimestral = detallePago.patronalBimestral + 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.patronalBimestral = detallePago.patronalBimestral + decimal.Parse(row5["CyVP"].ToString().Trim());
+                                                    }
+                                                    if (String.IsNullOrEmpty(row5["CyVO"].ToString()))
+                                                    {
+                                                        detallePago.obreraBimestral = detallePago.obreraBimestral + 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.obreraBimestral = detallePago.obreraBimestral + decimal.Parse(row5["CyVO"].ToString().Trim());
+                                                    }
+
+
+                                                    if (String.IsNullOrEmpty(row5["Aportasc"].ToString()))
+                                                    {
+                                                        detallePago.aportacionsc = detallePago.aportacionsc + 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.aportacionsc = detallePago.aportacionsc + decimal.Parse(row5["Aportasc"].ToString().Trim());
+                                                    }
+                                                    if (String.IsNullOrEmpty(row5["Aportacc"].ToString()))
+                                                    {
+                                                        detallePago.aportacioncc = detallePago.aportacioncc + 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.aportacioncc = detallePago.aportacioncc + decimal.Parse(row5["Aportacc"].ToString().Trim());
+                                                    }
+                                                    if (String.IsNullOrEmpty(row5["Amortiza"].ToString()))
+                                                    {
+                                                        detallePago.amortizacion = detallePago.amortizacion + 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        detallePago.amortizacion = detallePago.amortizacion + decimal.Parse(row5["Amortiza"].ToString().Trim());
+                                                    }
+                                                }
+                                            }
+                                            detallePago.infonavit = detallePago.aportacionsc + detallePago.aportacioncc + detallePago.amortizacion;
+                                            detallePago.rcv = detallePago.retiro + detallePago.patronalBimestral + detallePago.obreraBimestral;
+                                            detallePago.total = detallePago.imss + detallePago.rcv + detallePago.infonavit;
+
                                             try
                                             {
+                                                nss2 = nss;
                                                 db.DetallePagoes.Add(detallePago);
                                                 db.SaveChanges();
                                             }
@@ -633,6 +528,179 @@ namespace SUAMVC.Controllers
                                                 }
                                             }
                                         }
+                                    } // else de asegurado !=null
+                                    else
+                                    {
+                                        TempData["error"] = true;
+                                        TempData["viewMessage"] = "No se terminó el proceso. Asegurados no actualizados. Favor de verificar...";
+                                        break;
+                                    }
+                                }
+                                if (esBimestral)
+                                {
+                                    sSQL = "SELECT * FROM RELTRABIM " +
+                                          "  WHERE Reg_Pat = '" + patron.registro + "'" +
+                                          "   AND Periodo = '" + newPeriodo + "'" +
+                                          "   AND Num_Afi NOT IN (SELECT Num_Afi FROM RELTRA) " +
+                                          "   ORDER BY Num_Afi ";
+
+                                    DataTable dt7 = suaHelper.ejecutarSQL(sSQL);
+                                    nss2 = "0";
+                                    DetallePago detallePago2 = new DetallePago();
+
+                                    foreach (DataRow row2 in dt7.Rows)
+                                    {
+                                        String nss = row2["Num_Afi"].ToString().Trim();
+                                        Asegurado asegurado = db.Asegurados.Where(a => a.numeroAfiliacion.Equals(nss.Trim())).FirstOrDefault();
+
+                                        if (asegurado != null)
+                                        {
+                                            if (nss.Equals(nss2))
+                                            {
+                                                if (String.IsNullOrEmpty(row2["dia_cot"].ToString()))
+                                                {
+                                                    detallePago2.diasCotizBim = detallePago2.diasCotizBim + 0;
+                                                }
+                                                else
+                                                {
+                                                    detallePago2.diasCotizBim = detallePago2.diasCotizBim + int.Parse(row2["dia_cot"].ToString().Trim());
+                                                }
+                                                if (String.IsNullOrEmpty(row2["Retiro"].ToString()))
+                                                {
+                                                    detallePago2.retiro = detallePago2.retiro + 0;
+                                                }
+                                                else
+                                                {
+                                                    detallePago2.retiro = detallePago2.retiro + decimal.Parse(row2["Retiro"].ToString().Trim());
+                                                }
+                                                if (String.IsNullOrEmpty(row2["CyVP"].ToString()))
+                                                {
+                                                    detallePago2.patronalBimestral = detallePago2.patronalBimestral + 0;
+                                                }
+                                                else
+                                                {
+                                                    detallePago2.patronalBimestral = detallePago2.patronalBimestral + decimal.Parse(row2["CyVP"].ToString().Trim());
+                                                }
+                                                if (String.IsNullOrEmpty(row2["CyVO"].ToString()))
+                                                {
+                                                    detallePago2.obreraBimestral = detallePago2.obreraBimestral + 0;
+                                                }
+                                                else
+                                                {
+                                                    detallePago2.obreraBimestral = detallePago2.obreraBimestral + decimal.Parse(row2["CyVO"].ToString().Trim());
+                                                }
+
+
+                                                if (String.IsNullOrEmpty(row2["Aportasc"].ToString()))
+                                                {
+                                                    detallePago2.aportacionsc = detallePago2.aportacionsc + 0;
+                                                }
+                                                else
+                                                {
+                                                    detallePago2.aportacionsc = detallePago2.aportacionsc + decimal.Parse(row2["Aportasc"].ToString().Trim());
+                                                }
+                                                if (String.IsNullOrEmpty(row2["Aportacc"].ToString()))
+                                                {
+                                                    detallePago2.aportacioncc = detallePago2.aportacioncc + 0;
+                                                }
+                                                else
+                                                {
+                                                    detallePago2.aportacioncc = detallePago2.aportacioncc + decimal.Parse(row2["Aportacc"].ToString().Trim());
+                                                }
+                                                if (String.IsNullOrEmpty(row2["Amortiza"].ToString()))
+                                                {
+                                                    detallePago2.amortizacion = detallePago2.amortizacion + 0;
+                                                }
+                                                else
+                                                {
+                                                    detallePago2.amortizacion = detallePago2.amortizacion + decimal.Parse(row2["Amortiza"].ToString().Trim());
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (!nss2.Equals("0"))
+                                                {
+                                                    try
+                                                    {
+                                                        detallePago2.rcv = detallePago2.retiro + detallePago2.patronalBimestral + detallePago2.obreraBimestral;
+                                                        detallePago2.infonavit = detallePago2.aportacionsc + detallePago2.aportacioncc + detallePago2.amortizacion;
+                                                        detallePago2.total = detallePago2.imss + detallePago2.rcv + detallePago2.infonavit;
+                                                        detallePago2.fechaCreacion = DateTime.Now;
+                                                        nss2 = nss;
+                                                        db.DetallePagoes.Add(detallePago2);
+                                                        db.SaveChanges();
+                                                    }
+                                                    catch (DbEntityValidationException ex)
+                                                    {
+                                                        StringBuilder sb = new StringBuilder();
+
+                                                        foreach (var failure in ex.EntityValidationErrors)
+                                                        {
+                                                            sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                                                            foreach (var error in failure.ValidationErrors)
+                                                            {
+                                                                sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                                                                sb.AppendLine();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                detallePago2 = new DetallePago();
+                                                detallePago2.pagoId = pago.id;
+                                                detallePago2.Pago = pago;
+                                                detallePago2.aseguradoId = asegurado.id;
+                                                detallePago2.Asegurado = asegurado;
+                                                detallePago2.patronId = patron.Id;
+                                                detallePago2.Patrone = patron;
+
+                                                detallePago2.diasCotizados = 0;
+                                                detallePago2.sdi = decimal.Parse(row2["sal_dia"].ToString().Trim());
+
+                                                detallePago2.usuarioId = userId;
+                                                detallePago2.fechaCreacion = DateTime.Now;
+                                                detallePago2.retiro = 0;
+                                                detallePago2.patronalBimestral = 0;
+                                                detallePago2.obreraBimestral = 0;
+                                                detallePago2.aportacionsc = 0;
+                                                detallePago2.aportacioncc = 0;
+                                                detallePago2.amortizacion = 0;
+                                                detallePago2.infonavit = 0;
+                                                detallePago2.diasCotizBim = 0;
+                                                detallePago2.rcv = 0;
+                                                detallePago2.imss = 0;
+
+                                                if (!String.IsNullOrEmpty(row2["dia_cot"].ToString()))
+                                                {
+                                                    detallePago2.diasCotizBim = detallePago2.diasCotizBim + int.Parse(row2["dia_cot"].ToString().Trim());
+                                                }
+                                                if (!String.IsNullOrEmpty(row2["Retiro"].ToString()))
+                                                {
+                                                    detallePago2.retiro = decimal.Parse(row2["Retiro"].ToString().Trim());
+                                                }
+                                                if (!String.IsNullOrEmpty(row2["CyVP"].ToString()))
+                                                {
+                                                    detallePago2.patronalBimestral = decimal.Parse(row2["CyVP"].ToString().Trim());
+                                                }
+                                                if (!String.IsNullOrEmpty(row2["CyVO"].ToString()))
+                                                {
+                                                    detallePago2.obreraBimestral = decimal.Parse(row2["CyVO"].ToString().Trim());
+                                                }
+                                                if (!String.IsNullOrEmpty(row2["Aportasc"].ToString()))
+                                                {
+                                                    detallePago2.aportacionsc = decimal.Parse(row2["Aportasc"].ToString().Trim());
+                                                }
+                                                if (!String.IsNullOrEmpty(row2["Aportacc"].ToString()))
+                                                {
+                                                    detallePago2.aportacioncc = decimal.Parse(row2["Aportacc"].ToString().Trim());
+                                                }
+                                                if (!String.IsNullOrEmpty(row2["Amortiza"].ToString()))
+                                                {
+                                                    detallePago2.amortizacion = decimal.Parse(row2["Amortiza"].ToString().Trim());
+                                                }
+
+                                                nss2 = nss;
+                                            }
+                                        }
                                         else
                                         {
                                             TempData["error"] = true;
@@ -640,14 +708,48 @@ namespace SUAMVC.Controllers
                                             break;
                                         }
                                     }
+                                    if (!nss2.Equals("0"))
+                                    {
+                                        try
+                                        {
+                                            detallePago2.rcv = detallePago2.retiro + detallePago2.patronalBimestral + detallePago2.obreraBimestral;
+                                            detallePago2.infonavit = detallePago2.aportacionsc + detallePago2.aportacioncc + detallePago2.amortizacion;
+                                            detallePago2.total = detallePago2.imss + detallePago2.rcv + detallePago2.infonavit;
+                                            db.DetallePagoes.Add(detallePago2);
+                                            db.SaveChanges();
+                                        }
+                                        catch (DbEntityValidationException ex)
+                                        {
+                                            StringBuilder sb = new StringBuilder();
+
+                                            foreach (var failure in ex.EntityValidationErrors)
+                                            {
+                                                sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                                                foreach (var error in failure.ValidationErrors)
+                                                {
+                                                    sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                                                    sb.AppendLine();
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
+                                var detPago = from s in db.DetallePagoes
+                                              where s.pagoId.Equals(pago.id)
+                                              select s;
+
+                                var nt = detPago.GroupBy(x => x.aseguradoId).Count();
+
+                                pago.nt = nt;
+                                db.Entry(pago).State = EntityState.Modified;
+                                db.SaveChanges();
                             }
                         }
                     }
- //                   path = path + "SUA.MDB";
- //                   System.IO.File.Delete(path);
+                    suaHelper.cerrarConexion();
                 }
             }
+
             return RedirectToAction("UploadPagos");
         }
 
@@ -816,13 +918,14 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("Pago.Patrone.registro", "Patrón", null, null, true));
             gridColumns.Add(grid.Column("Pago.mes", "Periodo", null, null, true));
             gridColumns.Add(grid.Column("Pago.anno", "Ejercicio", null, null, true));
-            gridColumns.Add(grid.Column("Pago.fechaDeposito", "Fecha depósito", null, null, true));
-            gridColumns.Add(grid.Column("Pago.imss", "IMSS", null, null, true));
-            gridColumns.Add(grid.Column("Pago.rcv", "RCV", null, null, true));
-            gridColumns.Add(grid.Column("Pago.infonavit", "Infonavit", null, null, true));
-            gridColumns.Add(grid.Column("Pago.total", "Total", null, null, true));
-            gridColumns.Add(grid.Column("Asegurado.numeroAfiliacion", "NSS", null, null, true));
+            //gridColumns.Add(grid.Column("Pago.fechaDeposito", "Fecha depósito", null, null, true));
+            //gridColumns.Add(grid.Column("Pago.imss", "IMSS", null, null, true));
+            //gridColumns.Add(grid.Column("Pago.rcv", "RCV", null, null, true));
+            //gridColumns.Add(grid.Column("Pago.infonavit", "Infonavit", null, null, true));
+            //gridColumns.Add(grid.Column("Pago.total", "Total", null, null, true));
+            gridColumns.Add(grid.Column("Asegurado.numeroAfiliacion", "NSS", format: (item) => String.Format("{0,22:D11}", item.Asegurado.numeroAfiliacion)));
             gridColumns.Add(grid.Column("Asegurado.nombreTemporal", "Nombre", null, null, true));
+            gridColumns.Add(grid.Column("Asegurado.Cliente.claveCliente", "Ubicación", null, null, true));
             gridColumns.Add(grid.Column("diasCotizados", "Dias", null, null, true));
             gridColumns.Add(grid.Column("sdi", "S.D.I.", null, null, true));
             gridColumns.Add(grid.Column("diasIncapacidad", "Inc.", null, null, true));
@@ -830,7 +933,6 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("cuotaFija", "C.F.", null, null, true));
             gridColumns.Add(grid.Column("expa", "Ex.P", null, null, true));
             gridColumns.Add(grid.Column("exo", "Ex. O.", null, null, true));
-            gridColumns.Add(grid.Column("Asegurado.Cliente.claveCliente", "Ubicación", null, null, true));
             gridColumns.Add(grid.Column("PDP", "PDP", null, null, true));
             gridColumns.Add(grid.Column("GMPP", "GMP. Patron", null, null, true));
             gridColumns.Add(grid.Column("GMPO", "GMP. Obrero", null, null, true));
@@ -841,6 +943,7 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("patronal", "Patronal", null, null, true));
             gridColumns.Add(grid.Column("obrera", "Obrera", null, null, true));
             gridColumns.Add(grid.Column("imss", "IMSS", null, null, true));
+            gridColumns.Add(grid.Column("diasCotizBim", "Diascotizados Bim", null, null, true));
             gridColumns.Add(grid.Column("retiro", "Retiro", null, null, true));
             gridColumns.Add(grid.Column("patronalBimestral", "Patronal Bim", null, null, true));
             gridColumns.Add(grid.Column("obreraBimestral", "Obrera Bim", null, null, true));
@@ -848,6 +951,8 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("aportacionsc", "Aportacion SC", null, null, true));
             gridColumns.Add(grid.Column("aportacioncc", "Aportacion CC", null, null, true));
             gridColumns.Add(grid.Column("amortizacion", "Amortizacion", null, null, true));
+            gridColumns.Add(grid.Column("infonavit", "Infonavit", null, null, true));
+            gridColumns.Add(grid.Column("total", "Total", null, null, true));
 
             string gridData = grid.GetHtml(
                 columns: grid.Columns(gridColumns.ToArray())
@@ -856,13 +961,13 @@ namespace SUAMVC.Controllers
             Response.ClearContent();
             DateTime date = DateTime.Now;
             String fileName = "DetallePagos-" + date.ToString("ddMMyyyyHHmm") + ".xls";
+            //            string sStyle = @" .CssText { mso-number-format:\@; } ";
             Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
             Response.ContentType = "application/excel";
+            Response.ClearContent();
             Response.Write(gridData);
             Response.End();
         }
-
-
 
         [HttpGet]
         public void GetExcel(String plazasId, String patronesId, String periodoId, String ejercicioId)
@@ -908,7 +1013,6 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("recargos", "Recargos", null, null, true));
             gridColumns.Add(grid.Column("actualizaciones", "Actualizaciones", null, null, true));
             gridColumns.Add(grid.Column("granTotal", "Gran Total", null, null, true));
-            gridColumns.Add(grid.Column("fechaDeposito", "F.Deposito", format: (item) => item.fechaDeposito != null ? String.Format("{0:yyyy-MM-dd}", item.fechaDeposito) : String.Empty));
             gridColumns.Add(grid.Column("bancoId", "Banco", format: (item) => item.bancoid != null ? String.Format("{0,11:S}", item.Banco.descripcion) : String.Empty));
             gridColumns.Add(grid.Column("nt", "NT", null, null, true));
             gridColumns.Add(grid.Column("Patrone.Plaza.Descripcion", "Localidad SUA", null, null, true));
@@ -917,14 +1021,176 @@ namespace SUAMVC.Controllers
                 columns: grid.Columns(gridColumns.ToArray())
                     ).ToString();
 
-            Response.ClearContent();
+            //            Response.ClearContent();
+            //           string sStyle = @" .CssText { mso-number-format:\@; } ";
             DateTime date = DateTime.Now;
             String fileName = "Pagos-" + date.ToString("ddMMyyyyHHmm") + ".xls";
+            //Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+            //Response.ContentType = "application/excel";
+            //Response.Write(gridData);
+            //Response.End();
+
+
+            StringBuilder sb = new StringBuilder(gridData);
+
+            StringWriter sw = new StringWriter(sb);
+
+            System.Web.UI.HtmlTextWriter htw = new HtmlTextWriter(sw);
+
+            Page pagina = new Page();
+
+            HtmlForm forma = new HtmlForm();
+
+            pagina.Controls.Add(forma);
+
+            pagina.RenderControl(htw);
+
+            Response.Clear();
+
+            Response.Buffer = true;
+
+            Response.ContentType = "application/vnd.ms-excel";
+
+            Response.AddHeader("Content-Disposition", "attachment;filename=" + fileName);
+
+            Response.Charset = "UTF-8";
+
+            Response.ContentEncoding = Encoding.Default;
+
+            Response.Write(sb.ToString());
+
+            Response.End();
+
+        }
+
+
+        [HttpGet]
+        public void OtroExcelDetalle(int id)
+        {
+
+            Pago pago = db.Pagos.Where(p => p.id.Equals(id)).FirstOrDefault();
+
+            List<DetallePago> detallePago = db.DetallePagoes.Where(r => r.pagoId.Equals(id)).ToList();
+
+            List<DetallePago> allCust = new List<DetallePago>();
+
+            allCust = detallePago;
+
+            WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
+
+
+            grid.Column("Asegurado.numeroAfiliacion", "NSS", format: (item) => String.Format("{0000000000}", item.Asegurado.numeroAfiliacion));
+            grid.Column("Asegurado.nombreTemporal", "Nombre", null, null, true);
+
+            string gridData = grid.GetHtml(
+                columns: grid.Columns()
+                    ).ToString();
+
+            Response.ClearContent();
+            DateTime date = DateTime.Now;
+            String fileName = "DetallePagos-" + date.ToString("ddMMyyyyHHmm") + ".xls";
+            //            string sStyle = @" .CssText { mso-number-format:\@; } ";
             Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
             Response.ContentType = "application/excel";
+            Response.ClearContent();
             Response.Write(gridData);
             Response.End();
         }
+
+        // GET: Pagos
+        public ActionResult MantPDFPagos(String plazasId, String patronesId, String periodoId, String ejercicioId)
+        {
+
+            Usuario user = Session["UsuarioData"] as Usuario;
+
+            var plazasAsignadas = (from x in db.TopicosUsuarios
+                                   where x.usuarioId.Equals(user.Id)
+                                   && x.tipo.Equals("P")
+                                   select x.topicoId);
+
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
+
+            //Query principal
+            var pagos = from s in db.Pagos
+                        //                                     where plazasAsignadas.Contains(s.Patrone.Plaza_id) &&
+                        where patronesAsignados.Contains(s.patronId)
+                        select s;
+
+            if (!String.IsNullOrEmpty(plazasId))
+            {
+                int plazaTempId = int.Parse(plazasId.Trim());
+                pagos = pagos.Where(s => s.Patrone.Plaza_id.Equals(plazaTempId));
+            }
+            if (!String.IsNullOrEmpty(patronesId))
+            {
+                int patronesTempId = int.Parse(patronesId);
+                pagos = pagos.Where(s => s.Patrone.Id.Equals(patronesTempId));
+            }
+            if (!String.IsNullOrEmpty(periodoId))
+            {
+                pagos = pagos.Where(s => s.mes.Trim().Equals(periodoId.Trim()));
+            }
+            if (!String.IsNullOrEmpty(ejercicioId))
+            {
+                pagos = pagos.Where(s => s.anno.Trim().Equals(ejercicioId));
+            }
+
+            pagos = pagos.OrderBy(p => p.Patrone.registro);
+
+            return View(pagos.ToList());
+
+        }
+
+        // GET: Movimientos/Delete/5
+        public ActionResult DeletePDFs(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Pago pago = db.Pagos.Find(id);
+            if (pago == null)
+            {
+                return HttpNotFound();
+            }
+            return View(pago);
+        }
+
+        // POST: Movimientos/Delete/5
+        public ActionResult DeletePDFConf(String pagoId, IEnumerable<bool> SampleChkIntBool)
+        {
+            if (!pagoId.Equals(""))
+            {
+                Pago pagos = db.Pagos.Find(Int32.Parse(pagoId));
+
+                string value = Request["SampleChkIntBool"];
+                if (value.Substring(0, 4) == "true")
+                {
+                    pagos.comprobantePago = null;
+                }
+
+                value = Request["SampleChkIntBool2"];
+                if (value.Substring(0, 4) == "true")
+                {
+                    pagos.resumenLiquidacion = null;
+                }
+
+                value = Request["SampleChkIntBool3"];
+                if (value.Substring(0, 4) == "true")
+                {
+                    pagos.cedulaAutodeterminacion = null;
+                }
+                
+                db.Entry(pagos).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("EliminaPDFs", "Pagos");
+        }
+
 
         protected override void Dispose(bool disposing)
         {

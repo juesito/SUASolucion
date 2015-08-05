@@ -19,7 +19,7 @@
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
     gridColumns.Add(grid.Column("registro", "Registro Patronal", @<text><div style='width: 8em'>@item.registro</div></text> , null, canSort: true));
-    gridColumns.Add(grid.Column("Plaza.cvecorta", "ID Plaza", @<text><div style='width: 4em'>@item.Plaza.cvecorta</div></text> , null, canSort: true));
+    gridColumns.Add(grid.Column("Plaza.cveCorta", "ID Plaza", @<text><div style='width: 4em'>@item.Plaza.cveCorta</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("rfc", "RFC", @<text><div style='width: 9em'>@item.rfc</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("nombre", "Nombre", @<text><div style='width: 32em'>@item.nombre</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("telefono", "Teléfono", @<text><div style='width: 7em'>@item.telefono</div></text> , null, canSort: true));
@@ -31,8 +31,11 @@
     gridColumns.Add(grid.Column("carDel", "Delegación", null, null, true));
     gridColumns.Add(grid.Column("codigoPostal", "C. P.", @<text><div style='width: 5em'>@item.codigoPostal</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("direccionArchivo", "Carpeta", null, null, true));
-    gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Patrones", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
-
+    gridColumns.Add(grid.Column("porcentajeNomina", "% sobre nómina", null, null, true));
+    if (SecurityUserModel.verificarPermiso("Patrones", "Editar patron"))
+    { 
+        gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Patrones", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
     if (SecurityUserModel.verificarPermiso("Patrones", "Consultar detalle"))
     { 
         gridColumns.Add(grid.Column(header: "Detalle", format: @<text><a href="@Url.Action("Details", "Patrones", new { id = item.id })"><img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" /></a></text>));
@@ -54,6 +57,9 @@
 {
     <p>
         @Language.plaza: @Html.plazasDrownList(usuario.Id)
+        <a href="@Url.Action("GetExcel", "Patrones", new{ plazasId = @ViewBag.pzaId})" style="text-align:right">
+            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="30" height="30" />
+        </a>
     </p>
 }
 

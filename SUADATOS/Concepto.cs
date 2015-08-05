@@ -16,8 +16,8 @@ namespace SUADATOS
     {
         public Concepto()
         {
-            this.ArchivoEmpleadoes = new HashSet<ArchivoEmpleado>();
-            this.DocumentoEmpleadoes = new HashSet<DocumentoEmpleado>();
+            this.ArchivosEmpleados = new HashSet<ArchivosEmpleado>();
+            this.DocumentosEmpleadoes = new HashSet<DocumentosEmpleado>();
             this.FamiliaresEmpleadoes = new HashSet<FamiliaresEmpleado>();
             this.RespuestaSolicituds = new HashSet<RespuestaSolicitud>();
             this.SalarialesEmpleadoes = new HashSet<SalarialesEmpleado>();
@@ -36,9 +36,9 @@ namespace SUADATOS
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
-        public virtual ICollection<ArchivoEmpleado> ArchivoEmpleadoes { get; set; }
+        public virtual ICollection<ArchivosEmpleado> ArchivosEmpleados { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual ICollection<DocumentoEmpleado> DocumentoEmpleadoes { get; set; }
+        public virtual ICollection<DocumentosEmpleado> DocumentosEmpleadoes { get; set; }
         public virtual ICollection<FamiliaresEmpleado> FamiliaresEmpleadoes { get; set; }
         public virtual ICollection<RespuestaSolicitud> RespuestaSolicituds { get; set; }
         public virtual ICollection<SalarialesEmpleado> SalarialesEmpleadoes { get; set; }

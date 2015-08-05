@@ -20,7 +20,13 @@ namespace SUAMVC.Controllers
         // GET: Usuarios
         public ActionResult Index()
         {
-            var usuarios = db.Usuarios.Include(u => u.Plaza).Include(u => u.Role);
+            Usuario user = Session["UsuarioData"] as Usuario;
+            //           var usuarios = db.Usuarios.Include(u => u.Plaza).Include(u => u.Role);
+            var usuarios = db.Usuarios.Where(x => x.roleId != 1).OrderBy(x => x.claveUsuario);
+            if (user.roleId == 1)
+            {
+                usuarios = db.Usuarios.OrderBy(x => x.claveUsuario);
+            }
             return View(usuarios.ToList());
         }
 
@@ -50,7 +56,21 @@ namespace SUAMVC.Controllers
                                                    id = s.id,
                                                    descripcion = s.descripcion
                                                }), "id", "descripcion");
-            ViewBag.roleId = new SelectList(db.Roles, "id", "descripcion");
+            Usuario user = Session["UsuarioData"] as Usuario;
+            if (user.roleId == 1)
+            {
+                ViewBag.roleId = new SelectList(db.Roles, "id", "descripcion");
+            }
+            else
+            {
+                ViewBag.roleId = new SelectList((from s in db.Roles.ToList()
+                                                 where !s.descripcion.Trim().Equals("Administrador")
+                                                 select new
+                                                 {
+                                                     id = s.id,
+                                                     descripcion = s.descripcion
+                                                 }), "id", "descripcion");
+            }
             ViewBag.departamentoId = new SelectList(db.Departamentos, "id", "descripcion");
             return View();
         }
@@ -64,6 +84,7 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                usuario.claveUsuario = usuario.claveUsuario.ToUpper();
                 usuario.nombreUsuario = usuario.nombreUsuario.ToUpper();
                 usuario.apellidoMaterno = usuario.apellidoMaterno.ToUpper();
                 usuario.apellidoPaterno = usuario.apellidoPaterno.ToUpper();
@@ -74,6 +95,7 @@ namespace SUAMVC.Controllers
                 return RedirectToAction("Index");
             }
 
+            Usuario user = Session["UsuarioData"] as Usuario;
             ViewBag.plazaId = new SelectList((from s in db.Plazas.ToList()
                                               where s.indicador.Equals("U")
                                               orderby s.descripcion
@@ -82,7 +104,20 @@ namespace SUAMVC.Controllers
                                                   id = s.id,
                                                   descripcion = s.descripcion
                                               }), "id", "descripcion", usuario.plazaId);
-            ViewBag.roleId = new SelectList(db.Roles, "id", "descripcion", usuario.roleId);
+            if (user.roleId == 1)
+            {
+                ViewBag.roleId = new SelectList(db.Roles, "id", "descripcion", usuario.roleId);
+            }
+            else
+            {
+                ViewBag.roleId = new SelectList((from s in db.Roles.ToList()
+                                                 where !s.descripcion.Trim().Equals("Administrador")
+                                                 select new
+                                                 {
+                                                     id = s.id,
+                                                     descripcion = s.descripcion
+                                                 }), "id", "descripcion", usuario.roleId);
+            }
             return View(usuario);
         }
 
@@ -120,6 +155,7 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                usuario.claveUsuario = usuario.claveUsuario.ToUpper();
                 usuario.nombreUsuario = usuario.nombreUsuario.ToUpper();
                 usuario.apellidoMaterno = usuario.apellidoMaterno.ToUpper();
                 usuario.apellidoPaterno = usuario.apellidoPaterno.ToUpper();

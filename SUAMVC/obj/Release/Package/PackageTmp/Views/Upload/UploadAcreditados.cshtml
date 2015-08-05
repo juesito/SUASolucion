@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var message = @TempData["viewMessage"];
     var isError = TempData["error"];
+
 }
 
 @section Menu {
@@ -18,32 +19,31 @@
                 <h3 class="panel-title">Seleccione los datos para la carga del archivo SUA</h3>
             </div>
             <div class="panel-body">
-                
+
                 @if (!IsPost)
                 {
-                <div class="row">
-                    <div class="col-md-12" style="padding-top:10px; width:100px;">
-                        @Html.Label("Plaza :")
-
-                    </div>
-                    <div class="col-md-3" style="padding-top:10px; width:500px;">
-                        <p>@Html.DropDownList("plazasId", null, new { onchange = "document.location.href = '/Upload/GoAcreditados?plazasId=' + this.options[this.selectedIndex].value;" })</p>
-                    </div>
-                   <div class="col-md-12" style="padding-top:60px; width:100px;">
-                        @Html.Label("Patron :")
-                        
-                    </div>
-                    <div class="col-md-3" style="padding-top:10px; width:500px;">   
-                        @Html.DropDownList("patronesId")
-                    </div>
-                    <div class="file" style="padding-top:80px;">
-                        @FileUpload.GetHtml(initialNumberOfFiles: 1,
+                    <div class="marqueeFilter">
+                        <table style="float:left; margin-top:5px;display:inline-block;">
+                            <tr>
+                                <td>@Html.Label("Plaza :")</td>
+                                <td>@Html.DropDownList("plazasId", null, new { onchange = "document.location.href = '/Upload/GoAcreditados?plazasId=' + this.options[this.selectedIndex].value;" })</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.Label("Patron :")</td>
+                                <td>@Html.DropDownList("patronesId")</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="file" style="padding-top:80px;">
+                                        @FileUpload.GetHtml(initialNumberOfFiles: 1,
                             allowMoreFilesToBeAdded: false,
                             includeFormTag: true,
                             uploadText: "Subir SUA.mdb")
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                    
-                </div>
                 }
             </div>
         </div>

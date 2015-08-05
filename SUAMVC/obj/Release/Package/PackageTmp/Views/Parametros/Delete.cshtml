@@ -3,73 +3,85 @@
 @{
     ViewBag.Title = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
 }
 
 @section Menu {
-    <div>Borrar Parametro <img src="~/Content/Images/home.png" width="15" height="15" /></div>
+    <div> Catálogo de Parámetro <img src="~/Content/Images/home.png" width="15" height="15" /></div>
 }
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Parametro</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.parametroId)
-        </dt>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        ¿Desea borrar este registro?
+    </div>
+    <div class="panel-body" style="font-size:10px;">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName(@Language.parametroId)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.parametroId)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.parametroId)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.descripcion)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.descripcion)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.descripcion)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.descripcion)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.fechaCreacion)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.fechaAlta)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.fechaCreacion)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.fechaCreacion)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.valorString)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.valorString)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.valorString)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.valorString)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.valorMoneda)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.valorMoneda)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.valorMoneda)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.valorMoneda)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.valorFecha)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.valorFecha)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.valorFecha)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.valorFecha)
+            </dd>
 
-    </dl>
+        </dl>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+    <div class="form-group" style="margin-top:10px;">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="@Language.borrar" class="btn btn-primary" />
         </div>
-    }
-</div>
+    </div>
+        }
+        </div>
+    </div>
+           
+    <div>
+        @Html.ActionLink(@Language.regresar, "Index")
+    </div>

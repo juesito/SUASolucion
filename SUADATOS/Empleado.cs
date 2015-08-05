@@ -16,15 +16,16 @@ namespace SUADATOS
     {
         public Empleado()
         {
-            this.ArchivoEmpleadoes = new HashSet<ArchivoEmpleado>();
+            this.ArchivosEmpleados = new HashSet<ArchivosEmpleado>();
             this.CuentaEmpleadoes = new HashSet<CuentaEmpleado>();
-            this.DocumentoEmpleadoes = new HashSet<DocumentoEmpleado>();
+            this.DocumentosEmpleadoes = new HashSet<DocumentosEmpleado>();
             this.FamiliaresEmpleadoes = new HashSet<FamiliaresEmpleado>();
             this.SalarialesEmpleadoes = new HashSet<SalarialesEmpleado>();
             this.SolicitudEmpleadoes = new HashSet<SolicitudEmpleado>();
         }
     
         public int id { get; set; }
+        public int solicitudId { get; set; }
         public string folioEmpleado { get; set; }
         public string nss { get; set; }
         public Nullable<System.DateTime> fechaAltaImss { get; set; }
@@ -61,15 +62,14 @@ namespace SUADATOS
         public System.DateTime fechaCreacion { get; set; }
         public string estatus { get; set; }
         public Nullable<System.DateTime> fechaBaja { get; set; }
-        public Nullable<System.DateTime> fechaModificacion { get; set; }
         public Nullable<int> aseguradoId { get; set; }
         public string foto { get; set; }
     
-        public virtual ICollection<ArchivoEmpleado> ArchivoEmpleadoes { get; set; }
-        public virtual Asegurado Asegurado { get; set; }
+        public virtual Acreditado Acreditado { get; set; }
+        public virtual ICollection<ArchivosEmpleado> ArchivosEmpleados { get; set; }
         public virtual Banco Banco { get; set; }
         public virtual ICollection<CuentaEmpleado> CuentaEmpleadoes { get; set; }
-        public virtual ICollection<DocumentoEmpleado> DocumentoEmpleadoes { get; set; }
+        public virtual ICollection<DocumentosEmpleado> DocumentosEmpleadoes { get; set; }
         public virtual EsquemasPago EsquemasPago { get; set; }
         public virtual EstadoCivil EstadoCivil { get; set; }
         public virtual Estado Estado { get; set; }
@@ -77,6 +77,7 @@ namespace SUADATOS
         public virtual Pais Pais { get; set; }
         public virtual SDI SDI { get; set; }
         public virtual Sexo Sexo { get; set; }
+        public virtual Solicitud Solicitud { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual ICollection<FamiliaresEmpleado> FamiliaresEmpleadoes { get; set; }
         public virtual ICollection<SalarialesEmpleado> SalarialesEmpleadoes { get; set; }
