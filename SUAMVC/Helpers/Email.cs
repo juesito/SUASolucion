@@ -77,7 +77,7 @@ namespace SUAMVC.Helpers
             {
                 email.subject = "Folio baja:" + solicitud.folioSolicitud;
                 email.msg = "Se ha generado una nueva solicitud de Alta de Personal con Folio : " + solicitud.folioSolicitud + "del cliente " +
-                    cliente.descripcion.ToUpper() + "con Esquema " + solicitud.EsquemasPago.descripcion + ", el cual contiene " + solicitud.noTrabajadores +
+                    cliente.descripcion.ToUpper() + ", el cual contiene " + solicitud.noTrabajadores +
                     " trabajador(es)";
             }//Es solicitud de Baja de personal?
 

@@ -85,7 +85,7 @@ namespace SUAMVC.Controllers
                     //Creamos el registro en solicitudEmpleados para agregar el empleado a otra solicitud activa
                     crearSolicitudEmpleado(empleado.id, solicitud.id, usuario.Id, "Baja");
 
-                    empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
+                    //empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
 
                     db.Entry(solicitudEmpleado).State = EntityState.Modified;
                     db.Entry(solicitud).State = EntityState.Modified;
@@ -740,7 +740,9 @@ namespace SUAMVC.Controllers
 
         }
 
-
+        /**
+         * Agregar foto de empleado.
+         */
         public ActionResult MyFoto(String foto)
         {
 

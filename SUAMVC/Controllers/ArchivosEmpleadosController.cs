@@ -145,12 +145,14 @@ namespace SUAMVC.Controllers
             return View(archivosEmpleado);
         }
 
-        public ActionResult VerDocumento(String fileNameString)
+        public ActionResult VerDocumento(String fileNameString, String folioEmpleado, String tipo)
         {
             if (!String.IsNullOrEmpty(fileNameString))
             {
 
-                var fileName = fileNameString.Trim();
+                ParametrosHelper ph = new ParametrosHelper();
+                Parametro parameter = ph.getParameterByKey("DOCFOLDER");
+                var fileName = parameter.valorString.Trim() + folioEmpleado.Trim() + "\\" + tipo + "\\" + fileNameString.Trim();
 
                 if (System.IO.File.Exists(fileName))
                 {

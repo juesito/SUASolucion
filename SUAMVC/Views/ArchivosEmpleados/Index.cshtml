@@ -26,7 +26,7 @@
     if (SecurityUserModel.verificarPermiso("cargar documentos", "Se agrega solicitud para cargar documentos"))
     { 
     gridColumns.Add(grid.Column(header: "Archivo", format: @<text>
-        <a href="@Url.Action("VerDocumento", "ArchivosEmpleados", new { fileNameString = item.archivo})">
+        <a href="@Url.Action("VerDocumento", "ArchivosEmpleados", new { fileNameString = item.archivo, folioEmpleado = ViewBag.folioEmpleado, tipo = ViewBag.tipoArchivo.Trim() })">
             <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
         </a>
     </text>));
