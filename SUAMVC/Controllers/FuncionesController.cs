@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
+using System.Web.Helpers;
 
 namespace SUAMVC.Controllers
 {
@@ -146,6 +147,52 @@ namespace SUAMVC.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public void GetExcel(string funcionId)
+        {
+
+            //traigo de la base de datos Funciones todos los registros
+
+            var funciones = from f in db.Funcions
+                              select f;
+
+            //Valida que la variable no sea nula
+            if (!String.IsNullOrEmpty(funcionId))
+            {
+                int funcionIdTemp = int.Parse(funcionId);
+                funciones = funciones.Where(f => f.id.Equals(funcionIdTemp));
+            }
+
+            List<Funcion> allCust = new List<Funcion>();
+
+            allCust = funciones.ToList();
+
+            WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
+
+            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
+            gridColumns.Add(grid.Column("descripcionCorta", "Descripción Corta"));
+            gridColumns.Add(grid.Column("descripcionLarga", "Descripción Larga"));
+            gridColumns.Add(grid.Column("accion", "Acción"));
+            gridColumns.Add(grid.Column("controlador", "Controlador"));
+            gridColumns.Add(grid.Column("estatus", "Estatus"));
+            gridColumns.Add(grid.Column("usuarioId", "Usuario Alta"));
+            gridColumns.Add(grid.Column("fechaCreacion", "Fecha de Creación"));
+            gridColumns.Add(grid.Column("tipo", "Tipo"));
+            gridColumns.Add(grid.Column("Modulo.descripcionCorta", "Módulo Descripción"));
+            
+
+            string gridData = grid.GetHtml(
+                columns: grid.Columns(gridColumns.ToArray())
+                    ).ToString();
+
+            Response.ClearContent();
+            DateTime date = DateTime.Now;
+            String fileName = "Funciones" + date.ToString("ddMMyyyyHHmm") + ".xls";
+            Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+            Response.ContentType = "application/excel";
+            Response.Write(gridData);
+            Response.End();
         }
     }
 }

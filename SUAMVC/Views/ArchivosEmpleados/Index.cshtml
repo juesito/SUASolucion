@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<SUADATOS.ArchivoEmpleado>
 @using SUADATOS
+@using SUAMVC.Models
 @using System.Text;
 
 @{
@@ -21,11 +22,13 @@
     gridColumns.Add(grid.Column("Usuario.nombreUsuario", "Usuario", null, null, true));
     gridColumns.Add(grid.Column("archivo", "Archivo", null, null, true));
     gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creacion", null, null, true));
+
+    if (SecurityUserModel.verificarPermiso("cargar documentos", "Se agrega solicitud para cargar documentos"))
+    { 
     gridColumns.Add(grid.Column(header: "Archivo", format: @<text>
         <a href="@Url.Action("VerDocumento", "ArchivosEmpleados", new { fileNameString = item.archivo})">
             <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
         </a>
-
     </text>));
 
     gridColumns.Add(grid.Column(header: "Borrar", format: @<text>
@@ -34,7 +37,7 @@
         </a>
 
     </text>));
-
+           }
 
     sb.Append(grid.GetHtml(
        columns: grid.Columns(gridColumns.ToArray()),
@@ -43,6 +46,7 @@
     tableHtml = sb.ToString();
 
 }
+
 @section Menu {
     <div>Archivos empleados<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
