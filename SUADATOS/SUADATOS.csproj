@@ -193,6 +193,9 @@
     <Compile Include="RegimenInfonavit.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="RepCostoSocial.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Residencia.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

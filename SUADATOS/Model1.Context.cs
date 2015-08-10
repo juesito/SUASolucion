@@ -80,6 +80,7 @@ namespace SUADATOS
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<RepCostoSocial> RepCostoSocials { get; set; }
     
         public virtual int sp_createCatalogoMovimientos()
         {

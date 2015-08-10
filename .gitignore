@@ -189,3 +189,10 @@ _Pvt_Extensions/
 ModelManifest.xml
 *.cs
 SUADATOS/ArchivosEmpleado.cs
+*.dll
+*.dll
+SUADATOS/bin/Debug/SUADATOS.dll
+SUADATOS/Model1.Context.cs
+SUADATOS/Model1.edmx
+SUADATOS/SUADATOS.csproj
+SUADATOS/Model1.edmx.diagram

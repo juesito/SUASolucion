@@ -630,6 +630,37 @@
           <Property Name="fechaCreacion" Type="datetime" Nullable="false" />
           <Property Name="usuarioId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="RepCostoSocial">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numeroAfiliacion" Type="nchar" MaxLength="15" />
+          <Property Name="nombre" Type="nchar" MaxLength="100" />
+          <Property Name="fechaAlta" Type="datetime" />
+          <Property Name="fechaBaja" Type="datetime" />
+          <Property Name="diasCotizados" Type="int" />
+          <Property Name="salarioIMSS" Type="float" />
+          <Property Name="ubicacion" Type="nchar" MaxLength="15" />
+          <Property Name="grupo" Type="nchar" MaxLength="15" />
+          <Property Name="registroPatronal" Type="nchar" MaxLength="15" />
+          <Property Name="nombreRegPatronal" Type="nchar" MaxLength="50" />
+          <Property Name="IMSS" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="RCV" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="Infonavit" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="totalCosto" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="descuentoMensual" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="impuestoSNomina" Type="decimal" Precision="6" Scale="3" />
+          <Property Name="porcNomina" Type="decimal" Precision="6" Scale="3" />
+          <Property Name="porcCotizado" Type="decimal" Precision="6" Scale="3" />
+          <Property Name="totalCostoSocial" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="numeroCredito" Type="nchar" MaxLength="15" />
+          <Property Name="descuentoCatorcenal" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="descuentoQuincenal" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="descuentoVeintiochonal" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="descuentoDiario" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="descuentoSemanal" Type="decimal" Precision="10" Scale="3" />
+        </EntityType>
         <EntityType Name="Residencia">
           <Key>
             <PropertyRef Name="id" />
@@ -2371,6 +2402,7 @@
           <EntitySet Name="Plazas" EntityType="Self.Plazas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyectos" EntityType="Self.Proyectos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegimenInfonavit" EntityType="Self.RegimenInfonavit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RepCostoSocial" EntityType="Self.RepCostoSocial" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Residencia" EntityType="Self.Residencia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RespuestaSolicitud" EntityType="Self.RespuestaSolicitud" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ResumenPago" EntityType="Self.ResumenPago" Schema="dbo" store:Type="Tables" />
@@ -2875,6 +2907,29 @@
       <Schema Namespace="suaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="suaEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Parametros" EntityType="suaModel.Parametro" />
+          <FunctionImport Name="sp_createCatalogoMovimientos" />
+          <FunctionImport Name="sp_createConcepts">
+          <Parameter Name="usuarioId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_createFunctions">
+          <Parameter Name="usuarioId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_createModules" />
+          <FunctionImport Name="sp_createParameters" />
+          <FunctionImport Name="sp_createRoles" />
+          <FunctionImport Name="sp_SumarizadoClientes">
+            <Parameter Name="usuarioId" Mode="In" Type="Int32" />
+            <Parameter Name="clienteId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SumarizadoClientesTodos">
+          <Parameter Name="usuarioId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spCreateActionFunctions">
+          <Parameter Name="usuarioId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spCreateFactorss">
+          <Parameter Name="usuarioId" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="Acreditados" EntityType="suaModel.Acreditado" />
           <EntitySet Name="ArchivosEmpleados" EntityType="suaModel.ArchivosEmpleado" />
           <EntitySet Name="Asegurados" EntityType="suaModel.Asegurado" />
@@ -3407,29 +3462,7 @@
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="TopicosUsuario" EntitySet="TopicosUsuarios" />
           </AssociationSet>
-          <FunctionImport Name="sp_createCatalogoMovimientos" />
-          <FunctionImport Name="sp_createConcepts">
-            <Parameter Name="usuarioId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_createFunctions">
-            <Parameter Name="usuarioId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_createModules" />
-          <FunctionImport Name="sp_createParameters" />
-          <FunctionImport Name="sp_createRoles" />
-          <FunctionImport Name="sp_SumarizadoClientes">
-            <Parameter Name="usuarioId" Mode="In" Type="Int32" />
-            <Parameter Name="clienteId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_SumarizadoClientesTodos">
-            <Parameter Name="usuarioId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="spCreateActionFunctions">
-            <Parameter Name="usuarioId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="spCreateFactorss">
-            <Parameter Name="usuarioId" Mode="In" Type="Int32" />
-          </FunctionImport>
+          <EntitySet Name="RepCostoSocials" EntityType="suaModel.RepCostoSocial" />
           </EntityContainer>
         <EntityType Name="Parametro">
           <Key>
@@ -5977,6 +6010,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="RepCostoSocial">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numeroAfiliacion" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="fechaAlta" Type="DateTime" Precision="3" />
+          <Property Name="fechaBaja" Type="DateTime" Precision="3" />
+          <Property Name="diasCotizados" Type="Int32" />
+          <Property Name="salarioIMSS" Type="Double" />
+          <Property Name="ubicacion" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="grupo" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="registroPatronal" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="nombreRegPatronal" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="IMSS" Type="Decimal" Precision="10" Scale="3" />
+          <Property Name="RCV" Type="Decimal" Precision="10" Scale="3" />
+          <Property Name="Infonavit" Type="Decimal" Precision="10" Scale="3" />
+          <Property Name="totalCosto" Type="Decimal" Precision="10" Scale="3" />
+          <Property Name="descuentoMensual" Type="Decimal" Precision="10" Scale="3" />
+          <Property Name="impuestoSNomina" Type="Decimal" Precision="6" Scale="3" />
+          <Property Name="porcNomina" Type="Decimal" Precision="6" Scale="3" />
+          <Property Name="porcCotizado" Type="Decimal" Precision="6" Scale="3" />
+          <Property Name="totalCostoSocial" Type="Decimal" Precision="10" Scale="3" />
+          <Property Name="numeroCredito" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="descuentoCatorcenal" Type="Decimal" Precision="10" Scale="3" />
+          <Property Name="descuentoQuincenal" Type="Decimal" Precision="10" Scale="3" />
+          <Property Name="descuentoVeintiochonal" Type="Decimal" Precision="10" Scale="3" />
+          <Property Name="descuentoDiario" Type="Decimal" Precision="10" Scale="3" />
+          <Property Name="descuentoSemanal" Type="Decimal" Precision="10" Scale="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5996,6 +6060,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_createCatalogoMovimientos" FunctionName="suaModel.Store.sp_createCatalogoMovimientos" />
+          <FunctionImportMapping FunctionImportName="sp_createConcepts" FunctionName="suaModel.Store.sp_createConcepts" />
+          <FunctionImportMapping FunctionImportName="sp_createFunctions" FunctionName="suaModel.Store.sp_createFunctions" />
+          <FunctionImportMapping FunctionImportName="sp_createModules" FunctionName="suaModel.Store.sp_createModules" />
+          <FunctionImportMapping FunctionImportName="sp_createParameters" FunctionName="suaModel.Store.sp_createParameters" />
+          <FunctionImportMapping FunctionImportName="sp_createRoles" FunctionName="suaModel.Store.sp_createRoles" />
+          <FunctionImportMapping FunctionImportName="sp_SumarizadoClientes" FunctionName="suaModel.Store.sp_SumarizadoClientes" />
+          <FunctionImportMapping FunctionImportName="sp_SumarizadoClientesTodos" FunctionName="suaModel.Store.sp_SumarizadoClientesTodos" />
+          <FunctionImportMapping FunctionImportName="spCreateActionFunctions" FunctionName="suaModel.Store.spCreateActionFunctions" />
+          <FunctionImportMapping FunctionImportName="spCreateFactorss" FunctionName="suaModel.Store.spCreateFactorss" />
           <EntitySetMapping Name="Acreditados">
             <EntityTypeMapping TypeName="suaModel.Acreditado">
               <MappingFragment StoreEntitySet="Acreditados">
@@ -6902,16 +6976,38 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_createCatalogoMovimientos" FunctionName="suaModel.Store.sp_createCatalogoMovimientos" />
-          <FunctionImportMapping FunctionImportName="sp_createConcepts" FunctionName="suaModel.Store.sp_createConcepts" />
-          <FunctionImportMapping FunctionImportName="sp_createFunctions" FunctionName="suaModel.Store.sp_createFunctions" />
-          <FunctionImportMapping FunctionImportName="sp_createModules" FunctionName="suaModel.Store.sp_createModules" />
-          <FunctionImportMapping FunctionImportName="sp_createParameters" FunctionName="suaModel.Store.sp_createParameters" />
-          <FunctionImportMapping FunctionImportName="sp_createRoles" FunctionName="suaModel.Store.sp_createRoles" />
-          <FunctionImportMapping FunctionImportName="sp_SumarizadoClientes" FunctionName="suaModel.Store.sp_SumarizadoClientes" />
-          <FunctionImportMapping FunctionImportName="sp_SumarizadoClientesTodos" FunctionName="suaModel.Store.sp_SumarizadoClientesTodos" />
-          <FunctionImportMapping FunctionImportName="spCreateActionFunctions" FunctionName="suaModel.Store.spCreateActionFunctions" />
-          <FunctionImportMapping FunctionImportName="spCreateFactorss" FunctionName="suaModel.Store.spCreateFactorss" />
+          <EntitySetMapping Name="RepCostoSocials">
+            <EntityTypeMapping TypeName="suaModel.RepCostoSocial">
+              <MappingFragment StoreEntitySet="RepCostoSocial">
+                <ScalarProperty Name="descuentoSemanal" ColumnName="descuentoSemanal" />
+                <ScalarProperty Name="descuentoDiario" ColumnName="descuentoDiario" />
+                <ScalarProperty Name="descuentoVeintiochonal" ColumnName="descuentoVeintiochonal" />
+                <ScalarProperty Name="descuentoQuincenal" ColumnName="descuentoQuincenal" />
+                <ScalarProperty Name="descuentoCatorcenal" ColumnName="descuentoCatorcenal" />
+                <ScalarProperty Name="numeroCredito" ColumnName="numeroCredito" />
+                <ScalarProperty Name="totalCostoSocial" ColumnName="totalCostoSocial" />
+                <ScalarProperty Name="porcCotizado" ColumnName="porcCotizado" />
+                <ScalarProperty Name="porcNomina" ColumnName="porcNomina" />
+                <ScalarProperty Name="impuestoSNomina" ColumnName="impuestoSNomina" />
+                <ScalarProperty Name="descuentoMensual" ColumnName="descuentoMensual" />
+                <ScalarProperty Name="totalCosto" ColumnName="totalCosto" />
+                <ScalarProperty Name="Infonavit" ColumnName="Infonavit" />
+                <ScalarProperty Name="RCV" ColumnName="RCV" />
+                <ScalarProperty Name="IMSS" ColumnName="IMSS" />
+                <ScalarProperty Name="nombreRegPatronal" ColumnName="nombreRegPatronal" />
+                <ScalarProperty Name="registroPatronal" ColumnName="registroPatronal" />
+                <ScalarProperty Name="grupo" ColumnName="grupo" />
+                <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
+                <ScalarProperty Name="salarioIMSS" ColumnName="salarioIMSS" />
+                <ScalarProperty Name="diasCotizados" ColumnName="diasCotizados" />
+                <ScalarProperty Name="fechaBaja" ColumnName="fechaBaja" />
+                <ScalarProperty Name="fechaAlta" ColumnName="fechaAlta" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="numeroAfiliacion" ColumnName="numeroAfiliacion" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
