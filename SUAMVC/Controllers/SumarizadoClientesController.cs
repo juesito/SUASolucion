@@ -10,6 +10,11 @@ using SUADATOS;
 using System.Data.SqlClient;
 using System.Web.Helpers;
 using SUAMVC.Models;
+using SUAMVC.Helpers;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml;
+using System.IO;
+using DocumentFormat.OpenXml.Packaging;
 
 namespace SUAMVC.Controllers
 {
@@ -44,52 +49,53 @@ namespace SUAMVC.Controllers
             //Query principal
             int result = db.Database.ExecuteSqlCommand("sp_SumarizadoClientesTodos @usuarioId", new SqlParameter("@usuarioId", user.Id));
             var sumarizadoClientes = from s in db.SumarizadoClientes
-                             join cli in db.Clientes on s.clienteId equals cli.Id
-                             where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
-                                   clientesAsignados.Contains(s.Cliente.Id) &&
-                                   patronesAsignados.Contains(s.patronId) &&
-                                   s.usuarioId.Equals(user.Id)
-                             select s;
-            
- //            var sumarizadoClientes = db.SumarizadoClientes.Include(s => s.Cliente).Include(s => s.Patrone).Include(s => s.Usuario);
+                                     join cli in db.Clientes on s.clienteId equals cli.Id
+                                     where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
+                                           clientesAsignados.Contains(s.Cliente.Id) &&
+                                           patronesAsignados.Contains(s.patronId) &&
+                                           s.usuarioId.Equals(user.Id)
+                                     select s;
+
+            //            var sumarizadoClientes = db.SumarizadoClientes.Include(s => s.Cliente).Include(s => s.Patrone).Include(s => s.Usuario);
 
 
-                if (!String.IsNullOrEmpty(clientesId))
-                {
-                    int clienteId = int.Parse(clientesId.Trim());
-                    sumarizadoClientes = sumarizadoClientes.Where(s => s.clienteId.Equals(clienteId));
-                }
-                if (!String.IsNullOrEmpty(plazasId))
-                {
-                    int plazaTempId = int.Parse(plazasId.Trim());
-                    sumarizadoClientes = sumarizadoClientes.Where(s => s.Patrone.Plaza_id.Equals(plazaTempId));
-                }
-                if (!String.IsNullOrEmpty(patronesId))
-                {
-                    int patronesTempId = int.Parse(patronesId);
-                    sumarizadoClientes = sumarizadoClientes.Where(s => s.Patrone.Id.Equals(patronesTempId));
-                }
-                if (!String.IsNullOrEmpty(periodoId))
-                {
-                    sumarizadoClientes = sumarizadoClientes.Where(s => s.mes.Trim().Equals(periodoId.Trim()));
-                }
-                if (!String.IsNullOrEmpty(ejercicioId))
-                {
-                    sumarizadoClientes = sumarizadoClientes.Where(s => s.anno.Trim().Equals(ejercicioId));
-                }
+            if (!String.IsNullOrEmpty(clientesId))
+            {
+                int clienteId = int.Parse(clientesId.Trim());
+                sumarizadoClientes = sumarizadoClientes.Where(s => s.clienteId.Equals(clienteId));
+            }
+            if (!String.IsNullOrEmpty(plazasId))
+            {
+                int plazaTempId = int.Parse(plazasId.Trim());
+                sumarizadoClientes = sumarizadoClientes.Where(s => s.Patrone.Plaza_id.Equals(plazaTempId));
+            }
+            if (!String.IsNullOrEmpty(patronesId))
+            {
+                int patronesTempId = int.Parse(patronesId);
+                sumarizadoClientes = sumarizadoClientes.Where(s => s.Patrone.Id.Equals(patronesTempId));
+            }
+            if (!String.IsNullOrEmpty(periodoId))
+            {
+                sumarizadoClientes = sumarizadoClientes.Where(s => s.mes.Trim().Equals(periodoId.Trim()));
+            }
+            if (!String.IsNullOrEmpty(ejercicioId))
+            {
+                sumarizadoClientes = sumarizadoClientes.Where(s => s.anno.Trim().Equals(ejercicioId));
+            }
 
             sumarizadoClientes = sumarizadoClientes.OrderBy(p => p.Patrone.registro);
-                
-                sumarizadoClienteModel.sumarizadoCliente = sumarizadoClientes.ToList();
-                SumarizadoAcumulado sa = new SumarizadoAcumulado();
 
-                foreach (SumarizadoCliente sc in sumarizadoClientes) {
-                    sa.sumImss = sa.sumImss + System.Convert.ToDouble(sc.imss);
-                    sa.sumRcv = sa.sumRcv + System.Convert.ToDouble(sc.rcv);
-                    sa.sumInfonavit = sa.sumInfonavit + System.Convert.ToDouble(sc.infonavit);
-                    sa.sumTotal = sa.sumTotal + System.Convert.ToDouble(sc.total);
-                    sa.sumNt = sa.sumNt + System.Convert.ToDouble(sc.nt);
-                }
+            sumarizadoClienteModel.sumarizadoCliente = sumarizadoClientes.ToList();
+            SumarizadoAcumulado sa = new SumarizadoAcumulado();
+
+            foreach (SumarizadoCliente sc in sumarizadoClientes)
+            {
+                sa.sumImss = sa.sumImss + System.Convert.ToDouble(sc.imss);
+                sa.sumRcv = sa.sumRcv + System.Convert.ToDouble(sc.rcv);
+                sa.sumInfonavit = sa.sumInfonavit + System.Convert.ToDouble(sc.infonavit);
+                sa.sumTotal = sa.sumTotal + System.Convert.ToDouble(sc.total);
+                sa.sumNt = sa.sumNt + System.Convert.ToDouble(sc.nt);
+            }
 
             sumarizadoClienteModel.sumarizadoAcumulado = sa;
 
@@ -273,13 +279,13 @@ namespace SUAMVC.Controllers
         }
 
         [HttpGet]
-        public void ExcelDetalle(String anio, String mes, String idPatron, String idCliente)
+        public void ExcelDetalles(String anio, String mes, String idPatron, String idCliente)
         {
 
             int anioTemp = int.Parse(anio.Trim());
             int mesTemp = int.Parse(mes.Trim());
             int idPatronTemp = int.Parse(idPatron.Trim());
- //           int idClienteTemp = int.Parse(idCliente.Trim());
+            //           int idClienteTemp = int.Parse(idCliente.Trim());
 
             Pago pago = db.Pagos.Where(p => p.patronId.Equals(idPatronTemp) && p.anno.Equals(anio) && p.mes.Equals(mes)).FirstOrDefault();
 
@@ -350,6 +356,222 @@ namespace SUAMVC.Controllers
             Response.End();
         }
 
+        [HttpGet]
+        public void ExcelDetalle(String anio, String mes, String idPatron, String idCliente)
+        {
+
+            int anioTemp = int.Parse(anio.Trim());
+            int mesTemp = int.Parse(mes.Trim());
+            int idPatronTemp = int.Parse(idPatron.Trim());
+            //           int idClienteTemp = int.Parse(idCliente.Trim());
+
+            Pago pago = db.Pagos.Where(p => p.patronId.Equals(idPatronTemp) && p.anno.Equals(anio) && p.mes.Equals(mes)).FirstOrDefault();
+
+            List<DetallePago> detallePago = db.DetallePagoes.Where(r => r.pagoId.Equals(pago.id) && r.Asegurado.Cliente.claveCliente.Equals(idCliente)).ToList();
+
+            DateTime date = DateTime.Now;
+            String path = @"C:\\SUA\\Exceles\\";
+            String fileName = @"DPC-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+
+            //Creamos el excel
+            ExcelHelper eh = new ExcelHelper(path + fileName);
+
+            Sheets sheets = new Sheets();
+            SheetData sheetData = new SheetData();
+            sheetData = crearContenidoHoja(detallePago, eh);
+            Sheet sheet = eh.createSheet("Sheet1", sheetData, (UInt32Value)1);
+
+            sheets.Append(sheet);
+            eh.saveWorkBook(sheets);
+
+            //FileInfo f = new FileInfo(path + fileName);
+            //FileStream s = f.Open(FileMode.OpenOrCreate, FileAccess.Read);
+
+            //Response.ClearContent();
+            //Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+            //Response.ContentType = "application/excel";
+            //Response.Write(s);
+            //Response.End();
+
+            //s.Close();
+
+        }
+
+        [HttpGet]
+        public void makeExcel(String anio, String mes, String idPatron, String idCliente)
+        {
+            FileStream fileStream = null;
+            MemoryStream mem = new MemoryStream();
+            try
+            {
+
+                int anioTemp = int.Parse(anio.Trim());
+                int mesTemp = int.Parse(mes.Trim());
+                int idPatronTemp = int.Parse(idPatron.Trim());
+                //           int idClienteTemp = int.Parse(idCliente.Trim());
+
+                Pago pago = db.Pagos.Where(p => p.patronId.Equals(idPatronTemp) && p.anno.Equals(anio) && p.mes.Equals(mes)).FirstOrDefault();
+
+                List<DetallePago> detallePago = db.DetallePagoes.Where(r => r.pagoId.Equals(pago.id) && r.Asegurado.Cliente.claveCliente.Equals(idCliente)).ToList();
+
+                DateTime date = DateTime.Now;
+                String path = @"C:\\SUA\\Exceles\\";
+                String fileName = @"DPC-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fullName = path + fileName;
+
+                ExcelHelper eh = new ExcelHelper();
+                //Creamos el objeto del workbook
+                SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
+
+                WorkbookPart wbp = xl.AddWorkbookPart();
+                WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
+                Workbook wb = new Workbook();
+                FileVersion fv = new FileVersion();
+                fv.ApplicationName = "Microsoft Office Excel";
+
+                Worksheet ws = new Worksheet();
+                WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
+                // add styles to sheet
+                wbsp.Stylesheet = eh.CreateStylesheet();
+                wbsp.Stylesheet.Save();
+
+                SheetData sd = crearContenidoHoja(detallePago, eh);//CreateContentRow(); 
+                ws.Append(sd);
+                wsp.Worksheet = ws;
+                wsp.Worksheet.Save();
+
+                Sheets sheets = new Sheets();
+                Sheet sheet = new Sheet();
+                sheet.Name = "Sheet1";
+                sheet.SheetId = 1;
+                sheet.Id = wbp.GetIdOfPart(wsp);
+
+                sheets.Append(sheet);
+                wb.Append(fv);
+                wb.Append(sheets);
+
+                xl.WorkbookPart.Workbook = wb;
+                xl.WorkbookPart.Workbook.Save();
+                xl.Close();
+
+                fileStream = new FileStream(fullName, FileMode.Open);
+                fileStream.Position = 0;
+                mem = new MemoryStream();
+                fileStream.CopyTo(mem);
+
+                mem.Position = 0;
+                Response.ClearContent();
+                Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                ToolsHelper th = new ToolsHelper();
+                Response.ContentType = th.getMimeType(fullName);
+                Response.BinaryWrite(mem.ToArray());
+
+                Response.End();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+
+            }
+            finally
+            {
+                if (fileStream != null)
+                {
+                    fileStream.Flush();
+                    fileStream.Close();
+                }
+                mem.Flush();
+                mem.Close();
+            }
+
+        }
+
+
+        string[] headerColumns = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O" };
+        public SheetData crearContenidoHoja(List<DetallePago> detallePago, ExcelHelper eh)
+        {
+            //gridColumns.Add(grid.Column("Pago.Patrone.registro", "Patrón", null, null, true));
+            //gridColumns.Add(grid.Column("Pago.mes", "Periodo", null, null, true));
+            //gridColumns.Add(grid.Column("Pago.anno", "Ejercicio", null, null, true));
+            ////gridColumns.Add(grid.Column("Pago.fechaDeposito", "Fecha depósito", null, null, true));
+            //gridColumns.Add(grid.Column("Asegurado.numeroAfiliacion", "NSS", format: (item) => String.Format("{00000000000}", item.Asegurado.numeroAfiliacion)));
+            //gridColumns.Add(grid.Column("Asegurado.nombreTemporal", "Nombre", null, null, true));
+            //gridColumns.Add(grid.Column("Asegurado.Cliente.claveCliente", "Ubicación", null, null, true));
+            //gridColumns.Add(grid.Column("diasCotizados", "Dias", null, null, true));
+            //gridColumns.Add(grid.Column("sdi", "S.D.I.", null, null, true));
+            //gridColumns.Add(grid.Column("diasIncapacidad", "Inc.", null, null, true));
+            //gridColumns.Add(grid.Column("diasAusentismo", "Aus.", null, null, true));
+            //gridColumns.Add(grid.Column("cuotaFija", "C.F.", null, null, true));
+            //gridColumns.Add(grid.Column("expa", "Ex.P", null, null, true));
+            //gridColumns.Add(grid.Column("exo", "Ex. O.", null, null, true));
+            //gridColumns.Add(grid.Column("PDP", "PDP", null, null, true));
+            //gridColumns.Add(grid.Column("GMPP", "GMP. Patron", null, null, true));
+            //gridColumns.Add(grid.Column("GMPO", "GMP. Obrero", null, null, true));
+            //gridColumns.Add(grid.Column("rt", "R.T.", null, null, true));
+            //gridColumns.Add(grid.Column("ivp", "I.V.P", null, null, true));
+            //gridColumns.Add(grid.Column("ivo", "I.V.O", null, null, true));
+            //gridColumns.Add(grid.Column("gps", "G.P.S.", null, null, true));
+            //gridColumns.Add(grid.Column("patronal", "Patronal", null, null, true));
+            //gridColumns.Add(grid.Column("obrera", "Obrera", null, null, true));
+            //gridColumns.Add(grid.Column("imss", "IMSS", null, null, true));
+            //gridColumns.Add(grid.Column("diasCotizBim", "Diascotizados Bim", null, null, true));
+            //gridColumns.Add(grid.Column("retiro", "Retiro", null, null, true));
+            //gridColumns.Add(grid.Column("patronalBimestral", "Patronal Bim", null, null, true));
+            //gridColumns.Add(grid.Column("obreraBimestral", "Obrera Bim", null, null, true));
+            //gridColumns.Add(grid.Column("rcv", "R.C.V.", null, null, true));
+            //gridColumns.Add(grid.Column("aportacionsc", "Aportacion SC", null, null, true));
+            //gridColumns.Add(grid.Column("aportacioncc", "Aportacion CC", null, null, true));
+            //gridColumns.Add(grid.Column("amortizacion", "Amortizacion", null, null, true));
+            //gridColumns.Add(grid.Column("infonavit", "Infonavit", null, null, true));
+            //gridColumns.Add(grid.Column("total", "Total", null, null, true));
+            SheetData sheetData = new SheetData();
+            int index = 1;
+
+            //Creamos el Header
+            Row row = new Row();
+            row = eh.addNewCellToRow(index, row, "Patrón", headerColumns[0] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Periodo", headerColumns[1] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = new Row();
+            row.RowIndex = (UInt32)index;
+            //cell = eh.CreateTextCell(headerColumns[2], "Ejercicio", index);
+            Cell cell = new Cell() { CellValue = new CellValue("Ejercicio"), CellReference = headerColumns[2] + index, StyleIndex = (UInt32Value)2U, DataType = CellValues.String };
+            row.AppendChild(cell);
+            sheetData.AppendChild(row);
+
+            row = new Row();
+            row.RowIndex = (UInt32)index;
+            //cell = eh.CreateTextCell(headerColumns[3], "NSS", index);
+            cell = new Cell() { CellValue = new CellValue("NSS"), CellReference = headerColumns[3] + index, StyleIndex = (UInt32Value)2U, DataType = CellValues.String };
+            row.AppendChild(cell);
+            sheetData.AppendChild(row);
+
+            index++;
+            //Create the cells that contain the data.
+            foreach (DetallePago dp in detallePago)
+            {
+                int i = 0;
+
+                row = eh.addNewCellToRow(index, row, dp.Pago.Patrone.registro, headerColumns[i] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Pago.mes, headerColumns[i + 1] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Pago.anno, headerColumns[i + 2] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Asegurado.numeroAfiliacion, headerColumns[i + 3] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                index++;
+            }
+
+            return sheetData;
+        }
 
         protected override void Dispose(bool disposing)
         {
