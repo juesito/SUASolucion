@@ -470,6 +470,7 @@
     <Compile Include="Controllers\PlazasController.cs" />
     <Compile Include="Controllers\ProyectosController.cs" />
     <Compile Include="Controllers\RegimenInfonavitController.cs" />
+    <Compile Include="Controllers\RepCostoSocialController.cs" />
     <Compile Include="Controllers\RespuestaSolicitudController.cs" />
     <Compile Include="Controllers\RoleFuncionesController.cs" />
     <Compile Include="Controllers\RoleModulosController.cs" />
@@ -719,6 +720,13 @@
     <Content Include="Views\FamiliaresEmpleados\Index.cshtml" />
     <Content Include="Views\Pagos\MantPDFPagos.cshtml" />
     <Content Include="Views\Pagos\DeletePDFs.cshtml" />
+    <Content Include="Views\Pagos\ResumenPagos.cshtml" />
+    <Content Include="Views\Pagos\UploadComprobantes.cshtml" />
+    <Content Include="Views\RepCostoSocial\Create.cshtml" />
+    <Content Include="Views\RepCostoSocial\Delete.cshtml" />
+    <Content Include="Views\RepCostoSocial\Details.cshtml" />
+    <Content Include="Views\RepCostoSocial\Edit.cshtml" />
+    <Content Include="Views\RepCostoSocial\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -589,10 +589,10 @@ namespace SUAMVC.Controllers
             gridColumns.Add(grid.Column("cuotaFija", "Cuota Fija"));
             gridColumns.Add(grid.Column("descuentoBimestral", "Descuento Bimestral"));
             gridColumns.Add(grid.Column("descuentoMensual", "Descuento Mensual"));
-            gridColumns.Add(grid.Column("descuentoSemanal", "Descuento Semanal"));
-            gridColumns.Add(grid.Column("descuentoCatorcenal", "Descuento Catorcenal"));
-            gridColumns.Add(grid.Column("descuentoQuincenal", "Descuento Quincenal"));
             gridColumns.Add(grid.Column("descuentoVeintiochonal", "Descuento Veintiochonal"));
+            gridColumns.Add(grid.Column("descuentoQuincenal", "Descuento Quincenal"));
+            gridColumns.Add(grid.Column("descuentoCatorcenal", "Descuento Catorcenal"));
+            gridColumns.Add(grid.Column("descuentoSemanal", "Descuento Semanal"));
             gridColumns.Add(grid.Column("descuentoDiario", "Descuento Diario"));
             gridColumns.Add(grid.Column("Plaza.descripcion", "Plaza"));
             /*grid.Column("Cliente.descripcion", "Cliente/Ubicación"),*/

@@ -1,0 +1,160 @@
+﻿@model SUADATOS.RepCostoSocial
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>RepCostoSocial</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.numeroAfiliacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.numeroAfiliacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaAlta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaAlta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaBaja)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaBaja)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.diasCotizados)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.diasCotizados)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.salarioIMSS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.salarioIMSS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.clienteId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.clienteId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idGrupo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idGrupo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PatroneId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PatroneId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IMSS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IMSS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RCV)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RCV)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Infonavit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Infonavit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descuentoMensual)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descuentoMensual)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descuentoSemanal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descuentoSemanal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descuentoCatorcenal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descuentoCatorcenal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descuentoQuincenal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descuentoQuincenal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descuentoVeintiochonal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descuentoVeintiochonal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descuentoDiario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descuentoDiario)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
