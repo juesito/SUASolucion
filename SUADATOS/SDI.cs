@@ -18,7 +18,6 @@ namespace SUADATOS
         {
             this.Empleados = new HashSet<Empleado>();
             this.Solicituds = new HashSet<Solicitud>();
-            this.Solicituds1 = new HashSet<Solicitud>();
         }
     
         public int id { get; set; }
@@ -29,8 +28,7 @@ namespace SUADATOS
     
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<Empleado> Empleados { get; set; }
-        public virtual ICollection<Solicitud> Solicituds { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual ICollection<Solicitud> Solicituds1 { get; set; }
+        public virtual ICollection<Solicitud> Solicituds { get; set; }
     }
 }

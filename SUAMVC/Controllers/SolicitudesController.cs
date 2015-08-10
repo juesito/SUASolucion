@@ -111,6 +111,7 @@ namespace SUAMVC.Controllers
                 solicitud.fechaSolicitud = DateTime.Now;
                 solicitud.autoriza = lvc.autorizador;
                 solicitud.valida = lvc.validador;
+                solicitud.solicita = usuario.nombreUsuario;
                 solicitud.estatusSolicitud = concepto.id;
                 solicitud.estatusNomina = concepto.id;
                 solicitud.estatusJuridico = concepto.id;

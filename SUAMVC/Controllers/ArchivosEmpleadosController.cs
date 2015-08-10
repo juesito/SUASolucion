@@ -33,7 +33,7 @@ namespace SUAMVC.Controllers
                     Empleado empleado = db.Empleados.Find(empId);
 
                     //Filtramos los archivos por id y tipo documento
-                    var archivosEmpleados = db.ArchivosEmpleados.
+                    var archivosEmpleados = db.ArchivoEmpleadoes.
                         Include(a => a.Concepto).Include(a => a.Empleado).Include(a => a.Usuario)
                         .Where(a => a.empleadoId.Equals(empId) && a.tipoArchivo.Equals(tipoArchivo.id));
 
@@ -62,7 +62,7 @@ namespace SUAMVC.Controllers
                     Empleado empleado = db.Empleados.Find(empId);
 
                     //Filtramos los archivos por id y tipo documento
-                    var archivosEmpleados = db.ArchivosEmpleados.
+                    var archivosEmpleados = db.ArchivoEmpleadoes.
                         Include(a => a.Concepto).Include(a => a.Empleado).Include(a => a.Usuario)
                         .Where(a => a.empleadoId.Equals(empId));
 
@@ -86,7 +86,7 @@ namespace SUAMVC.Controllers
         // GET: ArchivosEmpleados/Create
         public ActionResult Create(String empleadoId)
         {
-            ArchivosEmpleado archivoEmpleado = new ArchivosEmpleado();
+            ArchivoEmpleado archivoEmpleado = new ArchivoEmpleado();
             if (!String.IsNullOrEmpty(empleadoId))
             {
                 int emplId = int.Parse(empleadoId);
@@ -104,7 +104,7 @@ namespace SUAMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,empleadoId,archivo,tipoArchivo,usuarioId,fechaCreacion")] 
-            ArchivosEmpleado archivosEmpleado, String usuarioId)
+            ArchivoEmpleado archivosEmpleado, String usuarioId)
         {
             if (ModelState.IsValid)
             {
@@ -124,7 +124,7 @@ namespace SUAMVC.Controllers
 
                     try
                     {
-                        db.ArchivosEmpleados.Add(archivosEmpleado);
+                        db.ArchivoEmpleadoes.Add(archivosEmpleado);
                         db.SaveChanges();
                     }
                     catch (DbEntityValidationException dbEx)
@@ -145,12 +145,14 @@ namespace SUAMVC.Controllers
             return View(archivosEmpleado);
         }
 
-        public ActionResult VerDocumento(String fileNameString)
+        public ActionResult VerDocumento(String fileNameString, String folioEmpleado, String tipo)
         {
             if (!String.IsNullOrEmpty(fileNameString))
             {
 
-                var fileName = fileNameString.Trim();
+                ParametrosHelper ph = new ParametrosHelper();
+                Parametro parameter = ph.getParameterByKey("DOCFOLDER");
+                var fileName = parameter.valorString.Trim() + folioEmpleado.Trim() + "\\" + tipo + "\\" + fileNameString.Trim();
 
                 if (System.IO.File.Exists(fileName))
                 {
@@ -198,7 +200,7 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArchivosEmpleado archivosEmpleado = db.ArchivosEmpleados.Find(id);
+            ArchivoEmpleado archivosEmpleado = db.ArchivoEmpleadoes.Find(id);
             if (archivosEmpleado == null)
             {
                 return HttpNotFound();
@@ -213,9 +215,10 @@ namespace SUAMVC.Controllers
         {
             ToolsHelper th = new ToolsHelper();
 
-            ArchivosEmpleado archivosEmpleado = db.ArchivosEmpleados.Find(id);
+            ArchivoEmpleado archivosEmpleado = db.ArchivoEmpleadoes.Find(id);
+            archivosEmpleado = db.ArchivoEmpleadoes.Find(id);
             th.BorrarArchivo(archivosEmpleado.archivo.Trim());
-            db.ArchivosEmpleados.Remove(archivosEmpleado);
+            db.ArchivoEmpleadoes.Remove(archivosEmpleado);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -12,14 +12,24 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class ArchivosEmpleado
+    public partial class DocumentoEmpleado
     {
         public int id { get; set; }
         public int empleadoId { get; set; }
-        public string archivo { get; set; }
-        public int tipoArchivo { get; set; }
-        public int usuarioId { get; set; }
+        public string actividades { get; set; }
+        public string domicilioOficina { get; set; }
+        public System.DateTime fechaAntiguedad { get; set; }
+        public Nullable<decimal> salarioVSM { get; set; }
+        public int jornadaLaboralId { get; set; }
+        public Nullable<int> diasDescanso { get; set; }
+        public decimal salarioNominal { get; set; }
+        public Nullable<int> diasVacaciones { get; set; }
+        public Nullable<int> diasAguinaldo { get; set; }
+        public string otros { get; set; }
+        public string telefono { get; set; }
+        public string tipoSangre { get; set; }
         public System.DateTime fechaCreacion { get; set; }
+        public int usuarioId { get; set; }
     
         public virtual Concepto Concepto { get; set; }
         public virtual Empleado Empleado { get; set; }

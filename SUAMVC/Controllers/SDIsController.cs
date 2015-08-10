@@ -19,12 +19,13 @@ namespace SUAMVC.Controllers
         {
             if (!String.IsNullOrEmpty(clienteId))
             {
-                var sDIs = db.SDIs.Include(p => p.Cliente);
-                int clienteTempId = int.Parse(clienteId.Trim());
-                sDIs = sDIs.Where(p => p.clienteId.Equals(clienteTempId)).OrderBy(p => p.fechaCreacion);
-
-                ViewBag.clienteId = clienteTempId;
-
+                var sDIs = db.SDIs.ToList();
+                if (String.IsNullOrEmpty(clienteId))
+                {
+                    int clienteTempId = int.Parse(clienteId.Trim());
+                    sDIs = sDIs.Where(p => p.clienteId.Equals(clienteTempId)).OrderBy(p => p.fechaCreacion).ToList();
+                }
+                
                 return View(sDIs.ToList());
             }
 
@@ -48,9 +49,8 @@ namespace SUAMVC.Controllers
         }
 
         // GET: SDIs/Create
-        public ActionResult Create(int clienteId)
+        public ActionResult Create()
         {
-            ViewBag.clienteId = clienteId;
             return View();
         }
 

@@ -54,11 +54,11 @@
     {  @item.Concepto4.descripcion }</text>, canSort: true));
 
 
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("modificar solicitud", "Se agrega solicitud para editar solicitud modificar salario"))
     {
         gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "SolicitudesModificacion", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("eliminar solicitud", "Se agrega solicitud para eliminar modificar salario"))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "SolicitudesModificacion", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
@@ -81,7 +81,7 @@
             }
         </text>));
     }
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("enviar correo solicitud modificar", "Enviar mail informativo"))
     {
         gridColumns.Add(grid.Column(header: "Enviar Solicitud", format: @<text>
             @if (item.noTrabajadores >= 0)
@@ -105,9 +105,11 @@ tableStyle: "table table-striped tableSua"
     <div>Modificación de Solicitudes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<p>
+ @if (SecurityUserModel.verificarPermiso("nueva solicitud", "Se agrega solicitud para modificar salario"))
+{
     @Html.ActionLink(@Language.agregar, "Create", "SolicitudesModificacion", new { @class = "btn btn-success" })
-</p>
+}
+
 @using (Html.BeginForm())
 {
     <div class="marqueeFilter">

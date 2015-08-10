@@ -72,17 +72,8 @@ namespace SUAMVC.Controllers
         {
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo");
-            ViewBag.estatusNomina = new SelectList(db.Conceptos, "id", "grupo");
-            ViewBag.estatusJuridico = new SelectList(db.Conceptos, "id", "grupo");
-            ViewBag.estatusAfiliado = new SelectList(db.Conceptos, "id", "grupo");
-            ViewBag.estatusTarjeta = new SelectList(db.Conceptos, "id", "grupo");
-            ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion");
             ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion");
             ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion");
-            ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion");
-            ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion");
-            ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion");
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario");
             return View();
         }
 
@@ -111,6 +102,7 @@ namespace SUAMVC.Controllers
                 solicitud.usuarioId = usuario.Id;
                 solicitud.autoriza = lvc.autorizador;
                 solicitud.valida = lvc.validador;
+                solicitud.solicita = usuario.nombreUsuario;
                 solicitud.estatusSolicitud = concepto.id;
                 solicitud.estatusNomina = concepto.id;
                 solicitud.estatusJuridico = concepto.id;
@@ -154,18 +146,8 @@ namespace SUAMVC.Controllers
             }
 
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
-            ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusSolicitud);
-            ViewBag.estatusNomina = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusNomina);
-            ViewBag.estatusJuridico = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusJuridico);
-            ViewBag.estatusAfiliado = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusAfiliado);
-            ViewBag.estatusTarjeta = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusTarjeta);
-            ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion", solicitud.esquemaId);
             ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", solicitud.plazaId);
             ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion", solicitud.proyectoId);
-            ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", solicitud.sdiId);
-            ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion", solicitud.contratoId);
-            ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion", solicitud.tipoPersonalId);
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", solicitud.usuarioId);
             return View(solicitud);
         }
 
@@ -182,18 +164,8 @@ namespace SUAMVC.Controllers
                 return HttpNotFound();
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
-            ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusSolicitud);
-            ViewBag.estatusNomina = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusNomina);
-            ViewBag.estatusJuridico = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusJuridico);
-            ViewBag.estatusAfiliado = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusAfiliado);
-            ViewBag.estatusTarjeta = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusTarjeta);
-            ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion", solicitud.esquemaId);
             ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", solicitud.plazaId);
             ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion", solicitud.proyectoId);
-            ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", solicitud.sdiId);
-            ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion", solicitud.contratoId);
-            ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion", solicitud.tipoPersonalId);
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", solicitud.usuarioId);
             return View(solicitud);
         }
 
@@ -211,18 +183,8 @@ namespace SUAMVC.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
-            ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusSolicitud);
-            ViewBag.estatusNomina = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusNomina);
-            ViewBag.estatusJuridico = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusJuridico);
-            ViewBag.estatusAfiliado = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusAfiliado);
-            ViewBag.estatusTarjeta = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusTarjeta);
-            ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion", solicitud.esquemaId);
             ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", solicitud.plazaId);
             ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion", solicitud.proyectoId);
-            ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", solicitud.sdiId);
-            ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion", solicitud.contratoId);
-            ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion", solicitud.tipoPersonalId);
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", solicitud.usuarioId);
             return View(solicitud);
         }
 
@@ -250,6 +212,29 @@ namespace SUAMVC.Controllers
             db.Solicituds.Remove(solicitud);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult EnviarSolicitud(string id)
+        {
+
+            Solicitud solicitud = new Solicitud();
+            if (!String.IsNullOrEmpty(id))
+            {
+                int idTmp = int.Parse(id);
+                solicitud = db.Solicituds.Find(idTmp);
+                Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("ESTASOL") && s.descripcion.Equals("Enviado")).First();
+                solicitud.estatusSolicitud = concepto.id;
+
+                Email email = new Email();
+                email.enviarPorClienteTipo("B", solicitud.id, true);
+
+                db.Entry(solicitud).State = EntityState.Modified;
+                db.SaveChanges();
+
+                TempData["message"] = "Solicitud Enviada Satisfactoriamente.";
+            }
+
+            return RedirectToAction("Index", new { clienteId = solicitud.clienteId, folioId = solicitud.folioSolicitud });
         }
 
         protected override void Dispose(bool disposing)

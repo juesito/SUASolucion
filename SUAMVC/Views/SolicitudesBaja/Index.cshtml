@@ -26,10 +26,7 @@
     gridColumns.Add(grid.Column("Plaza.descripcion", "Residencia", format: @<text> @if (@item.PlazaId != null)
     {  @item.Plaza.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("fechaSolicitud", "Fecha Solicitud", @<text><div style='width: 6em'>@item.fechaSolicitud.ToString("dd-MM-yyyy")</div></text>, null, canSort: true));
-    gridColumns.Add(grid.Column("fechaFinal", "Fecha Final", @<text><div style='width: 6em'>
-                @if (@item.fechaFinal != null)
-                { @item.fechaFinal.ToString("dd-MM-yyyy")}
-            </div></text>, null, canSort: true));
+    
     gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", @<text><div style='width: 6em'>
                     @if (@item.fechaBaja != null)
                     { @item.fechaBaja.ToString("dd-MM-yyyy")}
@@ -52,15 +49,15 @@
     {  @item.Concepto4.descripcion }</text>, canSort: true));
 
 
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("modificar solicitud baja", "Se agrega solicitud para modificar solicitud baja"))
     {
         gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "SolicitudesBaja", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("eliminar solicitud baja", "Se agrega solicitud para eliminar solicitud  baja"))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "SolicitudesBaja", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados"))
     {
         gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text><a href="@Url.Action("BajaEmpleados", "Empleados", new { id = item.id, clienteId = item.clienteId})"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
@@ -68,7 +65,7 @@
     {
         gridColumns.Add(grid.Column(header: "Layout Baja de Personal", format: @<text><a href="@Url.Action("CargarEmpleadosPorExcel", "Empleados", new { id = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud", "Se agrega solicitud para ver empleados solicitud baja"))
     {
         gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
             @if (item.noTrabajadores >= 0)
@@ -79,12 +76,12 @@
             }
         </text>));
     }
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("enviar correo solicitud baja", "Enviar mail informativo"))
     {
         gridColumns.Add(grid.Column(header: "Enviar Solicitud", format: @<text>
             @if (item.noTrabajadores >= 0)
             {
-                <a href="@Url.Action("Create", "Empleados", new { id = item.id })">
+                <a href="@Url.Action("EnviarSolicitud", "SolicitudesBaja", new { id = item.id })">
                     <img src="~/Content/Images/send.png" alt="" style="border:none;" class="icon" />
                 </a>
             }
@@ -103,9 +100,11 @@ tableStyle: "table table-striped tableSua"
     <div>Solicitudes Baja <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<p>
+@if (SecurityUserModel.verificarPermiso("nueva solicitud baja", "Se agrega solicitud para agregar solicitud baja"))
+{ 
     @Html.ActionLink(@Language.agregar, "Create", "Solicitudes Baja", new { @class = "btn btn-success" })
-</p>
+}
+
 @using (Html.BeginForm())
 {
     <div class="marqueeFilter">

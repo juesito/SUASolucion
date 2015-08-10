@@ -38,9 +38,9 @@ namespace SUAMVC.Controllers
         }
 
         // GET: RespuestaSolicitud/Create
-        public ActionResult Create(string departId, string solicitudId)
+        public ActionResult Create(string departId, string folioSolicitudId)
         {
-            int folioSolicitudTempId = int.Parse(solicitudId);
+            int folioSolicitudTempId = int.Parse(folioSolicitudId);
             Departamento dep = new Departamento();
             if (departId.Equals("N"))
             {
