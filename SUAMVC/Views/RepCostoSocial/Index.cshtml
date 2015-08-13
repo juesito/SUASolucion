@@ -20,23 +20,28 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        Selecciones los parámetros para el reporte:
+        Selecciones los filtros para el reporte:
     </div>
     <div class="panel-body">
-        @using (@Html.BeginForm("LlenaReporte", "RepCostoSocial", FormMethod.Post,
-            new { enctype = "multipart/form-data" }))
+        @using (@Html.BeginForm(null, null, FormMethod.Get))
         {
             @Html.Hidden("usuarioId", usuario.Id)
             <div class="marqueeFilter">
                 <table style="float:left; margin-top:5px;display:inline-block;">
                     <tbody>
                         <tr>
-                            <td>@Html.Label("Patron :")</td>
-                            <td>@Html.patronesNoChangeKeysDrownList(usuario.Id)</td>
-                        <tr>
-                        <tr>
-                            <td>@Html.Label("Cliente :")</td>
-                            <td>@Html.patronesNoChangeKeysDrownList(usuario.Id)</td>
+                            <td>
+                                <b>@Language.patron:</b>
+                            </td>
+                            <td>
+                                @Html.DropDownList("patronesId", "Seleccione")
+                            </td>
+                            <td style ="font-weight:bold; padding-left:10px">
+                                <b>@Language.cliente:</b>
+                                </td>
+                                <td>
+                                    @Html.DropDownList("clientesId", "Seleccione")
+                                </td>
                         <tr>
                         <tr>
                             <td style="font-weight:bold; padding-top:10px">
@@ -45,20 +50,14 @@
                             <td style="padding-top:10px">
                                 @Html.EditorFor(model => model.fechaAlta, new { htmlAttributes = new { @class = "myDate" } })
                             </td>
-                            <td style="font-weight:bold; padding-top:10px">
+                            <td style="font-weight:bold; padding-top:10px; padding-left:10px">
                                 Fecha Final:
                             </td>
                             <td style="padding-top:10px">
                                 @Html.EditorFor(model => model.fechaBaja, new { htmlAttributes = new { @class = "myDate" } })
                             </td>
                             <td rowspan="2" style="padding-left:15px">
-                                <a href="@Url.Action("LlenaReporte", "RepCostoSocial", new{ patronesId = @ViewBag.patId,
-                                                                                            clientesId = @ViewBag.cteId,
-                                                                                            fecIni = @ViewBag.fechaAlta,
-                                                                                            fecFin = @ViewBag.fechaBaja
-                                    })" style="text-align:right">
-                                    <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="35" height="35" />
-                                </a>
+                                <input type="submit" value="Reporte" class="btn btn-success" style="width:80px; height:30px; font-size:10px;" />
                             </td>
                         </tr>
                     </tbody>
