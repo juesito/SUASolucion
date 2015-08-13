@@ -814,12 +814,11 @@
   </data>
   <data name="tipoServicio" xml:space="preserve">
     <value>Tipo de Servicio</value>
-    </data>
+  </data>
   <data name="ejercicio" xml:space="preserve">
     <value>Ejercicio</value>
     <comment>Etiquetapara Ejercicio</comment>
   </data>
-    
   <data name="periodo" xml:space="preserve">
     <value>Periodo</value>
     <comment>Etiqueta para Periodo</comment>
@@ -828,6 +827,12 @@
     <value>Aviso Incapacidad</value>
     <comment>Etiqueta para columna subir acuse</comment>
   </data>
-  
-  
+  <data name="cleveCliente" xml:space="preserve">
+    <value>Clave Cliente</value>
+    <comment>Etiqueta para clave Cliente</comment>
+  </data>
+  <data name="consultar" xml:space="preserve">
+    <value>Consultar</value>
+    <comment>Etiqueta para consulta</comment>
+  </data>
 </root>
