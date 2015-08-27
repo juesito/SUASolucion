@@ -13,7 +13,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
-
+using System.Web.Helpers;
 
 namespace SUAMVC.Controllers
 {
@@ -22,18 +22,51 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: RepCostoSocials
-        public ActionResult Index()
+        public ActionResult Index(String fechaAlta, String fechaBaja, String patronesId, String clientesId)
         {
             Usuario user = Session["UsuarioData"] as Usuario;
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
+
+            var clientesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("C")
+                                     select x.topicoId);
+
+            ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id)
+                                                 orderby s.registro
+                                                 select new
+                                                 {
+                                                     id = s.Id,
+                                                     FullName = s.registro + " - " + s.nombre
+                                                 }).Distinct(), "id", "FullName", null);
+
+            ViewBag.clientesId = new SelectList((from s in db.Clientes.ToList()
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                                 orderby s.descripcion
+                                                 select new
+                                                 {
+                                                     id = s.Id,
+                                                     FUllName = s.claveCliente + " - " + s.descripcion
+                                                 }).Distinct(), "id", "FullName");
+            
+            if (fechaAlta != null && fechaBaja != null )
+            {
+                LlenaReporte(fechaAlta, fechaBaja, clientesId, patronesId);
+            }
             return View();
         }
 
 
         public ActionResult LlenaReporte(String fecIni, String fecFin, String idCliente, String idPatron)
         {
-            DateTime fec1 = DateTime.Parse("2015-03-01");
-            DateTime fec2 = DateTime.Parse("2015-03-31");
-            int clienteId = 2;
+            DateTime fec1 = DateTime.Parse(fecIni);
+            DateTime fec2 = DateTime.Parse(fecFin);
             TimeSpan dias = fec2 - fec1;
             int diasPeriodo = dias.Days + 1;
 
@@ -45,15 +78,25 @@ namespace SUAMVC.Controllers
             Decimal sinfon = Decimal.Parse(sinfonParameter.valorMoneda.ToString());
 
             //Preparamos la consulta
-            var resAsegura = (from b in db.Asegurados
+            var resAsegura = from b in db.Asegurados
                               where b.fechaAlta <= fec2
-                                  //                             && b.fechaBaja >= fec1
-                              && b.ClienteId == clienteId
-                              select b).ToList();
+                              && ((b.fechaBaja >= fec1 && b.fechaBaja <= fec2) || b.fechaBaja.Equals(null))
+//                              && b.ClienteId == clienteId
+                              select b;
 
+            if (idCliente != null && !idCliente.Trim().Equals("")) 
+            {
+                int clienteId = int.Parse(idCliente.Trim());
+                resAsegura = resAsegura.Where(s => s.Cliente.Id.Equals(clienteId));
+            }
+            if (idPatron != null && !idPatron.Trim().Equals(""))
+            {
+                int patronId = int.Parse(idPatron.Trim());
+                resAsegura = resAsegura.Where(s => s.PatroneId.Equals(patronId));
+            }
             if (resAsegura != null)
             {
-                foreach (var aseg in resAsegura)
+                foreach (var aseg in resAsegura.ToList())
                 {
                     Decimal salarioIMSS = Decimal.Parse("0.0");
                     if (!aseg.fechaBaja.Equals(null))
@@ -87,13 +130,14 @@ namespace SUAMVC.Controllers
                     reporte.numeroAfiliacion = aseg.numeroAfiliacion;
                     reporte.nombre = aseg.nombreTemporal;
                     reporte.fechaAlta = aseg.fechaAlta;
+                    reporte.fechaBaja = aseg.fechaBaja;
                     reporte.diasCotizados = diasPeriodo;
                     reporte.salarioIMSS = Double.Parse(salarioIMSS.ToString());
                     reporte.ubicacion = aseg.Cliente.claveCliente;
                     reporte.grupo = aseg.Cliente.Grupos.claveGrupo;
                     reporte.registroPatronal = aseg.Patrone.registro;
                     reporte.nombreRegPatronal = aseg.Patrone.nombre;
-                    reporte.impuestoSNomina = aseg.Patrone.porcentajeNomina;
+                    reporte.porcNomina = aseg.Patrone.porcentajeNomina;
 
                     if (!aseg.paginaInfo.Trim().Equals(""))
                     {
@@ -143,53 +187,66 @@ namespace SUAMVC.Controllers
                     {
                         foreach (var movs in movimientos)
                         {
-                            salarioIMSS = Decimal.Parse(movs.sdi.ToString());
                             dias = movs.fechaInicio - fec1;
-                            diasCotizados = dias.Days;
-                            if (movs.movimientoId.Equals("02"))  // Baja
+                            diasCotizados = dias.Days + 1;
+                            if (movs.movimientoId == 2)  // Baja
                             {
                                 reporte.fechaBaja = movs.fechaInicio;
                             }
                             else  // Reingreso
                             {
+                                salarioIMSS = Decimal.Parse(movs.sdi.ToString());
                                 reporte.fechaAlta = movs.fechaInicio;
                             }
                             reporte.diasCotizados = diasCotizados;
                             reporte.salarioIMSS = Double.Parse(salarioIMSS.ToString());
-                            Decimal var1 = Decimal.Parse("0.070");
+                            Decimal var1 = Decimal.Parse("0.2040");
+                            Decimal cuotaFija = smdf * diasCotizados * var1;
+                            Decimal excedentePatronal = 0;
+                            Decimal excedenteObrero = 0; ;
+                            if (salarioIMSS > (smdf * 3))
+                            {
+                                var1 = Decimal.Parse("0.0110");
+                                excedentePatronal = (salarioIMSS - (smdf * 3)) * diasCotizados * var1;
+                                var1 = Decimal.Parse("0.0040");
+                                excedenteObrero = (salarioIMSS - (smdf * 3)) * diasCotizados * var1;
+                            }
+                            var1 = Decimal.Parse("0.0070");
                             Decimal prestDineroPatron = salarioIMSS * diasCotizados * var1;
-                            var1 = Decimal.Parse("0.025");
+                            var1 = Decimal.Parse("0.0025");
                             Decimal prestDineroObrero = salarioIMSS * diasCotizados * var1;
-                            var1 = Decimal.Parse("0.105");
+                            var1 = Decimal.Parse("0.0105");
                             Decimal prestEspeciePatron = salarioIMSS * diasCotizados * var1;
-                            var1 = Decimal.Parse("0.0375");
+                            var1 = Decimal.Parse("0.00375");
                             Decimal prestEspecieObrero = salarioIMSS * diasCotizados * var1;
-                            var1 = Decimal.Parse("0.050");
+                            var1 = Decimal.Parse("0.0050");
                             Decimal riesgoTrabajo = salarioIMSS * diasCotizados * var1;
-                            var1 = Decimal.Parse("0.175");
+                            var1 = Decimal.Parse("0.0175");
                             Decimal invalidezVidaPatron = salarioIMSS * diasCotizados * var1;
-                            var1 = Decimal.Parse("0.0625");
+                            var1 = Decimal.Parse("0.00625");
                             Decimal invalidezVidaObrero = salarioIMSS * diasCotizados * var1;
-                            var1 = Decimal.Parse("0.100");
+                            var1 = Decimal.Parse("0.0100");
                             Decimal guarderías = salarioIMSS * diasCotizados * var1;
-                            reporte.IMSS = prestDineroPatron + prestDineroObrero + prestEspeciePatron + prestEspecieObrero + riesgoTrabajo + invalidezVidaPatron + invalidezVidaObrero + guarderías;
+                            reporte.IMSS = cuotaFija + excedentePatronal + excedenteObrero + prestDineroPatron + prestDineroObrero +
+                                           prestEspeciePatron + prestEspecieObrero + riesgoTrabajo + invalidezVidaPatron +
+                                           invalidezVidaObrero + guarderías;
 
-                            var1 = Decimal.Parse("0.200");
+                            var1 = Decimal.Parse("0.0200");
                             Decimal retiro = salarioIMSS * diasCotizados * var1;
-                            var1 = Decimal.Parse("0.315");
+                            var1 = Decimal.Parse("0.0315");
                             Decimal cesantiaVejezPatron = salarioIMSS * diasCotizados * var1;
-                            var1 = Decimal.Parse("0.1125");
+                            var1 = Decimal.Parse("0.01125");
                             Decimal cesantiaVejezObrero = salarioIMSS * diasCotizados * var1;
                             reporte.RCV = retiro + cesantiaVejezPatron + cesantiaVejezObrero;
 
-                            var1 = Decimal.Parse("0.500");
+                            var1 = Decimal.Parse("0.0500");
                             reporte.Infonavit = salarioIMSS * diasCotizados * var1;
 
                             reporte.totalCosto = reporte.IMSS + reporte.RCV + reporte.Infonavit;
 
-                            var1 = Decimal.Parse("0.300");
+                            var1 = Decimal.Parse("0.0300");
                             reporte.porcCotizado = salarioIMSS * diasCotizados * var1;
-                            reporte.porcNomina = reporte.porcCotizado / diasCotizados;
+                            reporte.impuestoSNomina = reporte.porcCotizado / diasCotizados;
 
                             reporte.totalCostoSocial = reporte.totalCosto + reporte.porcCotizado;
 
@@ -202,7 +259,18 @@ namespace SUAMVC.Controllers
                     {
                         reporte.diasCotizados = diasCotizados;
                         reporte.salarioIMSS = Double.Parse(salarioIMSS.ToString());
-                        Decimal var1 = Decimal.Parse("0.0070");
+                        Decimal var1 = Decimal.Parse("0.2040");
+                        Decimal cuotaFija = smdf * diasCotizados * var1;
+                        Decimal excedentePatronal = 0;
+                        Decimal excedenteObrero = 0; ;
+                        if (salarioIMSS > (smdf * 3))
+                        {
+                            var1 = Decimal.Parse("0.0110");
+                            excedentePatronal = (salarioIMSS - (smdf * 3)) * diasCotizados * var1;
+                            var1 = Decimal.Parse("0.0040");
+                            excedenteObrero = (salarioIMSS - (smdf * 3)) * diasCotizados * var1;
+                        }
+                        var1 = Decimal.Parse("0.0070");
                         Decimal prestDineroPatron = salarioIMSS * diasCotizados * var1;
                         var1 = Decimal.Parse("0.0025");
                         Decimal prestDineroObrero = salarioIMSS * diasCotizados * var1;
@@ -218,7 +286,9 @@ namespace SUAMVC.Controllers
                         Decimal invalidezVidaObrero = salarioIMSS * diasCotizados * var1;
                         var1 = Decimal.Parse("0.0100");
                         Decimal guarderías = salarioIMSS * diasCotizados * var1;
-                        reporte.IMSS = prestDineroPatron + prestDineroObrero + prestEspeciePatron + prestEspecieObrero + riesgoTrabajo + invalidezVidaPatron + invalidezVidaObrero + guarderías;
+                        reporte.IMSS = cuotaFija + excedentePatronal + excedenteObrero + prestDineroPatron + prestDineroObrero + 
+                                       prestEspeciePatron + prestEspecieObrero + riesgoTrabajo + invalidezVidaPatron + 
+                                       invalidezVidaObrero + guarderías;
 
                         var1 = Decimal.Parse("0.0200");
                         Decimal retiro = salarioIMSS * diasCotizados * var1;
@@ -235,7 +305,7 @@ namespace SUAMVC.Controllers
 
                         var1 = Decimal.Parse("0.0300");
                         reporte.porcCotizado = salarioIMSS * diasCotizados * var1;
-                        reporte.porcNomina = reporte.porcCotizado / diasCotizados;
+                        reporte.impuestoSNomina = reporte.porcCotizado / diasCotizados;
 
                         reporte.totalCostoSocial = reporte.totalCosto + reporte.porcCotizado;
 
@@ -245,8 +315,54 @@ namespace SUAMVC.Controllers
                 }
             }
 
-            return RedirectToAction("UploadPagos");
+            var queryReporte = from b in db.RepCostoSocials
+                               select b;
+            List<RepCostoSocial> allCust = new List<RepCostoSocial>();
 
+            allCust = queryReporte.ToList();
+
+            WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
+
+            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
+            gridColumns.Add(grid.Column("numeroAfiliacion", "NSS "));
+            gridColumns.Add(grid.Column("nombre", "Nombre"));
+            gridColumns.Add(grid.Column("fechaAlta", "Fecha Alta", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
+            gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => item.fechaBaja != null ? String.Format("{0:yyyy-MM-dd}", item.fechaBaja) : String.Empty));
+            gridColumns.Add(grid.Column("salarioImss", "Salario IMSS"));
+            gridColumns.Add(grid.Column("diasCotizados", "Dias cotizados"));
+            gridColumns.Add(grid.Column("ubicacion", "Ubicación"));
+            gridColumns.Add(grid.Column("grupo", "Id Grupo"));
+            gridColumns.Add(grid.Column("registroPatronal", "Reg. Patronal "));
+            gridColumns.Add(grid.Column("nombreRegPatronal", "Nombre Reg. Patronal "));
+            gridColumns.Add(grid.Column("IMSS", "IMSS"));
+            gridColumns.Add(grid.Column("RCV", "RCV"));
+            gridColumns.Add(grid.Column("Infonavit", "Infonavit"));
+            gridColumns.Add(grid.Column("totalCosto", "Total Costo"));
+            gridColumns.Add(grid.Column("impuestoSNomina", "Impuesto Sobre Nómina"));
+            gridColumns.Add(grid.Column("porcNomina", "% Impuesto"));
+            gridColumns.Add(grid.Column("porcCotizado", "% Cotizado"));
+            gridColumns.Add(grid.Column("totalCostoSocial", "Total Costo Social"));
+            gridColumns.Add(grid.Column("numeroCredito", "Número de crédito"));
+            gridColumns.Add(grid.Column("descuentoMensual", "Desc. Infonavit Mensual"));
+            gridColumns.Add(grid.Column("descuentoVeintiochonal", "Desc. Infonavit Veintioch."));
+            gridColumns.Add(grid.Column("descuentoQuincenal", "Desc. Infonavit Quincenal"));
+            gridColumns.Add(grid.Column("descuentoCatorcenal", "Desc. Infonavit Catorcenal"));
+            gridColumns.Add(grid.Column("descuentoSemanal", "Desc. Infonavit Semanal"));
+            gridColumns.Add(grid.Column("descuentoDiario", "Desc. Infonavit Diario"));
+
+            string gridData = grid.GetHtml(
+                columns: grid.Columns(gridColumns.ToArray())
+                    ).ToString();
+
+            Response.ClearContent();
+            DateTime dateX = DateTime.Now;
+            String fileName = "CostoSocial-" + dateX.ToString("ddMMyyyyHHmm") + ".xls";
+            Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+            Response.ContentType = "application/excel";
+            Response.Write(gridData);
+            Response.End();
+
+            return RedirectToAction("Index");
         }
 
 

@@ -18,13 +18,13 @@ namespace SUAMVC.Helpers
             this.reportName = reportName;
         }
 
-        public ReportDocument launchReport() {
-            ReportDocument rd = new ReportDocument();
-            rd.Load(path + this.reportName.Trim());
+        //public ReportDocument launchReport() {
+        //    ReportDocument rd = new ReportDocument();
+        //    rd.Load(path + this.reportName.Trim());
             
 
             
-            return rd;
-        }
+        //    return rd;
+        //}
     }
 }
