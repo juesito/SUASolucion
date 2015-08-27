@@ -24,15 +24,33 @@
     gridColumns.Add(grid.Column("claveSUA", "Clave SUA", null, null, true));
     gridColumns.Add(grid.Column("rfc", "RFC", null, null, true));
     gridColumns.Add(grid.Column("descripcion", "Descripción", null, null, true));
+    gridColumns.Add(grid.Column("nombre", "Nombre", null, null, true));
+    gridColumns.Add(grid.Column("direccionFiscal", "Dirección Fiscal", null, null, true));
+    gridColumns.Add(grid.Column("contacto", "Contacto", null, null, true));
+    gridColumns.Add(grid.Column("telefono", "Telefono", null, null, true));
+    gridColumns.Add(grid.Column("direccionOficina", "Dirección Oficina", null, null, true));
+    gridColumns.Add(grid.Column("email", "E-mail", null, null, true));
+    gridColumns.Add(grid.Column("actividadPrincipal", "Actividad Principal", null, null, true));
+    gridColumns.Add(grid.Column("fechaContratacion", "Fecha de Contratación"));
+    gridColumns.Add(grid.Column("empresaFacturadoraId", "Empresa Facturadora", null, null, true));
+    gridColumns.Add(grid.Column("ejecutivoContadorId", "Ejecutivo", @<text><div style='width: 23em'>@item.descripcion</div></text>, null, true));
     gridColumns.Add(grid.Column("Plaza.cveCorta", "Plaza", null, null, true));
     gridColumns.Add(grid.Column("Grupos.nombreCorto", "Grupo", null, null, true));
-    gridColumns.Add(grid.Column("ejecutivoContadorId", "Ejecutivo", @<text><div style='width: 23em'>@item.ejecutivoContadorId</div></text>, null, true));
+    gridColumns.Add(grid.Column("tipoClienteId", "Tipo Cliente", null, null, true));
+    gridColumns.Add(grid.Column("numeroCuenta", "Número Cuenta", null, null, true));
+    gridColumns.Add(grid.Column("tipoServicioId", "Tipo Servicio", null, null, true));
+    if (SecurityUserModel.verificarPermiso("Clientes", "Editar cliente"))
+    {
     gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Clientes", new { id = item.id })">
                 <img src="~/Content/Images/edit.png" alt="" CC class="icon" />
             </a></text>));
+                       }
+    if (SecurityUserModel.verificarPermiso("Clientes", "Eliminar cliente"))
+    {
     gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Clientes", new { id = item.id })">
                 <img src="~/Content/Images/delete.png" alt="" style="text-align:center;" class="icon" />
                 </a></text>));
+                           }
     gridColumns.Add(grid.Column(header: @Language.lvalCliente, format: @<text><a href="@Url.Action("Index", "ListaValidacionClientes", new { id = item.id })">
                 <img src="~/Content/Images/list.png" alt="" style="text-align:center;" class="icon" />
                  </a></text>));
@@ -56,7 +74,7 @@
 }
 
 @section Menu {
-    <div>Catalogo de Clientes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Catálogo de Clientes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 
@@ -68,10 +86,12 @@
         <input type="submit" value="Consultar" class="btn btn-success" />
     </p>
 }
-
-<p>
-    @Html.ActionLink("Crear Cliente", "Create", "Clientes", new { @class = "btn btn-success" })
-</p>
+    @if (SecurityUserModel.verificarPermiso("Clientes", "Crear cliente"))
+    {
+        <p>
+            @Html.ActionLink("Crear Cliente", "Create", "Clientes", new { @class = "btn btn-success" })
+        </p>
+    }
 
 @if (!tableHtml.IsEmpty())
     {

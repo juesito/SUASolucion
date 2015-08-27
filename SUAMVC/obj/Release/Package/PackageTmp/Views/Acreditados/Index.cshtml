@@ -17,7 +17,7 @@
     }
 
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var grid = new WebGrid(source: Model, rowsPerPage: 12, canPage: false);
+    var grid = new WebGrid(source: Model, rowsPerPage: 12, canPage: true);
     @functions {
         static IHtmlString ShowPDF(string id)
         {
@@ -194,10 +194,10 @@
                         {
                             <div style="margin-right:4px;display:inline-block;vertical-align:top;">
 
-                                <table style="margin-left:20px; margin-top:10px; width:100% ">
+                                <table style="margin-left:20px; margin-top:15px; width:100% ">
                                     <thead>
                                         <tr>
-                                            <td style="padding-left:15px; text-align:center; width:85%">
+                                            @*<td style="padding-left:15px; text-align:center; width:85%">
                                                 <a href="@Url.Action("Retrocede", "Acreditados", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
                                                         clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador,
                                                         statusId = @ViewBag.statusId, numeroPagina = @ViewData["numeroPagina"]
@@ -214,9 +214,9 @@
                                                         })" style="text-align:right" id="adelante">
                                                     <img src="~/Content/Images/arrow_right.png" title="@Language.avanzar" alt="@Language.avanzar" style="border:none;" width="25" height="25" />
                                                 </a>
-                                            </td>
+                                            </td>*@
 
-                                            <td style="height:20px; font-size:10px;width:6%">
+                                            <td style="font-size:10px; text-align:right; width:86%">
                                                 <p style="font-weight:bold">
                                                     Registros:
                                                     @Html.Label(Language.registros, Convert.ToString((int)ViewBag.registros))
@@ -224,7 +224,7 @@
                                             </td>
                                             @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
                                             {
-                                                <td style="height:20px; font-size:10px;width:5%">
+                                                <td style="padding-left:10px; height:20px; font-size:10px;width:8%">
                                                     <p style="font-weight:bold">
                                                         Activos:
                                                         @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))

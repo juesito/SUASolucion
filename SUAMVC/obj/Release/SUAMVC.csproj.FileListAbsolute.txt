@@ -170,3 +170,20 @@ C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUASolucion\SU
 C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUASolucion\SUAMVC\obj\Release\SUAMVC.dll
 C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUASolucion\SUAMVC\obj\Release\SUAMVC.pdb
 C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUASolucion\SUAMVC\bin\Microsoft.Office.InfoPath.Client.Internal.CLRHost.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\CrystalDecisions.CrystalReports.Engine.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\CrystalDecisions.ReportSource.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\CrystalDecisions.Shared.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\CrystalDecisions.Web.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\DocumentFormat.OpenXml.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Ionic.Zip.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\LinqToExcel.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\log4net.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Microsoft.Office.InfoPath.Permission.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Microsoft.Office.Interop.InfoPath.SemiTrust.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Remotion.Data.Linq.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Remotion.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Remotion.Interfaces.dll
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Ionic.Zip.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\LinqToExcel.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\log4net.xml
+C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.csproj.ResolveComReference.cache

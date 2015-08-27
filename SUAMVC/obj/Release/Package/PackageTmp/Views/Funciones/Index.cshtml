@@ -20,6 +20,12 @@
     @Html.ActionLink(@Language.agregar + " " + @Language.funciones, "Create", "Funcion", new { @class = "btn btn-success" })
 </p>
 
+<p>
+    <a href="@Url.Action("GetExcel", "Funciones")" style="text-align:right">
+        <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="30" height="30" />
+    </a>
+</p>
+
 @using (Html.BeginForm())
 {
     <div class="marqueeFilter">
@@ -29,9 +35,21 @@
                 <tr style="text-align:left;vertical-align:bottom;">
                     <td style="padding-top:15px">
                         @Html.Label("Modulo:")
+                        </td>
+                    <td style="padding-top:15px">
                         @Html.modulosDrownList()
                     </td>
-                    <td>
+                    <td style="padding-top:15px">@Html.Label("Tipo:")</td>
+                    <td style="padding-top:15px">
+                        @Html.DropDownList("tipo", new SelectList(
+                  new List<Object>{
+                       new { value = "A" , text = "Acción"  },
+                       new { value = "M" , text = "Ménu" }},
+                  "value",
+                  "text",
+                   2))
+                    </td>
+                    <td style="padding-top:15px">
                         <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
                     </td>
                 </tr>

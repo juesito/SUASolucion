@@ -210,33 +210,9 @@ namespace SUAMVC.Controllers
 
         public void launchReport() {
 
-            ConnectionInfo oConn = new ConnectionInfo();
-            List<Empleado> empleados = new List<Empleado>();
-            empleados = db.Empleados.ToList();
-            CrystalReports cr = new CrystalReports("test.rpt");
-            ReportDocument rp = cr.launchReport();
+            Response.Redirect("~/Reports/ReportViewer.aspx");
 
-            String serverName = "Driver={SQL Server Native Client 10.0};Server=MXQRMN-PC025WWD\\SQLEXPRESS";
-            rp.SetDatabaseLogon("root", "jeargaqu", serverName, "sua", false);
-            rp.VerifyDatabase();
-            rp.Refresh();
-
-            CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
-            crystalReportViewer.ReportSource = rp;
-            crystalReportViewer.DisplayToolbar = true;
-
-            //Response.Buffer = false;
-            //Response.ClearContent();
-            //Response.ClearHeaders();
-
-            //try
-            //{
-            //    Stream stream = rp.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            //    return File(stream, "application/rpt", "miReporte.pdf");
-            //}
-            //catch (Exception e) {
-            //    throw;
-            //}
+            //return View("Index");
         }
 
         protected override void Dispose(bool disposing)

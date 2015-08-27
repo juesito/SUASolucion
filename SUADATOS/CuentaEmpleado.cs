@@ -14,6 +14,11 @@ namespace SUADATOS
     
     public partial class CuentaEmpleado
     {
+        public CuentaEmpleado()
+        {
+            this.DetallePrenominas = new HashSet<DetallePrenomina>();
+        }
+    
         public int id { get; set; }
         public int empleadoId { get; set; }
         public int bancoId { get; set; }
@@ -25,5 +30,6 @@ namespace SUADATOS
         public virtual Banco Banco { get; set; }
         public virtual Empleado Empleado { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<DetallePrenomina> DetallePrenominas { get; set; }
     }
 }

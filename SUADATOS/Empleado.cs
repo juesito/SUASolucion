@@ -18,6 +18,7 @@ namespace SUADATOS
         {
             this.ArchivoEmpleadoes = new HashSet<ArchivoEmpleado>();
             this.CuentaEmpleadoes = new HashSet<CuentaEmpleado>();
+            this.DetallePrenominas = new HashSet<DetallePrenomina>();
             this.DocumentoEmpleadoes = new HashSet<DocumentoEmpleado>();
             this.FamiliaresEmpleadoes = new HashSet<FamiliaresEmpleado>();
             this.SalarialesEmpleadoes = new HashSet<SalarialesEmpleado>();
@@ -69,6 +70,7 @@ namespace SUADATOS
         public virtual Asegurado Asegurado { get; set; }
         public virtual Banco Banco { get; set; }
         public virtual ICollection<CuentaEmpleado> CuentaEmpleadoes { get; set; }
+        public virtual ICollection<DetallePrenomina> DetallePrenominas { get; set; }
         public virtual ICollection<DocumentoEmpleado> DocumentoEmpleadoes { get; set; }
         public virtual EsquemasPago EsquemasPago { get; set; }
         public virtual EstadoCivil EstadoCivil { get; set; }
