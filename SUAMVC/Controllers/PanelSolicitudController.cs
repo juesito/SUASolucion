@@ -762,6 +762,10 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 28] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
+                if ((dp.FamiliaresEmpleadoes.Count>0)dp.FamiliaresEmpleadoes fe = dp.FamiliaresEmpleadoes.FirstOrDefault())
+           
+                
+
                 //row = eh.addNewCellToRow(index, row, dp.Acreditados.vsm, headerColumns[i + 29] + index, 3U, CellValues.String);
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 29] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
@@ -1257,9 +1261,24 @@ namespace SUAMVC.Controllers
                 sheetData.AppendChild(row);
 
                 //row = eh.addNewCellToRow(index, row, dp.FamiliaresEmpleadoes.telefonoCasa, headerColumns[i + 35] + index, 3U, CellValues.String);
+               if (dp.FamiliaresEmpleadoes.Count()>0)
+               {
+                FamiliaresEmpleado fe = dp.FamiliaresEmpleadoes.FirstOrDefault();
+                row = eh.addNewCellToRow(index, row, fe.telefonoCasa, headerColumns[i + 35] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+               }
+               else
+               {
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 35] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
+               }
 
+
+                if(dp.DocumentoEmpleadoes.Count()>0)
+                {
+
+                }
+                else
                 //row = eh.addNewCellToRow(index, row, dp.DocumentoEmpleadoes.tipoDocumento, headerColumns[i + 36] + index, 3U, CellValues.String);
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 36] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
