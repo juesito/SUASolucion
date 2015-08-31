@@ -12,19 +12,13 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class TipoPersonal
+    public partial class PrimaRT
     {
-        public TipoPersonal()
-        {
-            this.Solicituds = new HashSet<Solicitud>();
-        }
-    
         public int id { get; set; }
-        public string descripcion { get; set; }
-        public System.DateTime fechaCreacion { get; set; }
-        public int usuarioId { get; set; }
-    
-        public virtual ICollection<Solicitud> Solicituds { get; set; }
-        public virtual Usuario Usuario { get; set; }
+        public int registroPatronal { get; set; }
+        public int anio { get; set; }
+        public int mes { get; set; }
+        public decimal primaRT1 { get; set; }
+        public string nomMes { get; set; }
     }
 }
