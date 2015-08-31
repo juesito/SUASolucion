@@ -1,4 +1,4 @@
-﻿@model SUADATOS.Esquema
+﻿@model SUADATOS.EsquemasPago
 
 @{
     ViewBag.Title = "Details";
@@ -6,11 +6,11 @@
 }
 
 @section Menu {
-    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Funciones</div>
+    <div>Detalle Esquemas <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 <div>
-    <h4>Esquema</h4>
+    <h4>EsquemasPago</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -19,6 +19,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaCreacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaCreacion)
         </dd>
 
         <dt>
@@ -32,6 +40,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

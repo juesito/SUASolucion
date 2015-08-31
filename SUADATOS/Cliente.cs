@@ -25,6 +25,7 @@ namespace SUADATOS
             this.Proyectos = new HashSet<Proyecto>();
             this.ReporteConMeses = new HashSet<ReporteConMes>();
             this.SDIs = new HashSet<SDI>();
+            this.SolicitudPrenominas = new HashSet<SolicitudPrenomina>();
             this.SumarizadoClientes = new HashSet<SumarizadoCliente>();
         }
     
@@ -61,6 +62,7 @@ namespace SUADATOS
         public virtual ICollection<Proyecto> Proyectos { get; set; }
         public virtual ICollection<ReporteConMes> ReporteConMeses { get; set; }
         public virtual ICollection<SDI> SDIs { get; set; }
+        public virtual ICollection<SolicitudPrenomina> SolicitudPrenominas { get; set; }
         public virtual ICollection<SumarizadoCliente> SumarizadoClientes { get; set; }
     }
 }

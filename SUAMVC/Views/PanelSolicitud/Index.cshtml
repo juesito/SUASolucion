@@ -72,7 +72,16 @@
         gridColumns.Add(grid.Column(header: "Personal", format: @<text><a href="@Url.Action("UploadFile", "Movimientos", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
 
-    gridColumns.Add(grid.Column(header: "Afiliacion", format: @<text><a href="@Url.Action("crearExcelAfiliacion", "PanelSolicitud", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+    gridColumns.Add(grid.Column(header: "Afiliación", format: @<text><a href="@Url.Action("crearExcelAfiliacion", "PanelSolicitud", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+
+    gridColumns.Add(grid.Column(header: "Jurídico", format: @<text><a href="@Url.Action("crearExcelJuridico", "PanelSolicitud", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+
+    gridColumns.Add(grid.Column(header: "Nómina", format: @<text><a href="@Url.Action("crearExcelNomina", "PanelSolicitud", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+
+    gridColumns.Add(grid.Column(header: "Tarjeta Santander", format: @<text><a href="@Url.Action("crearExcelTarjetaSantander", "PanelSolicitud", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+
+    gridColumns.Add(grid.Column(header: "Detalle Empleados", format: @<text><a href="@Url.Action("crearExcelDetalleEmpleados", "PanelSolicitud", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+
 
     sb.Append(grid.GetHtml(
 columns: grid.Columns(gridColumns.ToArray()),

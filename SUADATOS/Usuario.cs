@@ -25,7 +25,7 @@ namespace SUADATOS
             this.DatosAdicionalesClientes = new HashSet<DatosAdicionalesCliente>();
             this.Departamentos = new HashSet<Departamento>();
             this.DetallePagoes = new HashSet<DetallePago>();
-            this.DocumentosEmpleadoes = new HashSet<DocumentosEmpleado>();
+            this.DocumentoEmpleadoes = new HashSet<DocumentoEmpleado>();
             this.Empleados = new HashSet<Empleado>();
             this.Empresas = new HashSet<Empresa>();
             this.EsquemasPagoes = new HashSet<EsquemasPago>();
@@ -51,6 +51,7 @@ namespace SUADATOS
             this.Sexos = new HashSet<Sexo>();
             this.Solicituds = new HashSet<Solicitud>();
             this.SolicitudEmpleadoes = new HashSet<SolicitudEmpleado>();
+            this.SolicitudPrenominas = new HashSet<SolicitudPrenomina>();
             this.SumarizadoClientes = new HashSet<SumarizadoCliente>();
             this.TipoContratoes = new HashSet<TipoContrato>();
             this.TipoPersonals = new HashSet<TipoPersonal>();
@@ -81,7 +82,7 @@ namespace SUADATOS
         public virtual ICollection<Departamento> Departamentos { get; set; }
         public virtual Departamento Departamento { get; set; }
         public virtual ICollection<DetallePago> DetallePagoes { get; set; }
-        public virtual ICollection<DocumentosEmpleado> DocumentosEmpleadoes { get; set; }
+        public virtual ICollection<DocumentoEmpleado> DocumentoEmpleadoes { get; set; }
         public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual ICollection<Empresa> Empresas { get; set; }
         public virtual ICollection<EsquemasPago> EsquemasPagoes { get; set; }
@@ -109,6 +110,7 @@ namespace SUADATOS
         public virtual ICollection<Sexo> Sexos { get; set; }
         public virtual ICollection<Solicitud> Solicituds { get; set; }
         public virtual ICollection<SolicitudEmpleado> SolicitudEmpleadoes { get; set; }
+        public virtual ICollection<SolicitudPrenomina> SolicitudPrenominas { get; set; }
         public virtual ICollection<SumarizadoCliente> SumarizadoClientes { get; set; }
         public virtual ICollection<TipoContrato> TipoContratoes { get; set; }
         public virtual ICollection<TipoPersonal> TipoPersonals { get; set; }
