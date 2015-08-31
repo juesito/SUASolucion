@@ -814,12 +814,11 @@
   </data>
   <data name="tipoServicio" xml:space="preserve">
     <value>Tipo de Servicio</value>
-    </data>
+  </data>
   <data name="ejercicio" xml:space="preserve">
     <value>Ejercicio</value>
     <comment>Etiquetapara Ejercicio</comment>
   </data>
-    
   <data name="periodo" xml:space="preserve">
     <value>Periodo</value>
     <comment>Etiqueta para Periodo</comment>
@@ -828,6 +827,12 @@
     <value>Aviso Incapacidad</value>
     <comment>Etiqueta para columna subir acuse</comment>
   </data>
-  
-  
+  <data name="excelDetalle" xml:space="preserve">
+    <value>Exporta Reporte a Detalle</value>
+    <comment>Excel en Amortización anual</comment>
+  </data>
+  <data name="excelGeneral" xml:space="preserve">
+    <value>Exporta Reporte General</value>
+    <comment>Excel en Amortización anual</comment>
+  </data>
 </root>

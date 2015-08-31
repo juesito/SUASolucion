@@ -13,6 +13,12 @@ using System.Data.OleDb;
 using PagedList;
 using System.IO;
 using System.Web.Helpers;
+using SUAMVC.Code52.i18n;
+using System.Text.RegularExpressions;
+using SUAMVC.Helpers;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
 
 namespace SUAMVC.Controllers
 {
@@ -446,7 +452,11 @@ namespace SUAMVC.Controllers
             String gruposId, String opcion, String valor, String statusId)
         {
 
-            Usuario user = Session["UsuarioData"] as Usuario;
+            FileStream fileStream = null;
+            MemoryStream mem = new MemoryStream();
+            try
+            {
+                Usuario user = Session["UsuarioData"] as Usuario;
             var plazasAsignadas = (from x in db.TopicosUsuarios
                                    where x.usuarioId.Equals(user.Id)
                                    && x.tipo.Equals("P")
@@ -562,52 +572,295 @@ namespace SUAMVC.Controllers
 
             allCust = acreditados.ToList();
 
-            WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
-            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
 
-            gridColumns.Add(grid.Column("Patrone.registro", "Registro"));
-            gridColumns.Add(grid.Column("apellidoPaterno", "Apellido Paterno"));
-            gridColumns.Add(grid.Column("apellidoMaterno", "Apellido Materno"));
-            gridColumns.Add(grid.Column("nombre", "Nombre"));
-            gridColumns.Add(grid.Column("nombreCompleto", "Nombre Completo"));
-            gridColumns.Add(grid.Column("curp","CURP"));
-            gridColumns.Add(grid.Column("rfc", "RFC"));
-            gridColumns.Add(grid.Column("ocupacion", "Ocupación"));
-            gridColumns.Add(grid.Column("idGrupo", "Grupo"));
-            gridColumns.Add(grid.Column("numeroAfiliacion", "Numero Afiliación"));
-            gridColumns.Add(grid.Column("numeroCredito", "Numero Credito"));
-            gridColumns.Add(grid.Column("fechaAlta", "Alta", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
-            gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", format: (item) => item.fechaBaja != null ? String.Format("{0:yyyy-MM-dd}", item.fechaBaja) : String.Empty));
-            gridColumns.Add(grid.Column("Cliente.claveCliente", "Cliente"));
-            gridColumns.Add(grid.Column("fechaInicioDescuento", "Inicio descuento", format: (item) => String.Format("{0:yyyy-MM-dd}", item.fechaAlta)));
-            gridColumns.Add(grid.Column("fechaFinDescuento", "Fin descuento", format: (item) => item.fechaFinDescuento != null ? String.Format("{0:yyyy-MM-dd}", item.fechaFinDescuento) : String.Empty));
-            gridColumns.Add(grid.Column("smdv", "SMDV"));
-            gridColumns.Add(grid.Column("sdi", "SDI"));
-            gridColumns.Add(grid.Column("sd", "SD"));
-            gridColumns.Add(grid.Column("vsm", "VSM"));
-            gridColumns.Add(grid.Column("porcentaje", "Porcentaje"));
-            gridColumns.Add(grid.Column("cuotaFija", "Cuota Fija"));
-            gridColumns.Add(grid.Column("descuentoBimestral", "Descuento Bimestral"));
-            gridColumns.Add(grid.Column("descuentoMensual", "Descuento Mensual"));
-            gridColumns.Add(grid.Column("descuentoVeintiochonal", "Descuento Veintiochonal"));
-            gridColumns.Add(grid.Column("descuentoQuincenal", "Descuento Quincenal"));
-            gridColumns.Add(grid.Column("descuentoCatorcenal", "Descuento Catorcenal"));
-            gridColumns.Add(grid.Column("descuentoSemanal", "Descuento Semanal"));
-            gridColumns.Add(grid.Column("descuentoDiario", "Descuento Diario"));
-            gridColumns.Add(grid.Column("Plaza.descripcion", "Plaza"));
-            /*grid.Column("Cliente.descripcion", "Cliente/Ubicación"),*/
+                DateTime date = DateTime.Now;
+                String path = @"C:\\SUA\\Exceles\\";
+                String fileName = @"Acreditados-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fullName = path + fileName;
 
-            string gridData = grid.GetHtml(
-                columns: grid.Columns(gridColumns.ToArray())
-                    ).ToString();
+                ExcelHelper eh = new ExcelHelper();
+                //Creamos el objeto del workbook
+                SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
 
-            Response.ClearContent();
-            DateTime date = DateTime.Now;
-            String fileName = "Acreditados-" + date.ToString("ddMMyyyyHHmm") + ".xls";
-            Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
-            Response.ContentType = "application/excel";
-            Response.Write(gridData);
-            Response.End();
+                WorkbookPart wbp = xl.AddWorkbookPart();
+                WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
+                Workbook wb = new Workbook();
+                FileVersion fv = new FileVersion();
+                fv.ApplicationName = "Microsoft Office Excel";
+
+                Worksheet ws = new Worksheet();
+                WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
+                // add styles to sheet
+                wbsp.Stylesheet = eh.CreateStylesheet();
+                wbsp.Stylesheet.Save();
+
+                SheetData sd = crearContenidoHoja(allCust, eh);//CreateContentRow(); 
+                ws.Append(sd);
+                wsp.Worksheet = ws;
+                wsp.Worksheet.Save();
+
+                Sheets sheets = new Sheets();
+                Sheet sheet = new Sheet();
+                sheet.Name = "Sheet1";
+                sheet.SheetId = 1;
+                sheet.Id = wbp.GetIdOfPart(wsp);
+
+                sheets.Append(sheet);
+                wb.Append(fv);
+                wb.Append(sheets);
+
+                xl.WorkbookPart.Workbook = wb;
+                xl.WorkbookPart.Workbook.Save();
+                xl.Close();
+
+                fileStream = new FileStream(fullName, FileMode.Open);
+                fileStream.Position = 0;
+                mem = new MemoryStream();
+                fileStream.CopyTo(mem);
+
+                mem.Position = 0;
+                Response.ClearContent();
+                Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                ToolsHelper th = new ToolsHelper();
+                Response.ContentType = th.getMimeType(fullName);
+                Response.BinaryWrite(mem.ToArray());
+
+                Response.End();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+
+            }
+            finally
+            {
+                if (fileStream != null)
+                {
+                    fileStream.Flush();
+                    fileStream.Close();
+                }
+                mem.Flush();
+                mem.Close();
+            }
+
+        }
+
+
+        string[] headerColumns = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG" };
+        public SheetData crearContenidoHoja(List<Acreditado> acreditados, ExcelHelper eh)
+        {
+            SheetData sheetData = new SheetData();
+            int index = 1;
+
+            //Creamos el Header
+            Row row = new Row();
+            row = eh.addNewCellToRow(index, row, "Registro", headerColumns[0] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Número Afiliación", headerColumns[1] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "CURP", headerColumns[2] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "RFC", headerColumns[3] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Apellido Paterno", headerColumns[4] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Apellido Materno", headerColumns[5] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Nombre", headerColumns[6] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Nombre Completo", headerColumns[7] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Fecha Alta", headerColumns[8] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Fecha Baja", headerColumns[9] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Ubicación", headerColumns[10] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Grupo", headerColumns[11] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Ocupación", headerColumns[12] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Plaza", headerColumns[13] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Número de Crédito", headerColumns[14] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Inicio descuento", headerColumns[15] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Fin descuento", headerColumns[16] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "SMDV", headerColumns[17] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "SDI", headerColumns[18] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "SD", headerColumns[19] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "VSM", headerColumns[20] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Porcentaje", headerColumns[21] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Cuota Fija", headerColumns[22] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Descuento Bimestral", headerColumns[23] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Decuento Mensual", headerColumns[24] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Descuento Veintiochonal", headerColumns[25] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Descuento Quincenal", headerColumns[26] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Descuento Catorcenal", headerColumns[27] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Descuento Semanal", headerColumns[28] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Descuento Diario", headerColumns[29] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            index++;
+            //Create the cells that contain the data.
+            foreach (Acreditado dp in acreditados)
+            {
+                int i = 0;
+
+                row = eh.addNewCellToRow(index, row, dp.Patrone.registro, headerColumns[i] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.numeroAfiliacion, headerColumns[i + 1] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.CURP, headerColumns[i + 2] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.RFC, headerColumns[i + 3] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i + 4] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.apellidoMaterno, headerColumns[i + 5] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 6] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.nombreCompleto, headerColumns[i + 7] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                String var1 = String.Format("{0:dd/MM/yyyy}", dp.fechaAlta);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 8] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:dd/MM/yyyy}", dp.fechaBaja);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 9] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Cliente.claveCliente, headerColumns[i + 10] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Cliente.Grupos.nombreCorto, headerColumns[i + 11] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.ocupacion, headerColumns[i + 12] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Cliente.Plaza.cveCorta, headerColumns[i + 13] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.numeroCredito, headerColumns[i + 14] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:dd/MM/yyyy}", dp.fechaInicioDescuento);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 15] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:dd/MM/yyyy}", dp.fechaFinDescuento);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 16] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.smdv);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 17] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.sdi);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 18] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.sd);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 19] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.vsm);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 20] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,##0}", dp.porcentaje);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 21] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.cuotaFija);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 22] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.descuentoBimestral);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 23] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.descuentoMensual);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 24] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.descuentoVeintiochonal);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 25] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.descuentoQuincenal);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 26] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.descuentoCatorcenal);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 27] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.descuentoSemanal);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 28] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.descuentoDiario);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 29] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                index++;
+            }
+
+            return sheetData;
         }
 
         public ActionResult ActivaVariable(String buscador, String plazasId, String patronesId, String clientesId,

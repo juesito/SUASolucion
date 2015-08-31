@@ -18,7 +18,12 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using Microsoft;
 using System.Windows;
-
+using SUAMVC.Code52.i18n;
+using System.Text.RegularExpressions;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using System.Data.OleDb;
 
 
 namespace SUAMVC.Controllers
@@ -266,7 +271,7 @@ namespace SUAMVC.Controllers
                                 {
                                     String nss = row2["Num_Afi"].ToString().Trim();
                                     DetallePago detallePago = new DetallePago();
-                                    Asegurado asegurado = db.Asegurados.Where(a => a.numeroAfiliacion.Equals(nss.Trim())).FirstOrDefault();
+                                    Asegurado asegurado = db.Asegurados.Where(a => a.numeroAfiliacion.Equals(nss.Trim()) && a.PatroneId.Equals(patron.Id)).FirstOrDefault();
 
                                     if (asegurado != null)
                                     {
@@ -551,7 +556,7 @@ namespace SUAMVC.Controllers
                                     foreach (DataRow row2 in dt7.Rows)
                                     {
                                         String nss = row2["Num_Afi"].ToString().Trim();
-                                        Asegurado asegurado = db.Asegurados.Where(a => a.numeroAfiliacion.Equals(nss.Trim())).FirstOrDefault();
+                                        Asegurado asegurado = db.Asegurados.Where(a => a.numeroAfiliacion.Equals(nss.Trim()) && a.PatroneId.Equals(patron.Id)).FirstOrDefault();
 
                                         if (asegurado != null)
                                         {
@@ -903,7 +908,11 @@ namespace SUAMVC.Controllers
         public void ExcelDetalle(int id)
         {
 
-            Pago pago = db.Pagos.Where(p => p.id.Equals(id)).FirstOrDefault();
+            FileStream fileStream = null;
+            MemoryStream mem = new MemoryStream();
+            try
+            {
+                Pago pago = db.Pagos.Where(p => p.id.Equals(id)).FirstOrDefault();
 
             List<DetallePago> detallePago = db.DetallePagoes.Where(r => r.pagoId.Equals(id)).ToList();
 
@@ -911,68 +920,328 @@ namespace SUAMVC.Controllers
 
             allCust = detallePago;
 
-            WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
+                DateTime date = DateTime.Now;
+                String path = @"C:\\SUA\\Exceles\\";
+                String fileName = @"DetallePagos-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fullName = path + fileName;
 
-            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
+                ExcelHelper eh = new ExcelHelper();
+                //Creamos el objeto del workbook
+                SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
 
-            gridColumns.Add(grid.Column("Pago.Patrone.registro", "Patrón", null, null, true));
-            gridColumns.Add(grid.Column("Pago.mes", "Periodo", null, null, true));
-            gridColumns.Add(grid.Column("Pago.anno", "Ejercicio", null, null, true));
-            //gridColumns.Add(grid.Column("Pago.fechaDeposito", "Fecha depósito", null, null, true));
-            //gridColumns.Add(grid.Column("Pago.imss", "IMSS", null, null, true));
-            //gridColumns.Add(grid.Column("Pago.rcv", "RCV", null, null, true));
-            //gridColumns.Add(grid.Column("Pago.infonavit", "Infonavit", null, null, true));
-            //gridColumns.Add(grid.Column("Pago.total", "Total", null, null, true));
-            gridColumns.Add(grid.Column("Asegurado.numeroAfiliacion", "NSS", format: (item) => String.Format("{0,22:D11}", item.Asegurado.numeroAfiliacion)));
-            gridColumns.Add(grid.Column("Asegurado.nombreTemporal", "Nombre", null, null, true));
-            gridColumns.Add(grid.Column("Asegurado.Cliente.claveCliente", "Ubicación", null, null, true));
-            gridColumns.Add(grid.Column("diasCotizados", "Dias", null, null, true));
-            gridColumns.Add(grid.Column("sdi", "S.D.I.", null, null, true));
-            gridColumns.Add(grid.Column("diasIncapacidad", "Inc.", null, null, true));
-            gridColumns.Add(grid.Column("diasAusentismo", "Aus.", null, null, true));
-            gridColumns.Add(grid.Column("cuotaFija", "C.F.", null, null, true));
-            gridColumns.Add(grid.Column("expa", "Ex.P", null, null, true));
-            gridColumns.Add(grid.Column("exo", "Ex. O.", null, null, true));
-            gridColumns.Add(grid.Column("PDP", "PDP", null, null, true));
-            gridColumns.Add(grid.Column("GMPP", "GMP. Patron", null, null, true));
-            gridColumns.Add(grid.Column("GMPO", "GMP. Obrero", null, null, true));
-            gridColumns.Add(grid.Column("rt", "R.T.", null, null, true));
-            gridColumns.Add(grid.Column("ivp", "I.V.P", null, null, true));
-            gridColumns.Add(grid.Column("ivo", "I.V.O", null, null, true));
-            gridColumns.Add(grid.Column("gps", "G.P.S.", null, null, true));
-            gridColumns.Add(grid.Column("patronal", "Patronal", null, null, true));
-            gridColumns.Add(grid.Column("obrera", "Obrera", null, null, true));
-            gridColumns.Add(grid.Column("imss", "IMSS", null, null, true));
-            gridColumns.Add(grid.Column("diasCotizBim", "Diascotizados Bim", null, null, true));
-            gridColumns.Add(grid.Column("retiro", "Retiro", null, null, true));
-            gridColumns.Add(grid.Column("patronalBimestral", "Patronal Bim", null, null, true));
-            gridColumns.Add(grid.Column("obreraBimestral", "Obrera Bim", null, null, true));
-            gridColumns.Add(grid.Column("rcv", "R.C.V.", null, null, true));
-            gridColumns.Add(grid.Column("aportacionsc", "Aportacion SC", null, null, true));
-            gridColumns.Add(grid.Column("aportacioncc", "Aportacion CC", null, null, true));
-            gridColumns.Add(grid.Column("amortizacion", "Amortizacion", null, null, true));
-            gridColumns.Add(grid.Column("infonavit", "Infonavit", null, null, true));
-            gridColumns.Add(grid.Column("total", "Total", null, null, true));
+                WorkbookPart wbp = xl.AddWorkbookPart();
+                WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
+                Workbook wb = new Workbook();
+                FileVersion fv = new FileVersion();
+                fv.ApplicationName = "Microsoft Office Excel";
 
-            string gridData = grid.GetHtml(
-                columns: grid.Columns(gridColumns.ToArray())
-                    ).ToString();
+                Worksheet ws = new Worksheet();
+                WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
+                // add styles to sheet
+                wbsp.Stylesheet = eh.CreateStylesheet();
+                wbsp.Stylesheet.Save();
 
-            Response.ClearContent();
-            DateTime date = DateTime.Now;
-            String fileName = "DetallePagos-" + date.ToString("ddMMyyyyHHmm") + ".xls";
-            //            string sStyle = @" .CssText { mso-number-format:\@; } ";
-            Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
-            Response.ContentType = "application/excel";
-            Response.ClearContent();
-            Response.Write(gridData);
-            Response.End();
+                SheetData sd = crearContenidoHoja2(detallePago, eh);//CreateContentRow(); 
+                ws.Append(sd);
+                wsp.Worksheet = ws;
+                wsp.Worksheet.Save();
+
+                Sheets sheets = new Sheets();
+                Sheet sheet = new Sheet();
+                sheet.Name = "Sheet1";
+                sheet.SheetId = 1;
+                sheet.Id = wbp.GetIdOfPart(wsp);
+
+                sheets.Append(sheet);
+                wb.Append(fv);
+                wb.Append(sheets);
+
+                xl.WorkbookPart.Workbook = wb;
+                xl.WorkbookPart.Workbook.Save();
+                xl.Close();
+
+                fileStream = new FileStream(fullName, FileMode.Open);
+                fileStream.Position = 0;
+                mem = new MemoryStream();
+                fileStream.CopyTo(mem);
+
+                mem.Position = 0;
+                Response.ClearContent();
+                Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                ToolsHelper th = new ToolsHelper();
+                Response.ContentType = th.getMimeType(fullName);
+                Response.BinaryWrite(mem.ToArray());
+
+                Response.End();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+
+            }
+            finally
+            {
+                if (fileStream != null)
+                {
+                    fileStream.Flush();
+                    fileStream.Close();
+                }
+                mem.Flush();
+                mem.Close();
+            }
+
+        }
+
+
+        string[] headerColumns2 = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG" };
+        public SheetData crearContenidoHoja2(List<DetallePago> detallePago, ExcelHelper eh)
+        {
+            SheetData sheetData = new SheetData();
+            int index = 1;
+
+            //Creamos el Header
+            Row row = new Row();
+            row = eh.addNewCellToRow(index, row, "Patrón", headerColumns[0] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Periodo", headerColumns[1] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Ejercicio", headerColumns[2] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "NSS", headerColumns[3] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Nombre", headerColumns[4] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Ubicación", headerColumns[5] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Días", headerColumns[6] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "S.D.I.", headerColumns[7] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Inc.", headerColumns[8] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Aus.", headerColumns[9] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "C.F.", headerColumns[10] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Ex.P", headerColumns[11] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "EX. O", headerColumns[12] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "PDP", headerColumns[13] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "GMP. Patrón", headerColumns[14] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "GMP. Obrero", headerColumns[15] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "R. T.", headerColumns[16] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "I.V.P", headerColumns[17] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "I.V.O", headerColumns[18] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "G.P.S.", headerColumns[19] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Patronal", headerColumns[20] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Obrera", headerColumns[21] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "IMSS", headerColumns[22] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Dias cotizados Bim", headerColumns[23] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Retiro", headerColumns[24] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Patronal Bim", headerColumns[25] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Obrera Bim", headerColumns[26] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "R.C.V.", headerColumns[27] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Aportación SC", headerColumns[28] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Aportación CC", headerColumns[29] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Amortización", headerColumns[30] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Infonavit", headerColumns[31] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Total", headerColumns[32] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            index++;
+            //Create the cells that contain the data.
+            foreach (DetallePago dp in detallePago)
+            {
+                int i = 0;
+
+                row = eh.addNewCellToRow(index, row, dp.Pago.Patrone.registro, headerColumns[i] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Pago.mes, headerColumns[i + 1] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Pago.anno, headerColumns[i + 2] + index, 2U, CellValues.Number);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Asegurado.numeroAfiliacion, headerColumns[i + 3] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Asegurado.nombreTemporal, headerColumns[i + 4] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Asegurado.Cliente.claveCliente, headerColumns[i + 5] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.diasCotizados.ToString(), headerColumns[i + 6] + index, 2U, CellValues.Number);
+                sheetData.AppendChild(row);
+
+                String var1 = String.Format("{0:###,###,##0.00}", dp.sdi);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 7] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.diasIncapacidad.ToString(), headerColumns[i + 8] + index, 2U, CellValues.Number);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.diasAusentismo.ToString(), headerColumns[i + 9] + index, 2U, CellValues.Number);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.cuotaFija);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 10] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.expa);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 11] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.exO);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 12] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.pdp);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 13] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.gmpp);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 14] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.gmpo);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 15] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.rt);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 16] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.ivp);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 17] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.ivo);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 18] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.gps);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 19] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.patronal);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 20] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.obrera);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 21] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.imss);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 22] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.diasCotizBim.ToString(), headerColumns[i + 23] + index, 2U, CellValues.Number);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.retiro);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 24] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.patronalBimestral);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 25] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.obreraBimestral);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 26] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.rcv);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 27] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.aportacionsc);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 28] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.aportacioncc);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 29] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.amortizacion);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 30] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.infonavit);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 31] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.total);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 32] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                index++;
+            }
+
+            return sheetData;
         }
 
         [HttpGet]
         public void GetExcel(String plazasId, String patronesId, String periodoId, String ejercicioId)
         {
-            var pagos = db.Pagos.ToList();
+            FileStream fileStream = null;
+            MemoryStream mem = new MemoryStream();
+            try
+            {
+                var pagos = db.Pagos.ToList();
 
             if (!String.IsNullOrEmpty(plazasId))
             {
@@ -998,69 +1267,190 @@ namespace SUAMVC.Controllers
 
             allCust = pagos.ToList();
 
-            WebGrid grid = new WebGrid(source: allCust, canPage: false, canSort: false);
+                DateTime date = DateTime.Now;
+                String path = @"C:\\SUA\\Exceles\\";
+                String fileName = @"Pagos-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fullName = path + fileName;
 
-            List<WebGridColumn> gridColumns = new List<WebGridColumn>();
+                ExcelHelper eh = new ExcelHelper();
+                //Creamos el objeto del workbook
+                SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
 
-            gridColumns.Add(grid.Column("Patrone.registro", "Reg. Patronal", null, null, true));
-            gridColumns.Add(grid.Column("Patrone.nombre", "ID. Empresa", null, null, true));
-            gridColumns.Add(grid.Column("mes", "Mes", null, null, true));
-            gridColumns.Add(grid.Column("anno", "Año", null, null, true));
-            gridColumns.Add(grid.Column("imss", "IMSS", null, null, true));
-            gridColumns.Add(grid.Column("rcv", "RCV", null, null, true));
-            gridColumns.Add(grid.Column("infonavit", "Infonavit", null, null, true));
-            gridColumns.Add(grid.Column("total", "Total", null, null, true));
-            gridColumns.Add(grid.Column("recargos", "Recargos", null, null, true));
-            gridColumns.Add(grid.Column("actualizaciones", "Actualizaciones", null, null, true));
-            gridColumns.Add(grid.Column("granTotal", "Gran Total", null, null, true));
-            gridColumns.Add(grid.Column("bancoId", "Banco", format: (item) => item.bancoid != null ? String.Format("{0,11:S}", item.Banco.descripcion) : String.Empty));
-            gridColumns.Add(grid.Column("nt", "NT", null, null, true));
-            gridColumns.Add(grid.Column("Patrone.Plaza.Descripcion", "Localidad SUA", null, null, true));
+                WorkbookPart wbp = xl.AddWorkbookPart();
+                WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
+                Workbook wb = new Workbook();
+                FileVersion fv = new FileVersion();
+                fv.ApplicationName = "Microsoft Office Excel";
 
-            string gridData = grid.GetHtml(
-                columns: grid.Columns(gridColumns.ToArray())
-                    ).ToString();
+                Worksheet ws = new Worksheet();
+                WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
+                // add styles to sheet
+                wbsp.Stylesheet = eh.CreateStylesheet();
+                wbsp.Stylesheet.Save();
 
-            //            Response.ClearContent();
-            //           string sStyle = @" .CssText { mso-number-format:\@; } ";
-            DateTime date = DateTime.Now;
-            String fileName = "Pagos-" + date.ToString("ddMMyyyyHHmm") + ".xls";
-            //Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
-            //Response.ContentType = "application/excel";
-            //Response.Write(gridData);
-            //Response.End();
+                SheetData sd = crearContenidoHoja(allCust, eh);//CreateContentRow(); 
+                ws.Append(sd);
+                wsp.Worksheet = ws;
+                wsp.Worksheet.Save();
+
+                Sheets sheets = new Sheets();
+                Sheet sheet = new Sheet();
+                sheet.Name = "Sheet1";
+                sheet.SheetId = 1;
+                sheet.Id = wbp.GetIdOfPart(wsp);
+
+                sheets.Append(sheet);
+                wb.Append(fv);
+                wb.Append(sheets);
+
+                xl.WorkbookPart.Workbook = wb;
+                xl.WorkbookPart.Workbook.Save();
+                xl.Close();
+
+                fileStream = new FileStream(fullName, FileMode.Open);
+                fileStream.Position = 0;
+                mem = new MemoryStream();
+                fileStream.CopyTo(mem);
+
+                mem.Position = 0;
+                Response.ClearContent();
+                Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                ToolsHelper th = new ToolsHelper();
+                Response.ContentType = th.getMimeType(fullName);
+                Response.BinaryWrite(mem.ToArray());
+
+                Response.End();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+
+            }
+            finally
+            {
+                if (fileStream != null)
+                {
+                    fileStream.Flush();
+                    fileStream.Close();
+                }
+                mem.Flush();
+                mem.Close();
+            }
+
+        }
 
 
-            StringBuilder sb = new StringBuilder(gridData);
+        string[] headerColumns = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG" };
+        public SheetData crearContenidoHoja(List<Pago> pagos, ExcelHelper eh)
+        {
+            SheetData sheetData = new SheetData();
+            int index = 1;
 
-            StringWriter sw = new StringWriter(sb);
+            //Creamos el Header
+            Row row = new Row();
+            row = eh.addNewCellToRow(index, row, "Reg. Patronal", headerColumns[0] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            System.Web.UI.HtmlTextWriter htw = new HtmlTextWriter(sw);
+            row = eh.addNewCellToRow(index, row, "ID. Empresa", headerColumns[1] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            Page pagina = new Page();
+            row = eh.addNewCellToRow(index, row, "Mes", headerColumns[2] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            HtmlForm forma = new HtmlForm();
+            row = eh.addNewCellToRow(index, row, "Año", headerColumns[3] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            pagina.Controls.Add(forma);
+            row = eh.addNewCellToRow(index, row, "IMSS", headerColumns[4] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            pagina.RenderControl(htw);
+            row = eh.addNewCellToRow(index, row, "RCV", headerColumns[5] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            Response.Clear();
+            row = eh.addNewCellToRow(index, row, "Infonavit", headerColumns[6] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            Response.Buffer = true;
+            row = eh.addNewCellToRow(index, row, "Total", headerColumns[7] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            Response.ContentType = "application/vnd.ms-excel";
+            row = eh.addNewCellToRow(index, row, "Recargos", headerColumns[8] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            Response.AddHeader("Content-Disposition", "attachment;filename=" + fileName);
+            row = eh.addNewCellToRow(index, row, "Actualizaciones", headerColumns[9] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            Response.Charset = "UTF-8";
+            row = eh.addNewCellToRow(index, row, "Gran Total", headerColumns[10] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            Response.ContentEncoding = Encoding.Default;
+            row = eh.addNewCellToRow(index, row, "Banco", headerColumns[11] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            Response.Write(sb.ToString());
+            row = eh.addNewCellToRow(index, row, "NT", headerColumns[12] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            Response.End();
+            row = eh.addNewCellToRow(index, row, "Localidad SUA", headerColumns[13] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
 
+            index++;
+            //Create the cells that contain the data.
+            foreach (Pago dp in pagos)
+            {
+                int i = 0;
+
+                row = eh.addNewCellToRow(index, row, dp.Patrone.registro, headerColumns[i] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Patrone.nombre, headerColumns[i + 1] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.mes, headerColumns[i + 2] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.anno, headerColumns[i + 3] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                String var1 = String.Format("{0:###,###,##0.00}", dp.imss);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 4] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.rcv);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 5] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.infonavit);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 6] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.total );
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 7] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.recargos);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 8] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.actualizaciones);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 9] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.granTotal);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 10] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.Banco);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 11] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.nt);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 12] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Patrone.Plaza.descripcion, headerColumns[i + 13] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                index++;
+            }
+
+            return sheetData;
         }
 
 

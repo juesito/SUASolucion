@@ -916,6 +916,24 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exporta Reporte a Detalle.
+        /// </summary>
+        public static string excelDetalle {
+            get {
+                return ResourceManager.GetString("excelDetalle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exporta Reporte General.
+        /// </summary>
+        public static string excelGeneral {
+            get {
+                return ResourceManager.GetString("excelGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Factor.
         /// </summary>
         public static string factor {

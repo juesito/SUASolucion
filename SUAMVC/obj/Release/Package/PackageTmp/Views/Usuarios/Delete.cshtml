@@ -9,102 +9,112 @@
     }
 }
 @section Menu {
-    <div><img src="~/Content/Images/people-b.png" width="15" height="15" />Eliminar Usuario</div>
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" />@Language.catde Usuario</div>
 }
 
 <h3>Confirmación para eliminar el Usuario</h3>
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.nombreUsuario)
-        </dt>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        ¿Desea borrar este registro?
+    </div>
+    <div class="panel-body" style="font-size:10px;">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName(@Language.usuarioAlta)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.nombreUsuario)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.nombreUsuario)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.contrasena)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.contrasena)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.contrasena)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.contrasena)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.claveUsuario)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.claveUsuario)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.claveUsuario)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.claveUsuario)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.email)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.email)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.email)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.email)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.apellidoMaterno)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.apellidoMaterno)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.apellidoMaterno)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.apellidoMaterno)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.apellidoPaterno)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.apellidoPaterno)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.apellidoPaterno)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.apellidoPaterno)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.estatus)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.estatus)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.estatus)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.estatus)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.fechaIngreso)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.fechaAlta)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.fechaIngreso)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.fechaIngreso)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Plaza.descripcion)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.plaza)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Plaza.descripcion)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Plaza.descripcion)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Role.descripcion)
-        </dt>
+            <dt>
+                @Html.DisplayName(@Language.rol)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Role.descripcion)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Role.descripcion)
+            </dd>
 
-    </dl>
+        </dl>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-success" /> |
+            <div class="form-group" style="margin-top:40px;">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Eliminar" class="btn btn-primary" />
+                </div>
+            </div>
+
+        }
+
+        <div>
             @Html.ActionLink("Regresar", "Index")
         </div>
-    }
-</div>
+

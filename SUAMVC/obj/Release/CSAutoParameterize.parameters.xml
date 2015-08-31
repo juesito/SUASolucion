@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
-  <parameter name="suaEntities-Web.config Connection String" description="suaEntities Cadena de conexión que usa la aplicación en web.config para obtener acceso a la base de datos." defaultValue="metadata=res://*/Model1.csdl|res://*/Model1.ssdl|res://*/Model1.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=LEONOR-PC\SQLEXPRESS;initial catalog=sua;persist security info=True;user id=root;password=jeargaqu;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Users\\Leonor\\Documents\\Visual\ Studio\ 2013\\Projects\\SUASolucion\\SUASolucion\\SUAMVC\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='suaEntities']/@connectionString" />
+  <parameter name="suaEntities-Web.config Connection String" description="suaEntities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/Model1.csdl|res://*/Model1.ssdl|res://*/Model1.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=MXQRMNXL4021G8P;initial catalog=sua;persist security info=True;user id=root;password=jeargaqu;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\oj19edal\\Source\\Repos\\SUASolucion\\SUAMVC\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='suaEntities']/@connectionString" />
   </parameter>
 </parameters>

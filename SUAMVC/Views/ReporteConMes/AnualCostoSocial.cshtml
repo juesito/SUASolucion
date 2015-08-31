@@ -1,0 +1,154 @@
+﻿@model IEnumerable<SUADATOS.ReporteConMes>
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    var tableHtml = string.Empty;
+
+    if (Model != null)
+    {
+        var grid = new WebGrid(source: Model, rowsPerPage: 50);
+        var sb = new StringBuilder();
+
+        //Creamos una lista de columnas
+        var gridColumns = new List<WebGridColumn>();
+
+
+        gridColumns.Add(grid.Column("Cliente.claveCliente", "ID. Cliente", format: @<text> @if (@item.Cliente.claveCliente != null)
+        {  @item.Cliente.claveCliente }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("Cliente.descripcion", "Nombre", format: @<text> @if (@item.Cliente.descripcion != null)
+        {  @item.Cliente.descripcion }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("Cliente.Grupos.claveGrupo", "ID. Grupo", format: @<text> @if (@item.Cliente.Grupos.claveGrupo != null)
+        {  @item.Cliente.Grupos.claveGrupo }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("Cliente.Plaza.cveCorta", "ID. Plaza", format: @<text> @if (@item.Cliente.Plaza.cveCorta != null)
+        {  @item.Cliente.Plaza.cveCorta }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("anno", "Año", format: @<text> @if (@item.anno != null)
+        {  @item.anno }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("enero", "Enero", format: @<text>@if (@item.enero != null)
+        { @item.enero.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("febrero", "Febrero", format: @<text>@if (@item.febrero != null)
+        { @item.febrero.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("marzo", "Marzo", format: @<text>@if (@item.marzo != null)
+        { @item.marzo.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("abril", "Abril", format: @<text>@if (@item.abril != null)
+        { @item.abril.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("mayo", "Mayo", format: @<text>@if (@item.mayo != null)
+        { @item.mayo.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("junio", "Junio", format: @<text>@if (@item.junio != null)
+        { @item.junio.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("julio", "Julio", format: @<text>@if (@item.julio != null)
+        { @item.julio.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("agosto", "Agosto", format: @<text>@if (@item.agosto != null)
+        { @item.agosto.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("septiembre", "Semptiembre", format: @<text>@if (@item.septiembre != null)
+        { @item.septiembre.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("octubre", "Octubre", format: @<text>@if (@item.octubre != null)
+        { @item.octubre.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("noviembre", "Noviembre", format: @<text>@if (@item.noviembre != null)
+        { @item.noviembre.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("diciembre", "Diciembre", format: @<text>@if (@item.diciembre != null)
+        { @item.diciembre.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("total", "Total", format: @<text>@if (@item.total != null)
+        { @item.total.ToString("#,##0.00")}</text>, canSort: true));
+
+        sb.Append(
+        grid.GetHtml(
+        columns:
+            grid.Columns(gridColumns.ToArray()),
+                                        tableStyle: "table table-striped tableSua"
+                        ));
+
+        tableHtml = sb.ToString();
+    }
+
+}
+@section Menu {
+    <div>Resumen Anual de Costo Social<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+@using (@Html.BeginForm("AnualCostoSocial", "ReporteConMes", FormMethod.Post))
+{
+    //MarqueeFilter - Todos los filtros principales
+    @Html.Hidden("usuarioId", usuario.Id)
+    <div class="marqueeFilter">
+        <table style="float:left; margin-top:5px;display:inline-block;">
+            <thead>
+                <tr style="text-align:left;vertical-align:bottom;">
+                    <td style="padding-top:8px">
+                        <b>@Language.plaza:</b>
+                    </td>
+                    <td>
+                        @Html.plazasDrownList(usuario.Id)
+                    </td>
+                    <td style="padding-left:12px">
+                        <b>@Language.grupo:</b>
+                    </td>
+                    <td>
+                        @Html.gruposDrownList(usuario.Id)
+                    </td>
+                    <td style="padding-left:12px">
+                        <b>@Language.cliente:</b>
+                    </td>
+                    <td>
+                        @Html.clientesDrownList(usuario.Id)
+                    </td>
+                    <td style="padding-left:12px">
+                        <b>@Language.ejercicio:</b>
+                    </td>
+                    <td>
+                        @Html.ejercicioAutoList()
+                    </td>
+               </tr>
+                <tr style="text-align:left;vertical-align:bottom;">
+                     <td>
+                        <a href="@Url.Action("ExcelAnualCostoSocial", "ReporteConMes", new
+                            {
+                                plazasId = @ViewBag.pzaId,
+                                                                                             ejercicioId = @ViewBag.ejercicioId,
+                                                                                             clientesId = @ViewBag.cteId,
+                                                                                             gruposId = @ViewBag.gpoId
+                            })">
+                            <img src="~/Content/Images/xls.png" title="@Language.excelGeneral" alt="@Language.toExcel" style="border:none;" width="28" height="28" />
+                        </a>
+                    </td>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+}
+@if (!tableHtml.IsEmpty())
+{
+    <div id="table-container" class="table-container">
+        @Html.Raw(tableHtml)
+        <div>
+
+        </div>
+    </div>
+}

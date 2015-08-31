@@ -78,6 +78,18 @@ namespace SUAMVC.Helpers
             return htmlHelper.DropDownList("opcion", listFields);
         }
 
+        public static MvcHtmlString FieldsAvailablesToFilterClientes(this HtmlHelper htmlHelper)
+        {
+
+            List<SelectListItem> listFields = new List<SelectListItem> {
+                              new SelectListItem {Value = "", Text = "Seleccione"},
+                              new SelectListItem {Value = "1", Text = "Clave Cliente"},
+                              new SelectListItem {Value = "2", Text = "Nombre"},
+          };
+
+            return htmlHelper.DropDownList("opcion", listFields);
+        }
+
         public static MvcHtmlString topicosList(this HtmlHelper htmlHelper)
         {
 
