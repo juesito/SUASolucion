@@ -15,8 +15,13 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: SolicitudPrenominas
-        public ActionResult Index()
+        public ActionResult Index(String clienteId, String proyectoId, String ejercicioId)
         {
+
+            ViewBag.clienteId = clienteId;
+            ViewBag.proyectoId = proyectoId;
+            ViewBag.ejercicioId = ejercicioId;
+
             var solicitudPrenominas = db.SolicitudPrenominas.Include(s => s.Cliente).Include(s => s.Concepto).Include(s => s.Concepto1).Include(s => s.Concepto2).Include(s => s.Concepto3).Include(s => s.Plaza).Include(s => s.Usuario);
             return View(solicitudPrenominas.ToList());
         }
@@ -37,16 +42,24 @@ namespace SUAMVC.Controllers
         }
 
         // GET: SolicitudPrenominas/Create
-        public ActionResult Create()
+        public ActionResult Create(String clienteId, String proyectoId, String ejercicioId)
         {
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
-            ViewBag.tipoPagoId = new SelectList(db.Conceptos, "id", "grupo");
-            ViewBag.periodoId = new SelectList(db.Conceptos, "id", "grupo");
-            ViewBag.tipoContratoId = new SelectList(db.Conceptos, "id", "grupo");
-            ViewBag.monedaId = new SelectList(db.Conceptos, "id", "grupo");
-            ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion");
-            ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario");
-            return View();
+            SolicitudPrenomina solicitudPrenomina = new SolicitudPrenomina();
+            if (!String.IsNullOrEmpty(ejercicioId) && !String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId))
+            {
+                DateTime now = DateTime.Now;
+                solicitudPrenomina.clienteId = int.Parse(clienteId);
+                solicitudPrenomina.proyectoId = int.Parse(proyectoId);
+                solicitudPrenomina.anno = ejercicioId;
+                solicitudPrenomina.fechaSolicitud = now;
+                solicitudPrenomina.fechaInicial = now;
+                solicitudPrenomina.fechaFinal = now;
+                solicitudPrenomina.fechaPago = now;
+
+                return View(solicitudPrenomina);
+            }
+
+            return RedirectToAction("Index", "SolicitudPrenomina");
         }
 
         // POST: SolicitudPrenominas/Create

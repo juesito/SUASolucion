@@ -16,13 +16,13 @@ namespace SUAMVC.Reports
             try
             {
                 CrystalReports cr = new CrystalReports("test.rpt");
-                ReportDocument rp = cr.launchReport();
+                //ReportDocument rp = cr.launchReport();
 
-                rp.SetDatabaseLogon("root", "jeargaqu");
-                rp.VerifyDatabase();
-                CrystalReportViewer1.ReportSource = rp;
-                CrystalReportViewer1.DisplayToolbar = true;
-                CrystalReportViewer1.RefreshReport();
+                //rp.SetDatabaseLogon("root", "jeargaqu");
+                //rp.VerifyDatabase();
+                //CrystalReportViewer1.ReportSource = rp;
+                //CrystalReportViewer1.DisplayToolbar = true;
+                //CrystalReportViewer1.RefreshReport();
             }catch(Exception ex){
                 Console.WriteLine(ex.Message);
             }

@@ -822,6 +822,7 @@
   <data name="valor" xml:space="preserve">
     <value>Valor</value>
     <comment>Etiqueta para Valor</comment>
+    </data>
   <data name="periodo" xml:space="preserve">
     <value>Periodo</value>
     <comment>Etiqueta para Periodo</comment>
@@ -830,12 +831,6 @@
     <value>VSM</value>
     <comment>Etiqueta para Veces Salario Minimo</comment>
   </data>
-  <data name="cleveCliente" xml:space="preserve">
-    <value>Clave Cliente</value>
-    <comment>Etiqueta para clave Cliente</comment>
-  </data>
-  <data name="consultar" xml:space="preserve">
-    <value>Consultar</value>
-    <comment>Etiqueta para consulta</comment>
-  </data>
+  
+  
 </root>

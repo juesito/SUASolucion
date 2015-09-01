@@ -30,7 +30,7 @@ namespace SUAMVC.Models
                 return perfilConPermiso;
             }
 
-            if (roleFunciones.Count() > 0)
+            if (roleFunciones != null && roleFunciones.Count() > 0)
             {
                 RoleFuncion roleFuncion = roleFunciones
                     .Where(x => x.Funcion.descripcionCorta.Trim().Equals(modulo)
