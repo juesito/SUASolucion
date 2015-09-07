@@ -21,7 +21,19 @@ textarea {
 }
 
 .myDate {
-    width: 50px !important;
+    width: 58px !important;
+}
+
+.myNoDayBeforeDate {
+    width: 58px !important;
+}
+
+.myImmsDate {
+    width: 58px !important;
+}
+
+.myBornDate {
+    width: 58px !important;
 }
 
 .tableSua {
@@ -430,7 +442,7 @@ table-fixed {
     background-color: #B0E1EE;
     width: 200px;
     height: 340px;
-    color:#2A538A;
+    color: #2A538A;
 }
 
     .menu-archivos-table td {

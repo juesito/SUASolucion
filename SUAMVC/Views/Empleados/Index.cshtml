@@ -12,6 +12,11 @@
     }
     Usuario usuario = Session["UsuarioData"] as Usuario;
 
+    Solicitud solicitud = new Solicitud();
+    if (ViewBag.solicitud != null) {
+        solicitud = ViewBag.solicitud as Solicitud;
+    }
+    
     var grid = new WebGrid(source: Model.empleados, rowsPerPage: 10);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
@@ -85,6 +90,7 @@
     <div class="marqueeFilter">
         <table style="float:left; margin-top:5px;display:inline-block;">
             <thead>
+                @if (ViewBag.solicitud == null) { 
                 <tr style="text-align:left;vertical-align:bottom;">
                     <td style="padding-top:15px">
                         @Html.Label("Cliente:")
@@ -98,6 +104,31 @@
                         <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
                     </td>
                 </tr>
+                }
+                else
+                {
+                    <tr style="text-align:left;vertical-align:bottom;">
+                        <td style="padding-top:15px">
+                            @Html.Label("Folio:")
+                            </td><td>
+                            @Html.Label(solicitud.folioSolicitud)
+                            
+                        </td>
+                        </tr>
+    <tr style="text-align:left;vertical-align:bottom;">
+        <td>
+            @Html.Label("Cliente:")
+        </td>
+        <td>
+            @Html.Label(solicitud.Cliente.descripcion)
+        </td>
+        <td style="padding-left:15px;">
+            @Html.Label("Proyecto:")
+            </td><td>
+            @Html.Label(solicitud.Proyecto.descripcion)
+        </td>
+    </tr>
+                }
             </thead>
         </table>
     </div>
