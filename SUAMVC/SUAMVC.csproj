@@ -190,9 +190,7 @@
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\code52.i18n\Code52.i18n.css" />
     <Content Include="Content\code52.i18n\images\flags\de.png" />
     <Content Include="Content\code52.i18n\images\flags\es.png" />
@@ -529,7 +527,6 @@
     <Compile Include="Models\UploadModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Language.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">
@@ -737,7 +734,6 @@
     <Content Include="Views\ReporteConMes\Edit.cshtml" />
     <Content Include="Views\ReporteConMes\Index.cshtml" />
     <Content Include="Views\ReporteConMes\AnualCostoSocial.cshtml" />
-    <Content Include="Views\Asegurados\Duplicados.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -783,9 +779,6 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Language.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -17,7 +17,6 @@ namespace SUADATOS
         public Asegurado()
         {
             this.DetallePagoes = new HashSet<DetallePago>();
-            this.Empleados = new HashSet<Empleado>();
             this.Incapacidades = new HashSet<Incapacidade>();
             this.Movimientos = new HashSet<Movimiento>();
             this.MovimientosAseguradoes = new HashSet<MovimientosAsegurado>();
@@ -64,7 +63,6 @@ namespace SUADATOS
     
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<DetallePago> DetallePagoes { get; set; }
-        public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual ICollection<Incapacidade> Incapacidades { get; set; }
         public virtual ICollection<Movimiento> Movimientos { get; set; }
         public virtual ICollection<MovimientosAsegurado> MovimientosAseguradoes { get; set; }

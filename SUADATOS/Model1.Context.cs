@@ -40,7 +40,6 @@ namespace SUADATOS
         public virtual DbSet<DatosAdicionalesCliente> DatosAdicionalesClientes { get; set; }
         public virtual DbSet<Departamento> Departamentos { get; set; }
         public virtual DbSet<DetallePago> DetallePagoes { get; set; }
-        public virtual DbSet<DetallePrenomina> DetallePrenominas { get; set; }
         public virtual DbSet<DocumentosEmpleado> DocumentosEmpleadoes { get; set; }
         public virtual DbSet<Empleado> Empleados { get; set; }
         public virtual DbSet<Empresa> Empresas { get; set; }
@@ -79,7 +78,6 @@ namespace SUADATOS
         public virtual DbSet<Sexo> Sexos { get; set; }
         public virtual DbSet<Solicitud> Solicituds { get; set; }
         public virtual DbSet<SolicitudEmpleado> SolicitudEmpleadoes { get; set; }
-        public virtual DbSet<SolicitudPrenomina> SolicitudPrenominas { get; set; }
         public virtual DbSet<SumarizadoCliente> SumarizadoClientes { get; set; }
         public virtual DbSet<TipoContrato> TipoContratoes { get; set; }
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }
@@ -372,15 +370,6 @@ namespace SUADATOS
                 new ObjectParameter("usuarioId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spCreateFactorss1", usuarioIdParameter);
-        }
-    
-        public virtual int sp_CostoSocialAnual(Nullable<int> usuarioId)
-        {
-            var usuarioIdParameter = usuarioId.HasValue ?
-                new ObjectParameter("usuarioId", usuarioId) :
-                new ObjectParameter("usuarioId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_CostoSocialAnual", usuarioIdParameter);
         }
     }
 }

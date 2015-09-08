@@ -173,6 +173,7 @@ C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUASolucion\SU
 C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\SUAMVC.dll.config
 C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\SUAMVC.dll
 C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\SUAMVC.pdb
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\es-MX\SUAMVC.resources.dll
 C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\AntiXssLibrary.dll
 C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\Antlr3.Runtime.dll
 C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\CrystalDecisions.CrystalReports.Engine.dll
@@ -236,7 +237,9 @@ C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\es\System.Web.WebPages.Raz
 C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\SUAMVC.csprojResolveAssemblyReference.cache
 C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\SUAMVC.csproj.ResolveComReference.cache
 C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\SUAMVC.Resources.Language.resources
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\SUAMVC.Resources.Language.es-MX.resources
 C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\SUAMVC.csproj.GenerateResource.Cache
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\es-MX\SUAMVC.resources.dll
 C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\SUAMVC.dll
 C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\SUAMVC.pdb
 C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\es-MX\SUAMVC.resources.dll
