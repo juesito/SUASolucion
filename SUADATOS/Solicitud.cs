@@ -29,6 +29,7 @@ namespace SUADATOS
         public Nullable<int> sdiId { get; set; }
         public Nullable<int> contratoId { get; set; }
         public Nullable<System.DateTime> fechaTerminoContrato { get; set; }
+        public Nullable<System.DateTime> fechaInicioContrato { get; set; }
         public Nullable<System.DateTime> fechaInicial { get; set; }
         public Nullable<System.DateTime> fechaFinal { get; set; }
         public Nullable<System.DateTime> fechaModificacion { get; set; }

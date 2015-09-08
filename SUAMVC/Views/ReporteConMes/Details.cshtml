@@ -1,0 +1,117 @@
+﻿@model IEnumerable<SUADATOS.ReporteConMes>
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    var tableHtml = string.Empty;
+
+    if (Model != null)
+    {
+        var grid = new WebGrid(source: Model, rowsPerPage: 100);
+        var sb = new StringBuilder();
+
+        //Creamos una lista de columnas
+        var gridColumns = new List<WebGridColumn>();
+
+
+        gridColumns.Add(grid.Column("Cliente.claveCliente", "ID. Cliente", format: @<text> @if (@item.Cliente.claveCliente != null)
+        {  @item.Cliente.claveCliente }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("Cliente.descripcion", "Nombre", format: @<text> @if (@item.Cliente.descripcion != null)
+        {  @item.Cliente.descripcion }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("Cliente.Grupos.claveGrupo", "ID. Grupo", format: @<text> @if (@item.Cliente.Grupos.claveGrupo != null)
+        {  @item.Cliente.Grupos.claveGrupo }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("Cliente.Plaza.cveCorta", "ID. Plaza", format: @<text> @if (@item.Cliente.Plaza.cveCorta != null)
+        {  @item.Cliente.Plaza.cveCorta }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("anno", "Año", format: @<text> @if (@item.anno != null)
+        {  @item.anno }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("Asegurado.Patrone.registro", "Reg. Patronal", format: @<text> @if (@item.Asegurado.Patrone.registro != null)
+        {  @item.Asegurado.Patrone.registro }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("Asegurado.numeroAfiliacion", "Num. Afiliación", format: @<text> @if (@item.Asegurado.numeroAfiliacion != null)
+        {  @item.Asegurado.numeroAfiliacion }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("Asegurado.nombreTemporal", "Nombre Asegurado", format: @<text> @if (@item.Asegurado.nombreTemporal != null)
+        {  @item.Asegurado.nombreTemporal }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("febrero", "Febrero", format: @<text>@if (@item.febrero != null)
+        { @item.febrero.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("abril", "Abril", format: @<text>@if (@item.abril != null)
+        { @item.abril.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("junio", "Junio", format: @<text>@if (@item.junio != null)
+        { @item.junio.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("agosto", "Agosto", format: @<text>@if (@item.agosto != null)
+        { @item.agosto.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("octubre", "Octubre", format: @<text>@if (@item.octubre != null)
+        { @item.octubre.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("diciembre", "Diciembre", format: @<text>@if (@item.diciembre != null)
+        { @item.diciembre.ToString("#,##0.00")}</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("total", "Total", format: @<text>@if (@item.total != null)
+        { @item.total.ToString("#,##0.00")}</text>, canSort: true));
+
+        sb.Append(
+        grid.GetHtml(
+        columns:
+            grid.Columns(gridColumns.ToArray()),
+                                        tableStyle: "table table-striped tableSua"
+                        ));
+
+        tableHtml = sb.ToString();
+    }
+
+}
+@section Menu {
+    <div>Resumen Anual Detallado de Amortizaciones INFONAVIT<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+@using (@Html.BeginForm(null, null, FormMethod.Get))
+{
+    <div >
+        <table style="margin-top:5px;display:inline-block;">
+                <tr>
+                    <td style="padding-right:35px; padding-top:15px; padding-bottom:20px">
+                        @Html.ActionLink("Regresar", "Index", "ReporteConMes")
+                    </td>
+
+                    <td style="padding-top:15px; padding-bottom:20px">
+                        <a href="@Url.Action("ExcelAnualINFDetCliente", "ReporteConMes", new
+                            { clienteId = @ViewBag.cteId,
+                              anio = @ViewBag.ejercicioId,
+                            })">
+                            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="28" height="28" />
+                        </a>
+                    </td>
+                </tr>
+
+        </table>
+    </div>
+}
+
+@if (!tableHtml.IsEmpty())
+{
+    <div id="table-container" class="table-container">
+        @Html.Raw(tableHtml)
+        <div>
+
+        </div>
+    </div>
+}

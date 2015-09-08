@@ -20,6 +20,7 @@ namespace SUADATOS
             this.Asegurados = new HashSet<Asegurado>();
             this.DetallePagoes = new HashSet<DetallePago>();
             this.Pagos = new HashSet<Pago>();
+            this.ReporteConMeses = new HashSet<ReporteConMes>();
             this.ResumenPagoes = new HashSet<ResumenPago>();
             this.SumarizadoClientes = new HashSet<SumarizadoCliente>();
         }
@@ -57,6 +58,7 @@ namespace SUADATOS
         public virtual ICollection<DetallePago> DetallePagoes { get; set; }
         public virtual ICollection<Pago> Pagos { get; set; }
         public virtual Plaza Plaza { get; set; }
+        public virtual ICollection<ReporteConMes> ReporteConMeses { get; set; }
         public virtual ICollection<ResumenPago> ResumenPagoes { get; set; }
         public virtual ICollection<SumarizadoCliente> SumarizadoClientes { get; set; }
     }

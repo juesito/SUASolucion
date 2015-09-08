@@ -78,7 +78,7 @@
 
 }
 @section Menu {
-    <div>Resum por cliente<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Resumen por cliente<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 @using (Html.BeginForm(null, null, FormMethod.Post))
@@ -95,22 +95,34 @@
                     <td>
                         @Html.plazasDrownList(usuario.Id)
                     </td>
-                    <td>
+                    <td style="padding-top:15px; padding-left:15px">
                         <b>@Language.patron:</b>
                     </td>
                     <td>
                         @Html.patronesDrownList(usuario.Id)
                     </td>
-                    <td>@Html.Label("Periodo :")</td>
-                    <td>@Html.periodosAutoList()</td>
-                    <td>@Html.Label("Ejercicio :")</td>
-                    <td>@Html.ejercicioAutoList()</td>
-                    <td>@Html.Label("ubicación/Cliente :")</td>
-                    <td>@Html.clientesDrownList(usuario.Id)</td>
-                    <td style="padding-right:10px; padding-left:10px" rowspan="2">
+                    <td style="padding-top:15px; padding-left:15px">
+                        @Html.Label("Periodo :")
+                    </td>
+                    <td>
+                        @Html.periodosAutoList()
+                    </td>
+                    <td style="padding-top:15px; padding-left:15px">
+                        @Html.Label("Ejercicio :")
+                    </td>
+                    <td>
+                        @Html.ejercicioAutoList()
+                    </td>
+                    <td style="padding-top:15px; padding-left:10px">
+                        @Html.Label("ubicación/Cliente :")
+                    </td>
+                    <td>
+                        @Html.clientesDrownList(usuario.Id)
+                    </td>
+                    <td style="padding-top:15px; padding-left:25px" rowspan="2">
                         <a href="@Url.Action("GetExcel", "SumarizadoClientes", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
-                                periodoId = @ViewBag.periodoId, ejercicioId = @ViewBag.ejercicioId})" style="text-align:right">
-                            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="35" height="35" />
+                                periodoId = @ViewBag.periodoId, ejercicioId = @ViewBag.ejercicioId, clientesId = @ViewBag.cteId, usuarioId = usuario.Id})" style="text-align:right">
+                            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="30" height="30" />
                         </a>
                     </td>
                 </tr>

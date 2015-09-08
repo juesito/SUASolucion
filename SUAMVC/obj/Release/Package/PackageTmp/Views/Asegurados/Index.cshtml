@@ -76,12 +76,14 @@
         gridColumns.Add(grid.Column(header: "Imagen", format: @<text><a href="@Url.Action("UploadFile", "Movimientos", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
 
-    sb.Append(grid.GetHtml(
-        columns: grid.Columns(gridColumns.ToArray()),
-                        tableStyle: "table table-striped tableSua"
+    sb.Append(
+    grid.GetHtml(
+    columns:
+        grid.Columns(gridColumns.ToArray()),
+                                    tableStyle: "table table-striped tableSua"
                     ));
 
-    tableHtml = sb.ToString().Replace("{}", "<input type='checkbox' id='selectAll' name='slall' />").Trim();
+    tableHtml = sb.ToString();
 
 }
 
@@ -100,25 +102,25 @@
                         <b>@Language.plaza:</b>
                     </td>
                     <td>
-                        @Html.DropDownList("plazasId", "Seleccione")
+                        @Html.DropDownList("plazasId", "Todas")
                     </td>
                     <td>
                         <b>@Language.patron:</b>
                     </td>
                     <td>
-                        @Html.DropDownList("patronesId", "Seleccione")
+                        @Html.DropDownList("patronesId", "Todos")
                     </td>
                     <td>
                         <b>@Language.grupo:</b>
                     </td>
                     <td>
-                        @Html.DropDownList("gruposId", "Seleccione")
+                        @Html.DropDownList("gruposId", "Todos")
                     </td>
                     <td>
                         <b>@Language.cliente:</b>
                     </td>
                     <td>
-                        @Html.DropDownList("clientesId", "Seleccione")
+                        @Html.DropDownList("clientesId", "Todos")
                     </td>
                 </tr>
             </thead>

@@ -1,0 +1,144 @@
+﻿@model SUAMVC.Models.SumarizadoClienteModel
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    var tableHtml = string.Empty;
+
+    if (Model != null)
+    {
+        var grid = new WebGrid(source: Model.sumarizadoCliente, rowsPerPage: 50);
+        var sb = new StringBuilder();
+
+            //Creamos una lista de columnas
+            var gridColumns = new List<WebGridColumn>();
+
+            gridColumns.Add(grid.Column("Patrone.registro", "Reg. Patronal", format: @<text> @if (@item.Patrone.registro != null)
+            {  @item.Patrone.registro   }</text>, canSort: true));
+
+            gridColumns.Add(grid.Column("anno", "Año", format: @<text> @if (@item.anno != null)
+            {  @item.anno }</text>, canSort: true));
+
+            gridColumns.Add(grid.Column("mes", "mes", format: @<text> @if (@item.mes != null)
+            {  @item.mes }</text>, canSort: true));
+
+            gridColumns.Add(grid.Column("Cliente.claveCliente", "ID. Cliente", format: @<text> @if (@item.Cliente.claveCliente != null)
+            {  @item.Cliente.claveCliente }</text>, canSort: true));
+
+            gridColumns.Add(grid.Column("Cliente.descripcion", "Nombre", format: @<text> @if (@item.Cliente.descripcion != null)
+            {  @item.Cliente.descripcion }</text>, canSort: true));
+
+            gridColumns.Add(grid.Column("Cliente.Grupos.claveGrupo", "ID. Grupo", format: @<text> @if (@item.Cliente.Grupos.claveGrupo != null)
+            {  @item.Cliente.Grupos.claveGrupo }</text>, canSort: true));
+
+            gridColumns.Add(grid.Column("imss", "Total Amortización", format: @<text>@if (@item.imss != null)
+            { @item.imss.ToString("#,##0.00")}</text>, canSort: true));
+
+            gridColumns.Add(grid.Column("nt", "NT", format: @<text> @if (@item.nt != null)
+            { @item.nt.ToString("#,##0")}</text>, canSort: true));
+            gridColumns.Add(grid.Column("Patrone.Plaza.cveCorta", "Plaza", format: @<text> @if (@item.Patrone.Plaza.cveCorta != null)
+            {  @item.Patrone.Plaza.cveCorta }</text>, canSort: true));
+            if (SecurityUserModel.verificarPermiso("1", "1"))
+            {
+                gridColumns.Add(grid.Column(header: "Excel", format: @<text><a href="@Url.Action("excelResumenPagosDeatlleINF", "SumarizadoClientes", new { @anio = item.anno, @mes = item.mes, @idPatron = item.patronId, @idCliente = item.cliente.claveCliente })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+            }
+
+            sb.Append(grid.GetHtml(
+        columns: grid.Columns(gridColumns.ToArray()),
+        tableStyle: "table table-striped tableSua"
+        ));
+
+            String footer = "<tfoot><tr> " +
+                        "<td>Totales:</td> <td colspan=5></td>" +
+                        "<td>" + @String.Format("{0:C}", @Model.sumarizadoAcumulado.sumImss) + "</td>" + 
+                        "<td>" + @String.Format("{0:0,0}", @Model.sumarizadoAcumulado.sumNt) + "</td></tr></tfoot></table>";
+            tableHtml = sb.ToString().Replace("</table>", footer).Trim();
+    }
+
+
+}
+@section Menu {
+    <div>Resumen de Pagos INFONAVIT<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+@using (@Html.BeginForm("ResumenPagosINF", "SumarizadoClientes", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+{
+    //MarqueeFilter - Todos los filtros principales
+    @Html.Hidden("usuarioId", usuario.Id)
+    <div class="marqueeFilter">
+        <table style="float:left; margin-top:5px;display:inline-block;">
+            <thead>
+                <tr style="text-align:left;vertical-align:bottom;">
+                    <td style="padding-top:8px">
+                        <b>@Language.plaza:</b>
+                    </td>
+                    <td>
+                        @Html.plazasDrownList(usuario.Id)
+                    </td>
+                    <td style="padding-left:12px">
+                        <b>@Language.patron:</b>
+                    </td>
+                    <td>
+                        @Html.patronesDrownList(usuario.Id)
+                    </td>
+                    <td style="padding-left:12px">
+                        <b>@Language.grupo:</b>
+                    </td>
+                    <td>
+                        @Html.gruposDrownList(usuario.Id)
+                    </td>
+                    <td style="padding-left:12px">
+                        <b>@Language.cliente:</b>
+                    </td>
+                    <td>
+                        @Html.clientesDrownList(usuario.Id)
+                    </td>
+                </tr>
+                <tr style="text-align:left;vertical-align:bottom;">
+                    <td style="padding-left:12px;padding-top:25px">
+                        <b>@Language.periodo:</b>
+                    </td>
+                    <td>
+                        @Html.periodosAutoList()
+                    </td>
+                    <td style="padding-left:12px">
+                        <b>@Language.ejercicio:</b>
+                    </td>
+                    <td>
+                        @Html.ejercicioAutoList()
+                    </td>
+                    <td  >
+                        <a href="@Url.Action("ExcelResumenPagosINF", "SumarizadoClientes", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
+                                                                                             periodoId = @ViewBag.periodoId,
+                                                                                             ejercicioId = @ViewBag.ejercicioId,
+                                                                                             clientesId = @ViewBag.cteId,
+                                                                                             gruposId = @ViewBag.gpoId
+                            })" >
+                            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="28" height="28" />
+                        </a>
+                    </td>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+}
+@if (!tableHtml.IsEmpty())
+{
+    <div id="table-container" class="table-container">
+        @Html.Raw(tableHtml)
+        <div>
+
+        </div>
+    </div>
+}

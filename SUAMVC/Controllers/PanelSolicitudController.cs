@@ -2263,6 +2263,7 @@ namespace SUAMVC.Controllers
             Response.Redirect("~/Reports/ReportViewer.aspx");
 
             //String serverName = "Driver={SQL Server Native Client 10.0};Server=MXQRMN-PC025WWD\\SQLEXPRESS";
+<<<<<<< HEAD
             //rp.SetDatabaseLogon("root", "jeargaqu", serverName, "sua", false);
             //rp.VerifyDatabase();
             //rp.Refresh();
@@ -2270,6 +2271,15 @@ namespace SUAMVC.Controllers
             //CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
             //crystalReportViewer.ReportSource = rp;
             //crystalReportViewer.DisplayToolbar = true;
+=======
+           // rp.SetDatabaseLogon("root", "jeargaqu", serverName, "sua", false);
+           // rp.VerifyDatabase();
+           // rp.Refresh();
+
+            CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
+            //crystalReportViewer.ReportSource = rp;
+            crystalReportViewer.DisplayToolbar = true;
+>>>>>>> origin/2daEtapa
 
             //Response.Buffer = false;
             //Response.ClearContent();

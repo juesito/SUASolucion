@@ -27,22 +27,28 @@
         {
             @Html.Hidden("usuarioId", usuario.Id)
             <div class="marqueeFilter">
-                <table style="float:left; margin-top:5px;display:inline-block;">
+                <table style="float:left; margin-top:10px;display:inline-block;">
                     <tbody>
                         <tr>
-                            <td>
+                            <td style="padding-top:10px">
                                 <b>@Language.patron:</b>
                             </td>
                             <td>
-                                @Html.DropDownList("patronesId", "Seleccione")
+                                @Html.DropDownList("patronesId", "Todos")
                             </td>
-                            <td style ="font-weight:bold; padding-left:10px">
+                            <td style="font-weight:bold; padding-left:10px">
+                                <b>@Language.grupo:</b>
+                            </td>
+                            <td>
+                                @Html.DropDownList("gruposId", "Todos")
+                            </td>
+                            <td style="font-weight:bold; padding-left:10px">
                                 <b>@Language.cliente:</b>
-                                </td>
-                                <td>
-                                    @Html.DropDownList("clientesId", "Seleccione")
-                                </td>
-                        <tr>
+                            </td>
+                            <td>
+                                @Html.DropDownList("clientesId", "Todos")
+                            </td>
+<tr>
                         <tr>
                             <td style="font-weight:bold; padding-top:10px">
                                 Fecha Inicial:

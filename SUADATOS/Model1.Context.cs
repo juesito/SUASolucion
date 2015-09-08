@@ -84,6 +84,7 @@ namespace SUADATOS
         public virtual DbSet<TipoPersonal> TipoPersonals { get; set; }
         public virtual DbSet<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<ReporteConMes> ReporteConMeses { get; set; }
     
         public virtual int sp_createCatalogoMovimientos()
         {
@@ -161,6 +162,216 @@ namespace SUADATOS
                 new ObjectParameter("usuarioId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spCreateFactorss", usuarioIdParameter);
+        }
+    
+        public virtual int sp_AmortizacionBimestralINF(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_AmortizacionBimestralINF", usuarioIdParameter);
+        }
+    
+        public virtual int sp_LimpiaReporte(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_LimpiaReporte", usuarioIdParameter);
+        }
+    
+        public virtual int sp_ResumenPagosDetalleINF(Nullable<int> usuarioId, Nullable<int> clienteId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            var clienteIdParameter = clienteId.HasValue ?
+                new ObjectParameter("clienteId", clienteId) :
+                new ObjectParameter("clienteId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_ResumenPagosDetalleINF", usuarioIdParameter, clienteIdParameter);
+        }
+    
+        public virtual int sp_ResumenPagosINF(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_ResumenPagosINF", usuarioIdParameter);
+        }
+    
+        public virtual int sp_AmortizacionBimestralINFDet(Nullable<int> usuarioId, Nullable<int> clienteId, Nullable<int> anio)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            var clienteIdParameter = clienteId.HasValue ?
+                new ObjectParameter("clienteId", clienteId) :
+                new ObjectParameter("clienteId", typeof(int));
+    
+            var anioParameter = anio.HasValue ?
+                new ObjectParameter("anio", anio) :
+                new ObjectParameter("anio", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_AmortizacionBimestralINFDet", usuarioIdParameter, clienteIdParameter, anioParameter);
+        }
+    
+        public virtual int sp_AmortizacionBimestralINFDetExcel(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_AmortizacionBimestralINFDetExcel", usuarioIdParameter);
+        }
+    
+        public virtual int sp_AmortizacionBimestralINF1(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_AmortizacionBimestralINF1", usuarioIdParameter);
+        }
+    
+        public virtual int sp_AmortizacionBimestralINFDet1(Nullable<int> usuarioId, Nullable<int> clienteId, Nullable<int> anio)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            var clienteIdParameter = clienteId.HasValue ?
+                new ObjectParameter("clienteId", clienteId) :
+                new ObjectParameter("clienteId", typeof(int));
+    
+            var anioParameter = anio.HasValue ?
+                new ObjectParameter("anio", anio) :
+                new ObjectParameter("anio", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_AmortizacionBimestralINFDet1", usuarioIdParameter, clienteIdParameter, anioParameter);
+        }
+    
+        public virtual int sp_AmortizacionBimestralINFDetExcel1(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_AmortizacionBimestralINFDetExcel1", usuarioIdParameter);
+        }
+    
+        public virtual int sp_createCatalogoMovimientos1()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_createCatalogoMovimientos1");
+        }
+    
+        public virtual int sp_createConcepts1(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_createConcepts1", usuarioIdParameter);
+        }
+    
+        public virtual int sp_createFunctions1(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_createFunctions1", usuarioIdParameter);
+        }
+    
+        public virtual int sp_createModules1()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_createModules1");
+        }
+    
+        public virtual int sp_createParameters1()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_createParameters1");
+        }
+    
+        public virtual int sp_createRoles1()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_createRoles1");
+        }
+    
+        public virtual int sp_LimpiaReporte1(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_LimpiaReporte1", usuarioIdParameter);
+        }
+    
+        public virtual int sp_ResumenPagosDetalleINF1(Nullable<int> usuarioId, Nullable<int> clienteId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            var clienteIdParameter = clienteId.HasValue ?
+                new ObjectParameter("clienteId", clienteId) :
+                new ObjectParameter("clienteId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_ResumenPagosDetalleINF1", usuarioIdParameter, clienteIdParameter);
+        }
+    
+        public virtual int sp_ResumenPagosINF1(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_ResumenPagosINF1", usuarioIdParameter);
+        }
+    
+        public virtual int sp_SumarizadoClientes1(Nullable<int> usuarioId, Nullable<int> clienteId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            var clienteIdParameter = clienteId.HasValue ?
+                new ObjectParameter("clienteId", clienteId) :
+                new ObjectParameter("clienteId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_SumarizadoClientes1", usuarioIdParameter, clienteIdParameter);
+        }
+    
+        public virtual int sp_SumarizadoClientesTodos1(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_SumarizadoClientesTodos1", usuarioIdParameter);
+        }
+    
+        public virtual int spCreateActionFunctions1(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spCreateActionFunctions1", usuarioIdParameter);
+        }
+    
+        public virtual int spCreateFactorss1(Nullable<int> usuarioId)
+        {
+            var usuarioIdParameter = usuarioId.HasValue ?
+                new ObjectParameter("usuarioId", usuarioId) :
+                new ObjectParameter("usuarioId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spCreateFactorss1", usuarioIdParameter);
         }
     }
 }

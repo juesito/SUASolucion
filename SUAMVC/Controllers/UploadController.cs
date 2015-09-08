@@ -1448,8 +1448,8 @@ namespace SUAMVC.Controllers
                 }
                 else if (movto.CatalogoMovimiento.tipo.Trim().Equals("02"))
                 {
-                    asegurado.salarioDiario = 0;
-                    asegurado.salarioImss = 0;
+//                    asegurado.salarioDiario = 0;
+//                    asegurado.salarioImss = 0;
 
                 }
             }
@@ -1472,8 +1472,8 @@ namespace SUAMVC.Controllers
             }
             if (asegurado.fechaBaja.HasValue)
             {
-                asegurado.salarioDiario = 0;
-                asegurado.salarioImss = 0;
+//                asegurado.salarioDiario = 0;
+//                asegurado.salarioImss = 0;
             }
             db.Entry(asegurado).State = EntityState.Modified;
             db.SaveChanges();
@@ -1511,7 +1511,7 @@ namespace SUAMVC.Controllers
                         acreditado.porcentaje = valueToCalculate / 100;
 
 
-                        newValue = (Decimal.Parse(acreditado.sdi.ToString()) * 60);
+                        newValue = (Decimal.Parse(acreditado.sdi.ToString()) * 61);
                         newValue = newValue * (valueToCalculate / 100);
                         newValue = newValue + sinfon;
 

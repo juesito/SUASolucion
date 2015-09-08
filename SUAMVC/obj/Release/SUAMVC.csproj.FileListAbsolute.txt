@@ -170,20 +170,98 @@ C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUASolucion\SU
 C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUASolucion\SUAMVC\obj\Release\SUAMVC.dll
 C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUASolucion\SUAMVC\obj\Release\SUAMVC.pdb
 C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUASolucion\SUAMVC\bin\Microsoft.Office.InfoPath.Client.Internal.CLRHost.dll
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\CrystalDecisions.CrystalReports.Engine.dll
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\CrystalDecisions.ReportSource.dll
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\CrystalDecisions.Shared.dll
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\CrystalDecisions.Web.dll
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\DocumentFormat.OpenXml.dll
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Ionic.Zip.dll
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\LinqToExcel.dll
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\log4net.dll
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Microsoft.Office.InfoPath.Permission.dll
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Microsoft.Office.Interop.InfoPath.SemiTrust.dll
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Remotion.Data.Linq.dll
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Remotion.dll
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Remotion.Interfaces.dll
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Ionic.Zip.xml
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\LinqToExcel.xml
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\log4net.xml
-C:\Users\Jesus Quiñones\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.csproj.ResolveComReference.cache
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\SUAMVC.dll.config
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\SUAMVC.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\SUAMVC.pdb
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\es-MX\SUAMVC.resources.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\AntiXssLibrary.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\Antlr3.Runtime.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\CrystalDecisions.CrystalReports.Engine.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\CrystalDecisions.ReportSource.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\CrystalDecisions.Shared.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\CrystalDecisions.Web.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\DocumentFormat.OpenXml.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\EntityFramework.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\EntityFramework.SqlServer.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\HtmlSanitizationLibrary.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\Ionic.Zip.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\LinqToExcel.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\log4net.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\Microsoft.Web.Helpers.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\ModelMetadataExtensions.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\Newtonsoft.Json.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\PagedList.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\PagedList.Mvc.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\Remotion.Data.Linq.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\Remotion.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\Remotion.Interfaces.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\SUADATOS.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\System.Web.Helpers.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\System.Web.Mvc.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\System.Web.Optimization.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\System.Web.Razor.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\System.Web.WebPages.Deployment.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\System.Web.WebPages.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\System.Web.WebPages.Razor.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\WebActivator.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\WebGrease.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\WebMatrix.Data.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\WebMatrix.WebData.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\SUADATOS.pdb
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\AntiXssLibrary.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\Antlr3.Runtime.pdb
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\EntityFramework.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\EntityFramework.SqlServer.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\HtmlSanitizationLibrary.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\Ionic.Zip.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\LinqToExcel.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\log4net.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\Newtonsoft.Json.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\PagedList.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\PagedList.Mvc.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\System.Web.Helpers.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\System.Web.Mvc.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\System.Web.Optimization.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\System.Web.Razor.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\System.Web.WebPages.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\System.Web.WebPages.Deployment.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\System.Web.WebPages.Razor.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\WebMatrix.Data.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\WebMatrix.WebData.xml
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\es\System.Web.Helpers.resources.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\es\System.Web.Mvc.resources.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\es\System.Web.Razor.resources.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\es\System.Web.WebPages.resources.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\SUAMVC.csprojResolveAssemblyReference.cache
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\SUAMVC.csproj.ResolveComReference.cache
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\SUAMVC.Resources.Language.resources
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\SUAMVC.Resources.Language.es-MX.resources
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\SUAMVC.csproj.GenerateResource.Cache
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\es-MX\SUAMVC.resources.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\SUAMVC.dll
+C:\Users\oj19edal\Source\Repos\SUASolucion\SUAMVC\obj\Release\SUAMVC.pdb
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\es-MX\SUAMVC.resources.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\AntiXssLibrary.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\CrystalDecisions.CrystalReports.Engine.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\CrystalDecisions.ReportSource.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\CrystalDecisions.Shared.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\CrystalDecisions.Web.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\HtmlSanitizationLibrary.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Ionic.Zip.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\LinqToExcel.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\log4net.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\ModelMetadataExtensions.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Remotion.Data.Linq.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Remotion.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Remotion.Interfaces.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\WebActivator.dll
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\AntiXssLibrary.xml
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\HtmlSanitizationLibrary.xml
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\Ionic.Zip.xml
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\LinqToExcel.xml
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\bin\log4net.xml
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.csproj.ResolveComReference.cache
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\SUAMVC.Resources.Language.es-MX.resources
+C:\Users\Leonor\Documents\Visual Studio 2013\Projects\SUASolucion\SUAMVC\obj\Release\es-MX\SUAMVC.resources.dll

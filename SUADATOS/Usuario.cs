@@ -56,6 +56,7 @@ namespace SUADATOS
             this.TipoPersonals = new HashSet<TipoPersonal>();
             this.TopicosUsuarios = new HashSet<TopicosUsuario>();
             this.TopicosUsuarios1 = new HashSet<TopicosUsuario>();
+            this.ReporteConMeses = new HashSet<ReporteConMes>();
         }
     
         public int Id { get; set; }
@@ -114,5 +115,6 @@ namespace SUADATOS
         public virtual ICollection<TipoPersonal> TipoPersonals { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios { get; set; }
         public virtual ICollection<TopicosUsuario> TopicosUsuarios1 { get; set; }
+        public virtual ICollection<ReporteConMes> ReporteConMeses { get; set; }
     }
 }
