@@ -80,7 +80,7 @@
     {
         gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("Subir Lay Out Personal", "Se agrega solicitud para subir lay out de empleados"))
+    if (SecurityUserModel.verificarPermiso("Subir Lay Out Personal", "e agrega solicitud para subir lay out de empleados"))
     {
         gridColumns.Add(grid.Column(header: "Layout Alta Personal", format: @<text><a href="@Url.Action("CargarEmpleadosPorExcel", "Empleados", new { id = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
     }

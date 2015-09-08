@@ -798,7 +798,7 @@
   </data>
   <data name="tipoServicio" xml:space="preserve">
     <value>Tipo de Servicio</value>
-  </data>
+    </data>
   <data name="toExcel" xml:space="preserve">
     <value>Exportar a Excel</value>
     <comment>Etiqueta para exportar a excel</comment>
@@ -822,15 +822,20 @@
   <data name="valor" xml:space="preserve">
     <value>Valor</value>
     <comment>Etiqueta para Valor</comment>
+  <data name="periodo" xml:space="preserve">
+    <value>Periodo</value>
+    <comment>Etiqueta para Periodo</comment>
   </data>
   <data name="vsm" xml:space="preserve">
     <value>VSM</value>
     <comment>Etiqueta para Veces Salario Minimo</comment>
   </data>
-  <data name="excelDetalle" xml:space="preserve">
-    <value>Exporta Reporte a Detalle</value>
+  <data name="cleveCliente" xml:space="preserve">
+    <value>Clave Cliente</value>
+    <comment>Etiqueta para clave Cliente</comment>
   </data>
-  <data name="excelGeneral" xml:space="preserve">
-    <value>Exporta Reporte General</value>
+  <data name="consultar" xml:space="preserve">
+    <value>Consultar</value>
+    <comment>Etiqueta para consulta</comment>
   </data>
 </root>
