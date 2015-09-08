@@ -2,7 +2,7 @@
 @using SUADATOS
 @using SUAMVC.Models
 @using System.Text;
-
+@using System.Web.UI.WebControls
 @{
     ViewBag.Title = "Baja de personal";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,7 +11,9 @@
         Response.Redirect("~/Home/Index");
     }
     Usuario usuario = Session["UsuarioData"] as Usuario;
+    String msg = TempData["mensaje"] as string;
 
+    var listItems = new List<ListItem>();
     var grid = new WebGrid(source: Model, rowsPerPage: 10);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
@@ -57,10 +59,22 @@
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "SolicitudesBaja", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
+
     if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados"))
     {
-        gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text><a href="@Url.Action("BajaEmpleados", "Empleados", new { id = item.id, clienteId = item.clienteId})"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text>
+            @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
+            {
+                <a href="@Url.Action("Create", "Empleados", new { id = item.id })">
+                    <img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }</text>));
     }
+
+    @*if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados"))
+    {
+        gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text><a href="@Url.Action("BajaEmpleados", "Empleados", new { id = item.id, clienteId = item.clienteId})"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }*@
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {
         gridColumns.Add(grid.Column(header: "Layout Baja de Personal", format: @<text><a href="@Url.Action("CargarEmpleadosPorExcel", "Empleados", new { id = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
@@ -100,24 +114,73 @@ tableStyle: "table table-striped tableSua"
     <div>Solicitudes Baja <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-@if (SecurityUserModel.verificarPermiso("nueva solicitud baja", "Se agrega solicitud para agregar solicitud baja"))
+<script language="javascript" type="text/javascript">
+    function obtenerProyectos(_clienteId) {
+        var procemessage = "<option value='0'> Por favor espere...</option>";
+        $("#proyectoId").html(procemessage).show();
+        var url = "/Proyectos/ObtenerProyectosPorClienteId/";
+
+        $.ajax({
+            url: url,
+            data: { clienteId: _clienteId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "<option value='0'>Seleccione su proyecto</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#proyectoId").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+</script>
+
+<p>
+    @if (SecurityUserModel.verificarPermiso("nueva solicitud baja", "Se agrega solicitud para agregar solicitud baja")
+        && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
+    {
+        @Html.ActionLink(@Language.agregar, "Create", "SolicitudesBaja", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId }, new { @class = "btn btn-success" })
+    }
+</p>
+
+@*@if (SecurityUserModel.verificarPermiso("nueva solicitud baja", "Se agrega solicitud para agregar solicitud baja"))
 { 
     @Html.ActionLink(@Language.agregar, "Create", "Solicitudes Baja", new { @class = "btn btn-success" })
-}
+}*@
 
 @using (Html.BeginForm())
 {
     <div class="marqueeFilter">
+        @if (String.IsNullOrEmpty(msg))
+        {
+            <p style="font-weight:bold;">@msg</p>
+        }
         <table style="float:left; margin-top:5px;display:inline-block;">
             <thead>
                 <tr style="text-align:left;vertical-align:bottom;">
                     <td style="padding-top:15px">
                         @Html.Label("Cliente:")
-                        @Html.clientesDrownList(usuario.Id)
+                    </td>
+                    <td>
+                        @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:25px")
                     </td>
                     <td>
                         @Html.Label("Folio:")
+                    </td>
+                    <td>
                         @Html.Editor("folioId")
+                    </td>
+                    <td>
+                        @Html.Label("Proyecto:")
+                    </td>
+                    <td>
+                        @Html.DropDownList("proyectoId", new SelectList(listItems, "Value", "Text"), "-- Seleccione un proyecto --")
+
                     </td>
                     <td>
                         <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />

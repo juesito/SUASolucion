@@ -7,6 +7,10 @@
     Usuario usuario = Session["UsuarioData"] as Usuario;
     suaEntities db = new suaEntities();
 
+    Cliente cliente = db.Clientes.Find(Model.clienteId);
+    Proyecto proyecto = db.Proyectos.Find(Model.proyectoId);
+}
+
 }
 <script language="javascript" type="text/javascript">
     function obtenerProyectos(_clienteId) {
@@ -43,6 +47,9 @@
 {
     @Html.AntiForgeryToken()
 
+    @Html.HiddenFor(model => model.clienteId)
+    @Html.HiddenFor(model => model.proyectoId)
+    @Html.HiddenFor(model => model.fechaSolicitud)
 
     <div class="panel panel-info">
         <div class="panel-heading">
@@ -56,13 +63,11 @@
                     <tr>
                         <td>@Html.Label(@Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td>
-                            @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:25px")
-                            @Html.ValidationMessageFor(model => model.clienteId, "", new { @class = "text-danger" })
+                            @Html.Label(cliente.descripcion)
                         </td>
                         <td>@Html.Label(@Language.proyecto, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td>
-                            @Html.DropDownList("proyectoId", null, htmlAttributes: new { @class = "form-control", id = "proyectoId" })
-                            @Html.ValidationMessageFor(model => model.proyectoId, "", new { @class = "text-danger" })
+                            @Html.Label(proyecto.descripcion)
                         </td>
                     </tr>
                     <tr>
