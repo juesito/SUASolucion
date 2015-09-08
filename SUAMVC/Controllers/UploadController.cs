@@ -1424,13 +1424,13 @@ namespace SUAMVC.Controllers
 
                 if (movto.CatalogoMovimiento.tipo.Trim().Equals("08"))
                 {
-                    asegurado.salarioDiario = Decimal.Parse(movto.sdi.ToString());
-                    asegurado.salarioImss = Decimal.Parse(movto.sdi.ToString());
+                    asegurado.salarioDiario = Decimal.Parse(movto.sdi);
+                    asegurado.salarioImss = Decimal.Parse(movto.sdi);
                 }
                 else if (movto.CatalogoMovimiento.tipo.Trim().Equals("01") || movto.CatalogoMovimiento.tipo.Trim().Equals("07") ||
                          movto.CatalogoMovimiento.tipo.Trim().Equals("13"))
                 {
-                    asegurado.salarioImss = Decimal.Parse(movto.sdi.ToString());
+                    asegurado.salarioImss = Decimal.Parse(movto.sdi);
                     long annos = DatesHelper.DateDiffInYears(asegurado.fechaAlta, ahora);
                     if (annos.Equals(0))
                     {

@@ -39,7 +39,7 @@
 <table class="table table-striped tableSua">
     <tr>
         <th>
-            @Html.DisplayName(@Language.descripcion)
+            @Html.DisplayName(@Language.municipio)
         </th>
         <th>
             @Html.DisplayName(@Language.estado)
@@ -48,16 +48,13 @@
             @Html.DisplayName(@Language.pais)
         </th>
         <th>
-            @Html.DisplayName(@Language.fechaAlta)
-        </th>
-        <th>
             @Html.DisplayName(@Language.usuarioAlta)
         </th>
-        
-        <th></th>
-        <th></th>
+ 
         <th>
             @Html.DisplayName(Language.edit)
+        </th>
+        <th>
             @Html.DisplayName(Language.borrar)
         </th>
     </tr>
@@ -66,15 +63,6 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.nomTipo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.gradoMarginacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaCreacion)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Estado.descripcion)
@@ -88,7 +76,9 @@
         <td>
             <a href="@Url.Action("Edit","Municipios", new { id = item.id })" title="@Language.edit">
                 <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
-            </a>|
+            </a>
+        </td>
+        <td>
             <a href="@Url.Action("Delete", "Municipios", new { id = item.id })" title="@Language.borrar">
                 <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
             </a>
