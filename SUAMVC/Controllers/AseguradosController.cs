@@ -670,10 +670,10 @@ namespace SUAMVC.Controllers
 
             row = eh.addNewCellToRow(index, row, "Baja", headerColumns[19] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
-            
+
             row = eh.addNewCellToRow(index, row, "Modificación", headerColumns[20] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
-            
+
             row = eh.addNewCellToRow(index, row, "Permanente", headerColumns[21] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
             index++;
@@ -805,7 +805,6 @@ namespace SUAMVC.Controllers
         }
 
 
-        [HttpGet]
         public ActionResult Retrocede(String plazasId, String patronesId, String clientesId,
             String gruposId, String opcion, String valor, String statusId, String numeroPagina)
         {
@@ -818,6 +817,337 @@ namespace SUAMVC.Controllers
             }
             return RedirectToAction("Index", new { plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId, numeroPagina });
         }
+
+
+        public ActionResult Duplicados(String plazasId, String clientesId, String gruposId)
+        {
+            Usuario user = Session["UsuarioData"] as Usuario;
+
+            var plazasAsignadas = (from x in db.TopicosUsuarios
+                                   where x.usuarioId.Equals(user.Id)
+                                   && x.tipo.Equals("P")
+                                   select x.topicoId);
+
+            var clientesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("C")
+                                     select x.topicoId);
+
+            var gruposAsignados = (from s in db.Grupos
+                                   join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                   join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                   orderby s.claveGrupo
+                                   select s.Id);
+
+            ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
+                                               join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                               where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   FUllName = s.descripcion
+                                               }).Distinct(), "id", "FullName");
+
+            ViewBag.clientesId = new SelectList((from s in db.Clientes.ToList()
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                                 orderby s.descripcion
+                                                 select new
+                                                 {
+                                                     id = s.Id,
+                                                     FUllName = s.claveCliente + " - " + s.descripcion
+                                                 }).Distinct(), "id", "FullName");
+
+            ViewBag.gruposId = new SelectList((from s in db.Grupos.ToList()
+                                               join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                               join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                               where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                               orderby s.claveGrupo
+                                               select new
+                                               {
+                                                   id = s.Id,
+                                                   FUllName = s.claveGrupo + " - " + s.nombreCorto
+                                               }).Distinct(), "id", "FullName");
+
+            List<Asegurado> list = new List<Asegurado>();
+            var asegurados = from s in db.Asegurados
+                             join cli in db.Clientes on s.ClienteId equals cli.Id
+                             where  plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
+                                   clientesAsignados.Contains(s.Cliente.Id) &&
+                                   gruposAsignados.Contains(s.Cliente.Grupo_id)
+                             orderby s.numeroAfiliacion
+                             select s;
+
+            //Comenzamos los filtros
+            if (!String.IsNullOrEmpty(plazasId))
+            {
+                @ViewBag.pzaId = plazasId;
+                int idPlaza = int.Parse(plazasId.Trim());
+                asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
+            }
+
+            if (!String.IsNullOrEmpty(clientesId))
+            {
+                @ViewBag.cteId = clientesId;
+                int idCliente = int.Parse(clientesId.Trim());
+                asegurados = asegurados.Where(s => s.Cliente.Id.Equals(idCliente));
+            }
+
+            if (!String.IsNullOrEmpty(gruposId))
+            {
+                @ViewBag.gpoId = gruposId;
+                int idGrupo = int.Parse(gruposId.Trim());
+                asegurados = asegurados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
+            }
+
+            list = asegurados.ToList();
+            IEnumerable<IGrouping<String, Asegurado>> groups = list.GroupBy(x => x.numeroAfiliacion).Where(nombre => nombre.Count() > 1);
+            IEnumerable<Asegurado> smths = groups.SelectMany(group => group);
+            List<Asegurado> newList = smths.ToList();
+
+            return View(newList);
+        }
+
+
+        [HttpGet]
+        public void GetExcelDuplicados(String plazasId, String clientesId, String gruposId)
+        {
+            FileStream fileStream = null;
+            MemoryStream mem = new MemoryStream();
+            try
+            {
+                Usuario user = Session["UsuarioData"] as Usuario;
+
+            var plazasAsignadas = (from x in db.TopicosUsuarios
+                                   where x.usuarioId.Equals(user.Id)
+                                   && x.tipo.Equals("P")
+                                   select x.topicoId);
+
+            var clientesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("C")
+                                     select x.topicoId);
+
+            var gruposAsignados = (from s in db.Grupos
+                                   join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                   join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                   orderby s.claveGrupo
+                                   select s.Id);
+
+            ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
+                                               join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                               where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   FUllName = s.descripcion
+                                               }).Distinct(), "id", "FullName");
+
+            ViewBag.clientesId = new SelectList((from s in db.Clientes.ToList()
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                                 orderby s.descripcion
+                                                 select new
+                                                 {
+                                                     id = s.Id,
+                                                     FUllName = s.claveCliente + " - " + s.descripcion
+                                                 }).Distinct(), "id", "FullName");
+
+            ViewBag.gruposId = new SelectList((from s in db.Grupos.ToList()
+                                               join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                               join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                               where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                               orderby s.claveGrupo
+                                               select new
+                                               {
+                                                   id = s.Id,
+                                                   FUllName = s.claveGrupo + " - " + s.nombreCorto
+                                               }).Distinct(), "id", "FullName");
+
+            List<Asegurado> list = new List<Asegurado>();
+            var asegurados = from s in db.Asegurados
+                             join cli in db.Clientes on s.ClienteId equals cli.Id
+                             where s.fechaBaja.HasValue.Equals(null) &&
+                             plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
+                                   clientesAsignados.Contains(s.Cliente.Id) &&
+                                   gruposAsignados.Contains(s.Cliente.Grupo_id) 
+                                   
+                             orderby s.numeroAfiliacion
+                             select s;
+
+            //Comenzamos los filtros
+            if (!String.IsNullOrEmpty(plazasId))
+            {
+                @ViewBag.pzaId = plazasId;
+                int idPlaza = int.Parse(plazasId.Trim());
+                asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
+            }
+
+            if (!String.IsNullOrEmpty(clientesId))
+            {
+                @ViewBag.cteId = clientesId;
+                int idCliente = int.Parse(clientesId.Trim());
+                asegurados = asegurados.Where(s => s.Cliente.Id.Equals(idCliente));
+            }
+
+            if (!String.IsNullOrEmpty(gruposId))
+            {
+                @ViewBag.gpoId = gruposId;
+                int idGrupo = int.Parse(gruposId.Trim());
+                asegurados = asegurados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
+            }
+
+            list = asegurados.ToList();
+            IEnumerable<IGrouping<String, Asegurado>> groups = list.GroupBy(x => x.numeroAfiliacion).Where(nombre => nombre.Count() > 1);
+            IEnumerable<Asegurado> smths = groups.SelectMany(group => group);
+            List<Asegurado> newList = smths.ToList();
+
+            List<Asegurado> allCust = new List<Asegurado>();
+
+               allCust = newList;
+
+                DateTime date = DateTime.Now;
+                String path = @"C:\\SUA\\Exceles\\";
+                String fileName = @"Asegurados Duplicados -" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fullName = path + fileName;
+
+                ExcelHelper eh = new ExcelHelper();
+                //Creamos el objeto del workbook
+                SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
+
+                WorkbookPart wbp = xl.AddWorkbookPart();
+                WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
+                Workbook wb = new Workbook();
+                FileVersion fv = new FileVersion();
+                fv.ApplicationName = "Microsoft Office Excel";
+
+                Worksheet ws = new Worksheet();
+                WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
+                // add styles to sheet
+                wbsp.Stylesheet = eh.CreateStylesheet();
+                wbsp.Stylesheet.Save();
+
+                SheetData sd = crearContenidoHojaD(allCust, eh);//CreateContentRow(); 
+                ws.Append(sd);
+                wsp.Worksheet = ws;
+                wsp.Worksheet.Save();
+
+                Sheets sheets = new Sheets();
+                Sheet sheet = new Sheet();
+                sheet.Name = "Sheet1";
+                sheet.SheetId = 1;
+                sheet.Id = wbp.GetIdOfPart(wsp);
+
+                sheets.Append(sheet);
+                wb.Append(fv);
+                wb.Append(sheets);
+
+                xl.WorkbookPart.Workbook = wb;
+                xl.WorkbookPart.Workbook.Save();
+                xl.Close();
+
+                fileStream = new FileStream(fullName, FileMode.Open);
+                fileStream.Position = 0;
+                mem = new MemoryStream();
+                fileStream.CopyTo(mem);
+
+                mem.Position = 0;
+                Response.ClearContent();
+                Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                ToolsHelper th = new ToolsHelper();
+                Response.ContentType = th.getMimeType(fullName);
+                Response.BinaryWrite(mem.ToArray());
+
+                Response.End();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+
+            }
+            finally
+            {
+                if (fileStream != null)
+                {
+                    fileStream.Flush();
+                    fileStream.Close();
+                }
+                mem.Flush();
+                mem.Close();
+            }
+
+        }
+
+
+        string[] headerColumnsD = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG" };
+        public SheetData crearContenidoHojaD(List<Asegurado> asegurados, ExcelHelper eh)
+        {
+            SheetData sheetData = new SheetData();
+            int index = 1;
+
+            //Creamos el Header
+            Row row = new Row();
+            row = eh.addNewCellToRow(index, row, "ID Plaza", headerColumns[0] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Cliente", headerColumns[1] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Nombre Cliente", headerColumns[2] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Número Afiliación", headerColumns[3] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Registro Patronal", headerColumns[4] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Fecha Alta", headerColumns[5] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Nombre Afiliado", headerColumns[6] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+
+
+           index++;
+            //Create the cells that contain the data.
+            foreach (Asegurado dp in asegurados)
+            {
+                int i = 0;
+
+                row = eh.addNewCellToRow(index, row, dp.Cliente.Plaza.cveCorta, headerColumns[i] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Cliente.claveCliente, headerColumns[i + 1] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Cliente.descripcion, headerColumns[i + 2] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.numeroAfiliacion, headerColumns[i + 3] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Patrone.registro, headerColumns[i + 4] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                String var1 = String.Format("{0:dd/MM/yyyy}", dp.fechaAlta);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 5] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.nombreTemporal, headerColumns[i + 6] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                index++;
+            }
+
+            return sheetData;
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
