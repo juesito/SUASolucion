@@ -20,38 +20,57 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Solicitudes
-        public ActionResult Index(string clientesId, String folioId)
+        public ActionResult Index(String clienteId, String proyectoId, String folioId)
         {
-            ToolsHelper th = new ToolsHelper();
-            Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "alta");
-            Usuario usuario = Session["UsuarioData"] as Usuario;
 
-            //Buscamos las solicitudes que puede ver ese usuario
-            //de acuerdo a sus clientes permitidos
-            var solicituds = (from s in db.Solicituds
-                              join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
-                              where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
-                              orderby s.fechaSolicitud
-                              select s).ToList();
-
-            if (!String.IsNullOrEmpty(clientesId))
+            if ((!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId)) || !String.IsNullOrEmpty(folioId))
             {
-                int clienteId = int.Parse(clientesId);
-                Cliente cliente = db.Clientes.Find(clienteId);
-                if (!cliente.descripcion.ToLower().Contains("seleccion"))
+
+                ToolsHelper th = new ToolsHelper();
+                Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "alta");
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
+                //Buscamos las solicitudes que puede ver ese usuario
+                //de acuerdo a sus clientes permitidos
+                var solicituds = (from s in db.Solicituds
+                                  join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
+                                  where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
+                                  orderby s.fechaSolicitud
+                                  select s).ToList();
+
+                if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId))
                 {
-                    solicituds = solicituds.Where(s => s.clienteId.Equals(clienteId)).ToList();
-                }
-            }// Se va a filtrar por cliente ?
-            if (!String.IsNullOrEmpty(folioId))
+
+                    ViewBag.clienteId = clienteId;
+                    ViewBag.proyectoId = proyectoId;
+
+                    Cliente cliente = db.Clientes.Find(int.Parse(clienteId));
+                    Proyecto proyecto = db.Proyectos.Find(int.Parse(proyectoId));
+
+                    if (!cliente.descripcion.ToLower().Contains("seleccion") && 
+                        !proyecto.descripcion.ToLower().Contains("seleccion"))
+                    {
+                        solicituds = solicituds.Where(s => s.clienteId.Equals(int.Parse(clienteId))
+                            && s.proyectoId.Equals(int.Parse(proyectoId))).ToList();
+                    }
+
+                }// Se va a filtrar por cliente  y proyecto?
+
+                if (!String.IsNullOrEmpty(folioId))
+                {
+                    solicituds = solicituds.Where(s => s.folioSolicitud.Contains(folioId)).ToList();
+                }//Se va a filtrar por folio?
+
+                //Filtrar por el tipo de solicitud=baja
+                solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(tipoSolicitud.id)).ToList();
+                return View(solicituds.ToList());
+            }
+            else
             {
-                solicituds = solicituds.Where(s => s.folioSolicitud.Contains(folioId)).ToList();
-            }//Se va a filtrar por folio?
+                var solicituds = new List<Solicitud>();
+                return View(solicituds);
+            }
 
-            //Filtrar por el tipo de solicitud=baja
-            solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(tipoSolicitud.id)).ToList();
-
-            return View(solicituds.ToList());
         }
 
         // GET: Solicitudes/Details/5
@@ -70,21 +89,28 @@ namespace SUAMVC.Controllers
         }
 
         // GET: Solicitudes/Create
-        public ActionResult Create()
+        public ActionResult Create(int clienteId, int proyectoId)
         {
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
+            Solicitud solicitud = new Solicitud();
+            Cliente cliente = db.Clientes.Find(clienteId);
+            solicitud.clienteId = clienteId;
+            solicitud.proyectoId = proyectoId;
+            solicitud.fechaSolicitud = DateTime.Now;
+            ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
+            solicitud.autoriza = lvc.autorizador;
+            solicitud.valida = lvc.validador;
+
+
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo");
             ViewBag.estatusNomina = new SelectList(db.Conceptos, "id", "grupo");
             ViewBag.estatusJuridico = new SelectList(db.Conceptos, "id", "grupo");
             ViewBag.estatusAfiliado = new SelectList(db.Conceptos, "id", "grupo");
             ViewBag.estatusTarjeta = new SelectList(db.Conceptos, "id", "grupo");
             ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion");
-            ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion");
-            ViewBag.proyectoId = new SelectList(db.Proyectos.Where(s => s.descripcion.Trim().Equals("Seleccion")), "id", "descripcion");
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion");
             ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion");
             ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion");
-            return View();
+            return View(solicitud);
         }
 
         // POST: Solicitudes/Create
@@ -92,7 +118,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio")] Solicitud solicitud)
+        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio,fechaInicioContrato")] Solicitud solicitud)
         {
             if (ModelState.IsValid)
             {
@@ -109,8 +135,7 @@ namespace SUAMVC.Controllers
 
                 solicitud.usuarioId = usuario.Id;
                 solicitud.fechaSolicitud = DateTime.Now;
-                solicitud.autoriza = lvc.autorizador;
-                solicitud.valida = lvc.validador;
+                
                 solicitud.solicita = usuario.nombreUsuario;
                 solicitud.estatusSolicitud = concepto.id;
                 solicitud.estatusNomina = concepto.id;

@@ -712,7 +712,7 @@ namespace SUAMVC.Helpers
             return htmlHelper.DropDownList(componenteId, listFields, new { @class = htmlclass});
         }
 
-        public static MvcHtmlString sdiDrownList(this HtmlHelper htmlHelper, int userId, String componenteId, int clienteId, String htmlclass)
+        public static MvcHtmlString sdiDrownList(this HtmlHelper htmlHelper, int userId, String componenteId, int clienteId, String htmlclass, Boolean incTodas)
         {
 
             db = new suaEntities();
@@ -735,8 +735,15 @@ namespace SUAMVC.Helpers
                 if (descripcion.Contains("Todas") || descripcion.Contains("Seleccion"))
                 {
                     itemId = "";
+                    if (incTodas)
+                    {
+                        listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+                    }
                 }
-                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+                else {
+                    listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+                }
+                
             }
 
             return htmlHelper.DropDownList(componenteId, listFields, new { @class = htmlclass });

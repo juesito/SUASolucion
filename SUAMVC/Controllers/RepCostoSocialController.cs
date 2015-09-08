@@ -176,7 +176,7 @@ namespace SUAMVC.Controllers
                     reporte.registroPatronal = aseg.Patrone.registro;
                     reporte.nombreRegPatronal = aseg.Patrone.nombre;
                     reporte.porcNomina = aseg.Patrone.porcentajeNomina;
-                    reporte.usuarioId = userId;
+                    //reporte.usuarioId = userId;
 
                     if (!aseg.paginaInfo.Trim().Equals(""))
                     {

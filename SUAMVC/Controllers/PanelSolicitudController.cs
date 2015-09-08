@@ -762,7 +762,7 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 28] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-//                if ((dp.FamiliaresEmpleadoes.Count>0)dp.FamiliaresEmpleadoes fe = dp.FamiliaresEmpleadoes.FirstOrDefault())
+                //if ((dp.FamiliaresEmpleadoes.Count>0)dp.FamiliaresEmpleadoes fe = dp.FamiliaresEmpleadoes.FirstOrDefault())
            
                 
 
@@ -1274,7 +1274,7 @@ namespace SUAMVC.Controllers
                }
 
 
-                if(dp.DocumentosEmpleadoes.Count()>0)
+                if(dp.DocumentoEmpleadoes.Count()>0)
                 {
 
                 }
@@ -2262,14 +2262,24 @@ namespace SUAMVC.Controllers
 
             Response.Redirect("~/Reports/ReportViewer.aspx");
 
-            String serverName = "Driver={SQL Server Native Client 10.0};Server=MXQRMN-PC025WWD\\SQLEXPRESS";
-//            rp.SetDatabaseLogon("root", "jeargaqu", serverName, "sua", false);
-//            rp.VerifyDatabase();
-//            rp.Refresh();
+            //String serverName = "Driver={SQL Server Native Client 10.0};Server=MXQRMN-PC025WWD\\SQLEXPRESS";
+<<<<<<< HEAD
+            //rp.SetDatabaseLogon("root", "jeargaqu", serverName, "sua", false);
+            //rp.VerifyDatabase();
+            //rp.Refresh();
+
+            //CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
+            //crystalReportViewer.ReportSource = rp;
+            //crystalReportViewer.DisplayToolbar = true;
+=======
+           // rp.SetDatabaseLogon("root", "jeargaqu", serverName, "sua", false);
+           // rp.VerifyDatabase();
+           // rp.Refresh();
 
             CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
-//            crystalReportViewer.ReportSource = rp;
+            //crystalReportViewer.ReportSource = rp;
             crystalReportViewer.DisplayToolbar = true;
+>>>>>>> origin/2daEtapa
 
             //Response.Buffer = false;
             //Response.ClearContent();

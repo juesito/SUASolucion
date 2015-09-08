@@ -50,22 +50,23 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CrystalDecisions.CrystalReports.Engine.1.0.0\lib\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+      <Private>True</Private>
+      <HintPath>..\packages\Crystal.Reports.Essentials.13.0.2000.0\lib\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
       <HintPath>..\packages\Crystal.Reports.Essentials.13.0.2000.0\lib\CrystalDecisions.ReportSource.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
       <HintPath>..\packages\Crystal.Reports.Essentials.13.0.2000.0\lib\CrystalDecisions.Shared.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
       <HintPath>..\packages\Crystal.Reports.Essentials.13.0.2000.0\lib\CrystalDecisions.Web.dll</HintPath>
     </Reference>
-    <Reference Include="DocumentFormat.OpenXml">
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
       <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -92,6 +93,16 @@
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.InfoPath.Permission, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Interop.InfoPath.SemiTrust, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft Office\Office15\Microsoft.Office.Interop.InfoPath.SemiTrust.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.InfoPath.Xml, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft Office\Office15\Microsoft.Office.Interop.InfoPath.Xml.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.Web.Helpers">
       <HintPath>..\packages\Microsoft.AspNet.WebHelpers.3.2.3\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
@@ -243,6 +254,7 @@
     <Content Include="Content\jquery-ui-1.11.4\jquery-ui.theme.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Icon.png" />
+    <Content Include="Reports\ReportViewer.aspx" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr\event.js" />
     <Content Include="Scripts\cldr\supplemental.js" />
@@ -351,7 +363,10 @@
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Content\less\bootstrap-datetimepicker-build.less" />
     <Content Include="Content\less\_bootstrap-datetimepicker.less" />
+    <None Include="Properties\PublishProfiles\localSua.pubxml" />
     <None Include="Properties\PublishProfiles\siap.pubxml" />
+    <None Include="Properties\PublishProfiles\SUASolution.pubxml" />
+    <None Include="Properties\PublishProfiles\SUASolutionT.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\globalize.js" />
     <Content Include="Scripts\globalize\currency.js" />
@@ -476,16 +491,17 @@
     <Compile Include="Controllers\ProyectosController.cs" />
     <Compile Include="Controllers\RegimenInfonavitController.cs" />
     <Compile Include="Controllers\RepCostoSocialController.cs" />
-    <Compile Include="Controllers\ReporteConMesController.cs" />
     <Compile Include="Controllers\RespuestaSolicitudController.cs" />
     <Compile Include="Controllers\RoleFuncionesController.cs" />
     <Compile Include="Controllers\RoleModulosController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SDIsController.cs" />
+    <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Controllers\SexoController.cs" />
     <Compile Include="Controllers\SolicitudesBajaController.cs" />
     <Compile Include="Controllers\SolicitudesController.cs" />
     <Compile Include="Controllers\SolicitudesModificacionController.cs" />
+    <Compile Include="Controllers\SolicitudPrenominasController.cs" />
     <Compile Include="Controllers\SumarizadoClientesController.cs" />
     <Compile Include="Controllers\TipoContratoController.cs" />
     <Compile Include="Controllers\TipoPersonalController.cs" />
@@ -527,7 +543,22 @@
     <Compile Include="Models\UploadModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< HEAD
     <Compile Include="Resources\Language.Designer.cs" />
+=======
+    <Compile Include="Reports\ReportViewer.aspx.cs">
+      <DependentUpon>ReportViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\ReportViewer.aspx.designer.cs">
+      <DependentUpon>ReportViewer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Language.resx</DependentUpon>
+    </Compile>
+>>>>>>> 99c3cbfb29d82fe9a03f6bd8f471317fb9972bee
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">
@@ -630,6 +661,7 @@
     <Content Include="Views\Incapacidades\Details.cshtml" />
     <Content Include="Views\Incapacidades\Edit.cshtml" />
     <Content Include="Views\Incapacidades\Index.cshtml" />
+    <Content Include="Views\Pagos\Details.cshtml" />
     <Content Include="Views\Pagos\Index.cshtml" />
     <Content Include="Views\Pagos\UploadPagos.cshtml" />
     <Content Include="Views\Proyectos\Create.cshtml" />
@@ -728,13 +760,16 @@
     <Content Include="Views\RepCostoSocial\Details.cshtml" />
     <Content Include="Views\RepCostoSocial\Edit.cshtml" />
     <Content Include="Views\RepCostoSocial\Index.cshtml" />
-    <Content Include="Views\SumarizadoClientes\ResumenPagosINF.cshtml" />
-    <Content Include="Views\ReporteConMes\Create.cshtml" />
-    <Content Include="Views\ReporteConMes\Delete.cshtml" />
-    <Content Include="Views\ReporteConMes\Details.cshtml" />
-    <Content Include="Views\ReporteConMes\Edit.cshtml" />
-    <Content Include="Views\ReporteConMes\Index.cshtml" />
-    <Content Include="Views\ReporteConMes\AnualCostoSocial.cshtml" />
+    <Content Include="Views\Servicios\Create.cshtml" />
+    <Content Include="Views\Servicios\Delete.cshtml" />
+    <Content Include="Views\Servicios\Details.cshtml" />
+    <Content Include="Views\Servicios\Edit.cshtml" />
+    <Content Include="Views\Servicios\Index.cshtml" />
+    <Content Include="Views\SolicitudPrenominas\Create.cshtml" />
+    <Content Include="Views\SolicitudPrenominas\Delete.cshtml" />
+    <Content Include="Views\SolicitudPrenominas\Details.cshtml" />
+    <Content Include="Views\SolicitudPrenominas\Edit.cshtml" />
+    <Content Include="Views\SolicitudPrenominas\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -782,7 +817,17 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <EmbeddedResource Include="Resources\Language.resx" />
+=======
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Language.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Language.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+>>>>>>> 99c3cbfb29d82fe9a03f6bd8f471317fb9972bee
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
