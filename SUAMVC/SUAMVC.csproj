@@ -543,9 +543,6 @@
     <Compile Include="Models\UploadModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-<<<<<<< HEAD
-    <Compile Include="Resources\Language.Designer.cs" />
-=======
     <Compile Include="Reports\ReportViewer.aspx.cs">
       <DependentUpon>ReportViewer.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -558,7 +555,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Language.resx</DependentUpon>
     </Compile>
->>>>>>> 99c3cbfb29d82fe9a03f6bd8f471317fb9972bee
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">
@@ -817,17 +813,14 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <EmbeddedResource Include="Resources\Language.resx" />
-=======
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Language.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Language.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
->>>>>>> 99c3cbfb29d82fe9a03f6bd8f471317fb9972bee
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
