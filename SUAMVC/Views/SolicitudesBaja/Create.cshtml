@@ -7,32 +7,10 @@
     Usuario usuario = Session["UsuarioData"] as Usuario;
     suaEntities db = new suaEntities();
 
+    Cliente cliente = db.Clientes.Find(Model.clienteId);
+    Proyecto proyecto = db.Proyectos.Find(Model.proyectoId);
 }
-<script language="javascript" type="text/javascript">
-    function obtenerProyectos(_clienteId) {
-        var procemessage = "<option value='0'> Por favor espere...</option>";
-        $("#proyectoId").html(procemessage).show();
-        var url = "/Proyectos/ObtenerProyectosPorClienteId/";
 
-        $.ajax({
-            url: url,
-            data: { clienteId: _clienteId },
-            cache: false,
-            type: "POST",
-            success: function (data) {
-                var markup = "<option value='0'>Seleccione su proyecto</option>";
-                for (var x = 0; x < data.length; x++) {
-                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
-                }
-                $("#proyectoId").html(markup).show();
-            },
-            error: function (reponse) {
-                alert("error : " + reponse);
-            }
-        });
-
-    }
-</script>
 
 @section Menu {
     <div>Catálogo de Solicitudes Baja<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
@@ -43,6 +21,9 @@
 {
     @Html.AntiForgeryToken()
 
+    @Html.HiddenFor(model => model.clienteId)
+    @Html.HiddenFor(model => model.proyectoId)
+    @Html.HiddenFor(model => model.fechaSolicitud)
 
     <div class="panel panel-info">
         <div class="panel-heading">
@@ -56,33 +37,33 @@
                     <tr>
                         <td>@Html.Label(@Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td>
-                            @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:25px")
-                            @Html.ValidationMessageFor(model => model.clienteId, "", new { @class = "text-danger" })
+                            @Html.Label(cliente.descripcion)
                         </td>
                         <td>@Html.Label(@Language.proyecto, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td>
-                            @Html.DropDownList("proyectoId", null, htmlAttributes: new { @class = "form-control", id = "proyectoId" })
-                            @Html.ValidationMessageFor(model => model.proyectoId, "", new { @class = "text-danger" })
+                            @Html.Label(proyecto.descripcion)
                         </td>
                     </tr>
                     <tr>
-                        <td>@Html.Label(@Language.residencia, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(@Language.plaza, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td>
-                            @Html.DropDownList("plazaId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.plazasDrownListNS(usuario.Id, "plazaId")
                             @Html.ValidationMessageFor(model => model.plazaId, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.Label(@Language.fechaBaja, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(@Language.fechaBaja)</td>
                         <td>
                             @Html.EditorFor(model => model.fechaBaja, new { htmlAttributes = new { @class = "from-control myDate" } })
                             @Html.ValidationMessageFor(model => model.fechaBaja, "", new { @class = "text-danger" })
                         </td>
                     </tr>
-                   
+
                     <tr>
-                        <td>@Html.Label(@Language.motivoBaja, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(@Language.motivoBaja)</td>
                         <td>
                             @Html.conceptosDrownList(usuario.Id, "BAJACON", "conceptoBaja")
-                        </td> 
+                        </td>
+                        <td></td>
+                        <td></td>
                     </tr>
 
                     <tr>
@@ -91,17 +72,18 @@
                             @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 4 })
                             @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
                         </td>
-                    </tr>
-                            <tr>
-                                <td colspan="3"></td>
-                                <td style="text-align:right;"><input type="submit" value="@Language.agregar" class="btn btn-primary" /></td>
-                            </tr>
 
-                        </table>
-                    </div>
-                </div>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td style="text-align:right;"><input type="submit" value="@Language.agregar" class="btn btn-primary" /></td>
+                    </tr>
+
+                </table>
             </div>
-      
+        </div>
+    </div>
+
 }
 
 <div>

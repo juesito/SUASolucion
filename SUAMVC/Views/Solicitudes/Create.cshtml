@@ -11,31 +11,6 @@
     Proyecto proyecto = db.Proyectos.Find(Model.proyectoId);
 }
 
-<script language="javascript" type="text/javascript">
-    function obtenerProyectos(_clienteId) {
-        var procemessage = "<option value='0'> Por favor espere...</option>";
-        $("#proyectoId").html(procemessage).show();
-        var url = "/Proyectos/ObtenerProyectosPorClienteId/";
-
-        $.ajax({
-            url: url,
-            data: { clienteId: _clienteId },
-            cache: false,
-            type: "POST",
-            success: function (data) {
-                var markup = "<option value='0'>Seleccione su proyecto</option>";
-                for (var x = 0; x < data.length; x++) {
-                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
-                }
-                $("#proyectoId").html(markup).show();
-            },
-            error: function (reponse) {
-                alert("error : " + reponse);
-            }
-        });
-
-    }
-</script>
 
 @section Menu {
     <div>Alta de solicitudes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>

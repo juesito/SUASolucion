@@ -916,6 +916,24 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Exporta Reporte a Detalle.
+        /// </summary>
+        public static string excelDetalle {
+            get {
+                return ResourceManager.GetString("excelDetalle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Exporta Reporte General.
+        /// </summary>
+        public static string excelGeneral {
+            get {
+                return ResourceManager.GetString("excelGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Factor.
         /// </summary>
         public static string factor {
@@ -1724,29 +1742,7 @@ namespace SUAMVC.Resources {
                 return ResourceManager.GetString("toExcel", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Busca una cadena traducida similar a Exportar a excelGeneral.
-        /// </summary>
-        public static string excelGeneral
-        {
-            get
-            {
-                return ResourceManager.GetString("excelGeneral", resourceCulture);
-            }
-        }
         
-        /// <summary>
-        ///   Busca una cadena traducida similar a Exportar a excelDetalle.
-        /// </summary>
-        public static string excelDetalle
-        {
-            get
-            {
-                return ResourceManager.GetString("excelDetalle", resourceCulture);
-            }
-        }
-
         /// <summary>
         ///   Busca una cadena traducida similar a Ubicación.
         /// </summary>
