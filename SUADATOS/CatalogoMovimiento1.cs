@@ -12,19 +12,18 @@ namespace SUADATOS
     using System;
     using System.Collections.Generic;
     
-    public partial class TipoPersonal
+    public partial class CatalogoMovimiento1
     {
-        public TipoPersonal()
+        public CatalogoMovimiento1()
         {
-            this.Solicituds = new HashSet<Solicitud>();
+            this.MovimientosAseguradoes = new HashSet<MovimientosAsegurado>();
         }
     
         public int id { get; set; }
+        public string tipo { get; set; }
         public string descripcion { get; set; }
         public System.DateTime fechaCreacion { get; set; }
-        public int usuarioId { get; set; }
     
-        public virtual ICollection<Solicitud> Solicituds { get; set; }
-        public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<MovimientosAsegurado> MovimientosAseguradoes { get; set; }
     }
 }
