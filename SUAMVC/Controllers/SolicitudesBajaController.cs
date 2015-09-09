@@ -86,13 +86,21 @@ namespace SUAMVC.Controllers
         }
 
         // GET: SolicitudesBaja/Create
-        public ActionResult Create()
+        public ActionResult Create(int clienteId, int proyectoId)
         {
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo");
-            ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion");
-            ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion");
-            return View();
+
+            Solicitud solicitud = new Solicitud();
+            Cliente cliente = db.Clientes.Find(clienteId);
+            solicitud.clienteId = clienteId;
+            solicitud.proyectoId = proyectoId;
+            solicitud.fechaSolicitud = DateTime.Now;
+            ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
+            solicitud.autoriza = lvc.autorizador;
+            solicitud.valida = lvc.validador;
+
+
+            return View(solicitud);
         }
 
         // POST: SolicitudesBaja/Create
