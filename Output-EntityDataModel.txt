@@ -1,4 +1,0 @@
-﻿Generated model file: Model1.edmx.
-Loading metadata from the database took 00:00:02.5287675.
-Generating the model took 00:00:04.9162413.
-Added the connection string to the App.Config file.
