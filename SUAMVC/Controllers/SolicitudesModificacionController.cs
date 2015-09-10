@@ -19,37 +19,56 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: SolicitudesModificacion
-        public ActionResult Index(string clientesId, String folioId)
+        public ActionResult Index(string clienteId, String folioId, String proyectoId)
         {
-            Concepto tipoSolicitud = db.Conceptos.Where(s => s.grupo.Equals("SOLCON") &&
-                s.descripcion.ToLower().Trim().Contains("modificacion")).FirstOrDefault();
 
-            var solicituds = db.Solicituds.Include(s => s.Cliente).Include(s => s.Concepto).
-                Include(s => s.Concepto1).Include(s => s.Concepto2).Include(s => s.Concepto3).
-                Include(s => s.Concepto4).Include(s => s.EsquemasPago).Include(s => s.Plaza).
-                Include(s => s.Proyecto).Include(s => s.TipoContrato).Include(s => s.TipoPersonal).
-                Include(s => s.Usuario);
+            if ((!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId)) || !String.IsNullOrEmpty(folioId))
+{
 
-            if (!String.IsNullOrEmpty(clientesId))
-            {
-                int clienteId = int.Parse(clientesId);
-                Cliente cliente = db.Clientes.Find(clienteId);
-                if (!cliente.descripcion.ToLower().Contains("seleccion"))
+                ToolsHelper th = new ToolsHelper();
+                Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "modificacion");
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
+
+               var solicituds = (from s in db.Solicituds
+                                  join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
+                                  where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
+                                  orderby s.fechaSolicitud
+                                  select s).ToList();
+
+                if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId))
                 {
 
-                    solicituds = solicituds.Where(s => s.clienteId.Equals(clienteId));
-                }
+                    ViewBag.clienteId = clienteId;
+                    ViewBag.proyectoId = proyectoId;
+
+                    Cliente cliente = db.Clientes.Find(int.Parse(clienteId));
+                    Proyecto proyecto = db.Proyectos.Find(int.Parse(proyectoId));
+
+                    if (!cliente.descripcion.ToLower().Contains("seleccion") && 
+                        !proyecto.descripcion.ToLower().Contains("seleccion"))
+                    {
+                        solicituds = solicituds.Where(s => s.clienteId.Equals(int.Parse(clienteId))
+                            && s.proyectoId.Equals(int.Parse(proyectoId))).ToList();
+                    }
+}
+  // Se va a filtrar por cliente  y proyecto?
+
+                if (!String.IsNullOrEmpty(folioId))
+                {
+                    solicituds = solicituds.Where(s => s.folioSolicitud.Contains(folioId)).ToList();
+                }//Se va a filtrar por folio?
+
+                //Filtrar por el tipo de solicitud=baja
+                solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(tipoSolicitud.id)).ToList();
+                return View(solicituds.ToList());
             }
-            if (!String.IsNullOrEmpty(folioId))
+            else
             {
-                solicituds = solicituds.Where(s => s.folioSolicitud.Contains(folioId));
+                var solicituds = new List<Solicitud>();
+                return View(solicituds);
             }
 
-            //Filtramos solo solicitudes de Alta
-            solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(tipoSolicitud.id));
-
-
-            return View(solicituds.ToList());
         }
 
         // GET: SolicitudesModificacion/Details/5
@@ -68,8 +87,17 @@ namespace SUAMVC.Controllers
         }
 
         // GET: SolicitudesModificacion/Create
-        public ActionResult Create()
+        public ActionResult Create(int clienteId, int proyectoId)
         {
+            Solicitud solicitud = new Solicitud();
+            Cliente cliente = db.Clientes.Find(clienteId);
+            solicitud.clienteId = clienteId;
+            solicitud.proyectoId = proyectoId;
+            solicitud.fechaSolicitud = DateTime.Now;
+            ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
+            solicitud.autoriza = lvc.autorizador;
+            solicitud.valida = lvc.validador;
+
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo");
             ViewBag.estatusNomina = new SelectList(db.Conceptos, "id", "grupo");
@@ -83,7 +111,7 @@ namespace SUAMVC.Controllers
             ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion");
             ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion");
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario");
-            return View();
+            return View(solicitud);
         }
 
         // POST: SolicitudesModificacion/Create
@@ -108,7 +136,7 @@ namespace SUAMVC.Controllers
                 Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "modificacion");
 
                 solicitud.fechaSolicitud = DateTime.Now;
-                solicitud.usuarioId = usuario.Id;
+                solicitud.solicita = usuario.nombreUsuario;
                 solicitud.autoriza = lvc.autorizador;
                 solicitud.valida = lvc.validador;
                 solicitud.solicita = usuario.nombreUsuario;
