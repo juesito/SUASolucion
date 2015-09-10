@@ -1274,7 +1274,7 @@ namespace SUAMVC.Controllers
                }
 
 
-                if(dp.DocumentosEmpleadoes.Count()>0)
+                if(dp.DocumentoEmpleadoes.Count()>0)
                 {
 
                 }
