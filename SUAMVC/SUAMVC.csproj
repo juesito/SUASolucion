@@ -209,16 +209,30 @@
     <Content Include="Content\code52.i18n\images\flags\gb.png" />
     <Content Include="Content\code52.i18n\images\flags\it.png" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Images\addEmployee.png" />
+    <Content Include="Content\Images\addEmployee1.png" />
+    <Content Include="Content\Images\atm.png" />
+    <Content Include="Content\Images\back.png" />
+    <Content Include="Content\Images\balance.png" />
+    <Content Include="Content\Images\bank.png" />
+    <Content Include="Content\Images\brain.png" />
     <Content Include="Content\Images\buscar.png" />
     <Content Include="Content\Images\camera.png" />
+    <Content Include="Content\Images\copy.png" />
+    <Content Include="Content\Images\creditCard.png" />
+    <Content Include="Content\Images\cv.png" />
     <Content Include="Content\Images\fileSearch.png" />
     <Content Include="Content\Images\girl.png" />
     <Content Include="Content\Images\hide.png" />
+    <Content Include="Content\Images\history.png" />
+    <Content Include="Content\Images\imss.jpg" />
     <Content Include="Content\Images\male.png" />
+    <Content Include="Content\Images\report.png" />
     <Content Include="Content\Images\search.png" />
     <Content Include="Content\Images\see.png" />
     <Content Include="Content\Images\send.png" />
     <Content Include="Content\Images\show.png" />
+    <Content Include="Content\Images\worker.png" />
     <Content Include="Content\jquery-ui-1.11.4\external\jquery\jquery.js" />
     <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="Content\jquery-ui-1.11.4\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
@@ -491,6 +505,7 @@
     <Compile Include="Controllers\ProyectosController.cs" />
     <Compile Include="Controllers\RegimenInfonavitController.cs" />
     <Compile Include="Controllers\RepCostoSocialController.cs" />
+    <Compile Include="Controllers\ReporteConMesController.cs" />
     <Compile Include="Controllers\RespuestaSolicitudController.cs" />
     <Compile Include="Controllers\RoleFuncionesController.cs" />
     <Compile Include="Controllers\RoleModulosController.cs" />
@@ -766,6 +781,12 @@
     <Content Include="Views\SolicitudPrenominas\Details.cshtml" />
     <Content Include="Views\SolicitudPrenominas\Edit.cshtml" />
     <Content Include="Views\SolicitudPrenominas\Index.cshtml" />
+    <Content Include="Views\ReporteConMes\AnualCostoSocial.cshtml" />
+    <Content Include="Views\ReporteConMes\Create.cshtml" />
+    <Content Include="Views\ReporteConMes\Delete.cshtml" />
+    <Content Include="Views\ReporteConMes\Details.cshtml" />
+    <Content Include="Views\ReporteConMes\Edit.cshtml" />
+    <Content Include="Views\ReporteConMes\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

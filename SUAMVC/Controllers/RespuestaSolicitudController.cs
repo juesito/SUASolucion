@@ -16,9 +16,17 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: RespuestaSolicitud
-        public ActionResult Index()
+        public ActionResult Index(String solicitudId)
         {
-            var respuestaSolicituds = db.RespuestaSolicituds.Include(r => r.Concepto).Include(r => r.Departamento).Include(r => r.Solicitud).Include(r => r.Usuario);
+            var respuestaSolicituds = db.RespuestaSolicituds.Include(r => r.Concepto).Include(r => r.Departamento).
+                                        Include(r => r.Solicitud).Include(r => r.Usuario);
+
+            if(!String.IsNullOrEmpty(solicitudId)){
+                int solicitudIdInt = int.Parse(solicitudId);
+                ViewBag.solicitud = db.Solicituds.Find(solicitudIdInt);
+                respuestaSolicituds = respuestaSolicituds.Where(x => x.solicitudId.Equals(solicitudIdInt));
+            }
+
             return View(respuestaSolicituds.ToList());
         }
 

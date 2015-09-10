@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<SUADATOS.RespuestaSolicitud>
+           @using SUADATOS 
 
 @{
     ViewBag.Title = "Index";
@@ -7,75 +8,69 @@
     {
         Response.Redirect("~/Home/Index");
     }
+
+    Solicitud solicitud = new Solicitud();
+    if (ViewBag.solicitud != null) {
+        solicitud = ViewBag.solicitud as Solicitud;
+    }
+    
 }
 @section Menu {
     <div>@Language.catde @Language.respuestaSolicitud<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-
-<p>
-    @Html.ActionLink(@Language.agregar + " " + @Language.respuestaSolicitud, "Create", "Respuesta Solicitud", new { @class = "btn btn-success" })
-</p>
-<table class="table table-striped tableSua">
-    <tr>
-        <th>
-            @Html.DisplayName(@Language.folioSolicitud)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.departamento)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.grupo)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.fechaAlta)
-        </th>
-        <th>
-            @Html.DisplayName(@Language.observaciones)
-        </th>
-        
-        
-        
-        
-        <th>
-            @Html.DisplayName(@Language.usuarioAlta)
-        </th>
-        <th>
-            @Html.DisplayName(Language.edit)
-            @Html.DisplayName(Language.borrar)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<div class="marqueeFilter">
+    <table>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Solicitud.folioSolicitud)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Departamento.descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Concepto.descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fechaCreacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.observaciones)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
-            </td>
-            
-            
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.id })
-            </td>
+            <td>@Html.Label(@Language.solicitud)</td>
+            <td>@solicitud.folioSolicitud</td>
         </tr>
-    }
+        <tr>
+            <td>@Html.Label(@Language.cliente)</td>
+            <td>@solicitud.Cliente.descripcion</td>
+        </tr>
+    </table>
+    </div>
 
-</table>
+
+    <table class="table table-striped tableSua">
+        <tr>
+            <th>
+                @Html.DisplayName(@Language.departamento)
+            </th>
+            <th>
+                @Html.DisplayName(@Language.grupo)
+            </th>
+            <th>
+                @Html.DisplayName(@Language.fechaAlta)
+            </th>
+            <th>
+                @Html.DisplayName(@Language.observaciones)
+            </th>
+            <th>
+                @Html.DisplayName(@Language.usuarioAlta)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Departamento.descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Concepto.descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fechaCreacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.observaciones)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
+                </td>
+            </tr>
+        }
+
+    </table>
