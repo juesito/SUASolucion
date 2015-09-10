@@ -36,9 +36,9 @@
     @*gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));*@
 
     gridColumns.Add(grid.Column("Patrone.registro", "Reg. Patronal", null, null, true));
-    gridColumns.Add(grid.Column("Patrone.nombre", "ID. Empresa", null, null, true));
-    gridColumns.Add(grid.Column("mes", "Mes", null, null, true));
-    gridColumns.Add(grid.Column("anno", "Año", null, null, true));
+    gridColumns.Add(grid.Column("Patrone.nombre", "ID. Empresa",  @<text><div style='width: 28em'>@item.Patrone.nombre</div></text> , null, canSort: true));
+    gridColumns.Add(grid.Column("mes", "Mes", @<text><div style='width: 1em'>@item.mes</div></text> , null, canSort: true));
+    gridColumns.Add(grid.Column("anno", "Año", @<text><div style='width: 1em'>@item.anno</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("imss", "IMSS", format: @<text>@if(@item.imss != null) {@item.imss.ToString("#,##0.00")}</text>, canSort: true));
     gridColumns.Add(grid.Column("rcv", "RCV", format: @<text>@item.rcv.ToString("#,##0.00")</text>, canSort: true));
     gridColumns.Add(grid.Column("infonavit", "Infonavit", format: @<text>@item.infonavit.ToString("#,##0.00")</text>, canSort: true));
@@ -56,7 +56,7 @@
                 @if (@item.bancoId != null)
                 { @item.Banco.descripcion}
             </div></text>, null, true));
-    gridColumns.Add(grid.Column("Patrone.Plaza.Descripcion", "Localidad SUA", null, null, true));
+    gridColumns.Add(grid.Column("Patrone.Plaza.cveCorta", "Localidad SUA", @<text><div style='width: 1em'>@item.Patrone.Plaza.cveCorta</div></text> , null, canSort: true));
 
 
     if (SecurityUserModel.verificarPermiso("RegistroPagos", "ColumnasPDF"))

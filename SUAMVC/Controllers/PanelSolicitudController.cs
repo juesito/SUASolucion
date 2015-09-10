@@ -1274,7 +1274,7 @@ namespace SUAMVC.Controllers
                }
 
 
-                if(dp.DocumentoEmpleadoes.Count()>0)
+                if(dp.DocumentosEmpleadoes.Count()>0)
                 {
 
                 }
@@ -2270,6 +2270,13 @@ namespace SUAMVC.Controllers
             //CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
             //crystalReportViewer.ReportSource = rp;
             //crystalReportViewer.DisplayToolbar = true;
+           // rp.SetDatabaseLogon("root", "jeargaqu", serverName, "sua", false);
+           // rp.VerifyDatabase();
+           // rp.Refresh();
+
+            CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
+            //crystalReportViewer.ReportSource = rp;
+            crystalReportViewer.DisplayToolbar = true;
 
             //Response.Buffer = false;
             //Response.ClearContent();

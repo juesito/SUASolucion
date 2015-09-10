@@ -296,8 +296,13 @@ namespace SUAMVC.Controllers
                                         detallePago.ivo = 0;
                                         detallePago.rcv = 0;
                                         detallePago.infonavit = 0;
-
-                                        detallePago.diasCotizados = int.Parse(row2["dia_cot"].ToString().Trim());
+                                        if (row2["dia_cot"].ToString().Trim().Equals(""))
+                                        {
+                                            detallePago.diasCotizados = 0;
+                                        }else
+                                        {
+                                            detallePago.diasCotizados = int.Parse(row2["dia_cot"].ToString().Trim());
+                                        }
                                         if (detallePago.diasCotizados != 0)
                                         {
                                             detallePago.sdi = decimal.Parse(row2["sal_dia"].ToString().Trim());
