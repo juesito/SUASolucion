@@ -307,7 +307,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\SUADATOS.dll" />
-    <Content Include="Model1.edmx.sql" />
     <Content Include="StoreProcedures\InsertAdditionalFuncitions.sql" />
     <Content Include="StoreProcedures\spCreateActionFunctions.sql" />
     <Content Include="StoreProcedures\spCreateFactors.sql" />
@@ -317,7 +316,6 @@
     <Content Include="StoreProcedures\sp_createParameters.sql" />
     <Content Include="StoreProcedures\sp_createRoles.sql" />
     <Content Include="StoreProcedures\sp_SumarizadoClientes.sql" />
-    <Content Include="SUADATOS.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
