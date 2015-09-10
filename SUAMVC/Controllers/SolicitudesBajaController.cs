@@ -12,6 +12,11 @@ using System.Text;
 using SUAMVC.Helpers;
 using SUAMVC.Models;
 using System.Web.Helpers;
+using System.IO;
+using Microsoft.Office.Interop.Excel;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml;
 
 namespace SUAMVC.Controllers
 {
@@ -262,6 +267,7 @@ namespace SUAMVC.Controllers
 
             return RedirectToAction("Index", new { clienteId = solicitud.clienteId, folioId = solicitud.folioSolicitud });
         }
+
 
         protected override void Dispose(bool disposing)
         {

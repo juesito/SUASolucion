@@ -2,6 +2,7 @@
 @using SUADATOS
 @using SUAMVC.Models
 @using System.Text;
+@using System.Web.UI.WebControls
 
 @{
     ViewBag.Title = "Solicitud Modificación";
@@ -11,6 +12,9 @@
         Response.Redirect("~/Home/Index");
     }
     Usuario usuario = Session["UsuarioData"] as Usuario;
+    String msg = TempData["mensaje"] as String;
+
+    var listItems = new List<ListItem>();
 
     var grid = new WebGrid(source: Model, rowsPerPage: 10);
     var tableHtml = string.Empty;
@@ -105,34 +109,78 @@ tableStyle: "table table-striped tableSua"
     <div>Modificación de Solicitudes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
- @if (SecurityUserModel.verificarPermiso("nueva solicitud", "Se agrega solicitud para modificar salario"))
-{
-    @Html.ActionLink(@Language.agregar, "Create", "SolicitudesModificacion", new { @class = "btn btn-success" })
-}
+<p>
+    @if (SecurityUserModel.verificarPermiso("nueva solicitud", "Se agrega solicitud para modificar salario")
+        && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
+    {
+        @Html.ActionLink(@Language.agregar, "Create", "SolicitudesModificacion", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId }, new { @class = "btn btn-success" })
+    }
+</p>
 
 @using (Html.BeginForm())
 {
-    <div class="marqueeFilter">
-        <table style="float:left; margin-top:5px;display:inline-block;">
-            <thead>
-                <tr style="text-align:left;vertical-align:bottom;">
-                    <td style="padding-top:15px">
-                        @Html.Label("Cliente:")
-                        @Html.clientesDrownList(usuario.Id)
-                    </td>
-                    <td>
-                        @Html.Label("Folio:")
-                        @Html.Editor("folioId")
-                    </td>
-                    <td>
-                        <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
-                    </td>
-                </tr>
-            </thead>
-        </table>
-    </div>
+<div class="marqueeFilter">
+    @if (String.IsNullOrEmpty(msg))
+    {
+        <p style="font-weight:bold;">@msg</p>
+    }
+    <table style="float:left; margin-top:5px;display:inline-block;">
+        <thead>
+            <tr style="text-align:left;vertical-align:bottom;">
+                <td style="padding-top:15px">
+                    @Html.Label("Cliente:")
+                </td>
+                <td>
+                    @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:25px")
+                </td>
+                <td>
+                    @Html.Label("Folio:")
+                </td>
+                <td>
+                    @Html.Editor("folioId")
+                </td>
+                <td>
+                    @Html.Label("Proyecto:")
+                </td>
+                <td>
+                    @Html.DropDownList("proyectoId", new SelectList(listItems, "Value", "Text"), "-- Seleccione un proyecto --")
+
+                </td>
+                <td>
+                    <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
+                </td>
+            </tr>
+        </thead>
+    </table>
+</div>
 }
 
+
+<script language="javascript" type="text/javascript">
+    function obtenerProyectos(_clienteId) {
+        var procemessage = "<option value='0'> Por favor espere...</option>";
+        $("#proyectoId").html(procemessage).show();
+        var url = "/Proyectos/ObtenerProyectosPorClienteId/";
+
+        $.ajax({
+            url: url,
+            data: { clienteId: _clienteId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "<option value='0'>Seleccione su proyecto</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#proyectoId").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+</script>
 @if (!tableHtml.IsEmpty())
 {
     <div id="table-container" class="table-container">
@@ -153,4 +201,3 @@ tableStyle: "table table-striped tableSua"
         });
     });
 </script>
-
