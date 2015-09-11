@@ -794,7 +794,14 @@ namespace SUAMVC.Controllers
         
         }
 
-
+        [HttpPost]
+        public ActionResult obtenerCategorias()
+        {
+            List<Concepto> catalogos = new List<Concepto>();
+            catalogos = db.Conceptos.Where(m => m.grupo.Equals("CATEGORIA")).ToList();
+            SelectList proyecto = new SelectList(catalogos, "Id", "descripcion", 0);
+            return Json(proyecto);
+        }
 
         protected override void Dispose(bool disposing)
         {

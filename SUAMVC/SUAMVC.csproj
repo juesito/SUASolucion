@@ -775,6 +775,7 @@
     <Content Include="Views\ReporteConMes\Details.cshtml" />
     <Content Include="Views\ReporteConMes\Edit.cshtml" />
     <Content Include="Views\ReporteConMes\Index.cshtml" />
+    <Content Include="Views\Empleados\ModificarEmpleado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

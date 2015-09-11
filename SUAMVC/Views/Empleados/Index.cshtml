@@ -13,10 +13,11 @@
     Usuario usuario = Session["UsuarioData"] as Usuario;
 
     Solicitud solicitud = new Solicitud();
-    if (ViewBag.solicitud != null) {
+    if (ViewBag.solicitud != null)
+    {
         solicitud = ViewBag.solicitud as Solicitud;
     }
-    
+
     var grid = new WebGrid(source: Model.empleados, rowsPerPage: 10);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
@@ -25,23 +26,32 @@
     gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
     gridColumns.Add(grid.Column("folioEmpleado", "ID", format: @<text> @if (@item.folioEmpleado != null)
     {  @item.folioEmpleado }</text>, canSort: true));
-    gridColumns.Add(grid.Column("apellidoPaterno", "Paterno", format: @<text> @if (@item.apellidoPaterno != null){  @item.apellidoPaterno }</text>, canSort: true));
-    gridColumns.Add(grid.Column("apellidoMaterno", "Materno", format: @<text> @if (@item.apellidoMaterno != null){  @item.apellidoMaterno }</text>, canSort: true));
-    gridColumns.Add(grid.Column("nombre", "Nombre", format: @<text> @if (@item.nombre != null){  @item.nombre }</text>, canSort: true));
-    gridColumns.Add(grid.Column("nss", "Nss", format: @<text> @if (@item.nss != null){  @item.nss }</text>, canSort: true));
-    gridColumns.Add(grid.Column("sdi.descripcion", "Sdi", format: @<text> @if (@item.sdi != null){  @item.sdi.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("salarioReal", "Salario Real", format: @<text> @if (@item.salarioReal != null){  @item.salarioReal }</text>, canSort: true));
-    gridColumns.Add(grid.Column("categoria", "Categoria", format: @<text> @if (@item.categoria != null){  @item.categoria }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Banco.descripcion", "Banco", format: @<text> @if (@item.bancoId != null){  @item.Banco.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("cuentaBancaria", "Cuenta Bancaria", format: @<text> @if (@item.cuentaBancaria != null){  @item.cuentaBancaria }</text>, canSort: true));
+    gridColumns.Add(grid.Column("apellidoPaterno", "Paterno", format: @<text> @if (@item.apellidoPaterno != null)
+    {  @item.apellidoPaterno }</text>, canSort: true));
+    gridColumns.Add(grid.Column("apellidoMaterno", "Materno", format: @<text> @if (@item.apellidoMaterno != null)
+    {  @item.apellidoMaterno }</text>, canSort: true));
+    gridColumns.Add(grid.Column("nombre", "Nombre", format: @<text> @if (@item.nombre != null)
+    {  @item.nombre }</text>, canSort: true));
+    gridColumns.Add(grid.Column("nss", "Nss", format: @<text> @if (@item.nss != null)
+    {  @item.nss }</text>, canSort: true));
+    gridColumns.Add(grid.Column("sdi.descripcion", "Sdi", format: @<text> @if (@item.sdi != null)
+    {  @item.sdi.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("salarioReal", "Salario Real", format: @<text> @if (@item.salarioReal != null)
+    {  @item.salarioReal }</text>, canSort: true));
+    gridColumns.Add(grid.Column("categoria", "Categoria", format: @<text> @if (@item.categoria != null)
+    {  @item.categoria }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Banco.descripcion", "Banco", format: @<text> @if (@item.bancoId != null)
+    {  @item.Banco.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("cuentaBancaria", "Cuenta Bancaria", format: @<text> @if (@item.cuentaBancaria != null)
+    {  @item.cuentaBancaria }</text>, canSort: true));
     gridColumns.Add(grid.Column("cuentaClabe", "Clabe", format: @<text> @if (@item.cuentaClabe != null)
     {  @item.cuentaClabe }</text>, canSort: true));
     gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creacion", @<text><div style='width: 6em'>@item.fechaCreacion.ToString("dd-MM-yyyy")</div></text>, null, canSort: true));
-    gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", 
+    gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja",
         @<text><div style='width: 6em'>
-    @if (@item.fechaBaja != null)
-        { @item.fechabaja.ToString("dd-MM-yyyy")}
-</div></text>, null, canSort: true));
+                @if (@item.fechaBaja != null)
+                { @item.fechabaja.ToString("dd-MM-yyyy")}
+            </div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("Acreditado.Patrone.registro", "Registro Patronal", format: @<text> @if (@item.aseguradoId != null)
     {  @item.Asegurado.Patrone.registro }</text>, canSort: true));
     if (SecurityUserModel.verificarPermiso("ver empleados", "Se agrega solicitud para ver empleados"))
@@ -68,7 +78,7 @@
     {
         gridColumns.Add(grid.Column(header: "Reportes", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    
+
 
     sb.Append(grid.GetHtml(
     columns: grid.Columns(gridColumns.ToArray()),
@@ -80,60 +90,62 @@
 
 }
 
-    @section Menu {
-        <div>Empleados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
-    }
+@section Menu {
+    <div>Empleados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
 
-    
+
 @using (Html.BeginForm())
 {
     <div class="marqueeFilter">
         <table style="float:left; margin-top:5px;display:inline-block;">
             <thead>
-                @if (ViewBag.solicitud == null) { 
-                <tr style="text-align:left;vertical-align:bottom;">
-                    <td style="padding-top:15px">
-                        @Html.Label("Cliente:")
-                        @Html.clientesDrownList(usuario.Id)
-                    </td>
-                    <td>
-                        @Html.Label("Folio:")
-                        @Html.Editor("folioId")
-                    </td>
-                    <td>
-                        <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
-                    </td>
-                </tr>
+                @if (ViewBag.solicitud == null)
+                {
+                    <tr style="text-align:left;vertical-align:bottom;">
+                        <td style="padding-top:15px">
+                            @Html.Label("Cliente:")
+                            @Html.clientesDrownList(usuario.Id)
+                        </td>
+                        <td>
+                            @Html.Label("Folio:")
+                            @Html.Editor("folioId")
+                        </td>
+                        <td>
+                            <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
+                        </td>
+                    </tr>
                 }
                 else
                 {
                     <tr style="text-align:left;vertical-align:bottom;">
                         <td style="padding-top:15px">
                             @Html.Label("Folio:")
-                            </td><td>
-                            @Html.Label(solicitud.folioSolicitud)
-                            
                         </td>
-                        </tr>
-    <tr style="text-align:left;vertical-align:bottom;">
-        <td>
-            @Html.Label("Cliente:")
-        </td>
-        <td>
-            @Html.Label(solicitud.Cliente.descripcion)
-        </td>
-        <td style="padding-left:15px;">
-            @Html.Label("Proyecto:")
-            </td><td>
-            @Html.Label(solicitud.Proyecto.descripcion)
-        </td>
-    </tr>
+                        <td>
+                            @Html.Label(solicitud.folioSolicitud)
+
+                        </td>
+                    </tr>
+                    <tr style="text-align:left;vertical-align:bottom;">
+                        <td>
+                            @Html.Label("Cliente:")
+                        </td>
+                        <td>
+                            @Html.Label(solicitud.Cliente.descripcion)
+                        </td>
+                        <td style="padding-left:15px;">
+                            @Html.Label("Proyecto:")
+                        </td>
+                        <td>
+                            @Html.Label(solicitud.Proyecto.descripcion)
+                        </td>
+                    </tr>
                 }
             </thead>
         </table>
     </div>
 }
-@Html.ActionLink("Click Here!", "launchReport", "PanelSolicitud")
 
 @if (!tableHtml.IsEmpty())
 {
@@ -156,4 +168,4 @@
     });
 </script>
 
-    
+

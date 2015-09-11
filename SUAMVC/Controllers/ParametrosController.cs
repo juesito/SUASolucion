@@ -87,9 +87,10 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                parametro.parametroId = parametro.parametroId.ToUpper();
-                parametro.descripcion = parametro.descripcion.ToUpper();
-                parametro.valorString = parametro.valorString.ToUpper();
+                parametro.parametroId = parametro.parametroId.Trim().ToUpper();
+                parametro.descripcion = parametro.descripcion.Trim().ToUpper();
+                parametro.valorString = parametro.valorString.Trim().ToUpper();
+                parametro.fechaCreacion = DateTime.Now;
                 db.Entry(parametro).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
