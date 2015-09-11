@@ -29,51 +29,55 @@
         <div class="panel-heading">
             Capturar Solicitud de Baja
         </div>
-        <div class="panel-body" style="font-size:10px;">
+        <div class="panel-body" style="font-size:10px; background-color: #fafbfc">
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                <table style="font-size:10px;margin:0 auto; width:800px">
+                <table style="font-size:10px;margin:0 auto; width:700px; ">
                     <tr>
-                        <td>@Html.Label(@Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td class="pull-right"> @Html.Label(@Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td>
                             @Html.Label(cliente.descripcion)
                         </td>
-                        <td>@Html.Label(@Language.proyecto, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                        <td>
+                    </tr>
+                    <tr>
+                        <td class="pull-right">@Html.Label(@Language.proyecto, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td style="padding-top:8px">
                             @Html.Label(proyecto.descripcion)
                         </td>
                     </tr>
                     <tr>
-                        <td>@Html.Label(@Language.plaza, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                        <td>
+                        <td class="pull-right">@Html.Label(@Language.plaza, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td style="padding-top:8px">
                             @Html.plazasDrownListNS(usuario.Id, "plazaId")
                             @Html.ValidationMessageFor(model => model.plazaId, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.Label(@Language.fechaBaja)</td>
-                        <td>
-                            @Html.EditorFor(model => model.fechaBaja, new { htmlAttributes = new { @class = "from-control myDate" } })
+                    </tr>
+                        
+                    <tr>
+                        <td class="pull-right">@Html.LabelFor(model => model.fechaBaja, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.fechaBaja, new { htmlAttributes = new { @class = "myNoDayBeforeDate", id = "fechaSolicitud" } })
                             @Html.ValidationMessageFor(model => model.fechaBaja, "", new { @class = "text-danger" })
                         </td>
                     </tr>
 
                     <tr>
-                        <td>@Html.Label(@Language.motivoBaja)</td>
-                        <td>
-                            @Html.conceptosDrownList(usuario.Id, "BAJACON", "conceptoBaja")
+                        <td class="pull-right">@Html.Label(@Language.motivoBaja, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td style="padding-top:8px">
+                           @Html.conceptosDrownList(usuario.Id, "BAJACON", "conceptoBaja")
                         </td>
-                        <td></td>
-                        <td></td>
                     </tr>
 
+
                     <tr>
-                        <td>@Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                        <td colspan="3">
+                        <td class="pull-right">@Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td style="padding-top:8px"
+                            colspan="3">
                             @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 4 })
                             @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
                         </td>
-
                     </tr>
+
                     <tr>
                         <td colspan="3"></td>
                         <td style="text-align:right;"><input type="submit" value="@Language.agregar" class="btn btn-primary" /></td>
