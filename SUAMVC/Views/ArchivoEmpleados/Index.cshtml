@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SUADATOS.ArchivosEmpleado>
+﻿@model IEnumerable<SUADATOS.ArchivoEmpleado>
 @using SUADATOS
 @using SUAMVC.Models
 @using System.Text;
@@ -26,13 +26,13 @@
     if (SecurityUserModel.verificarPermiso("cargar documentos", "Se agrega solicitud para cargar documentos"))
     { 
     gridColumns.Add(grid.Column(header: "Archivo", format: @<text>
-        <a href="@Url.Action("VerDocumento", "ArchivosEmpleados", new { fileNameString = item.archivo, folioEmpleado = ViewBag.folioEmpleado, tipo = ViewBag.tipoArchivo.Trim() })">
+        <a href="@Url.Action("VerDocumento", "ArchivoEmpleados", new { fileNameString = item.archivo, folioEmpleado = ViewBag.folioEmpleado, tipo = ViewBag.tipoArchivo.Trim() })">
             <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
         </a>
     </text>));
 
     gridColumns.Add(grid.Column(header: "Borrar", format: @<text>
-        <a href="@Url.Action("Delete", "ArchivosEmpleados", new { id = item.id})">
+        <a href="@Url.Action("Delete", "ArchivoEmpleados", new { id = item.id})">
             <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
         </a>
 
@@ -73,7 +73,7 @@
             </tr>
             <tr>
                 <td>
-                    <a href="@Url.Action("Edit", "Empleados", new { id = @ViewBag.empleadoId })">
+                    <a href="@Url.Action("Index", "Empleados", new { id = @ViewBag.empleadoId })">
                         <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
                     </a>
                 </td>

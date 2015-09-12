@@ -468,7 +468,7 @@
     <Compile Include="Code52.i18n\LanguageFilterAttribute.cs" />
     <Compile Include="Code52.i18n\LocalizationHelpers.cs" />
     <Compile Include="Controllers\AcreditadosController.cs" />
-    <Compile Include="Controllers\ArchivosEmpleadosController.cs" />
+    <Compile Include="Controllers\ArchivoEmpleadosController.cs" />
     <Compile Include="Controllers\AseguradosController.cs" />
     <Compile Include="Controllers\BancosController.cs" />
     <Compile Include="Controllers\catalogoMovimientosController.cs" />
@@ -729,9 +729,9 @@
     <Content Include="Views\PanelSolicitud\Details.cshtml" />
     <Content Include="Views\PanelSolicitud\Edit.cshtml" />
     <Content Include="Views\PanelSolicitud\Index.cshtml" />
-    <Content Include="Views\ArchivosEmpleados\Create.cshtml" />
-    <Content Include="Views\ArchivosEmpleados\Delete.cshtml" />
-    <Content Include="Views\ArchivosEmpleados\Index.cshtml" />
+    <Content Include="Views\ArchivoEmpleados\Create.cshtml" />
+    <Content Include="Views\ArchivoEmpleados\Delete.cshtml" />
+    <Content Include="Views\ArchivoEmpleados\Index.cshtml" />
     <Content Include="Views\Empleados\BajaEmpleados.cshtml" />
     <Content Include="Views\RespuestaSolicitud\Create.cshtml" />
     <Content Include="Views\RespuestaSolicitud\Delete.cshtml" />

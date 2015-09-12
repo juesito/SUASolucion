@@ -122,15 +122,15 @@ namespace SUAMVC.Controllers
             Concepto confidencial = th.obtenerConceptoPorGrupo("ARCHEMP", "Confidencial");
 
             // Obtenemos los documentos cargados para el empleado
-            ViewBag.docsCv = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsCv = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(cv.id)).Count();
-            ViewBag.docsVarios = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsVarios = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(docVarios.id)).Count();
-            ViewBag.docsContratos = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsContratos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(contratos.id)).Count();
-            ViewBag.docsPsicometricos = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsPsicometricos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(psicometria.id)).Count();
-            ViewBag.docsConfidencial = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsConfidencial = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(confidencial.id)).Count();
 
             //Obtenemos la solicitud del empleado
@@ -284,15 +284,15 @@ namespace SUAMVC.Controllers
             Concepto confidencial = th.obtenerConceptoPorGrupo("ARCHEMP", "Confidencial");
 
             // Obtenemos los documentos cargados para el empleado
-            ViewBag.docsCv = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsCv = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(cv.id)).Count();
-            ViewBag.docsVarios = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsVarios = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(docVarios.id)).Count();
-            ViewBag.docsContratos = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsContratos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(contratos.id)).Count();
-            ViewBag.docsPsicometricos = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsPsicometricos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(psicometria.id)).Count();
-            ViewBag.docsConfidencial = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsConfidencial = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(confidencial.id)).Count();
 
             //Obtenemos la solicitud del empleado

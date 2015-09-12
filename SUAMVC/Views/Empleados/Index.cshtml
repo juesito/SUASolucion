@@ -72,7 +72,7 @@
     }
     if (SecurityUserModel.verificarPermiso("1", "1"))
     {
-        gridColumns.Add(grid.Column(header: "Ver Archivos", format: @<text><a href="@Url.Action("Index", "ArchivosEmpleados", new { empleadoId = item.id })"><img src="~/Content/Images/show.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "Ver Archivos", format: @<text><a href="@Url.Action("Index", "ArchivoEmpleados", new { empleadoId = item.id })"><img src="~/Content/Images/show.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
     if (SecurityUserModel.verificarPermiso("reportes", "Se agrega solicitud para ver reportes"))
     {
