@@ -73,7 +73,7 @@
     gridColumns.Add(grid.Column("Patrone.Plaza.cveCorta", Language.plaza, null, null, true));
     gridColumns.Add(grid.Column(header: Language.avisoRet, format:@<text><a href="@Url.Action("ViewAttachment", "Acreditados", new { id = item.id, option = "A", carga = item.alta })" target="_blank">@ShowPDF(item.alta)</a></text>));
 
-    if (SecurityUserModel.verificarPermiso("Acreditados", "Subir acuse"))
+    if (SecurityUserModel.verificarPermiso("Acreditados", "Subir acuse", 3))
     {
         gridColumns.Add(grid.Column(header: Language.accion, format: @<text><a href="@Url.Action("UploadFileAcre", "Movimientos", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }

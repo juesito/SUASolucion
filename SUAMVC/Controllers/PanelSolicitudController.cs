@@ -23,38 +23,60 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: PanelSolicitud
-        public ActionResult Index(string clientesId, String folioId)
+        public ActionResult Index(String clienteId, String folioId, String proyectoId, String tipoId)
         {
 
-            ToolsHelper cp = new ToolsHelper();
-            Concepto concepto = cp.obtenerConceptoPorGrupo("ESTASOL", "Apertura");
-            Usuario usuario = Session["UsuarioData"] as Usuario;
-
-            //Buscamos las solicitudes que puede ver ese usuario
-            //de acuerdo a sus clientes permitidos
-            var solicituds = (from s in db.Solicituds
-                              join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
-                              where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
-                              orderby s.fechaSolicitud
-                              select s).ToList();
-
-
-            if (!String.IsNullOrEmpty(clientesId))
+            if ((!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId)) ||
+                (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(tipoId))
+                || !String.IsNullOrEmpty(folioId))
             {
-                int clienteId = int.Parse(clientesId);
-                Cliente cliente = db.Clientes.Find(clienteId);
-                if (!cliente.descripcion.ToLower().Contains("seleccion"))
+                ToolsHelper cp = new ToolsHelper();
+                Concepto concepto = cp.obtenerConceptoPorGrupo("ESTASOL", "Apertura");
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
+                //Buscamos las solicitudes que puede ver ese usuario
+                //de acuerdo a sus clientes permitidos
+                var solicituds = (from s in db.Solicituds
+                                  join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
+                                  where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
+                                  orderby s.fechaSolicitud
+                                  select s).ToList();
+
+
+                if (!String.IsNullOrEmpty(clienteId))
                 {
-                    solicituds = solicituds.Where(s => s.clienteId.Equals(clienteId)).ToList();
-                }
-            }// Se va a filtrar por cliente ?
-            if (!String.IsNullOrEmpty(folioId))
-            {
-                solicituds = solicituds.Where(s => s.folioSolicitud.Contains(folioId)).ToList();
-            }//Se va a filtrar por folio?
-            solicituds = solicituds.Where(s => !s.estatusSolicitud.Equals(concepto.id)).ToList();
+                    
+                    Cliente cliente = db.Clientes.Find(int.Parse(clienteId));
+                    if (!cliente.descripcion.ToLower().Contains("seleccion"))
+                    {
+                        solicituds = solicituds.Where(s => s.clienteId.Equals(int.Parse(clienteId))).ToList();
+                    }
+                }// Se va a filtrar por cliente  y proyecto?
+                if (!String.IsNullOrEmpty(proyectoId))
+                {
+
+                        solicituds = solicituds.Where(s => s.proyectoId.Equals(int.Parse(proyectoId))).ToList();
+
+                }// Se va a filtrar por cliente  y proyecto?
+                if (!String.IsNullOrEmpty(tipoId))
+                {
+
+                    solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(int.Parse(tipoId))).ToList();
+
+                }// Se va a filtrar por tipo?
+                if (!String.IsNullOrEmpty(folioId))
+                {
+                    solicituds = solicituds.Where(s => s.folioSolicitud.Contains(folioId)).ToList();
+                }//Se va a filtrar por folio?
+                solicituds = solicituds.Where(s => !s.estatusSolicitud.Equals(concepto.id)).ToList();
+
+                return View(solicituds.ToList());
+            }
+            else {
+                var solicituds = new List<Solicitud>();
+                return View(solicituds);
+            }
             
-            return View(solicituds.ToList());
         }
 
         //Lay Out Afiliacion
