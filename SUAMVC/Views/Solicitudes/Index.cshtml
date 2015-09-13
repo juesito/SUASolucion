@@ -181,19 +181,25 @@ tableStyle: "table table-striped tableSua"
 
     }
 </script>
+
+
 <p>
-    @if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados")
+@if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados")
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
-        @Html.ActionLink(@Language.agregar, "Create", "Solicitudes", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId }, new { @class = "btn btn-success" })
+        @Html.ActionLink(@Language.agregar, "Create", "SolicitudesBaja", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId }, new { @class = "btn btn-success" })
     }
 </p>
 
 <p>
-    <a href="@Url.Action("GetExcel", "Solicitudes")" style="text-align:right">
+    @if (!String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
+    {
+        <a href="@Url.Action("crearExcelSolicitud", "Solicitudes", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })"style="text-align:right">
         <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="30" height="30" />
-    </a>
+         </a>
+    }
 </p>
+
 @using (Html.BeginForm())
 {
     <div class="marqueeFilter">

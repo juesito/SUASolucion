@@ -117,6 +117,16 @@ tableStyle: "table table-striped tableSua"
     }
 </p>
 
+<p>
+    @if (!String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
+    {
+        <a href="@Url.Action("crearExcelSolicitudModificacion", "SolicitudesModificacion", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })" style="text-align:right">
+            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="30" height="30" />
+        </a>
+    }
+</p>
+
+
 @using (Html.BeginForm())
 {
 <div class="marqueeFilter">
