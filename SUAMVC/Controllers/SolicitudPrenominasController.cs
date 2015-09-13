@@ -19,41 +19,36 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: SolicitudPrenominas
-        public ActionResult Index(String clienteId, String proyectoId, String ejercicioId, String folio)
+        public ActionResult Index(String clienteId, String proyectoId, String ejercicioId, String plazaId)
         {
 
-            ViewBag.proyectoId = proyectoId;
-            ViewBag.ejercicioId = ejercicioId;
-            ViewBag.clienteId = clienteId;
-            ViewBag.folio = folio;
-
-            var solicitudPrenominas = db.SolicitudPrenominas.Include(s => s.Cliente).
-                Include(s => s.Concepto).Include(s => s.Concepto1).
-                Include(s => s.Concepto2).Include(s => s.Concepto3).
-                Include(s => s.Plaza).Include(s => s.Usuario);
-
-            if (!String.IsNullOrEmpty(clienteId))
+            if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId) && !String.IsNullOrEmpty(ejercicioId)
+                 && !String.IsNullOrEmpty(plazaId))
             {
-                int clienteInt = int.Parse(clienteId.Trim());
-                solicitudPrenominas = solicitudPrenominas.Where(x => x.clienteId.Equals(clienteInt));
-            }
-            if (!String.IsNullOrEmpty(proyectoId))
-            {
-                int proyectoInt = int.Parse(proyectoId.Trim());
-                solicitudPrenominas = solicitudPrenominas.Where(x => x.proyectoId.Equals(proyectoInt));
-            }
-            if (!String.IsNullOrEmpty(ejercicioId))
-            {
-                solicitudPrenominas = solicitudPrenominas.Where(x => x.anno.Equals(ejercicioId));
-            }
-            if (!String.IsNullOrEmpty(folio))
-            {
-                int folioInt = int.Parse(folio.Trim());
-                solicitudPrenominas = solicitudPrenominas.Where(x => x.folioSolicitud.Equals(folioInt));
-            }
 
+                ViewBag.proyectoId = proyectoId;
+                ViewBag.ejercicioId = ejercicioId;
+                ViewBag.clienteId = clienteId;
+                ViewBag.plazaId = plazaId;
 
-            return View(solicitudPrenominas.ToList());
+                var solicitudPrenominas = db.SolicitudPrenominas.Include(s => s.Cliente).
+                    Include(s => s.Concepto).Include(s => s.Concepto1).
+                    Include(s => s.Concepto2).
+                    Include(s => s.Plaza).Include(s => s.Usuario);
+
+                    int proyectoInt = int.Parse(proyectoId.Trim());
+                    int clienteInt = int.Parse(clienteId.Trim());
+                    int plazaInt = int.Parse(plazaId.Trim());
+                    solicitudPrenominas = solicitudPrenominas.Where(x => x.clienteId.Equals(clienteInt) &&
+                        x.proyectoId.Equals(proyectoInt) && x.anno.Equals(ejercicioId) && x.plazaId.Equals(plazaInt)).
+                        OrderBy(x => x.fechaSolicitud);
+
+                return View(solicitudPrenominas.ToList());
+            }
+            else
+            {
+                return View(new List<SolicitudPrenomina>());
+            }
         }
 
         // GET: SolicitudPrenominas/Details/5
@@ -72,14 +67,17 @@ namespace SUAMVC.Controllers
         }
 
         // GET: SolicitudPrenominas/Create
-        public ActionResult Create(String clienteId, String proyectoId, String ejercicioId)
+        public ActionResult Create(String clienteId, String proyectoId, String ejercicioId, String plazaId)
         {
             SolicitudPrenomina solicitudPrenomina = new SolicitudPrenomina();
-            if (!String.IsNullOrEmpty(ejercicioId) && !String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId))
+            if (!String.IsNullOrEmpty(ejercicioId) && !String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId)
+                && !String.IsNullOrEmpty(plazaId))
             {
+                //Agregamos los valores a nuestra solicitud.
                 DateTime now = DateTime.Now;
                 solicitudPrenomina.clienteId = int.Parse(clienteId);
                 solicitudPrenomina.proyectoId = int.Parse(proyectoId);
+                solicitudPrenomina.plazaId = int.Parse(plazaId);
                 solicitudPrenomina.anno = ejercicioId;
                 solicitudPrenomina.fechaSolicitud = now;
                 solicitudPrenomina.fechaInicial = now;
@@ -110,34 +108,40 @@ namespace SUAMVC.Controllers
                 ParametrosHelper ph = new ParametrosHelper();
                 ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
 
+                //Parametro de folios de solicitud de prenomina
                 Parametro folioAlta = ph.getParameterByKey("FOLSPALTA");
+                //Concepto del estatus de la solicitud.
                 Concepto concepto = th.obtenerConceptoPorGrupo("ESTASOL", "apertura");
 
+                //Asignamos los valores de nuestra solicitud.
                 solicitudPrenomina.fechaSolicitud = DateTime.Now;
                 solicitudPrenomina.noTrabajadores = 0;
                 solicitudPrenomina.autoriza = lvc.autorizador;
                 solicitudPrenomina.valida = lvc.validador;
-                solicitudPrenomina.Cliente = cliente;
                 solicitudPrenomina.usuarioId = usuario.Id;
-                solicitudPrenomina.Usuario = usuario;
                 solicitudPrenomina.estatusSolicitud = concepto.id;
-                solicitudPrenomina.solicita = usuario.nombreUsuario;
+                solicitudPrenomina.solicita = usuario.nombreUsuario.Trim();
+                solicitudPrenomina.folioSolicitud = folioAlta.valorString.Trim().PadLeft(5, '0') + "P" + cliente.Plaza.cveCorta.Trim();
 
-                solicitudPrenomina.folioSolicitud = folioAlta.valorString.Trim().PadLeft(5, '0') + "P" + solicitudPrenomina.Cliente.Plaza.cveCorta.Trim();
-                int folAlta = int.Parse(folioAlta.valorString.Trim());
-                folAlta = folAlta + 1;
-                folioAlta.valorString = folAlta.ToString();
+                if (solicitudPrenomina.tipoCambio == null)
+                {
+                    solicitudPrenomina.tipoCambio = 1;
+                } //Tipo de cambio es nullo se toma la paridad.
 
                 try
                 {
+                    //Guardamos la solicitud de prenomina.
+                    db.SolicitudPrenominas.Add(solicitudPrenomina);
+                    db.SaveChanges();
 
-                    using (var context = new suaEntities())
-                    {
-                        context.Entry(solicitudPrenomina).State = EntityState.Detached;
-                        context.SolicitudPrenominas.Add(solicitudPrenomina);
-                        //db.Entry(folioAlta).State = EntityState.Modified;
-                        context.SaveChanges();
-                    }
+                    //Actualizamos el folio
+                    int folAlta = int.Parse(folioAlta.valorString.Trim());
+                    folAlta = folAlta + 1;
+                    folioAlta.valorString = folAlta.ToString();
+
+                    db.Entry(folioAlta).State = EntityState.Modified;
+                    db.SaveChanges();
+
                 }
                 catch (DbEntityValidationException ex)
                 {
@@ -153,7 +157,13 @@ namespace SUAMVC.Controllers
                         }
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new
+                {
+                    clienteId = solicitudPrenomina.clienteId,
+                    proyectoId = solicitudPrenomina.proyectoId,
+                    ejercicioId = solicitudPrenomina.anno,
+                    plazaId = solicitudPrenomina.plazaId
+                });
             }
 
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitudPrenomina.clienteId);

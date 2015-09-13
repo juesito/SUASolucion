@@ -1,5 +1,5 @@
 ﻿@model SUADATOS.SolicitudPrenomina
-           @using SUADATOS;
+@using SUADATOS;
 
 @{
     ViewBag.Title = "Create";
@@ -15,8 +15,8 @@
 
     Cliente cliente = db.Clientes.Find(Model.clienteId);
     Proyecto proyecto = db.Proyectos.Find(Model.proyectoId);
-    Model.plazaId = cliente.Plaza_id;
-    Model.Plaza = cliente.Plaza;
+    Plaza plaza = db.Plazas.Find(Model.plazaId);
+    
     
 }
 
@@ -37,7 +37,7 @@
             <div class="form-horizontal">
                 <hr />
                 @Html.HiddenFor(model => model.anno)
-                @Html.HiddenFor(model => model.plazaId)
+                
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                 <table style="font-size:10px;margin:0 auto; width:700px; ">
@@ -65,7 +65,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.plazaId, "plazaId", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                   @Html.Label(cliente.Plaza.descripcion)
+                                   @Html.Label(plaza.descripcion)
                                 </div>
                             </div>
                         </td>

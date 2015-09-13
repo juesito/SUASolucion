@@ -478,6 +478,7 @@
     <Compile Include="Controllers\CuentaEmpleadosController.cs" />
     <Compile Include="Controllers\DatosAdicionalesClientesController.cs" />
     <Compile Include="Controllers\DepartamentosController.cs" />
+    <Compile Include="Controllers\DetallePrenominasController.cs" />
     <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\EmpresasController.cs" />
     <Compile Include="Controllers\EsquemasPagosController.cs" />
@@ -776,6 +777,11 @@
     <Content Include="Views\ReporteConMes\Edit.cshtml" />
     <Content Include="Views\ReporteConMes\Index.cshtml" />
     <Content Include="Views\Empleados\ModificarEmpleado.cshtml" />
+    <Content Include="Views\DetallePrenominas\Create.cshtml" />
+    <Content Include="Views\DetallePrenominas\Delete.cshtml" />
+    <Content Include="Views\DetallePrenominas\Details.cshtml" />
+    <Content Include="Views\DetallePrenominas\Edit.cshtml" />
+    <Content Include="Views\DetallePrenominas\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

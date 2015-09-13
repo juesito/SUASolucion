@@ -411,7 +411,7 @@ namespace SUAMVC.Helpers
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
-            return htmlHelper.DropDownList("contratoId", listFields, new { id = htmlId });
+            return htmlHelper.DropDownList(htmlId.Trim(), listFields, new { id = htmlId });
         }
 
         public static MvcHtmlString sexosDrownList(this HtmlHelper htmlHelper, int userId)

@@ -1,0 +1,185 @@
+﻿@model IEnumerable<SUADATOS.DetallePrenomina>
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    String msg = TempData["message"] as String;
+    suaEntities db = new suaEntities();
+
+    SolicitudPrenomina solicitud = new SolicitudPrenomina();
+    if (ViewBag.solicitudId != null) {
+        int solicitudInt = int.Parse(ViewBag.solicitudId.ToString());
+        solicitud = db.SolicitudPrenominas.Find(solicitudInt);
+    }
+    
+}
+
+@section Menu {
+    <div>Detalle Prenominas<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="marqueeFilter">
+    @if (String.IsNullOrEmpty(msg))
+    {
+        <p style="font-weight:bold;">@msg</p>
+    }
+    <table style="float:left; margin-top:5px;display:inline-block;">
+        <thead>
+            <tr style="text-align:left;vertical-align:bottom;">
+                <td>
+                    @Html.Label(Language.solicitud)
+                </td>
+                <td>
+                    @Html.Label(solicitud.folioSolicitud)
+                </td>
+                <td>
+                    @Html.Label(Language.cliente)
+                </td>
+                <td>
+                    @Html.Label(solicitud.Cliente.descripcion)
+                </td>
+                <td>
+                    @Html.Label(Language.plaza)
+                </td>
+                <td>
+                    @Html.Label(solicitud.Plaza.descripcion)
+                </td>
+                <td>
+                    @Html.Label("Proyecto:")
+                </td>
+                <td>
+                    @Html.Label(solicitud.Proyecto.descripcion)
+                </td>
+                <td>
+                    @Html.Label("Año:")
+                </td>
+                <td>
+                    @Html.Label(solicitud.anno)
+                </td>
+            </tr>
+        </thead>
+    </table>
+    </div>
+
+<div id="table-container" class="table-container">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.diasLaborados)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ingresos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.gratificacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.primaVacacioal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.aguinaldo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descuentoInfonavit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descuentoFonacot)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descuentoPension)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.otrosDescuentos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.netoPagar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fechaCreacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CuentaEmpleado.cuenta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Empleado.folioEmpleado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SolicitudPrenomina.folioSolicitud)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.diasLaborados)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ingresos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.gratificacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.primaVacacioal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.aguinaldo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.descuentoInfonavit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.descuentoFonacot)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.descuentoPension)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.otrosDescuentos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.netoPagar)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fechaCreacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CuentaEmpleado.cuenta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Empleado.folioEmpleado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SolicitudPrenomina.folioSolicitud)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

@@ -22,7 +22,7 @@
 
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
-    gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
+    //gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
     gridColumns.Add(grid.Column("folioSolicitud", "Folio", format: @<text> @if (@item.folioSolicitud != null)
     {  @item.folioSolicitud }</text>, canSort: true));
     gridColumns.Add(grid.Column("Proyecto.descripcion", "Proyecto", format: @<text> @if (@item.ProyectoId != null)
@@ -149,7 +149,8 @@ columns: grid.Columns(gridColumns.ToArray()),
 tableStyle: "table table-striped tableSua"
 ));
 
-    tableHtml = sb.ToString().Replace("{}", "<input type='checkbox' id='selectAll' name='slall' />").Trim();
+    //tableHtml = sb.ToString().Replace("{}", "<input type='checkbox' id='selectAll' name='slall' />").Trim();
+    tableHtml = sb.ToString().Trim();
 }
 
 @section Menu {
