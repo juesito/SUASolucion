@@ -7,7 +7,7 @@
     padding-left: 15px;
     padding-right: 15px;
     position: inherit;
-    margin-top: 20px;
+    margin-top: 16px;
     height: auto;
     min-height: 550px;
     /*border:1px solid #ff0000;*/
@@ -51,6 +51,11 @@ textarea {
     height: 20px;
 }
 
+.menuIcon { /*Some CSS to set the background image (not tested) */
+    padding: 0px;
+    width: 30px;
+    height: 30px;
+}
 .excel-area { /*Some CSS to set the background image (not tested) */
     width: 100%;
     text-align: right;
@@ -171,6 +176,15 @@ textarea {
     padding: 0px !important;
     top: 1px;
     position: inherit;
+}
+
+.menubar-header {
+    margin-bottom: 2px !important;
+    padding: 0px !important;
+    top: 0px;
+    position: inherit;
+    background-color:#F1F1F1;
+    
 }
 
 .login-line {
@@ -449,3 +463,21 @@ table-fixed {
         margin: 10px;
         padding: 10px;
     }
+
+
+.input-table {
+    border-spacing: 0.5rem !important;
+    border-collapse: collapse !important;
+    border:none;
+    width: 95%;
+}
+
+    
+.value-label {
+    background-color:#FFF !important;
+    color:#000 !important;
+    border: 2px solid #dadada;
+    border-radius: 7px;
+    font-weight:normal !important;
+    padding:1px;
+}

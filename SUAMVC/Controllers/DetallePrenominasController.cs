@@ -52,6 +52,31 @@ namespace SUAMVC.Controllers
             return View();
         }
 
+        public ActionResult AddEmployees(String solicitudId)
+        {
+            
+            List<Empleado> empleados = new List<Empleado>();
+            SolicitudEmpleado solicitudEmpleado = new SolicitudEmpleado();
+
+            if (!String.IsNullOrEmpty(solicitudId))
+            {
+                int solicitudInt = int.Parse(solicitudId);
+                SolicitudPrenomina solicitud = db.SolicitudPrenominas.Find(solicitudInt);
+                int clienteId = solicitud.clienteId;
+                int proyectoId = solicitud.proyectoId;
+
+                empleados = (from s in db.SolicitudEmpleadoes
+                                      where s.Solicitud.clienteId.Equals(clienteId)
+                                      && s.Solicitud.proyectoId.Equals(proyectoId)
+                                      orderby s.empleadoId
+                                      select s.Empleado).ToList();  
+
+
+                ViewBag.solicitudId = solicitudInt;
+            }
+            return View(empleados);
+        }
+
         // POST: DetallePrenominas/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.

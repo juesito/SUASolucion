@@ -211,6 +211,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\addEmployee.png" />
     <Content Include="Content\Images\addEmployee1.png" />
+    <Content Include="Content\Images\addNew.png" />
     <Content Include="Content\Images\atm.png" />
     <Content Include="Content\Images\back.png" />
     <Content Include="Content\Images\balance.png" />
@@ -230,6 +231,7 @@
     <Content Include="Content\Images\report.png" />
     <Content Include="Content\Images\search.png" />
     <Content Include="Content\Images\see.png" />
+    <Content Include="Content\Images\selectData.png" />
     <Content Include="Content\Images\send.png" />
     <Content Include="Content\Images\show.png" />
     <Content Include="Content\Images\worker.png" />
@@ -782,6 +784,7 @@
     <Content Include="Views\DetallePrenominas\Details.cshtml" />
     <Content Include="Views\DetallePrenominas\Edit.cshtml" />
     <Content Include="Views\DetallePrenominas\Index.cshtml" />
+    <Content Include="Views\DetallePrenominas\AddEmployees.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -29,7 +29,7 @@
     gridColumns.Add(grid.Column("Plaza.descripcion", Language.plaza, format: @<text> @if (@item.PlazaId != null)
     {  @item.Plaza.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("fechaSolicitud", Language.fechaAlta, @<text><div style='width: 6em'>@item.fechaSolicitud.ToString("dd-MM-yyyy")</div></text>, null, canSort: true));
-    
+
     gridColumns.Add(grid.Column("fechaInicial", Language.fechaInicio, @<text><div style='width: 6em'>
             @if (@item.fechaInicial != null)
             { @item.fechaInicial.ToString("dd-MM-yyyy")}
@@ -133,15 +133,19 @@ tableStyle: "table table-striped tableSua"
     <div>Solicitud Prenominas<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<p>
+<div class="menubar-header">
     @if (SecurityUserModel.verificarPermiso("addSol-Prenomina", "Se agrega solicitud de prenomina")
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
-        @Html.ActionLink(@Language.agregar, "Create", "SolicitudPrenominas",
-                            new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId, ejercicioId = @ViewBag.ejercicioId, plazaId = @ViewBag.plazaId }, new { @class = "btn btn-success" })
+        <a href="@Url.Action("Create", "SolicitudPrenominas", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId, ejercicioId = @ViewBag.ejercicioId, plazaId = @ViewBag.plazaId })">
+            <img src="~/Content/Images/addNew.png" alt="@Language.agregar" style="border:none;" class="menuIcon" title="@Language.agregar" />
+        </a>
+        <a href="@Url.Action("crearExcelSolicitud", "Solicitudes", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })" style="text-align:right">
+            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
+        </a>
     }
-</p>
 
+</div>
 
 @using (Html.BeginForm())
 {
@@ -150,7 +154,7 @@ tableStyle: "table table-striped tableSua"
         {
             <p style="font-weight:bold;">@msg</p>
         }
-        <table style="float:left; margin-top:5px;display:inline-block;">
+        <table class="input-table">
             <thead>
                 <tr style="text-align:left;vertical-align:bottom;">
                     <td style="padding-top:15px">
@@ -185,7 +189,7 @@ tableStyle: "table table-striped tableSua"
         </table>
         @if (SecurityUserModel.verificarPermiso("1", "1"))
         {
-            
+
         }
     </div>
 }

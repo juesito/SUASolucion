@@ -1,0 +1,118 @@
+﻿@model IEnumerable<SUADATOS.Empleado>
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+
+@{
+    ViewBag.Title = "AddEmployees";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    String msg = TempData["message"] as String;
+    suaEntities db = new suaEntities();
+
+    SolicitudPrenomina solicitud = new SolicitudPrenomina();
+    if (ViewBag.solicitudId != null)
+    {
+        int solicitudInt = int.Parse(ViewBag.solicitudId.ToString());
+        solicitud = db.SolicitudPrenominas.Find(solicitudInt);
+    }
+
+    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+    //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+    gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
+    gridColumns.Add(grid.Column("folioEmpleado", "ID", format: @<text> @if (@item.folioEmpleado != null)
+    {  @item.folioEmpleado }</text>, canSort: true));
+    gridColumns.Add(grid.Column("apellidoPaterno", "Paterno", format: @<text> @if (@item.apellidoPaterno != null)
+    {  @item.apellidoPaterno }</text>, canSort: true));
+    gridColumns.Add(grid.Column("apellidoMaterno", "Materno", format: @<text> @if (@item.apellidoMaterno != null)
+    {  @item.apellidoMaterno }</text>, canSort: true));
+    gridColumns.Add(grid.Column("nombre", "Nombre", format: @<text> @if (@item.nombre != null)
+    {  @item.nombre }</text>, canSort: true));
+    gridColumns.Add(grid.Column("nss", "Nss", format: @<text> @if (@item.nss != null)
+    {  @item.nss }</text>, canSort: true));
+    gridColumns.Add(grid.Column("sdi.descripcion", "Sdi", format: @<text> @if (@item.sdi != null)
+    {  @item.sdi.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("salarioReal", "Salario Real", format: @<text> @if (@item.salarioReal != null)
+    {  @item.salarioReal }</text>, canSort: true));
+    gridColumns.Add(grid.Column("categoria", "Categoria", format: @<text> @if (@item.categoria != null)
+    {  @item.categoria }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Banco.descripcion", "Banco", format: @<text> @if (@item.bancoId != null)
+    {  @item.Banco.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("cuentaBancaria", "Cuenta Bancaria", format: @<text> @if (@item.cuentaBancaria != null)
+    {  @item.cuentaBancaria }</text>, canSort: true));
+    gridColumns.Add(grid.Column("cuentaClabe", "Clabe", format: @<text> @if (@item.cuentaClabe != null)
+    {  @item.cuentaClabe }</text>, canSort: true));
+    gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creacion", @<text><div style='width: 6em'>@item.fechaCreacion.ToString("dd-MM-yyyy")</div></text>, null, canSort: true));
+    gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja",
+        @<text><div style='width: 6em'>
+                @if (@item.fechaBaja != null)
+                { @item.fechabaja.ToString("dd-MM-yyyy")}
+            </div></text>, null, canSort: true));
+    gridColumns.Add(grid.Column("Acreditado.Patrone.registro", "Registro Patronal", format: @<text> @if (@item.aseguradoId != null)
+    {  @item.Asegurado.Patrone.registro }</text>, canSort: true));
+
+    sb.Append(grid.GetHtml(
+columns: grid.Columns(gridColumns.ToArray()),
+tableStyle: "table table-striped tableSua"
+));
+
+    tableHtml = sb.ToString().Replace("{}", "<input type='checkbox' id='selectAll' name='slall' />").Trim();
+}
+
+
+@section Menu {
+<div>Agregar Empleados a Prenomina<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+<div class="menubar-header">
+    <a href="@Url.Action("crearExcelSolicitud", "Solicitudes", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })" style="text-align:right">
+        <img src="~/Content/Images/selectData.png" title="Añadir Empleados" alt="Añadir Empleados" style="border:none;" class="menuIcon" />
+    </a>
+</div>
+
+<div class="marqueeFilter">
+    @if (String.IsNullOrEmpty(msg))
+    {
+        <p style="font-weight:bold;">@msg</p>
+    }
+    <table class="input-table">
+        <tr>
+            <td>@Html.Label(Language.solicitud)</td>
+            <td>@Html.Label(Language.cliente)</td>
+            <td>@Html.Label(Language.plaza)</td>
+            <td>@Html.Label(Language.proyecto)</td>
+            <td>@Html.Label("Año")</td>
+            <td>@Html.Label(Language.fechaInicio)</td>
+            <td>@Html.Label(Language.fechaFinal)</td>
+            <td>@Html.Label("Fecha pago")</td>
+            <td>@Html.Label(Language.periodo)</td>
+            <td>@Html.Label("Tipo Pago")</td>
+            <td>@Html.Label("Moneda")</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="value-label">@Html.Label(solicitud.folioSolicitud)</td>
+            <td class="value-label">@Html.Label(solicitud.Cliente.descripcion)</td>
+            <td class="value-label">@Html.Label(solicitud.Plaza.descripcion)</td>
+            <td class="value-label">@Html.Label(solicitud.Proyecto.descripcion)</td>
+            <td class="value-label">@Html.Label(solicitud.anno)</td>
+            <td class="value-label">@Html.Label(solicitud.fechaInicial.ToString())</td>
+            <td class="value-label">@Html.Label(solicitud.fechaFinal.ToString())</td>
+            <td class="value-label">@Html.Label(solicitud.fechaPago.ToString())</td>
+            <td class="value-label">@Html.Label(solicitud.Concepto.descripcion)</td>
+            <td class="value-label">@Html.Label(solicitud.Concepto1.descripcion)</td>
+            <td class="value-label">@Html.Label(solicitud.Concepto2.descripcion)</td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+
+@if (!tableHtml.IsEmpty())
+{
+    <div id="table-container" class="table-container">
+        @Html.Raw(tableHtml)
+    </div>
+}

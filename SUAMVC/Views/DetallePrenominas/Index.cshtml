@@ -16,170 +16,128 @@
     suaEntities db = new suaEntities();
 
     SolicitudPrenomina solicitud = new SolicitudPrenomina();
-    if (ViewBag.solicitudId != null) {
+    if (ViewBag.solicitudId != null)
+    {
         int solicitudInt = int.Parse(ViewBag.solicitudId.ToString());
         solicitud = db.SolicitudPrenominas.Find(solicitudInt);
     }
-    
+
+    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+
+    //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+    //gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
+    gridColumns.Add(grid.Column("Empleado.nombre", Language.nombreCompleto, format: @<text> @if (@item.folioSolicitud != null)
+    {  @item.folioSolicitud }</text>, canSort: true));
+    gridColumns.Add(grid.Column("diasLaborados", "DT", format: @<text> @if (@item.diasLaborados != null)
+    {  @item.diasLaborados }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Empleado.salarioReal", Language.salarioReal, format: @<text> @if (@item.EmpleadoId != null)
+    {  @item.Empleado.salarioReal }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Empleado.SDI.descripcion", "SDI", format: @<text> @if (@item.EmpleadoId != null)
+    {  @item.Empleado.SDI.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Empleado.NSS", "NSS", format: @<text> @if (@item.EmpleadoId != null)
+    {  @item.Empleado.NSS }</text>, canSort: true));
+    gridColumns.Add(grid.Column("gratificacion", "Gratificacion", canSort: true));
+    gridColumns.Add(grid.Column("primaVacacional", "Prima Vacional", canSort: true));
+    gridColumns.Add(grid.Column("descuentoInfonavit", "Infonavit", canSort: true));
+    gridColumns.Add(grid.Column("descuentoFonacot", "Fonacot", canSort: true));
+    gridColumns.Add(grid.Column("descuentoPension", "Desc. Pensión", canSort: true));
+    gridColumns.Add(grid.Column("otrosDescuentos", "Otros Desc.", canSort: true));
+    gridColumns.Add(grid.Column("netoPagar", "Neto Pagar", canSort: true));
+    gridColumns.Add(grid.Column("CuentaEmpleado.descripcion", Language.cuentaBancaria, canSort: true));
+    gridColumns.Add(grid.Column("Empleado.categoria", Language.categoria, canSort: true));
+
+
+    if (SecurityUserModel.verificarPermiso("modificar solicitud alta", "Se agrega solicitud para modificar empleados"))
+    {
+        gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Solicitudes", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+    if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados"))
+    {
+        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
+            @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
+            {
+                <a href="@Url.Action("Delete", "Solicitudes", new { id = item.id })">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
+
+
+    if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud alta", "Se agrega solicitud para ver empleados en solicitud"))
+    {
+        gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
+            @if (item.noTrabajadores >= 0)
+            {
+                <a href="@Url.Action("Index", "Empleados", new { id = item.id })">
+                    <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
+
+
+    sb.Append(grid.GetHtml(
+columns: grid.Columns(gridColumns.ToArray()),
+tableStyle: "table table-striped tableSua"
+));
+
+    tableHtml = sb.ToString().Trim();
+
 }
 
 @section Menu {
     <div>Detalle Prenominas<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
+<div class="menubar-header">
+    <a href="@Url.Action("AddEmployees", "DetallePrenominas", new { solicitudId = ViewBag.solicitudId })" style="text-align:right">
+        <img src="~/Content/Images/selectData.png" title="Añadir Empleados" alt="Añadir Empleados" style="border:none;" class="menuIcon" />
+    </a>
+</div>
 <div class="marqueeFilter">
     @if (String.IsNullOrEmpty(msg))
     {
         <p style="font-weight:bold;">@msg</p>
     }
-    <table style="float:left; margin-top:5px;display:inline-block;">
-        <thead>
-            <tr style="text-align:left;vertical-align:bottom;">
-                <td>
-                    @Html.Label(Language.solicitud)
-                </td>
-                <td>
-                    @Html.Label(solicitud.folioSolicitud)
-                </td>
-                <td>
-                    @Html.Label(Language.cliente)
-                </td>
-                <td>
-                    @Html.Label(solicitud.Cliente.descripcion)
-                </td>
-                <td>
-                    @Html.Label(Language.plaza)
-                </td>
-                <td>
-                    @Html.Label(solicitud.Plaza.descripcion)
-                </td>
-                <td>
-                    @Html.Label("Proyecto:")
-                </td>
-                <td>
-                    @Html.Label(solicitud.Proyecto.descripcion)
-                </td>
-                <td>
-                    @Html.Label("Año:")
-                </td>
-                <td>
-                    @Html.Label(solicitud.anno)
-                </td>
-            </tr>
-        </thead>
-    </table>
-    </div>
-
-<div id="table-container" class="table-container">
-    <table class="table">
+    <table class="input-table">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.diasLaborados)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ingresos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.gratificacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.primaVacacioal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.aguinaldo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.descuentoInfonavit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.descuentoFonacot)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.descuentoPension)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.otrosDescuentos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.netoPagar)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.fechaCreacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CuentaEmpleado.cuenta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Empleado.folioEmpleado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SolicitudPrenomina.folioSolicitud)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
-            </th>
-            <th></th>
+            <td>@Html.Label(Language.solicitud)</td>
+            <td>@Html.Label(Language.cliente)</td>
+            <td>@Html.Label(Language.plaza)</td>
+            <td>@Html.Label(Language.proyecto)</td>
+            <td>@Html.Label("Año")</td>
+            <td>@Html.Label(Language.fechaInicio)</td>
+            <td>@Html.Label(Language.fechaFinal)</td>
+            <td>@Html.Label("Fecha pago")</td>
+            <td>@Html.Label(Language.periodo)</td>
+            <td>@Html.Label("Tipo Pago")</td>
+            <td>@Html.Label("Moneda")</td>
+            <td></td>
         </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.diasLaborados)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ingresos)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.gratificacion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.primaVacacioal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.aguinaldo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.descuentoInfonavit)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.descuentoFonacot)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.descuentoPension)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.otrosDescuentos)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.netoPagar)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fechaCreacion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CuentaEmpleado.cuenta)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Empleado.folioEmpleado)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SolicitudPrenomina.folioSolicitud)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
-                </td>
-            </tr>
-        }
-
+        <tr>
+            <td class="value-label">@Html.Label(solicitud.folioSolicitud)</td>
+            <td class="value-label">@Html.Label(solicitud.Cliente.descripcion)</td>
+            <td class="value-label">@Html.Label(solicitud.Plaza.descripcion)</td>
+            <td class="value-label">@Html.Label(solicitud.Proyecto.descripcion)</td>
+            <td class="value-label">@Html.Label(solicitud.anno)</td>
+            <td class="value-label">@Html.Label(solicitud.fechaInicial.ToString())</td>
+            <td class="value-label">@Html.Label(solicitud.fechaFinal.ToString())</td>
+            <td class="value-label">@Html.Label(solicitud.fechaPago.ToString())</td>
+            <td class="value-label">@Html.Label(solicitud.Concepto.descripcion)</td>
+            <td class="value-label">@Html.Label(solicitud.Concepto1.descripcion)</td>
+            <td class="value-label">@Html.Label(solicitud.Concepto2.descripcion)</td>
+            <td></td>
+        </tr>
     </table>
 </div>
+
+@if (!tableHtml.IsEmpty())
+{
+    <div id="table-container" class="table-container">
+        @Html.Raw(tableHtml)
+    </div>
+}
