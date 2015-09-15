@@ -78,7 +78,7 @@
         }</text>, canSort: true));
 
 
-    if (SecurityUserModel.verificarPermiso("modificar solicitud alta", "Se agrega solicitud para modificar empleados"))
+    if (SecurityUserModel.verificarPermiso("modificar solicitud alta", "Se agrega solicitud para modificar empleados", 6))
     {
 
         gridColumns.Add(grid.Column(header: "Modificar", format: @<text>
@@ -89,7 +89,7 @@
                 </a>
             }</text>));
     }
-    if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados"))
+    if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
             @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
@@ -101,7 +101,7 @@
         </text>));
     }
 
-    if (SecurityUserModel.verificarPermiso("agregar personal solicitud alta", "Se agrega solicitud para agregar empleados"))
+    if (SecurityUserModel.verificarPermiso("agregar personal solicitud alta", "Se agrega solicitud para agregar empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text>
             @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
@@ -111,7 +111,7 @@
                 </a>
             }</text>));
     }
-    if (SecurityUserModel.verificarPermiso("Subir Lay Out Personal", "Se agrega solicitud para subir lay out de empleados"))
+    if (SecurityUserModel.verificarPermiso("Subir Lay Out Personal", "Se agrega solicitud para subir lay out de empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Layout Alta Personal", format: @<text>
             @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
@@ -121,7 +121,7 @@
                 </a>
             }</text>));
     }
-    if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud alta", "Se agrega solicitud para ver empleados en solicitud"))
+    if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud alta", "Se agrega solicitud para ver empleados en solicitud", 6))
     {
         gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
             @if (item.noTrabajadores >= 0)
@@ -132,7 +132,7 @@
             }
         </text>));
     }
-    if (SecurityUserModel.verificarPermiso("enviar correo solicitud alta", "Enviar mail informativo"))
+    if (SecurityUserModel.verificarPermiso("enviar correo solicitud alta", "Enviar mail informativo", 6))
     {
         gridColumns.Add(grid.Column(header: "Enviar Solicitud", format: @<text>
             @if (item.noTrabajadores > 0 && !item.Concepto.descripcion.Trim().Equals("Enviado"))
@@ -185,7 +185,7 @@ tableStyle: "table table-striped tableSua"
 
 
 <p>
-@if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados")
+@if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
         @Html.ActionLink(@Language.agregar, "Create", "SolicitudesBaja", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId }, new { @class = "btn btn-success" })

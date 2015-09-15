@@ -15,7 +15,8 @@ namespace SUAMVC.Controllers
         public ActionResult Index(String usuarioId, String topico)
         {
 
-            ViewBag.usuarioId = new SelectList((from s in db.Usuarios.ToList()
+            ViewBag.usuarioId = new SelectList((from s in db.Usuarios 
+                                                where s.estatus.Equals("A")
                                                 orderby s.nombreUsuario
                                                 select new
                                                 {

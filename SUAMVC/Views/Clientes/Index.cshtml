@@ -26,7 +26,7 @@
     var gridColumns = new List<WebGridColumn>();
 
     //Agregamos las columnas al grid
-    if (SecurityUserModel.verificarPermiso("Clientes", "Editar cliente"))
+    if (SecurityUserModel.verificarPermiso("Clientes", "Editar cliente", 2))
     {
         gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Clientes", new { id = item.id })">
                 <img src="~/Content/Images/edit.png" alt="" cc class="icon" />
@@ -56,7 +56,7 @@
     gridColumns.Add(grid.Column("tipoClienteId", "Tipo Cliente", null, null, true));
     gridColumns.Add(grid.Column("numeroCuenta", "Número Cuenta", null, null, true));
     gridColumns.Add(grid.Column("tipoServicioId", "Tipo Servicio", null, null, true));
-    if (SecurityUserModel.verificarPermiso("Clientes", "Eliminar cliente"))
+    if (SecurityUserModel.verificarPermiso("Clientes", "Eliminar cliente", 2))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Clientes", new { id = item.id })">
                 <img src="~/Content/Images/delete.png" alt="" style="text-align:center;" class="icon" />
@@ -113,7 +113,7 @@
                         <input type="submit" value="Consultar" class="btn btn-success" style="width:80px; height:30px; font-size:10px;" />
                     </td>
                     <td style="padding-right:20px; padding-left:5px" rowspan="2">
-                        @if (SecurityUserModel.verificarPermiso("1", "1"))
+                        @if (SecurityUserModel.verificarPermiso("1", "1", 2))
                         {
                             <a href="@Url.Action("GetExcel", "Clientes", new{ plazasId = @ViewBag.pzaId, opcion = @ViewBag.opBuscador,
                                     valor = @ViewBag.valBuscador
@@ -164,7 +164,7 @@
     </div>
 
 }
-@if (SecurityUserModel.verificarPermiso("Clientes", "Crear cliente"))
+@if (SecurityUserModel.verificarPermiso("Clientes", "Crear cliente", 2))
 {
     <p>
         @Html.ActionLink("Crear Cliente", "Create", "Clientes", new { @class = "btn btn-success" })

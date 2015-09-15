@@ -51,8 +51,22 @@ namespace SUAMVC.Controllers
                                    && x.tipo.Equals("P")
                                    select x.topicoId);
 
+            var clientesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("C")
+                                     select x.topicoId);
+
+            var gruposAsignados = (from s in db.Grupos
+                                   join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                   join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                   orderby s.claveGrupo
+                                   select s.Id);
+            
             var clientes = from p in db.Clientes
-                           where plazasAsignadas.Contains(p.Plaza.id)
+                           where plazasAsignadas.Contains(p.Plaza_id) &&
+                                 clientesAsignados.Contains(p.Id) &&
+                                 gruposAsignados.Contains(p.Grupo_id)
                            select p;
 
 

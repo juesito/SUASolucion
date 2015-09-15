@@ -16,7 +16,7 @@
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
 
-    if (SecurityUserModel.verificarPermiso("Parametros", "Crear parametro"))
+    if (SecurityUserModel.verificarPermiso("Parametros", "Crear parametro", 1))
     {
         <p>
             @Html.ActionLink("Crear Parámetro", "Create", "Parametros", new { @class = "btn btn-success" })
@@ -30,11 +30,11 @@
     gridColumns.Add(grid.Column("valorMoneda", "Valor Moneda", null, null, true));
     gridColumns.Add(grid.Column("valorFecha", "Valor Fecha", null, null, true));
     gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creación", null, null, true));
-    if (SecurityUserModel.verificarPermiso("Parametros", "Editar parametro"))
+    if (SecurityUserModel.verificarPermiso("Parametros", "Editar parametro", 1))
     {
         gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Parametros", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("Parametros", "Eliminar parametro"))
+    if (SecurityUserModel.verificarPermiso("Parametros", "Eliminar parametro", 1))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Parametros", new { id = item.id })">
                 <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />

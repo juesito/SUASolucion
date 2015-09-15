@@ -49,11 +49,11 @@
     gridColumns.Add(grid.Column("Asegurado.fechaAlta", "Fecha Alta", @<text><div style='width: 6em'>@item.Asegurado.fechaAlta.ToString("dd-MM-yyyy")     </div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("Asegurado.extranjero", "Extranjero", null, null, true));
     gridColumns.Add(grid.Column("Asegurado.Cliente.Plaza.cveCorta", "ID.Plaza", null, null, true));
-    if (SecurityUserModel.verificarPermiso("Incapacidades", "Ver columna creacion"))
+    if (SecurityUserModel.verificarPermiso("Incapacidades", "Ver columna creacion", 3))
     {
         gridColumns.Add(grid.Column("Asegurado.fechaCreacion", "Fecha Creacion", @<text><div style='width: 13em'>@item.Asegurado.fechaCreacion </div></text>, null, canSort: true));
     }
-    if (SecurityUserModel.verificarPermiso("Incapacidades", "Ver columna modificacion"))
+    if (SecurityUserModel.verificarPermiso("Incapacidades", "Ver columna modificacion", 3))
     {
         gridColumns.Add(grid.Column("Asegurado.fechaModificacion", "Fecha Modificación", @<text><div style='width: 13em'>
                 @if (@item.Asegurado.fechaModificacion != null)
@@ -61,7 +61,7 @@
             </div></text>, null, canSort: true));
     }
     gridColumns.Add(grid.Column(header: Language.avisoInc, format:@<text><a href="@Url.Action("ViewAttachment", "Incapacidades", new { id = item.id, option = "I", carga = item.alta })" target="_blank">@ShowPDF(item.alta)</a></text>));
-    if (SecurityUserModel.verificarPermiso("Incapacidades", "Subir acuse"))
+    if (SecurityUserModel.verificarPermiso("Incapacidades", "Subir acuse", 3))
     {
         gridColumns.Add(grid.Column(header: "Imagen", format: @<text><a href="@Url.Action("UploadFileInc", "Movimientos", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
@@ -122,7 +122,7 @@
                         <input type="submit" value="Consultar" class="btn btn-success" style="width:80px; height:30px; font-size:10px;" />
                     </td>
                     <td style="padding-right:10px; padding-left:10px" rowspan="2">
-                        @if (SecurityUserModel.verificarPermiso("Incapacidades", "Descargar excel"))
+                        @if (SecurityUserModel.verificarPermiso("Incapacidades", "Descargar excel", 3))
                         {
                             <a href="@Url.Action("GetExcel", "Incapacidades", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
                                 clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador, statusId = @ViewBag.statusId
