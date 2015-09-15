@@ -109,22 +109,20 @@ tableStyle: "table table-striped tableSua"
     <div>Modificación de Solicitudes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<p>
-    @if (SecurityUserModel.verificarPermiso("nueva solicitud", "Se agrega solicitud para modificar salario")
+<div class="menubar-header">
+
+    @if (SecurityUserModel.verificarPermiso("nueva", "Se agrega solicitud para modificar salario")
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
-        @Html.ActionLink(@Language.agregar, "Create", "SolicitudesModificacion", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId }, new { @class = "btn btn-success" })
-    }
-</p>
-
-<p>
-    @if (!String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
-    {
-        <a href="@Url.Action("crearExcelSolicitudModificacion", "SolicitudesModificacion", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })" style="text-align:right">
-            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="30" height="30" />
+        <a href="@Url.Action("Create", "SolicitudesModificacion", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId})">
+            <img src="~/Content/Images/addNew.png" alt="@Language.agregar" style="border:none;" class="menuIcon" title="@Language.agregar" />
+        </a>
+        <a href="@Url.Action("crearExcelSolicitudModificacion", "SolicitudesModificacion", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId})" style="text-align:right">
+            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
         </a>
     }
-</p>
+
+</div>
 
 
 @using (Html.BeginForm())

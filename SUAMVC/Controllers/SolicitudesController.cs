@@ -404,7 +404,7 @@ namespace SUAMVC.Controllers
         }
 
         string[] headerColumns = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ" };
-        public SheetData crearContenidoHojaSolicitud(List<Solicitud> solicitudBaja, ExcelHelper eh)
+        public SheetData crearContenidoHojaSolicitud(List<Solicitud> solicituds, ExcelHelper eh)
         {
 
             SheetData sheetData = new SheetData();
@@ -412,15 +412,9 @@ namespace SUAMVC.Controllers
 
             //Creamos el Header
             Row row = new Row();
-            row = eh.addNewCellToRow(index, row, "Titulo del Excel", headerColumns[0] + index, 0U, CellValues.String);
-            sheetData.AppendChild(row);
 
             index = index + 1;
-            row = eh.addNewCellToRow(index, row, "SOLICITUDES BAJA", headerColumns[0] + index, 0U, CellValues.String);
-            sheetData.AppendChild(row);
-
-            index = index + 2;
-            row = eh.addNewCellToRow(index, row, "Folio:", headerColumns[0] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "SOLICITUDES", headerColumns[0] + index, 0U, CellValues.String);
             sheetData.AppendChild(row);
 
             index = index + 2;
@@ -465,7 +459,7 @@ namespace SUAMVC.Controllers
 
 
             //Creamos las celdas que contienen los datos
-            foreach (Solicitud dp in solicitudBaja)
+            foreach (Solicitud dp in solicituds)
             {
                 int i = 0;
                 index++;

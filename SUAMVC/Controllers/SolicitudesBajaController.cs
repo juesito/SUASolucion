@@ -376,15 +376,9 @@ namespace SUAMVC.Controllers
 
             //Creamos el Header
             Row row = new Row();
-            row = eh.addNewCellToRow(index, row, "Titulo del Excel", headerColumns[0] + index, 0U, CellValues.String);
-            sheetData.AppendChild(row);
 
             index = index + 1;
             row = eh.addNewCellToRow(index, row, "SOLICITUDES BAJA", headerColumns[0] + index, 0U, CellValues.String);
-            sheetData.AppendChild(row);
-
-            index = index + 2;
-            row = eh.addNewCellToRow(index, row, "Folio:", headerColumns[0] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
             index = index + 2;
