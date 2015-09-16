@@ -188,18 +188,16 @@ tableStyle: "table table-striped tableSua"
 @if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
-        @Html.ActionLink(@Language.agregar, "Create", "SolicitudesBaja", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId }, new { @class = "btn btn-success" })
+        <a href="@Url.Action("Create", "Solicitudes", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId })">
+            <img src="~/Content/Images/addNew.png" alt="@Language.agregar" style="border:none;" class="menuIcon" title="@Language.agregar" />
+        </a>
+        <a href="@Url.Action("crearExcelSolicitud", "Solicitudes", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })" style="text-align:right">
+            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
+        </a>
     }
-</p>
 
-<p>
-    @if (!String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
-    {
-        <a href="@Url.Action("crearExcelSolicitud", "Solicitudes", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })"style="text-align:right">
-        <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="30" height="30" />
-         </a>
-    }
-</p>
+</div>
+
 
 @using (Html.BeginForm())
 {

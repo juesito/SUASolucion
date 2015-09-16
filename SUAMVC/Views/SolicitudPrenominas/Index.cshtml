@@ -136,11 +136,12 @@ tableStyle: "table table-striped tableSua"
 <div class="menubar-header">
     @if (SecurityUserModel.verificarPermiso("addSol-Prenomina", "Se agrega solicitud de prenomina", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
+
     {
         <a href="@Url.Action("Create", "SolicitudPrenominas", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId, ejercicioId = @ViewBag.ejercicioId, plazaId = @ViewBag.plazaId })">
             <img src="~/Content/Images/addNew.png" alt="@Language.agregar" style="border:none;" class="menuIcon" title="@Language.agregar" />
         </a>
-        <a href="@Url.Action("crearExcelSolicitud", "Solicitudes", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })" style="text-align:right">
+                <a href="@Url.Action("crearExcelSolicitudPrenomina", "SolicitudPrenominas", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId, ejercicioId=ViewBag.ejercicioId, plazaId = ViewBag.plazaId })" style="text-align:right">
             <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
         </a>
     }

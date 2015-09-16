@@ -11,6 +11,10 @@ using SUAMVC.Helpers;
 using SUAMVC.Models;
 using System.Text;
 using System.Data.Entity.Validation;
+using System.IO;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml;
 
 namespace SUAMVC.Controllers
 {
@@ -240,6 +244,186 @@ namespace SUAMVC.Controllers
             db.SolicitudPrenominas.Remove(solicitudPrenomina);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        //Lay out Solicitud Prenomina
+        [HttpGet]
+        public void crearExcelSolicitudPrenomina(string clienteId, string proyectoId, string plazaId, string ejercicioId)
+        {
+            ToolsHelper th = new ToolsHelper();
+            FileStream fileStream = null;
+            MemoryStream mem = new MemoryStream();
+            try
+            {
+
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+                List<SolicitudPrenomina> solicitudPrenominasList = new List<SolicitudPrenomina>();
+
+                int proyectoInt = int.Parse(proyectoId.Trim());
+                int clienteInt = int.Parse(clienteId.Trim());
+                int plazaInt = int.Parse(plazaId.Trim());
+
+
+                var solicitudPrenominas = db.SolicitudPrenominas.Where(x => x.clienteId.Equals(clienteInt) &&
+                                            x.proyectoId.Equals(proyectoInt) && x.anno.Equals(ejercicioId) && 
+                                            x.plazaId.Equals(plazaInt)).ToList();
+
+                
+                DateTime date = DateTime.Now;
+                String path = @"C:\\SUA\\Exceles\\";
+                String fileName = @"SolicitudPrenomina-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fullName = path + fileName;
+                solicitudPrenominasList = solicitudPrenominas.ToList(); 
+                
+                if (solicitudPrenominasList.Count() > 0)
+                {
+
+                    ExcelHelper eh = new ExcelHelper();
+                    //Creamos el objeto del workbook
+                    SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
+
+                    WorkbookPart wbp = xl.AddWorkbookPart();
+                    WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
+                    DocumentFormat.OpenXml.Spreadsheet.Workbook wb = new Workbook();
+                    FileVersion fv = new FileVersion();
+                    fv.ApplicationName = "Microsoft Office Excel";
+
+                    Worksheet ws = new Worksheet();
+                    WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
+                    // add styles to sheet
+                    wbsp.Stylesheet = eh.CreateStylesheet();
+                    wbsp.Stylesheet.Save();
+
+                    SheetData sd = crearContenidoHojaSolicitudPrenomina(solicitudPrenominasList, eh);
+                    ws.Append(sd);
+                    wsp.Worksheet = ws;
+                    wsp.Worksheet.Save();
+
+                    DocumentFormat.OpenXml.Spreadsheet.Sheets sheets = new Sheets();
+                    Sheet sheet = new Sheet();
+                    sheet.Name = "rptPanelSolicitudPrenomina";
+                    sheet.SheetId = 1;
+                    sheet.Id = wbp.GetIdOfPart(wsp);
+
+                    sheets.Append(sheet);
+                    wb.Append(fv);
+                    wb.Append(sheets);
+
+                    xl.WorkbookPart.Workbook = wb;
+                    xl.WorkbookPart.Workbook.Save();
+                    xl.Close();
+
+                    fileStream = new FileStream(fullName, FileMode.Open);
+                    fileStream.Position = 0;
+                    mem = new MemoryStream();
+                    fileStream.CopyTo(mem);
+
+                    mem.Position = 0;
+                    Response.ClearContent();
+                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                    Response.ContentType = th.getMimeType(fullName);
+                    Response.BinaryWrite(mem.ToArray());
+
+                    Response.End();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+
+            }
+            finally
+            {
+                if (fileStream != null)
+                {
+                    fileStream.Flush();
+                    fileStream.Close();
+                }
+                mem.Flush();
+                mem.Close();
+            }
+        }
+
+        string[] headerColumns = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ" };
+        public SheetData crearContenidoHojaSolicitudPrenomina(List<SolicitudPrenomina> SolicitudPrenominas, ExcelHelper eh)
+        {
+
+            SheetData sheetData = new SheetData();
+            int index = 1;
+
+            //Creamos el Header
+            Row row = new Row();
+
+            index = index + 1;
+            row = eh.addNewCellToRow(index, row, "SOLICITUDES PRENOMINA", headerColumns[0] + index, 0U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            index = index + 2;
+            row = eh.addNewCellToRow(index, row, "FOLIO DE SOLICITUD", headerColumns[0] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "PROYECTO", headerColumns[1] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "PLAZA", headerColumns[2] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "FECHA INICIO", headerColumns[3] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "FECHA FINAL", headerColumns[4] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "SOLICITÓ", headerColumns[5] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "OBSERVACIONES", headerColumns[6] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "N° TRABAJADORES", headerColumns[7] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            //Creamos las celdas que contienen los datos
+            foreach (SolicitudPrenomina dp in SolicitudPrenominas)
+            {
+                int i = 0;
+                index++;
+                row = eh.addNewCellToRow(index, row, dp.folioSolicitud, headerColumns[i] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                if (dp.Proyecto != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.Proyecto.descripcion, headerColumns[i + 1] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 1] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                row = eh.addNewCellToRow(index, row, dp.Plaza.descripcion.ToString(), headerColumns[i + 2] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.fechaInicial.ToString(), headerColumns[i + 3] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.fechaFinal.ToString(), headerColumns[i + 4] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.solicita, headerColumns[i + 5] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.observaciones, headerColumns[i + 6] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.noTrabajadores.ToString(), headerColumns[i + 7] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+
+            }
+
+            return sheetData;
         }
 
         protected override void Dispose(bool disposing)
