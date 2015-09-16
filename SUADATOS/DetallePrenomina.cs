@@ -18,16 +18,19 @@ namespace SUADATOS
         public int solicitudId { get; set; }
         public int empleadoId { get; set; }
         public int diasLaborados { get; set; }
+        public Nullable<int> totalSyS { get; set; }
+        public Nullable<int> horasExtra { get; set; }
         public decimal ingresos { get; set; }
         public decimal gratificacion { get; set; }
-        public Nullable<decimal> primaVacacioal { get; set; }
+        public Nullable<decimal> primaVacacional { get; set; }
         public Nullable<decimal> aguinaldo { get; set; }
         public Nullable<decimal> descuentoInfonavit { get; set; }
         public Nullable<decimal> descuentoFonacot { get; set; }
         public Nullable<decimal> descuentoPension { get; set; }
+        public Nullable<decimal> reembolso { get; set; }
         public Nullable<decimal> otrosDescuentos { get; set; }
         public Nullable<decimal> netoPagar { get; set; }
-        public int cuentaId { get; set; }
+        public Nullable<int> cuentaId { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     

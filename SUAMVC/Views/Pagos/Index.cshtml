@@ -59,7 +59,7 @@
     gridColumns.Add(grid.Column("Patrone.Plaza.cveCorta", "Localidad SUA", @<text><div style='width: 1em'>@item.Patrone.Plaza.cveCorta</div></text> , null, canSort: true));
 
 
-    if (SecurityUserModel.verificarPermiso("RegistroPagos", "ColumnasPDF"))
+    if (SecurityUserModel.verificarPermiso("RegistroPagos", "ColumnasPDF", 3))
     {
         gridColumns.Add(grid.Column(header: "CP", format: @<text>
             @if (item.comprobantePago != null)
@@ -109,7 +109,7 @@
 
     gridColumns.Add(grid.Column(header: "Excel", format: @<text><a href="@Url.Action("ExcelDetalle", "Pagos", new { @id = item.id})"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
 
-        if (SecurityUserModel.verificarPermiso("RegistroPagos", "ColumnasPDF"))
+        if (SecurityUserModel.verificarPermiso("RegistroPagos", "ColumnasPDF", 3))
     {
         gridColumns.Add(grid.Column(header: "Resumen", format: @<text><a href="@Url.Action("ResumenPagos", "Pagos", new { @id = item.id})"><img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" /></a></text>));
     }

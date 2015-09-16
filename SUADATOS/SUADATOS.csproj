@@ -91,7 +91,7 @@
     <Compile Include="Acreditado.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ArchivosEmpleado.cs">
+    <Compile Include="ArchivoEmpleado.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Asegurado.cs">
@@ -127,7 +127,7 @@
     <Compile Include="DetallePrenomina.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="DocumentosEmpleado.cs">
+    <Compile Include="DocumentoEmpleado.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Empleado.cs">

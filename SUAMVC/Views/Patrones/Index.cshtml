@@ -32,11 +32,11 @@
     gridColumns.Add(grid.Column("codigoPostal", "C. P.", @<text><div style='width: 5em'>@item.codigoPostal</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("direccionArchivo", "Carpeta", null, null, true));
     gridColumns.Add(grid.Column("porcentajeNomina", "% sobre nómina", null, null, true));
-    if (SecurityUserModel.verificarPermiso("Patrones", "Editar patron"))
+    if (SecurityUserModel.verificarPermiso("Patrones", "Editar patron", 3))
     { 
         gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Patrones", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("Patrones", "Consultar detalle"))
+    if (SecurityUserModel.verificarPermiso("Patrones", "Consultar detalle", 3))
     { 
         gridColumns.Add(grid.Column(header: "Detalle", format: @<text><a href="@Url.Action("Details", "Patrones", new { id = item.id })"><img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" /></a></text>));
     }

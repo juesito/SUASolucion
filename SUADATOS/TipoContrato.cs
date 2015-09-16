@@ -17,6 +17,7 @@ namespace SUADATOS
         public TipoContrato()
         {
             this.Solicituds = new HashSet<Solicitud>();
+            this.SolicitudPrenominas = new HashSet<SolicitudPrenomina>();
         }
     
         public int id { get; set; }
@@ -25,6 +26,7 @@ namespace SUADATOS
         public int usuarioId { get; set; }
     
         public virtual ICollection<Solicitud> Solicituds { get; set; }
+        public virtual ICollection<SolicitudPrenomina> SolicitudPrenominas { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
 }

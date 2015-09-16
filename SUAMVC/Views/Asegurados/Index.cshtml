@@ -50,12 +50,12 @@
     gridColumns.Add(grid.Column("Cliente.Plaza.cveCorta", "ID.Plaza", null, null, true));
     gridColumns.Add(grid.Column("extranjero", "Extranjero", null, null, true));
 
-    if (SecurityUserModel.verificarPermiso("Asegurados", "Ver columna creacion"))
+    if (SecurityUserModel.verificarPermiso("Asegurados", "Ver columna creacion", 3))
     {
         gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creacion", @<text><div style='width: 13em'>@item.fechaCreacion </div></text>, null, canSort: true));
     }
 
-    if (SecurityUserModel.verificarPermiso("Asegurados", "Ver columna modificacion"))
+    if (SecurityUserModel.verificarPermiso("Asegurados", "Ver columna modificacion", 3))
     {
         gridColumns.Add(grid.Column("fechaModificacion", "Fecha Modificación", @<text><div style='width: 13em'>@if (@item.fechaModificacion != null)
         { @item.fechaModificacion}</div></text>, null, canSort: true));
@@ -66,12 +66,12 @@
     gridColumns.Add(grid.Column(header: "Baja", format:@<text><a href="@Url.Action("ViewAttachment", "Asegurados", new { id = item.id, option = "B", carga = item.baja })" target="_blank">@ShowPDF(item.baja)</a></text>));
     gridColumns.Add(grid.Column(header: "Permanente", format:@<a href="@Url.Action("ViewAttachment", new { id = item.id, option = "P", carga = item.permanente })" target="_blank">@ShowPDF(item.permanente)</a>));
 
-    if (SecurityUserModel.verificarPermiso("Asegurados", "Consultar detalle"))
+    if (SecurityUserModel.verificarPermiso("Asegurados", "Consultar detalle", 3))
     {
         gridColumns.Add(grid.Column(header: "Consulta", format: @<text><a href="@Url.Action("Details", "Asegurados", new { id = item.id })"><img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
 
-    if (SecurityUserModel.verificarPermiso("Asegurados", "Subir acuse"))
+    if (SecurityUserModel.verificarPermiso("Asegurados", "Subir acuse", 3))
     {
         gridColumns.Add(grid.Column(header: "Imagen", format: @<text><a href="@Url.Action("UploadFile", "Movimientos", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
@@ -133,7 +133,7 @@
                         <input type="submit" value="Consultar" class="btn btn-success" style="width:80px; height:30px; font-size:10px;" />
                     </td>
                    <td style="padding-right:10px; padding-left:10px" rowspan="2">
-                        @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel"))
+                        @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel", 3))
                         {
                             <a href="@Url.Action("GetExcel", "Asegurados", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
                                 clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador, statusId = @ViewBag.statusId
@@ -243,7 +243,7 @@
 
 @using (Html.BeginForm("UploadFiles", "Movimientos", FormMethod.Post))
 {
-    if (SecurityUserModel.verificarPermiso("Asegurados", "Subir acuse"))
+    if (SecurityUserModel.verificarPermiso("Asegurados", "Subir acuse", 3))
     {
         <div>
             <input type="submit" value="" class="rpdf_button" title="@Language.subirAcuseMax" />

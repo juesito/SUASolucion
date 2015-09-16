@@ -51,11 +51,11 @@
     gridColumns.Add(grid.Column("Empleado.categoria", Language.categoria, canSort: true));
 
 
-    if (SecurityUserModel.verificarPermiso("modificar solicitud alta", "Se agrega solicitud para modificar empleados"))
+    if (SecurityUserModel.verificarPermiso("modificar solicitud alta", "Se agrega solicitud para modificar empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Solicitudes", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados"))
+    if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
            
@@ -65,6 +65,18 @@
         </text>));
     }
 
+
+    if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud alta", "Se agrega solicitud para ver empleados en solicitud", 6))
+    {
+        gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
+            @if (item.noTrabajadores >= 0)
+            {
+                <a href="@Url.Action("Index", "Empleados", new { id = item.id })">
+                    <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
 
 
     sb.Append(grid.GetHtml(
