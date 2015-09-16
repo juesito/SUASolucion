@@ -45,11 +45,11 @@
     gridColumns.Add(grid.Column("noTrabajadores", "No. Trab.", format: @<text> @if (@item.noTrabajadores != null)
     {  @item.noTrabajadores }</text>, canSort: true));
 
-    if (SecurityUserModel.verificarPermiso("modificar solicitud alta", "Se agrega solicitud para modificar empleados"))
+    if (SecurityUserModel.verificarPermiso("modificar solicitud alta", "Se agrega solicitud para modificar empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Solicitudes", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados"))
+    if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
             @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
@@ -61,15 +61,15 @@
         </text>));
     }
 
-    if (SecurityUserModel.verificarPermiso("addEmp-Prenomina", "Aregegar empleados a prenomina"))
+    if (SecurityUserModel.verificarPermiso("addEmp-Prenomina", "Aregegar empleados a prenomina", 6))
     {
         gridColumns.Add(grid.Column(header: "Detalle Prenomina", format: @<text><a href="@Url.Action("Index", "DetallePrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/addEmployee.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("Subir Lay Out Personal", "e agrega solicitud para subir lay out de empleados"))
+    if (SecurityUserModel.verificarPermiso("Subir Lay Out Personal", "e agrega solicitud para subir lay out de empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Layout Alta Personal", format: @<text><a href="@Url.Action("CargarEmpleadosPorExcel", "Empleados", new { id = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud alta", "Se agrega solicitud para ver empleados en solicitud"))
+    if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud alta", "Se agrega solicitud para ver empleados en solicitud", 6))
     {
         gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
             @if (item.noTrabajadores >= 0)
@@ -80,7 +80,7 @@
             }
         </text>));
     }
-    if (SecurityUserModel.verificarPermiso("enviar correo solicitud alta", "Enviar mail informativo"))
+    if (SecurityUserModel.verificarPermiso("enviar correo solicitud alta", "Enviar mail informativo", 6))
     {
         gridColumns.Add(grid.Column(header: "Enviar Solicitud", format: @<text>
             @if (item.noTrabajadores > 0 && !item.Concepto.descripcion.Trim().Equals("Enviado"))
@@ -134,18 +134,17 @@ tableStyle: "table table-striped tableSua"
 }
 
 <div class="menubar-header">
-
-       @if (SecurityUserModel.verificarPermiso("addSol-Prenomina", "Se agrega solicitud de prenomina")
+    @if (SecurityUserModel.verificarPermiso("addSol-Prenomina", "Se agrega solicitud de prenomina", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
 
-                {
-              <a href="@Url.Action("Create", "SolicitudPrenominas", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId, ejercicioId = @ViewBag.ejercicioId, plazaId = @ViewBag.plazaId })">
-                    <img src="~/Content/Images/addNew.png" alt="@Language.agregar" style="border:none;" class="menuIcon" title="@Language.agregar" />
-                </a>
+    {
+        <a href="@Url.Action("Create", "SolicitudPrenominas", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId, ejercicioId = @ViewBag.ejercicioId, plazaId = @ViewBag.plazaId })">
+            <img src="~/Content/Images/addNew.png" alt="@Language.agregar" style="border:none;" class="menuIcon" title="@Language.agregar" />
+        </a>
                 <a href="@Url.Action("crearExcelSolicitudPrenomina", "SolicitudPrenominas", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId, ejercicioId=ViewBag.ejercicioId, plazaId = ViewBag.plazaId })" style="text-align:right">
-                    <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
-                </a>
-                }
+            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
+        </a>
+    }
 
 </div>
 
@@ -189,7 +188,7 @@ tableStyle: "table table-striped tableSua"
                 </tr>
             </thead>
         </table>
-        @if (SecurityUserModel.verificarPermiso("1", "1"))
+        @if (SecurityUserModel.verificarPermiso("1", "1", 6))
         {
 
         }

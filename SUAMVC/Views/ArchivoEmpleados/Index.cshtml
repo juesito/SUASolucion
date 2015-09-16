@@ -23,7 +23,7 @@
     gridColumns.Add(grid.Column("archivo", "Archivo", null, null, true));
     gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creacion", null, null, true));
 
-    if (SecurityUserModel.verificarPermiso("cargar documentos", "Se agrega solicitud para cargar documentos"))
+    if (SecurityUserModel.verificarPermiso("cargar documentos", "Se agrega solicitud para cargar documentos", 6))
     { 
     gridColumns.Add(grid.Column(header: "Archivo", format: @<text>
         <a href="@Url.Action("VerDocumento", "ArchivoEmpleados", new { fileNameString = item.archivo, folioEmpleado = ViewBag.folioEmpleado, tipo = ViewBag.tipoArchivo.Trim() })">

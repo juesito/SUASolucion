@@ -58,23 +58,23 @@
     {  @item.Concepto4.descripcion }</text>, canSort: true));
 
 
-    if (SecurityUserModel.verificarPermiso("modificar solicitud", "Se agrega solicitud para editar solicitud modificar salario"))
+    if (SecurityUserModel.verificarPermiso("modificar solicitud", "Se agrega solicitud para editar solicitud modificar salario", 6))
     {
         gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "SolicitudesModificacion", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("eliminar solicitud", "Se agrega solicitud para eliminar modificar salario"))
+    if (SecurityUserModel.verificarPermiso("eliminar solicitud", "Se agrega solicitud para eliminar modificar salario", 6))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "SolicitudesModificacion", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
         gridColumns.Add(grid.Column(header: "Modificar Empleado", format: @<text><a href="@Url.Action("ModificarEmpleado", "Empleados", new { id = item.id, clienteId= item.clienteId })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
         gridColumns.Add(grid.Column(header: "Layout Alta Personal", format: @<text><a href="@Url.Action("CargarEmpleadosPorExcel", "Empleados", new { id = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
         gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
             @if (item.noTrabajadores >= 0)
@@ -85,7 +85,7 @@
             }
         </text>));
     }
-    if (SecurityUserModel.verificarPermiso("enviar correo solicitud modificar", "Enviar mail informativo"))
+    if (SecurityUserModel.verificarPermiso("enviar correo solicitud modificar", "Enviar mail informativo", 6))
     {
         gridColumns.Add(grid.Column(header: "Enviar Solicitud", format: @<text>
             @if (item.noTrabajadores >= 0)
@@ -109,9 +109,8 @@ tableStyle: "table table-striped tableSua"
     <div>Modificación de Solicitudes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<div class="menubar-header">
-
-    @if (SecurityUserModel.verificarPermiso("nueva", "Se agrega solicitud para modificar salario")
+<p>
+    @if (SecurityUserModel.verificarPermiso("nueva solicitud", "Se agrega solicitud para modificar salario", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
         <a href="@Url.Action("Create", "SolicitudesModificacion", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId})">

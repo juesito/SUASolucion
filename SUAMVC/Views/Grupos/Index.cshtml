@@ -16,7 +16,7 @@
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
 
-    if (SecurityUserModel.verificarPermiso("Grupos", "Crear grupo"))
+    if (SecurityUserModel.verificarPermiso("Grupos", "Crear grupo", 2))
     {
         <p>
             @Html.ActionLink("Crear Grupo", "Create", "Grupos", new { @class = "btn btn-success" })
@@ -30,12 +30,12 @@
     gridColumns.Add(grid.Column("Plaza.cveCorta", "Plaza", null, null, true));
     gridColumns.Add(grid.Column("posicion", "Posicion", null, null, true));
     gridColumns.Add(grid.Column("estatus", "Estatus", null, null, true));
-    if (SecurityUserModel.verificarPermiso("Grupos", "Editar grupo"))
+    if (SecurityUserModel.verificarPermiso("Grupos", "Editar grupo", 2))
     {
         gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Grupos", new { id = item.id })">
                     <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("Grupos", "Eliminar grupo"))
+    if (SecurityUserModel.verificarPermiso("Grupos", "Eliminar grupo", 2))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Grupos", new { id = item.id })">
                      <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));

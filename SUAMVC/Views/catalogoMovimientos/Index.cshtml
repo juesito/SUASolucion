@@ -16,7 +16,7 @@
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
 
-    if (SecurityUserModel.verificarPermiso("CatalogoMovimientos", "Crear catalogoMov"))
+    if (SecurityUserModel.verificarPermiso("CatalogoMovimientos", "Crear catalogoMov", 2))
     {
         <p>
             @Html.ActionLink("Crear Movimiento", "Create", "CatalogoMovimientos", new { @class = "btn btn-success" })
@@ -27,11 +27,11 @@
     gridColumns.Add(grid.Column("tipo", "Clave", null, null, true));
     gridColumns.Add(grid.Column("descripcion", "Descripción", null, null, true));
     gridColumns.Add(grid.Column("fechaCreacion", "Fecha Creación", null, null, true));
-    if (SecurityUserModel.verificarPermiso("CatalogoMovimientos", "Editar catalogoMov"))
+    if (SecurityUserModel.verificarPermiso("CatalogoMovimientos", "Editar catalogoMov", 2))
     {
         gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "catalogoMovimientos", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("CatalogoMovimientos", "Eliminar catalogoMov"))
+    if (SecurityUserModel.verificarPermiso("CatalogoMovimientos", "Eliminar catalogoMov", 2))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "catalogoMovimientos", new { id = item.id })">
                 <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />

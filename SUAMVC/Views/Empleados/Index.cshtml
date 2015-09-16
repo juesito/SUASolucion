@@ -54,27 +54,27 @@
             </div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("Acreditado.Patrone.registro", "Registro Patronal", format: @<text> @if (@item.aseguradoId != null)
     {  @item.Asegurado.Patrone.registro }</text>, canSort: true));
-    if (SecurityUserModel.verificarPermiso("ver empleados", "Se agrega solicitud para ver empleados"))
+    if (SecurityUserModel.verificarPermiso("ver empleados", "Se agrega solicitud para ver empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Ver", format: @<text><a href="@Url.Action("Details", "Empleados", new { id = item.id })"><img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("modificar empleado", "Se agrega solicitud para editar empleados"))
+    if (SecurityUserModel.verificarPermiso("modificar empleado", "Se agrega solicitud para editar empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Empleados", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("borrar empleado", "Se agrega solicitud para eliminar empleados"))
+    if (SecurityUserModel.verificarPermiso("borrar empleado", "Se agrega solicitud para eliminar empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Empleados", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("historial", "Se agrega solicitud para ver historial de empleados"))
+    if (SecurityUserModel.verificarPermiso("historial", "Se agrega solicitud para ver historial de empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Historial", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/history.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
         gridColumns.Add(grid.Column(header: "Ver Archivos", format: @<text><a href="@Url.Action("Index", "ArchivoEmpleados", new { empleadoId = item.id })"><img src="~/Content/Images/show.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("reportes", "Se agrega solicitud para ver reportes"))
+    if (SecurityUserModel.verificarPermiso("reportes", "Se agrega solicitud para ver reportes", 6))
     {
         gridColumns.Add(grid.Column(header: "Reportes", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
