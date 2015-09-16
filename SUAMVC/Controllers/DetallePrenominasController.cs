@@ -77,6 +77,42 @@ namespace SUAMVC.Controllers
             return View(empleados);
         }
 
+        public ActionResult AsignarEmpleado(String solicitudId, String[] ids)
+        {
+
+            if (ids != null && ids.Length > 0 && !String.IsNullOrEmpty(solicitudId))
+            {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+                DateTime date = DateTime.Now;
+
+                int solicitudIdTemp = int.Parse(solicitudId);
+
+                foreach (String empleadoId in ids)
+                {
+
+                    int empleadoIdTemp = int.Parse(empleadoId);
+                    DetallePrenomina detallePrenomina = new DetallePrenomina();
+
+                    detallePrenomina.empleadoId = empleadoIdTemp;
+                    detallePrenomina.solicitudId = solicitudIdTemp;
+                    detallePrenomina.diasLaborados = 0;
+                    detallePrenomina.ingresos = 0;
+                    detallePrenomina.gratificacion = 0;
+                    detallePrenomina.usuarioId = usuario.Id;
+                    detallePrenomina.fechaCreacion = date;
+
+                    db.DetallePrenominas.Add(detallePrenomina);
+                    db.SaveChanges();
+
+                }
+                return RedirectToAction("Index", "DetallePrenominas", new { solicitudId = solicitudId });
+            }
+            else {
+                return RedirectToAction("AddEmployees", "DetallePrenominas", new { solicitudId = solicitudId });
+            }
+            
+        }
+
         // POST: DetallePrenominas/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.

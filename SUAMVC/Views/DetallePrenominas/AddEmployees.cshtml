@@ -64,7 +64,7 @@ tableStyle: "table table-striped tableSua"
 
 
 @section Menu {
-<div>Agregar Empleados a Prenomina<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Agregar Empleados a Prenomina<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 <div class="menubar-header">
@@ -110,9 +110,28 @@ tableStyle: "table table-striped tableSua"
     </table>
 </div>
 
-@if (!tableHtml.IsEmpty())
+@using (Html.BeginForm("AsignarEmpleado", "DetallePrenominas", new { solicitudId = solicitud.id }, FormMethod.Post))
 {
-    <div id="table-container" class="table-container">
-        @Html.Raw(tableHtml)
-    </div>
+
+    if (!tableHtml.IsEmpty())
+    {
+        <div id="table-container" class="table-container">
+            @Html.Raw(tableHtml)
+        </div>
+        <input type="submit" value="" class="rarrow_button" alt="Asignar Función" />
+    }
 }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=slall]").change(function () {
+            $('#table-container input[type=checkbox]').each(function () {
+                if ($("input[name=slall]:checked").length == 1) {
+                    this.checked = true;
+                } else {
+                    this.checked = false;
+                }
+            });
+        });
+    });
+</script>

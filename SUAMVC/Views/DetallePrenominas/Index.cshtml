@@ -29,16 +29,16 @@
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
     //gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
-    gridColumns.Add(grid.Column("Empleado.nombre", Language.nombreCompleto, format: @<text> @if (@item.folioSolicitud != null)
-    {  @item.folioSolicitud }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Empleado.nombre", Language.nombreCompleto, format: @<text> @if (@item.id != null)
+    {  @item.Empleado.nombre }</text>, canSort: true));
     gridColumns.Add(grid.Column("diasLaborados", "DT", format: @<text> @if (@item.diasLaborados != null)
     {  @item.diasLaborados }</text>, canSort: true));
     gridColumns.Add(grid.Column("Empleado.salarioReal", Language.salarioReal, format: @<text> @if (@item.EmpleadoId != null)
     {  @item.Empleado.salarioReal }</text>, canSort: true));
     gridColumns.Add(grid.Column("Empleado.SDI.descripcion", "SDI", format: @<text> @if (@item.EmpleadoId != null)
     {  @item.Empleado.SDI.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Empleado.NSS", "NSS", format: @<text> @if (@item.EmpleadoId != null)
-    {  @item.Empleado.NSS }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Empleado.nss", "NSS", format: @<text> @if (@item.id != null)
+    {  @item.Empleado.nss }</text>, canSort: true));
     gridColumns.Add(grid.Column("gratificacion", "Gratificacion", canSort: true));
     gridColumns.Add(grid.Column("primaVacacional", "Prima Vacional", canSort: true));
     gridColumns.Add(grid.Column("descuentoInfonavit", "Infonavit", canSort: true));
@@ -46,7 +46,8 @@
     gridColumns.Add(grid.Column("descuentoPension", "Desc. Pensión", canSort: true));
     gridColumns.Add(grid.Column("otrosDescuentos", "Otros Desc.", canSort: true));
     gridColumns.Add(grid.Column("netoPagar", "Neto Pagar", canSort: true));
-    gridColumns.Add(grid.Column("CuentaEmpleado.descripcion", Language.cuentaBancaria, canSort: true));
+    gridColumns.Add(grid.Column("CuentaEmpleado.cuenta", Language.cuentaBancaria, format: @<text> @if (@item.CuentaEmpleado != null)
+    {  @item.CuentaEmpleado.cuenta }</text>, canSort: true));
     gridColumns.Add(grid.Column("Empleado.categoria", Language.categoria, canSort: true));
 
 
@@ -57,27 +58,13 @@
     if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados"))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
-            @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
-            {
+           
                 <a href="@Url.Action("Delete", "Solicitudes", new { id = item.id })">
                     <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
                 </a>
-            }
         </text>));
     }
 
-
-    if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud alta", "Se agrega solicitud para ver empleados en solicitud"))
-    {
-        gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
-            @if (item.noTrabajadores >= 0)
-            {
-                <a href="@Url.Action("Index", "Empleados", new { id = item.id })">
-                    <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
-                </a>
-            }
-        </text>));
-    }
 
 
     sb.Append(grid.GetHtml(
