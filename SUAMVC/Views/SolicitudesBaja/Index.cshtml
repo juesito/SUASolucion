@@ -71,10 +71,10 @@
             }</text>));
     }
 
-    if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados"))
+    if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text><a href="@Url.Action("BajaEmpleados", "Empleados", new { id = item.id, clienteId = item.clienteId})"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }*@
+    }
     if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud", "Se agrega solicitud para ver empleados solicitud baja", 6))
     {
         gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
@@ -136,11 +136,9 @@ tableStyle: "table table-striped tableSua"
     }
 </script>
 
-<p>
-    @if (SecurityUserModel.verificarPermiso("nueva solicitud baja", "Se agrega solicitud para agregar solicitud baja", 6)
 <div class="menubar-header">
 
-    @if (SecurityUserModel.verificarPermiso("nueva solicitud baja", "Se agrega solicitud para agregar solicitud baja")
+    @if (SecurityUserModel.verificarPermiso("nueva solicitud baja", "Se agrega solicitud para agregar solicitud baja", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
         <a href="@Url.Action("Create", "SolicitudesBaja", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId })">

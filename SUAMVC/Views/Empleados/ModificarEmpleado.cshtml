@@ -21,8 +21,8 @@
     gridColumns.Add(grid.Column("",
                    style: "col1",
                    format: @<text>
-                    <button class="edit-book display-mode" id="@item.id">@Language.edit</button>
-                    <button class="save-book edit-mode" id="@item.id">@Language.guardar</button>
+                    <button class="edit-personal display-mode" id="@item.id">@Language.edit</button>
+                    <button class="save-personal edit-mode" id="@item.id">@Language.guardar</button>
                 </text>));
     gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
     gridColumns.Add(grid.Column("empleadoId", "ID", format: @<text>  @if (@item.folioEmpleado != null)
@@ -143,11 +143,11 @@
 <script>
     $(function () {
         $('.edit-mode').hide();
-        $('.edit-book').on('click', function () {
+        $('.edit-personal').on('click', function () {
             var tr = $(this).parents('tr:first');
             tr.find('.edit-mode, .display-mode').toggle();
         });
-        $('.save-book').on('click', function () {
+        $('.save-personal').on('click', function () {
             var tr = $(this).parents('tr:first');
             var empleadoId = $(this).prop('id');
             var sdi = tr.find('#sdiId').val();

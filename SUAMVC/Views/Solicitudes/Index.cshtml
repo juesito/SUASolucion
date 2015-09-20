@@ -184,8 +184,8 @@ tableStyle: "table table-striped tableSua"
 </script>
 
 
-<p>
-@if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados", 6)
+<div class="menubar-header">
+    @if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
         <a href="@Url.Action("Create", "Solicitudes", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId })">

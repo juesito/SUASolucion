@@ -7,6 +7,10 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
+using Newtonsoft.Json;
+using SUAMVC.Models;
+using System.Data.Entity.Validation;
+using System.Text;
 
 namespace SUAMVC.Controllers
 {
@@ -19,7 +23,8 @@ namespace SUAMVC.Controllers
         {
             var detallePrenominas = db.DetallePrenominas.Include(d => d.CuentaEmpleado).Include(d => d.Empleado).Include(d => d.SolicitudPrenomina).Include(d => d.Usuario);
 
-            if(!String.IsNullOrEmpty(solicitudId)){
+            if (!String.IsNullOrEmpty(solicitudId))
+            {
                 int solicitudInt = int.Parse(solicitudId);
                 detallePrenominas = detallePrenominas.Where(s => s.solicitudId.Equals(solicitudInt));
                 ViewBag.solicitudId = solicitudInt;
@@ -54,7 +59,7 @@ namespace SUAMVC.Controllers
 
         public ActionResult AddEmployees(String solicitudId)
         {
-            
+
             List<Empleado> empleados = new List<Empleado>();
             SolicitudEmpleado solicitudEmpleado = new SolicitudEmpleado();
 
@@ -66,10 +71,10 @@ namespace SUAMVC.Controllers
                 int proyectoId = solicitud.proyectoId;
 
                 empleados = (from s in db.SolicitudEmpleadoes
-                                      where s.Solicitud.clienteId.Equals(clienteId)
-                                      && s.Solicitud.proyectoId.Equals(proyectoId)
-                                      orderby s.empleadoId
-                                      select s.Empleado).ToList();  
+                             where s.Solicitud.clienteId.Equals(clienteId)
+                             && s.Solicitud.proyectoId.Equals(proyectoId)
+                             orderby s.empleadoId
+                             select s.Empleado).ToList();
 
 
                 ViewBag.solicitudId = solicitudInt;
@@ -107,10 +112,11 @@ namespace SUAMVC.Controllers
                 }
                 return RedirectToAction("Index", "DetallePrenominas", new { solicitudId = solicitudId });
             }
-            else {
+            else
+            {
                 return RedirectToAction("AddEmployees", "DetallePrenominas", new { solicitudId = solicitudId });
             }
-            
+
         }
 
         // POST: DetallePrenominas/Create
@@ -197,6 +203,60 @@ namespace SUAMVC.Controllers
             db.DetallePrenominas.Remove(detallePrenomina);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult updateEmployee(DetallePrenomina detallePrenomina)
+        {
+
+            DetallePrenomina dt = db.DetallePrenominas.Find(detallePrenomina.id);
+            dt.totalSyS = 0;
+            dt.ingresos = detallePrenomina.ingresos;
+            dt.diasLaborados = detallePrenomina.diasLaborados;
+            dt.gratificacion = (Decimal)detallePrenomina.gratificacion;
+            dt.primaVacacional = (Decimal)detallePrenomina.primaVacacional;
+            dt.descuentoInfonavit = (Decimal)detallePrenomina.descuentoInfonavit;
+            dt.descuentoFonacot = (Decimal)detallePrenomina.descuentoFonacot;
+            dt.descuentoPension = (Decimal)detallePrenomina.descuentoPension;
+            dt.otrosDescuentos = (Decimal)detallePrenomina.otrosDescuentos;
+            dt.netoPagar = (Decimal)detallePrenomina.diasLaborados * dt.Empleado.salarioReal;
+            dt.fechaCreacion = DateTime.Now;
+            dt.usuarioId = 1;
+
+            //Guardamos los cambios
+            try
+            {
+                db.Entry(dt).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                foreach (var failure in ex.EntityValidationErrors)
+                {
+                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                    foreach (var error in failure.ValidationErrors)
+                    {
+                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                        sb.AppendLine();
+                    }
+                }
+            }
+
+            DetallePrenominaEmpleado dtp = new DetallePrenominaEmpleado();
+            dtp.id = dt.id;
+            dtp.diasLaborados = dt.diasLaborados;
+            dtp.gratificacion = (Double)dt.gratificacion;
+            dtp.primaVacacional = (Double)dt.primaVacacional;
+            dtp.descuentoInfonavit = (Double)dt.descuentoInfonavit;
+            dtp.descuentoFonacot = (Double)dt.descuentoFonacot;
+            dtp.otrosDescuentos = (Double)dt.otrosDescuentos;
+            dtp.descuentoPension = (Double)dt.descuentoPension;
+            dtp.netoPagar = (Double)dt.netoPagar;
+
+            return Json(new { employee = dtp }, JsonRequestBehavior.AllowGet);
+
         }
 
         protected override void Dispose(bool disposing)
