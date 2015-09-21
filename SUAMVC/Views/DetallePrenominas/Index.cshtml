@@ -29,39 +29,84 @@
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
     //gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
+    gridColumns.Add(grid.Column("",
+                    style: "col1",
+                    format: @<text>
+                        <input class="edit-personal display-mode" type="image" src="~/Content/Images/edit.png"
+       alt="@Language.edit" title="@Language.edit" width="20" height="20" id="@item.id" />
+                        <input class="save-personal edit-mode" type="image" src="~/Content/Images/save-floppy.png"
+       alt="@Language.guardar" title="@Language.guardar" width="20" height="20" id="@item.id" />
+                        <input class="cancel-capture edit-mode" type="image" src="~/Content/Images/cancel.png"
+       alt="@Language.bt_cancel" title="@Language.bt_cancel" width="20" height="20" id="@item.id" />                        
+                    </text>));
     gridColumns.Add(grid.Column("Empleado.nombre", Language.nombreCompleto, format: @<text> @if (@item.id != null)
     {  @item.Empleado.nombre }</text>, canSort: true));
     gridColumns.Add(grid.Column("diasLaborados", "DT", format: @<text> @if (@item.diasLaborados != null)
-    {  @item.diasLaborados }</text>, canSort: true));
+    {
+        <span id="diasLaborados" class="display-mode">$@item.diasLaborados</span>
+        @Html.Editor("DiasLaborados", new { htmlAttributes = new { @class = "edit-mode", size = 3 } })
+    }</text>,
+                                   canSort: true));
     gridColumns.Add(grid.Column("Empleado.salarioReal", Language.salarioReal, format: @<text> @if (@item.EmpleadoId != null)
-    {  @item.Empleado.salarioReal }</text>, canSort: true));
+    {  <p>$@item.Empleado.salarioReal</p> }</text>, canSort: true));
     gridColumns.Add(grid.Column("Empleado.SDI.descripcion", "SDI", format: @<text> @if (@item.EmpleadoId != null)
-    {  @item.Empleado.SDI.descripcion }</text>, canSort: true));
+    {  <p>$@item.Empleado.SDI.descripcion</p> }</text>, canSort: true));
     gridColumns.Add(grid.Column("Empleado.nss", "NSS", format: @<text> @if (@item.id != null)
     {  @item.Empleado.nss }</text>, canSort: true));
-    gridColumns.Add(grid.Column("gratificacion", "Gratificacion", canSort: true));
-    gridColumns.Add(grid.Column("primaVacacional", "Prima Vacional", canSort: true));
-    gridColumns.Add(grid.Column("descuentoInfonavit", "Infonavit", canSort: true));
-    gridColumns.Add(grid.Column("descuentoFonacot", "Fonacot", canSort: true));
-    gridColumns.Add(grid.Column("descuentoPension", "Desc. Pensión", canSort: true));
-    gridColumns.Add(grid.Column("otrosDescuentos", "Otros Desc.", canSort: true));
-    gridColumns.Add(grid.Column("netoPagar", "Neto Pagar", canSort: true));
+    gridColumns.Add(grid.Column("gratificacion", "Gratificacion",
+        format: @<text>
+            <span id="gratificacion" class="display-mode">$@item.gratificacion</span>
+            @Html.Editor("Gratificacion", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+        </text>
+, canSort: true));
+    gridColumns.Add(grid.Column("primaVacacional", "Prima Vacional",
+        format: @<text>
+            <span id="primaVacacional" class="display-mode">$@item.primaVacacional</span>
+            @Html.Editor("PrimaVacacional", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+        </text>
+, canSort: true));
+    gridColumns.Add(grid.Column("descuentoInfonavit", "Infonavit",
+format: @<text>
+            <span id="descuentoInfonavit" class="display-mode">$@item.descuentoInfonavit</span>
+            @Html.Editor("DescuentoInfonavit", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+</text>
+
+, canSort: true));
+    gridColumns.Add(grid.Column("descuentoFonacot", "Fonacot",
+       format: @<text>
+            <span id="descuentoFonacot" class="display-mode">$@item.descuentoFonacot</span>
+            @Html.Editor("DescuentoFonacot", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+    </text>
+, canSort: true));
+    gridColumns.Add(grid.Column("descuentoPension", "Desc. Pensión",
+        format: @<text>
+            <span id="descuentoPension" class="display-mode">$@item.descuentoPension</span>
+            @Html.Editor("DescuentoPension", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+        </text>
+, canSort: true));
+    gridColumns.Add(grid.Column("otrosDescuentos", "Otros Desc.",
+        format: @<text>
+            <span id="otrosDescuentos" class="display-mode">$@item.otrosDescuentos</span>
+            @Html.Editor("OtrosDescuentos", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+        </text>
+, canSort: true));
+    gridColumns.Add(grid.Column("netoPagar", "Neto Pagar",
+        format: @<text>
+            <span id="netoPagar">$@item.netoPagar</span>
+        </text>
+, canSort: true));
     gridColumns.Add(grid.Column("CuentaEmpleado.cuenta", Language.cuentaBancaria, format: @<text> @if (@item.CuentaEmpleado != null)
     {  @item.CuentaEmpleado.cuenta }</text>, canSort: true));
     gridColumns.Add(grid.Column("Empleado.categoria", Language.categoria, canSort: true));
 
 
-    if (SecurityUserModel.verificarPermiso("modificar solicitud alta", "Se agrega solicitud para modificar empleados", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Solicitudes", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
     if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
-           
-                <a href="@Url.Action("Delete", "Solicitudes", new { id = item.id })">
-                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
-                </a>
+
+            <a href="@Url.Action("Delete", "Solicitudes", new { id = item.id })">
+                <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+            </a>
         </text>));
     }
 
@@ -69,12 +114,9 @@
     if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud alta", "Se agrega solicitud para ver empleados en solicitud", 6))
     {
         gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
-            @if (item.noTrabajadores >= 0)
-            {
-                <a href="@Url.Action("Index", "Empleados", new { id = item.id })">
-                    <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
-                </a>
-            }
+            <a href="@Url.Action("Index", "Empleados", new { id = item.id })">
+                <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
+            </a>
         </text>));
     }
 
@@ -100,7 +142,7 @@ tableStyle: "table table-striped tableSua"
 <div class="marqueeFilter">
     @if (String.IsNullOrEmpty(msg))
     {
-        <p style="font-weight:bold;">@msg</p>
+    <p style="font-weight:bold;">@msg</p>
     }
     <table class="input-table">
         <tr>
@@ -140,3 +182,84 @@ tableStyle: "table table-striped tableSua"
         @Html.Raw(tableHtml)
     </div>
 }
+
+<script>
+    $(function () {
+        $('.edit-mode').hide();
+        $('.edit-personal').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            var dl = tr.find('#diasLaborados').text();
+            var gr = tr.find('#gratificacion').text();
+            var pv = tr.find('#primaVacacional').text();
+            var di = tr.find('#descuentoInfonavit').text();
+            var df = tr.find('#descuentoFonacot').text();
+            var dp = tr.find('#descuentoPension').text();
+            var dot = tr.find('#otrosDescuentos').text();
+            
+            tr.find('.edit-mode, .display-mode').toggle();
+            var tr = $(this).parents('tr:first');
+            tr.find('#DiasLaborados').val(dl.replace("$",""));
+            tr.find('#Gratificacion').val(gr.replace("$",""));
+            tr.find('#PrimaVacacional').val(pv.replace("$",""));
+            tr.find('#DescuentoInfonavit').val(di.replace("$",""));
+            tr.find('#DescuentoFonacot').val(df.replace("$",""));
+            tr.find('#DescuentoPension').val(dp.replace("$",""));
+            tr.find('#OtrosDescuentos').val(dot.replace("$",""));
+        });
+        $('.cancel-capture').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+        });
+
+        $('.save-personal').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            var id_ = $(this).prop('id');
+            var diasLaborados_ = tr.find('#DiasLaborados').val();
+            var gratificacion_ = tr.find('#Gratificacion').val();
+            var primaVacacional_ = tr.find('#PrimaVacacional').val();
+            var descuentoInfonavit_ = tr.find('#DescuentoInfonavit').val();
+            var descuentoFonacot_ = tr.find('#DescuentoFonacot').val();
+            var descuentoPension_ = tr.find('#DescuentoPension').val();
+            var otrosDescuentos_ = tr.find('#OtrosDescuentos').val();
+
+            //Creamos la entidad a pasar como parametro.
+            var detallePrenomina = {
+                id: id_,
+                diasLaborados: diasLaborados_,
+                gratificacion: gratificacion_,
+                primaVacacional: primaVacacional_,
+                descuentoInfonavit: descuentoInfonavit_,
+                descuentoFonacot: descuentoFonacot_,
+                descuentoPension: descuentoPension_,
+                otrosDescuentos: otrosDescuentos_
+            }
+
+
+            var url =
+            $.ajax({
+                url: "/DetallePrenominas/updateEmployee/",
+                data: detallePrenomina,
+                dataType: "json",
+                traditional: true,
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    tr.find('#diasLaborados').text(data.employee.diasLaborados);
+                    tr.find('#gratificacion').text("$" + data.employee.gratificacion);
+                    tr.find('#primaVacacional').text("$" + data.employee.primaVacacional);
+                    tr.find('#descuentoInfonavit').text("$" + data.employee.descuentoInfonavit);
+                    tr.find('#descuentoFonacot').text("$" + data.employee.descuentoFonacot);
+                    tr.find('#descuentoPension').text("$" + data.employee.descuentoPension);
+                    tr.find('#otrosDescuentos').text("$" + data.employee.otrosDescuentos);
+                    tr.find('#netoPagar').text("$" + data.employee.netoPagar);
+                },
+                error: function (response) {
+                    alert('error');
+                }
+            });
+
+            tr.find('.edit-mode, .display-mode').toggle();
+        });
+
+    })
+</script>

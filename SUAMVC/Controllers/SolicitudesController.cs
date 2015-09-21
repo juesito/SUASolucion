@@ -212,11 +212,6 @@ namespace SUAMVC.Controllers
             {
                 return HttpNotFound();
             }
-            //ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusSolicitud);
-            //ViewBag.estatusNomina = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusNomina);
-            //ViewBag.estatusJuridico = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusJuridico);
-            //ViewBag.estatusAfiliado = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusAfiliado);
-            //ViewBag.estatusTarjeta = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusTarjeta);
             ViewBag.esquemaId = solicitud.esquemaId;
             ViewBag.plazaId = solicitud.plazaId;
             ViewBag.sdiId = solicitud.sdiId;

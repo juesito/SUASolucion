@@ -184,7 +184,7 @@ tableStyle: "table table-striped tableSua"
 </script>
 
 
-<div>
+<div class="menubar-header">
 @if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
