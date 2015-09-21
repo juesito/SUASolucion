@@ -71,7 +71,7 @@
     }
     if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout SyS Dias Laborados", 6))
     {
-        gridColumns.Add(grid.Column(header: "SyS Días Laborados", format: @<text><a href="@Url.Action("crearExcelAfiliacion", "SolicitudPrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "SyS Días Laborados", format: @<text><a href="@Url.Action("crearExcelSySdiasLaborados", "SolicitudPrenominas", new { solicitudId= item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
     if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout SyS Por Ingresos", 6))
     {
@@ -80,7 +80,7 @@
     }
     if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout IAS", 6))
     {
-        gridColumns.Add(grid.Column(header: "IAS", format: @<text><a href="@Url.Action("crearExcelNomina", "SolicitudPrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "IAS", format: @<text><a href="@Url.Action("crearExcelNomina", "SolicitudPrenominas", new { solicitudId = ViewBag.solicitudId })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
 
     }
     if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout IAS Dias Laborados", 6))

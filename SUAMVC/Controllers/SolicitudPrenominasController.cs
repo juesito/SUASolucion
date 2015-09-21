@@ -11,6 +11,7 @@ using SUAMVC.Helpers;
 using SUAMVC.Models;
 using System.Text;
 using System.Data.Entity.Validation;
+using System.Web.Helpers;
 using System.IO;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -420,6 +421,219 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.noTrabajadores.ToString(), headerColumns[i + 7] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
+
+            }
+
+            return sheetData;
+        }
+
+        //Lay out SyS Dias Laborados
+        [HttpGet]
+        public void crearExcelSySdiasLaborados(string solicitudId)
+        {
+            ToolsHelper th = new ToolsHelper();
+            FileStream fileStream = null;
+            MemoryStream mem = new MemoryStream();
+            try
+            {
+
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+                List<DetallePrenomina> detallePrenominaList = new List<DetallePrenomina>();
+
+                int solicitudInt = int.Parse(solicitudId);
+
+                var detallePrenomina = db.DetallePrenominas.Where(s => s.solicitudId.Equals(solicitudInt)).ToList();
+
+                DateTime date = DateTime.Now;
+                String path = @"C:\\SUA\\Exceles\\";
+                String fileName = @"SolicitudPrenomina-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fullName = path + fileName;
+                detallePrenominaList = detallePrenomina.ToList();
+
+                if (detallePrenominaList.Count() > 0)
+                {
+
+                    ExcelHelper eh = new ExcelHelper();
+                    //Creamos el objeto del workbook
+                    SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
+
+                    WorkbookPart wbp = xl.AddWorkbookPart();
+                    WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
+                    DocumentFormat.OpenXml.Spreadsheet.Workbook wb = new Workbook();
+                    FileVersion fv = new FileVersion();
+                    fv.ApplicationName = "Microsoft Office Excel";
+
+                    Worksheet ws = new Worksheet();
+                    WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
+                    // add styles to sheet
+                    wbsp.Stylesheet = eh.CreateStylesheet();
+                    wbsp.Stylesheet.Save();
+
+                    SheetData sd = crearContenidoHojaSySdiasLaborados(detallePrenominaList, eh);
+                    ws.Append(sd);
+                    wsp.Worksheet = ws;
+                    wsp.Worksheet.Save();
+
+                    DocumentFormat.OpenXml.Spreadsheet.Sheets sheets = new Sheets();
+                    Sheet sheet = new Sheet();
+                    sheet.Name = "rptPanelSolicitudPrenomina";
+                    sheet.SheetId = 1;
+                    sheet.Id = wbp.GetIdOfPart(wsp);
+
+                    sheets.Append(sheet);
+                    wb.Append(fv);
+                    wb.Append(sheets);
+
+                    xl.WorkbookPart.Workbook = wb;
+                    xl.WorkbookPart.Workbook.Save();
+                    xl.Close();
+
+                    fileStream = new FileStream(fullName, FileMode.Open);
+                    fileStream.Position = 0;
+                    mem = new MemoryStream();
+                    fileStream.CopyTo(mem);
+
+                    mem.Position = 0;
+                    Response.ClearContent();
+                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                    Response.ContentType = th.getMimeType(fullName);
+                    Response.BinaryWrite(mem.ToArray());
+
+                    Response.End();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+
+            }
+            finally
+            {
+                if (fileStream != null)
+                {
+                    fileStream.Flush();
+                    fileStream.Close();
+                }
+                mem.Flush();
+                mem.Close();
+            }
+        }
+
+        public SheetData crearContenidoHojaSySdiasLaborados(List<DetallePrenomina> detallePrenominas, ExcelHelper eh)
+        {
+
+            SheetData sheetData = new SheetData();
+            int index = 1;
+
+            //Creamos el Header
+            Row row = new Row();
+
+            index = index + 1;
+            row = eh.addNewCellToRow(index, row, "N° TRABAJADORES",headerColumns[0] + index, 0U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            index = index + 2;
+            row = eh.addNewCellToRow(index, row, "APELLIDO PATERNO", headerColumns[0] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "APELLIDO MATERNO", headerColumns[1] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "NOMBRES", headerColumns[2] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "DIAS LABORADOS", headerColumns[3] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "TOTAL SYS", headerColumns[4] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "GRATIFICACIONES", headerColumns[5] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "PRIMA VACACIONAL", headerColumns[6] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "INFONAVIT", headerColumns[7] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "FONACOT", headerColumns[8] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "DESCUENTO POR PENSIÓN", headerColumns[9] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "DESCUENTOS REEMBOLSO", headerColumns[10] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "OTROS DESCUENTOS", headerColumns[11] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "NETO A PAGAR", headerColumns[12] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "CUENTA", headerColumns[13] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "BANCO", headerColumns[14] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "CATEGORÍA", headerColumns[15] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+
+            //Creamos las celdas que contienen los datos
+            foreach (DetallePrenomina dp in detallePrenominas)
+            {
+                int i = 0;
+                index++;
+                row = eh.addNewCellToRow(index, row, dp.SolicitudPrenomina.noTrabajadores.ToString(), headerColumns[i] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Empleado.apellidoPaterno, headerColumns[i + 1] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Empleado.apellidoMaterno, headerColumns[i + 2] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Empleado.nombre, headerColumns[i + 3] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.totalSyS, headerColumns[i + 4] + index, 3U, CellValues.String);
+                //sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.gratificacion.ToString(), headerColumns[i + 5] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+                
+                row = eh.addNewCellToRow(index, row, dp.primaVacacional.ToString(), headerColumns[i + 6] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+             
+                row = eh.addNewCellToRow(index, row, dp.Empleado.creditoInfonavit, headerColumns[i + 7] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.fonacot.ToString(), headerColumns[i + 8] + index, 3U, CellValues.String);
+                //sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.descuentoPension.ToString(), headerColumns[i + 9] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.reembolso.ToString(), headerColumns[i + 10] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.otrosDescuentos.ToString(), headerColumns[i + 11] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.netoPagar.ToString(), headerColumns[i + 12] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Empleado.cuentaBancaria, headerColumns[i + 13] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Empleado.Banco.descripcion, headerColumns[i + 14] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Empleado.categoria, headerColumns[i + 15] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
 
             }
 

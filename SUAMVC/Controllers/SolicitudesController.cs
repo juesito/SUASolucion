@@ -141,6 +141,7 @@ namespace SUAMVC.Controllers
                 solicitud.fechaSolicitud = DateTime.Now;
                 
                 solicitud.solicita = usuario.nombreUsuario;
+                solicitud.fechaSolicitud = DateTime.Now;
                 solicitud.estatusSolicitud = concepto.id;
                 solicitud.estatusNomina = concepto.id;
                 solicitud.estatusJuridico = concepto.id;

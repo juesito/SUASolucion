@@ -184,7 +184,7 @@ tableStyle: "table table-striped tableSua"
 </script>
 
 
-<p>
+<div>
 @if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
@@ -195,7 +195,6 @@ tableStyle: "table table-striped tableSua"
             <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
         </a>
     }
-
 </div>
 
 
