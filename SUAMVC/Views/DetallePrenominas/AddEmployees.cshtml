@@ -67,11 +67,7 @@ tableStyle: "table table-striped tableSua"
     <div>Agregar Empleados a Prenomina<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<div class="menubar-header">
-    <a href="@Url.Action("crearExcelSolicitud", "Solicitudes", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })" style="text-align:right">
-        <img src="~/Content/Images/selectData.png" title="Añadir Empleados" alt="Añadir Empleados" style="border:none;" class="menuIcon" />
-    </a>
-</div>
+
 
 <div class="marqueeFilter">
     @if (String.IsNullOrEmpty(msg))
@@ -112,13 +108,18 @@ tableStyle: "table table-striped tableSua"
 
 @using (Html.BeginForm("AsignarEmpleado", "DetallePrenominas", new { solicitudId = solicitud.id }, FormMethod.Post))
 {
-
+    <div class="menubar-header">
+        <a href="@Url.Action("Index", "DetallePrenominas", new { solicitudId = solicitud.id })" style="text-align:right">
+            <img src="~/Content/Images/back.png" title="Regresar" alt="Regresar" style="border:none;" class="menuIcon" />
+        </a>
+        <input type="image" value="" src="~/Content/Images/selectData.png" alt="Asignar Función" size="20" width="20" />
+    </div>
     if (!tableHtml.IsEmpty())
     {
         <div id="table-container" class="table-container">
             @Html.Raw(tableHtml)
         </div>
-        <input type="submit" value="" class="rarrow_button" alt="Asignar Función" />
+        
     }
 }
 

@@ -70,9 +70,19 @@ namespace SUAMVC.Controllers
                 int clienteId = solicitud.clienteId;
                 int proyectoId = solicitud.proyectoId;
 
+                //Tenemos que tomar solo los empleados que no esten en otra prenomina
+                //y si ya estan incluidos en alguna prenomina del mismo año no incluirla
+                //o si?
+
+                //Tomo los empleados que ya estan en la solicitud incluidos para excluirlos.
+                List<int> empleadosIds = solicitud.DetallePrenominas.
+                    Where(s=> s.solicitudId.Equals(solicitudInt)).
+                    Select(s => s.empleadoId).ToList();
+
                 empleados = (from s in db.SolicitudEmpleadoes
                              where s.Solicitud.clienteId.Equals(clienteId)
                              && s.Solicitud.proyectoId.Equals(proyectoId)
+                             && !empleadosIds.Contains(s.empleadoId)
                              orderby s.empleadoId
                              select s.Empleado).ToList();
 
@@ -91,7 +101,9 @@ namespace SUAMVC.Controllers
                 DateTime date = DateTime.Now;
 
                 int solicitudIdTemp = int.Parse(solicitudId);
-
+                SolicitudPrenomina solicitud = db.SolicitudPrenominas.Find(solicitudIdTemp);
+                int noEmpleados = 0;
+                
                 foreach (String empleadoId in ids)
                 {
 
@@ -103,13 +115,25 @@ namespace SUAMVC.Controllers
                     detallePrenomina.diasLaborados = 0;
                     detallePrenomina.ingresos = 0;
                     detallePrenomina.gratificacion = 0;
+                    detallePrenomina.descuentoFonacot = 0;
+                    detallePrenomina.descuentoInfonavit = 0;
+                    detallePrenomina.descuentoPension = 0;
+                    detallePrenomina.otrosDescuentos = 0;
+                    detallePrenomina.netoPagar = 0;
+                    detallePrenomina.premioAsistencia = 0;
                     detallePrenomina.usuarioId = usuario.Id;
                     detallePrenomina.fechaCreacion = date;
+                    detallePrenomina.diasLaborados = int.Parse(solicitud.Concepto.valorConcepto);
 
                     db.DetallePrenominas.Add(detallePrenomina);
                     db.SaveChanges();
+                    noEmpleados++;
 
                 }
+                solicitud.noTrabajadores = db.DetallePrenominas.Where(s => s.solicitudId.Equals(solicitudIdTemp)).Count();
+                db.Entry(solicitud).State = EntityState.Modified;
+                db.SaveChanges();
+
                 return RedirectToAction("Index", "DetallePrenominas", new { solicitudId = solicitudId });
             }
             else
@@ -200,9 +224,16 @@ namespace SUAMVC.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             DetallePrenomina detallePrenomina = db.DetallePrenominas.Find(id);
+            SolicitudPrenomina solicitud = detallePrenomina.SolicitudPrenomina;
+
+            
             db.DetallePrenominas.Remove(detallePrenomina);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            int solicitudIdTemp = solicitud.id;
+            solicitud.noTrabajadores = db.DetallePrenominas.Where(s => s.solicitudId.Equals(solicitudIdTemp)).Count();
+            db.Entry(solicitud).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index", new { solicitudId = solicitudIdTemp});
         }
 
         [HttpPost]

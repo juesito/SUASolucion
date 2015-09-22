@@ -5,13 +5,37 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Delete</h2>
+@section Menu {
+    <div>Borrar Empleado de Prenomina<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Esta seguro de quitar este empleado de la prenomina?</h3>
 <div>
-    <h4>DetallePrenomina</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SolicitudPrenomina.folioSolicitud)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SolicitudPrenomina.folioSolicitud)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Empleado.folioEmpleado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Empleado.folioEmpleado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Empleado.nombreCompleto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Empleado.nombreCompleto)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.diasLaborados)
         </dt>
@@ -37,11 +61,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.primaVacacioal)
+            @Html.DisplayNameFor(model => model.primaVacacional)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.primaVacacioal)
+            @Html.DisplayFor(model => model.primaVacacional)
         </dd>
 
         <dt>
@@ -108,29 +132,10 @@
             @Html.DisplayFor(model => model.CuentaEmpleado.cuenta)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Empleado.folioEmpleado)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Empleado.folioEmpleado)
-        </dd>
+        
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SolicitudPrenomina.folioSolicitud)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SolicitudPrenomina.folioSolicitud)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Usuario.nombreUsuario)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Usuario.nombreUsuario)
-        </dd>
+        
 
     </dl>
 

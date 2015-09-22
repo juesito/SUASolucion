@@ -53,8 +53,9 @@ textarea {
 
 .menuIcon { /*Some CSS to set the background image (not tested) */
     padding: 0px;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
+    vertical-align:top;
 }
 .excel-area { /*Some CSS to set the background image (not tested) */
     width: 100%;

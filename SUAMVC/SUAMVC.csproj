@@ -219,6 +219,7 @@
     <Content Include="Content\Images\brain.png" />
     <Content Include="Content\Images\buscar.png" />
     <Content Include="Content\Images\camera.png" />
+    <Content Include="Content\Images\cancel.png" />
     <Content Include="Content\Images\copy.png" />
     <Content Include="Content\Images\creditCard.png" />
     <Content Include="Content\Images\cv.png" />
@@ -229,6 +230,7 @@
     <Content Include="Content\Images\imss.jpg" />
     <Content Include="Content\Images\male.png" />
     <Content Include="Content\Images\report.png" />
+    <Content Include="Content\Images\save-floppy.png" />
     <Content Include="Content\Images\search.png" />
     <Content Include="Content\Images\see.png" />
     <Content Include="Content\Images\selectData.png" />
