@@ -196,7 +196,7 @@
                 <th>
                     Estatus
                 </th>
-                @if (SecurityUserModel.verificarPermiso("Asegurados", "Eliminar movimiento"))
+                @if (SecurityUserModel.verificarPermiso("Asegurados", "Eliminar movimiento", 3))
                 {
                     <th>
                         Acción
@@ -253,7 +253,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.estatus)
                     </td>
-                    @if (SecurityUserModel.verificarPermiso("Asegurados", "Eliminar movimiento"))
+                    @if (SecurityUserModel.verificarPermiso("Asegurados", "Eliminar movimiento", 3))
                     {
                         <td>
                             @Html.ActionLink("Eliminar", "DeleteMov", new { id = item.id })

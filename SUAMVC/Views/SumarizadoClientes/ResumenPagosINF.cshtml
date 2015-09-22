@@ -47,7 +47,7 @@
             { @item.nt.ToString("#,##0")}</text>, canSort: true));
             gridColumns.Add(grid.Column("Patrone.Plaza.cveCorta", "Plaza", format: @<text> @if (@item.Patrone.Plaza.cveCorta != null)
             {  @item.Patrone.Plaza.cveCorta }</text>, canSort: true));
-            if (SecurityUserModel.verificarPermiso("1", "1"))
+            if (SecurityUserModel.verificarPermiso("1", "1", 6))
             {
                 gridColumns.Add(grid.Column(header: "Excel", format: @<text><a href="@Url.Action("excelResumenPagosDeatlleINF", "SumarizadoClientes", new { @anio = item.anno, @mes = item.mes, @idPatron = item.patronId, @idCliente = item.cliente.claveCliente })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
             }

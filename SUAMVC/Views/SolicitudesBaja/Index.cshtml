@@ -71,10 +71,10 @@
             }</text>));
     }
 
-    if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados"))
+    if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text><a href="@Url.Action("BajaEmpleados", "Empleados", new { id = item.id, clienteId = item.clienteId})"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }*@
+    }
     if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud", "Se agrega solicitud para ver empleados solicitud baja", 6))
     {
         gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
@@ -137,10 +137,9 @@ tableStyle: "table table-striped tableSua"
 </script>
 
 <p>
-    @if (SecurityUserModel.verificarPermiso("nueva solicitud baja", "Se agrega solicitud para agregar solicitud baja", 6)
 <div class="menubar-header">
 
-    @if (SecurityUserModel.verificarPermiso("nueva solicitud baja", "Se agrega solicitud para agregar solicitud baja")
+    @if (SecurityUserModel.verificarPermiso("nueva solicitud baja", "Se agrega solicitud para agregar solicitud baja", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
         <a href="@Url.Action("Create", "SolicitudesBaja", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId })">
@@ -157,10 +156,6 @@ tableStyle: "table table-striped tableSua"
 @using (Html.BeginForm())
 {
     <div class="marqueeFilter">
-        @if (String.IsNullOrEmpty(msg))
-        {
-            <p style="font-weight:bold;">@msg</p>
-        }
         <table style="float:left; margin-top:5px;display:inline-block;">
             <thead>
                 <tr style="text-align:left;vertical-align:bottom;">
@@ -168,22 +163,22 @@ tableStyle: "table table-striped tableSua"
                         @Html.Label("Cliente:")
                     </td>
                     <td>
-                        @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:25px")
+                        @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:20px")
                     </td>
-                    <td>
+                    <td style="padding-left:12px">
+                        @Html.Label("Proyecto:")
+                    </td>
+                    <td style="padding-left:8px">
+                        @Html.DropDownList("proyectoId", new SelectList(listItems, "Value", "Text"), " Seleccione", "width:200px;height:20px")
+
+                    </td>
+                    <td style="padding-left:12px">
                         @Html.Label("Folio:")
                     </td>
                     <td>
                         @Html.Editor("folioId")
                     </td>
-                    <td>
-                        @Html.Label("Proyecto:")
-                    </td>
-                    <td>
-                        @Html.DropDownList("proyectoId", new SelectList(listItems, "Value", "Text"), "-- Seleccione un proyecto --")
-
-                    </td>
-                    <td>
+                    <td style="padding-left:18px">
                         <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
                     </td>
                 </tr>

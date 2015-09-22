@@ -321,40 +321,40 @@ namespace SUAMVC.Controllers
             row = eh.addNewCellToRow(index, row, "Periodo", headerColumns[1] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Ejercicio", headerColumns[2] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "NSS", headerColumns[2] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "NSS", headerColumns[3] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Nombre", headerColumns[3] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Nombre", headerColumns[4] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Ubicación", headerColumns[4] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Ubicación", headerColumns[5] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Días", headerColumns[5] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Días", headerColumns[6] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "S.D.I.", headerColumns[6] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "S.D.I.", headerColumns[7] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Inc.", headerColumns[7] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Inc.", headerColumns[8] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Aus.", headerColumns[8] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Aus.", headerColumns[9] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "C.F.", headerColumns[9] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "C.F.", headerColumns[10] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Ex.P", headerColumns[10] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Ex.P", headerColumns[11] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "EX. O", headerColumns[11] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "EX. O", headerColumns[12] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "PDP", headerColumns[12] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "PDP", headerColumns[13] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "PDO", headerColumns[13] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
             row = eh.addNewCellToRow(index, row, "GMP. Patrón", headerColumns[14] + index, 5U, CellValues.String);
@@ -384,34 +384,31 @@ namespace SUAMVC.Controllers
             row = eh.addNewCellToRow(index, row, "IMSS", headerColumns[22] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Dias cotizados Bim", headerColumns[23] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Retiro", headerColumns[23] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Retiro", headerColumns[24] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Patronal Bim", headerColumns[24] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Patronal Bim", headerColumns[25] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Obrera Bim", headerColumns[25] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Obrera Bim", headerColumns[26] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "R.C.V.", headerColumns[26] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "R.C.V.", headerColumns[27] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Aportación SC", headerColumns[27] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Aportación SC", headerColumns[28] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Aportación CC", headerColumns[28] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Aportación CC", headerColumns[29] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Amortización", headerColumns[29] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Amortización", headerColumns[30] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Infonavit", headerColumns[30] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Infonavit", headerColumns[31] + index, 5U, CellValues.String);
-            sheetData.AppendChild(row);
-
-            row = eh.addNewCellToRow(index, row, "Total", headerColumns[32] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Total", headerColumns[31] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
             index++;
@@ -423,47 +420,49 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.Pago.Patrone.registro, headerColumns[i] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.Pago.mes, headerColumns[i + 1] + index, 2U, CellValues.String);
+                String var1 = dp.Pago.mes + "-"+ dp.Pago.anno;
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 1] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.Pago.anno, headerColumns[i + 2] + index, 2U, CellValues.Number);
+                row = eh.addNewCellToRow(index, row, dp.Asegurado.numeroAfiliacion, headerColumns[i + 2] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.Asegurado.numeroAfiliacion, headerColumns[i + 3] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.Asegurado.nombreTemporal, headerColumns[i + 3] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.Asegurado.nombreTemporal, headerColumns[i + 4] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.Asegurado.Cliente.claveCliente, headerColumns[i + 4] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.Asegurado.Cliente.claveCliente, headerColumns[i + 5] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.diasCotizados.ToString(), headerColumns[i + 5] + index, 2U, CellValues.Number);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.diasCotizados.ToString(), headerColumns[i + 6] + index, 2U, CellValues.Number);
+                var1 = String.Format("{0:###,###,##0.00}", dp.sdi);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 6] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                String var1 = String.Format("{0:###,###,##0.00}", dp.sdi);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 7] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.diasIncapacidad.ToString(), headerColumns[i + 7] + index, 2U, CellValues.Number);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.diasIncapacidad.ToString(), headerColumns[i + 8] + index, 2U, CellValues.Number);
-                sheetData.AppendChild(row);
-
-                row = eh.addNewCellToRow(index, row, dp.diasAusentismo.ToString(), headerColumns[i + 9] + index, 2U, CellValues.Number);
+                row = eh.addNewCellToRow(index, row, dp.diasAusentismo.ToString(), headerColumns[i + 8] + index, 2U, CellValues.Number);
                 sheetData.AppendChild(row);
 
                 var1 = String.Format("{0:###,###,##0.00}", dp.cuotaFija);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 10] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 9] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 var1 = String.Format("{0:###,###,##0.00}", dp.expa);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 11] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 10] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 var1 = String.Format("{0:###,###,##0.00}", dp.exO);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 12] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 11] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 var1 = String.Format("{0:###,###,##0.00}", dp.pdp);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 12] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:###,###,##0.00}", dp.pdo);
                 row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 13] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
@@ -503,43 +502,40 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 22] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.diasCotizBim.ToString(), headerColumns[i + 23] + index, 2U, CellValues.Number);
-                sheetData.AppendChild(row);
-
                 var1 = String.Format("{0:###,###,##0.00}", dp.retiro);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 24] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 23] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 var1 = String.Format("{0:###,###,##0.00}", dp.patronalBimestral);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 25] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 24] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 var1 = String.Format("{0:###,###,##0.00}", dp.obreraBimestral);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 26] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 25] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 var1 = String.Format("{0:###,###,##0.00}", dp.rcv);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 27] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 26] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 var1 = String.Format("{0:###,###,##0.00}", dp.aportacionsc);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 28] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 27] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 var1 = String.Format("{0:###,###,##0.00}", dp.aportacioncc);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 29] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 28] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 var1 = String.Format("{0:###,###,##0.00}", dp.amortizacion);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 30] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 29] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 var1 = String.Format("{0:###,###,##0.00}", dp.infonavit);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 31] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 30] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 var1 = String.Format("{0:###,###,##0.00}", dp.total);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 32] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 31] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 index++;
