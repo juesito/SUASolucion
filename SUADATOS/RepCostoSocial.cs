@@ -40,6 +40,5 @@ namespace SUADATOS
         public Nullable<decimal> descuentoVeintiochonal { get; set; }
         public Nullable<decimal> descuentoDiario { get; set; }
         public Nullable<decimal> descuentoSemanal { get; set; }
-        public Nullable<int> usuarioId { get; set; }
     }
 }

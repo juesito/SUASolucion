@@ -75,30 +75,30 @@
     }
     if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout SyS Por Ingresos", 6))
     {
-        gridColumns.Add(grid.Column(header: "SyS Ingresos", format: @<text><a href="@Url.Action("crearExcelJuridico", "SolicitudPrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "SyS Ingresos", format: @<text><a href="@Url.Action("crearExcelSySporIngresos", "SolicitudPrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
 
     }
     if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout IAS", 6))
     {
-        gridColumns.Add(grid.Column(header: "IAS", format: @<text><a href="@Url.Action("crearExcelNomina", "SolicitudPrenominas", new { solicitudId = ViewBag.solicitudId })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "IAS", format: @<text><a href="@Url.Action("crearExcelIAS", "SolicitudPrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
 
     }
     if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout IAS Dias Laborados", 6))
     {
-        gridColumns.Add(grid.Column(header: "IAS Dias Laborados", format: @<text><a href="@Url.Action("crearExcelTarjetaSantander", "SolicitudPrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "IAS Dias Laborados", format: @<text><a href="@Url.Action("crearExcelIASdiasLaborados", "SolicitudPrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
 
     }
     if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout Finiquito", 6))
     {
-        gridColumns.Add(grid.Column(header: "Finiquito", format: @<text><a href="@Url.Action("crearExcelTarjetaSantander", "SolicitudPrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "Finiquito", format: @<text><a href="@Url.Action("crearExcelFiniquito", "SolicitudPrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
     if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout Aguinaldo", 6))
     {
-        gridColumns.Add(grid.Column(header: "Aguinaldo", format: @<text><a href="@Url.Action("crearExcelTarjetaSantander", "SolicitudPrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "Aguinaldo", format: @<text><a href="@Url.Action("crearExcelAguinaldo", "SolicitudPrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
     if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout Pago Normal Pac", 6))
     {
-        gridColumns.Add(grid.Column(header: "Pago Normal Pac", format: @<text><a href="@Url.Action("crearExcelTarjetaSantander", "SolicitudPrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "Pago Normal Pac", format: @<text><a href="@Url.Action("crearExcelPagoNormalPac", "SolicitudPrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
 
 

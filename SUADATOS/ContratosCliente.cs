@@ -20,9 +20,6 @@ namespace SUADATOS
         public string archivo1 { get; set; }
         public string archivo2 { get; set; }
         public string archivo3 { get; set; }
-        public System.DateTime fechaFirma { get; set; }
-        public string firmo { get; set; }
-        public string testigo { get; set; }
         public string actaConstitutivaEmpresa { get; set; }
         public string poderRepresentanteLegal { get; set; }
         public string ifeRepresentanteLegal { get; set; }

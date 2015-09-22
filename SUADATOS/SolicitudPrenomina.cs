@@ -48,10 +48,10 @@ namespace SUADATOS
         public virtual Concepto Concepto { get; set; }
         public virtual Concepto Concepto1 { get; set; }
         public virtual Concepto Concepto2 { get; set; }
+        public virtual Concepto Concepto3 { get; set; }
         public virtual ICollection<DetallePrenomina> DetallePrenominas { get; set; }
         public virtual Plaza Plaza { get; set; }
         public virtual Proyecto Proyecto { get; set; }
-        public virtual TipoContrato TipoContrato { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
 }
