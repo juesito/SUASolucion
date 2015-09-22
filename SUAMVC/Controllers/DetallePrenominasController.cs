@@ -244,16 +244,16 @@ namespace SUAMVC.Controllers
                 }
             }
 
-            DetallePrenominaEmpleado dtp = new DetallePrenominaEmpleado();
+            DetallePrenomina dtp = new DetallePrenomina();
             dtp.id = dt.id;
             dtp.diasLaborados = dt.diasLaborados;
-            dtp.gratificacion = (Double)dt.gratificacion;
-            dtp.primaVacacional = (Double)dt.primaVacacional;
-            dtp.descuentoInfonavit = (Double)dt.descuentoInfonavit;
-            dtp.descuentoFonacot = (Double)dt.descuentoFonacot;
-            dtp.otrosDescuentos = (Double)dt.otrosDescuentos;
-            dtp.descuentoPension = (Double)dt.descuentoPension;
-            dtp.netoPagar = (Double)dt.netoPagar;
+            dtp.gratificacion = dt.gratificacion;
+            dtp.primaVacacional = dt.primaVacacional;
+            dtp.descuentoInfonavit = dt.descuentoInfonavit;
+            dtp.descuentoFonacot = dt.descuentoFonacot;
+            dtp.otrosDescuentos = dt.otrosDescuentos;
+            dtp.descuentoPension = dt.descuentoPension;
+            dtp.netoPagar = dt.netoPagar;
 
             return Json(new { employee = dtp }, JsonRequestBehavior.AllowGet);
 
