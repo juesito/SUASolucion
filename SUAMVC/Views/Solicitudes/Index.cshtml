@@ -184,7 +184,7 @@ tableStyle: "table table-striped tableSua"
 </script>
 
 
-<div class="menubar-header">
+<p>
 @if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
@@ -195,16 +195,11 @@ tableStyle: "table table-striped tableSua"
             <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
         </a>
     }
-</div>
 
-
+    
 @using (Html.BeginForm())
 {
     <div class="marqueeFilter">
-        @if (String.IsNullOrEmpty(msg))
-        {
-            <p style="font-weight:bold;">@msg</p>
-        }
         <table style="float:left; margin-top:5px;display:inline-block;">
             <thead>
                 <tr style="text-align:left;vertical-align:bottom;">
@@ -212,25 +207,25 @@ tableStyle: "table table-striped tableSua"
                         @Html.Label("Cliente:")
                     </td>
                     <td>
-                        @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:25px")
+                        @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:20px")
                     </td>
-                    <td>
-                        @Html.Label("Folio:")
-                    </td>
-                    <td>
-                        @Html.Editor("folioId")
-                    </td>
-                    <td>
+                    <td style="padding-left:12px">
                         @Html.Label("Proyecto:")
                     </td>
-                    <td>
-                        @Html.DropDownList("proyectoId", new SelectList(listItems, "Value", "Text"), "-- Seleccione un proyecto --")
+                    <td style="padding-left:8px">
+                        @Html.DropDownList("proyectoId", new SelectList(listItems, "Value", "Text"), " Seleccione", "width:200px;height:20px")
 
                     </td>
-                    <td>
+                    <td style ="padding-left:12px">
+                        @Html.Label("Folio:")
+                        </td>
+                        <td>
+                            @Html.Editor("folioId")
+                        </td>
+                    <td style="padding-left:18px">
                         <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
                     </td>
-                </tr>
+</tr>
             </thead>
         </table>
     </div>

@@ -59,7 +59,7 @@
         gridColumns.Add(grid.Column("total", "Total", format: @<text>@if (@item.total != null)
         { @item.total.ToString("#,##0.00")}</text>, canSort: true));
 
-        if (SecurityUserModel.verificarPermiso("1", "1"))
+        if (SecurityUserModel.verificarPermiso("1", "1", 6))
         {
             gridColumns.Add(grid.Column(header: @Language.detalle, format: @<text><a href="@Url.Action("Details", "ReporteConMes", 
             new { clienteId = item.clienteId, anio = item.anno })">
