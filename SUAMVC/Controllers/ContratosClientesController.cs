@@ -49,7 +49,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,clienteId,descripcion,archivo1,archivo2,archivo3,fechaFirma,firmo,testigo,actaConstitutivaEmpresa,poderRepresentanteLegal,ifeRepresentanteLegal,comprobanteDomicilio,fechaInicioVigencia,fechaFinalVigencia,estatus,fechaCreacion,usuarioId")] ContratosCliente contratosCliente)
+        public ActionResult Create([Bind(Include = "id,clienteId,descripcion,archivo1,archivo2,archivo3,actaConstitutivaEmpresa,poderRepresentanteLegal,ifeRepresentanteLegal,comprobanteDomicilio,fechaInicioVigencia,fechaFinalVigencia,estatus,fechaCreacion,usuarioId")] ContratosCliente contratosCliente)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,clienteId,descripcion,archivo1,archivo2,archivo3,fechaFirma,firmo,testigo,actaConstitutivaEmpresa,poderRepresentanteLegal,ifeRepresentanteLegal,comprobanteDomicilio,fechaInicioVigencia,fechaFinalVigencia,estatus,fechaCreacion,usuarioId")] ContratosCliente contratosCliente)
+        public ActionResult Edit([Bind(Include = "id,clienteId,descripcion,archivo1,archivo2,archivo3,actaConstitutivaEmpresa,poderRepresentanteLegal,ifeRepresentanteLegal,comprobanteDomicilio,fechaInicioVigencia,fechaFinalVigencia,estatus,fechaCreacion,usuarioId")] ContratosCliente contratosCliente)
         {
             if (ModelState.IsValid)
             {

@@ -152,16 +152,17 @@ namespace SUAMVC.Controllers
             Empleado empleado = new Empleado();
             Solicitud solicitud = db.Solicituds.Find(id);
 
+            empleado.fechaNacimiento = DateTime.Now;
             empleado.tramitarTarjeta = 0;
             empleado.tieneInfonavit = 1;
             empleado.esquemaPagoId = solicitud.esquemaId;
             ViewBag.solicitudId = id;
 
-            ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion");
-            ViewBag.esquemaPagoId = new SelectList(db.EsquemasPagoes, "id", "descripcion");
-            ViewBag.estadoCivilId = new SelectList(db.EstadoCivils, "id", "descripcion");
-            ViewBag.estadoNacimientoId = new SelectList(db.Estados, "id", "descripcion");
-            ViewBag.municipioNacimientoId = new SelectList(db.Municipios, "id", "descripcion");
+            ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
+            ViewBag.municipioNacimientoId = new SelectList(db.Municipios, "id", "descripcion", empleado.municipioNacimientoId);
+            ViewBag.nacionalidadId = new SelectList(db.Paises, "id", "descripcion", empleado.nacionalidadId);
+            ViewBag.estadoNacimientoId = new SelectList(db.Estados, "id", "descripcion", empleado.estadoNacimientoId);
+            ViewBag.estadoCivilId = new SelectList(db.EstadoCivils, "id", "descripcion", empleado.estadoCivilId);
             ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion");
 
             return View(empleado);
@@ -794,13 +795,14 @@ namespace SUAMVC.Controllers
         
         }
 
-        [HttpPost]
-        public ActionResult obtenerCategorias()
+        [HttpGet]
+        public ActionResult obtenerCategorias(String term)
         {
             List<Concepto> catalogos = new List<Concepto>();
-            catalogos = db.Conceptos.Where(m => m.grupo.Equals("CATEGORIA")).ToList();
-            SelectList proyecto = new SelectList(catalogos, "Id", "descripcion", 0);
-            return Json(proyecto);
+            catalogos = db.Conceptos.Where(m => m.grupo.Equals("CATEGORIA") &&
+                m.descripcion.Trim().ToLower().StartsWith(term.Trim().ToLower())).ToList();
+            var data = catalogos.Select(p => p.descripcion).Distinct();
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)
