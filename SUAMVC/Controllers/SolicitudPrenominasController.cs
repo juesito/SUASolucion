@@ -1892,7 +1892,7 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.cajaAhorro.ToString(), headerColumns[i + 13] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.horasExtras.ToString(), headerColumns[i + 14] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.horasExtra.ToString(), headerColumns[i + 14] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 row = eh.addNewCellToRow(index, row, dp.viaticos.ToString(), headerColumns[i + 15] + index, 3U, CellValues.String);

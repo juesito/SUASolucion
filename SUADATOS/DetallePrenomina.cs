@@ -40,7 +40,6 @@ namespace SUADATOS
         public Nullable<decimal> uniforme { get; set; }
         public Nullable<decimal> compensacion { get; set; }
         public Nullable<decimal> cajaAhorro { get; set; }
-        public Nullable<decimal> horasExtras { get; set; }
         public Nullable<decimal> viaticos { get; set; }
         public Nullable<decimal> comida { get; set; }
     
