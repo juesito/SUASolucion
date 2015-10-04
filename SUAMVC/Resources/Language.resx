@@ -833,4 +833,14 @@
   <data name="excelGeneral" xml:space="preserve">
     <value>Exporta Reporte General</value>
   </data>
+  <data name="salarioDiario" xml:space="preserve">
+    <value>Salario Diario</value>
+  </data>
+  <data name="contrato" xml:space="preserve">
+    <value>Contrato</value>
+  </data>
+  <data name="fechaIngreso" xml:space="preserve">
+    <value>Fecha Ingreso</value>
+    <comment>Ingreso del empleado</comment>
+  </data>
 </root>

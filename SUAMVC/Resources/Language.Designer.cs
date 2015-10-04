@@ -484,6 +484,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Contrato.
+        /// </summary>
+        public static string contrato {
+            get {
+                return ResourceManager.GetString("contrato", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Contrato Cliente.
         /// </summary>
         public static string contratosClientes {
@@ -1033,6 +1042,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Fecha Ingreso.
+        /// </summary>
+        public static string fechaIngreso {
+            get {
+                return ResourceManager.GetString("fechaIngreso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Fecha de Inicio.
         /// </summary>
         public static string fechaInicio {
@@ -1438,7 +1456,7 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Plazas.
+        ///   Busca una cadena traducida similar a Plaza.
         /// </summary>
         public static string plaza {
             get {
@@ -1578,6 +1596,15 @@ namespace SUAMVC.Resources {
         public static string rol {
             get {
                 return ResourceManager.GetString("rol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Salario Diario.
+        /// </summary>
+        public static string salarioDiario {
+            get {
+                return ResourceManager.GetString("salarioDiario", resourceCulture);
             }
         }
         
