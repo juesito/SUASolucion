@@ -31,13 +31,16 @@
                     @Html.DisplayName("Fecha Alta:")
                 </td>
                 <td style="background-color: #DFDFDF; ">
-                    @Html.DisplayFor(model => model.fechaAlta)
+                    @Html.DisplayFor(model => model.fechaAlta, "Date")
                 </td>
                 <td style="font-weight:bold;">
                     @Html.DisplayName("Fecha Baja:")
                 </td>
                 <td style="background-color: #DFDFDF; ">
-                    @Html.DisplayFor(model => model.fechaBaja)
+                    @if(Model.fechaBaja.HasValue)
+                    {
+                        @Html.DisplayFor(model => model.fechaBaja, "Date")
+                    }
                 </td>
             </tr>
             <tr>
@@ -138,7 +141,9 @@
                     @Html.DisplayName("Suspención Crédito:")
                 </td>
                 <td style="background-color: #DFDFDF; ">
-                    @Html.DisplayFor(model => model.fechaBaja)
+                    @if(Model.fechaBaja.HasValue){
+                        @Html.DisplayFor(model => model.fechaBaja, "Date")
+                    }
                 </td>
             </tr>
         </tbody>
@@ -212,7 +217,7 @@
                         @Html.DisplayFor(modelItem => item.CatalogoMovimiento.descripcion)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.fechaInicio)
+                        @Html.DisplayFor(modelItem => item.fechaInicio, "Date")
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.sdi)
@@ -245,7 +250,7 @@
                         @Html.DisplayFor(modelItem => item.credito)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Asegurado.valorDescuento)
+                        @Html.DisplayFor(modelItem => item.valorDescuento)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Asegurado.tipoDescuento)

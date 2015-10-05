@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FechaTerminoContrato" xml:space="preserve">
+    <value>Fecha de término de contrato</value>
+  </data>
   <data name="accion" xml:space="preserve">
     <value>Acción</value>
     <comment>Etiqueta para acción</comment>
@@ -832,5 +835,14 @@
   </data>
   <data name="excelGeneral" xml:space="preserve">
     <value>Exporta Reporte General</value>
+  </data>
+  <data name="salarioDiario" xml:space="preserve">
+    <value>Salario Diario</value>
+  </data>
+  <data name="contrato" xml:space="preserve">
+    <value>Contrato</value>
+  </data>
+  <data name="fechaInicioContrato" xml:space="preserve">
+    <value>Fecha de inicio de contrato</value>
   </data>
 </root>

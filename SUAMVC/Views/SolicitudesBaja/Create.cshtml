@@ -13,9 +13,8 @@
 
 
 @section Menu {
-    <div>Catálogo de Solicitudes Baja<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Solicitud de Baja de Empleados<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
-
 
 @using (Html.BeginForm())
 {
@@ -27,53 +26,65 @@
 
     <div class="panel panel-info">
         <div class="panel-heading">
-            Capturar Solicitud de Baja
+            Capturar Solicitud
         </div>
-        <div class="panel-body" style="font-size:10px; background-color: #fafbfc">
+        <div class="panel-body" style="font-size:10px">
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <table style="font-size:10px;margin:0 auto; width:700px; ">
+
+                <table style="font-size:10px; width:400px; ">
                     <tr>
-                        <td class="pull-right"> @Html.Label(@Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                        <td>
-                            @Html.Label(cliente.descripcion)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="pull-right">@Html.Label(@Language.proyecto, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                        <td style="padding-top:8px">
-                            @Html.Label(proyecto.descripcion)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="pull-right">@Html.Label(@Language.plaza, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <th colspan="1"> </th>
+                        <td style="padding-top:8px" class=" pull-right"> @Html.Label(@Language.cliente + ":")</td>
+                        <td style="padding-top:8px; padding-left:8px">   @Html.Label(cliente.descripcion, new { style = "width: 200px;" })</td>
+                        <th colspan="1"> </th>
+                        <td class="pull-right">@Html.Label(@Language.plaza + ":", htmlAttributes: new { @class = "control-label col-md-2" })</td>
                         <td style="padding-top:8px">
                             @Html.plazasDrownListNS(usuario.Id, "plazaId")
                             @Html.ValidationMessageFor(model => model.plazaId, "", new { @class = "text-danger" })
                         </td>
                     </tr>
-                        
                     <tr>
-                        <td class="pull-right">@Html.LabelFor(model => model.fechaBaja, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                        <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.fechaBaja, new { htmlAttributes = new { @class = "myNoDayBeforeDate", id = "fechaSolicitud" } })
+                        <th colspan="1"> </th>
+                        <td class="pull-right">@Html.Label(@Language.proyecto + ":")</td>
+                        <td style="padding-top:12px; padding-left:8px">
+                            @Html.Label(proyecto.descripcion, new { style = "width: 200px;" })
+                        </td>
+                        <th colspan="1"> </th>
+                        <td style="padding-top:12px; padding-right:10px" class="pull-right">@Html.Label(@Language.fechaBaja + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.EditorFor(model => model.fechaBaja, new { htmlAttributes = new { @class = "myNoDayBeforeDate", id = "fechaBaja" } })
                             @Html.ValidationMessageFor(model => model.fechaBaja, "", new { @class = "text-danger" })
                         </td>
                     </tr>
-
                     <tr>
-                        <td class="pull-right">@Html.Label(@Language.motivoBaja, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                        <td style="padding-top:8px">
-                           @Html.conceptosDrownList(usuario.Id, "BAJACON", "conceptoBaja")
+                        <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px" class="pull-right">@Html.Label(@Language.motivoBaja + ":", new { style = "width: 88px;" })</td>
+                        <td style="padding-top:12px">
+                            @Html.conceptosDrownList(usuario.Id, "BAJACON", "conceptoBaja")
                         </td>
                     </tr>
-
-
                     <tr>
-                        <td class="pull-right">@Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })</td>
-                        <td style="padding-top:8px"
-                            colspan="3">
-                            @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 4 })
+                        <th colspan="4"> </th>
+                        <td style="padding-top:6px" class="pull-right">@Html.Label(@Language.validador + ":", htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td style="padding-top:12px">
+                            @Html.Label(Model.valida)
+                            @Html.HiddenFor(model => model.valida)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td style="padding-top:7px" class="pull-right">@Html.Label(@Language.autorizador + ":", htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td style="padding-top:12px">
+                            @Html.Label(Model.autoriza)
+                            @Html.HiddenFor(model => model.autoriza)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px" class="pull-right">@Html.Label(@Language.observaciones + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 3, @style = "width: 200px; " })
                             @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
                         </td>
                     </tr>
