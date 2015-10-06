@@ -98,14 +98,14 @@
                         @if (solicitud.EsquemasPago != null && solicitud.EsquemasPago.descripcion.Trim().Equals("SyS"))
                         {
                             <td>
-                                @Html.Label(Language.nss, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.Label(Language.nss + ":")
                             </td>
                             <td>
                                 @Html.EditorFor(model => model.nss, new { htmlAttributes = new { @onchange = "javascript:validarNss(this.value);" } })
                                 @Html.ValidationMessageFor(model => model.nss, "", new { @class = "text-danger" })
                             </td>
                             <td>
-                                @Html.Label(Language.fechaAltaImss, htmlAttributes: new { @class = "control-label col-md-2 " })
+                                @Html.Label(Language.fechaAltaImss + ":")
                             </td>
                             <td>
                                 @Html.EditorFor(model => model.fechaAltaImss, new { htmlAttributes = new { @class = "myImmsDate" } })
@@ -115,13 +115,13 @@
                     </tr>
 
                     <tr>
-                        <td>@Html.Label(Language.apellidoPaterno, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td style="padding-top:8px">@Html.Label(Language.apellidoPaterno + ":")</td>
                         <td>
                             @Html.EditorFor(model => model.apellidoPaterno)
                             @Html.ValidationMessageFor(model => model.apellidoPaterno, "", new { @class = "text-danger" })
                         </td>
-                        <td>
-                            @Html.Label(Language.apellidoMaterno, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <td style="padding-top:8px">
+                            @Html.Label(Language.apellidoMaterno + ":")
                         </td>
                         <td>
                             @Html.EditorFor(model => model.apellidoMaterno)
@@ -133,30 +133,30 @@
                     </tr>
                     <tr>
                         <td>
-                            @Html.Label(Language.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.Label(Language.nombre + ":")
                         </td>
                         <td>
                             @Html.EditorFor(model => model.nombre)
                             @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.Label(Language.rfc, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.rfc + ":")</td>
                         <td>
                             @Html.EditorFor(model => model.rfc)
                             @Html.ValidationMessageFor(model => model.rfc, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.Label(Language.homoClave, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.homoClave + ":")</td>
                         <td>
                             @Html.EditorFor(model => model.homoclave)
                             @Html.ValidationMessageFor(model => model.homoclave, "", new { @class = "text-danger" })
                         </td>
                     </tr>
                     <tr>
-                        <td>@Html.Label(Language.curp, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.curp + ":")</td>
                         <td>
                             @Html.EditorFor(model => model.curp)
                             @Html.ValidationMessageFor(model => model.curp, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.Label(Language.sexo, "sexoId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.sexo + ":")</td>
                         <td>
                             @Html.DropDownList("sexoId")
                             @Html.ValidationMessageFor(model => model.sexoId, "", new { @class = "text-danger" })
@@ -165,13 +165,13 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(model => model.esquemaPagoId, "esquemaPagoId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.esquema + ":")</td>
                         <td>
                             @Html.DisplayFor(model => model.EsquemasPago.descripcion, new { @Id = "esquemaPago" })
                         </td>
                         @if (!Model.EsquemasPago.descripcion.Trim().Equals("IAS"))
                         {
-                            <td>@Html.LabelFor(model => model.sdiId, "sdiId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                            <td>@Html.Label(Language.sdi + ":")</td>
                             <td>
                                $ @Html.DisplayFor(model => model.SDI.descripcion)
                             </td>
@@ -181,12 +181,12 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(model => model.salarioReal, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.salarioReal + ":")</td>
                         <td>
                             @Html.EditorFor(model => model.salarioReal)
                             @Html.ValidationMessageFor(model => model.salarioReal, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.LabelFor(model => model.categoria, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.categoria + ":")</td>
                         <td>
                             @Html.EditorFor(model => model.categoria, new { htmlAttributes = new { @id = "categoriaAuto" } })
                             @Html.ValidationMessageFor(model => model.categoria, "", new { @class = "text-danger" })
@@ -195,7 +195,7 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(model => model.tieneInfonavit, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.regInfonavit + ":")</td>
                         <td>
                             @Html.Label("Si")
                             @Html.RadioButtonFor(model => model.tieneInfonavit, "1", new { htmlAttributes = new { @class = "form-control", name = "tieneInfonavit" } })
@@ -203,7 +203,7 @@
                             @Html.RadioButtonFor(model => model.tieneInfonavit, "0", new { htmlAttributes = new { @class = "form-control", name = "tieneInfonavit" } })
                             @Html.ValidationMessageFor(model => model.tieneInfonavit, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.LabelFor(model => model.estadoCivilId, "estadoCivilId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.estadoCivil + ":")</td>
                         <td>
                             @if (editMode)
                             {
@@ -219,13 +219,13 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(model => model.creditoInfonavit, htmlAttributes: new { @class = "control-label col-md-2", id = "creditoInfonavitTxt" })</td>
+                        <td>@Html.Label(Language.noCredito + ":", htmlAttributes: new { id = "creditoInfonavitTxt" })</td>
                         <td>
                             @Html.EditorFor(model => model.creditoInfonavit, new {htmlAttributes = new { id = "creditoInfonavit" }})
                             @Html.ValidationMessageFor(model => model.creditoInfonavit, "", new { @class = "text-danger" })
                         </td>
 
-                        <td>@Html.LabelFor(model => model.fechaNacimiento, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.fechaNacimiento + ":")</td>
                         <td>
                             @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new { @class = "myBornDate" } })
                             @Html.ValidationMessageFor(model => model.fechaNacimiento, "", new { @class = "text-danger" })
@@ -234,7 +234,7 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(model => model.nacionalidadId, "nacionalidadId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.nacionalidad + ":")</td>
                         <td>
                             @if (editMode)
                             {
@@ -247,7 +247,7 @@
                             }
                         </td>
 
-                        <td>@Html.LabelFor(model => model.estadoNacimientoId, "estadoNacimientoId", htmlAttributes: new { @class = "control-label col-md-2", id = "estadoIdTxt" })</td>
+                        <td>@Html.Label(Language.estadoNacimiento + ":", htmlAttributes: new { id = "estadoIdTxt" })</td>
                         <td>
                             @if (editMode)
                             {
@@ -263,11 +263,12 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(model => model.municipioNacimientoId, "municipioNacimientoId", htmlAttributes: new { @class = "control-label col-md-2", id = "municipioIdTxt" })</td>
+                        <td>@Html.Label(Language.municipioNacimiento + ":", htmlAttributes: new { id = "municipioIdTxt" })</td>
                         <td>
                             @if (editMode)
                             {
-                                @Html.DropDownList("municipioNacimientoId", null, htmlAttributes: new { id = "municipioId" })
+                         
+                                       @Html.DropDownList("municipioNacimientoId", null, htmlAttributes: new { id = "municipioId" })
                                 @Html.ValidationMessageFor(model => model.municipioNacimientoId, "", new { @class = "text-danger" })
                             }
                             else
@@ -276,7 +277,7 @@
                             }
                         </td>
 
-                        <td>@Html.LabelFor(model => model.calleNumero, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.calleNumero + ":")</td>
                         <td>
                             @Html.EditorFor(model => model.calleNumero)
                             @Html.ValidationMessageFor(model => model.calleNumero, "", new { @class = "text-danger" })
@@ -285,25 +286,25 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(model => model.colonia, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.Colonia + ":")</td>
                         <td>
                             @Html.EditorFor(model => model.colonia)
                             @Html.ValidationMessageFor(model => model.colonia, "", new { @class = "text-danger" })
                         </td>
 
-                        <td>@Html.LabelFor(model => model.edoMunicipio, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.estado + ":")</td>
                         <td>
                             @Html.EditorFor(model => model.edoMunicipio)
                             @Html.ValidationMessageFor(model => model.edoMunicipio, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.LabelFor(model => model.codigoPostal, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.CP + ":")</td>
                         <td>
-                            @Html.EditorFor(model => model.codigoPostal)
+                            @Html.EditorFor(model => model.codigoPostal )
                             @Html.ValidationMessageFor(model => model.codigoPostal, "", new { @class = "text-danger" })
                         </td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(model => model.tramitarTarjeta, htmlAttributes: new { @class = "control-label col-md-2", id = "tramitarTarjetaTxt" })</td>
+                        <td>@Html.Label(Language.tramitarTrajeta + "?:", htmlAttributes: new {id = "tramitarTarjetaTxt" })</td>
                         <td>
                             @Html.Label("Si")
                             @Html.RadioButtonFor(model => model.tramitarTarjeta, "1", new { htmlAttributes = new { @class = "form-control", name = "tramitarTarjeta" } })
@@ -317,7 +318,7 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(model => model.bancoId, "bancoId", htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.banco + ":")</td>
                         <td>
                             @if (editMode)
                             {
@@ -330,19 +331,19 @@
                             }
                         </td>
 
-                        <td>@Html.LabelFor(model => model.cuentaBancaria, htmlAttributes: new { @class = "control-label col-md-2", id = "cuentaTxt" })</td>
+                        <td>@Html.Label(Language.cuentaBancaria + ":", htmlAttributes: new { id = "cuentaTxt" })</td>
                         <td>
                             @Html.EditorFor(model => model.cuentaBancaria, new { htmlAttributes = new { id = "cuenta" } })
                             @Html.ValidationMessageFor(model => model.cuentaBancaria, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.LabelFor(model => model.cuentaClabe, htmlAttributes: new { @class = "control-label col-md-2", id = "cuentaClabeTxt" })</td>
+                        <td>@Html.Label(Language.cuentaClabe + ":", htmlAttributes: new { id = "cuentaClabeTxt" })</td>
                         <td>
                             @Html.EditorFor(model => model.cuentaClabe, new { htmlAttributes = new { id = "cuentaClabe" } })
                             @Html.ValidationMessageFor(model => model.cuentaClabe, "", new { @class = "text-danger" })
                         </td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.email + ":")</td>
                         <td>
                             @Html.EditorFor(model => model.email)
                             @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
@@ -354,7 +355,7 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td>@Html.Label(Language.observaciones + ":")</td>
                         <td>
                             @Html.EditorFor(model => model.observaciones, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
@@ -366,9 +367,7 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td colspan="6">
-                            <input type="submit" value="@Language.agregar" class="btn btn-primary" />
-                        </td>
+                        <td style="text-align:left;"><input type="submit" value="@Language.agregar" class="btn btn-primary" /></td>
                     </tr>
                 </tbody>
             </table>

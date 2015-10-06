@@ -51,7 +51,7 @@ namespace SUAMVC.Controllers
                     Cliente cliente = db.Clientes.Find(int.Parse(clienteId));
                     Proyecto proyecto = db.Proyectos.Find(int.Parse(proyectoId));
 
-                    if (!cliente.descripcion.ToLower().Contains("seleccion") && 
+                    if (!cliente.descripcion.ToLower().Contains("seleccion") &&
                         !proyecto.descripcion.ToLower().Contains("seleccion"))
                     {
                         solicituds = solicituds.Where(s => s.clienteId.Equals(int.Parse(clienteId))
@@ -139,7 +139,7 @@ namespace SUAMVC.Controllers
 
                 solicitud.usuarioId = usuario.Id;
                 solicitud.fechaSolicitud = DateTime.Now;
-                
+
                 solicitud.solicita = usuario.nombreUsuario;
                 solicitud.fechaSolicitud = DateTime.Now;
                 solicitud.estatusSolicitud = concepto.id;

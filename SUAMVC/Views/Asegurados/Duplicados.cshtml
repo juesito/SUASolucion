@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<SUADATOS.Asegurado>
-@using SUADATOS
-@using SUAMVC.Models
-@using System.Text;
+    @using SUADATOS
+    @using SUAMVC.Models
+    @using System.Text;
 
-@{
+    @{
     ViewBag.Title = "Asegurados";
     var buscar = "0";
     if (TempData["buscador"] != null)
     {
-        buscar = TempData["buscador"] as String;
+    buscar = TempData["buscador"] as String;
     }
     Usuario usuario = Session["UsuarioData"] as Usuario;
 
@@ -19,95 +19,106 @@
     var sb = new StringBuilder();
 
     //Creamos una lista de columnas
-    var gridColumns = new List<WebGridColumn>();
-    gridColumns.Add(grid.Column("Cliente.Plaza.cveCorta", "ID.Plaza", null, null, true));
-    gridColumns.Add(grid.Column("Cliente.claveCliente", "Cliente", format: @<text> @if (@item.Cliente != null)
-    {@item.Cliente.claveCliente}</text>, canSort: true));
-    gridColumns.Add(grid.Column("Cliente.descripcion", "Nombre Cliente", format: @<text> @if (@item.Cliente != null)
-    {@item.Cliente.descripcion}</text>, canSort: true));
-    gridColumns.Add(grid.Column("numeroAfiliacion", "Num.Afiliacion", null, null, true));
-    gridColumns.Add(grid.Column("Patrone.registro", "Registro Patronal", format: @<text> @if (@item.Patrone != null)
-    {  @item.Patrone.registro }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Patrone.nombre", "Nombre Registro Patronal", format: @<text> @if (@item.Patrone != null)
-    {  @item.Patrone.nombre }</text>, canSort: true));
-    gridColumns.Add(grid.Column("fechaAlta", "Fecha Alta", @<text><div style='width: 6em'>@item.fechaAlta.ToString("dd-MM-yyyy")     </div></text>, null, canSort: true));
-    gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", @<text><div style='width: 6em'>
-            @if (@item.fechaBaja != null)
-            { @item.fechaBaja.ToString("dd-MM-yyyy")}
-</div></text>, null, canSort: true));
-    gridColumns.Add(grid.Column("nombreTemporal", "Nombre Afiliado", @<text><div style='width: 25em'>@item.nombreTemporal</div></text> , null, canSort: true));
+    var gridColumns = new List<WebGridColumn>
+        ();
+        gridColumns.Add(grid.Column("Cliente.Plaza.cveCorta", "ID.Plaza", null, null, true));
+        gridColumns.Add(grid.Column("Cliente.claveCliente", "Cliente", format: @<text>
+            @if (@item.Cliente != null)
+            {@item.Cliente.claveCliente}
+        </text>, canSort: true));
+        gridColumns.Add(grid.Column("Cliente.descripcion", "Nombre Cliente", format: @<text>
+            @if (@item.Cliente != null)
+            {@item.Cliente.descripcion}
+        </text>, canSort: true));
+        gridColumns.Add(grid.Column("numeroAfiliacion", "Num.Afiliacion", null, null, true));
+        gridColumns.Add(grid.Column("Patrone.registro", "Registro Patronal", format: @<text>
+            @if (@item.Patrone != null)
+            {  @item.Patrone.registro }
+        </text>, canSort: true));
+        gridColumns.Add(grid.Column("Patrone.nombre", "Nombre Registro Patronal", format: @<text>
+            @if (@item.Patrone != null)
+            {  @item.Patrone.nombre }
+        </text>, canSort: true));
+        gridColumns.Add(grid.Column("fechaAlta", "Fecha Alta", @<text><div style='width: 6em'>@item.fechaAlta.ToString("dd-MM-yyyy")     </div></text>, null, canSort: true));
+        gridColumns.Add(grid.Column("fechaBaja", "Fecha Baja", @<text>
+            <div style='width: 6em'>
+                @if (@item.fechaBaja != null)
+                { @item.fechaBaja.ToString("dd-MM-yyyy")}
+            </div>
+        </text>, null, canSort: true));
+        gridColumns.Add(grid.Column("nombreTemporal", "Nombre Afiliado", @<text><div style='width: 25em'>@item.nombreTemporal</div></text> , null, canSort: true));
 
-    sb.Append(
-    grid.GetHtml(
-    columns:
+        sb.Append(
+        grid.GetHtml(
+        columns:
         grid.Columns(gridColumns.ToArray()),
-                                    tableStyle: "table table-striped tableSua"
-                    ));
+        tableStyle: "table table-striped tableSua"
+        ));
 
-    tableHtml = sb.ToString();
+        tableHtml = sb.ToString();
 
-}
+        }
 
-@section Menu {
-    <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Asegurados Duplicados</div>
-}
+        @section Menu {
+        <div><img src="~/Content/Images/people-b.png" width="15" height="15" /> Asegurados Duplicados</div>
+        }
 
-@using (Html.BeginForm("Duplicados", "Asegurados", FormMethod.Post))
-{
-    //MarqueeFilter - Todos los filtros principales
-    <div class="marqueeFilter">
-        <table style="float:left; margin-top:5px;display:inline-block;">
-            <thead>
-                <tr style="text-align:left;vertical-align:bottom;">
-                    <td style="padding-top:15px">
-                        <b>@Language.plaza:</b>
-                    </td>
-                    <td>
-                        @Html.DropDownList("plazasId", "Todas")
-                    </td>
-                    <td>
-                        <b>@Language.grupo:</b>
-                    </td>
-                    <td>
-                        @Html.DropDownList("gruposId", "Todos")
-                    </td>
-                    <td>
-                        <b>@Language.cliente:</b>
-                    </td>
-                    <td>
-                        @Html.DropDownList("clientesId", "Todos")
-                    </td>
-                </tr>
-            </thead>
-        </table>
+        @using (Html.BeginForm("Duplicados", "Asegurados", FormMethod.Post))
+        {
+        //MarqueeFilter - Todos los filtros principales
+        <div class="marqueeFilter">
+            <table style="float:left; margin-top:5px;display:inline-block;">
+                <thead>
+                    <tr style="text-align:left;vertical-align:bottom;">
+                        <td style="padding-top:15px">
+                            <b>@Language.plaza:</b>
+                        </td>
+                        <td>
+                            @Html.DropDownList("plazasId", "Todas")
+                        </td>
+                        <td>
+                            <b>@Language.grupo:</b>
+                        </td>
+                        <td>
+                            @Html.DropDownList("gruposId", "Todos")
+                        </td>
+                        <td>
+                            <b>@Language.cliente:</b>
+                        </td>
+                        <td>
+                            @Html.DropDownList("clientesId", "Todos")
+                        </td>
+                    </tr>
+                </thead>
+            </table>
 
-        <table style="margin-left:20px; margin-top:10px; float:left;">
-            <thead>
-                <tr>
-                    <td rowspan="2" style="padding-left:15px">
-                        <input type="submit" value="Consultar" class="btn btn-success" style="width:80px; height:30px; font-size:10px;" />
-                    </td>
-                    <td style="padding-right:10px; padding-left:10px" rowspan="2">
-                        @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel"))
-                        {
-                            <a href="@Url.Action("GetExcelDuplicados", "Asegurados", new{ plazasId = @ViewBag.pzaId, clientesId = @ViewBag.cteId, 
-                                    gruposId = @ViewBag.gpoId})" style="text-align:right">
+            <table style="margin-left:20px; margin-top:10px; float:left;">
+                <thead>
+                    <tr>
+                        <td rowspan="2" style="padding-left:15px">
+                            <input type="submit" value="Consultar" class="btn btn-success" style="width:80px; height:30px; font-size:10px;" />
+                        </td>
+                        <td style="padding-right:10px; padding-left:10px" rowspan="2">
+                            @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel", 3))
+                            {
+                            <a href="@Url.Action(" getexcelduplicados", "Asegurados" , new {plazasid=@ViewBag.pzaId, clientesid=@ViewBag.cteId,
+                               gruposid=@ViewBag.gpoId})" style="text-align:right">
                                 <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="35" height="35" />
                             </a>
-                        }
+                            }
 
-                    </td>
-            </thead>
-        </table>
-    </div>
-}
-
-@if (!tableHtml.IsEmpty())
-{
-    <div id="table-container" class="table-container">
-        @Html.Raw(tableHtml)
-        <div>
-
+                        </td>
+                </thead>
+            </table>
         </div>
-    </div>
-}
+        }
+
+        @if (!tableHtml.IsEmpty())
+        {
+        <div id="table-container" class="table-container">
+            @Html.Raw(tableHtml)
+            <div>
+
+            </div>
+        </div>
+        }

@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FechaTerminoContrato" xml:space="preserve">
+    <value>Fecha de término de contrato</value>
+  </data>
   <data name="accion" xml:space="preserve">
     <value>Acción</value>
     <comment>Etiqueta para acción</comment>
@@ -832,5 +835,35 @@
   </data>
   <data name="excelGeneral" xml:space="preserve">
     <value>Exporta Reporte General</value>
+  </data>
+  <data name="salarioDiario" xml:space="preserve">
+    <value>Salario Diario</value>
+  </data>
+  <data name="contrato" xml:space="preserve">
+    <value>Contrato</value>
+  </data>
+  <data name="fechaInicioContrato" xml:space="preserve">
+    <value>Fecha de inicio de contrato</value>
+  </data>
+  <data name="nacionalidad" xml:space="preserve">
+    <value>Nacionalidad</value>
+  </data>
+  <data name="calleNumero" xml:space="preserve">
+    <value>Calle y Número</value>
+  </data>
+  <data name="Colonia" xml:space="preserve">
+    <value>Colonia</value>
+  </data>
+  <data name="CP" xml:space="preserve">
+    <value>Código Postal</value>
+  </data>
+  <data name="estadoNacimiento" xml:space="preserve">
+    <value>Estado de Nacimiento</value>
+  </data>
+  <data name="municipioNacimiento" xml:space="preserve">
+    <value>Municipio de Nacimiento</value>
+  </data>
+  <data name="tramitarTrajeta" xml:space="preserve">
+    <value>Tramitar Tarjeta</value>
   </data>
 </root>
