@@ -817,7 +817,7 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 19] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                var1 = String.Format("{0:###,###,##0.00}", dp.vsm);
+                var1 = String.Format("{0:###,###,##0.0000}", dp.vsm);
                 row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 20] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
