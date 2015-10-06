@@ -71,10 +71,16 @@
             }</text>));
     }
 
-    if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados", 6))
+    if (SecurityUserModel.verificarPermiso("Subir Lay Out Personal", "Se agrega solicitud para subir lay out de empleados", 6))
     {
-        gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text><a href="@Url.Action("BajaEmpleados", "Empleados", new { id = item.id, clienteId = item.clienteId})"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
+        gridColumns.Add(grid.Column(header: "Layout Alta Personal", format: @<text>
+            @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
+            {
+                <a href="@Url.Action("CargarEmpleadosPorExcel", "Empleados", new { id = item.id })">
+                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }</text>));
+    } 
     if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud", "Se agrega solicitud para ver empleados solicitud baja", 6))
     {
         gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>

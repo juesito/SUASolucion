@@ -573,6 +573,7 @@ namespace SUAMVC.Controllers
         public ActionResult CargarEmpleadosPorExcel(int id)
         {
             ViewBag.solicitud = db.Solicituds.Find(id);
+            
             return View();
         }
 
@@ -585,6 +586,7 @@ namespace SUAMVC.Controllers
                 int solicitudAct = int.Parse(solicitudId);
                 Solicitud solicitud = db.Solicituds.Find(solicitudAct);
                 Usuario usuario = Session["UsuarioData"] as Usuario;
+                
 
                 if (Request.Files.Count > 0)
                 {
@@ -890,7 +892,7 @@ namespace SUAMVC.Controllers
                                 }
 
                                 db.SaveChanges();
-                                crearSolicitudEmpleado(empleado.id, solicitud.id, usuario.Id, "Alta");
+                                crearSolicitudEmpleado(empleado.id, solicitud.id, usuario.Id, solicitud.Concepto5.descripcion);
 
                                 //Obtenemos la solicitud par modificar el noTrabjadores
                                 //a su vez con ella obtener el folio de Solicitud para generar el folioEmpleado
