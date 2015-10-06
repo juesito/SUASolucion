@@ -102,7 +102,6 @@ namespace SUAMVC.Controllers
 
                 int solicitudIdTemp = int.Parse(solicitudId);
                 SolicitudPrenomina solicitud = db.SolicitudPrenominas.Find(solicitudIdTemp);
-                int noEmpleados = 0;
                 
                 foreach (String empleadoId in ids)
                 {
@@ -127,7 +126,6 @@ namespace SUAMVC.Controllers
 
                     db.DetallePrenominas.Add(detallePrenomina);
                     db.SaveChanges();
-                    noEmpleados++;
 
                 }
                 solicitud.noTrabajadores = db.DetallePrenominas.Where(s => s.solicitudId.Equals(solicitudIdTemp)).Count();
@@ -239,10 +237,11 @@ namespace SUAMVC.Controllers
         [HttpPost]
         public ActionResult updateEmployee(DetallePrenomina detallePrenomina)
         {
-
+            Usuario usuario = Session["UsuarioData"] as Usuario;
             DetallePrenomina dt = db.DetallePrenominas.Find(detallePrenomina.id);
             dt.totalSyS = 0;
-            dt.ingresos = detallePrenomina.ingresos;
+            
+            dt.ingresos = dt.Empleado.salarioReal;
             dt.diasLaborados = detallePrenomina.diasLaborados;
             dt.gratificacion = (Decimal)detallePrenomina.gratificacion;
             dt.primaVacacional = (Decimal)detallePrenomina.primaVacacional;
@@ -250,9 +249,11 @@ namespace SUAMVC.Controllers
             dt.descuentoFonacot = (Decimal)detallePrenomina.descuentoFonacot;
             dt.descuentoPension = (Decimal)detallePrenomina.descuentoPension;
             dt.otrosDescuentos = (Decimal)detallePrenomina.otrosDescuentos;
-            dt.netoPagar = (Decimal)detallePrenomina.diasLaborados * dt.Empleado.salarioReal;
+            dt.netoPagar = dt.ingresos + dt.gratificacion + dt.primaVacacional -
+                dt.descuentoInfonavit - dt.descuentoPension - dt.descuentoFonacot -
+                dt.otrosDescuentos;
             dt.fechaCreacion = DateTime.Now;
-            dt.usuarioId = 1;
+            dt.usuarioId = usuario.Id;
 
             //Guardamos los cambios
             try

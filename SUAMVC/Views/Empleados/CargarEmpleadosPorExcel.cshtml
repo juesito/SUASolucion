@@ -1,12 +1,56 @@
-﻿
+﻿@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
 @{
     ViewBag.Title = "CargarEmpleadosPorExcel";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+
+    Solicitud solicitud = new Solicitud();
+    if (ViewBag.solicitud != null)
+    {
+        solicitud = ViewBag.solicitud as Solicitud;
+          
+    }
+
 }
 
 @section Menu {
     <div>Cargar Empleados por Layout<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
+<div class="marqueeFilter">
+    <table style="float:left; margin-top:5px;display:inline-block;">
+        <thead>
+            <tr style="text-align:left;vertical-align:bottom;">
+                <td style="padding-top:15px">
+                    @Html.Label("Folio:")
+                </td>
+                <td>
+                    @Html.Label(solicitud.folioSolicitud)
+
+                </td>
+            </tr>
+            <tr style="text-align:left;vertical-align:bottom;">
+                <td>
+                    @Html.Label("Cliente:")
+                </td>
+                <td>
+                    @Html.Label(solicitud.Cliente.descripcion)
+                </td>
+                <td style="padding-left:15px;">
+                    @Html.Label("Proyecto:")
+                </td>
+                <td>
+                    @Html.Label(solicitud.Proyecto.descripcion)
+                </td>
+            </tr>
+        </thead>
+    </table>
+</div>
 
 
 <div class="panel panel-primary">
@@ -17,6 +61,10 @@
         @using (@Html.BeginForm("GrabarEmpleadosExcel", "Empleados", FormMethod.Post,
             new { enctype = "multipart/form-data" }))
         {
+            @Html.Hidden("SolicitudId", solicitud.id)
+
+
+
             if (!IsPost)
             {
                 <div class="file">

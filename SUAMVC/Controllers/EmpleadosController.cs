@@ -509,7 +509,7 @@ namespace SUAMVC.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        
+
         /*
          * Nos vamos a la vista para subir la foto
          * 
@@ -572,6 +572,8 @@ namespace SUAMVC.Controllers
 
         public ActionResult CargarEmpleadosPorExcel(int id)
         {
+            ViewBag.solicitud = db.Solicituds.Find(id);
+            
             return View();
         }
 
@@ -580,36 +582,95 @@ namespace SUAMVC.Controllers
 
             //ExcelHelper ex = new ExcelHelper();
 
-            if (Request.Files.Count > 0)
-            {
-                var file = Request.Files[0];
 
-                if (file != null && file.ContentLength > 0)
+                if (Request.Files.Count > 0)
                 {
-                    ExcelHelper ex = new ExcelHelper();
+                    var file = Request.Files[0];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        ExcelHelper ex = new ExcelHelper();
                     //List<PersonalExcelLayout> pel = ex.getPersonalDatos(@"C:\SUA\Layouts\" + file.FileName);
-                    LinqToExcelProvider provider = new LinqToExcelProvider(@"C:\SUA\Layouts\" + file.FileName);
+                        LinqToExcelProvider provider = new LinqToExcelProvider(@"C:\SUA\Layouts\" + file.FileName);
 
                     provider.readExcel("datos");
 
                     var query = (from row in provider.GetWorkSheet("datos")
-                                 let item = new PersonalExcelLayout
-                                 {
+                                     let item = new PersonalExcelLayout
+                                     {
                                      nombre = Convert.ToString(row.Field<Object>("Nombre")),
                                      apellidoMaterno = Convert.ToString(row.Field<Object>("ApellidoMaterno")),
                                      apellidoPaterno = Convert.ToString(row.Field<Object>("ApellidoPaterno")),
                                      edad = Convert.ToInt32(row.Field<Object>("Edad"))
 
-                                 }
-                                 select item).ToList();
+                                     }
+                                     select item).ToList();
 
 
 
                     foreach (PersonalExcelLayout pelItem in query)
-                    {
+                            {
                         Console.WriteLine(string.Format("{0}\t{1}\t{2}\t{3}", pelItem.nombre, pelItem.apellidoMaterno, pelItem.apellidoPaterno, pelItem.edad.ToString()));
-                    }
+                            }
 
+
+                                }
+                            }
+
+                            if (!String.IsNullOrEmpty(empleadoL.observaciones))
+                            {
+                                empleado.observaciones = empleadoL.observaciones.Trim();
+                            } // observaciones no es null
+
+
+                            empleado.usuarioId = usuario.Id;
+                            empleado.estatus = "A";
+
+
+                            try
+                            {
+                                if (!founded)
+                                {
+                                    empleado.fechaCreacion = DateTime.Now;
+                                    db.Empleados.Add(empleado);
+                                }
+                                else
+                                {
+                                    empleado.fechaModificacion = DateTime.Now;
+                                }
+
+                                db.SaveChanges();
+                                crearSolicitudEmpleado(empleado.id, solicitud.id, usuario.Id, solicitud.Concepto5.descripcion);
+
+                                //Obtenemos la solicitud par modificar el noTrabjadores
+                                //a su vez con ella obtener el folio de Solicitud para generar el folioEmpleado
+                                solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
+
+                                empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
+
+                                //Preparamos las entidades para guardar
+                                db.Entry(empleado).State = EntityState.Modified;
+                                db.Entry(solicitud).State = EntityState.Modified;
+                                db.SaveChanges();
+
+                            }
+                            catch (DbEntityValidationException exm)
+                            {
+                                StringBuilder sb = new StringBuilder();
+
+                                foreach (var failure in exm.EntityValidationErrors)
+                                {
+                                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                                    foreach (var error in failure.ValidationErrors)
+                                    {
+                                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                                        sb.AppendLine();
+                                    }
+                                }
+                            }
+
+                        }
+                    }
 
                 }
             }
@@ -651,29 +712,29 @@ namespace SUAMVC.Controllers
             List<Empleado> listEmpleados = new List<Empleado>();
             int clienteTempId = int.Parse(clienteId);
             Solicitud solicitud = db.Solicituds.Find(id);
-       
+
 
             ViewBag.solicitudId = id;
 
-            List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
-                                            join e in db.Empleados on s.empleadoId equals e.id
-                                            where s.Solicitud.clienteId.Equals(clienteTempId)
+                List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
+                                                join e in db.Empleados on s.empleadoId equals e.id
+                                                where s.Solicitud.clienteId.Equals(clienteTempId)
                                             && e.estatus.Equals("A")
-                                            orderby s.id
-                                            select s.Empleado).ToList();
-            
+                                                orderby s.id
+                                                select s.Empleado).ToList();
+
           
            
             
 
-            foreach (Empleado emp in empleadosList)
-            {
-                emp.fechaCreacion = DateTime.Parse(solicitud.fechaSolicitud.ToString());
-                listEmpleados.Add(emp);
-                
-            }
-            db.Entry(solicitud).State = EntityState.Modified;
-            db.SaveChanges();
+                foreach (Empleado emp in empleadosList)
+                {
+                    emp.fechaCreacion = DateTime.Parse(solicitud.fechaSolicitud.ToString());
+                    listEmpleados.Add(emp);
+
+                }
+                db.Entry(solicitud).State = EntityState.Modified;
+                db.SaveChanges();
             return View(listEmpleados);
         }
 
@@ -792,7 +853,7 @@ namespace SUAMVC.Controllers
             eh.makeExcel(@"C:\\hello.xlsx");
 
             return RedirectToAction("Index", "Empleados");
-        
+
         }
 
         [HttpGet]
