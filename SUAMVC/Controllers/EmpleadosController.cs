@@ -864,6 +864,7 @@ namespace SUAMVC.Controllers
                 m.descripcion.Trim().ToLower().StartsWith(term.Trim().ToLower())).ToList();
             var data = catalogos.Select(p => p.descripcion).Distinct();
             return Json(data, JsonRequestBehavior.AllowGet);
+// Solo para enviar cambios y traerme lo que haya
         }
 
         protected override void Dispose(bool disposing)
