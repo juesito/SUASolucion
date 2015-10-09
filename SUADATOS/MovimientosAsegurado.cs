@@ -24,6 +24,7 @@ namespace SUADATOS
         public int incapacidadId { get; set; }
         public string credito { get; set; }
         public string estatus { get; set; }
+        public Nullable<decimal> valorDescuento { get; set; }
     
         public virtual Asegurado Asegurado { get; set; }
         public virtual CatalogoMovimiento CatalogoMovimiento { get; set; }
