@@ -14,7 +14,7 @@
     <div>Ver empleado : @Html.DisplayFor(model => model.empleado.nombreCompleto)<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<div id="tabs" style="font-size:10px;">
+<div id="tabs" style="font-size:10px; padding-top:8px">
     <ul>
         <li><a href="#tabs-1">Generales</a></li>
         <li><a href="#tabs-2">Documentos</a></li>
@@ -23,7 +23,7 @@
     </ul>
 
     <!-- Pestaña numero 1 datos personales -->
-    <div id="tabs-1" style="overflow:hidden; min-height:470px;">
+    <div id="tabs-1" style="overflow:hidden; min-height:600px">
         @using (Html.BeginForm("Edit", "Empleados"))
         {
             @Html.HiddenFor(model => model.empleado.id)
@@ -31,148 +31,148 @@
             <div class="left-Marquee">
                 <dl class="dl-horizontal">
                     <dt>
-                        @Html.Label(Language.cliente)
+                        @Html.Label(Language.cliente):
                     </dt>
 
                     <dd>
                         @Html.DisplayFor(model => model.solicitud.Cliente.descripcion)
                     </dd>
                     <dt>
-                        @Html.Label(Language.proyecto)
+                        @Html.Label(Language.proyecto):
                     </dt>
 
                     <dd>
                         @Html.DisplayFor(model => model.solicitud.Proyecto.descripcion)
                     </dd>
                     <dt>
-                        @Html.Label(Language.plaza)
+                        @Html.Label(Language.plaza):
                     </dt>
 
                     <dd>
                         @Html.DisplayFor(model => model.solicitud.Plaza.descripcion)
                     </dd>
                     <dt>
-                        @Html.DisplayName(@Language.apellidoPaterno)
+                        @Html.DisplayName(@Language.apellidoPaterno):
                     </dt>
 
                     <dd>
                         @Html.EditorFor(model => model.empleado.apellidoPaterno)
                     </dd>
-                    <dt>
-                        @Html.DisplayName(@Language.apellidoMaterno)
+                    <dt style="padding-top:8px">
+                        @Html.DisplayName(@Language.apellidoMaterno):
                     </dt>
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.apellidoMaterno)
                     </dd>
-                    <dt>
-                        @Html.DisplayName(@Language.nombre)
+                    <dt style="padding-top:8px">
+                        @Html.DisplayName(@Language.nombre):
                     </dt>
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.nombre)
                     </dd>
-                    <dt>
-                        @Html.DisplayName(@Language.nss)
+                    <dt style="padding-top:8px">
+                        @Html.DisplayName(@Language.nss):
                     </dt>
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.nss)
                     </dd>
-                    <dt>
-                        @Html.DisplayName(@Language.categoria)
+                    <dt style="padding-top:8px">
+                        @Html.DisplayName(@Language.categoria):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.categoria)
                     </dd>
-                    <dt>
-                        @Html.DisplayName(@Language.fechaAlta)
+                    <dt style="padding-top:8px">
+                        @Html.DisplayName(@Language.fechaAlta):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.DisplayFor(model => model.empleado.fechaCreacion)
                     </dd>
-                    <dt>
-                        @Html.DisplayName(@Language.fechaBaja)
+                    <dt style="padding-top:8px">
+                        @Html.DisplayName(@Language.fechaBaja):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.fechaBaja, new { htmlAttributes = new { @class = "myDate" } })
                     </dd>
-                    <dt>
-                        @Html.Label(Language.sexo)
+                    <dt style="padding-top:8px">
+                        @Html.Label(Language.sexo):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.sexosDrownList(usuario.Id)
                     </dd>
-                    <dt>
-                        @Html.DisplayName(@Language.rfc)
+                    <dt style="padding-top:8px">
+                        @Html.DisplayName(@Language.rfc):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.rfc)
                     </dd>
 
-                    <dt>
-                        @Html.DisplayName(@Language.homoClave)
+                    <dt style="padding-top:8px">
+                        @Html.DisplayName(@Language.homoClave):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.homoclave)
                     </dd>
 
-                    <dt>
-                        @Html.DisplayName(@Language.curp)
+                    <dt style="padding-top:8px">
+                        @Html.DisplayName(@Language.curp):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.curp)
                     </dd>
-                    <dt>
-                        @Html.DisplayName(@Language.fechaNacimiento)
+                    <dt style="padding-top:8px">
+                        @Html.DisplayName(@Language.fechaNacimiento):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.fechaNacimiento, new { htmlAttributes = new { @class = "myBornDate" } })
                     </dd>
-                    <dt>
-                        @Html.Label(Language.estado)
+                    <dt style="padding-top:8px">
+                        @Html.Label(Language.estado):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.DisplayFor(model => model.empleado.Estado.descripcion)
                     </dd>
-                    <dt>
-                        @Html.Label(Language.municipio)
+                    <dt style="padding-top:8px">
+                        @Html.Label(Language.municipio):
                     </dt>
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.DisplayFor(model => model.empleado.Municipio.descripcion)
                     </dd>
 
-                    <dt>
-                        @Html.Label(Language.pais)
+                    <dt style="padding-top:8px">
+                        @Html.Label(Language.pais):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.DisplayFor(model => model.empleado.Pais.descripcion)
                     </dd>
-                    <dt>
-                        @Html.DisplayName(Language.email)
+                    <dt style="padding-top:8px">
+                        @Html.DisplayName(Language.email):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.email)
                     </dd>
-                    <dt>@Html.LabelFor(model => model.empleado.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })</dt>
-                    <dd>
+                    <dt style="padding-top:8px">@Html.Label(Language.observaciones):</dt>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.observaciones, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.empleado.observaciones, "", new { @class = "text-danger" })
                     </dd>
-                    <dt style="margin-top:10px;">
+                    <dt style="margin-top:30px;">
                         <a href="@Url.Action("Index", "Empleados")">
                             <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
                         </a>
                     </dt>
-                    <dd style="margin-top:10px;"><input name="Guadar" type="submit" value="@Language.guardar" /></dd>
+                    <dd style="margin-top:30px;"><input name="Guadar" type="submit" value="@Language.guardar" /></dd>
                 </dl>
             </div>
             <!-- marquesina de la derecha -->
@@ -196,133 +196,133 @@
         }
     </div>
     <!-- Pestaña numero 2 datos documentos -->
-    <div id="tabs-2" style="overflow:hidden; min-height:470px;">
+    <div id="tabs-2" style="overflow:hidden; min-height:600px;">
         @using (Html.BeginForm("GuardarDocumentos", "Empleados"))
         {
             @Html.HiddenFor(model => model.empleado.id)
             @Html.AntiForgeryToken()
             <div class="left-Marquee">
                 <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.empleado.calleNumero)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.calleNumero):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.calleNumero)
                     </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.empleado.colonia)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.Colonia):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.colonia)
                     </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.empleado.edoMunicipio)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.estado):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.edoMunicipio)
                     </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.empleado.codigoPostal)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.CP):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.codigoPostal)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.datosEmpleado.actividades)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.actividadPrincipal):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.TextAreaFor(model => model.datosEmpleado.actividades, new { @class = "form-control", rows = 4 })
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.datosEmpleado.domicilioOficina)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.domicilioOficina):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.datosEmpleado.domicilioOficina)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.datosEmpleado.fechaAntiguedad)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.fechaAntiguedad):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.datosEmpleado.fechaAntiguedad, new { htmlAttributes = new { @class = "myBornDate" } })
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.datosEmpleado.salarioVSM)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.salarioVSM):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.datosEmpleado.salarioVSM)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.datosEmpleado.jornadaLaboralId)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.jornadaLaboral):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.conceptosDrownList(usuario.Id, "JORNALAB", "jornadaLaboralId")
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.datosEmpleado.diasDescanso)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.diasDescanso):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.datosEmpleado.diasDescanso)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.datosEmpleado.salarioNominal)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.salarioNominal):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.datosEmpleado.salarioNominal)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.datosEmpleado.diasVacaciones)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.diasVacaciones):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.datosEmpleado.diasVacaciones)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.datosEmpleado.diasAguinaldo)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.diasAguinaldo):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.datosEmpleado.diasAguinaldo)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.datosEmpleado.otros)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.otros):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.datosEmpleado.otros)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.datosEmpleado.telefono)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.telefono):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.datosEmpleado.telefono)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.datosEmpleado.tipoSangre)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.tipoSangre):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.datosEmpleado.tipoSangre)
                     </dd>
-                    <dt>
-                        @Html.Label("Datos Familiares:")
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.datosFamiliares):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         <a href="@Url.Action("create", "FamiliaresEmpleados" , new { empleadoid=Model.empleado.id })"
                            title="Cargar Documentos">
                             <img src="~/Content/Images/people-b.png" alt="" style="border:none;" class="icon" />
@@ -332,12 +332,12 @@
                             <img src="~/Content/Images/fileSearch.png" alt="" style="border:none;" class="icon" />
                         </a>
                     </dd>
-                    <dt style="margin-top:10px;">
+                    <dt style="margin-top:30px;">
                         <a href="@Url.Action("Index", "Empleados")">
                             <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
                         </a>
                     </dt>
-                    <dd style="margin-top:10px;"><input name="Guadar" type="submit" value="@Language.guardar" /></dd>
+                    <dd style="margin-top:30px;"><input name="Guadar" type="submit" value="@Language.guardar" /></dd>
                 </dl>
             </div>
             <!-- marquesina de la derecha -->
@@ -444,94 +444,94 @@
             @Html.AntiForgeryToken()
             <div class="left-Marquee">
                 <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.empleado.SDI.descripcion)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.sdi):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.DisplayFor(model => model.empleado.SDI.descripcion)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.empleado.salarioReal)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.salarioReal):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.salarioReal)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.salarialesEmpleado.salarioMensual)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.salarioMensual):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.salarialesEmpleado.salarioMensual)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.salarialesEmpleado.salarioHrsExtra)
+                    <dt style="padding-top:8px">
+                        @Html.DisplayNameFor(model => model.salarialesEmpleado.salarioHrsExtra):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.salarialesEmpleado.salarioHrsExtra)
                     </dd>
-                    <dt>
-                        @Html.Label(Language.bancos)
+                    <dt style="padding-top:8px">
+                        @Html.Label(Language.numeroCuenta):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.cuentasPorEmpleadoDrownList(usuario.Id, "bancoId")
                         <a href="@Url.Action("index", "CuentaEmpleados" , new { empleadoid=Model.empleado.id })"
                            title="Agregar Cuentas">
                             <img src="~/Content/Images/bank.png" alt="" style="border:none;" class="icon" />
                         </a>
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.empleado.creditoInfonavit)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.noCredito):
                     </dt>
 
-                    <dd>
+                    <dd style ="padding-top:8px">
                         @Html.EditorFor(model => model.empleado.creditoInfonavit)
                     </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.salarialesEmpleado.montoInfonavit)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.montoInfonavit):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.salarialesEmpleado.montoInfonavit)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.salarialesEmpleado.importeFonacot)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.importeFonacot):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.salarialesEmpleado.importeFonacot)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.salarialesEmpleado.porcientoPension)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.porcientoPension):
                     </dt>
 
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.salarialesEmpleado.porcientoPension)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.salarialesEmpleado.periodoId)
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.importePension):
                     </dt>
 
-                    <dd>
-                        @Html.conceptosDrownList(usuario.Id, "PERISAL", "periodoId")
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.salarialesEmpleado.importePension)
-                    </dt>
-
-                    <dd>
+                    <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.salarialesEmpleado.importePension)
                     </dd>
-                    <dt style="margin-top:10px;">
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.periodo):
+                    </dt>
+
+                    <dd style="padding-top:8px">
+                        @Html.conceptosDrownList(usuario.Id, "PERISAL", "periodoId")
+                    </dd>
+                    <dt style="margin-top:100px;">
                         <a href="@Url.Action("Index", "Empleados")">
                             <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
                         </a>
                     </dt>
-                    <dd style="margin-top:10px;"><input name="Guadar" type="submit" value="@Language.guardar" /></dd>
+                    <dd style="margin-top:100px;"><input name="Guadar" type="submit" value="@Language.guardar" /></dd>
 
                 </dl>
             </div>
@@ -559,32 +559,32 @@
     <div id="tabs-4" style="overflow:hidden; min-height:470px;">
         <div class="left-Marquee">
             <dl class="dl-horizontal">
-                <dt>
-                    @Html.Label("SDI")
+                <dt style="padding-top:8px">
+                    @Html.Label("SDI"):
                 </dt>
 
-                <dd>
+                <dd style="padding-top:8px">
                     @Html.DisplayFor(model => model.empleado.Asegurado.salarioDiario)
                 </dd>
-                <dt>
-                    @Html.Label("Sal. Diario IMMS")
+                <dt style="padding-top:8px">
+                    @Html.Label("Sal. Diario IMMS"):
                 </dt>
 
-                <dd>
+                <dd style="padding-top:8px">
                     @Html.DisplayFor(model => model.empleado.Asegurado.salarioDiario)
                 </dd>
-                <dt>
-                    @Html.Label("Registro Patronal")
+                <dt style="padding-top:8px">
+                    @Html.Label("Registro Patronal"):
                 </dt>
 
-                <dd>
+                <dd style="padding-top:8px">
                     @Html.DisplayFor(model => model.empleado.Asegurado.Patrone.registro)
                 </dd>
-                <dt>
-                    @Html.Label("Nombre Patron")
+                <dt style="padding-top:8px">
+                    @Html.Label("Nombre Patron"):
                 </dt>
 
-                <dd>
+                <dd style="padding-top:8px">
                     @Html.DisplayFor(model => model.empleado.Asegurado.Patrone.nombre)
                 </dd>
             </dl>

@@ -122,15 +122,15 @@ namespace SUAMVC.Controllers
             Concepto confidencial = th.obtenerConceptoPorGrupo("ARCHEMP", "Confidencial");
 
             // Obtenemos los documentos cargados para el empleado
-            ViewBag.docsCv = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsCv = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(cv.id)).Count();
-            ViewBag.docsVarios = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsVarios = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(docVarios.id)).Count();
-            ViewBag.docsContratos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsContratos = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(contratos.id)).Count();
-            ViewBag.docsPsicometricos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsPsicometricos = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(psicometria.id)).Count();
-            ViewBag.docsConfidencial = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsConfidencial = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(confidencial.id)).Count();
 
             //Obtenemos la solicitud del empleado
@@ -285,15 +285,15 @@ namespace SUAMVC.Controllers
             Concepto confidencial = th.obtenerConceptoPorGrupo("ARCHEMP", "Confidencial");
 
             // Obtenemos los documentos cargados para el empleado
-            ViewBag.docsCv = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsCv = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(cv.id)).Count();
-            ViewBag.docsVarios = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsVarios = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(docVarios.id)).Count();
-            ViewBag.docsContratos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsContratos = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(contratos.id)).Count();
-            ViewBag.docsPsicometricos = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsPsicometricos = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(psicometria.id)).Count();
-            ViewBag.docsConfidencial = db.ArchivoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)
+            ViewBag.docsConfidencial = db.ArchivoEmpleados.Where(de => de.empleadoId.Equals(empleado.id)
                 && de.tipoArchivo.Equals(confidencial.id)).Count();
 
             //Obtenemos la solicitud del empleado
@@ -613,9 +613,10 @@ namespace SUAMVC.Controllers
                         Console.WriteLine(string.Format("{0}\t{1}\t{2}\t{3}", pelItem.nombre, pelItem.apellidoMaterno, pelItem.apellidoPaterno, pelItem.edad.ToString()));
                             }
 
-
-                                }
-                            }
+                    Empleado empleadoL = new Empleado();
+                    Empleado empleado = new Empleado();
+                        Usuario usuario = new Usuario();
+                        Solicitud solicitud = new Solicitud();
 
                             if (!String.IsNullOrEmpty(empleadoL.observaciones))
                             {
@@ -629,14 +630,14 @@ namespace SUAMVC.Controllers
 
                             try
                             {
-                                if (!founded)
+                                if (!false)
                                 {
                                     empleado.fechaCreacion = DateTime.Now;
                                     db.Empleados.Add(empleado);
                                 }
                                 else
                                 {
-                                    empleado.fechaModificacion = DateTime.Now;
+                                    empleado.fechaCreacion = DateTime.Now;
                                 }
 
                                 db.SaveChanges();
@@ -671,9 +672,6 @@ namespace SUAMVC.Controllers
 
                         }
                     }
-
-                }
-            }
 
             return RedirectToAction("Index", "Solicitudes");
         }
@@ -864,7 +862,6 @@ namespace SUAMVC.Controllers
                 m.descripcion.Trim().ToLower().StartsWith(term.Trim().ToLower())).ToList();
             var data = catalogos.Select(p => p.descripcion).Distinct();
             return Json(data, JsonRequestBehavior.AllowGet);
-// Solo para enviar cambios y traerme lo que haya
         }
 
         protected override void Dispose(bool disposing)
