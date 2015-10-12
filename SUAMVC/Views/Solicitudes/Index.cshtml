@@ -126,7 +126,7 @@
         gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
             @if (item.noTrabajadores >= 0)
             {
-                <a href="@Url.Action("Index", "Empleados", new { id = item.id })">
+                <a href="@Url.Action("Index", "Empleados", new { id = item.id, controllerDestiny = "Solicitudes" })">
                     <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
                 </a>
             }

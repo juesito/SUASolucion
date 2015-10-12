@@ -141,6 +141,12 @@
 
 @if (!tableHtml.IsEmpty())
 {
+    <div class="menubar-header">
+        <a href="@Url.Action("Index", @ViewBag.controllerDestiny, new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId,
+            solicitudId = solicitud.id })" style="text-align:right">
+            <img src="~/Content/Images/back.png" title="Regresar" alt="Regresar" style="border:none;" class="menuIcon" />
+        </a>
+    </div>
     <div id="table-container" class="table-container">
         @Html.Raw(tableHtml)
     </div>
