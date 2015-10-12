@@ -610,6 +610,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Datos Familiares.
+        /// </summary>
+        public static string datosFamiliares {
+            get {
+                return ResourceManager.GetString("datosFamiliares", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Departamento.
         /// </summary>
         public static string dep {
@@ -754,6 +763,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dias de Aguinaldo.
+        /// </summary>
+        public static string diasAguinaldo {
+            get {
+                return ResourceManager.GetString("diasAguinaldo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Días al Año.
         /// </summary>
         public static string diasAno {
@@ -768,6 +786,15 @@ namespace SUAMVC.Resources {
         public static string diasAnoAguinaldo {
             get {
                 return ResourceManager.GetString("diasAnoAguinaldo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dias de descanso.
+        /// </summary>
+        public static string diasDescanso {
+            get {
+                return ResourceManager.GetString("diasDescanso", resourceCulture);
             }
         }
         
@@ -804,6 +831,15 @@ namespace SUAMVC.Resources {
         public static string direcFiscal {
             get {
                 return ResourceManager.GetString("direcFiscal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Domicilio de Oficina.
+        /// </summary>
+        public static string domicilioOficina {
+            get {
+                return ResourceManager.GetString("domicilioOficina", resourceCulture);
             }
         }
         
@@ -907,7 +943,7 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Esquemas Pago.
+        ///   Looks up a localized string similar to Esquema de Pago.
         /// </summary>
         public static string esquema {
             get {
@@ -1038,6 +1074,15 @@ namespace SUAMVC.Resources {
         public static string fechaAltaImss {
             get {
                 return ResourceManager.GetString("fechaAltaImss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fecha de Antigüedad.
+        /// </summary>
+        public static string fechaAntiguedad {
+            get {
+                return ResourceManager.GetString("fechaAntiguedad", resourceCulture);
             }
         }
         
@@ -1258,6 +1303,24 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Importe por Fonacot.
+        /// </summary>
+        public static string importeFonacot {
+            get {
+                return ResourceManager.GetString("importeFonacot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Importe por Pensión.
+        /// </summary>
+        public static string importePension {
+            get {
+                return ResourceManager.GetString("importePension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Indicador.
         /// </summary>
         public static string indicador {
@@ -1294,6 +1357,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Jornada Laboral.
+        /// </summary>
+        public static string jornadaLaboral {
+            get {
+                return ResourceManager.GetString("jornadaLaboral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lista Email Auxiliar.
         /// </summary>
         public static string listaEmailAux {
@@ -1326,6 +1398,15 @@ namespace SUAMVC.Resources {
         public static string modulDes {
             get {
                 return ResourceManager.GetString("modulDes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Importe por Infonavit.
+        /// </summary>
+        public static string montoInfonavit {
+            get {
+                return ResourceManager.GetString("montoInfonavit", resourceCulture);
             }
         }
         
@@ -1465,6 +1546,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Otros.
+        /// </summary>
+        public static string otros {
+            get {
+                return ResourceManager.GetString("otros", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to País.
         /// </summary>
         public static string pais {
@@ -1551,6 +1641,15 @@ namespace SUAMVC.Resources {
         public static string porcentaje {
             get {
                 return ResourceManager.GetString("porcentaje", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Porcentaje de Pensión.
+        /// </summary>
+        public static string porcientoPension {
+            get {
+                return ResourceManager.GetString("porcientoPension", resourceCulture);
             }
         }
         
@@ -1672,11 +1771,47 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Salario por horas extras.
+        /// </summary>
+        public static string salarioHorasExtras {
+            get {
+                return ResourceManager.GetString("salarioHorasExtras", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Salario Mensual.
+        /// </summary>
+        public static string salarioMensual {
+            get {
+                return ResourceManager.GetString("salarioMensual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Salario Nominal.
+        /// </summary>
+        public static string salarioNominal {
+            get {
+                return ResourceManager.GetString("salarioNominal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Salario Real.
         /// </summary>
         public static string salarioReal {
             get {
                 return ResourceManager.GetString("salarioReal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SalarioVSM.
+        /// </summary>
+        public static string salarioVSM {
+            get {
+                return ResourceManager.GetString("salarioVSM", resourceCulture);
             }
         }
         
@@ -1789,6 +1924,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tiene Infonavit.
+        /// </summary>
+        public static string tieneInfonavit {
+            get {
+                return ResourceManager.GetString("tieneInfonavit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tipo.
         /// </summary>
         public static string tipo {
@@ -1812,6 +1956,15 @@ namespace SUAMVC.Resources {
         public static string tipoPersonal {
             get {
                 return ResourceManager.GetString("tipoPersonal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo de Sangre.
+        /// </summary>
+        public static string tipoSangre {
+            get {
+                return ResourceManager.GetString("tipoSangre", resourceCulture);
             }
         }
         

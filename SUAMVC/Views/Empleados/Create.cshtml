@@ -89,25 +89,25 @@
         <div class="panel-body" style="font-size:10px;">
             <table style="margin: 0 auto;">
                 <thead>
-                    <tr style="background-color:#2E538A; color:white; min-height:20px; font-size:15px;">
-                        <th colspan="6" style="margin: 0 auto; text-align:center;">@Html.Label("Folio de Solicitud " + solicitud.folioSolicitud + " Cliente:" + solicitud.Cliente.descripcion)</th>
+                    <tr style="background-color:#2E538A; color:white; min-height:40px; font-size:15px;">
+                        <th colspan="6" style="margin: 0 auto; text-align:center;">@Html.Label("Folio de Solicitud: " + solicitud.folioSolicitud + "    Cliente: " + solicitud.Cliente.descripcion)</th>
                     </tr>
                 </thead>
                 <tbody style="margin-top:50px; padding-top:50px;">
                     <tr>
                         @if (solicitud.EsquemasPago != null && solicitud.EsquemasPago.descripcion.Trim().Equals("SyS"))
                         {
-                            <td>
+                            <td style="padding-top:8px">
                                 @Html.Label(Language.nss + ":")
                             </td>
-                            <td>
+                            <td style="padding-top:8px">
                                 @Html.EditorFor(model => model.nss, new { htmlAttributes = new { @onchange = "javascript:validarNss(this.value);" } })
                                 @Html.ValidationMessageFor(model => model.nss, "", new { @class = "text-danger" })
                             </td>
-                            <td>
+                            <td style="padding-top:8px; padding-left:40px">
                                 @Html.Label(Language.fechaAltaImss + ":")
                             </td>
-                            <td>
+                            <td style="padding-top:8px">
                                 @Html.EditorFor(model => model.fechaAltaImss, new { htmlAttributes = new { @class = "myImmsDate" } })
                                 @Html.ValidationMessageFor(model => model.fechaAltaImss, "", new { @class = "text-danger" })
                             </td>
@@ -116,64 +116,59 @@
 
                     <tr>
                         <td style="padding-top:8px">@Html.Label(Language.apellidoPaterno + ":")</td>
-                        <td>
+                        <td style="padding-top:8px">
                             @Html.EditorFor(model => model.apellidoPaterno)
                             @Html.ValidationMessageFor(model => model.apellidoPaterno, "", new { @class = "text-danger" })
                         </td>
-                        <td style="padding-top:8px">
+                        <td style="padding-top:8px; padding-left:40px">
                             @Html.Label(Language.apellidoMaterno + ":")
                         </td>
-                        <td>
+                        <td style="padding-top:8px">
                             @Html.EditorFor(model => model.apellidoMaterno)
                             @Html.ValidationMessageFor(model => model.apellidoMaterno, "", new { @class = "text-danger" })
                         </td>
-                        <td></td>
-                        <td></td>
-
-                    </tr>
-                    <tr>
-                        <td>
+                        <td style="padding-top:8px; padding-left:40px">
                             @Html.Label(Language.nombre + ":")
                         </td>
-                        <td>
+                        <td style="padding-top:8px">
                             @Html.EditorFor(model => model.nombre)
                             @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
                         </td>
+                        <td></td>
+
+                    </tr>
+                    <tr style="padding-top:8px">
                         <td>@Html.Label(Language.rfc + ":")</td>
-                        <td>
+                        <td style="padding-top:8px">
                             @Html.EditorFor(model => model.rfc)
                             @Html.ValidationMessageFor(model => model.rfc, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.Label(Language.homoClave + ":")</td>
-                        <td>
+                        <td style="padding-top:8px; padding-left:40px"> @Html.Label(Language.homoClave + ":")</td>
+                        <td style="padding-top:8px">
                             @Html.EditorFor(model => model.homoclave)
                             @Html.ValidationMessageFor(model => model.homoclave, "", new { @class = "text-danger" })
                         </td>
-                    </tr>
-                    <tr>
-                        <td>@Html.Label(Language.curp + ":")</td>
-                        <td>
+                        <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.curp + ":")</td>
+                        <td style="padding-top:8px">
                             @Html.EditorFor(model => model.curp)
                             @Html.ValidationMessageFor(model => model.curp, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.Label(Language.sexo + ":")</td>
-                        <td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.sexo + ":")</td>
+                        <td style="padding-top:8px">
                             @Html.DropDownList("sexoId")
                             @Html.ValidationMessageFor(model => model.sexoId, "", new { @class = "text-danger" })
                         </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>@Html.Label(Language.esquema + ":")</td>
+                        <td style="padding-left:40px; padding-top:8px">@Html.Label(Language.esquema + ":")</td>
                         <td>
                             @Html.DisplayFor(model => model.EsquemasPago.descripcion, new { @Id = "esquemaPago" })
                         </td>
                         @if (!Model.EsquemasPago.descripcion.Trim().Equals("IAS"))
                         {
-                            <td>@Html.Label(Language.sdi + ":")</td>
-                            <td>
-                               $ @Html.DisplayFor(model => model.SDI.descripcion)
+                            <td style="padding-left:40px; padding-top:8px">@Html.Label(Language.sdi + ":")</td>
+                            <td style="padding-top:8px">
+                                $ @Html.DisplayFor(model => model.SDI.descripcion)
                             </td>
                         }
 
@@ -181,13 +176,13 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.Label(Language.salarioReal + ":")</td>
-                        <td>
+                        <td style="padding-top:8px">@Html.Label(Language.salarioReal + ":")</td>
+                        <td style="padding-top:8px">
                             @Html.EditorFor(model => model.salarioReal)
                             @Html.ValidationMessageFor(model => model.salarioReal, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.Label(Language.categoria + ":")</td>
-                        <td>
+                        <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.categoria + ":")</td>
+                        <td style="padding-top:8px">
                             @Html.EditorFor(model => model.categoria, new { htmlAttributes = new { @id = "categoriaAuto" } })
                             @Html.ValidationMessageFor(model => model.categoria, "", new { @class = "text-danger" })
                         </td>
@@ -195,16 +190,24 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.Label(Language.regInfonavit + ":")</td>
-                        <td>
+                        <td style="padding-top:8px">@Html.Label(Language.tieneInfonavit + "?:")</td>
+                        <td style="padding-top:8px">
                             @Html.Label("Si")
                             @Html.RadioButtonFor(model => model.tieneInfonavit, "1", new { htmlAttributes = new { @class = "form-control", name = "tieneInfonavit" } })
                             @Html.Label("No")
                             @Html.RadioButtonFor(model => model.tieneInfonavit, "0", new { htmlAttributes = new { @class = "form-control", name = "tieneInfonavit" } })
                             @Html.ValidationMessageFor(model => model.tieneInfonavit, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.Label(Language.estadoCivil + ":")</td>
-                        <td>
+                        <td style="padding-top:8px; padding-left:40px">
+                            @Html.Label(Language.noCredito + ":", htmlAttributes: new { id = "creditoInfonavitTxt" })
+                        </td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.creditoInfonavit, new { htmlAttributes = new { id = "creditoInfonavit" } })
+                            @Html.ValidationMessageFor(model => model.creditoInfonavit, "", new { @class = "text-danger" })
+                        </td>
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.estadoCivil + ":")</td>
+                        <td style="padding-top:8px">
                             @if (editMode)
                             {
                                 @Html.DropDownList("estadoCivilId")
@@ -215,27 +218,48 @@
                                 @Html.DisplayFor(model => model.EstadoCivil.descripcion)
                             }
                         </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>@Html.Label(Language.noCredito + ":", htmlAttributes: new { id = "creditoInfonavitTxt" })</td>
-                        <td>
-                            @Html.EditorFor(model => model.creditoInfonavit, new {htmlAttributes = new { id = "creditoInfonavit" }})
-                            @Html.ValidationMessageFor(model => model.creditoInfonavit, "", new { @class = "text-danger" })
+                        <td style="padding-top:8px; padding-left:40px">
+                            @Html.Label(Language.fechaNacimiento + ":")
                         </td>
-
-                        <td>@Html.Label(Language.fechaNacimiento + ":")</td>
-                        <td>
-                            @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new { @class = "myBornDate" } })
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new { @Value = Model.fechaNacimiento.ToString(" dd/MM/yyyy"), @class = "myBornDate" } })
                             @Html.ValidationMessageFor(model => model.fechaNacimiento, "", new { @class = "text-danger" })
                         </td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.Label(Language.nacionalidad + ":")</td>
-                        <td>
+                        <td style="padding-top:8px">@Html.Label(Language.estadoNacimiento + ":", htmlAttributes: new { id = "estadoIdTxt" })</td>
+                        <td style="padding-top:8px">
+                            @if (editMode)
+                            {
+                                @Html.DropDownList("estadoNacimientoId", null, new { @id = "estadoId", @style = "width:140px;", @onchange = "javascript:obtenerMunicipios(this.value);" })
+                                @Html.ValidationMessageFor(model => model.estadoNacimientoId, "", new { @class = "text-danger" })
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.Estado.descripcion)
+                            }
+                        </td>
+                        <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.municipioNacimiento + ":", htmlAttributes: new { id = "municipioIdTxt" })</td>
+                        <td style="padding-top:8px">
+                            @if (editMode)
+                            {
+
+                                @Html.DropDownList("municipioNacimientoId", null, htmlAttributes: new { id = "municipioId" })
+                                @Html.ValidationMessageFor(model => model.municipioNacimientoId, "", new { @class = "text-danger" })
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.Municipio.descripcion)
+                            }
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.nacionalidad + ":")</td>
+                        <td style="padding-top:8px">
                             @if (editMode)
                             {
                                 @Html.paisesDrownList(usuario.Id, "nacionalidadId")
@@ -246,39 +270,8 @@
                                 @Html.DisplayFor(model => model.Pais.descripcion)
                             }
                         </td>
-
-                        <td>@Html.Label(Language.estadoNacimiento + ":", htmlAttributes: new { id = "estadoIdTxt" })</td>
-                        <td>
-                            @if (editMode)
-                            {
-                                @Html.DropDownList("estadoNacimientoId", null, new { @id = "estadoId", @style = "width:200px;", @onchange = "javascript:obtenerMunicipios(this.value);" })
-                                @Html.ValidationMessageFor(model => model.estadoNacimientoId, "", new { @class = "text-danger" })
-                            }
-                            else
-                            {
-                                @Html.DisplayFor(model => model.Estado.descripcion)
-                            }
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>@Html.Label(Language.municipioNacimiento + ":", htmlAttributes: new { id = "municipioIdTxt" })</td>
-                        <td>
-                            @if (editMode)
-                            {
-                         
-                                       @Html.DropDownList("municipioNacimientoId", null, htmlAttributes: new { id = "municipioId" })
-                                @Html.ValidationMessageFor(model => model.municipioNacimientoId, "", new { @class = "text-danger" })
-                            }
-                            else
-                            {
-                                @Html.DisplayFor(model => model.Municipio.descripcion)
-                            }
-                        </td>
-
-                        <td>@Html.Label(Language.calleNumero + ":")</td>
-                        <td>
+                        <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.calleNumero + ":")</td>
+                        <td style="padding-top:8px">
                             @Html.EditorFor(model => model.calleNumero)
                             @Html.ValidationMessageFor(model => model.calleNumero, "", new { @class = "text-danger" })
                         </td>
@@ -286,43 +279,41 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.Label(Language.Colonia + ":")</td>
-                        <td>
+                        <td style="padding-top:8px">@Html.Label(Language.Colonia + ":")</td>
+                        <td style="padding-top:8px">
                             @Html.EditorFor(model => model.colonia)
                             @Html.ValidationMessageFor(model => model.colonia, "", new { @class = "text-danger" })
                         </td>
 
-                        <td>@Html.Label(Language.estado + ":")</td>
-                        <td>
+                        <td style="padding-top:8px; padding-left:40px">
+                            @Html.Label(Language.municipio + ":")
+                        </td>
+                        <td style="padding-top:8px">
                             @Html.EditorFor(model => model.edoMunicipio)
                             @Html.ValidationMessageFor(model => model.edoMunicipio, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.Label(Language.CP + ":")</td>
-                        <td>
-                            @Html.EditorFor(model => model.codigoPostal )
+                        <td style="padding-top:8px; padding-left:40px"> @Html.Label(Language.CP + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.codigoPostal)
                             @Html.ValidationMessageFor(model => model.codigoPostal, "", new { @class = "text-danger" })
                         </td>
                     </tr>
                     <tr>
-                        <td>@Html.Label(Language.tramitarTrajeta + "?:", htmlAttributes: new {id = "tramitarTarjetaTxt" })</td>
-                        <td>
+                        <td style="padding-top:8px">@Html.Label(Language.tramitarTrajeta + "?:", htmlAttributes: new { id = "tramitarTarjetaTxt" })</td>
+                        <td style="padding-top:8px">
                             @Html.Label("Si")
                             @Html.RadioButtonFor(model => model.tramitarTarjeta, "1", new { htmlAttributes = new { @class = "form-control", name = "tramitarTarjeta" } })
                             @Html.Label("No")
                             @Html.RadioButtonFor(model => model.tramitarTarjeta, "0", new { htmlAttributes = new { @class = "form-control", name = "tramitarTarjeta" } })
                             @Html.ValidationMessageFor(model => model.tramitarTarjeta, "", new { @class = "text-danger" })
-
-                        <td></td>
-                        <td></td>
-                        <td></td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.Label(Language.banco + ":")</td>
-                        <td>
+                        <td style="padding-top:8px">@Html.Label(Language.banco + ":", htmlAttributes: new { id = "bancoTxt" })</td>
+                        <td style="padding-top:8px">
                             @if (editMode)
                             {
-                                @Html.DropDownList("bancoId")
+                                @Html.DropDownList("bancoId", null, htmlAttributes: new { id = "bancoDownList" })
                                 @Html.ValidationMessageFor(model => model.bancoId, "", new { @class = "text-danger" })
                             }
                             else
@@ -331,20 +322,20 @@
                             }
                         </td>
 
-                        <td>@Html.Label(Language.cuentaBancaria + ":", htmlAttributes: new { id = "cuentaTxt" })</td>
-                        <td>
+                        <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.cuentaBancaria + ":", htmlAttributes: new { id = "cuentaTxt" })</td>
+                        <td style="padding-top:8px">
                             @Html.EditorFor(model => model.cuentaBancaria, new { htmlAttributes = new { id = "cuenta" } })
                             @Html.ValidationMessageFor(model => model.cuentaBancaria, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.Label(Language.cuentaClabe + ":", htmlAttributes: new { id = "cuentaClabeTxt" })</td>
-                        <td>
+                        <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.cuentaClabe + ":", htmlAttributes: new { id = "cuentaClabeTxt" })</td>
+                        <td style="padding-top:8px">
                             @Html.EditorFor(model => model.cuentaClabe, new { htmlAttributes = new { id = "cuentaClabe" } })
                             @Html.ValidationMessageFor(model => model.cuentaClabe, "", new { @class = "text-danger" })
                         </td>
                     </tr>
                     <tr>
-                        <td>@Html.Label(Language.email + ":")</td>
-                        <td>
+                        <td style="padding-top:8px">@Html.Label(Language.email + ":")</td>
+                        <td style="padding-top:8px">
                             @Html.EditorFor(model => model.email)
                             @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
                         </td>
@@ -355,17 +346,15 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>@Html.Label(Language.observaciones + ":")</td>
-                        <td>
-                            @Html.EditorFor(model => model.observaciones, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
+                        <td style="padding-top:8px">@Html.Label(Language.observaciones + ":")</td>
+                        <td style="padding-top:8px" >
+                            @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 3 })
                         </td>
-
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     <tr>
                         <td style="text-align:left;"><input type="submit" value="@Language.agregar" class="btn btn-primary" /></td>
                     </tr>
@@ -382,7 +371,7 @@
 
 <script>
     $(window).load(function () {
-        
+
         $("input[name=tramitarTarjeta]").change(function () {
             var msg = $(this).val();
             validateCuenta(msg);
@@ -414,7 +403,9 @@
             $("#cuenta").hide("slow");
             $('#cuentaTxt').hide("slow");
             $("#cuentaClabe").hide("slow");
-            $('#cuentaClabeTxt').hide("slow");
+            $("#cuentaClabeTxt").hide("slow");
+            $("#bancoTxt").hide("slow");
+            $("#bancoDownList").hide("slow");
         } else {
             $(window).load(function () {
                 // Run code
@@ -422,7 +413,9 @@
             $("#cuenta").show();
             $('#cuentaTxt').show();
             $("#cuentaClabe").show();
-            $('#cuentaClabeTxt').show();
+            $("#cuentaClabeTxt").show();
+            $("#bancoTxt").show();
+            $("#bancoDownList").show();
         }
     }
 
