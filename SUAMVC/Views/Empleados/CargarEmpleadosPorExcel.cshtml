@@ -51,6 +51,12 @@
         </thead>
     </table>
 </div>
+<div class="menubar-header">
+    <a href="@Url.Action("Index", @ViewBag.controllerDestiny, new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId,
+            solicitudId = solicitud.id })" style="text-align:right">
+        <img src="~/Content/Images/back.png" title="Regresar" alt="Regresar" style="border:none;" class="menuIcon" />
+    </a>
+</div>
 
 
 <div class="panel panel-primary">
@@ -62,8 +68,6 @@
             new { enctype = "multipart/form-data" }))
         {
             @Html.Hidden("SolicitudId", solicitud.id)
-
-
 
             if (!IsPost)
             {
@@ -82,8 +86,5 @@
 
         }
     </div>
-</div>
-<div>
-    @Html.ActionLink("A Solicitudes", "Index", "Solicitudes")
 </div>
 
