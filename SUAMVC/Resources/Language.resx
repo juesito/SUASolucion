@@ -497,7 +497,7 @@
     <comment>Etiqueta de la fechade baja</comment>
   </data>
   <data name="fechaFinal" xml:space="preserve">
-    <value>Fecha Baja</value>
+    <value>Fecha Final</value>
     <comment>Etiqueta para fecha final</comment>
   </data>
   <data name="fechaFinalVigencia" xml:space="preserve">
@@ -916,5 +916,23 @@
   </data>
   <data name="tipoSangre" xml:space="preserve">
     <value>Tipo de Sangre</value>
+  </data>
+  <data name="fechaPago" xml:space="preserve">
+    <value>Fecha de Pago</value>
+  </data>
+  <data name="folioCliente" xml:space="preserve">
+    <value>Folio del Cliente</value>
+  </data>
+  <data name="moneda" xml:space="preserve">
+    <value>Moneda</value>
+  </data>
+  <data name="tipoCambio" xml:space="preserve">
+    <value>Tipo de Cambio</value>
+  </data>
+  <data name="tipoPago" xml:space="preserve">
+    <value>Tipo de Pago</value>
+  </data>
+  <data name="z" xml:space="preserve">
+    <value>zzz</value>
   </data>
 </root>
