@@ -230,7 +230,7 @@ namespace SUAMVC.Controllers
                     db.Entry(empleado).State = EntityState.Modified;
                     db.Entry(solicitud).State = EntityState.Modified;
                     db.SaveChanges();
-
+                    return RedirectToAction("Index", "Solicitudes", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
 
                 }
                 catch (DbEntityValidationException ex)
@@ -247,8 +247,6 @@ namespace SUAMVC.Controllers
                         }
                     }
                 }
-
-                return RedirectToAction("Index", "Solicitudes", new { id = solicitudId });
             }
 
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);

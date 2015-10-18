@@ -68,11 +68,7 @@
     }
     if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
-        gridColumns.Add(grid.Column(header: "Modificar Empleado", format: @<text><a href="@Url.Action("ModificarEmpleado", "Empleados", new { id = item.id, clienteId= item.clienteId })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
-    if (SecurityUserModel.verificarPermiso("1", "1", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Layout Alta Personal", format: @<text><a href="@Url.Action("CargarEmpleadosPorExcel", "Empleados", new { id = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "Modificar Empleado", format: @<text><a href="@Url.Action("ModificarEmpleado", "Empleados", new { solicitudId = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
     if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
