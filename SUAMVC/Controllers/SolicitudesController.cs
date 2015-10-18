@@ -286,8 +286,8 @@ namespace SUAMVC.Controllers
                 Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("ESTASOL") && s.descripcion.Equals("Enviado")).First();
                 solicitud.estatusSolicitud = concepto.id;
 
-                //Email email = new Email();
-                //email.enviarPorClienteTipo("A", solicitud.id, true);
+                Email email = new Email();
+                email.enviarPorClienteTipo("A", solicitud.id, true);
 
                 db.Entry(solicitud).State = EntityState.Modified;
                 db.SaveChanges();

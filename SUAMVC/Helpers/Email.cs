@@ -82,7 +82,7 @@ namespace SUAMVC.Helpers
             }//Es solicitud de Baja de personal?
 
             //Enviamos el email ya preparado.
-            this.EnviarEmail(email);
+            this.EnviarEmail(email, solicitud);
 
         }
 
@@ -121,7 +121,7 @@ namespace SUAMVC.Helpers
             return isSended;
         }
 
-        public bool EnviarEmail(EmailModel email)
+        public bool EnviarEmail(EmailModel email, Solicitud solicitud)
         {
             //Preparamos el mensaje del email
             MailMessage msg = new MailMessage();
@@ -133,7 +133,9 @@ namespace SUAMVC.Helpers
                 msg.To.Add(dm.email.Trim());
             }
 
-            msg.From = new MailAddress(email.from, "Sistma CIAH" , System.Text.Encoding.UTF8);
+            String msgHeader = "Solicitud del cliente: " + solicitud.Cliente.descripcion.Trim();
+
+            msg.From = new MailAddress(email.from, msgHeader , System.Text.Encoding.UTF8);
             msg.Subject = email.subject;
             msg.SubjectEncoding = System.Text.Encoding.UTF8;
             msg.Body = email.msg;
