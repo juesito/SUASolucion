@@ -922,9 +922,10 @@ namespace SUAMVC.Controllers
                     }
 
                 }
+                return RedirectToAction("Index", "Solicitudes", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
             }
 
-            return RedirectToAction("Index", "Solicitudes");
+            return RedirectToAction("CargarEmpleadosPorExcel", "Empleados", new { id = solicitudId });
         }
 
         //BAJA EMPLEADOS
