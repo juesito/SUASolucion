@@ -181,7 +181,7 @@ namespace SUAMVC.Controllers
                         }
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId});
             }
 
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
@@ -231,7 +231,7 @@ namespace SUAMVC.Controllers
             {
                 db.Entry(solicitud).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusSolicitud);
@@ -272,7 +272,7 @@ namespace SUAMVC.Controllers
             Solicitud solicitud = db.Solicituds.Find(id);
             db.Solicituds.Remove(solicitud);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
 
         public ActionResult EnviarSolicitud(string id)
@@ -286,8 +286,8 @@ namespace SUAMVC.Controllers
                 Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("ESTASOL") && s.descripcion.Equals("Enviado")).First();
                 solicitud.estatusSolicitud = concepto.id;
 
-                Email email = new Email();
-                email.enviarPorClienteTipo("A", solicitud.id, true);
+                //Email email = new Email();
+                //email.enviarPorClienteTipo("A", solicitud.id, true);
 
                 db.Entry(solicitud).State = EntityState.Modified;
                 db.SaveChanges();
@@ -295,7 +295,7 @@ namespace SUAMVC.Controllers
                 TempData["message"] = "Solicitud Enviada Satisfactoriamente.";
             }
 
-            return RedirectToAction("Index", new { clienteId = solicitud.clienteId, folioId = solicitud.folioSolicitud });
+            return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
 
         //Lay out Solicitud
@@ -321,8 +321,6 @@ namespace SUAMVC.Controllers
                                   select s).ToList();
 
                 solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(tipoSolicitud.id)).ToList();
-
-
 
                 DateTime date = DateTime.Now;
                 String path = @"C:\\SUA\\Exceles\\";

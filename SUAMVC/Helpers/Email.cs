@@ -35,36 +35,36 @@ namespace SUAMVC.Helpers
             Solicitud solicitud = (from sol in db.Solicituds
                                    where sol.id.Equals(solicitudId)
                                    select sol).First();
-            
+
             int clienteId = solicitud.clienteId;
 
             Cliente cliente = (from d in db.Clientes
                                where d.Id.Equals(clienteId)
                                select d).First();
 
-            //Obtenemos el email del cliente
-            if (!String.IsNullOrEmpty(cliente.email)) {
-                DestinatorModel destinator = new DestinatorModel(cliente.nombre.Trim(), cliente.email.Trim());
-                email.to.Add(destinator);
-            }
+            ////Obtenemos el email del cliente
+            //if (!String.IsNullOrEmpty(cliente.email)) {
+            //    DestinatorModel destinator = new DestinatorModel(cliente.nombre.Trim(), cliente.email.Trim());
+            //    email.to.Add(destinator);
+            //}
 
-            //Emails adicionales del cliente si es que tiene capturados
-            foreach (ListaValidacionCliente lvc in cliente.ListaValidacionClientes) {
-                if (!String.IsNullOrEmpty(lvc.emailAutorizador)) {
-                    DestinatorModel destinator = new DestinatorModel(lvc.autorizador, lvc.emailAutorizador);
-                    email.to.Add(destinator);
-                }//Tiene capturado email autorizador?
-                if (!String.IsNullOrEmpty(lvc.emailValidador))
-                {
-                    DestinatorModel destinator = new DestinatorModel(lvc.validador, lvc.emailValidador);
-                    email.to.Add(destinator);
-                }//Tiene capturado email validador?
-                if (!String.IsNullOrEmpty(lvc.listaEmailAux))
-                {
-                    DestinatorModel destinator = new DestinatorModel(lvc.listaEmailAux);
-                    email.to.Add(destinator);
-                }//Tiene capturado email auxiliar?
-            }//Recorremos las listas de validaciones del cliente.
+            ////Emails adicionales del cliente si es que tiene capturados
+            //foreach (ListaValidacionCliente lvc in cliente.ListaValidacionClientes) {
+            //    if (!String.IsNullOrEmpty(lvc.emailAutorizador)) {
+            //        DestinatorModel destinator = new DestinatorModel(lvc.autorizador, lvc.emailAutorizador);
+            //        email.to.Add(destinator);
+            //    }//Tiene capturado email autorizador?
+            //    if (!String.IsNullOrEmpty(lvc.emailValidador))
+            //    {
+            //        DestinatorModel destinator = new DestinatorModel(lvc.validador, lvc.emailValidador);
+            //        email.to.Add(destinator);
+            //    }//Tiene capturado email validador?
+            //    if (!String.IsNullOrEmpty(lvc.listaEmailAux))
+            //    {
+            //        DestinatorModel destinator = new DestinatorModel(lvc.listaEmailAux);
+            //        email.to.Add(destinator);
+            //    }//Tiene capturado email auxiliar?
+            //}//Recorremos las listas de validaciones del cliente.
 
             if (tipo.Equals("A"))
             {

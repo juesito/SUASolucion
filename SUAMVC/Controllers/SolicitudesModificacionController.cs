@@ -240,7 +240,7 @@ namespace SUAMVC.Controllers
             {
                 db.Entry(solicitud).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusSolicitud);
@@ -281,7 +281,7 @@ namespace SUAMVC.Controllers
             Solicitud solicitud = db.Solicituds.Find(id);
             db.Solicituds.Remove(solicitud);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
 
         //Lay out SolicitudBaja
