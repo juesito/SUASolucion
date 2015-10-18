@@ -1096,7 +1096,7 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fecha Baja.
+        ///   Looks up a localized string similar to Fecha Final.
         /// </summary>
         public static string fechaFinal {
             get {
@@ -1168,6 +1168,15 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fecha de Pago.
+        /// </summary>
+        public static string fechaPago {
+            get {
+                return ResourceManager.GetString("fechaPago", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fecha Registro.
         /// </summary>
         public static string fechaRegistro {
@@ -1218,6 +1227,15 @@ namespace SUAMVC.Resources {
         public static string firmo {
             get {
                 return ResourceManager.GetString("firmo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Folio del Cliente.
+        /// </summary>
+        public static string folioCliente {
+            get {
+                return ResourceManager.GetString("folioCliente", resourceCulture);
             }
         }
         
@@ -1398,6 +1416,15 @@ namespace SUAMVC.Resources {
         public static string modulDes {
             get {
                 return ResourceManager.GetString("modulDes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Moneda.
+        /// </summary>
+        public static string moneda {
+            get {
+                return ResourceManager.GetString("moneda", resourceCulture);
             }
         }
         
@@ -1942,11 +1969,29 @@ namespace SUAMVC.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tipo de Cambio.
+        /// </summary>
+        public static string tipoCambio {
+            get {
+                return ResourceManager.GetString("tipoCambio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tipo de Contrato.
         /// </summary>
         public static string tipoContrato {
             get {
                 return ResourceManager.GetString("tipoContrato", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo de Pago.
+        /// </summary>
+        public static string tipoPago {
+            get {
+                return ResourceManager.GetString("tipoPago", resourceCulture);
             }
         }
         
@@ -2046,6 +2091,15 @@ namespace SUAMVC.Resources {
         public static string vsm {
             get {
                 return ResourceManager.GetString("vsm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to zzz.
+        /// </summary>
+        public static string z {
+            get {
+                return ResourceManager.GetString("z", resourceCulture);
             }
         }
     }

@@ -556,9 +556,10 @@ namespace SUAMVC.Controllers
                               "       a.SAL_IMSS , a.SAL_INFO, a.FEC_ALT   , a.FEC_BAJ , a.TIP_TRA , " +
                               "       a.SEM_JORD , a.PAG_INFO, a.TIP_DSC   , a.VAL_DSC , a.CVE_UBC , " +
                               "       a.TMP_NOM  , a.FEC_DSC , a.FEC_FinDsc, a.ARTI_33 , a.SAL_AR33," +
-                              "       a.TRA_PENIV, a.ESTADO  , a.CVE_MUN   , b.OCUPA   , b.LUG_NAC  " +
-                              "  FROM Asegura a LEFT JOIN Afiliacion b  " +
-                              "    ON a.REG_PATR = b.REG_PATR AND  a.NUM_AFIL = b.NUM_AFIL " +
+                              "       a.TRA_PENIV, a.ESTADO  , a.CVE_MUN  " +
+                    //                              "       a.TRA_PENIV, a.ESTADO  , a.CVE_MUN   , b.OCUPA   , b.LUG_NAC  " +
+                              "  FROM Asegura a " +
+                    //                              "    ON a.REG_PATR = b.REG_PATR AND  a.NUM_AFIL = b.NUM_AFIL " +
                               "  WHERE a.PAG_INFO <> '' " +
                               "  ORDER BY a.REG_PATR, a.NUM_AFIL ";
 
@@ -599,7 +600,6 @@ namespace SUAMVC.Controllers
                         Acreditado acreditado = new Acreditado();
                         String numAfil = rows["NUM_AFIL"].ToString().Trim();
                         String numCred = rows["PAG_INFO"].ToString().Trim();
-
                         //Revisamos la existencia del registro
                         var acreditadoExist = from b in db.Acreditados
                                               where b.Patrone.registro.Equals(patron.registro.Trim())
@@ -677,7 +677,7 @@ namespace SUAMVC.Controllers
                         acreditado.apellidoPaterno = substrings[0];
                         acreditado.apellidoMaterno = substrings[1];
                         acreditado.nombreCompleto = substrings[0] + " " + substrings[1] + " " + substrings[2];
-                        acreditado.ocupacion = rows["OCUPA"].ToString();
+                        //                        acreditado.ocupacion = rows["OCUPA"].ToString();
                         acreditado.fechaAlta = DateTime.Parse(rows["FEC_ALT"].ToString());
 
                         if (rows["FEC_BAJ"].ToString().Equals(""))
@@ -710,24 +710,7 @@ namespace SUAMVC.Controllers
                             acreditado.fechaFinDescuento = DateTime.Parse(rows["FEC_FinDsc"].ToString());
                         }//Trae fecha valida?
 
-                        sSQL = "SELECT a.TIP_MOVS, a.VAL_DES  " +
-                              "  FROM Movtos a  " +
-                              "  WHERE a.REG_PATR = '" + patron.registro.Trim() + "'" +
-                              "    AND a.NUM_AFIL = '" + numAfil + "'" +
-                              "  ORDER BY a.FEC_INI DESC ";
-
-                //Ejecutamos la consulta
-                DataTable mt = sua.ejecutarSQL(sSQL);
-                String valorDescuento = "0";
-                foreach (DataRow res in mt.Rows)
-                {
-                    String tpoMov = res["TIP_MOVS"].ToString();
-                    valorDescuento = res["VAL_DES"].ToString();
-                    if (tpoMov.Equals("19") || tpoMov.Equals("15") || tpoMov.Equals("17"))
-                    {
-                        break;
-                    }
-                }
+                        String valorDescuento = sua.valorDescuento(acreditado.Patrone.registro, acreditado.numeroAfiliacion);
 
                         DateTime date = DateTime.Now;
 
@@ -838,7 +821,7 @@ namespace SUAMVC.Controllers
         {
             DateTime date = DateTime.Now;
 
-//            Decimal valueToCalculate = Decimal.Parse(rows["VAL_DSC"].ToString());
+            //            Decimal valueToCalculate = Decimal.Parse(rows["VAL_DSC"].ToString());
             Decimal valueToCalculate = Decimal.Parse(valorDescuento);
             acreditado.sdi = Double.Parse(rows["SAL_IMSS"].ToString());
             Decimal sdi = Decimal.Parse(rows["SAL_IMSS"].ToString());
@@ -924,9 +907,11 @@ namespace SUAMVC.Controllers
                               "       a.SAL_IMSS , a.SAL_INFO, a.FEC_ALT   , a.FEC_BAJ , a.TIP_TRA , " +
                               "       a.SEM_JORD , a.PAG_INFO, a.TIP_DSC   , a.VAL_DSC , a.CVE_UBC , " +
                               "       a.TMP_NOM  , a.FEC_DSC , a.FEC_FinDsc, a.ARTI_33 , a.SAL_AR33," +
-                              "       a.TRA_PENIV, a.ESTADO  , a.CVE_MUN   , b.OCUPA   , b.LUG_NAC  " +
-                              "  FROM Asegura a LEFT JOIN Afiliacion b  " +
-                              "    ON a.REG_PATR = b.REG_PATR AND  a.NUM_AFIL = b.NUM_AFIL " +
+                              "       a.TRA_PENIV, a.ESTADO  , a.CVE_MUN  " +
+                              "  FROM Asegura  a " +
+                    //                              "       a.TRA_PENIV, a.ESTADO  , a.CVE_MUN   , b.OCUPA   , b.LUG_NAC  " +
+                    //                              "  FROM Asegura a LEFT JOIN Afiliacion b  " +
+                    //                              "    ON a.REG_PATR = b.REG_PATR AND  a.NUM_AFIL = b.NUM_AFIL " +
                               "  ORDER BY a.NUM_AFIL ";
 
                 //Ejecutamos la consulta
@@ -1100,15 +1085,28 @@ namespace SUAMVC.Controllers
                         asegurado.estado = rows["ESTADO"].ToString();
                         asegurado.claveMunicipio = rows["CVE_MUN"].ToString();
                         asegurado.Plaza_id = patron.Plaza_id;
-                        asegurado.ocupacion = rows["OCUPA"].ToString();
-                        if (rows["OCUPA"].ToString().Equals("EXTRANJERO"))
-                        {
-                            asegurado.extranjero = "SI";
-                        }
-                        else
-                        {
-                            asegurado.extranjero = "NO";
-                        }
+
+                        //sSQL = "SELECT OCUPA  " +
+                        //       "  FROM Afiliacion  " +
+                        //       "  WHERE REG_PATR = '" + patron.registro.Trim() + "'" +
+                        //       "  AND NUM_AFIL = '" + numAfil + "'";
+
+                        ////Ejecutamos la consulta
+                        //DataTable mt = sua.ejecutarSQL(sSQL);
+                        //foreach (DataRow res in mt.Rows)
+                        //{
+                        //    asegurado.ocupacion = res["OCUPA"].ToString();
+                        //    if (res["OCUPA"].ToString().Equals("EXTRANJERO"))
+                        //    {
+                        //        asegurado.extranjero = "SI";
+                        //    }
+                        //    else
+                        //    {
+                        //        asegurado.extranjero = "NO";
+                        //    }
+                        //    break;
+                        //}
+
 
                         DateTime date = DateTime.Now;
                         if (!bExist)
@@ -1531,6 +1529,7 @@ namespace SUAMVC.Controllers
                 acreditado.fechaAlta = asegurado.fechaAlta;
                 acreditado.sd = Decimal.Parse(asegurado.salarioDiario.ToString());
                 acreditado.sdi = Double.Parse(asegurado.salarioImss.ToString());
+                acreditado.ocupacion = asegurado.ocupacion;
 
                 //calcular el descuento tipo uno que ocupa sdi
                 DateTime date = DateTime.Now;
@@ -1647,21 +1646,39 @@ namespace SUAMVC.Controllers
                                 }//Definimos los valores para la plaza
                             }
 
-                            if (primaRT.registroPatronal != 0)
+
+                            try
                             {
-                                primaRT.primaRT1 = Decimal.Parse(rows["Prima_Rt"].ToString());
-                                db.Entry(primaRT).State = EntityState.Modified;
+                                if (primaRT.registroPatronal != 0)
+                                {
+                                    primaRT.primaRT1 = Decimal.Parse(rows["Prima_Rt"].ToString());
+                                    db.Entry(primaRT).State = EntityState.Modified;
+                                }
+                                else
+                                {
+                                    primaRT.registroPatronal = patronId;
+                                    primaRT.anio = int.Parse(rows["Ano"].ToString());
+                                    primaRT.mes = int.Parse(rows["ValMes"].ToString());
+                                    primaRT.primaRT1 = Decimal.Parse(rows["Prima_Rt"].ToString());
+                                    primaRT.nomMes = rows["Mes"].ToString();
+                                    db.PrimaRTs.Add(primaRT);
+                                }
+                                db.SaveChanges();
                             }
-                            else
+                            catch (DbEntityValidationException ex)
                             {
-                                primaRT.registroPatronal = patronId;
-                                primaRT.anio = int.Parse(rows["Ano"].ToString());
-                                primaRT.mes = int.Parse(rows["ValMes"].ToString());
-                                primaRT.primaRT1 = Decimal.Parse(rows["Prima_Rt"].ToString());
-                                primaRT.nomMes = rows["Mes"].ToString();
-                                db.PrimaRTs.Add(primaRT);
+                                StringBuilder sb = new StringBuilder();
+
+                                foreach (var failure in ex.EntityValidationErrors)
+                                {
+                                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                                    foreach (var error in failure.ValidationErrors)
+                                    {
+                                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                                        sb.AppendLine();
+                                    }
+                                }
                             }
-                            db.SaveChanges();
                         }
                     }
                 }
@@ -1681,7 +1698,6 @@ namespace SUAMVC.Controllers
                 }
             }
         }
-
 
         protected override void Dispose(bool disposing)
         {
