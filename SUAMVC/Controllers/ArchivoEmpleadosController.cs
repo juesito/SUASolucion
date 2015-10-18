@@ -33,7 +33,7 @@ namespace SUAMVC.Controllers
                     Empleado empleado = db.Empleados.Find(empId);
 
                     //Filtramos los archivos por id y tipo documento
-                    var ArchivoEmpleadoes = db.ArchivoEmpleados.
+                    var ArchivoEmpleadoes = db.ArchivoEmpleadoes.
                         Include(a => a.Concepto).Include(a => a.Empleado).Include(a => a.Usuario)
                         .Where(a => a.empleadoId.Equals(empId) && a.tipoArchivo.Equals(tipoArchivo.id));
 
@@ -62,7 +62,7 @@ namespace SUAMVC.Controllers
                     Empleado empleado = db.Empleados.Find(empId);
 
                     //Filtramos los archivos por id y tipo documento
-                    var ArchivoEmpleadoes = db.ArchivoEmpleados.
+                    var ArchivoEmpleadoes = db.ArchivoEmpleadoes.
                         Include(a => a.Concepto).Include(a => a.Empleado).Include(a => a.Usuario)
                         .Where(a => a.empleadoId.Equals(empId));
 
@@ -90,7 +90,7 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArchivoEmpleado archivoEmpleado = db.ArchivoEmpleados.Find(id);
+            ArchivoEmpleado archivoEmpleado = db.ArchivoEmpleadoes.Find(id);
             if (archivoEmpleado == null)
             {
                 return HttpNotFound();
@@ -137,7 +137,7 @@ namespace SUAMVC.Controllers
 
                     try
                     {
-                        db.ArchivoEmpleados.Add(archivoEmpleado);
+                        db.ArchivoEmpleadoes.Add(archivoEmpleado);
                         db.SaveChanges();
                     }
                     catch (DbEntityValidationException dbEx)
@@ -169,7 +169,7 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArchivoEmpleado archivoEmpleado = db.ArchivoEmpleados.Find(id);
+            ArchivoEmpleado archivoEmpleado = db.ArchivoEmpleadoes.Find(id);
             if (archivoEmpleado == null)
             {
                 return HttpNotFound();
@@ -255,7 +255,7 @@ namespace SUAMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArchivoEmpleado archivoEmpleado = db.ArchivoEmpleados.Find(id);
+            ArchivoEmpleado archivoEmpleado = db.ArchivoEmpleadoes.Find(id);
             if (archivoEmpleado == null)
             {
                 return HttpNotFound();
@@ -270,10 +270,10 @@ namespace SUAMVC.Controllers
         {
             ToolsHelper th = new ToolsHelper();
 
-            ArchivoEmpleado archivosEmpleado = db.ArchivoEmpleados.Find(id);
-            archivosEmpleado = db.ArchivoEmpleados.Find(id);
+            ArchivoEmpleado archivosEmpleado = db.ArchivoEmpleadoes.Find(id);
+            archivosEmpleado = db.ArchivoEmpleadoes.Find(id);
             th.BorrarArchivo(archivosEmpleado.archivo.Trim());
-            db.ArchivoEmpleados.Remove(archivosEmpleado);
+            db.ArchivoEmpleadoes.Remove(archivosEmpleado);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
