@@ -20,7 +20,7 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Empleados
-        public ActionResult Index(string id, string estatus)
+        public ActionResult Index(string id, string estatus, String controllerDestiny)
         {
 
             Solicitud solicitud = new Solicitud();
@@ -39,6 +39,7 @@ namespace SUAMVC.Controllers
                 solicitud = db.Solicituds.Find(idTemp);
 
                 ViewBag.solicitud = solicitud;
+                ViewBag.controllerDestiny = controllerDestiny;
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
                                  where s.solicitudId.Equals(idTemp)
