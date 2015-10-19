@@ -37,6 +37,7 @@ namespace SUADATOS
         public int id { get; set; }
         public string grupo { get; set; }
         public string descripcion { get; set; }
+        public string valorConcepto { get; set; }
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     

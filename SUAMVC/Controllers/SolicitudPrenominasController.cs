@@ -446,7 +446,7 @@ namespace SUAMVC.Controllers
 
                 DateTime date = DateTime.Now;
                 String path = @"C:\\SUA\\Exceles\\";
-                String fileName = @"SolicitudPrenomina-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fileName = @"SySDiasLaborados-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
                 String fullName = path + fileName;
                 detallePrenominaList = detallePrenomina.ToList();
 
@@ -666,7 +666,7 @@ namespace SUAMVC.Controllers
 
                 DateTime date = DateTime.Now;
                 String path = @"C:\\SUA\\Exceles\\";
-                String fileName = @"SolicitudPrenomina-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fileName = @"SySporIngresos-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
                 String fullName = path + fileName;
                 detallePrenominaList = detallePrenomina.ToList();
 
@@ -753,55 +753,55 @@ namespace SUAMVC.Controllers
             sheetData.AppendChild(row);
 
             index = index + 2;
-            row = eh.addNewCellToRow(index, row, "N° TRABAJADORES", headerColumns[1] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "N° TRABAJADORES", headerColumns[0] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "APELLIDO PATERNO", headerColumns[2] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "APELLIDO PATERNO", headerColumns[1] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "APELLIDO MATERNO", headerColumns[3] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "APELLIDO MATERNO", headerColumns[2] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "NOMBRES", headerColumns[4] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "NOMBRES", headerColumns[3] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "DIAS LABORADOS", headerColumns[5] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "DIAS LABORADOS", headerColumns[4] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "TOTAL SYS", headerColumns[6] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "TOTAL SYS", headerColumns[5] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "GRATIFICACIONES", headerColumns[7] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "GRATIFICACIONES", headerColumns[6] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "PRIMA VACACIONAL", headerColumns[8] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "PRIMA VACACIONAL", headerColumns[7] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "INFONAVIT", headerColumns[7] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "INFONAVIT", headerColumns[8] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "FONACOT", headerColumns[8] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "FONACOT", headerColumns[9] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "DESCUENTO POR PENSIÓN", headerColumns[9] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "DESCUENTO POR PENSIÓN", headerColumns[10] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "DESCUENTOS REEMBOLSO", headerColumns[10] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "DESCUENTOS REEMBOLSO", headerColumns[11] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "OTROS DESCUENTOS", headerColumns[11] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "OTROS DESCUENTOS", headerColumns[12] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "NETO A PAGAR", headerColumns[12] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "NETO A PAGAR", headerColumns[13] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "CUENTA", headerColumns[13] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CUENTA", headerColumns[14] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "BANCO", headerColumns[14] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "BANCO", headerColumns[15] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "CATEGORÍA", headerColumns[15] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CATEGORÍA", headerColumns[16] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
@@ -884,7 +884,7 @@ namespace SUAMVC.Controllers
 
                 DateTime date = DateTime.Now;
                 String path = @"C:\\SUA\\Exceles\\";
-                String fileName = @"SolicitudPrenomina-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fileName = @"SySIAS-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
                 String fullName = path + fileName;
                 detallePrenominaList = detallePrenomina.ToList();
 
@@ -1060,7 +1060,7 @@ namespace SUAMVC.Controllers
 
                 DateTime date = DateTime.Now;
                 String path = @"C:\\SUA\\Exceles\\";
-                String fileName = @"SolicitudPrenomina-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fileName = @"SySIASdiasLaborados-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
                 String fullName = path + fileName;
                 detallePrenominaList = detallePrenomina.ToList();
 
@@ -1248,7 +1248,7 @@ namespace SUAMVC.Controllers
 
                 DateTime date = DateTime.Now;
                 String path = @"C:\\SUA\\Exceles\\";
-                String fileName = @"SolicitudPrenomina-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fileName = @"Finiquito-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
                 String fullName = path + fileName;
                 detallePrenominaList = detallePrenomina.ToList();
 
@@ -1488,7 +1488,7 @@ namespace SUAMVC.Controllers
 
                 DateTime date = DateTime.Now;
                 String path = @"C:\\SUA\\Exceles\\";
-                String fileName = @"SolicitudPrenomina-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fileName = @"Aguinaldo-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
                 String fullName = path + fileName;
                 detallePrenominaList = detallePrenomina.ToList();
 
@@ -1674,7 +1674,7 @@ namespace SUAMVC.Controllers
 
                 DateTime date = DateTime.Now;
                 String path = @"C:\\SUA\\Exceles\\";
-                String fileName = @"SolicitudPrenomina-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fileName = @"PagoNormalPAC-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
                 String fullName = path + fileName;
                 detallePrenominaList = detallePrenomina.ToList();
 

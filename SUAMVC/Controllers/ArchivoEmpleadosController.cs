@@ -15,11 +15,11 @@ using System.Diagnostics;
 
 namespace SUAMVC.Controllers
 {
-    public class ArchivoEmpleadosController : Controller
+    public class ArchivoEmpleadoesController : Controller
     {
         private suaEntities db = new suaEntities();
 
-        // GET: ArchivoEmpleados
+        // GET: ArchivoEmpleadoes
         public ActionResult Index(String empleadoId, String tipo)
         {
             if (!String.IsNullOrEmpty(tipo))
@@ -83,7 +83,7 @@ namespace SUAMVC.Controllers
 
         }
 
-        // GET: ArchivoEmpleados/Details/5
+        // GET: ArchivoEmpleadoes/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -98,7 +98,7 @@ namespace SUAMVC.Controllers
             return View(archivoEmpleado);
         }
 
-        // GET: ArchivoEmpleados/Create
+        // GET: ArchivoEmpleadoes/Create
         public ActionResult Create(String empleadoId)
         {
             ArchivoEmpleado archivoEmpleado = new ArchivoEmpleado();
@@ -113,7 +113,7 @@ namespace SUAMVC.Controllers
             return View(archivoEmpleado);
         }
 
-        // POST: ArchivoEmpleados/Create
+        // POST: ArchivoEmpleadoes/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -162,7 +162,7 @@ namespace SUAMVC.Controllers
             return View(archivoEmpleado);
         }
 
-        // GET: ArchivoEmpleados/Edit/5
+        // GET: ArchivoEmpleadoes/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -180,7 +180,7 @@ namespace SUAMVC.Controllers
             return View(archivoEmpleado);
         }
 
-        // POST: ArchivoEmpleados/Edit/5
+        // POST: ArchivoEmpleadoes/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -248,7 +248,7 @@ namespace SUAMVC.Controllers
             return fileName;
         }
 
-        // GET: ArchivoEmpleados/Delete/5
+        // GET: ArchivoEmpleadoes/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)

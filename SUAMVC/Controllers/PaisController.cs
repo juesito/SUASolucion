@@ -56,8 +56,17 @@ namespace SUAMVC.Controllers
 
                 pais.fechaCreacion = DateTime.Now;
                 pais.usuarioId = usuario.Id;
-                db.Paises.Add(pais);
-                db.SaveChanges();
+                Pais paisR = db.Paises.Where(s => s.descripcion.Trim().ToLower().Equals(pais.descripcion.Trim().ToLower())).FirstOrDefault();
+                if(paisR != null)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    db.Paises.Add(pais);
+                    db.SaveChanges();
+                }
+                
                 return RedirectToAction("Index");
             }
 

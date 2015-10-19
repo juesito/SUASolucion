@@ -43,13 +43,13 @@
     {  @item.Empleado.nombre }</text>, canSort: true));
     gridColumns.Add(grid.Column("diasLaborados", "DT", format: @<text> @if (@item.diasLaborados != null)
     {
-        <span id="diasLaborados" class="display-mode">$@item.diasLaborados</span>
+        <span id="diasLaborados" class="display-mode">@item.diasLaborados</span>
         @Html.Editor("DiasLaborados", new { htmlAttributes = new { @class = "edit-mode", size = 3 } })
     }</text>,
                                    canSort: true));
     gridColumns.Add(grid.Column("Empleado.salarioReal", Language.salarioReal, format: @<text> @if (@item.EmpleadoId != null)
     {  <p>$@item.Empleado.salarioReal</p> }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Empleado.SDI.descripcion", "SDI", format: @<text> @if (@item.EmpleadoId != null)
+    gridColumns.Add(grid.Column("Empleado.SDI.descripcion", "SDI", format: @<text> @if (@item.Empleado.SDI != null)
     {  <p>$@item.Empleado.SDI.descripcion</p> }</text>, canSort: true));
     gridColumns.Add(grid.Column("Empleado.nss", "NSS", format: @<text> @if (@item.id != null)
     {  @item.Empleado.nss }</text>, canSort: true));
@@ -104,7 +104,7 @@ format: @<text>
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
 
-            <a href="@Url.Action("Delete", "Solicitudes", new { id = item.id })">
+            <a href="@Url.Action("Delete", "DetallePrenominas", new { id = item.id })">
                 <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
             </a>
         </text>));
@@ -134,11 +134,7 @@ tableStyle: "table table-striped tableSua"
     <div>Detalle Prenominas<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<div class="menubar-header">
-    <a href="@Url.Action("AddEmployees", "DetallePrenominas", new { solicitudId = ViewBag.solicitudId })" style="text-align:right">
-        <img src="~/Content/Images/selectData.png" title="Añadir Empleados" alt="Añadir Empleados" style="border:none;" class="menuIcon" />
-    </a>
-</div>
+
 <div class="marqueeFilter">
     @if (String.IsNullOrEmpty(msg))
     {
@@ -175,7 +171,15 @@ tableStyle: "table table-striped tableSua"
         </tr>
     </table>
 </div>
-
+<div class="menubar-header">
+    <a href="@Url.Action("Index", "SolicitudPrenominas", new { clienteId = solicitud.clienteId, plazaId = solicitud.plazaId,
+            proyectoId = solicitud.proyectoId, ejercicioId = solicitud.anno })" style="text-align:right">
+        <img src="~/Content/Images/back.png" title="Regresar" alt="Regresar" style="border:none;" class="menuIcon" />
+    </a>
+    <a href="@Url.Action("AddEmployees", "DetallePrenominas", new { solicitudId = ViewBag.solicitudId })" style="text-align:right">
+        <img src="~/Content/Images/selectData.png" title="Añadir Empleados" alt="Añadir Empleados" style="border:none;" class="menuIcon" />
+    </a>
+</div>
 @if (!tableHtml.IsEmpty())
 {
     <div id="table-container" class="table-container">
@@ -198,7 +202,7 @@ tableStyle: "table table-striped tableSua"
             
             tr.find('.edit-mode, .display-mode').toggle();
             var tr = $(this).parents('tr:first');
-            tr.find('#DiasLaborados').val(dl.replace("$",""));
+            tr.find('#DiasLaborados').val(dl);
             tr.find('#Gratificacion').val(gr.replace("$",""));
             tr.find('#PrimaVacacional').val(pv.replace("$",""));
             tr.find('#DescuentoInfonavit').val(di.replace("$",""));

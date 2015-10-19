@@ -76,15 +76,89 @@
         gridColumns.Add(grid.Column(header: "Personal", format: @<text><a href="@Url.Action("UploadFile", "Movimientos", new { id = item.id })"><img src="~/Content/Images/people-b.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
 
-    gridColumns.Add(grid.Column(header: "Afiliación", format: @<text><a href="@Url.Action("crearExcelAfiliacion", "PanelSolicitud", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    {
+        gridColumns.Add(grid.Column(header: "Afiliación", format: @<text>
+        @if (item.noTrabajadores > 0)
+        {
+            <a href="@Url.Action("crearExcelAfiliacion", "PanelSolicitud", new { solicitudId = item.id })">
+                <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+            </a>
+        }
+            </text>));
+    }
 
-    gridColumns.Add(grid.Column(header: "Jurídico", format: @<text><a href="@Url.Action("crearExcelJuridico", "PanelSolicitud", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    {
+        gridColumns.Add(grid.Column(header: "Jurídico", format: @<text>
+            @if (item.noTrabajadores > 0)
+            {
+                <a href="@Url.Action("crearExcelJuridico", "PanelSolicitud", new { solicitudId = item.id })">
+                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
 
-    gridColumns.Add(grid.Column(header: "Nómina", format: @<text><a href="@Url.Action("crearExcelNomina", "PanelSolicitud", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    {
+        gridColumns.Add(grid.Column(header: "Nómina", format: @<text>
+            @if (item.noTrabajadores > 0)
+            {
+                <a href="@Url.Action("crearExcelNomina", "PanelSolicitud", new { solicitudId = item.id })">
+                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
 
-    gridColumns.Add(grid.Column(header: "Tarjeta Santander", format: @<text><a href="@Url.Action("crearExcelTarjetaSantander", "PanelSolicitud", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    {
+        gridColumns.Add(grid.Column(header: "Tarjeta Santander", format: @<text>
+            @if (item.noTrabajadores > 0)
+            {
+                <a href="@Url.Action("crearExcelTarjetaSantander", "PanelSolicitud", new { solicitudId = item.id })">
+                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
 
-    gridColumns.Add(grid.Column(header: "Detalle Empleados", format: @<text><a href="@Url.Action("crearExcelDetalleEmpleados", "PanelSolicitud", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    {
+        gridColumns.Add(grid.Column(header: "Tarjeta Banorte", format: @<text>
+            @if (item.noTrabajadores > 0)
+            {
+                <a href="@Url.Action("crearExcelTarjetaBanorte", "PanelSolicitud", new { solicitudId = item.id })">
+                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
+
+    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    {
+        gridColumns.Add(grid.Column(header: "Tarjeta Bancomer", format: @<text>
+            @if (item.noTrabajadores > 0)
+            {
+                <a href="@Url.Action("crearExcelTarjetaBancomer", "PanelSolicitud", new { solicitudId = item.id })">
+                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
+
+    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    {
+        gridColumns.Add(grid.Column(header: "Detalle Empleados", format: @<text>
+            @if (item.noTrabajadores > 0)
+            {
+                <a href="@Url.Action("crearExcelDetalleEmpleados", "PanelSolicitud", new { solicitudId = item.id })">
+                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
 
 
     sb.Append(grid.GetHtml(
