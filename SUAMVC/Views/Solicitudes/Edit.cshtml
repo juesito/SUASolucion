@@ -24,7 +24,7 @@
         <div class="panel-heading">
             Modificar Solicitud
         </div>
-        <div class="panel-body" style="font-size:10px; background-color: #fafbfc">
+        <div class="panel-body" style="font-size:10px">
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.id)
@@ -45,65 +45,96 @@
                 @Html.HiddenFor(model => model.noTrabajadores)
                 @Html.HiddenFor(model => model.tipoSolicitud)
                 
-                
-                <table style="font-size:10px;margin:0 auto; width:700px; ">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <table style="font-size:10px; width:400px; ">
                     <tr>
-                        <td>
-                            @Html.LabelFor(model => model.clienteId, "clienteId")
+                        <th colspan="1"> </th>
+                        <td> @Html.Label(@Language.cliente + ":")</td>
+                        <td style="padding-top:4px; padding-left:8px">   @Html.Label(Model.Cliente.descripcion, new { style = "width: 200px;" })</td>
+                        <th colspan="1"> </th>
+                        <td> @Html.Label(@Language.plaza + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.plazasDrownListNS(usuario.Id, "plazaId")
                         </td>
-                        <td>
-                            @Html.Label(Model.Cliente.descripcion)
-                        </td>
-                        <td>
-                            @Html.Label(Language.proyecto)
-                        </td>
-                        <td>
-                            @Html.Label(Model.Proyecto.descripcion)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Html.Label(Language.plaza)
-                        </td>
-                        <td>
-                            @Html.plazasDrownListNS(usuario.Id, "plazaId")    
-                        </td>
-                        <td>@Html.Label(Language.esquema)</td>
-                        <td>@Html.esquemasDrownList(usuario.Id, "esquemaId")</td>
-                    </tr>
-                    <tr>
-                        <td>@Html.Label(Language.sdi, new { htmlAttributes = new { id = "sdiIdTxt" } })</td>
-                        <td>@Html.sdiDrownList(usuario.Id, "sdiId", Model.clienteId, "width:100px;height:25px", false)</td>
-                        <td>@Html.Label(Language.contratosClientes)</td>
-                        <td>@Html.contratosDrownList(usuario.Id, "contratoId")</td>
-                    </tr>
-                    <tr>
-                        <td>@Html.Label(Language.fechaInicio)</td>
-                        <td>@Html.EditorFor(model => model.fechaInicioContrato, new { htmlAttributes = new { @class = "myNoDayBeforeDate" } })</td>
-                        <td>@Html.Label(Language.fechaFinal)</td>
-                        <td>@Html.EditorFor(model => model.fechaTerminoContrato, new { htmlAttributes = new { @class = "myNoDayBeforeDate" } })</td>
-                    </tr>
-                    <tr>
-                        <td>@Html.Label(Language.tipoPersonal)</td>
-                        <td>@Html.tipoPersonalDrownList(usuario.Id, "tipoPersonalId", "tipoPersonalId")</td>
-                        <td colspan="2"></td>
-                    </tr>
-                    <tr>
-                        <td>@Html.Label(Language.validador)</td>
-                        <td>@Html.Label(Model.valida)</td>
-                        <td>@Html.Label(Language.autorizador)</td>
-                        <td>@Html.Label(Model.autoriza)</td>
-                    </tr>
-                    <tr>
-                        <td>@Html.Label(Language.observaciones)</td>
-                        <td colspan="3">
-                            @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 4 })
+                        <th colspan="2"> </th>
+                        <td style="padding-top:12px; padding-left:55px">@Html.Label(@Language.fechaInicioContrato + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.EditorFor(model => model.fechaInicioContrato, new { htmlAttributes = new { @class = "myNoDayBeforeDate", id = "fechaIContrato" } })
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3"></td>
-                        <td><input type="submit" value="Save" class="btn btn-primary" /></td>
+                        <th colspan="1"> </th>
+                        <td>@Html.Label(@Language.proyecto + ":")</td>
+                        <td style="padding-top:2px; padding-left:8px">
+                            @Html.Label(Model.Proyecto.descripcion, new { style = "width: 200px;" })
+                        </td>
+                        <th colspan="1"> </th>
+                        <td style="padding-right:8px; padding-top:12px">@Html.Label(@Language.fechaSolicitud + ":", new { style = "width: 100px;" })</td>
+                        <td style="padding-top:12px">
+                            @Html.EditorFor(model => model.fechaSolicitud, new { htmlAttributes = new { @class = "myNoDayBeforeDate", id = "fechaSolicitud" } })
+                        </td>
+                        <th colspan="2"> </th>
+                        <td style="padding-top:8px; padding-left:55px">
+                            @Html.Label(@Language.FechaTerminoContrato + ":", new { style = "width: 150px;" })
+                        </td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.fechaTerminoContrato, new { htmlAttributes = new { @class = "myNoDayBeforeDate", id = "fechaTContrato" } })
+                        </td>
                     </tr>
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px">@Html.Label(@Language.contrato + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.contratosDrownList(usuario.Id, "contratoId")
+                        </td>
+                        <th colspan="2"> </th>
+                        <td style="padding-right:8px; padding-top:8px; padding-left:55px">@Html.Label(@Language.tipoPersonal + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.tipoPersonalDrownList(usuario.Id, "tipoPersonalId", "tipoPersonalId")
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px">@Html.Label(@Language.esquema + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.esquemasDrownList(usuario.Id, "esquemaId")
+                        </td>
+                        <th colspan="2"> </th>
+                        <td style="padding-left:55px">@Html.Label(@Language.validador + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.Label(Model.valida)
+                            @Html.HiddenFor(model => model.valida)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4"> </th>
+                    </tr>
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px">@Html.Label(@Language.salarioDiario + ":", htmlAttributes: new { id = "sdiIdTxt" })</td>
+                        <td style="padding-top:12px">
+                            @Html.sdiDrownList(usuario.Id, "sdiId", Model.clienteId, "width:100px;height:25px", false)
+                        </td>
+                        <th colspan="2"> </th>
+                        <td style="padding-left:55px">@Html.Label(@Language.autorizador + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.Label(Model.autoriza)
+                            @Html.HiddenFor(model => model.autoriza)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="8"> </th>
+                        <td style="padding-left:55px">@Html.Label(@Language.observaciones + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 3, @style = "width: 200px; " })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="text-align:right;"><input type="submit" value="@Language.guardar" class="btn btn-primary" /></td>
+                    </tr>
+
                 </table>
 
             </div>
