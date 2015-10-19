@@ -642,6 +642,10 @@ namespace SUAMVC.Controllers
                         {
                             Empleado empleado = new Empleado();
                             founded = false;
+                            
+                            if (String.IsNullOrEmpty(empleadoL.nombre) && String.IsNullOrEmpty(empleadoL.apellidoPaterno)) {
+                                break;
+                            }
 
                             if (!String.IsNullOrEmpty(empleadoL.nss))
                             {
@@ -672,6 +676,10 @@ namespace SUAMVC.Controllers
 
                             empleado.nombre = empleadoL.nombre.Trim();
                             empleado.apellidoMaterno = empleadoL.apellidoMaterno.Trim();
+                            if (String.IsNullOrEmpty(empleadoL.apellidoMaterno)) {
+                                empleadoL.apellidoMaterno = " ";
+                            }
+
                             empleado.apellidoPaterno = empleadoL.apellidoPaterno.Trim();
                             empleado.nombreCompleto = empleadoL.nombre.Trim() + " " + empleadoL.apellidoPaterno.Trim() + " " + empleadoL.apellidoMaterno.Trim();
 
@@ -764,7 +772,7 @@ namespace SUAMVC.Controllers
                             }
                             else
                             {
-                                pais = db.Paises.Find(1);
+                                pais = db.Paises.FirstOrDefault();
                             } //Pais de nacimiento es null?
                             empleado.nacionalidadId = pais.id;
                             if (pais.descripcion.Trim().Equals("MÉXICO"))
@@ -780,7 +788,7 @@ namespace SUAMVC.Controllers
                                 empleado.estadoNacimientoId = estado.id;
                             }
 
-                            if (pais.descripcion.Trim().Equals("MÉXICO"))
+                            if (pais.descripcion.ToLower().Trim().Equals("méxico"))
                             {
                                 if (!String.IsNullOrEmpty(empleadoL.municipio))
                                 {

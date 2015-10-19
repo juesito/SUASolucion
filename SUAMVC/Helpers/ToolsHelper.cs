@@ -50,7 +50,7 @@ namespace SUAMVC.Helpers
         }
 
         public Sexo obtenerSexoPorDescripcion(String desc) {
-            Sexo sexo = db.Sexos.Where(s => s.descripcion.Trim().Equals(desc.Trim())).FirstOrDefault();
+            Sexo sexo = db.Sexos.Where(s => s.descripcion.ToLower().Trim().Equals(desc.ToLower().Trim())).FirstOrDefault();
 
             return sexo;
         
@@ -58,28 +58,28 @@ namespace SUAMVC.Helpers
 
         public EstadoCivil obtenerEstadoCivilPorDescripcion(String desc)
         {
-            EstadoCivil estadoCivil = db.EstadoCivils.Where(s => s.descripcion.Trim().Equals(desc.Trim())).FirstOrDefault();
+            EstadoCivil estadoCivil = db.EstadoCivils.Where(s => s.descripcion.ToLower().Trim().Equals(desc.ToLower().Trim())).FirstOrDefault();
 
             return estadoCivil;
 
         }
         public Pais obtenerPaisPorDescripcion(String desc)
         {
-            Pais pais = db.Paises.Where(s => s.descripcion.Trim().Equals(desc.Trim())).FirstOrDefault();
+            Pais pais = db.Paises.Where(s => s.descripcion.ToLower().Trim().Equals(desc.ToLower().Trim())).FirstOrDefault();
 
             return pais;
 
         }
         public Estado obtenerEstadoPorDescripcion(String desc)
         {
-            Estado estado = db.Estados.Where(s => s.descripcion.Trim().Equals(desc.Trim())).FirstOrDefault();
+            Estado estado = db.Estados.Where(s => s.descripcion.ToLower().Trim().Equals(desc.ToLower().Trim())).FirstOrDefault();
 
             return estado;
 
         }
         public Municipio obtenerMunicipioPorDescripcion(String desc)
         {
-            Municipio municipio = db.Municipios.Where(s => s.descripcion.Trim().Equals(desc.Trim())).FirstOrDefault();
+            Municipio municipio = db.Municipios.Where(s => s.descripcion.ToLower().Trim().Equals(desc.ToLower().Trim())).FirstOrDefault();
 
             return municipio;
 
@@ -87,7 +87,7 @@ namespace SUAMVC.Helpers
 
         public Banco obtenerBancoPorDescripcion(String desc)
         {
-            Banco banco = db.Bancos.Where(s => s.descripcion.Trim().Equals(desc.Trim())).FirstOrDefault();
+            Banco banco = db.Bancos.Where(s => s.descripcion.Trim().ToLower().Equals(desc.Trim().ToLower())).FirstOrDefault();
 
             return banco;
 
