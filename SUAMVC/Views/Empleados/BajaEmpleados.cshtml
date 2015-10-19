@@ -36,16 +36,16 @@
                 @if (@item.fechaBaja != null)
                 { @item.fechaBaja.ToString("dd-MM-yyyy")}
             </div></text>, null, canSort: true));
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("1", "1", 3))
     {
         gridColumns.Add(grid.Column(header: "Ver", format: @<text><a href="@Url.Action("Details", "Empleados", new { id = item.id })"><img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
 
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("1", "1",3))
     {
         gridColumns.Add(grid.Column(header: "Historial", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("1", "1"))
+    if (SecurityUserModel.verificarPermiso("1", "1",3))
     {
         gridColumns.Add(grid.Column(header: "Reportes", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }

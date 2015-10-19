@@ -39,7 +39,7 @@ namespace SUAMVC.Controllers
                 var solicituds = (from s in db.Solicituds
                                   join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
-                                  orderby s.fechaSolicitud
+                                  orderby s.fechaSolicitud descending
                                   select s).ToList();
 
                 if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId))
@@ -51,7 +51,7 @@ namespace SUAMVC.Controllers
                     Cliente cliente = db.Clientes.Find(int.Parse(clienteId));
                     Proyecto proyecto = db.Proyectos.Find(int.Parse(proyectoId));
 
-                    if (!cliente.descripcion.ToLower().Contains("seleccion") && 
+                    if (!cliente.descripcion.ToLower().Contains("seleccion") &&
                         !proyecto.descripcion.ToLower().Contains("seleccion"))
                     {
                         solicituds = solicituds.Where(s => s.clienteId.Equals(int.Parse(clienteId))
@@ -139,7 +139,7 @@ namespace SUAMVC.Controllers
 
                 solicitud.usuarioId = usuario.Id;
                 solicitud.fechaSolicitud = DateTime.Now;
-                
+
                 solicitud.solicita = usuario.nombreUsuario;
                 solicitud.fechaSolicitud = DateTime.Now;
                 solicitud.estatusSolicitud = concepto.id;
@@ -181,7 +181,7 @@ namespace SUAMVC.Controllers
                         }
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId});
             }
 
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
@@ -231,7 +231,7 @@ namespace SUAMVC.Controllers
             {
                 db.Entry(solicitud).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusSolicitud);
@@ -272,7 +272,7 @@ namespace SUAMVC.Controllers
             Solicitud solicitud = db.Solicituds.Find(id);
             db.Solicituds.Remove(solicitud);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
 
         public ActionResult EnviarSolicitud(string id)
@@ -295,7 +295,7 @@ namespace SUAMVC.Controllers
                 TempData["message"] = "Solicitud Enviada Satisfactoriamente.";
             }
 
-            return RedirectToAction("Index", new { clienteId = solicitud.clienteId, folioId = solicitud.folioSolicitud });
+            return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
 
         //Lay out Solicitud
@@ -321,8 +321,6 @@ namespace SUAMVC.Controllers
                                   select s).ToList();
 
                 solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(tipoSolicitud.id)).ToList();
-
-
 
                 DateTime date = DateTime.Now;
                 String path = @"C:\\SUA\\Exceles\\";

@@ -126,7 +126,7 @@
         gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
             @if (item.noTrabajadores >= 0)
             {
-                <a href="@Url.Action("Index", "Empleados", new { id = item.id })">
+                <a href="@Url.Action("Index", "Empleados", new { id = item.id, controllerDestiny = "Solicitudes" })">
                     <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
                 </a>
             }
@@ -154,10 +154,47 @@ tableStyle: "table table-striped tableSua"
 }
 
 @section Menu {
-    <div>Solicitudes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Solicitudes de Alta <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 <script language="javascript" type="text/javascript">
+    $( document ).ready(function() {
+        // Handler for .ready() called.
+        var clienteIdJs = '@(ViewBag.clienteId)' + " ";
+        var proyectoIdJs = '@(ViewBag.proyectoId)' + " ";
+        
+        if (clienteIdJs != " ") {
+            var procemessage = "<option value='0'> Por favor espere...</option>";
+            $("#proyectoId").html(procemessage).show();
+            var url = "/Proyectos/ObtenerProyectosPorClienteId/";
+
+            $.ajax({
+                url: url,
+                data: { clienteId: clienteIdJs.trim() },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var markup = "<option value='0'>Seleccione su proyecto</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        if (data[x].Value == proyectoIdJs.trim()) {
+                            markup += "<option value=" + data[x].Value + " selected='selected'>" + data[x].Text + "</option>";
+                        } else {
+                            markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                        };
+
+                        
+                    }
+                    $("#proyectoId").html(markup).show();
+                },
+                error: function (reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+        };
+
+
+    });
+
     function obtenerProyectos(_clienteId) {
         var procemessage = "<option value='0'> Por favor espere...</option>";
         $("#proyectoId").html(procemessage).show();
@@ -184,7 +221,6 @@ tableStyle: "table table-striped tableSua"
 </script>
 
 
-<p>
 @if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
@@ -212,9 +248,8 @@ tableStyle: "table table-striped tableSua"
                     <td style="padding-left:12px">
                         @Html.Label("Proyecto:")
                     </td>
-                    <td style="padding-left:8px">
+                    <td style="padding-left:8px">                        
                         @Html.DropDownList("proyectoId", new SelectList(listItems, "Value", "Text"), " Seleccione", "width:200px;height:20px")
-
                     </td>
                     <td style ="padding-left:12px">
                         @Html.Label("Folio:")

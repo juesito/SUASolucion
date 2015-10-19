@@ -35,7 +35,7 @@ namespace SUAMVC.Controllers
                 var solicituds = (from s in db.Solicituds
                                   join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
-                                  orderby s.fechaSolicitud
+                                  orderby s.fechaSolicitud descending
                                   select s).ToList();
 
                 if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId))
@@ -172,7 +172,7 @@ namespace SUAMVC.Controllers
                         }
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
             }
 
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
@@ -210,7 +210,7 @@ namespace SUAMVC.Controllers
             {
                 db.Entry(solicitud).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
             ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", solicitud.plazaId);
@@ -241,7 +241,7 @@ namespace SUAMVC.Controllers
             Solicitud solicitud = db.Solicituds.Find(id);
             db.Solicituds.Remove(solicitud);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
 
         public ActionResult EnviarSolicitud(string id)
@@ -478,8 +478,6 @@ namespace SUAMVC.Controllers
 
             return sheetData;
         }
-
-
 
         protected override void Dispose(bool disposing)
         {

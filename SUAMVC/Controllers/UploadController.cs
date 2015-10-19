@@ -41,7 +41,7 @@ namespace SUAMVC.Controllers
                 {
                     ParametrosHelper parameterHelper = new ParametrosHelper();
                     Parametro rutaParameter = parameterHelper.getParameterByKey("SUARUTA");
-                    String path = rutaParameter.valorString.Trim(); 
+                    String path = rutaParameter.valorString.Trim();
                     if (!System.IO.File.Exists(path))
                     {
                         System.IO.Directory.CreateDirectory(path);
@@ -54,17 +54,18 @@ namespace SUAMVC.Controllers
                     file.SaveAs(pathFinal);
 
                     ZipFile zip = ZipFile.Read(pathFinal);
-                    zip.ExtractAll(path, ExtractExistingFileAction.OverwriteSilently);                
+                    zip.ExtractAll(path, ExtractExistingFileAction.OverwriteSilently);
 
                     if (RefreshBoss(path) == 0)
                     {
                         ViewBag.dbUploaded = false;
                     }
-                    else {
+                    else
+                    {
                         ViewBag.dbUploaded = true;
                     }
                     System.IO.File.Delete(pathMDB);
-                    
+
                 }
             }
 
@@ -76,13 +77,14 @@ namespace SUAMVC.Controllers
          * Actualizamos los patrones 
          * 
          */
-        
-        public int RefreshBoss(String path) {
+
+        public int RefreshBoss(String path)
+        {
             SUAHelper sua = null;
             int count = 0;
             Boolean isError = false;
             try
-            {               
+            {
                 //Realizamos la conexion
                 sua = new SUAHelper(path);
 
@@ -132,8 +134,8 @@ namespace SUAMVC.Controllers
                         if (!plazaDescripcion.Equals(""))
                         {
                             var plazaTemp = from b in db.Plazas
-                                                 where b.descripcion.Equals(plazaDescripcion.Trim())
-                                                 select b;
+                                            where b.descripcion.Equals(plazaDescripcion.Trim())
+                                            select b;
 
                             Plaza plaza = new Plaza();
 
@@ -147,7 +149,8 @@ namespace SUAMVC.Controllers
                                     break;
                                 }//Definimos los valores para la plaza
                             }
-                            else {
+                            else
+                            {
                                 plaza.descripcion = plazaDescripcion.Trim();
                                 plaza.indicador = "P";
                                 db.Plazas.Add(plaza);
@@ -159,27 +162,27 @@ namespace SUAMVC.Controllers
                             patron.telefono = rows["TEL_PAT"].ToString();
                             patron.domicilio = rows["DOM_PAT"].ToString();
                             patron.patRep = rows["PAT_REP"].ToString();
-/*                          patron.registro = rows["REG_PAT"].ToString();
-                            patron.rfc = rows["RFC_PAT"].ToString();
-                            patron.nombre = rows["NOM_PAT"].ToString();
-                            patron.actividad = rows["ACT_PAT"].ToString();
-                            patron.municipio = rows["MUN_PAT"].ToString();
-                            patron.codigoPostal = rows["CPP_PAT"].ToString();
-                            patron.entidad = rows["ENT_PAT"].ToString();
-                            patron.remision = ((Boolean.Parse(rows["REM_PAT"].ToString()) == true) ? "V" : "F");
-                            patron.zona = rows["ZON_PAT"].ToString();
-                            patron.delegacion = rows["DEL_PAT"].ToString();
-                            patron.carEnt = rows["CAR_ENT"].ToString();
-                            patron.numeroDelegacion = Int32.Parse(rows["NUM_DEL"].ToString());
-                            patron.carDel = rows["CAR_DEL"].ToString();
-                            patron.numSub = Int32.Parse(rows["NUM_SUB"].ToString());
-                            patron.Plaza_id = plaza.id;
-                            patron.tipoConvenio = Decimal.Parse(rows["TIP_CON"].ToString());
-                            patron.convenio = rows["CON_VEN"].ToString();
-                            patron.inicioAfiliacion = rows["INI_AFIL"].ToString();
-                            patron.clase = rows["CLASE"].ToString();
-                            patron.fraccion = rows["FRACCION"].ToString();
-                            patron.STyPS = rows["STyPS"].ToString();            */
+                            /*                          patron.registro = rows["REG_PAT"].ToString();
+                                                        patron.rfc = rows["RFC_PAT"].ToString();
+                                                        patron.nombre = rows["NOM_PAT"].ToString();
+                                                        patron.actividad = rows["ACT_PAT"].ToString();
+                                                        patron.municipio = rows["MUN_PAT"].ToString();
+                                                        patron.codigoPostal = rows["CPP_PAT"].ToString();
+                                                        patron.entidad = rows["ENT_PAT"].ToString();
+                                                        patron.remision = ((Boolean.Parse(rows["REM_PAT"].ToString()) == true) ? "V" : "F");
+                                                        patron.zona = rows["ZON_PAT"].ToString();
+                                                        patron.delegacion = rows["DEL_PAT"].ToString();
+                                                        patron.carEnt = rows["CAR_ENT"].ToString();
+                                                        patron.numeroDelegacion = Int32.Parse(rows["NUM_DEL"].ToString());
+                                                        patron.carDel = rows["CAR_DEL"].ToString();
+                                                        patron.numSub = Int32.Parse(rows["NUM_SUB"].ToString());
+                                                        patron.Plaza_id = plaza.id;
+                                                        patron.tipoConvenio = Decimal.Parse(rows["TIP_CON"].ToString());
+                                                        patron.convenio = rows["CON_VEN"].ToString();
+                                                        patron.inicioAfiliacion = rows["INI_AFIL"].ToString();
+                                                        patron.clase = rows["CLASE"].ToString();
+                                                        patron.fraccion = rows["FRACCION"].ToString();
+                                                        patron.STyPS = rows["STyPS"].ToString();            */
 
                             //Ponemos la entidad en modo modficada y guardamos cambios
                             try
@@ -308,7 +311,8 @@ namespace SUAMVC.Controllers
                 TempData["error"] = isError;
                 TempData["viewMessage"] = "Ocurrio un error al intentar cargar el archivo";
             }
-            else {
+            else
+            {
                 TempData["error"] = isError;
                 TempData["viewMessage"] = "Se ha realizado la actualización de los Patrones con exito!";
             }
@@ -354,15 +358,15 @@ namespace SUAMVC.Controllers
             ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
                                                  join top in db.TopicosUsuarios on s.Id equals top.topicoId
                                                  where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id) &&
-                                                       !s.direccionArchivo.Trim().Equals(null) && !s.direccionArchivo.Trim().Equals(String.Empty)  &&
+                                                       !s.direccionArchivo.Trim().Equals(null) && !s.direccionArchivo.Trim().Equals(String.Empty) &&
                                                        s.Plaza.id.Equals(plazasId)
                                                  orderby s.registro
                                                  select new
                                                  {
                                                      id = s.Id,
                                                      FullName = s.registro + " - " + s.nombre
-                                                  }).Distinct(), "id", "FullName", null);
-  
+                                                 }).Distinct(), "id", "FullName", null);
+
             var patronesAsignados = (from x in db.TopicosUsuarios
                                      where x.usuarioId.Equals(user.Id)
                                      && x.tipo.Equals("B")
@@ -450,7 +454,7 @@ namespace SUAMVC.Controllers
             return View("OnlyUpLoadFile");
         }
 
-        
+
         [HttpPost]
         public ActionResult uploadFile(UploadModel uploadModel, int patronesId)
         {
@@ -458,15 +462,17 @@ namespace SUAMVC.Controllers
             Patrone patron = db.Patrones.Find(patronesId);
 
             String path = this.Upload(uploadModel, patron.direccionArchivo).Trim();
-            if (!path.Equals("")) {
+            if (!path.Equals(""))
+            {
                 this.uploadAcreditado(path);
                 this.uploadAsegurado(path);
+                this.uploadPrimaRT(path);
             }
             String path2 = path + "\\BACKUP\\";
             path = path + "\\SUA.mdb";
             if (!System.IO.File.Exists(path2))
             {
-               System.IO.Directory.CreateDirectory(path2);
+                System.IO.Directory.CreateDirectory(path2);
             }
             DateTime date = DateTime.Now;
             System.IO.File.Move(path, Path.Combine(path2, "SUA" + date.ToString("ddMMyyyyHHmm") + ".mdb"));
@@ -517,14 +523,14 @@ namespace SUAMVC.Controllers
                     var pathFinal = Path.Combine(path, fileName);
                     file.SaveAs(pathFinal);
                     ZipFile zip = ZipFile.Read(pathFinal);
-                    zip.ExtractAll(path, ExtractExistingFileAction.OverwriteSilently);                
-                    
+                    zip.ExtractAll(path, ExtractExistingFileAction.OverwriteSilently);
+
                     ViewBag.dbUploaded = true;
                     TempData["error"] = false;
                     TempData["viewMessage"] = "Se ha realizado la actualización con exito!";
                 }
             }
-            
+
             return path;
         }
 
@@ -541,7 +547,7 @@ namespace SUAMVC.Controllers
                 sua = new SUAHelper(path);
 
                 ParametrosHelper parameterHelper = new ParametrosHelper();
-            
+
                 Parametro smdfParameter = parameterHelper.getParameterByKey("SMDF");
                 Parametro sinfonParameter = parameterHelper.getParameterByKey("SINFON");
 
@@ -550,9 +556,10 @@ namespace SUAMVC.Controllers
                               "       a.SAL_IMSS , a.SAL_INFO, a.FEC_ALT   , a.FEC_BAJ , a.TIP_TRA , " +
                               "       a.SEM_JORD , a.PAG_INFO, a.TIP_DSC   , a.VAL_DSC , a.CVE_UBC , " +
                               "       a.TMP_NOM  , a.FEC_DSC , a.FEC_FinDsc, a.ARTI_33 , a.SAL_AR33," +
-                              "       a.TRA_PENIV, a.ESTADO  , a.CVE_MUN   , b.OCUPA   , b.LUG_NAC  " +
-                              "  FROM Asegura a LEFT JOIN Afiliacion b  " +
-                              "    ON a.REG_PATR = b.REG_PATR AND  a.NUM_AFIL = b.NUM_AFIL " +
+                              "       a.TRA_PENIV, a.ESTADO  , a.CVE_MUN  " +
+                    //                              "       a.TRA_PENIV, a.ESTADO  , a.CVE_MUN   , b.OCUPA   , b.LUG_NAC  " +
+                              "  FROM Asegura a " +
+                    //                              "    ON a.REG_PATR = b.REG_PATR AND  a.NUM_AFIL = b.NUM_AFIL " +
                               "  WHERE a.PAG_INFO <> '' " +
                               "  ORDER BY a.REG_PATR, a.NUM_AFIL ";
 
@@ -593,7 +600,6 @@ namespace SUAMVC.Controllers
                         Acreditado acreditado = new Acreditado();
                         String numAfil = rows["NUM_AFIL"].ToString().Trim();
                         String numCred = rows["PAG_INFO"].ToString().Trim();
-
                         //Revisamos la existencia del registro
                         var acreditadoExist = from b in db.Acreditados
                                               where b.Patrone.registro.Equals(patron.registro.Trim())
@@ -671,7 +677,7 @@ namespace SUAMVC.Controllers
                         acreditado.apellidoPaterno = substrings[0];
                         acreditado.apellidoMaterno = substrings[1];
                         acreditado.nombreCompleto = substrings[0] + " " + substrings[1] + " " + substrings[2];
-                        acreditado.ocupacion = rows["OCUPA"].ToString();
+                        //                        acreditado.ocupacion = rows["OCUPA"].ToString();
                         acreditado.fechaAlta = DateTime.Parse(rows["FEC_ALT"].ToString());
 
                         if (rows["FEC_BAJ"].ToString().Equals(""))
@@ -704,6 +710,8 @@ namespace SUAMVC.Controllers
                             acreditado.fechaFinDescuento = DateTime.Parse(rows["FEC_FinDsc"].ToString());
                         }//Trae fecha valida?
 
+                        String valorDescuento = sua.valorDescuento(acreditado.Patrone.registro, acreditado.numeroAfiliacion);
+
                         DateTime date = DateTime.Now;
 
                         //Validamos que el ultimo movimiento no sea por baja o suspención.
@@ -712,34 +720,42 @@ namespace SUAMVC.Controllers
                             //Validamos que el valor de los parametros sea mayor a cero.
                             if (sinfonParameter.valorMoneda > 0 && smdfParameter.valorMoneda > 0)
                             {
-                                
-                                if (bExist) { 
-                                    if(acreditado.fechaUltimoCalculo != null){
-                                //Validamos que se haya modificado el valor de los parametros para el calculo
+
+                                if (bExist)
+                                {
+                                    if (acreditado.fechaUltimoCalculo != null)
+                                    {
+                                        //Validamos que se haya modificado el valor de los parametros para el calculo
                                         if (DateTime.Compare((DateTime)acreditado.fechaUltimoCalculo, smdfParameter.fechaCreacion) <= 0
                                         && DateTime.Compare((DateTime)acreditado.fechaUltimoCalculo, sinfonParameter.fechaCreacion) <= 0)
                                         {
-                                            acreditado = calcularInfonavitInfo(acreditado, rows, tipoDescuento, Decimal.Parse(sinfonParameter.valorMoneda.ToString()), Decimal.Parse(smdfParameter.valorMoneda.ToString()));
+                                            acreditado = calcularInfonavitInfo(acreditado, rows, tipoDescuento, Decimal.Parse(sinfonParameter.valorMoneda.ToString()), Decimal.Parse(smdfParameter.valorMoneda.ToString()),
+                                                valorDescuento);
 
                                         } //Se ha cambiado los parametros desde la ultima actualización ?
-                                    }else{
-                                        acreditado = calcularInfonavitInfo(acreditado, rows, tipoDescuento, Decimal.Parse(sinfonParameter.valorMoneda.ToString()), Decimal.Parse(smdfParameter.valorMoneda.ToString()));
+                                    }
+                                    else
+                                    {
+                                        acreditado = calcularInfonavitInfo(acreditado, rows, tipoDescuento, Decimal.Parse(sinfonParameter.valorMoneda.ToString()), Decimal.Parse(smdfParameter.valorMoneda.ToString()),
+                                            valorDescuento);
                                     }
                                 }
                                 else
                                 {
-                                    acreditado = calcularInfonavitInfo(acreditado, rows, tipoDescuento, Decimal.Parse(sinfonParameter.valorMoneda.ToString()), Decimal.Parse(smdfParameter.valorMoneda.ToString()));
+                                    acreditado = calcularInfonavitInfo(acreditado, rows, tipoDescuento, Decimal.Parse(sinfonParameter.valorMoneda.ToString()), Decimal.Parse(smdfParameter.valorMoneda.ToString()),
+                                        valorDescuento);
                                 }
                             }//Los parametros son mayores a cero en su valor moneda ?
                         }//El movimiento es por baja o suspención ?
-                        
+
                         acreditado.Plaza_id = patron.Plaza_id;
 
                         if (!bExist)
                         {
                             acreditado.fechaCreacion = date;
                         }
-                        else {
+                        else
+                        {
                             acreditado.fechaModificacion = date;
                         }
 
@@ -750,7 +766,8 @@ namespace SUAMVC.Controllers
                             {
                                 db.Acreditados.Add(acreditado);
                             }
-                            else {
+                            else
+                            {
                                 db.Entry(acreditado).State = EntityState.Modified;
                             }
                             db.SaveChanges();
@@ -800,11 +817,12 @@ namespace SUAMVC.Controllers
             }
         }
 
-        private Acreditado calcularInfonavitInfo(Acreditado acreditado, DataRow rows, String tipoDescuento, Decimal sinfon, Decimal smdf)
+        private Acreditado calcularInfonavitInfo(Acreditado acreditado, DataRow rows, String tipoDescuento, Decimal sinfon, Decimal smdf, String valorDescuento)
         {
             DateTime date = DateTime.Now;
 
-            Decimal valueToCalculate = Decimal.Parse(rows["VAL_DSC"].ToString());
+            //            Decimal valueToCalculate = Decimal.Parse(rows["VAL_DSC"].ToString());
+            Decimal valueToCalculate = Decimal.Parse(valorDescuento);
             acreditado.sdi = Double.Parse(rows["SAL_IMSS"].ToString());
             Decimal sdi = Decimal.Parse(rows["SAL_IMSS"].ToString());
             acreditado.smdv = Double.Parse(smdf.ToString());
@@ -813,24 +831,24 @@ namespace SUAMVC.Controllers
 
             Decimal newValue = Decimal.Parse("0.0");
             //Empezamos con los calculos
-/*            if (tipoDescuento.Trim().Equals("1"))
-            {
+            /*            if (tipoDescuento.Trim().Equals("1"))
+                        {
 
-                // Descuento tipo porcentaje
-                acreditado.sd = 0;
-                acreditado.cuotaFija = 0;
-                acreditado.vsm = 0;
-                acreditado.porcentaje = valueToCalculate / 100;
+                            // Descuento tipo porcentaje
+                            acreditado.sd = 0;
+                            acreditado.cuotaFija = 0;
+                            acreditado.vsm = 0;
+                            acreditado.porcentaje = valueToCalculate / 100;
 
 
-                newValue = (sdi * 60);
-                newValue = newValue * (valueToCalculate / 100);
-                newValue = newValue + sinfon;
+                            newValue = (sdi * 60);
+                            newValue = newValue * (valueToCalculate / 100);
+                            newValue = newValue + sinfon;
 
-                acreditado.descuentoBimestral = newValue;
+                            acreditado.descuentoBimestral = newValue;
 
-            }
-            else */
+                        }
+                        else */
             if (tipoDescuento.Trim().Equals("2"))
             {
                 // Descuento tipo cuota fija
@@ -889,9 +907,11 @@ namespace SUAMVC.Controllers
                               "       a.SAL_IMSS , a.SAL_INFO, a.FEC_ALT   , a.FEC_BAJ , a.TIP_TRA , " +
                               "       a.SEM_JORD , a.PAG_INFO, a.TIP_DSC   , a.VAL_DSC , a.CVE_UBC , " +
                               "       a.TMP_NOM  , a.FEC_DSC , a.FEC_FinDsc, a.ARTI_33 , a.SAL_AR33," +
-                              "       a.TRA_PENIV, a.ESTADO  , a.CVE_MUN   , b.OCUPA   , b.LUG_NAC  " +
-                              "  FROM Asegura a LEFT JOIN Afiliacion b  " +
-                              "    ON a.REG_PATR = b.REG_PATR AND  a.NUM_AFIL = b.NUM_AFIL " +
+                              "       a.TRA_PENIV, a.ESTADO  , a.CVE_MUN  " +
+                              "  FROM Asegura  a " +
+                    //                              "       a.TRA_PENIV, a.ESTADO  , a.CVE_MUN   , b.OCUPA   , b.LUG_NAC  " +
+                    //                              "  FROM Asegura a LEFT JOIN Afiliacion b  " +
+                    //                              "    ON a.REG_PATR = b.REG_PATR AND  a.NUM_AFIL = b.NUM_AFIL " +
                               "  ORDER BY a.NUM_AFIL ";
 
                 //Ejecutamos la consulta
@@ -933,9 +953,9 @@ namespace SUAMVC.Controllers
 
                         //Revisamos la existencia del registro
                         var aseguradoExist = from b in db.Asegurados
-                                              where b.Patrone.registro.Equals(patron.registro.Trim())
-                                                && b.numeroAfiliacion.Equals(numAfil)
-                                              select b;
+                                             where b.Patrone.registro.Equals(patron.registro.Trim())
+                                               && b.numeroAfiliacion.Equals(numAfil)
+                                             select b;
 
                         if (aseguradoExist.Count() > 0)
                         {
@@ -996,10 +1016,12 @@ namespace SUAMVC.Controllers
                         var clienteTemp = db.Clientes.Where(b => b.claveCliente == cliente.Trim()).FirstOrDefault();
                         var clienteTemp2 = db.Clientes.Where(b => b.claveCliente.Equals("SIN CODIGO")).FirstOrDefault();
 
-                        if (clienteTemp != null){
+                        if (clienteTemp != null)
+                        {
                             asegurado.Cliente = (Cliente)clienteTemp;
                             asegurado.ClienteId = clienteTemp.Id;
-                        }else
+                        }
+                        else
                         {
                             asegurado.Cliente = (Cliente)clienteTemp2;
                             asegurado.ClienteId = clienteTemp2.Id;
@@ -1063,14 +1085,28 @@ namespace SUAMVC.Controllers
                         asegurado.estado = rows["ESTADO"].ToString();
                         asegurado.claveMunicipio = rows["CVE_MUN"].ToString();
                         asegurado.Plaza_id = patron.Plaza_id;
-                        asegurado.ocupacion = rows["OCUPA"].ToString();
-                        if (rows["OCUPA"].ToString().Equals("EXTRANJERO"))
-                        {
-                            asegurado.extranjero = "SI";
-                        }
-                        else {
-                            asegurado.extranjero = "NO";
-                        }
+
+                        //sSQL = "SELECT OCUPA  " +
+                        //       "  FROM Afiliacion  " +
+                        //       "  WHERE REG_PATR = '" + patron.registro.Trim() + "'" +
+                        //       "  AND NUM_AFIL = '" + numAfil + "'";
+
+                        ////Ejecutamos la consulta
+                        //DataTable mt = sua.ejecutarSQL(sSQL);
+                        //foreach (DataRow res in mt.Rows)
+                        //{
+                        //    asegurado.ocupacion = res["OCUPA"].ToString();
+                        //    if (res["OCUPA"].ToString().Equals("EXTRANJERO"))
+                        //    {
+                        //        asegurado.extranjero = "SI";
+                        //    }
+                        //    else
+                        //    {
+                        //        asegurado.extranjero = "NO";
+                        //    }
+                        //    break;
+                        //}
+
 
                         DateTime date = DateTime.Now;
                         if (!bExist)
@@ -1283,6 +1319,7 @@ namespace SUAMVC.Controllers
                     movimiento.fechaInicio = DateTime.Parse(rows["FEC_INIC"].ToString());
                     movimiento.aseguradoId = aseguradoId;
                     movimiento.sdi = rows["SAL_MOVT"].ToString();
+                    movimiento.valorDescuento = Decimal.Parse(rows["VAL_DES"].ToString());
                     String tipoMov = "01";
                     if (!string.IsNullOrEmpty(rows["TIP_MOVS"].ToString().Trim()))
                     {
@@ -1295,7 +1332,7 @@ namespace SUAMVC.Controllers
                                   && s.CatalogoMovimiento.tipo.Equals(tipoMov.Trim())
                                   && s.fechaInicio.Equals(movimiento.fechaInicio))
                                    select s).FirstOrDefault();
-                    
+
                     if (movTemp == null)
                     {
 
@@ -1360,6 +1397,10 @@ namespace SUAMVC.Controllers
                                 }
                             }
                         }
+                    }
+                    else
+                    {
+
                     }
                 }//Ya existe ese movimiento for fecha y tipo?
             }
@@ -1448,8 +1489,8 @@ namespace SUAMVC.Controllers
                 }
                 else if (movto.CatalogoMovimiento.tipo.Trim().Equals("02"))
                 {
-//                    asegurado.salarioDiario = 0;
-//                    asegurado.salarioImss = 0;
+                    //                    asegurado.salarioDiario = 0;
+                    //                    asegurado.salarioImss = 0;
 
                 }
             }
@@ -1472,8 +1513,8 @@ namespace SUAMVC.Controllers
             }
             if (asegurado.fechaBaja.HasValue)
             {
-//                asegurado.salarioDiario = 0;
-//                asegurado.salarioImss = 0;
+                //                asegurado.salarioDiario = 0;
+                //                asegurado.salarioImss = 0;
             }
             db.Entry(asegurado).State = EntityState.Modified;
             db.SaveChanges();
@@ -1488,6 +1529,7 @@ namespace SUAMVC.Controllers
                 acreditado.fechaAlta = asegurado.fechaAlta;
                 acreditado.sd = Decimal.Parse(asegurado.salarioDiario.ToString());
                 acreditado.sdi = Double.Parse(asegurado.salarioImss.ToString());
+                acreditado.ocupacion = asegurado.ocupacion;
 
                 //calcular el descuento tipo uno que ocupa sdi
                 DateTime date = DateTime.Now;
@@ -1544,7 +1586,119 @@ namespace SUAMVC.Controllers
                 db.SaveChanges();
             }
 
-        } 
+        }
+
+
+        /**
+ *  Hacemos la carga de los asegurados
+ * */
+        public void uploadPrimaRT(String path)
+        {
+            SUAHelper sua = null;
+            try
+            {
+                //Realizamos la conexión
+                sua = new SUAHelper(path);
+
+                String sSQL = "SELECT a.Reg_Pat , a.Ano, a.Mes, a.Prima_Rt, a.ValMes " +
+                              "  FROM Prima_RT a ";
+
+                //Ejecutamos la consulta
+                DataTable dt = sua.ejecutarSQL(sSQL);
+                foreach (DataRow rows in dt.Rows)
+                {
+                    String regPatron = rows["Reg_Pat"].ToString();
+                    String primaAnio = rows["Ano"].ToString();
+                    String primaMes = rows["ValMes"].ToString();
+                    Patrone patron = new Patrone();
+
+                    if (!regPatron.Equals(""))
+                    {
+                        var patronTemp = from b in db.Patrones
+                                         where b.registro.Equals(regPatron.Trim())
+                                         select b;
+
+                        if (patronTemp != null && patronTemp.Count() > 0)
+                        {
+                            foreach (var patronItem in patronTemp)
+                            {
+                                patron = patronItem;
+                                break;
+                            }
+
+                            int patronId = patron.Id;
+
+                            PrimaRT primaRT = new PrimaRT();
+                            primaRT.registroPatronal = 0;
+
+                            var primaTemp = from b in db.PrimaRTs
+                                            where b.registroPatronal.Equals(patronId)
+                                            && b.anio.ToString().Equals(primaAnio)
+                                            && b.mes.ToString().Equals(primaMes)
+                                            select b;
+
+                            if (primaTemp != null && primaTemp.Count() > 0)
+                            {
+                                foreach (var primaItem in primaTemp)
+                                {
+                                    primaRT = primaItem;
+                                    break;
+                                }//Definimos los valores para la plaza
+                            }
+
+
+                            try
+                            {
+                                if (primaRT.registroPatronal != 0)
+                                {
+                                    primaRT.primaRT1 = Decimal.Parse(rows["Prima_Rt"].ToString());
+                                    db.Entry(primaRT).State = EntityState.Modified;
+                                }
+                                else
+                                {
+                                    primaRT.registroPatronal = patronId;
+                                    primaRT.anio = int.Parse(rows["Ano"].ToString());
+                                    primaRT.mes = int.Parse(rows["ValMes"].ToString());
+                                    primaRT.primaRT1 = Decimal.Parse(rows["Prima_Rt"].ToString());
+                                    primaRT.nomMes = rows["Mes"].ToString();
+                                    db.PrimaRTs.Add(primaRT);
+                                }
+                                db.SaveChanges();
+                            }
+                            catch (DbEntityValidationException ex)
+                            {
+                                StringBuilder sb = new StringBuilder();
+
+                                foreach (var failure in ex.EntityValidationErrors)
+                                {
+                                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                                    foreach (var error in failure.ValidationErrors)
+                                    {
+                                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                                        sb.AppendLine();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (OleDbException ex)
+            {
+                if (ex.Source != null)
+                {
+                    Console.WriteLine(ex.Source);
+                }
+            }
+            finally
+            {
+                if (sua != null)
+                {
+                    sua.cerrarConexion();
+                }
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -46,6 +46,31 @@ namespace SUAMVC.Models
 
             return esValido;
         }
+
+        public String valorDescuento(String registroPatronal, String numeroAfiliacion)
+        {
+            String valorDescuento = "0";
+            String sSQL = "SELECT TIP_MOVS, VAL_DES  " +
+                              "  FROM Movtos   " +
+                              "  WHERE REG_PATR = '" + registroPatronal.Trim() + "'" +
+                              "    AND NUM_AFIL = '" + numeroAfiliacion + "'" +
+                              "  ORDER BY FEC_INIC DESC ";
+
+            DataTable dt = this.ejecutarSQL(sSQL);
+
+            foreach (DataRow rows in dt.Rows)
+            {
+                String tpoMov = rows["TIP_MOVS"].ToString();
+                valorDescuento = rows["VAL_DES"].ToString();
+                if (tpoMov.Equals("19") || tpoMov.Equals("15") || tpoMov.Equals("17"))
+                {
+                    break;
+                }
+            }
+
+            return valorDescuento;
+        }
+
         /**
          * Establecemos la conexión a nuestra base de datos SUA.mdb 
          * @param path: dirección fisica donde se encuentra nuestra BD.

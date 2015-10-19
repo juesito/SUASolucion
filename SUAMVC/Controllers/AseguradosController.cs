@@ -902,8 +902,11 @@ namespace SUAMVC.Controllers
                 asegurados = asegurados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
             }
 
+            asegurados = asegurados.Where(s => s.fechaBaja.Equals(null));
             list = asegurados.ToList();
             IEnumerable<IGrouping<String, Asegurado>> groups = list.GroupBy(x => x.numeroAfiliacion).Where(nombre => nombre.Count() > 1);
+
+
             IEnumerable<Asegurado> smths = groups.SelectMany(group => group);
             List<Asegurado> newList = smths.ToList();
 

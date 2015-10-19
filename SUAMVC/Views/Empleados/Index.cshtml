@@ -66,14 +66,6 @@
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Empleados", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("historial", "Se agrega solicitud para ver historial de empleados", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Historial", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/history.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
-    if (SecurityUserModel.verificarPermiso("1", "1", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Ver Archivos", format: @<text><a href="@Url.Action("Index", "ArchivoEmpleados", new { empleadoId = item.id })"><img src="~/Content/Images/show.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
     if (SecurityUserModel.verificarPermiso("reportes", "Se agrega solicitud para ver reportes", 6))
     {
         gridColumns.Add(grid.Column(header: "Reportes", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" /></a></text>));
@@ -149,6 +141,12 @@
 
 @if (!tableHtml.IsEmpty())
 {
+    <div class="menubar-header">
+        <a href="@Url.Action("Index", @ViewBag.controllerDestiny, new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId,
+            solicitudId = solicitud.id })" style="text-align:right">
+            <img src="~/Content/Images/back.png" title="Regresar" alt="Regresar" style="border:none;" class="menuIcon" />
+        </a>
+    </div>
     <div id="table-container" class="table-container">
         @Html.Raw(tableHtml)
     </div>

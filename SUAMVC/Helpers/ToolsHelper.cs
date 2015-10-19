@@ -49,6 +49,49 @@ namespace SUAMVC.Helpers
             return acreditado;
         }
 
+        public Sexo obtenerSexoPorDescripcion(String desc) {
+            Sexo sexo = db.Sexos.Where(s => s.descripcion.ToLower().Trim().Equals(desc.ToLower().Trim())).FirstOrDefault();
+
+            return sexo;
+        
+        }
+
+        public EstadoCivil obtenerEstadoCivilPorDescripcion(String desc)
+        {
+            EstadoCivil estadoCivil = db.EstadoCivils.Where(s => s.descripcion.ToLower().Trim().Equals(desc.ToLower().Trim())).FirstOrDefault();
+
+            return estadoCivil;
+
+        }
+        public Pais obtenerPaisPorDescripcion(String desc)
+        {
+            Pais pais = db.Paises.Where(s => s.descripcion.ToLower().Trim().Equals(desc.ToLower().Trim())).FirstOrDefault();
+
+            return pais;
+
+        }
+        public Estado obtenerEstadoPorDescripcion(String desc)
+        {
+            Estado estado = db.Estados.Where(s => s.descripcion.ToLower().Trim().Equals(desc.ToLower().Trim())).FirstOrDefault();
+
+            return estado;
+
+        }
+        public Municipio obtenerMunicipioPorDescripcion(String desc)
+        {
+            Municipio municipio = db.Municipios.Where(s => s.descripcion.ToLower().Trim().Equals(desc.ToLower().Trim())).FirstOrDefault();
+
+            return municipio;
+
+        }
+
+        public Banco obtenerBancoPorDescripcion(String desc)
+        {
+            Banco banco = db.Bancos.Where(s => s.descripcion.Trim().ToLower().Equals(desc.Trim().ToLower())).FirstOrDefault();
+
+            return banco;
+
+        }
 
         /**
          * Cargamos archivo modificando el nombre del archivo

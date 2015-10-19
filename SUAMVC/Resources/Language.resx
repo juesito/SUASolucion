@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FechaTerminoContrato" xml:space="preserve">
+    <value>Fecha de término de contrato</value>
+  </data>
   <data name="accion" xml:space="preserve">
     <value>Acción</value>
     <comment>Etiqueta para acción</comment>
@@ -446,7 +449,7 @@
     <value>Empresa Facturadora</value>
   </data>
   <data name="esquema" xml:space="preserve">
-    <value>Esquemas Pago</value>
+    <value>Esquema de Pago</value>
     <comment>Etiqueta para esquema</comment>
   </data>
   <data name="Esquemas" xml:space="preserve">
@@ -494,7 +497,7 @@
     <comment>Etiqueta de la fechade baja</comment>
   </data>
   <data name="fechaFinal" xml:space="preserve">
-    <value>Fecha Baja</value>
+    <value>Fecha Final</value>
     <comment>Etiqueta para fecha final</comment>
   </data>
   <data name="fechaFinalVigencia" xml:space="preserve">
@@ -832,5 +835,104 @@
   </data>
   <data name="excelGeneral" xml:space="preserve">
     <value>Exporta Reporte General</value>
+  </data>
+  <data name="salarioDiario" xml:space="preserve">
+    <value>Salario Diario</value>
+  </data>
+  <data name="contrato" xml:space="preserve">
+    <value>Contrato</value>
+  </data>
+  <data name="fechaInicioContrato" xml:space="preserve">
+    <value>Fecha de inicio de contrato</value>
+  </data>
+  <data name="nacionalidad" xml:space="preserve">
+    <value>Nacionalidad</value>
+  </data>
+  <data name="calleNumero" xml:space="preserve">
+    <value>Calle y Número</value>
+  </data>
+  <data name="Colonia" xml:space="preserve">
+    <value>Colonia</value>
+  </data>
+  <data name="CP" xml:space="preserve">
+    <value>Código Postal</value>
+  </data>
+  <data name="estadoNacimiento" xml:space="preserve">
+    <value>Estado de Nacimiento</value>
+  </data>
+  <data name="municipioNacimiento" xml:space="preserve">
+    <value>Municipio de Nacimiento</value>
+  </data>
+  <data name="tramitarTrajeta" xml:space="preserve">
+    <value>Tramitar Tarjeta</value>
+  </data>
+  <data name="tieneInfonavit" xml:space="preserve">
+    <value>Tiene Infonavit</value>
+  </data>
+  <data name="datosFamiliares" xml:space="preserve">
+    <value>Datos Familiares</value>
+  </data>
+  <data name="diasAguinaldo" xml:space="preserve">
+    <value>Dias de Aguinaldo</value>
+  </data>
+  <data name="diasDescanso" xml:space="preserve">
+    <value>Dias de descanso</value>
+  </data>
+  <data name="domicilioOficina" xml:space="preserve">
+    <value>Domicilio de Oficina</value>
+  </data>
+  <data name="fechaAntiguedad" xml:space="preserve">
+    <value>Fecha de Antigüedad</value>
+  </data>
+  <data name="importeFonacot" xml:space="preserve">
+    <value>Importe por Fonacot</value>
+  </data>
+  <data name="importePension" xml:space="preserve">
+    <value>Importe por Pensión</value>
+  </data>
+  <data name="jornadaLaboral" xml:space="preserve">
+    <value>Jornada Laboral</value>
+  </data>
+  <data name="montoInfonavit" xml:space="preserve">
+    <value>Importe por Infonavit</value>
+  </data>
+  <data name="otros" xml:space="preserve">
+    <value>Otros</value>
+  </data>
+  <data name="porcientoPension" xml:space="preserve">
+    <value>Porcentaje de Pensión</value>
+  </data>
+  <data name="salarioHorasExtras" xml:space="preserve">
+    <value>Salario por horas extras</value>
+  </data>
+  <data name="salarioMensual" xml:space="preserve">
+    <value>Salario Mensual</value>
+  </data>
+  <data name="salarioNominal" xml:space="preserve">
+    <value>Salario Nominal</value>
+  </data>
+  <data name="salarioVSM" xml:space="preserve">
+    <value>SalarioVSM</value>
+  </data>
+  <data name="tipoSangre" xml:space="preserve">
+    <value>Tipo de Sangre</value>
+  </data>
+  <data name="fechaPago" xml:space="preserve">
+    <value>Fecha de Pago</value>
+  </data>
+  <data name="folioCliente" xml:space="preserve">
+    <value>Folio del Cliente</value>
+  </data>
+  <data name="moneda" xml:space="preserve">
+    <value>Moneda</value>
+  </data>
+  <data name="tipoCambio" xml:space="preserve">
+    <value>Tipo de Cambio</value>
+  </data>
+  <data name="tipoPago" xml:space="preserve">
+    <value>Tipo de Pago</value>
+  </data>
+  <data name="z" xml:space="preserve">
+    <value>zzz</value>
   </data>
 </root>

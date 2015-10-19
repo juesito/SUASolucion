@@ -20,7 +20,7 @@
 
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
-    gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
+//    gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
     gridColumns.Add(grid.Column("folioSolicitud", "Folio", format: @<text> @if (@item.folioSolicitud != null)
     {  @item.folioSolicitud }</text>, canSort: true));
     gridColumns.Add(grid.Column("Proyecto.descripcion", "Proyecto", format: @<text> @if (@item.ProyectoId != null)
@@ -65,16 +65,12 @@
         gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text>
             @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
             {
-                <a href="@Url.Action("Create", "Empleados", new { id = item.id })">
+                <a href="@Url.Action("BajaEmpleados", "Empleados", new { id = item.id, clienteId = item.clienteId})">
                     <img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" />
                 </a>
             }</text>));
     }
 
-    if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text><a href="@Url.Action("BajaEmpleados", "Empleados", new { id = item.id, clienteId = item.clienteId})"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
     if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud", "Se agrega solicitud para ver empleados solicitud baja", 6))
     {
         gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
@@ -103,14 +99,50 @@ columns: grid.Columns(gridColumns.ToArray()),
 tableStyle: "table table-striped tableSua"
 ));
 
-    tableHtml = sb.ToString().Replace("{}", "<input type='checkbox' id='selectAll' name='slall' />").Trim();
+    tableHtml = sb.ToString().Trim();
 }
 
 @section Menu {
-    <div>Solicitudes Baja <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Solicitudes de Baja <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 <script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        // Handler for .ready() called.
+        var clienteIdJs = '@(ViewBag.clienteId)' + " ";
+        var proyectoIdJs = '@(ViewBag.proyectoId)' + " ";
+
+        if (clienteIdJs != " ") {
+            var procemessage = "<option value='0'> Por favor espere...</option>";
+            $("#proyectoId").html(procemessage).show();
+            var url = "/Proyectos/ObtenerProyectosPorClienteId/";
+
+            $.ajax({
+                url: url,
+                data: { clienteId: clienteIdJs.trim() },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var markup = "<option value='0'>Seleccione su proyecto</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        if (data[x].Value == proyectoIdJs.trim()) {
+                            markup += "<option value=" + data[x].Value + " selected='selected'>" + data[x].Text + "</option>";
+                        } else {
+                            markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                        };
+
+
+                    }
+                    $("#proyectoId").html(markup).show();
+                },
+                error: function (reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+        };
+    });
+
+
     function obtenerProyectos(_clienteId) {
         var procemessage = "<option value='0'> Por favor espere...</option>";
         $("#proyectoId").html(procemessage).show();
@@ -137,8 +169,6 @@ tableStyle: "table table-striped tableSua"
 </script>
 
 <p>
-<div class="menubar-header">
-
     @if (SecurityUserModel.verificarPermiso("nueva solicitud baja", "Se agrega solicitud para agregar solicitud baja", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
@@ -149,8 +179,6 @@ tableStyle: "table table-striped tableSua"
             <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
         </a>
     }
-
-</div>
 
 
 @using (Html.BeginForm())

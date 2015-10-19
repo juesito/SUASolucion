@@ -27,17 +27,17 @@ namespace SUAMVC.Controllers
         {
 
             if ((!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId)) || !String.IsNullOrEmpty(folioId))
-{
+            {
 
                 ToolsHelper th = new ToolsHelper();
                 Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "Modificacion");
                 Usuario usuario = Session["UsuarioData"] as Usuario;
 
 
-               var solicituds = (from s in db.Solicituds
+                var solicituds = (from s in db.Solicituds
                                   join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
-                                  orderby s.fechaSolicitud
+                                  orderby s.fechaSolicitud descending
                                   select s).ToList();
 
                 if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId))
@@ -49,14 +49,14 @@ namespace SUAMVC.Controllers
                     Cliente cliente = db.Clientes.Find(int.Parse(clienteId));
                     Proyecto proyecto = db.Proyectos.Find(int.Parse(proyectoId));
 
-                    if (!cliente.descripcion.ToLower().Contains("seleccion") && 
+                    if (!cliente.descripcion.ToLower().Contains("seleccion") &&
                         !proyecto.descripcion.ToLower().Contains("seleccion"))
                     {
                         solicituds = solicituds.Where(s => s.clienteId.Equals(int.Parse(clienteId))
                             && s.proyectoId.Equals(int.Parse(proyectoId))).ToList();
                     }
-}
-  // Se va a filtrar por cliente  y proyecto?
+                }
+                // Se va a filtrar por cliente  y proyecto?
 
                 if (!String.IsNullOrEmpty(folioId))
                 {
@@ -110,7 +110,6 @@ namespace SUAMVC.Controllers
             ViewBag.estatusTarjeta = new SelectList(db.Conceptos, "id", "grupo");
             ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion");
             ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion");
-            ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion");
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion");
             ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion");
             ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion");
@@ -134,8 +133,7 @@ namespace SUAMVC.Controllers
                 ParametrosHelper ph = new ParametrosHelper();
 
                 Parametro folioModificacion = ph.getParameterByKey("FOLSMODIF");
-                
-                //Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("SOLCON") && s.descripcion.ToLower().Contains("modificacion")).First();
+
                 Concepto concepto = th.obtenerConceptoPorGrupo("ESTASOL", "apertura");
                 Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "modificacion");
 
@@ -154,8 +152,9 @@ namespace SUAMVC.Controllers
                 solicitud.folioSolicitud = "";
                 solicitud.noTrabajadores = 0;
                 solicitud.tipoSolicitud = tipoSolicitud.id;
+                solicitud.usuarioId = usuario.Id;
                 db.Solicituds.Add(solicitud);
-                
+
 
                 try
                 {
@@ -184,10 +183,9 @@ namespace SUAMVC.Controllers
                         }
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
             }
 
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusSolicitud);
             ViewBag.estatusNomina = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusNomina);
             ViewBag.estatusJuridico = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusJuridico);
@@ -195,11 +193,11 @@ namespace SUAMVC.Controllers
             ViewBag.estatusTarjeta = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusTarjeta);
             ViewBag.esquemaId = new SelectList(db.EsquemasPagoes, "id", "descripcion", solicitud.esquemaId);
             ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", solicitud.plazaId);
-            ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion", solicitud.proyectoId);
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", solicitud.sdiId);
             ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion", solicitud.contratoId);
             ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion", solicitud.tipoPersonalId);
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", solicitud.usuarioId);
+
             return View(solicitud);
         }
 
@@ -242,7 +240,7 @@ namespace SUAMVC.Controllers
             {
                 db.Entry(solicitud).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusSolicitud);
@@ -283,7 +281,7 @@ namespace SUAMVC.Controllers
             Solicitud solicitud = db.Solicituds.Find(id);
             db.Solicituds.Remove(solicitud);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
 
         //Lay out SolicitudBaja
@@ -395,7 +393,7 @@ namespace SUAMVC.Controllers
 
             //Creamos el Header
             Row row = new Row();
-          
+
             index = index + 1;
             row = eh.addNewCellToRow(index, row, "SOLICITUDES MODIFICACION", headerColumns[0] + index, 0U, CellValues.String);
             sheetData.AppendChild(row);

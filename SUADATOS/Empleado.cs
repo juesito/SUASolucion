@@ -44,7 +44,7 @@ namespace SUADATOS
         public int tieneInfonavit { get; set; }
         public string creditoInfonavit { get; set; }
         public int estadoCivilId { get; set; }
-        public System.DateTime fechaNacimiento { get; set; }
+        public Nullable<System.DateTime> fechaNacimiento { get; set; }
         public int nacionalidadId { get; set; }
         public Nullable<int> estadoNacimientoId { get; set; }
         public Nullable<int> municipioNacimientoId { get; set; }
