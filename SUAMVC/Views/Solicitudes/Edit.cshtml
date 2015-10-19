@@ -28,6 +28,24 @@
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.id)
+                @Html.HiddenFor(model => model.clienteId)
+                @Html.HiddenFor(model => model.proyectoId)
+                @Html.HiddenFor(model => model.fechaSolicitud)
+                @Html.HiddenFor(model => model.estatusAfiliado)
+                @Html.HiddenFor(model => model.estatusJuridico)
+                @Html.HiddenFor(model => model.estatusNomina)
+                @Html.HiddenFor(model => model.estatusTarjeta)
+                @Html.HiddenFor(model => model.fechaBaja)
+                @Html.HiddenFor(model => model.estatusSolicitud)
+                @Html.HiddenFor(model => model.valida)
+                @Html.HiddenFor(model => model.solicita)
+                @Html.HiddenFor(model => model.usuarioId)
+                @Html.HiddenFor(model => model.autoriza)
+                @Html.HiddenFor(model => model.folioSolicitud)
+                @Html.HiddenFor(model => model.noTrabajadores)
+                @Html.HiddenFor(model => model.tipoSolicitud)
+                
+                
                 <table style="font-size:10px;margin:0 auto; width:700px; ">
                     <tr>
                         <td>
