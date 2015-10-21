@@ -557,10 +557,7 @@
             <div class="foto-Marquee">
                 @if (!String.IsNullOrEmpty(foto))
                 {
-                    <a href="@Url.Action("SubirFoto", "Empleados" , new { empleadoid=Model.empleado.id })"
-                       title="Subir Fotografia">
-                        <img src="@Url.Action("MyFoto", "Empleados", new{ foto = Model.empleado.foto.Trim()})" alt="@Model.empleado.foto" width="120" height="130" />
-                    </a>
+                    <img src="@Url.Action("MyFoto", "Empleados", new{ foto = Model.empleado.foto.Trim()})" alt="@Model.empleado.foto" width="120" height="130" />
                 }
                 else
                 {

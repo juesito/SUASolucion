@@ -584,6 +584,7 @@ namespace SUAMVC.Controllers
                 int solicitudAct = int.Parse(solicitudId);
                 Solicitud solicitud = db.Solicituds.Find(solicitudAct);
                 Usuario usuario = Session["UsuarioData"] as Usuario;
+                DateTime date = DateTime.Now;
 
                 if (Request.Files.Count > 0)
                 {
@@ -592,7 +593,10 @@ namespace SUAMVC.Controllers
                     if (file != null && file.ContentLength > 0)
                     {
                         ExcelHelper ex = new ExcelHelper();
-                        LinqToExcelProvider provider = new LinqToExcelProvider(@"C:\SUA\Layouts\" + file.FileName);
+
+                        String fileName = @"C:\SUA\Layouts\" + date.ToString("ddMMyyyyHHmmss") + "-" + file.FileName.Trim();
+                        file.SaveAs(fileName.Trim());
+                        LinqToExcelProvider provider = new LinqToExcelProvider(fileName.Trim());
 
                         provider.readExcel("Layout");
 
