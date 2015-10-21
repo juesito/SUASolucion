@@ -122,7 +122,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio,fechaInicioContrato")] Solicitud solicitud)
+        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaTerminoContrato,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio,fechaInicioContrato")] Solicitud solicitud)
         {
             if (ModelState.IsValid)
             {
@@ -141,7 +141,6 @@ namespace SUAMVC.Controllers
                 solicitud.fechaSolicitud = DateTime.Now;
 
                 solicitud.solicita = usuario.nombreUsuario;
-                solicitud.fechaSolicitud = DateTime.Now;
                 solicitud.estatusSolicitud = concepto.id;
                 solicitud.estatusNomina = concepto.id;
                 solicitud.estatusJuridico = concepto.id;
@@ -225,7 +224,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio, tipoSolicitud")] Solicitud solicitud)
+        public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicioContrato,fechaTerminoContrato,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio, tipoSolicitud")] Solicitud solicitud)
         {
             if (ModelState.IsValid)
             {
@@ -592,6 +591,26 @@ namespace SUAMVC.Controllers
             Response.ContentType = "application/excel";
             Response.Write(gridData);
             Response.End();
+        }
+
+        public void DownLoadLayout()
+        {
+            FileStream fileStream = null;
+            MemoryStream mem = new MemoryStream();
+
+                 fileStream = new FileStream("C:\\SUA\\Layouts\\Layout-Altas.xls", FileMode.Open);
+                fileStream.Position = 0;
+                mem = new MemoryStream();
+                fileStream.CopyTo(mem);
+
+                mem.Position = 0;
+                Response.ClearContent();
+                Response.AddHeader("content-disposition", "attachment; filename=Layout-Altas.xls" );
+                ToolsHelper th = new ToolsHelper();
+                Response.ContentType = th.getMimeType("C:\\SUA\\Layouts\\Layout-Altas.xls");
+                Response.BinaryWrite(mem.ToArray());
+
+                Response.End();
         }
 
     }

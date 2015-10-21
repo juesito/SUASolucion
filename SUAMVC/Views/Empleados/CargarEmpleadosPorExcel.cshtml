@@ -22,30 +22,27 @@
 @section Menu {
     <div>Cargar Empleados por Layout<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
-<div class="marqueeFilter">
+<div class="marqueeFilter"  >
     <table style="float:left; margin-top:5px;display:inline-block;">
         <thead>
             <tr style="text-align:left;vertical-align:bottom;">
-                <td style="padding-top:15px">
-                    @Html.Label("Folio:")
-                </td>
-                <td>
-                    @Html.Label(solicitud.folioSolicitud)
-
-                </td>
-            </tr>
-            <tr style="text-align:left;vertical-align:bottom;">
-                <td>
+                <td style=" padding-top:20px">
                     @Html.Label("Cliente:")
                 </td>
                 <td>
                     @Html.Label(solicitud.Cliente.descripcion)
                 </td>
-                <td style="padding-left:15px;">
+                <td style="padding-left:30px;">
                     @Html.Label("Proyecto:")
                 </td>
-                <td>
+                <td style="padding-left:5px">
                     @Html.Label(solicitud.Proyecto.descripcion)
+                </td>
+                <td style="padding-left:30px">
+                    @Html.Label("Folio:")
+                </td>
+                <td style="padding-left:5px">
+                    @Html.Label(solicitud.folioSolicitud)
                 </td>
             </tr>
         </thead>
@@ -55,6 +52,9 @@
     <a href="@Url.Action("Index", @ViewBag.controllerDestiny, new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId,
             solicitudId = solicitud.id })" style="text-align:right">
         <img src="~/Content/Images/back.png" title="Regresar" alt="Regresar" style="border:none;" class="menuIcon" />
+    </a>
+    <a href="@Url.Action("DownLoadLayout", "Solicitudes")" style=" padding-left:20px">
+        <img src="~/Content/Images/xls.png" title="Descargar Layout" alt="Descargar Layout" style="border:none;" class="menuIcon" />
     </a>
 </div>
 

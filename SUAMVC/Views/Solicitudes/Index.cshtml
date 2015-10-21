@@ -27,7 +27,7 @@
     {  @item.folioSolicitud }</text>, canSort: true));
     gridColumns.Add(grid.Column("Proyecto.descripcion", "Proyecto", format: @<text> @if (@item.ProyectoId != null)
     {  @item.Proyecto.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Plaza.descripcion", "Residencia", format: @<text> @if (@item.PlazaId != null)
+    gridColumns.Add(grid.Column("Plaza.descripcion", "Plaza", format: @<text> @if (@item.PlazaId != null)
     {  @item.Plaza.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("fechaSolicitud", "Fecha Solicitud", @<text><div style='width: 6em'>@item.fechaSolicitud.ToString("dd-MM-yyyy")</div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("EsquemasPago.descripcion", "Esquema", format: @<text> @if (@item.esquemaId != null)
@@ -36,13 +36,13 @@
     {  @item.TipoContrato.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("TipoPersonal.descripcion", "Tipo Personal", format: @<text> @if (@item.tipoPersonalId != null)
     {  @item.TipoPersonal.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("fechaInicial", "Fecha Inicio", @<text><div style='width: 6em'>
-            @if (@item.fechaInicial != null)
-            { @item.fechaInicial.ToString("dd-MM-yyyy")}
+    gridColumns.Add(grid.Column("fechaInicioContrato", "Inicio contrato", @<text><div style='width: 6em'>
+            @if (@item.fechaInicioContrato != null)
+            { @item.fechaInicioContrato.ToString("dd-MM-yyyy")}
         </div></text>, null, canSort: true));
-    gridColumns.Add(grid.Column("fechaFinal", "Fecha Final", @<text><div style='width: 6em'>
-                @if (@item.fechaFinal != null)
-                { @item.fechaFinal.ToString("dd-MM-yyyy")}
+    gridColumns.Add(grid.Column("fechaTerminoContrato", "Final contrato", @<text><div style='width: 6em'>
+                @if (@item.fechaTerminoContrato != null)
+                { @item.fechaTerminoContrato.ToString("dd-MM-yyyy")}
             </div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("solicita", "Solicitó", format: @<text> @if (@item.solicita != null)
     {  @item.solicita }</text>, canSort: true));
