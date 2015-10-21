@@ -222,7 +222,7 @@
                             @Html.Label(Language.fechaNacimiento + ":")
                         </td>
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new { @Value = Model.fechaNacimiento.ToString(" dd/MM/yyyy"), @class = "myBornDate" } })
+                            @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new { @class = "myBornDate" } })
                             @Html.ValidationMessageFor(model => model.fechaNacimiento, "", new { @class = "text-danger" })
                         </td>
                         <td></td>
