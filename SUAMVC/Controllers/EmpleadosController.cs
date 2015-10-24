@@ -157,8 +157,8 @@ namespace SUAMVC.Controllers
             empleado.tramitarTarjeta = 0;
             empleado.tieneInfonavit = 1;
             empleado.esquemaPagoId = solicitud.esquemaId;
-            ViewBag.solicitudId = id;
-
+            TempData["solicitudId"] = id;
+            
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
             ViewBag.municipioNacimientoId = new SelectList(db.Municipios, "id", "descripcion", empleado.municipioNacimientoId);
             ViewBag.nacionalidadId = new SelectList(db.Paises, "id", "descripcion", empleado.nacionalidadId);
@@ -180,6 +180,7 @@ namespace SUAMVC.Controllers
             {
                 ToolsHelper th = new ToolsHelper();
                 Usuario usuario = Session["UsuarioData"] as Usuario;
+                TempData["solicitudId"] = solicitudId;
 
                 empleado.fechaCreacion = DateTime.Now;
                 empleado.usuarioId = usuario.Id;
@@ -210,7 +211,23 @@ namespace SUAMVC.Controllers
                     empleado.foto = "~/Content/Images/male.png";
                 }
 
-                empleado.foto = empleado.foto.Trim();
+                empleado.foto = empleado.foto.Trim().ToUpper();
+                empleado.nss = empleado.nss.Trim().ToUpper();
+                empleado.apellidoMaterno = empleado.apellidoMaterno.Trim().ToUpper();
+                empleado.apellidoPaterno = empleado.apellidoPaterno.Trim().ToUpper();
+                empleado.nombre = empleado.nombre.Trim().ToUpper();
+                empleado.nombreCompleto = empleado.nombreCompleto.Trim().ToUpper();
+                empleado.rfc = empleado.rfc.Trim().ToUpper();
+                empleado.homoclave = empleado.homoclave.Trim().ToUpper();
+                empleado.curp = empleado.curp.Trim().ToUpper();
+                empleado.categoria = empleado.categoria.Trim().ToUpper();
+                empleado.creditoInfonavit = empleado.creditoInfonavit.Trim().ToUpper();
+                empleado.calleNumero = empleado.calleNumero.Trim().ToUpper();
+                empleado.colonia = empleado.colonia.Trim().ToUpper();
+                empleado.edoMunicipio = empleado.edoMunicipio.Trim().ToUpper();
+                empleado.observaciones = empleado.observaciones.Trim().ToUpper();
+                empleado.estatus = empleado.estatus.Trim().ToUpper();
+
                 db.Empleados.Add(empleado);
 
 
@@ -319,23 +336,23 @@ namespace SUAMVC.Controllers
             {
                 Empleado empleadoModificado = db.Empleados.Find(empleado.id);
 
-                empleadoModificado.nss = empleado.nss;
+                empleadoModificado.nss = empleado.nss.Trim().ToUpper();
                 empleadoModificado.fechaAltaImss = empleado.fechaAltaImss;
-                empleadoModificado.apellidoMaterno = empleado.apellidoMaterno;
-                empleadoModificado.apellidoPaterno = empleado.apellidoPaterno;
-                empleadoModificado.nombre = empleado.nombre;
-                empleadoModificado.rfc = empleado.rfc;
-                empleadoModificado.homoclave = empleado.homoclave;
-                empleadoModificado.curp = empleado.curp;
+                empleadoModificado.apellidoMaterno = empleado.apellidoMaterno.Trim().ToUpper();
+                empleadoModificado.apellidoPaterno = empleado.apellidoPaterno.Trim().ToUpper();
+                empleadoModificado.nombre = empleado.nombre.Trim().ToUpper();
+                empleadoModificado.rfc = empleado.rfc.Trim().ToUpper();
+                empleadoModificado.homoclave = empleado.homoclave.Trim().ToUpper();
+                empleadoModificado.curp = empleado.curp.Trim().ToUpper();
                 empleadoModificado.sexoId = sexoId;
                 //empleadoModificado.estadoCivilId = empleado.estadoCivilId;
-                empleadoModificado.categoria = empleado.categoria;
+                empleadoModificado.categoria = empleado.categoria.Trim().ToUpper();
                 empleadoModificado.fechaNacimiento = empleado.fechaNacimiento;
                 //empleadoModificado.nacionalidadId = paisId;
                 //empleadoModificado.estadoNacimientoId = empleado.estadoNacimientoId;
                 //empleadoModificado.municipioNacimientoId = empleado.municipioNacimientoId;
                 empleadoModificado.email = empleado.email;
-                empleadoModificado.observaciones = empleado.observaciones;
+                empleadoModificado.observaciones = empleado.observaciones.Trim().ToUpper();
 
                 try
                 {
@@ -1060,6 +1077,7 @@ namespace SUAMVC.Controllers
             solicitudEmpleado.tipoId = concepto.id;
             solicitudEmpleado.fechaCreacion = DateTime.Now;
             solicitudEmpleado.usuarioId = usuarioId;
+
 
             db.SolicitudEmpleadoes.Add(solicitudEmpleado);
             db.SaveChanges();
