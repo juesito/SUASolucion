@@ -211,22 +211,86 @@ namespace SUAMVC.Controllers
                     empleado.foto = "~/Content/Images/male.png";
                 }
 
-                empleado.foto = empleado.foto.Trim().ToUpper();
-                empleado.nss = empleado.nss.Trim().ToUpper();
-                empleado.apellidoMaterno = empleado.apellidoMaterno.Trim().ToUpper();
-                empleado.apellidoPaterno = empleado.apellidoPaterno.Trim().ToUpper();
-                empleado.nombre = empleado.nombre.Trim().ToUpper();
-                empleado.nombreCompleto = empleado.nombreCompleto.Trim().ToUpper();
-                empleado.rfc = empleado.rfc.Trim().ToUpper();
-                empleado.homoclave = empleado.homoclave.Trim().ToUpper();
-                empleado.curp = empleado.curp.Trim().ToUpper();
-                empleado.categoria = empleado.categoria.Trim().ToUpper();
-                empleado.creditoInfonavit = empleado.creditoInfonavit.Trim().ToUpper();
-                empleado.calleNumero = empleado.calleNumero.Trim().ToUpper();
-                empleado.colonia = empleado.colonia.Trim().ToUpper();
-                empleado.edoMunicipio = empleado.edoMunicipio.Trim().ToUpper();
-                empleado.observaciones = empleado.observaciones.Trim().ToUpper();
-                empleado.estatus = empleado.estatus.Trim().ToUpper();
+                if (!String.IsNullOrEmpty(empleado.foto))
+                {
+                    empleado.foto = empleado.foto.Trim().ToUpper();
+                }
+                
+                if (!String.IsNullOrEmpty(empleado.nss))
+                {
+                    empleado.nss = empleado.nss.Trim().ToUpper();
+                }
+                
+                if(!String.IsNullOrEmpty(empleado.apellidoMaterno))
+                {
+                    empleado.apellidoMaterno = empleado.apellidoMaterno.Trim().ToUpper();
+                }
+                
+                if(!String.IsNullOrEmpty(empleado.apellidoPaterno))
+                {
+                    empleado.apellidoPaterno = empleado.apellidoPaterno.Trim().ToUpper();
+                }
+                
+                if(!String.IsNullOrEmpty(empleado.nombre))
+                {
+                    empleado.nombre = empleado.nombre.Trim().ToUpper();
+                }
+             
+                if(!String.IsNullOrEmpty(empleado.nombreCompleto))
+                {
+                    empleado.nombreCompleto = empleado.nombreCompleto.Trim().ToUpper();
+                }
+                
+                if(!String.IsNullOrEmpty(empleado.rfc))
+                {
+                    empleado.rfc = empleado.rfc.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.homoclave))
+                {
+                    empleado.homoclave = empleado.homoclave.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.curp))
+                {
+                    empleado.curp = empleado.curp.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.categoria))
+                {
+                    empleado.categoria = empleado.categoria.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.creditoInfonavit))
+                {
+                    empleado.creditoInfonavit = empleado.creditoInfonavit.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.calleNumero))
+                {
+                    empleado.calleNumero = empleado.calleNumero.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.colonia))
+                {
+                    empleado.colonia = empleado.colonia.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.edoMunicipio))
+                {
+                    empleado.edoMunicipio = empleado.edoMunicipio.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.observaciones))
+                {
+                    empleado.observaciones = empleado.observaciones.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.estatus))
+                {
+                    empleado.estatus = empleado.estatus.Trim().ToUpper();
+                }
+                
 
                 db.Empleados.Add(empleado);
 
@@ -336,23 +400,62 @@ namespace SUAMVC.Controllers
             {
                 Empleado empleadoModificado = db.Empleados.Find(empleado.id);
 
+            if(!String.IsNullOrEmpty(empleado.nss))
+            {
                 empleadoModificado.nss = empleado.nss.Trim().ToUpper();
+            }
+                
                 empleadoModificado.fechaAltaImss = empleado.fechaAltaImss;
+
+            if (!String.IsNullOrEmpty(empleado.apellidoMaterno))
+            {
                 empleadoModificado.apellidoMaterno = empleado.apellidoMaterno.Trim().ToUpper();
+            }
+
+            if (!String.IsNullOrEmpty(empleado.apellidoPaterno))
+            {
                 empleadoModificado.apellidoPaterno = empleado.apellidoPaterno.Trim().ToUpper();
+            }
+
+            if (!String.IsNullOrEmpty(empleado.nombre))
+            {
                 empleadoModificado.nombre = empleado.nombre.Trim().ToUpper();
+            }
+
+            if (!String.IsNullOrEmpty(empleado.rfc))
+            {
                 empleadoModificado.rfc = empleado.rfc.Trim().ToUpper();
+            }
+
+            if (!String.IsNullOrEmpty(empleado.homoclave))
+            {
                 empleadoModificado.homoclave = empleado.homoclave.Trim().ToUpper();
+            }
+
+            if (!String.IsNullOrEmpty(empleado.curp))
+            {
                 empleadoModificado.curp = empleado.curp.Trim().ToUpper();
-                empleadoModificado.sexoId = sexoId;
-                //empleadoModificado.estadoCivilId = empleado.estadoCivilId;
+            }
+
+            empleadoModificado.sexoId = sexoId;
+
+            if (!String.IsNullOrEmpty(empleado.categoria))
+            {
                 empleadoModificado.categoria = empleado.categoria.Trim().ToUpper();
+            }
+
+                //empleadoModificado.estadoCivilId = empleado.estadoCivilId;
                 empleadoModificado.fechaNacimiento = empleado.fechaNacimiento;
                 //empleadoModificado.nacionalidadId = paisId;
                 //empleadoModificado.estadoNacimientoId = empleado.estadoNacimientoId;
                 //empleadoModificado.municipioNacimientoId = empleado.municipioNacimientoId;
                 empleadoModificado.email = empleado.email;
-                empleadoModificado.observaciones = empleado.observaciones.Trim().ToUpper();
+
+                if (!String.IsNullOrEmpty(empleado.observaciones))
+                {
+                    empleadoModificado.observaciones = empleado.observaciones.Trim().ToUpper();
+                }
+                
 
                 try
                 {
