@@ -88,7 +88,7 @@
                     </dt>
 
                     <dd style="padding-top:8px">
-                        @Html.DisplayFor(model => model.empleado.fechaCreacion)
+                        @Html.DisplayFor(model => model.empleado.fechaCreacion, "Date")
                     </dd>
                     <dt style="padding-top:8px">
                         @Html.DisplayName(@Language.fechaBaja):
@@ -156,7 +156,7 @@
                         @Html.DisplayFor(model => model.empleado.Pais.descripcion)
                     </dd>
                     <dt style="padding-top:8px">
-                        @Html.DisplayName(Language.email):
+                        @Html.Label(Language.email):
                     </dt>
 
                     <dd style="padding-top:8px">
@@ -172,7 +172,7 @@
                             <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
                         </a>
                     </dt>
-                    <dd style="margin-top:30px;"><input name="Guadar" type="submit" value="@Language.guardar" /></dd>
+                    <dd style="margin-top:30px;"><input name="Guadar" type="submit" value="@Language.guardar" class="btn btn-success" /></dd>
                 </dl>
             </div>
             <!-- marquesina de la derecha -->
@@ -337,7 +337,7 @@
                             <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
                         </a>
                     </dt>
-                    <dd style="margin-top:30px;"><input name="Guadar" type="submit" value="@Language.guardar" /></dd>
+                    <dd style="margin-top:30px;"><input name="Guadar" type="submit" value="@Language.guardar" class="btn btn-success" /></dd>
                 </dl>
             </div>
             <!-- marquesina de la derecha -->
@@ -361,7 +361,7 @@
                     <table class="menu-archivos-table">
                         <tr>
                             <td>
-                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "cv" })"
+                                <a href="@Url.Action("index", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id, tipo = "cv" })"
                                    title="Ver documentos">
                                     <img src="~/Content/Images/cv.png" alt="" style="border:none;" class="icon" />
                                 </a>
@@ -373,7 +373,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Documentos V" })"
+                                <a href="@Url.Action("index", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Documentos V" })"
                                    title="Ver documentos">
                                     <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
                                 </a>
@@ -385,7 +385,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Contratos" })"
+                                <a href="@Url.Action("index", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Contratos" })"
                                    title="Ver documentos">
                                     <img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" />
                                 </a>
@@ -397,7 +397,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Psicometrico" })"
+                                <a href="@Url.Action("index", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Psicometrico" })"
                                    title="Ver documentos">
                                     <img src="~/Content/Images/history.png" alt="" style="border:none;" class="icon" />
                                 </a>
@@ -409,7 +409,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Confidencial" })"
+                                <a href="@Url.Action("index", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Confidencial" })"
                                    title="Ver documentos">
                                     <img src="~/Content/Images/people-b.png" alt="" style="border:none;" class="icon" />
                                 </a>
@@ -421,7 +421,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a href="@Url.Action("create", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id })" id="cargarLink"
+                                <a href="@Url.Action("create", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id })" id="cargarLink"
                                    title="Cargar Documentos">
                                     <img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" />
                                 </a>
@@ -531,7 +531,7 @@
                             <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
                         </a>
                     </dt>
-                    <dd style="margin-top:100px;"><input name="Guadar" type="submit" value="@Language.guardar" /></dd>
+                    <dd style="margin-top:100px;"><input name="Guadar" type="submit" value="@Language.guardar" class="btn btn-success" /></dd>
 
                 </dl>
             </div>

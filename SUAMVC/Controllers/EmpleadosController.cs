@@ -732,7 +732,7 @@ namespace SUAMVC.Controllers
                                          nss = Convert.ToString(row.Field<Object>("NSS")),
                                          sexo = Convert.ToString(row.Field<Object>("SEXO")),
                                          fechaNacimiento = Convert.ToString(row.Field<Object>("FECHA_NACIMIENTO")),
-                                         fechaAltaImss = Convert.ToString(row.Field<Object>("FECHA_ALTA_IMSS")),
+                                         fechaAltaImss = Convert.ToString(row.Field<Object>("FECHA_ALTA")),
                                          creditoInfonavit = Convert.ToString(row.Field<Object>("NUM_CRED_INFONAVIT")),
                                          pais = Convert.ToString(row.Field<Object>("PAIS")),
                                          estado = Convert.ToString(row.Field<Object>("ESTADO_NACIMIENTO")),
