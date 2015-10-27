@@ -230,5 +230,17 @@ namespace SUAMVC.Helpers
             }
         }
 
+        /**
+         * Regresa el último movimiento del empleado
+         * 
+         */
+       public MovimientosAsegurado obtenerUltimoMovto(String nss, String clienteId)
+        {
+           int cliente = int.Parse(clienteId);
+            MovimientosAsegurado movimiento = db.MovimientosAseguradoes.Where(s => s.Asegurado.numeroAfiliacion.Trim().Equals(nss.Trim()) && s.Asegurado.Cliente.Id.Equals(cliente)).OrderByDescending(s => s.fechaInicio).FirstOrDefault();
+
+            return movimiento;
+        }
+
     }
 }

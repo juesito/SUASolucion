@@ -66,10 +66,10 @@
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Empleados", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("reportes", "Se agrega solicitud para ver reportes", 6))
+    @*if (SecurityUserModel.verificarPermiso("reportes", "Se agrega solicitud para ver reportes", 6))
     {
         gridColumns.Add(grid.Column(header: "Reportes", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
+    }*@
 
 
     sb.Append(grid.GetHtml(

@@ -117,7 +117,7 @@
     if (SecurityUserModel.verificarPermiso("Subir Lay Out Personal", "Se agrega solicitud para subir lay out de empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Layout Alta Personal", format: @<text>
-            @if (item.noTrabajadores > 0 && !item.Concepto.descripcion.Trim().Equals("Enviado"))
+            @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
             {
                 <a href="@Url.Action("CargarEmpleadosPorExcel", "Empleados", new { id = item.id })">
                     <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
