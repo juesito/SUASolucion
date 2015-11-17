@@ -39,12 +39,14 @@ namespace SUADATOS
         public int sexoId { get; set; }
         public Nullable<int> sdiId { get; set; }
         public Nullable<int> esquemaPagoId { get; set; }
+        public Nullable<int> sdiAlternativoId { get; set; }
+        public Nullable<int> esquemaPagoAlterId { get; set; }
         public decimal salarioReal { get; set; }
         public string categoria { get; set; }
         public int tieneInfonavit { get; set; }
         public string creditoInfonavit { get; set; }
         public int estadoCivilId { get; set; }
-        public System.DateTime fechaNacimiento { get; set; }
+        public Nullable<System.DateTime> fechaNacimiento { get; set; }
         public int nacionalidadId { get; set; }
         public Nullable<int> estadoNacimientoId { get; set; }
         public Nullable<int> municipioNacimientoId { get; set; }
@@ -78,6 +80,7 @@ namespace SUADATOS
         public virtual Municipio Municipio { get; set; }
         public virtual Pais Pais { get; set; }
         public virtual SDI SDI { get; set; }
+        public virtual SDI SDI1 { get; set; }
         public virtual Sexo Sexo { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual ICollection<FamiliaresEmpleado> FamiliaresEmpleadoes { get; set; }

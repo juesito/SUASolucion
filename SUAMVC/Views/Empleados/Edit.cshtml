@@ -63,7 +63,9 @@
         <li><a href="#tabs-1">Generales</a></li>
         <li><a href="#tabs-2">Documentos</a></li>
         <li><a href="#tabs-3">Salariales</a></li>
+@if (!Model.empleado.EsquemasPago.descripcion.Trim().Equals("IAS")) {
         <li><a href="#tabs-4">SUA</a></li>
+}
     </ul>
 
     <!-- Pestaña numero 1 datos personales -->
@@ -599,6 +601,7 @@
             </div>
         }
     </div>
+@if (!Model.empleado.EsquemasPago.descripcion.Trim().Equals("IAS")) {
     <!-- Pestaña numero 4 datos del SUA -->
     <div id="tabs-4" style="overflow:hidden; min-height:470px;">
         <div class="left-Marquee">
@@ -652,6 +655,7 @@
 
         </div>
     </div>
+}
 </div>
 
 

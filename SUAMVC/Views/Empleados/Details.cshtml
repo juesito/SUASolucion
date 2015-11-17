@@ -19,7 +19,9 @@
         <li><a href="#tabs-1">Generales</a></li>
         <li><a href="#tabs-2">Documentos</a></li>
         <li><a href="#tabs-3">Salariales</a></li>
-        <li><a href="#tabs-4">SUA</a></li>
+        @if (!Model.empleado.EsquemasPago.descripcion.Trim().Equals("IAS")) { 
+            <li><a href="#tabs-4">SUA</a></li>
+        }
     </ul>
 
     <!-- Pestaña numero 1 datos personales -->
@@ -350,7 +352,7 @@
                     <table class="menu-archivos-table">
                         <tr>
                             <td>
-                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "cv" })"
+                                <a href="@Url.Action("index", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id, tipo = "cv" })"
                                    title="Ver documentos">
                                     <img src="~/Content/Images/cv.png" alt="" style="border:none;" class="icon" />
                                 </a>
@@ -362,7 +364,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Documentos V" })"
+                                <a href="@Url.Action("index", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Documentos V" })"
                                    title="Ver documentos">
                                     <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
                                 </a>
@@ -374,7 +376,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Contratos" })"
+                                <a href="@Url.Action("index", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Contratos" })"
                                    title="Ver documentos">
                                     <img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" />
                                 </a>
@@ -386,7 +388,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Psicometrico" })"
+                                <a href="@Url.Action("index", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Psicometrico" })"
                                    title="Ver documentos">
                                     <img src="~/Content/Images/history.png" alt="" style="border:none;" class="icon" />
                                 </a>
@@ -398,7 +400,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a href="@Url.Action("index", "ArchivosEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Confidencial" })"
+                                <a href="@Url.Action("index", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Confidencial" })"
                                    title="Ver documentos">
                                     <img src="~/Content/Images/people-b.png" alt="" style="border:none;" class="icon" />
                                 </a>
@@ -524,6 +526,7 @@
             </div>
         }
     </div>
+@if (!Model.empleado.EsquemasPago.descripcion.Trim().Equals("IAS")) {
     <!-- Pestaña numero 4 datos del SUA -->
     <div id="tabs-4" style="overflow:hidden; min-height:470px;">
         <div class="left-Marquee">
@@ -574,6 +577,7 @@
 
         </div>
     </div>
+}
 </div>
 
 

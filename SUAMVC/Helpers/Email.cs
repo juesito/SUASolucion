@@ -80,6 +80,12 @@ namespace SUAMVC.Helpers
                     cliente.descripcion.ToUpper() + ", el cual contiene " + solicitud.noTrabajadores +
                     " trabajador(es)";
             }//Es solicitud de Baja de personal?
+            else if (tipo.Equals("M")) {
+                email.subject = "Folio modificación:" + solicitud.folioSolicitud;
+                email.msg = "Se ha generado una nueva solicitud de Modificación de Personal con Folio : " + solicitud.folioSolicitud + "del cliente " +
+                    cliente.descripcion.ToUpper() + ", el cual contiene " + solicitud.noTrabajadores +
+                    " trabajador(es)";
+            }
 
             //Enviamos el email ya preparado.
             this.EnviarEmail(email, solicitud);

@@ -15,7 +15,7 @@ using System.Diagnostics;
 
 namespace SUAMVC.Controllers
 {
-    public class ArchivoEmpleadoesController : Controller
+    public class ArchivoEmpleadosController : Controller
     {
         private suaEntities db = new suaEntities();
 

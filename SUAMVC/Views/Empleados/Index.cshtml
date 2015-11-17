@@ -2,6 +2,7 @@
 @using SUADATOS
 @using SUAMVC.Models
 @using System.Text;
+@using System.Web.UI.WebControls
 
 @{
     ViewBag.Title = "Empleados registrados";
@@ -11,6 +12,7 @@
         Response.Redirect("~/Home/Index");
     }
     Usuario usuario = Session["UsuarioData"] as Usuario;
+    var listItems = new List<ListItem>();
 
     Solicitud solicitud = new Solicitud();
     if (ViewBag.solicitud != null)
@@ -82,6 +84,73 @@
 
 }
 
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        // Handler for .ready() called.
+        var clienteIdJs = '@(ViewBag.clienteId)' + " ";
+        var proyectoIdJs = '@(ViewBag.proyectoId)' + " ";
+
+        if (clienteIdJs != " ") {
+            var procemessage = "<option value='0'> Por favor espere...</option>";
+            $("#proyectoId").html(procemessage).show();
+            var url = "/Proyectos/ObtenerProyectosPorClienteId/";
+
+            $.ajax({
+                url: url,
+                data: { clienteId: clienteIdJs.trim() },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var markup = "<option value='0'>Seleccione su proyecto</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        if (data[x].Value == proyectoIdJs.trim()) {
+                            markup += "<option value=" + data[x].Value + " selected='selected'>" + data[x].Text + "</option>";
+                        } else {
+                            markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                        };
+
+
+                    }
+                    $("#proyectoId").html(markup).show();
+                },
+                error: function (reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+        };
+
+
+    });
+
+    function obtenerProyectos(_clienteId) {
+        var procemessage = "<option value='0'> Por favor espere...</option>";
+        $("#proyectoId").html(procemessage).show();
+        var url = "/Proyectos/ObtenerProyectosPorClienteId/";
+
+        $.ajax({
+            url: url,
+            data: { clienteId: _clienteId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "<option value='0'>Seleccione su proyecto</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#proyectoId").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+</script>
+
+
+
+
+
 @section Menu {
     <div>Empleados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
@@ -94,19 +163,31 @@
             <thead>
                 @if (ViewBag.solicitud == null)
                 {
+
                     <tr style="text-align:left;vertical-align:bottom;">
                         <td style="padding-top:15px">
                             @Html.Label("Cliente:")
-                            @Html.clientesDrownList(usuario.Id)
                         </td>
                         <td>
+                            @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:20px")
+                        </td>
+                        <td style="padding-left:12px">
+                            @Html.Label("Proyecto:")
+                        </td>
+                        <td style="padding-left:8px">
+                            @Html.DropDownList("proyectoId", new SelectList(listItems, "Value", "Text"), " Seleccione", "width:200px;height:20px")
+                        </td>
+                        <td style="padding-left:12px">
                             @Html.Label("Folio:")
+                        </td>
+                        <td>
                             @Html.Editor("folioId")
                         </td>
-                        <td>
+                        <td style="padding-left:18px">
                             <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
                         </td>
                     </tr>
+                   
                 }
                 else
                 {

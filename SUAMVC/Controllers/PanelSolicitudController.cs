@@ -60,7 +60,9 @@ namespace SUAMVC.Controllers
                 }// Se va a filtrar por cliente  y proyecto?
                 if (!String.IsNullOrEmpty(tipoId))
                 {
-
+                    int tipo = int.Parse(tipoId);
+                    Concepto conceptoTipo =  db.Conceptos.Find(tipo);
+                    ViewBag.tipo = conceptoTipo.descripcion.Trim().ToLower();
                     solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(int.Parse(tipoId))).ToList();
 
                 }// Se va a filtrar por tipo?

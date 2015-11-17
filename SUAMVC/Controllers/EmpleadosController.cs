@@ -20,20 +20,18 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Empleados
-        public ActionResult Index(string id, string estatus, String controllerDestiny)
+        public ActionResult Index(string id, string estatus, String controllerDestiny, String clienteId, String proyectoId, String folioId)
         {
 
             Solicitud solicitud = new Solicitud();
             List<Empleado> empleadosList = new List<Empleado>();
 
-            if (String.IsNullOrEmpty(id))
-            {
-                empleadosList = (from s in db.SolicitudEmpleadoes
-                                 where s.estatus.Equals("A")
-                                 orderby s.id
-                                 select s.Empleado).ToList();
-            }
-            else
+            //empleadosList = (from s in db.SolicitudEmpleadoes
+            //                 where s.estatus.Equals("A")
+            //                 orderby s.id
+            //                 select s.Empleado).ToList();
+
+            if (!String.IsNullOrEmpty(id))
             {
                 int idTemp = int.Parse(id);
                 solicitud = db.Solicituds.Find(idTemp);
@@ -43,6 +41,49 @@ namespace SUAMVC.Controllers
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
                                  where s.solicitudId.Equals(idTemp)
+                                 orderby s.id
+                                 select s.Empleado).ToList();
+            }//la solicitud no es nulla?
+
+            if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId) && String.IsNullOrEmpty(folioId))
+            {
+
+                int clienteIntId = int.Parse(clienteId);
+                int proyectoIntId = int.Parse(proyectoId);
+                ViewBag.clienteId = clienteId;
+                ViewBag.proyectoId = proyectoIntId;
+
+                empleadosList = (from s in db.SolicitudEmpleadoes
+                                 where s.Solicitud.clienteId.Equals(clienteIntId)
+                                 && s.Solicitud.proyectoId.Equals(proyectoIntId)
+                                 orderby s.id
+                                 select s.Empleado).ToList();
+
+            }//el cliente y el proyecto no son nullos?
+            else if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId) && !String.IsNullOrEmpty(folioId))
+            {
+                int clienteIntId = int.Parse(clienteId);
+                int proyectoIntId = int.Parse(proyectoId);
+
+                ViewBag.clienteId = clienteId;
+                ViewBag.proyectoId = proyectoIntId;
+                ViewBag.folioId = folioId;
+
+                empleadosList = (from s in db.SolicitudEmpleadoes
+                                 where s.Solicitud.clienteId.Equals(clienteIntId)
+                                 && s.Solicitud.proyectoId.Equals(proyectoIntId)
+                                 && s.Empleado.folioEmpleado.Trim().Contains(folioId.Trim())
+                                 orderby s.id
+                                 select s.Empleado).ToList();
+
+            }//El folio no es null?
+            else
+            {
+
+                ViewBag.folioId = folioId;
+
+                empleadosList = (from s in db.SolicitudEmpleadoes
+                                 where s.Empleado.folioEmpleado.Trim().Contains(folioId.Trim())
                                  orderby s.id
                                  select s.Empleado).ToList();
             }
@@ -98,6 +139,8 @@ namespace SUAMVC.Controllers
 
             return RedirectToAction("BajaEmpleados", "Empleados", new { id = solicitud.id, clienteId = solicitud.clienteId });
         }
+
+
 
         // GET: Empleados/Details/5
         public ActionResult Details(int? id)
@@ -158,7 +201,7 @@ namespace SUAMVC.Controllers
             empleado.tieneInfonavit = 1;
             empleado.esquemaPagoId = solicitud.esquemaId;
             TempData["solicitudId"] = id;
-            
+
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
             ViewBag.municipioNacimientoId = new SelectList(db.Municipios, "id", "descripcion", empleado.municipioNacimientoId);
             ViewBag.nacionalidadId = new SelectList(db.Paises, "id", "descripcion", empleado.nacionalidadId);
@@ -180,14 +223,20 @@ namespace SUAMVC.Controllers
             {
                 ToolsHelper th = new ToolsHelper();
                 Usuario usuario = Session["UsuarioData"] as Usuario;
-                TempData["solicitudId"] = solicitudId;
+                Solicitud sol = db.Solicituds.Find(solicitudId);
+
+                Boolean founded = th.verificarEmpleadoPorNSSyCliente(empleado.nss.Trim(), sol.clienteId);
+
 
                 empleado.fechaCreacion = DateTime.Now;
                 empleado.usuarioId = usuario.Id;
                 empleado.nombreCompleto = empleado.nombre + " " + empleado.apellidoPaterno + " " + empleado.apellidoMaterno;
-                empleado.estatus = "A";
+                //Ponemos el estatus en Pendiente hasta
+                //que se procese la solicitud
+                empleado.estatus = "P";
                 empleado.rfc = empleado.rfc.Trim();
                 empleado.homoclave = empleado.homoclave.Trim();
+                empleado.sdiAlternativoId = empleado.sdiId;
 
                 if (!String.IsNullOrEmpty(empleado.nss))
                 {
@@ -441,7 +490,7 @@ namespace SUAMVC.Controllers
                 empleadoModificado.curp = empleado.curp.Trim().ToUpper();
             }
 
-            empleadoModificado.sexoId = sexoId;
+                empleadoModificado.sexoId = sexoId;
 
             if (!String.IsNullOrEmpty(empleado.categoria))
             {
@@ -449,6 +498,7 @@ namespace SUAMVC.Controllers
             }
 
                 //empleadoModificado.estadoCivilId = empleado.estadoCivilId;
+                empleadoModificado.categoria = empleado.categoria;
                 empleadoModificado.fechaNacimiento = empleado.fechaNacimiento;
                 //empleadoModificado.nacionalidadId = paisId;
                 //empleadoModificado.estadoNacimientoId = empleado.estadoNacimientoId;
@@ -770,12 +820,14 @@ namespace SUAMVC.Controllers
                         Banco banco = new Banco();
                         Asegurado asegurado = new Asegurado();
                         Boolean founded = false;
+
                         foreach (PersonalExcelLayout empleadoL in query)
                         {
                             Empleado empleado = new Empleado();
                             founded = false;
                             
-                            if (String.IsNullOrEmpty(empleadoL.nombre) && String.IsNullOrEmpty(empleadoL.apellidoPaterno)) {
+                            if (String.IsNullOrEmpty(empleadoL.nombre) && String.IsNullOrEmpty(empleadoL.apellidoPaterno))
+                            {
                                 break;
                             }
 
@@ -784,18 +836,11 @@ namespace SUAMVC.Controllers
                                 empleado.nss = empleadoL.nss.Trim();
                                 Empleado empleadoAlterno = th.obtenerEmpleadoPorNSS(empleadoL.nss.Trim());
 
-                                if (empleadoAlterno != null)
-                                {
-                                    if (empleadoAlterno.nombre.ToLower().Trim().Equals(empleadoL.nombre.ToLower().Trim())
-                                        && empleadoAlterno.apellidoMaterno.ToLower().Trim().Equals(empleadoL.apellidoMaterno.ToLower().Trim())
-                                        && empleadoAlterno.apellidoPaterno.ToLower().Trim().Equals(empleadoL.apellidoPaterno.ToLower().Trim()))
-                                    {
-                                        empleado.id = empleadoAlterno.id;
-                                        empleado.fechaCreacion = empleadoAlterno.fechaCreacion;
-                                        founded = true;
-                                    } // Ya existe el empleado por nss?
+                                founded = th.verificarEmpleadoPorNSSyCliente(empleadoL.nss.Trim(), solicitud.clienteId);
                                 }
 
+                            if (!founded)
+                            {
 
                                 asegurado = th.obtenerAseguradoPorNSS(empleado.nss.Trim());
 
@@ -803,12 +848,11 @@ namespace SUAMVC.Controllers
                                 {
                                     empleado.aseguradoId = asegurado.id;
                                 }
-                            }
-
 
                             empleado.nombre = empleadoL.nombre.Trim();
                             empleado.apellidoMaterno = empleadoL.apellidoMaterno.Trim();
-                            if (String.IsNullOrEmpty(empleadoL.apellidoMaterno)) {
+                                if (String.IsNullOrEmpty(empleadoL.apellidoMaterno))
+                                {
                                 empleadoL.apellidoMaterno = " ";
                             }
 
@@ -1013,7 +1057,9 @@ namespace SUAMVC.Controllers
 
 
                             empleado.usuarioId = usuario.Id;
-                            empleado.estatus = "A";
+                                //Ponemos en pendiente el empleado hasta que se 
+                                //procese
+                                empleado.estatus = "P";
 
 
                             try
@@ -1027,6 +1073,7 @@ namespace SUAMVC.Controllers
                                 {
                                     empleado.fechaModificacion = DateTime.Now;
                                 }
+
 
                                 db.SaveChanges();
                                 crearSolicitudEmpleado(empleado.id, solicitud.id, usuario.Id, "Alta");
@@ -1059,6 +1106,7 @@ namespace SUAMVC.Controllers
                             }
 
                         }
+                        }//Se encontro ya el nss y cliente?
                     }
 
                 }
@@ -1115,14 +1163,16 @@ namespace SUAMVC.Controllers
                 //Filtramos solo empleados de solicitudes de alta
                 List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
                                                 join e in db.Empleados on s.empleadoId equals e.id
-                                                where s.Solicitud.clienteId.Equals(clienteTempId)
-                                                && e.estatus.Equals("A") && s.Solicitud.proyectoId.Equals(proyectoId)
+                                                where s.Solicitud.clienteId.Equals(clienteTempId) //Empleados del mismo cliente
+                                                && !s.Solicitud.id.Equals(solicitud.id)
+                                                && e.estatus.Equals("A") && s.Solicitud.proyectoId.Equals(proyectoId) //Clientes del mismo proyecto
+                                                && !e.EsquemasPago.descripcion.Equals("IAS")  //Esquema de Pago diferente a IAS
+                                                && s.estatus.Equals("A")  //Solicitud Activa
                                                 orderby s.id
                                                 select s.Empleado).ToList();
 
                 foreach (Empleado emp in empleadosList)
                 {
-                    emp.fechaCreacion = DateTime.Parse(solicitud.fechaSolicitud.ToString());
                     listEmpleados.Add(emp);
 
                 }
@@ -1136,8 +1186,6 @@ namespace SUAMVC.Controllers
         {
             ToolsHelper th = new ToolsHelper();
             Empleado empleado = th.obtenerEmpleadoPorNSS(nss.Trim());
-
-
 
             if (empleado == null)
             {
@@ -1219,6 +1267,52 @@ namespace SUAMVC.Controllers
 
         }
 
+
+        [HttpPost]
+        public ActionResult asignarEmpleadoParaModificar(String[] ids, String solicitudId)
+        {
+            TempData["solicitudId"] = solicitudId;
+
+            if (ids != null && !String.IsNullOrEmpty(solicitudId) )
+            {
+                Empleado empleado = new Empleado();
+
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+                int solicitudTempId = int.Parse(solicitudId);
+                Solicitud solicitud = db.Solicituds.Find(solicitudTempId);
+
+                ToolsHelper th = new ToolsHelper();
+
+                if (ids != null && ids.Length > 0)
+                {
+                    foreach (String empleadoId in ids)
+                    {
+                        //buscar el empleadoiD en db.Empleados y cambia el estatus a B. con la fecha de baja de la solicitud
+                        int empleadoTempId = int.Parse(empleadoId);
+                        empleado = db.Empleados.Find(empleadoTempId);
+
+                        empleado.sdiAlternativoId = solicitud.sdiId;
+                        empleado.fechaModificacion = DateTime.Now;
+
+                        //Solicitud para modificar el noTrabjadores
+                        solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
+
+                        //Creamos el registro en solicitudEmpleados para agregar el empleado a otra solicitud activa
+                        crearSolicitudEmpleado(empleado.id, solicitud.id, usuario.Id, "Baja");
+
+                        db.Entry(solicitud).State = EntityState.Modified;
+                        db.Entry(empleado).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+
+                }
+
+        }
+            //return RedirectToAction("BajaEmpleados", "Empleados", new { id = solicitud.id, clienteId = solicitud.clienteId });
+            return RedirectToAction("SolicitudEmpleado", "SolicitudesModificacion", new { solicitudId = solicitudId });
+        }
+
+                
         public ActionResult ModificarSalario()
         {
 
@@ -1234,11 +1328,29 @@ namespace SUAMVC.Controllers
                 int sdiTempId = int.Parse(sdiId);
 
                 empleado = db.Empleados.Find(empleadoTempId);
-                empleado.sdiId = sdiTempId;
+                //Asignamos el esquema alternativo
+                empleado.sdiAlternativoId = sdiTempId;
                 empleado.fechaModificacion = DateTime.Now;
 
                 db.Entry(empleado).State = EntityState.Modified;
+                try
+                {
                 db.SaveChanges();
+                }
+                catch (DbEntityValidationException exm)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    foreach (var failure in exm.EntityValidationErrors)
+                    {
+                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                        foreach (var error in failure.ValidationErrors)
+                        {
+                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                            sb.AppendLine();
+                        }
+                    }
+                }
 
             }
 

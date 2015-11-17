@@ -25,17 +25,31 @@
 
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
-    gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
-    gridColumns.Add(grid.Column("empleadoId", "ID", format: @<text>  @if (@item.folioEmpleado != null)
-    {  @item.folioEmpleado }</text>, canSort: true));
-    gridColumns.Add(grid.Column("nombreCompleto", "Nombre", format: @<text> @if (@item.nombre != null)
-    {  @item.nombreCompleto }</text>, canSort: true));
-    gridColumns.Add(grid.Column("nss", "IMSS", format: @<text> @if (@item.nss != null)
-    {  @item.nss }</text>, canSort: true));
-    gridColumns.Add(grid.Column("categoria", "Categoría", format: @<text> @if (@item.categoria != null)
-    {  @item.categoria }</text>, canSort: true));
+    gridColumns.Add(
 
-    gridColumns.Add(grid.Column("fechaAltaImss", "Fecha Ingreso", @<text><div style='width: 6em'>@item.fechaCreacion.ToString("dd-MM-yyyy")</div></text>, null, canSort: true));
+        grid.Column("",
+                   style: "col1",
+                   format: @<text>
+                    @if (!solicitud.Concepto.descripcion.Trim().Equals("Enviado"))
+                    {
+                        <input class="edit-personal display-mode" type="image" src="~/Content/Images/edit.png"
+                               alt="@Language.edit" title="@Language.edit" width="20" height="20" id="@item.id" />
+                        <input class="save-personal edit-mode" type="image" src="~/Content/Images/save-floppy.png"
+                               alt="@Language.guardar" title="@Language.guardar" width="20" height="20" id="@item.id" />
+                        <input class="cancel-capture edit-mode" type="image" src="~/Content/Images/cancel.png"
+                               alt="@Language.bt_cancel" title="@Language.bt_cancel" width="20" height="20" id="@item.id" />
+                    }
+                </text>));
+    gridColumns.Add(grid.Column("empleadoId", "ID", format: @<text>  @if (@item.folioEmpleado != null)
+    {  @item.folioEmpleado }</text>, canSort: false));
+    gridColumns.Add(grid.Column("nombreCompleto", "Nombre", format: @<text> @if (@item.nombre != null)
+    {  @item.nombreCompleto }</text>, canSort: false));
+    gridColumns.Add(grid.Column("nss", "IMSS", format: @<text> @if (@item.nss != null)
+    {  @item.nss }</text>, canSort: false));
+    gridColumns.Add(grid.Column("categoria", "Categoría", format: @<text> @if (@item.categoria != null)
+    {  @item.categoria }</text>, canSort: false));
+
+    gridColumns.Add(grid.Column("fechaAltaImss", "Fecha Ingreso", @<text><div style='width: 6em'>@item.fechaCreacion.ToString("dd-MM-yyyy")</div></text>, null, canSort: false));
     gridColumns.Add(grid.Column("fechaModificacion", "Fecha Modificación",
         @<text><div style='width: 6em'>
                 @if (@item.fechaModificacion != null)
@@ -48,6 +62,7 @@
         format: @<text>@if (@item.sdi != null)
         {
             <span id="SdiId" class="display-mode">@item.sdi.descripcion</span>
+            @Html.sdiDrownList(usuario.Id, "sdiAlternativoId", "edit-mode")
         }
         </text>, canSort: false));
 
@@ -61,13 +76,13 @@
     tableStyle: "table table-striped tableSua"
     ));
 
-    tableHtml = sb.ToString().Replace("{}", "<input type='checkbox' id='selectAll' name='slall' />").Trim();
+    tableHtml = sb.ToString().Trim();
 
 
 }
 
 @section Menu {
-    <div>Asignación de empleados a Modificar<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Modificar Empleado Asignados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 @Html.Hidden("solsId", solicitud.id, new { id = "solsId" })
 
@@ -101,23 +116,12 @@
 
 @if (!tableHtml.IsEmpty())
 {
-    using (Html.BeginForm("asignarEmpleadoParaModificar", "Empleados", new { solicitudId = solicitudId }, FormMethod.Post))
-    //using (Html.BeginForm())
+    using (Html.BeginForm())
     {
         <div class="menubar-header">
-            <table>
-                <tr>
-                    <td>
-                        <a href="@Url.Action("Index", "SolicitudesModificacion", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId })">
-                            <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
-                        </a>
-                    </td>
-                    <td>
-                        <input type="submit" value="" class="raddEmployee_button" title="Asignar empleado" id="saveAll" />
-                    </td>
-
-                </tr>
-            </table>
+            <a href="@Url.Action("Index", "SolicitudesModificacion", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId })">
+                <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+            </a>
         </div>
 
         <div id="table-container" class="table-container">
@@ -127,15 +131,32 @@
 }
 
 <script>
-    $(document).ready(function () {
-        $("input[name=slall]").change(function () {
-            $('#table-container input[type=checkbox]').each(function () {
-                if ($("input[name=slall]:checked").length == 1) {
-                    this.checked = true;
-                } else {
-                    this.checked = false;
-                }
-            });
+    $(function () {
+        $('.edit-mode').hide();
+        $('.edit-personal').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+            return false;
+        });
+        $('.save-personal').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            var empleadoId = $(this).prop('id');
+            var solsId = $("#solsId").val();
+            var sdi = tr.find('#sdiAlternativoId').val();
+
+            $.post(
+                '/Empleados/ModificarSalario',
+                { EmpleadoId: empleadoId, Sdi: sdi, SolicitudId: solsId },
+                function (empleado) {
+
+                }, "json");
+            tr.find('.edit-mode, .display-mode').toggle();
+            $("#target").submit();
+        });
+        $('.cancel-capture').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+            return false;
         });
     });
 </script>

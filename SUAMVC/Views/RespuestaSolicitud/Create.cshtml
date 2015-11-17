@@ -45,7 +45,7 @@
                 <div class="form-group">
                     @Html.Label(@Language.estatus, "estatusId", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.conceptosDrownList(usuario.Id, "ESTASOL", "estatusId")
+                        @Html.conceptosDrownAnswerList(usuario.Id, "ESTASOL", "estatusId")
                         @Html.ValidationMessageFor(model => model.estatusId, "", new { @class = "text-danger" })
                     </div>
                 </div>

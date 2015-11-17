@@ -17,6 +17,7 @@ namespace SUADATOS
         public SDI()
         {
             this.Empleados = new HashSet<Empleado>();
+            this.Empleados1 = new HashSet<Empleado>();
             this.Solicituds = new HashSet<Solicitud>();
         }
     
@@ -28,6 +29,7 @@ namespace SUADATOS
     
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<Empleado> Empleados { get; set; }
+        public virtual ICollection<Empleado> Empleados1 { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual ICollection<Solicitud> Solicituds { get; set; }
     }
