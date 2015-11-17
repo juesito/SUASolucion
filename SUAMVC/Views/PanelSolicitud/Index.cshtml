@@ -16,6 +16,9 @@
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
 
+
+    String tipoId = ViewBag.tipo;
+
     var listItems = new List<System.Web.UI.WebControls.ListItem>();
 
     //Creamos una lista de columnas
@@ -35,18 +38,32 @@
     {  @item.EsquemasPago.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("SDI.descripcion", "SDI", format: @<text> @if (@item.sdiId != null)
     {  @item.SDI.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("TipoContrato.descripcion", "Tipo Contrato", format: @<text> @if (@item.contratoId != null)
-    {  @item.TipoContrato.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("TipoPersonal.descripcion", "Tipo Personal", format: @<text> @if (@item.tipoPersonalId != null)
-    {  @item.TipoPersonal.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("fechaInicial", "Fecha Inicio", @<text><div style='width: 6em'>
-            @if (@item.fechaInicial != null)
-            { @item.fechaInicial.ToString("dd-MM-yyyy")}
-        </div></text>, null, canSort: true));
-    gridColumns.Add(grid.Column("fechaFinal", "Fecha Final", @<text><div style='width: 6em'>
-                @if (@item.fechaFinal != null)
-                { @item.fechaFinal.ToString("dd-MM-yyyy")}
+
+    if (!String.IsNullOrEmpty(tipoId) && !tipoId.Equals("modificacion"))
+    {
+        gridColumns.Add(grid.Column("TipoContrato.descripcion", "Tipo Contrato", format: @<text> @if (@item.contratoId != null)
+        {  @item.TipoContrato.descripcion }</text>, canSort: true));
+    }
+    if (!String.IsNullOrEmpty(tipoId) && !tipoId.Equals("modificacion"))
+    {
+        gridColumns.Add(grid.Column("TipoPersonal.descripcion", "Tipo Personal", format: @<text>
+            @if (@item.tipoPersonalId != null)
+            {
+                @item.TipoPersonal.descripcion
+            }
+        </text>, canSort: true));
+    }
+    if (!String.IsNullOrEmpty(tipoId) && !tipoId.Equals("modificacion"))
+    {
+        gridColumns.Add(grid.Column("fechaInicial", "Fecha Inicio", @<text><div style='width: 6em'>
+                @if (@item.fechaInicial != null)
+                { @item.fechaInicial.ToString("dd-MM-yyyy")}
             </div></text>, null, canSort: true));
+    }
+    gridColumns.Add(grid.Column("fechaFinal", "Fecha Final", @<text><div style='width: 6em'>
+            @if (@item.fechaFinal != null)
+            { @item.fechaFinal.ToString("dd-MM-yyyy")}
+        </div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("solicita", "Solicitó", format: @<text> @if (@item.solicita != null)
     {  @item.solicita }</text>, canSort: true));
     gridColumns.Add(grid.Column("observaciones", "Observaciones", format: @<text> @if (@item.observaciones != null)
@@ -55,21 +72,100 @@
     {  @item.noTrabajadores }</text>, canSort: true));
     gridColumns.Add(grid.Column("concepto.descripcioin", "Estatus Solicitud", format: @<text> @if (@item.estatusSolicitud != null)
     {  @item.concepto.descripcion }</text>, canSort: true));
-    if (SecurityUserModel.verificarPermiso("1", "1",6))
+
+    if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
-        gridColumns.Add(grid.Column(header: "NOM.", format: @<text><a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "N" })"><img src="~/Content/Images/worker.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "NOM.", format: @<text>
+            @if (item.Concepto1.descripcion.ToLower().Trim().Equals("apertura"))
+            {
+                <a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "N" })">
+                    <img src="~/Content/Images/worker.png" alt="" title="@item.Concepto1.descripcion.Trim()" style="border:none;" class="icon" />
+                </a>
+            }
+            else if (item.Concepto1.descripcion.ToLower().Trim().Equals("observaciones"))
+            {
+                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                    <img src="~/Content/Images/comments.png" alt="" title="@item.Concepto1.descripcion.Trim()" style="border:none;" class="icon" />
+                </a>
+            }
+            else
+            {
+                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                    <img src="~/Content/Images/approved.png" alt="" title="@item.Concepto1.descripcion.Trim()" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+
     }
     if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
-        gridColumns.Add(grid.Column(header: "IMSS.", format: @<text><a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "I" })"><img src="~/Content/Images/imss.jpg" alt="" style="border:none;" class="icon" /></a></text>));
+
+        gridColumns.Add(grid.Column(header: "IMSS.", format: @<text>
+            @if (item.Concepto3.descripcion.ToLower().Trim().Equals("apertura"))
+            {
+                <a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "I" })">
+                    <img src="~/Content/Images/imss.jpg" alt="" style="border:none;" class="icon" title="@item.Concepto3.descripcion.Trim()" />
+                </a>
+            }
+            else if (item.Concepto3.descripcion.ToLower().Trim().Equals("observaciones"))
+            {
+                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                    <img src="~/Content/Images/comments.png" alt="" title="@item.Concepto3.descripcion.Trim()" style="border:none;" class="icon" />
+                </a>
+            }
+            else
+            {
+                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                    <img src="~/Content/Images/approved.png" alt="" title="@item.Concepto3.descripcion.Trim()" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
     }
     if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
-        gridColumns.Add(grid.Column(header: "JURID.", format: @<text><a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "J" })"><img src="~/Content/Images/balance.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "JURID.", format: @<text>
+            @if (item.Concepto2.descripcion.ToLower().Trim().Equals("apertura"))
+            {
+                <a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "J" })">
+                    <img src="~/Content/Images/balance.png" alt="" style="border:none;" class="icon" title="@item.Concepto2.descripcion.Trim()" />
+                </a>
+            }
+            else if (item.Concepto2.descripcion.ToLower().Trim().Equals("observaciones"))
+            {
+                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                    <img src="~/Content/Images/comments.png" alt="" title="@item.Concepto2.descripcion.Trim()" style="border:none;" class="icon" />
+                </a>
+            }
+            else
+            {
+                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                    <img src="~/Content/Images/approved.png" alt="" title="@item.Concepto2.descripcion.Trim()" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
     }
     if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
-        gridColumns.Add(grid.Column(header: "TARJ.", format: @<text><a href="@Url.Action("UploadFile", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "T" })"><img src="~/Content/Images/creditCard.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "TARJ.", format: @<text>
+            @if (item.Concepto4.descripcion.ToLower().Trim().Equals("apertura"))
+            {
+                <a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "T" })">
+                    <img src="~/Content/Images/creditCard.png" alt="" style="border:none;" class="icon" title="@item.Concepto4.descripcion.Trim()" />
+                </a>
+            }
+            else if (item.Concepto4.descripcion.ToLower().Trim().Equals("observaciones"))
+            {
+                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                    <img src="~/Content/Images/comments.png" alt="" title="@item.Concepto4.descripcion.Trim()" style="border:none;" class="icon" />
+                </a>
+            }
+            else
+            {
+                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                    <img src="~/Content/Images/approved.png" alt="" title="@item.Concepto4.descripcion.Trim()" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
     }
     if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
@@ -79,13 +175,13 @@
     if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
         gridColumns.Add(grid.Column(header: "Afiliación", format: @<text>
-        @if (item.noTrabajadores > 0)
-        {
-            <a href="@Url.Action("crearExcelAfiliacion", "PanelSolicitud", new { solicitudId = item.id })">
-                <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-            </a>
-        }
-            </text>));
+            @if (item.noTrabajadores > 0)
+            {
+                <a href="@Url.Action("crearExcelAfiliacion", "PanelSolicitud", new { solicitudId = item.id })">
+                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
     }
 
     if (SecurityUserModel.verificarPermiso("1", "1", 6))
@@ -211,7 +307,7 @@ tableStyle: "table table-striped tableSua"
                     <td>
                         @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:20px")
                     </td>
-                    
+
                     <td style="padding-left:12px">
                         @Html.Label("Proyecto:")
                     </td>
@@ -240,7 +336,7 @@ tableStyle: "table table-striped tableSua"
 }
 
 
-@if (!tableHtml.IsEmpty())
+@if (!tableHtml.IsEmpty() && !String.IsNullOrEmpty(tipoId))
 {
     <div id="table-container" class="table-container">
         @Html.Raw(tableHtml)

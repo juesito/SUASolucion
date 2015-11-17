@@ -284,6 +284,63 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
 
+        public ActionResult SolicitudEmpleado(string solicitudId)
+        {
+
+            List<Empleado> listEmpleados = new List<Empleado>();
+
+            if (!String.IsNullOrEmpty(solicitudId))
+            {
+                int solicitudIdTemp = int.Parse(solicitudId);
+                Solicitud solicitud = db.Solicituds.Find(solicitudIdTemp);
+                int proyectoId = solicitud.proyectoId;
+                int clienteTempId = solicitud.clienteId;
+
+                TempData["solicitudId"] = solicitudIdTemp;
+                //ViewBag.solicitudId = solicitudIdTemp;
+
+                //Filtramos solo empleados de solicitudes de alta
+                List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
+                                                join e in db.Empleados on s.empleadoId equals e.id
+                                                where s.Solicitud.clienteId.Equals(clienteTempId)
+                                                && s.Solicitud.id.Equals(solicitud.id)
+                                                && e.estatus.Equals("A") && s.Solicitud.proyectoId.Equals(proyectoId)
+                                                orderby s.id
+                                                select s.Empleado).ToList();
+
+                foreach (Empleado emp in empleadosList)
+                {
+                    listEmpleados.Add(emp);
+
+                }
+            }
+            return View(listEmpleados);
+        }
+
+        public ActionResult EnviarSolicitud(string id)
+        {
+
+            Solicitud solicitud = new Solicitud();
+            if (!String.IsNullOrEmpty(id))
+            {
+                int idTmp = int.Parse(id);
+                solicitud = db.Solicituds.Find(idTmp);
+                Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("ESTASOL") && s.descripcion.Equals("Enviado")).First();
+                solicitud.estatusSolicitud = concepto.id;
+
+                Email email = new Email();
+                email.enviarPorClienteTipo("M", solicitud.id, true);
+
+                db.Entry(solicitud).State = EntityState.Modified;
+                db.SaveChanges();
+
+                TempData["message"] = "Solicitud Enviada Satisfactoriamente.";
+            }
+
+            return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
+        }
+
+
         //Lay out SolicitudBaja
         [HttpGet]
         public void crearExcelSolicitudModificacion(string clienteId, string proyectoId)

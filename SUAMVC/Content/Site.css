@@ -303,6 +303,10 @@ tfoot {
     width: 30px;
     height: 30px;
     border: none;
+    float:left;
+    clear:both;
+    vertical-align:text-top;
+    display:inline;
 }
 
 .rpdf_button {

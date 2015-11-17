@@ -64,7 +64,7 @@ namespace SUAMVC.Controllers
             }
             else if (departId.Equals("T"))
             {
-                dep = db.Departamentos.Where(d => d.descripcion.Contains("Tarjeta de Credito")).FirstOrDefault();
+                dep = db.Departamentos.Where(d => d.descripcion.Contains("Tarjeta")).FirstOrDefault();
             }
 
             Solicitud solicitud = db.Solicituds.Find(folioSolicitudTempId);
@@ -107,27 +107,28 @@ namespace SUAMVC.Controllers
 
                     Departamento departamento = db.Departamentos.Find(respuestaSolicitud.departamentoId);
                     Solicitud solicitud = db.Solicituds.Find(respuestaSolicitud.solicitudId);
+                    Concepto estatus = db.Conceptos.Find(respuestaSolicitud.estatusId);
 
-                    if (departamento.descripcion.Contains("Juridico"))
+                    if (departamento.descripcion.ToLower().Trim().Contains("juridico"))
                     {
                         solicitud.estatusJuridico = respuestaSolicitud.estatusId;
                     }
-                    else if (departamento.descripcion.Contains("Nomina"))
+                    else if (departamento.descripcion.ToLower().Trim().Contains("nomina"))
                     {
                         solicitud.estatusNomina = respuestaSolicitud.estatusId;
                     }
-                    else if (departamento.descripcion.Contains("IMSS"))
+                    else if (departamento.descripcion.ToLower().Trim().Contains("imss"))
                     {
                         solicitud.estatusAfiliado = respuestaSolicitud.estatusId;
                     }
-                    else if (departamento.descripcion.Contains("Tarjeta"))
+                    else if (departamento.descripcion.ToLower().Trim().Contains("tarjeta"))
                     {
                         solicitud.estatusTarjeta = respuestaSolicitud.estatusId;
                     }
 
                     ToolsHelper th = new ToolsHelper();
                     Concepto estatusObservaciones = th.obtenerConceptoPorGrupo("ESTASOL", "Observacion");
-                    if (!String.IsNullOrEmpty(respuestaSolicitud.observaciones))
+                    if (estatus.descripcion.ToLower().Trim().Equals("observacion"))
                     {
                         solicitud.estatusSolicitud = estatusObservaciones.id;
                     }
@@ -139,7 +140,90 @@ namespace SUAMVC.Controllers
 
                     db.Entry(solicitud).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index", "PanelSolicitud");
+
+                    //Verficamos si es necesario realizar las acciones pertinentes según el tipo 
+                    // de solicitud
+                    if (solicitud.Concepto1.descripcion.Trim().ToLower().Equals("cerrado")
+                        && solicitud.Concepto2.descripcion.Trim().ToLower().Equals("cerrado")
+                        && solicitud.Concepto3.descripcion.Trim().ToLower().Equals("cerrado")
+                        && solicitud.Concepto1.descripcion.Trim().ToLower().Equals("cerrado")) {
+
+                            if (solicitud.Concepto5.descripcion.Trim().ToLower().Equals("alta")) {
+
+                                List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
+                                                                join e in db.Empleados on s.empleadoId equals e.id
+                                                                where s.Solicitud.id.Equals(solicitud.id)
+                                                                && e.estatus.Equals("A")
+                                                                orderby s.id
+                                                                select s.Empleado).ToList();
+
+
+                                foreach (Empleado emp in empleadosList)
+                                {
+                                    //Asignamos el salario seleccionado previamente
+                                    emp.estatus = "A";
+                                    emp.fechaCreacion = DateTime.Now;
+                                    db.Entry(emp).State = EntityState.Modified;
+                                }
+                            
+                            }else if (solicitud.Concepto5.descripcion.Trim().ToLower().Equals("baja")) {
+
+                                List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
+                                                                join e in db.Empleados on s.empleadoId equals e.id
+                                                                where s.Solicitud.id.Equals(solicitud.id)
+                                                                && e.estatus.Equals("A")
+                                                                orderby s.id
+                                                                select s.Empleado).ToList();
+
+
+                                foreach (Empleado emp in empleadosList)
+                                {
+                                    //Asignamos el salario seleccionado previamente
+                                    emp.estatus = "B";
+                                    emp.fechaBaja = DateTime.Now;
+                                    db.Entry(emp).State = EntityState.Modified;
+                                }
+
+                            }
+                            else if (solicitud.Concepto5.descripcion.Trim().ToLower().Equals("modificacion"))
+                            {
+
+                                List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
+                                                                join e in db.Empleados on s.empleadoId equals e.id
+                                                                where s.Solicitud.id.Equals(solicitud.id)
+                                                                && e.estatus.Equals("A")
+                                                                orderby s.id
+                                                                select s.Empleado).ToList();
+
+                                
+                                foreach (Empleado emp in empleadosList)
+                                {
+                                    //Asignamos el salario seleccionado previamente
+                                    emp.sdiId = emp.sdiAlternativoId; 
+                                    db.Entry(emp).State = EntityState.Modified;
+                                }
+
+                            }
+
+                            //Cerramos la solicitud y el empleado
+                            List<SolicitudEmpleado> solEmpleados = solicitud.SolicitudEmpleadoes.ToList();
+
+                            foreach (SolicitudEmpleado solEmp in solEmpleados)
+                            {
+                                solEmp.estatus = "C"; //Cerrada
+                                db.Entry(solEmp).State = EntityState.Modified;
+                            }
+
+                            //Cerramos la solicitud
+                            Concepto estatusCerrado = th.obtenerConceptoPorGrupo("ESTASOL", "Cerrado");
+                            solicitud.estatusSolicitud = estatusCerrado.id;
+
+                            db.Entry(solicitud).State = EntityState.Modified;
+                            db.SaveChanges();
+                    
+                    }
+
+                    return RedirectToAction("Index", "PanelSolicitud", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId, tipoId = solicitud.tipoSolicitud});
                 }
             }
             ViewBag.estatusId = new SelectList(db.Conceptos, "id", "grupo", respuestaSolicitud.estatusId);

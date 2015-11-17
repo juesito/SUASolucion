@@ -638,6 +638,36 @@ namespace SUAMVC.Helpers
             return htmlHelper.DropDownList(componentId, listFields);
 
         }
+
+        public static MvcHtmlString conceptosDrownAnswerList(this HtmlHelper htmlHelper, int userId, string grupo, string componentId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Concepto> listConceptos = (from s in db.Conceptos
+                                            where s.grupo.Equals(grupo.Trim())
+                                            orderby s.descripcion
+                                            select s).ToList();
+
+            foreach (Concepto item in listConceptos)
+            {
+                String itemId = item.id.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                if (descripcion.Contains("Observaciones") || descripcion.Contains("Cerrado"))
+                {
+                    listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+                }
+            }
+
+            return htmlHelper.DropDownList(componentId, listFields);
+
+        }
+
         public static MvcHtmlString proyectoDrownList(this HtmlHelper htmlHelper, int userId, string componenteId)
         {
 
@@ -645,8 +675,8 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<Proyecto> listProyecto = (from p in db.Proyectos
-                                      orderby p.descripcion
-                                      select p).ToList();
+                                           orderby p.descripcion
+                                           select p).ToList();
 
             foreach (Proyecto item in listProyecto)
             {
@@ -669,9 +699,9 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<CuentaEmpleado> listCuentas = (from s in db.CuentaEmpleadoes.ToList()
-                                      where s.usuarioId.Equals(userId) 
-                                      orderby s.Banco.descripcion
-                                      select s).ToList();
+                                                where s.usuarioId.Equals(userId)
+                                                orderby s.Banco.descripcion
+                                                select s).ToList();
 
             foreach (CuentaEmpleado item in listCuentas)
             {
@@ -689,11 +719,11 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<SDI> listSdis = (from s in db.SDIs.ToList()
-                                      join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
-                                      where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(userId)
-                                      && !s.descripcion.Contains("Local")
-                                      orderby s.descripcion
-                                      select s).ToList();
+                                  join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
+                                  where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(userId)
+                                  && !s.descripcion.Contains("Local")
+                                  orderby s.descripcion
+                                  select s).ToList();
 
             String itemId = "";
             String descripcion = "Todas";
@@ -709,7 +739,7 @@ namespace SUAMVC.Helpers
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
-            return htmlHelper.DropDownList(componenteId, listFields, new { @class = htmlclass});
+            return htmlHelper.DropDownList(componenteId, listFields, new { @class = htmlclass });
         }
 
         public static MvcHtmlString sdiDrownList(this HtmlHelper htmlHelper, int userId, String componenteId, int clienteId, String htmlclass, Boolean incTodas)
@@ -740,10 +770,11 @@ namespace SUAMVC.Helpers
                         listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
                     }
                 }
-                else {
+                else
+                {
                     listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
                 }
-                
+
             }
 
             return htmlHelper.DropDownList(componenteId, listFields, new { @class = htmlclass });
