@@ -10,7 +10,8 @@
     Usuario usuario = Session["UsuarioData"] as Usuario;
 
     //Asignamos la solicitud
-    int solicitudId = ViewBag.solicitudId;
+    var sol = TempData["solicitudId"];
+    int solicitudId = int.Parse(sol.ToString());
     Solicitud solicitud = db.Solicituds.Find(solicitudId);
 
     Model.esquemaPagoId = solicitud.esquemaId ?? default(int);
@@ -221,6 +222,7 @@
                         <td style="padding-top:8px; padding-left:40px">
                             @Html.Label(Language.fechaNacimiento + ":")
                         </td>
+                       
                         <td style="padding-top:8px">
                             @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new { @class = "myBornDate" } })
                             @Html.ValidationMessageFor(model => model.fechaNacimiento, "", new { @class = "text-danger" })

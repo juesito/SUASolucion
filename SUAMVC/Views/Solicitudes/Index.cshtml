@@ -19,6 +19,7 @@
     var grid = new WebGrid(source: Model, rowsPerPage: 10);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
+    var solicitudId = ViewBag.solicitudId;
 
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
@@ -87,7 +88,8 @@
                 <a href="@Url.Action("Edit", "Solicitudes", new { id = item.id })">
                     <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
                 </a>
-            }</text>));
+            }
+            </text>));
     }
     if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados", 6))
     {
@@ -109,12 +111,13 @@
                 <a href="@Url.Action("Create", "Empleados", new { id = item.id })">
                     <img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" />
                 </a>
-            }</text>));
+            }
+            </text>));
     }
     if (SecurityUserModel.verificarPermiso("Subir Lay Out Personal", "Se agrega solicitud para subir lay out de empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Layout Alta Personal", format: @<text>
-            @if (item.noTrabajadores > 0 && !item.Concepto.descripcion.Trim().Equals("Enviado"))
+            @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
             {
                 <a href="@Url.Action("CargarEmpleadosPorExcel", "Empleados", new { id = item.id })">
                     <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
