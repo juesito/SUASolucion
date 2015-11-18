@@ -430,6 +430,10 @@ namespace SUAMVC.Controllers
             DocumentoEmpleado documentosEmpleado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)).FirstOrDefault();
             SalarialesEmpleado salarialesEmpleado = db.SalarialesEmpleadoes.Where(se => se.empleadoId.Equals(empleado.id)).FirstOrDefault();
 
+            ViewBag.estadoNacimientoId = new SelectList(db.Estados, "id", "descripcion", empleado.estadoNacimientoId);
+            ViewBag.municipioNacimientoId = new SelectList(db.Municipios, "id", "descripcion", empleado.municipioNacimientoId);
+            ViewBag.nacionalidadId = new SelectList(db.Paises, "id", "descripcion", empleado.nacionalidadId);
+
             datosEmpleadoModel.solicitud = solicitud;
             datosEmpleadoModel.empleado = empleado;
             datosEmpleadoModel.datosEmpleado = documentosEmpleado;
@@ -505,7 +509,11 @@ namespace SUAMVC.Controllers
                 {
                     empleadoModificado.observaciones = empleado.observaciones.Trim().ToUpper();
                 }
-                
+
+                if (!string.IsNullOrEmpty(empleado.Estado.descripcion));
+                {
+                    empleadoModificado.Estado.descripcion = empleado.Estado.descripcion.Trim().ToUpper();
+                }
 
                 try
                 {

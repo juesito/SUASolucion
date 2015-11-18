@@ -14,6 +14,50 @@
     <div>Ver empleado : @Html.DisplayFor(model => model.empleado.nombreCompleto)<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
+<script language="javascript" type="text/javascript">
+    function obtenerMunicipios(_estadoId) {
+        var procemessage = "<option value='0'> Por favor espere...</option>";
+        $("#municipioId").html(procemessage).show();
+        var url = "/Municipios/ObtenerMunicipiosPorId/";
+
+        $.ajax({
+            url: url,
+            data: { estadoId: _estadoId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "<option value='0'>Seleccione municipio</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#municipioId").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+
+    function validarNss(_nss) {
+
+        var url = "/Empleados/validarNss/";
+
+        $.ajax({
+            url: url,
+            data: { nss: _nss },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+
+            },
+            error: function (response) {
+                alert("Error :" + response);
+            }
+        });
+    }
+</script>
+
 <div id="tabs" style="font-size:10px; padding-top:8px">
     <ul>
         <li><a href="#tabs-1">Generales</a></li>
@@ -141,13 +185,13 @@
                     </dt>
 
                     <dd style="padding-top:8px">
-                        @Html.DisplayFor(model => model.empleado.Estado.descripcion)
+                        @Html.DropDownList("estadoNacimientoId", null, new { @id = "estadoId", @style = "width:140px;", @onchange = "javascript:obtenerMunicipios(this.value);" })
                     </dd>
                     <dt style="padding-top:8px">
                         @Html.Label(Language.municipio):
                     </dt>
                     <dd style="padding-top:8px">
-                        @Html.DisplayFor(model => model.empleado.Municipio.descripcion)
+                        @Html.DropDownList("municipioNacimientoId", null, htmlAttributes: new { id = "municipioId" })
                     </dd>
 
                     <dt style="padding-top:8px">
@@ -155,7 +199,7 @@
                     </dt>
 
                     <dd style="padding-top:8px">
-                        @Html.DisplayFor(model => model.empleado.Pais.descripcion)
+                        @Html.paisesDrownList(usuario.Id, "nacionalidadId")
                     </dd>
                     <dt style="padding-top:8px">
                         @Html.Label(Language.email):
@@ -628,5 +672,80 @@
     function showDialog() {
         $("#cargarArchivo").show("slow");
         $("#documentoId").val = "DOC";
+    }
+</script>
+
+<script>
+    $(window).load(function () {
+
+        $("input[name=tramitarTarjeta]").change(function () {
+            var msg = $(this).val();
+            validateCuenta(msg);
+        });
+
+        $("#paisId").bind("change", validatePais);
+    });
+    $(document).ready(function () {
+
+        $("#categoriaAuto").autocomplete({
+            source: '/Empleados/obtenerCategorias'
+        });
+
+        $("input[name=tieneInfonavit]").change(function () {
+            var msg = $(this).val();
+            validateInfonavit(msg);
+        });
+
+        $("input[name=tramitarTarjeta]").change(function () {
+            var msg = $(this).val();
+            validateCuenta(msg);
+        });
+
+        $("#paisId").bind("change", validatePais);
+    });
+
+    function validateCuenta(msg) {
+        if (msg == '1') {
+            $("#cuenta").hide("slow");
+            $('#cuentaTxt').hide("slow");
+            $("#cuentaClabe").hide("slow");
+            $("#cuentaClabeTxt").hide("slow");
+        } else {
+            $(window).load(function () {
+                // Run code
+            });
+            $("#cuenta").show();
+            $('#cuentaTxt').show();
+            $("#cuentaClabe").show();
+            $("#cuentaClabeTxt").show();
+        }
+    }
+
+    function validateInfonavit(msg) {
+        if (msg == '0') {
+            $("#creditoInfonavit").hide("slow");
+            $('#creditoInfonavitTxt').hide("slow");
+        } else {
+            $(window).load(function () {
+                // Run code
+            });
+            $("#creditoInfonavit").show();
+            $('#creditoInfonavitTxt').show();
+        }
+    }
+
+    function validatePais() {
+        var msg = $("#paisId :selected").text();
+        if (msg.toLowerCase() != 'mexico' && msg.toLowerCase() != 'méxico') {
+            $("#municipioId").hide("slow");
+            $("#municipioIdTxt").hide("slow");
+            $('#estadoId').hide("slow");
+            $('#estadoIdTxt').hide("slow");
+        } else {
+            $("#municipioId").show();
+            $("#municipioIdTxt").show();
+            $('#estadoId').show();
+            $('#estadoIdTxt').show();
+        }
     }
 </script>
