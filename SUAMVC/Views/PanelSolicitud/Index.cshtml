@@ -23,11 +23,7 @@
 
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
-    gridColumns.Add(grid.Column("Concepto5.descripcion", Language.tipo, format: @<text> @if (@item.tipoSolicitud != null)
-    {  @item.Concepto5.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("folioSolicitud", Language.tipo, format: @<text> @item.folioSolicitud</text>, canSort: true));
-    gridColumns.Add(grid.Column("Proyecto.descripcion", Language.proyecto, format: @<text> @if (@item.ProyectoId != null)
-    {  @item.Proyecto.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("Plaza.descripcion", Language.plaza, format: @<text> @if (@item.PlazaId != null)
     {  @item.Plaza.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("fechaSolicitud", "Fecha Solicitud", @<text><div style='width: 6em'>
@@ -73,29 +69,33 @@
     gridColumns.Add(grid.Column("concepto.descripcioin", "Estatus Solicitud", format: @<text> @if (@item.estatusSolicitud != null)
     {  @item.concepto.descripcion }</text>, canSort: true));
 
-    if (SecurityUserModel.verificarPermiso("1", "1", 6))
-    {
-        gridColumns.Add(grid.Column(header: "NOM.", format: @<text>
-            @if (item.Concepto1.descripcion.ToLower().Trim().Equals("apertura"))
-            {
-                <a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "N" })">
-                    <img src="~/Content/Images/worker.png" alt="" title="@item.Concepto1.descripcion.Trim()" style="border:none;" class="icon" />
-                </a>
-            }
-            else if (item.Concepto1.descripcion.ToLower().Trim().Equals("observaciones"))
-            {
-                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
-                    <img src="~/Content/Images/comments.png" alt="" title="@item.Concepto1.descripcion.Trim()" style="border:none;" class="icon" />
-                </a>
-            }
-            else
-            {
-                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
-                    <img src="~/Content/Images/approved.png" alt="" title="@item.Concepto1.descripcion.Trim()" style="border:none;" class="icon" />
-                </a>
-            }
-        </text>));
 
+    if (!String.IsNullOrEmpty(tipoId) && tipoId.Equals("alta"))
+    {
+        if (SecurityUserModel.verificarPermiso("1", "1", 6))
+        {
+            gridColumns.Add(grid.Column(header: "NOM.", format: @<text>
+                @if (item.Concepto1.descripcion.ToLower().Trim().Equals("apertura"))
+                {
+                    <a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "N" })">
+                        <img src="~/Content/Images/worker.png" alt="" title="@item.Concepto1.descripcion.Trim()" style="border:none;" class="icon" />
+                    </a>
+                }
+                else if (item.Concepto1.descripcion.ToLower().Trim().Equals("observaciones"))
+                {
+                    <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                        <img src="~/Content/Images/comments.png" alt="" title="@item.Concepto1.descripcion.Trim()" style="border:none;" class="icon" />
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                        <img src="~/Content/Images/approved.png" alt="" title="@item.Concepto1.descripcion.Trim()" style="border:none;" class="icon" />
+                    </a>
+                }
+            </text>));
+
+        }
     }
     if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
@@ -144,33 +144,36 @@
             }
         </text>));
     }
-    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    if (!String.IsNullOrEmpty(tipoId) && tipoId.Equals("alta"))
     {
-        gridColumns.Add(grid.Column(header: "TARJ.", format: @<text>
-            @if (item.Concepto4.descripcion.ToLower().Trim().Equals("apertura"))
-            {
-                <a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "T" })">
-                    <img src="~/Content/Images/creditCard.png" alt="" style="border:none;" class="icon" title="@item.Concepto4.descripcion.Trim()" />
-                </a>
-            }
-            else if (item.Concepto4.descripcion.ToLower().Trim().Equals("observaciones"))
-            {
-                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
-                    <img src="~/Content/Images/comments.png" alt="" title="@item.Concepto4.descripcion.Trim()" style="border:none;" class="icon" />
-                </a>
-            }
-            else
-            {
-                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
-                    <img src="~/Content/Images/approved.png" alt="" title="@item.Concepto4.descripcion.Trim()" style="border:none;" class="icon" />
-                </a>
-            }
-        </text>));
+        if (SecurityUserModel.verificarPermiso("1", "1", 6))
+        {
+            gridColumns.Add(grid.Column(header: "TARJ.", format: @<text>
+                @if (item.Concepto4.descripcion.ToLower().Trim().Equals("apertura"))
+                {
+                    <a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "T" })">
+                        <img src="~/Content/Images/creditCard.png" alt="" style="border:none;" class="icon" title="@item.Concepto4.descripcion.Trim()" />
+                    </a>
+                }
+                else if (item.Concepto4.descripcion.ToLower().Trim().Equals("observaciones"))
+                {
+                    <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                        <img src="~/Content/Images/comments.png" alt="" title="@item.Concepto4.descripcion.Trim()" style="border:none;" class="icon" />
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                        <img src="~/Content/Images/approved.png" alt="" title="@item.Concepto4.descripcion.Trim()" style="border:none;" class="icon" />
+                    </a>
+                }
+            </text>));
+        }
     }
-    if (SecurityUserModel.verificarPermiso("1", "1", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Personal", format: @<text><a href="@Url.Action("UploadFile", "Movimientos", new { id = item.id })"><img src="~/Content/Images/people-b.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
+    //if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    //{
+    //gridColumns.Add(grid.Column(header: "Personal", format: @<text><a href="@Url.Action("UploadFile", "Movimientos", new { id = item.id })"><img src="~/Content/Images/people-b.png" alt="" style="border:none;" class="icon" /></a></text>));
+    //}
 
     if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
@@ -268,31 +271,7 @@ tableStyle: "table table-striped tableSua"
 @section Menu {
     <div>Solicitudes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
-<script language="javascript" type="text/javascript">
-    function obtenerProyectos(_clienteId) {
-        var procemessage = "<option value='0'> Por favor espere...</option>";
-        $("#proyectoId").html(procemessage).show();
-        var url = "/Proyectos/ObtenerProyectosPorClienteId/";
 
-        $.ajax({
-            url: url,
-            data: { clienteId: _clienteId },
-            cache: false,
-            type: "POST",
-            success: function (data) {
-                var markup = "<option value='0'>Seleccione su proyecto</option>";
-                for (var x = 0; x < data.length; x++) {
-                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
-                }
-                $("#proyectoId").html(markup).show();
-            },
-            error: function (reponse) {
-                alert("error : " + reponse);
-            }
-        });
-
-    }
-</script>
 
 @using (Html.BeginForm())
 {
@@ -355,4 +334,67 @@ tableStyle: "table table-striped tableSua"
             });
         });
     });
+</script>
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        // Handler for .ready() called.
+        var clienteIdJs = '@(ViewBag.clienteId)' + " ";
+        var proyectoIdJs = '@(ViewBag.proyectoId)' + " ";
+
+        if (clienteIdJs != " ") {
+            var procemessage = "<option value='0'> Por favor espere...</option>";
+            $("#proyectoId").html(procemessage).show();
+            var url = "/Proyectos/ObtenerProyectosPorClienteId/";
+
+            $.ajax({
+                url: url,
+                data: { clienteId: clienteIdJs.trim() },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var markup = "<option value='0'>Seleccione su proyecto</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        if (data[x].Value == proyectoIdJs.trim()) {
+                            markup += "<option value=" + data[x].Value + " selected='selected'>" + data[x].Text + "</option>";
+                        } else {
+                            markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                        };
+
+
+                    }
+                    $("#proyectoId").html(markup).show();
+                },
+                error: function (reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+        };
+
+
+    });
+
+    function obtenerProyectos(_clienteId) {
+        var procemessage = "<option value='0'> Por favor espere...</option>";
+        $("#proyectoId").html(procemessage).show();
+        var url = "/Proyectos/ObtenerProyectosPorClienteId/";
+
+        $.ajax({
+            url: url,
+            data: { clienteId: _clienteId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "<option value='0'>Seleccione su proyecto</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#proyectoId").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
 </script>
