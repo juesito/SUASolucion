@@ -20,7 +20,7 @@
         solicitud = ViewBag.solicitud as Solicitud;
     }
 
-    var grid = new WebGrid(source: Model.empleados, rowsPerPage: 10);
+    var grid = new WebGrid(source: Model.empleados, rowsPerPage: 12, canPage: true);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
     //Creamos una lista de columnas
