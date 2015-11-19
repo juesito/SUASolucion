@@ -22,74 +22,79 @@
         <div class="panel-heading">
             Editar Solicitud Modificación
         </div>
-        <div class="panel-body" style="font-size:10px;">
+       <div class="panel-body" style="font-size:10px;">
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.clienteId)
                 @Html.HiddenFor(model => model.proyectoId)
                 @Html.HiddenFor(model => model.fechaSolicitud)
-
-                <table style="font-size:10px;margin:0 auto; width:700px">
+                <table style="font-size:10px; width:400px; ">
                     <tr>
-                        <td>@Html.Label(@Language.cliente)</td>
-                        <td>
-                            @Html.Label(Model.Cliente.descripcion)
-                        </td>
-                        <td>@Html.Label(@Language.proyecto)</td>
-                        <td>
-                            @Html.Label(Model.Proyecto.descripcion)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>@Html.Label(@Language.plaza)</td>
-                        <td>
-                            @Html.DropDownList("plazaId")
+                        <th colspan="1"> </th>
+                        <td style="padding-top:8px"> @Html.Label(@Language.cliente + ":")</td>
+                        <td style="padding-top:8px; padding-left:8px">   @Html.Label(Model.Cliente.descripcion)</td>
+                        <th colspan="1"> </th>
+                        <td >@Html.Label(@Language.plaza + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.plazasDrownListNS(Model.Usuario.Id, "plazaId")
                             @Html.ValidationMessageFor(model => model.plazaId, "", new { @class = "text-danger" })
                         </td>
-                        <td>@Html.LabelFor(model => model.sdiId, "sdiId", htmlAttributes: new { id = "sdiIdTxt" })</td>
-                        <td>
-                            @Html.DropDownList("sdiId", null, htmlAttributes: new {  id = "sdiId" })
-                            @Html.ValidationMessageFor(model => model.sdiId, "", new { @class = "text-danger" })
+                    </tr>
+                    <tr>
+                        <th colspan="1"> </th>
+                        <td style="padding-top:8px">@Html.Label(@Language.proyecto + ":")</td>
+                        <td style="padding-top:8px; padding-left:8px">
+                            @Html.Label(Model.Proyecto.descripcion, new { style = "width: 200px;" })
+                        </td>
+                        <th colspan="1"> </th>
+                        <td style="padding-top:12px; padding-right:8px" >@Html.Label(@Language.fechaModificacion + ":", new { style = "width: 118px;" })</td>
+                        <td style="padding-top:12px">
+                            @Html.EditorFor(model => model.fechaModificacion, new { htmlAttributes = new { @class = "myNoDayBeforeDate", id = "fechaBaja" } })
+                            @Html.ValidationMessageFor(model => model.fechaModificacion, "", new { @class = "text-danger" })
                         </td>
                     </tr>
 
-                </table>
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"> Autorizaciones</h3>
-                    </div>
-                    <div class="panel-body">
-                        <table style="font-size:10px;margin:0 auto; width:700px">
-                            <tr>
-                                <td>@Html.LabelFor(model => model.valida)</td>
-                                <td>
-                                    @Html.Label(Model.valida)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>@Html.LabelFor(model => model.autoriza)</td>
-                                <td>
-                                    @Html.Label(Model.autoriza)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>@Html.LabelFor(model => model.observaciones)</td>
-                                <td colspan="3">
-                                    @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 4 })
-                                    @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="3"></td>
-                                <td style="text-align:right;"><input type="submit" value="@Language.guardar" class="btn btn-primary" /></td>
-                            </tr>
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td style="padding-top:12px; padding-right:12px">@Html.Label(@Language.sdi + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.sdiDrownList(Model.Usuario.Id, "sdiId", Model.Cliente.Id, "width:100px;height:25px", false)
+                            @Html.ValidationMessageFor(model => model.sdiId, "", new { @class = "text-danger" })
+                        </td>
 
-                        </table>
+                    </tr>
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td style="padding-top:6px" >@Html.Label(@Language.validador + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.Label(Model.valida)
+                            @Html.HiddenFor(model => model.valida)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td style="padding-top:7px" >@Html.Label(@Language.autorizador + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.Label(Model.autoriza)
+                            @Html.HiddenFor(model => model.autoriza)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px" >@Html.Label(@Language.observaciones + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 3, @style = "width: 200px; " })
+                            @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="text-align:right;"><input type="submit" value="@Language.guardar" class="btn btn-primary" /></td>
+                    </tr>
+        </table>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 }
 
         <div>

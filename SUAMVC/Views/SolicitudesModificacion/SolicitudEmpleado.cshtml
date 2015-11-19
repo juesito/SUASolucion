@@ -56,12 +56,12 @@
                 { @item.fechaModificacion.ToString("dd-MM-yyyy")}
             </div></text>, null, canSort: false));
 
-    gridColumns.Add(grid.Column("SDI1.descripcion", "SDI Actual", canSort: false));
+    gridColumns.Add(grid.Column("SDI.descripcion", "SDI Actual", canSort: false));
 
-    gridColumns.Add(grid.Column("SDI.id", "Sdi Modificado",
+    gridColumns.Add(grid.Column("SDI1.descripcion", "Sdi Modificado",
         format: @<text>@if (@item.sdi != null)
         {
-            <span id="SdiId" class="display-mode">@item.sdi.descripcion</span>
+            <span id="SdiId" class="display-mode">@item.sdi1.descripcion</span>
             @Html.sdiDrownList(usuario.Id, "sdiAlternativoId", "edit-mode")
         }
         </text>, canSort: false));
@@ -82,30 +82,30 @@
 }
 
 @section Menu {
-    <div>Modificar Empleado Asignados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Modificar Empleados Asignados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 @Html.Hidden("solsId", solicitud.id, new { id = "solsId" })
 
 
 <div class="marqueeFilter">
-    <table class="input-table">
-        <tr>
-            <td style="padding-top:15px">
-                @Html.Label("Cliente")
+    <table style="float:left; margin-top:5px;display:inline-block;">
+        <tr style="text-align:left;vertical-align:bottom;">
+            <td style="padding-top:20px">
+                @Html.Label("Cliente:")
             </td>
             <td>
                 @Html.Label(solicitud.Cliente.descripcion)
             </td>
-            <td>
-                @Html.Label("Proyecto")
+            <td style="padding-left:50px">
+                @Html.Label("Proyecto:")
             </td>
-            <td>
+            <td style="padding-left:5px">
                 @Html.Label(solicitud.Proyecto.descripcion)
             </td>
-            <td>
-                @Html.Label("Folio")
+            <td style="padding-left:50px">
+                @Html.Label("Folio:")
             </td>
-            <td>
+            <td style="padding-left:5px">
                 @Html.Label(solicitud.folioSolicitud)
             </td>
         </tr>

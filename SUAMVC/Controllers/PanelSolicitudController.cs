@@ -45,8 +45,9 @@ namespace SUAMVC.Controllers
 
                 if (!String.IsNullOrEmpty(clienteId))
                 {
-                    
+
                     Cliente cliente = db.Clientes.Find(int.Parse(clienteId));
+                    ViewBag.clienteId = clienteId;
                     if (!cliente.descripcion.ToLower().Contains("seleccion"))
                     {
                         solicituds = solicituds.Where(s => s.clienteId.Equals(int.Parse(clienteId))).ToList();
@@ -54,14 +55,15 @@ namespace SUAMVC.Controllers
                 }// Se va a filtrar por cliente  y proyecto?
                 if (!String.IsNullOrEmpty(proyectoId))
                 {
-
-                        solicituds = solicituds.Where(s => s.proyectoId.Equals(int.Parse(proyectoId))).ToList();
+                    ViewBag.proyectoId = proyectoId;
+                    solicituds = solicituds.Where(s => s.proyectoId.Equals(int.Parse(proyectoId))).ToList();
 
                 }// Se va a filtrar por cliente  y proyecto?
                 if (!String.IsNullOrEmpty(tipoId))
                 {
+                    ViewBag.tipoId = tipoId;
                     int tipo = int.Parse(tipoId);
-                    Concepto conceptoTipo =  db.Conceptos.Find(tipo);
+                    Concepto conceptoTipo = db.Conceptos.Find(tipo);
                     ViewBag.tipo = conceptoTipo.descripcion.Trim().ToLower();
                     solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(int.Parse(tipoId))).ToList();
 
@@ -74,11 +76,12 @@ namespace SUAMVC.Controllers
 
                 return View(solicituds.ToList());
             }
-            else {
+            else
+            {
                 var solicituds = new List<Solicitud>();
                 return View(solicituds);
             }
-            
+
         }
 
         //Lay Out Afiliacion
@@ -109,7 +112,7 @@ namespace SUAMVC.Controllers
                     ExcelHelper eh = new ExcelHelper();
                     //Creamos el objeto del workbook
                     SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
-                    
+
                     WorkbookPart wbp = xl.AddWorkbookPart();
                     WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
                     Workbook wb = new Workbook();
@@ -121,7 +124,7 @@ namespace SUAMVC.Controllers
                     // add styles to sheet
                     wbsp.Stylesheet = eh.CreateStylesheet();
                     wbsp.Stylesheet.Save();
-                    
+
                     SheetData sd = crearContenidoHojaAfiliacion(empleadosList, eh);
                     ws.Append(sd);
                     wsp.Worksheet = ws;
@@ -178,7 +181,7 @@ namespace SUAMVC.Controllers
         string[] headerColumns = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ" };
         public SheetData crearContenidoHojaAfiliacion(List<Empleado> empleados, ExcelHelper eh)
         {
-            
+
             SheetData sheetData = new SheetData();
             int index = 1;
 
@@ -210,56 +213,56 @@ namespace SUAMVC.Controllers
 
             row = eh.addNewCellToRow(index, row, "Segundo Apellido", headerColumns[4] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-                       
+
             row = eh.addNewCellToRow(index, row, "Nombre", headerColumns[5] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-           
+
             row = eh.addNewCellToRow(index, row, "Fecha Alta", headerColumns[6] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-                       
+
             row = eh.addNewCellToRow(index, row, "Salario Diario Integrado", headerColumns[7] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
             row = eh.addNewCellToRow(index, row, "Tipo de Trabajador", headerColumns[8] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-           
+
             row = eh.addNewCellToRow(index, row, "Tipo de Salario", headerColumns[9] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-                       
+
             row = eh.addNewCellToRow(index, row, "Tipo de Jornada", headerColumns[10] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
             row = eh.addNewCellToRow(index, row, "Unidad Médica Familiar", headerColumns[11] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-            
-                       
+
+
             row = eh.addNewCellToRow(index, row, "Clave del Trabajador", headerColumns[12] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-           
+
 
             row = eh.addNewCellToRow(index, row, "Credito Infonavit", headerColumns[13] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-           
-                       
+
+
             row = eh.addNewCellToRow(index, row, "Código Postal", headerColumns[14] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-            
-                        
+
+
             row = eh.addNewCellToRow(index, row, "Observaciones", headerColumns[15] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-           
-                       
+
+
             row = eh.addNewCellToRow(index, row, "Movimiento", headerColumns[16] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-           
+
 
             row = eh.addNewCellToRow(index, row, "Fecha SUA", headerColumns[17] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-           
+
 
             row = eh.addNewCellToRow(index, row, "Registro Patronal", headerColumns[18] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-           
+
             //Creamos las celdas que contienen los datos
             foreach (Empleado dp in empleados)
             {
@@ -301,10 +304,10 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.categoria, headerColumns[i + 8] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                if(dp.EsquemasPago != null)
+                if (dp.EsquemasPago != null)
                 {
-                row = eh.addNewCellToRow(index, row, dp.EsquemasPago.descripcion, headerColumns[i + 9] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                    row = eh.addNewCellToRow(index, row, dp.EsquemasPago.descripcion, headerColumns[i + 9] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
                 }
                 else
                 {
@@ -312,10 +315,10 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if(dp.Asegurado != null)
-                { 
-                row = eh.addNewCellToRow(index, row, dp.Asegurado.tipoTrabajo, headerColumns[i + 10] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                if (dp.Asegurado != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.Asegurado.tipoTrabajo, headerColumns[i + 10] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
                 }
                 else
                 {
@@ -334,10 +337,10 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if(dp.Asegurado != null)
-                { 
-                row = eh.addNewCellToRow(index, row, dp.Asegurado.Cliente.descripcion, headerColumns[i + 12] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                if (dp.Asegurado != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.Asegurado.Cliente.descripcion, headerColumns[i + 12] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
                 }
                 else
                 {
@@ -368,10 +371,10 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if(dp.Asegurado != null)
-                { 
-                row = eh.addNewCellToRow(index, row, dp.Asegurado.Patrone.nombre, headerColumns[i + 18] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                if (dp.Asegurado != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.Asegurado.Patrone.nombre, headerColumns[i + 18] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
                 }
                 else
                 {
@@ -721,10 +724,10 @@ namespace SUAMVC.Controllers
                 }
                 else
                 {
-                    row = eh.addNewCellToRow(index, row," ", headerColumns[i + 14] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 14] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
-                
+
 
                 row = eh.addNewCellToRow(index, row, dp.cuentaBancaria, headerColumns[i + 15] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
@@ -733,7 +736,7 @@ namespace SUAMVC.Controllers
                 sheetData.AppendChild(row);
 
                 //row = eh.addNewCellToRow(index, row, dp.periodo., headerColumns[i + 17] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " " , headerColumns[i + 17] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 17] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 //row = eh.addNewCellToRow(index, row, dp.fonacot, headerColumns[i + 18] + index, 3U, CellValues.String);
@@ -752,14 +755,14 @@ namespace SUAMVC.Controllers
                     row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 19] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
-                
+
 
                 //row = eh.addNewCellToRow(index, row, dp.DetallePago.infonavit, headerColumns[i + 20] + index, 3U, CellValues.String);
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 20] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 //row = eh.addNewCellToRow(index, row, dp.departamentoCliente, headerColumns[i + 21] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row," ", headerColumns[i + 21] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 21] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 row = eh.addNewCellToRow(index, row, dp.calleNumero, headerColumns[i + 22] + index, 3U, CellValues.String);
@@ -787,8 +790,8 @@ namespace SUAMVC.Controllers
                 sheetData.AppendChild(row);
 
                 //if ((dp.FamiliaresEmpleadoes.Count>0)dp.FamiliaresEmpleadoes fe = dp.FamiliaresEmpleadoes.FirstOrDefault())
-           
-                
+
+
 
                 //row = eh.addNewCellToRow(index, row, dp.Acreditados.vsm, headerColumns[i + 29] + index, 3U, CellValues.String);
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 29] + index, 3U, CellValues.String);
@@ -854,7 +857,7 @@ namespace SUAMVC.Controllers
                 //row = eh.addNewCellToRow(index, row, dp.id, headerColumns[i + 41] + index, 3U, CellValues.String);
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 41] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
-                
+
                 //row = eh.addNewCellToRow(index, row, dp.Cliente.id, headerColumns[i + 42] + index, 3U, CellValues.String);
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 42] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
@@ -1182,7 +1185,7 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 13] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-              
+
                 if (dp.Asegurado != null)
                 {
                     row = eh.addNewCellToRow(index, row, dp.Pais.descripcion, headerColumns[i + 14] + index, 3U, CellValues.String);
@@ -1196,7 +1199,7 @@ namespace SUAMVC.Controllers
 
                 if (dp.Estado != null)
                 {
-                   
+
                     row = eh.addNewCellToRow(index, row, dp.Estado.descripcion, headerColumns[i + 15] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
@@ -1285,26 +1288,26 @@ namespace SUAMVC.Controllers
                 sheetData.AppendChild(row);
 
                 //row = eh.addNewCellToRow(index, row, dp.FamiliaresEmpleadoes.telefonoCasa, headerColumns[i + 35] + index, 3U, CellValues.String);
-               if (dp.FamiliaresEmpleadoes.Count()>0)
-               {
-                FamiliaresEmpleado fe = dp.FamiliaresEmpleadoes.FirstOrDefault();
-                row = eh.addNewCellToRow(index, row, fe.telefonoCasa, headerColumns[i + 35] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-               }
-               else
-               {
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 35] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-               }
+                if (dp.FamiliaresEmpleadoes.Count() > 0)
+                {
+                    FamiliaresEmpleado fe = dp.FamiliaresEmpleadoes.FirstOrDefault();
+                    row = eh.addNewCellToRow(index, row, fe.telefonoCasa, headerColumns[i + 35] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 35] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
 
 
-                if(dp.DocumentoEmpleadoes.Count()>0)
+                if (dp.DocumentoEmpleadoes.Count() > 0)
                 {
 
                 }
                 else
-                //row = eh.addNewCellToRow(index, row, dp.DocumentoEmpleadoes.tipoDocumento, headerColumns[i + 36] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 36] + index, 3U, CellValues.String);
+                    //row = eh.addNewCellToRow(index, row, dp.DocumentoEmpleadoes.tipoDocumento, headerColumns[i + 36] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 36] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 //row = eh.addNewCellToRow(index, row, dp.DocumentoEmpleadoes.folioIdentificacion, headerColumns[i + 37] + index, 3U, CellValues.String);
@@ -1324,11 +1327,11 @@ namespace SUAMVC.Controllers
             return sheetData;
         }
 
-        
 
 
 
-// LayOut TarjetasSantander
+
+        // LayOut TarjetasSantander
         [HttpGet]
         public void crearExcelTarjetaSantander(int solicitudId)
         {
@@ -1420,7 +1423,7 @@ namespace SUAMVC.Controllers
             }
 
         }
-        
+
         public SheetData crearContenidoHojaTarjetaSantander(List<Empleado> empleados, ExcelHelper eh)
         {
 
@@ -1595,7 +1598,7 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 8] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                if(dp.EstadoCivil != null)
+                if (dp.EstadoCivil != null)
                 {
                     row = eh.addNewCellToRow(index, row, dp.EstadoCivil.descripcion, headerColumns[i + 9] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
@@ -1733,8 +1736,8 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 33] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                
-               index++;
+
+                index++;
             }
 
             return sheetData;
@@ -2001,8 +2004,8 @@ namespace SUAMVC.Controllers
 
                 if (dp.Banco != null)
                 {
-                row = eh.addNewCellToRow(index, row, dp.Banco.descripcion, headerColumns[i + 7] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                    row = eh.addNewCellToRow(index, row, dp.Banco.descripcion, headerColumns[i + 7] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
                 }
                 else
                 {
@@ -2013,10 +2016,10 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.fechaNacimiento.ToString(), headerColumns[i + 8] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                if(dp.EstadoCivil != null)
-                { 
-                row = eh.addNewCellToRow(index, row, dp.EstadoCivil.descripcion, headerColumns[i + 9] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                if (dp.EstadoCivil != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.EstadoCivil.descripcion, headerColumns[i + 9] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
                 }
                 else
                 {
@@ -2038,7 +2041,7 @@ namespace SUAMVC.Controllers
 
                 row = eh.addNewCellToRow(index, row, dp.fechaBaja.ToString(), headerColumns[i + 14] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
-                
+
                 if (dp.Sexo != null)
                 {
                     row = eh.addNewCellToRow(index, row, dp.Sexo.descripcion, headerColumns[i + 15] + index, 3U, CellValues.String);
@@ -2557,7 +2560,7 @@ namespace SUAMVC.Controllers
                 //row = eh.addNewCellToRow(index, row, dp.sucKit, headerColumns[i + 30] + index, 3U, CellValues.String);
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 30] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
-                                 
+
                 //row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 31] + index, 3U, CellValues.String);
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 31] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
@@ -3017,7 +3020,7 @@ namespace SUAMVC.Controllers
                     row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 22] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
-                
+
                 row = eh.addNewCellToRow(index, row, dp.calleNumero, headerColumns[i + 23] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
@@ -3123,14 +3126,15 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 49] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                
+
                 index++;
             }
 
             return sheetData;
         }
 
-        public void launchReport() {
+        public void launchReport()
+        {
 
             Response.Redirect("~/Reports/ReportViewer.aspx");
 
@@ -3142,9 +3146,9 @@ namespace SUAMVC.Controllers
             //CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
             //crystalReportViewer.ReportSource = rp;
             //crystalReportViewer.DisplayToolbar = true;
-           // rp.SetDatabaseLogon("root", "jeargaqu", serverName, "sua", false);
-           // rp.VerifyDatabase();
-           // rp.Refresh();
+            // rp.SetDatabaseLogon("root", "jeargaqu", serverName, "sua", false);
+            // rp.VerifyDatabase();
+            // rp.Refresh();
 
             CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
             //crystalReportViewer.ReportSource = rp;

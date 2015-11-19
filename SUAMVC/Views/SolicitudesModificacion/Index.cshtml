@@ -25,17 +25,11 @@
     //    gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
     gridColumns.Add(grid.Column("folioSolicitud", "Folio", format: @<text> @if (@item.folioSolicitud != null)
     {  @item.folioSolicitud }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Proyecto.descripcion", "Proyecto", format: @<text> @if (@item.ProyectoId != null)
-    {  @item.Proyecto.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Plaza.descripcion", "Residencia", format: @<text> @if (@item.PlazaId != null)
+    gridColumns.Add(grid.Column("Plaza.descripcion", "Plaza", format: @<text> @if (@item.PlazaId != null)
     {  @item.Plaza.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("fechaSolicitud", "Fecha Solicitud", @<text><div style='width: 6em'>@item.fechaSolicitud.ToString("dd-MM-yyyy")</div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("SDI.descripcion", "SDI", format: @<text> @if (@item.sdiId != null)
     {  @item.SDI.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("fechaFinal", "Fecha Final", @<text><div style='width: 6em'>
-            @if (@item.fechaFinal != null)
-            { @item.fechaFinal.ToString("dd-MM-yyyy")}
-        </div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("fechaModificacion", "Fecha Modificación", @<text><div style='width: 6em'>
                 @if (@item.fechaModificacion != null)
                 { @item.fechaModificacion.ToString("dd-MM-yyyy")}
