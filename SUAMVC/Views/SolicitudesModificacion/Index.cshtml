@@ -71,7 +71,9 @@
     {
         gridColumns.Add(grid.Column(header: "Asigar Empleado", format: @<text>
         @if (!item.Concepto.descripcion.Trim().Equals("Enviado")) { 
-        <a href="@Url.Action("ModificarEmpleado", "Empleados", new { solicitudId = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a>
+        <a href="@Url.Action("ModificarEmpleado", "Empleados", new { solicitudId = item.id })">
+        <img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" />
+        </a>
         }
         </text>));
     }
@@ -89,7 +91,7 @@
     if (SecurityUserModel.verificarPermiso("enviar correo solicitud modificar", "Enviar mail informativo", 6))
     {
         gridColumns.Add(grid.Column(header: "Enviar Solicitud", format: @<text>
-            @if (item.noTrabajadores >= 0 && !item.Concepto.descripcion.Trim().Equals("Enviado"))
+            @if (item.noTrabajadores > 0 && !item.Concepto.descripcion.Trim().Equals("Enviado"))
             {
                 <a href="@Url.Action("EnviarSolicitud", "SolicitudesModificacion", new { id = item.id })">
                     <img src="~/Content/Images/send.png" alt="" style="border:none;" class="icon" />
@@ -110,9 +112,6 @@ tableStyle: "table table-striped tableSua"
 @section Menu {
     <div>Modificación de Solicitudes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
-
-
-
 
 @using (Html.BeginForm())
 {

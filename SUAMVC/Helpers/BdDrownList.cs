@@ -45,6 +45,35 @@ namespace SUAMVC.Helpers
             return htmlHelper.DropDownList("plazasId", listFields, new { onchange = "submit()" });
         }
 
+        public static MvcHtmlString plazasDrownNoAllList(this HtmlHelper htmlHelper, int userId, string idHtml)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Plaza> listPlazas = (from s in db.Plazas.ToList()
+                                      join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                      where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(userId)
+                                      && !s.descripcion.Contains("Local")
+                                      orderby s.cveCorta, s.descripcion
+                                      select s).ToList();
+
+            String itemId = "";
+            String descripcion = "";
+            foreach (Plaza item in listPlazas)
+            {
+                itemId = item.id.ToString().Trim();
+                descripcion = item.descripcion.Trim();
+                if (!descripcion.ToLower().Trim().Equals("todas"))
+                {
+                    listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+                }
+                
+            }
+
+            return htmlHelper.DropDownList(idHtml, listFields, new { id = idHtml });
+        }
+
         public static MvcHtmlString plazasDrownListNS(this HtmlHelper htmlHelper, int userId, string idHtml)
         {
 
@@ -202,7 +231,7 @@ namespace SUAMVC.Helpers
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
-            return htmlHelper.DropDownList("clientesId", listFields, new { onchange = "submit()" });
+            return htmlHelper.DropDownList("clienteId", listFields, new { onchange = "submit()" });
         }
 
         public static MvcHtmlString clientesDrownList(this HtmlHelper htmlHelper, int userId, String componenteId)

@@ -1,4 +1,8 @@
 ﻿@model IEnumerable<SUADATOS.SDI>
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+@using System.Web.UI.WebControls
 
 @{
     ViewBag.Title = "Index";
@@ -7,15 +11,45 @@
     {
         Response.Redirect("~/Home/Index");
     }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    var listItems = new List<ListItem>();
+    var clienteId = ViewBag.clienteId;
 }
 
 @section Menu {
     <div>@Language.catde @Language.sdi<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<p>
-    @Html.ActionLink(@Language.agregar + " " + @Language.sdi, "Create", "EsquemasSDI", new { @class = "btn btn-success" })
-</p>  
+@if (!String.IsNullOrEmpty(ViewBag.clienteId))
+{
+
+    <a href="@Url.Action("Create", "SDIs", new { clienteId = clienteId })">
+        <img src="~/Content/Images/addNew.png" alt="@Language.agregar" style="border:none;" class="menuIcon" title="@Language.agregar" />
+    </a>
+}
+
+@using (Html.BeginForm())
+{
+    <div class="marqueeFilter">
+        <table style="float:left; margin-top:5px;display:inline-block;">
+            <thead>
+                    <tr style="text-align:left;vertical-align:bottom;">
+                        <td style="padding-top:15px">
+                            @Html.Label("Cliente:")
+                        </td>
+                        <td>
+                            @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:20px")
+                        </td>
+                        <td style="padding-left:18px">
+                            <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
+                        </td>
+                    </tr>
+
+            </thead>
+        </table>
+    </div>
+}
+
 <table class="table table-striped tableSua">
     <tr>
         <th>

@@ -46,16 +46,31 @@
 
     if (SecurityUserModel.verificarPermiso("modificar solicitud baja", "Se agrega solicitud para modificar solicitud baja", 6))
     {
-        gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "SolicitudesBaja", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
-    if (SecurityUserModel.verificarPermiso("eliminar solicitud baja", "Se agrega solicitud para eliminar solicitud  baja", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "SolicitudesBaja", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
+       gridColumns.Add(grid.Column(header: "Modificar", format: @<text>
+       @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
+       {
+          <a href="@Url.Action("Edit", "SolicitudesBaja", new { id = item.id })">
+          <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+          </a>;
+       }                                          
+    </text>));
     }
 
-    if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados", 6))
+    if (SecurityUserModel.verificarPermiso("eliminar solicitud baja", "Se agrega solicitud para eliminar solicitud  baja", 6))
     {
-        gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text>
+        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
+        @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
+        { 
+        <a href="@Url.Action("Delete", "SolicitudesBaja", new { id = item.id })">
+        <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+        </a>;
+        }
+    </text>));
+    }
+        
+        if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados", 6))
+        {
+            gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text>
             @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
             {
                 <a href="@Url.Action("BajaEmpleados", "Empleados", new { id = item.id, clienteId = item.clienteId})">
@@ -69,7 +84,7 @@
         gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
             @if (item.noTrabajadores >= 0)
             {
-                <a href="@Url.Action("Index", "Empleados", new { id = item.id })">
+                <a href="@Url.Action("Index", "Empleados", new { id = item.id, status = item.Concepto.descripcion.Trim().ToLower() })">
                     <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
                 </a>
             }
@@ -78,7 +93,7 @@
     if (SecurityUserModel.verificarPermiso("enviar correo solicitud baja", "Enviar mail informativo", 6))
     {
         gridColumns.Add(grid.Column(header: "Enviar Solicitud", format: @<text>
-            @if (item.noTrabajadores >= 0)
+            @if (item.noTrabajadores > 0 && !item.Concepto.descripcion.Trim().Equals("Enviado"))
             {
                 <a href="@Url.Action("EnviarSolicitud", "SolicitudesBaja", new { id = item.id })">
                     <img src="~/Content/Images/send.png" alt="" style="border:none;" class="icon" />
@@ -161,18 +176,6 @@ tableStyle: "table table-striped tableSua"
     }
 </script>
 
-<p>
-    @if (SecurityUserModel.verificarPermiso("nueva solicitud baja", "Se agrega solicitud para agregar solicitud baja", 6)
-        && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
-    {
-        <a href="@Url.Action("Create", "SolicitudesBaja", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId })">
-            <img src="~/Content/Images/addNew.png" alt="@Language.agregar" style="border:none;" class="menuIcon" title="@Language.agregar" />
-        </a>
-        <a href="@Url.Action("crearExcelSolicitudBaja", "SolicitudesBaja", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })" style="text-align:right">
-            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
-        </a>
-    }
-
 
 @using (Html.BeginForm())
 {
@@ -208,23 +211,35 @@ tableStyle: "table table-striped tableSua"
     </div>
 }
 
-@if (!tableHtml.IsEmpty())
-{
-    <div id="table-container" class="table-container">
-        @Html.Raw(tableHtml)
+    <div class="menubar-header">
+        @if (SecurityUserModel.verificarPermiso("nueva solicitud baja", "Se agrega solicitud para agregar solicitud baja", 6)
+        && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
+        {
+            <a href="@Url.Action("Create", "SolicitudesBaja", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId })">
+                <img src="~/Content/Images/addNew.png" alt="@Language.agregar" style="border:none;" class="menuIcon" title="@Language.agregar" />
+            </a>
+            <a href="@Url.Action("crearExcelSolicitudBaja", "SolicitudesBaja", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })" style="text-align:right">
+                <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
+            </a>
+        }
     </div>
-}
+        @if (!tableHtml.IsEmpty())
+        {
+            <div id="table-container" class="table-container">
+                @Html.Raw(tableHtml)
+            </div>
+        }
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("input[name=slall]").change(function () {
-            $('#table-container input[type=checkbox]').each(function () {
-                if ($("input[name=slall]:checked").length == 1) {
-                    this.checked = true;
-                } else {
-                    this.checked = false;
-                }
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("input[name=slall]").change(function () {
+                    $('#table-container input[type=checkbox]').each(function () {
+                        if ($("input[name=slall]:checked").length == 1) {
+                            this.checked = true;
+                        } else {
+                            this.checked = false;
+                        }
+                    });
+                });
             });
-        });
-    });
-</script>
+        </script>

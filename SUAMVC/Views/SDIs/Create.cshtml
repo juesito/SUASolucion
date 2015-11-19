@@ -12,8 +12,9 @@
     Cliente cliente = new Cliente();
     if (ViewBag.clienteId != null)
     {
+        int clienteTempId = int.Parse(ViewBag.clienteId as string);
         suaEntities db = new suaEntities();
-        cliente = db.Clientes.Find(ViewBag.clienteId);
+        cliente = db.Clientes.Find(clienteTempId);
     }
 }
 @section Menu {
@@ -23,6 +24,7 @@
 @using (Html.BeginForm())
 {
     @Html.Hidden("usuarioId", usuario.Id)
+    @Html.Hidden("clienteId", cliente.Id)
     @Html.AntiForgeryToken()
     <div class="panel panel-info">
         <div class="panel-heading">
@@ -34,7 +36,9 @@
                 <div class="form-group">
                     @Html.Label(Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.clientesNSDrownList(usuario.Id)
+                        @Html.Label(cliente.descripcion, new { clienteId = @ViewBag.clienteId })
+                        @*new { style = "width: 200px;" },*@                    
+    @*@Html.clientesNSDrownList(usuario.Id)*@
                     </div>
                 </div>
                 <div class="form-group">
