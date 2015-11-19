@@ -51,16 +51,31 @@
 
     if (SecurityUserModel.verificarPermiso("modificar solicitud baja", "Se agrega solicitud para modificar solicitud baja", 6))
     {
-        gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "SolicitudesBaja", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
-    if (SecurityUserModel.verificarPermiso("eliminar solicitud baja", "Se agrega solicitud para eliminar solicitud  baja", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "SolicitudesBaja", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
+       gridColumns.Add(grid.Column(header: "Modificar", format: @<text>
+       @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
+       {
+          <a href="@Url.Action("Edit", "SolicitudesBaja", new { id = item.id })">
+          <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+          </a>;
+       }                                          
+    </text>));
     }
 
-    if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados", 6))
+    if (SecurityUserModel.verificarPermiso("eliminar solicitud baja", "Se agrega solicitud para eliminar solicitud  baja", 6))
     {
-        gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text>
+        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
+        @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
+        { 
+        <a href="@Url.Action("Delete", "SolicitudesBaja", new { id = item.id })">
+        <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+        </a>;
+        }
+    </text>));
+    }
+        
+        if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados", 6))
+        {
+            gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text>
             @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
             {
                 <a href="@Url.Action("BajaEmpleados", "Empleados", new { id = item.id, clienteId = item.clienteId})">

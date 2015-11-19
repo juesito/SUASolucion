@@ -75,7 +75,9 @@
     {
         gridColumns.Add(grid.Column(header: "Asigar Empleado", format: @<text>
         @if (!item.Concepto.descripcion.Trim().Equals("Enviado")) { 
-        <a href="@Url.Action("ModificarEmpleado", "Empleados", new { solicitudId = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a>
+        <a href="@Url.Action("ModificarEmpleado", "Empleados", new { solicitudId = item.id })">
+        <img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" />
+        </a>
         }
         </text>));
     }
