@@ -83,7 +83,7 @@
     if (SecurityUserModel.verificarPermiso("enviar correo solicitud baja", "Enviar mail informativo", 6))
     {
         gridColumns.Add(grid.Column(header: "Enviar Solicitud", format: @<text>
-            @if (item.noTrabajadores >= 0)
+            @if (item.noTrabajadores > 0 && !item.Concepto.descripcion.Trim().Equals("Enviado"))
             {
                 <a href="@Url.Action("EnviarSolicitud", "SolicitudesBaja", new { id = item.id })">
                     <img src="~/Content/Images/send.png" alt="" style="border:none;" class="icon" />
