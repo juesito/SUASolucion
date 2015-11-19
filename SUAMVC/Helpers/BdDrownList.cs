@@ -202,7 +202,7 @@ namespace SUAMVC.Helpers
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 
-            return htmlHelper.DropDownList("clientesId", listFields, new { onchange = "submit()" });
+            return htmlHelper.DropDownList("clienteId", listFields, new { onchange = "submit()" });
         }
 
         public static MvcHtmlString clientesDrownList(this HtmlHelper htmlHelper, int userId, String componenteId)

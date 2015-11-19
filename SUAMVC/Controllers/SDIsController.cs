@@ -19,16 +19,19 @@ namespace SUAMVC.Controllers
         {
             if (!String.IsNullOrEmpty(clienteId))
             {
+                
                 var sDIs = db.SDIs.ToList();
-                if (String.IsNullOrEmpty(clienteId))
+
+                if (!String.IsNullOrEmpty(clienteId))
                 {
                     int clienteTempId = int.Parse(clienteId.Trim());
                     sDIs = sDIs.Where(p => p.clienteId.Equals(clienteTempId)).OrderBy(p => p.fechaCreacion).ToList();
+                    ViewBag.clienteId = clienteId;
                 }
-                
+            
                 return View(sDIs.ToList());
             }
-
+            
             List<SDI> list = new List<SDI>();
             return View(list);
         }
@@ -45,12 +48,15 @@ namespace SUAMVC.Controllers
             {
                 return HttpNotFound();
             }
+
+
             return View(sDI);
         }
 
         // GET: SDIs/Create
-        public ActionResult Create()
+        public ActionResult Create(String clienteId)
         {
+            ViewBag.clienteId = clienteId;
             return View();
         }
 
@@ -59,7 +65,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,descripcion,fechaCreacion,usuarioId,clienteId")] SDI sDI)
+        public ActionResult Create([Bind(Include = "id,descripcion,fechaCreacion,usuarioId,clienteId")] SDI sDI, String clienteId)
         {
             if (ModelState.IsValid)
             {
@@ -69,10 +75,13 @@ namespace SUAMVC.Controllers
                 sDI.usuarioId = usuario.Id;
                 db.SDIs.Add(sDI);
                 db.SaveChanges();
+                
                 return RedirectToAction("Index", new { clienteId = sDI.clienteId });
             }
 
+            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", sDI.usuarioId);
+            
             return View(sDI);
         }
 
