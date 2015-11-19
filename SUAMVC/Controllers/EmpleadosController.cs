@@ -20,11 +20,20 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Empleados
-        public ActionResult Index(string id, string estatus, String controllerDestiny, String clienteId, String proyectoId, String folioId)
+        //id: solicitud's id
+        // status: is from the solicitudes, this is just to know if the solicitud it was sended
+        //clienteId: cliente's id
+        //proyectoId: proyecto's id
+        public ActionResult Index(String id, String estatus, String controllerDestiny, String clienteId, String proyectoId, String folioId, String status)
         {
 
             Solicitud solicitud = new Solicitud();
             List<Empleado> empleadosList = new List<Empleado>();
+
+            ViewBag.status = "on";
+            if (String.IsNullOrEmpty(status)) {
+                ViewBag.status = "off";    
+            }
 
             //empleadosList = (from s in db.SolicitudEmpleadoes
             //                 where s.estatus.Equals("A")

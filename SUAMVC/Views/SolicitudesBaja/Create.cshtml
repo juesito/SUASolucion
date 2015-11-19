@@ -40,7 +40,7 @@
                         <th colspan="1"> </th>
                         <td >@Html.Label(@Language.plaza + ":")</td>
                         <td style="padding-top:8px">
-                            @Html.plazasDrownListNS(usuario.Id, "plazaId")
+                            @Html.plazasDrownNoAllList(usuario.Id, "plazaId")
                             @Html.ValidationMessageFor(model => model.plazaId, "", new { @class = "text-danger" })
                         </td>
                     </tr>
