@@ -92,7 +92,7 @@
     if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados", 6))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
-            @if (item.noTrabajadores > 0 && !item.Concepto.descripcion.Trim().Equals("Enviado"))
+            @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
             {
                 <a href="@Url.Action("Delete", "Solicitudes", new { id = item.id })">
                     <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />

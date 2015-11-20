@@ -150,5 +150,5 @@
        
 
         <div>
-            @Html.ActionLink(@Language.regresar, "Index")
+            @Html.ActionLink(@Language.regresar, "Index", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
         </div>
