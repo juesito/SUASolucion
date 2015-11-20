@@ -23,7 +23,7 @@
 
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
-    gridColumns.Add(grid.Column("folioSolicitud", Language.tipo, format: @<text> @item.folioSolicitud</text>, canSort: true));
+    gridColumns.Add(grid.Column("folioSolicitud", Language.folioSolicitud, format: @<text> @item.folioSolicitud</text>, canSort: true));
     gridColumns.Add(grid.Column("Plaza.descripcion", Language.plaza, format: @<text> @if (@item.PlazaId != null)
     {  @item.Plaza.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("fechaSolicitud", "Fecha Solicitud", @<text><div style='width: 6em'>

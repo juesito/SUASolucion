@@ -73,30 +73,29 @@
 
 
 <div class="marqueeFilter">
-    <table class="input-table">
-        <tr>
-            <td style="padding-top:15px">
-                @Html.Label("Cliente")
+    <table style="float:left; margin-top:5px;display:inline-block;">
+        <tr style="text-align:left;vertical-align:bottom;">
+            <td style="padding-top:20px">
+                @Html.Label("Cliente:")
             </td>
             <td>
                 @Html.Label(solicitud.Cliente.descripcion)
             </td>
-            <td>
-                @Html.Label("Proyecto")
+            <td style="padding-left:50px">
+                @Html.Label("Proyecto:")
             </td>
-            <td>
+            <td style="padding-left:5px">
                 @Html.Label(solicitud.Proyecto.descripcion)
             </td>
-            <td>
-                @Html.Label("Folio")
+            <td style="padding-left:50px">
+                @Html.Label("Folio:")
             </td>
-            <td>
+            <td style="padding-left:5px">
                 @Html.Label(solicitud.folioSolicitud)
             </td>
         </tr>
     </table>
 </div>
-
 
 
 @if (!tableHtml.IsEmpty())
@@ -107,12 +106,12 @@
         <div class="menubar-header">
             <table>
                 <tr>
-                    <td>
+                    <td style="padding-top:10px">
                         <a href="@Url.Action("Index", "SolicitudesModificacion", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId })">
                             <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
                         </a>
                     </td>
-                    <td>
+                    <td style="padding-left:30px">
                         <input type="submit" value="" class="raddEmployee_button" title="Asignar empleado" id="saveAll" />
                     </td>
 
