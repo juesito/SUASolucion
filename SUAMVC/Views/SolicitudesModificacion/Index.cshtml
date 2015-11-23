@@ -51,7 +51,8 @@
     if (SecurityUserModel.verificarPermiso("modificar solicitud", "Se agrega solicitud para editar solicitud modificar salario", 6))
     {
         gridColumns.Add(grid.Column(header: "Editar", format: @<text>
-            @if (!item.Concepto.descripcion.Trim().Equals("Enviado")) {
+            @if (item.Concepto.descripcion.Trim().Equals("Apertura"))
+            {
                 <a href="@Url.Action("Edit", "SolicitudesModificacion", new { id = item.id })">
                     <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a>
             }
@@ -60,7 +61,8 @@
     if (SecurityUserModel.verificarPermiso("eliminar solicitud", "Se agrega solicitud para eliminar modificar salario", 6))
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
-            @if (!item.Concepto.descripcion.Trim().Equals("Enviado")) {
+            @if (item.Concepto.descripcion.Trim().Equals("Apertura"))
+            {
                 <a href="@Url.Action("Delete", "SolicitudesModificacion", new { id = item.id })">
                     <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
                 </a>
@@ -70,7 +72,8 @@
     if (SecurityUserModel.verificarPermiso("1", "1", 6))
     {
         gridColumns.Add(grid.Column(header: "Asigar Empleado", format: @<text>
-        @if (!item.Concepto.descripcion.Trim().Equals("Enviado")) { 
+        @if (item.Concepto.descripcion.Trim().Equals("Apertura"))
+        { 
         <a href="@Url.Action("ModificarEmpleado", "Empleados", new { solicitudId = item.id })">
         <img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" />
         </a>
@@ -91,7 +94,7 @@
     if (SecurityUserModel.verificarPermiso("enviar correo solicitud modificar", "Enviar mail informativo", 6))
     {
         gridColumns.Add(grid.Column(header: "Enviar Solicitud", format: @<text>
-            @if (item.noTrabajadores > 0 && !item.Concepto.descripcion.Trim().Equals("Enviado"))
+            @if (item.noTrabajadores > 0 && item.Concepto.descripcion.Trim().Equals("Apertura"))
             {
                 <a href="@Url.Action("EnviarSolicitud", "SolicitudesModificacion", new { id = item.id })">
                     <img src="~/Content/Images/send.png" alt="" style="border:none;" class="icon" />
@@ -105,7 +108,6 @@ columns: grid.Columns(gridColumns.ToArray()),
 tableStyle: "table table-striped tableSua"
 ));
 
-    //    tableHtml = sb.ToString().Replace("{}", "<input type='checkbox' id='selectAll' name='slall' />").Trim();
     tableHtml = sb.ToString().Trim();
 }
 
