@@ -76,7 +76,7 @@
                 </tr>
                 <tr>
                     <td colspan="3"></td>
-                    <td style="text-align:right;"><input type="submit" value="@Language.agregar" class="btn btn-primary" /></td>
+                    <td style="text-align:right;"><input type="submit" value="@Language.guardar" class="btn btn-primary" /></td>
                 </tr>
             </table>
             </div>
@@ -85,5 +85,5 @@
         }
 
         <div>
-            @Html.ActionLink(@Language.regresar, "Index")
+            @Html.ActionLink(@Language.regresar, "Index", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
         </div>

@@ -182,7 +182,7 @@ namespace SUAMVC.Controllers
         }
 
         // GET: SolicitudesBaja/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, string clienteId, string proyectoId)
         {
             if (id == null)
             {
@@ -204,22 +204,46 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio")] Solicitud solicitud)
+        public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio")] Solicitud solicitud, string clienteId, string proyectoId)
         {
-            if (ModelState.IsValid)
+                if (ModelState.IsValid)
             {
+                solicitud.fechaSolicitud = DateTime.Now;
+
                 db.Entry(solicitud).State = EntityState.Modified;
-                db.SaveChanges();
+
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    foreach (var failure in ex.EntityValidationErrors)
+                    {
+                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                        foreach (var error in failure.ValidationErrors)
+                        {
+                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                            sb.AppendLine();
+                        }
+                    }
+                }
+                
                 return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
             ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", solicitud.plazaId);
             ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion", solicitud.proyectoId);
+
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
             return View(solicitud);
         }
 
         // GET: SolicitudesBaja/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, string clienteId, string proyectoId)
         {
             if (id == null)
             {
@@ -230,17 +254,24 @@ namespace SUAMVC.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
+
             return View(solicitud);
         }
 
         // POST: SolicitudesBaja/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, string clienteId, string proyectoId)
         {
             Solicitud solicitud = db.Solicituds.Find(id);
             db.Solicituds.Remove(solicitud);
             db.SaveChanges();
+
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
             return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
 
@@ -263,8 +294,8 @@ namespace SUAMVC.Controllers
 
                 TempData["message"] = "Solicitud Enviada Satisfactoriamente.";
             }
-
-            return RedirectToAction("Index", new { clienteId = solicitud.clienteId, folioId = solicitud.folioSolicitud });
+            
+            return RedirectToAction("Index");
         }
 
         //Lay out SolicitudBaja

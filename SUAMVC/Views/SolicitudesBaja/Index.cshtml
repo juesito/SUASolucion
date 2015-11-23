@@ -14,7 +14,7 @@
     String msg = TempData["mensaje"] as string;
 
     var listItems = new List<ListItem>();
-    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+    var grid = new WebGrid(source: Model, rowsPerPage: 2);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
 
@@ -39,28 +39,38 @@
     {  @item.noTrabajadores }</text>, canSort: true));
     gridColumns.Add(grid.Column("Concepto.descripcion", "Estatus Solicitud", format: @<text> @if (@item.estatusSolicitud != null)
     {  @item.Concepto.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Concepto1.descripcion", "Estatus Nom.", format: @<text> @if (@item.estatusNomina != null)
-    {  @item.Concepto1.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Concepto2.descripcion", "Estatus Juri.", format: @<text> @if (@item.estatusAfiliado != null)
-    {  @item.Concepto2.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Concepto3.descripcion", "Estatus Afil.", format: @<text> @if (@item.estatusJuridico != null)
+    gridColumns.Add(grid.Column("Concepto3.descripcion", "Estatus IMSS", format: @<text> @if (@item.estatusJuridico != null)
     {  @item.Concepto3.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Concepto4.descripcion", "Estatus Tarj.", format: @<text> @if (@item.estatusTarjeta != null)
-    {  @item.Concepto4.descripcion }</text>, canSort: true));
-
+    gridColumns.Add(grid.Column("Concepto2.descripcion", "Estatus Jurid.", format: @<text> @if (@item.estatusAfiliado != null)
+    {  @item.Concepto2.descripcion }</text>, canSort: true));
 
     if (SecurityUserModel.verificarPermiso("modificar solicitud baja", "Se agrega solicitud para modificar solicitud baja", 6))
     {
-        gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "SolicitudesBaja", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
-    if (SecurityUserModel.verificarPermiso("eliminar solicitud baja", "Se agrega solicitud para eliminar solicitud  baja", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "SolicitudesBaja", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
+       gridColumns.Add(grid.Column(header: "Modificar", format: @<text>
+       @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
+       {
+          <a href="@Url.Action("Edit", "SolicitudesBaja", new { id = item.id })">
+          <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+          </a>;
+       }                                          
+    </text>));
     }
 
-    if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados", 6))
+    if (SecurityUserModel.verificarPermiso("eliminar solicitud baja", "Se agrega solicitud para eliminar solicitud  baja", 6))
     {
-        gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text>
+        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
+        @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
+        { 
+        <a href="@Url.Action("Delete", "SolicitudesBaja", new { id = item.id })">
+        <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+        </a>;
+        }
+    </text>));
+    }
+        
+        if (SecurityUserModel.verificarPermiso("agregar personal solicitud baja", "Se agrega solicitud para agregar empleados", 6))
+        {
+            gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text>
             @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
             {
                 <a href="@Url.Action("BajaEmpleados", "Empleados", new { id = item.id, clienteId = item.clienteId})">

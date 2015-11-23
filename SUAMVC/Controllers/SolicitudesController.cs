@@ -200,7 +200,7 @@ namespace SUAMVC.Controllers
         }
 
         // GET: Solicitudes/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, string clienteId, string proyectoId)
         {
             if (id == null)
             {
@@ -216,6 +216,8 @@ namespace SUAMVC.Controllers
             ViewBag.sdiId = solicitud.sdiId;
             ViewBag.contratoId = solicitud.contratoId;
             ViewBag.tipoPersonalId = solicitud.tipoPersonalId;
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
             return View(solicitud);
         }
 
@@ -224,7 +226,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicioContrato,fechaTerminoContrato,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio, tipoSolicitud")] Solicitud solicitud)
+        public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicioContrato,fechaTerminoContrato,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio, tipoSolicitud")] Solicitud solicitud, string clienteId, string proyectoId)
         {
             if (ModelState.IsValid)
             {
@@ -265,11 +267,14 @@ namespace SUAMVC.Controllers
             ViewBag.contratoId = new SelectList(db.TipoContratoes, "id", "descripcion", solicitud.contratoId);
             ViewBag.tipoPersonalId = new SelectList(db.TipoPersonals, "id", "descripcion", solicitud.tipoPersonalId);
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", solicitud.usuarioId);
+
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
             return View(solicitud);
         }
 
         // GET: Solicitudes/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, string clienteId, string proyectoId)
         {
             if (id == null)
             {
@@ -280,13 +285,16 @@ namespace SUAMVC.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
             return View(solicitud);
         }
 
         // POST: Solicitudes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, string clienteId, string proyectoId)
         {
             Solicitud solicitud = db.Solicituds.Find(id);
             db.Solicituds.Remove(solicitud);
@@ -313,7 +321,8 @@ namespace SUAMVC.Controllers
 
                 TempData["message"] = "Solicitud Enviada Satisfactoriamente.";
             }
-
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
             return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
 
