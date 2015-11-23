@@ -519,7 +519,7 @@ namespace SUAMVC.Controllers
                     empleadoModificado.observaciones = empleado.observaciones.Trim().ToUpper();
                 }
 
-                if (!string.IsNullOrEmpty(empleado.Estado.descripcion));
+                if (!string.IsNullOrEmpty(empleado.Estado.descripcion))
                 {
                     empleadoModificado.Estado.descripcion = empleado.Estado.descripcion.Trim().ToUpper();
                 }
@@ -1396,6 +1396,21 @@ namespace SUAMVC.Controllers
             var data = catalogos.Select(p => p.descripcion).Distinct();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult desasignarDeSolicitudEmpleado(String empleadoId, String solicitudId) {
+
+            if (!String.IsNullOrEmpty(empleadoId) && !String.IsNullOrEmpty(solicitudId))
+            {
+
+                SolicitudEmpleado solicitudEmpleado = new SolicitudEmpleado();
+
+
+            }
+
+            return RedirectToAction("");
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {

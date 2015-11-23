@@ -71,6 +71,15 @@
     gridColumns.Add(grid.Column("banco", "Banco", @<text> @if (@item.banco != null)
     {@item.banco.descripcion }</text>, canSort: false));
 
+    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    {
+        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
+                <a href="@Url.Action("Delete", "SolicitudesModificacion", new { id = item.id })">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a>
+        </text>));
+    }
+
     sb.Append(grid.GetHtml(
     columns: grid.Columns(gridColumns.ToArray()),
     tableStyle: "table table-striped tableSua"
