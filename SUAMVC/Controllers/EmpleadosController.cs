@@ -1397,18 +1397,41 @@ namespace SUAMVC.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult desasignarDeSolicitudEmpleado(String empleadoId, String solicitudId) {
+        public ActionResult desasignarDeSolicitudEmpleado(String empleadoId, String solicitudId, String sourceController) {
 
             if (!String.IsNullOrEmpty(empleadoId) && !String.IsNullOrEmpty(solicitudId))
             {
 
+                int solicitudInt = int.Parse(solicitudId);
+                int empleadoInt = int.Parse(empleadoId);
+
                 SolicitudEmpleado solicitudEmpleado = new SolicitudEmpleado();
 
+                //Regresamos el salario diario alternativo al original
+                Empleado empleado = db.Empleados.Where(e => e.id.Equals(empleadoInt)).FirstOrDefault();
+                empleado.sdiAlternativoId = empleado.sdiId;
 
+                db.Entry(empleado).State = EntityState.Modified;
+
+                //Rompemos el link entre la solicitud y el empleado
+                solicitudEmpleado = db.SolicitudEmpleadoes.Where(s => s.empleadoId.Equals(empleadoInt) &&
+                        s.solicitudId.Equals(solicitudInt)).FirstOrDefault();
+
+                solicitudEmpleado.estatus = "B";
+                db.Entry(solicitudEmpleado).State = EntityState.Modified;
+
+                //Le reducimos un trabajador a la solicitud
+                Solicitud solicitud = db.Solicituds.Where(so => so.id.Equals(solicitudInt)).FirstOrDefault();
+                solicitud.noTrabajadores = solicitud.noTrabajadores - 1;
+
+                //Salvamos los cambios
+                db.SaveChanges();
+                
             }
 
-            return RedirectToAction("");
+            return RedirectToAction("SolicitudEmpleado", sourceController.Trim(), new {solicitudId = solicitudId });
         }
+
 
 
 

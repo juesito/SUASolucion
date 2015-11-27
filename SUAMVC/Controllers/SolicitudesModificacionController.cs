@@ -331,7 +331,8 @@ namespace SUAMVC.Controllers
                 List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
                                                 join e in db.Empleados on s.empleadoId equals e.id
                                                 where s.Solicitud.clienteId.Equals(clienteTempId)
-                                                && s.Solicitud.id.Equals(solicitud.id)
+                                                && s.Solicitud.id.Equals(solicitud.id) &&
+                                                (s.estatus.Equals("A") || s.estatus.Equals("C"))
                                                 && e.estatus.Equals("A") && s.Solicitud.proyectoId.Equals(proyectoId)
                                                 orderby s.id
                                                 select s.Empleado).ToList();
@@ -367,6 +368,8 @@ namespace SUAMVC.Controllers
 
             return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
+
+        
 
 
         //Lay out SolicitudBaja
