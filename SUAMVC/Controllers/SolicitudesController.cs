@@ -607,10 +607,11 @@ namespace SUAMVC.Controllers
             FileStream fileStream = null;
             MemoryStream mem = new MemoryStream();
 
-                 fileStream = new FileStream("C:\\SUA\\Layouts\\Layout-Altas.xls", FileMode.Open);
+                fileStream = new FileStream("C:\\SUA\\Layouts\\Layout-Altas.xls", FileMode.Open);
                 fileStream.Position = 0;
                 mem = new MemoryStream();
                 fileStream.CopyTo(mem);
+                fileStream.Close();
 
                 mem.Position = 0;
                 Response.ClearContent();

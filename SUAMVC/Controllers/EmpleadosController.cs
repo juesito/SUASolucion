@@ -799,7 +799,7 @@ namespace SUAMVC.Controllers
                                          nss = Convert.ToString(row.Field<Object>("NSS")),
                                          sexo = Convert.ToString(row.Field<Object>("SEXO")),
                                          fechaNacimiento = Convert.ToString(row.Field<Object>("FECHA_NACIMIENTO")),
-                                         fechaAltaImss = Convert.ToString(row.Field<Object>("FECHA_ALTA")),
+                                         fechaAltaImss = Convert.ToString(row.Field<Object>("FECHA")),
                                          creditoInfonavit = Convert.ToString(row.Field<Object>("NUM_CRED_INFONAVIT")),
                                          pais = Convert.ToString(row.Field<Object>("PAIS")),
                                          estado = Convert.ToString(row.Field<Object>("ESTADO_NACIMIENTO")),
@@ -960,7 +960,7 @@ namespace SUAMVC.Controllers
                                 pais = db.Paises.FirstOrDefault();
                             } //Pais de nacimiento es null?
                             empleado.nacionalidadId = pais.id;
-                            if (pais.descripcion.Trim().Equals("MÉXICO"))
+                            if (pais.descripcion.Trim().Equals("MEXICO"))
                             {
                                 if (!String.IsNullOrEmpty(empleadoL.estado))
                                 {
@@ -973,7 +973,7 @@ namespace SUAMVC.Controllers
                                 empleado.estadoNacimientoId = estado.id;
                             }
 
-                            if (pais.descripcion.ToLower().Trim().Equals("méxico"))
+                            if (pais.descripcion.ToLower().Trim().Equals("mexico"))
                             {
                                 if (!String.IsNullOrEmpty(empleadoL.municipio))
                                 {
@@ -981,7 +981,7 @@ namespace SUAMVC.Controllers
                                 }
                                 else
                                 {
-                                    municipio = db.Municipios.Find(1);
+                                    municipio = db.Municipios.Find(2);
                                 } // municipio de nacimiento no es null?
                                 empleado.municipioNacimientoId = municipio.id;
                             }
