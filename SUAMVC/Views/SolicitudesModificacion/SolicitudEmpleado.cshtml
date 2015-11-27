@@ -19,6 +19,8 @@
 
     Solicitud solicitud = db.Solicituds.Find(solicitudId);
 
+    String sourceController = "SolicitudesBaja";
+
     var grid = new WebGrid(source: Model, rowsPerPage: 10);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
@@ -71,13 +73,16 @@
     gridColumns.Add(grid.Column("banco", "Banco", @<text> @if (@item.banco != null)
     {@item.banco.descripcion }</text>, canSort: false));
 
-    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    if (solicitud.Concepto.descripcion.Trim().Equals("Apertura"))
     {
-        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
-                <a href="@Url.Action("Delete", "SolicitudesModificacion", new { id = item.id })">
+        if (SecurityUserModel.verificarPermiso("1", "1", 6))
+        {
+            gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
+                <a href="@Url.Action("desasignarDeSolicitudEmpleado", "Empleados", new { empleadoId = item.id, solicitudId = solicitudId, sourceController = sourceController })">
                     <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
                 </a>
-        </text>));
+            </text>));
+        }
     }
 
     sb.Append(grid.GetHtml(

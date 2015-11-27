@@ -47,7 +47,7 @@
     if (SecurityUserModel.verificarPermiso("modificar solicitud baja", "Se agrega solicitud para modificar solicitud baja", 6))
     {
        gridColumns.Add(grid.Column(header: "Modificar", format: @<text>
-       @if (!item.Concepto.descripcion.Trim().Equals("Enviado"))
+       @if (item.Concepto.descripcion.Trim().Equals("Apertura"))
        {
           <a href="@Url.Action("Edit", "SolicitudesBaja", new { id = item.id })">
           <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />

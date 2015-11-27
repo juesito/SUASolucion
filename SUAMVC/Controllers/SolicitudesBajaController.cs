@@ -510,6 +510,41 @@ namespace SUAMVC.Controllers
             return sheetData;
         }
 
+        public ActionResult SolicitudEmpleado(string solicitudId)
+        {
+
+            List<Empleado> listEmpleados = new List<Empleado>();
+
+            if (!String.IsNullOrEmpty(solicitudId))
+            {
+                int solicitudIdTemp = int.Parse(solicitudId);
+                Solicitud solicitud = db.Solicituds.Find(solicitudIdTemp);
+                int proyectoId = solicitud.proyectoId;
+                int clienteTempId = solicitud.clienteId;
+
+                TempData["solicitudId"] = solicitudIdTemp;
+                //ViewBag.solicitudId = solicitudIdTemp;
+
+                //Filtramos solo empleados de solicitudes de alta
+                List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
+                                                join e in db.Empleados on s.empleadoId equals e.id
+                                                where s.Solicitud.clienteId.Equals(clienteTempId)
+                                                && s.Solicitud.id.Equals(solicitud.id) && 
+                                                (s.estatus.Equals("A") || s.estatus.Equals("C")) 
+                                                && e.estatus.Equals("A") && s.Solicitud.proyectoId.Equals(proyectoId)
+                                                orderby s.id
+                                                select s.Empleado).ToList();
+
+                foreach (Empleado emp in empleadosList)
+                {
+                    listEmpleados.Add(emp);
+
+                }
+            }
+            return View(listEmpleados);
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
