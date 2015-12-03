@@ -82,9 +82,20 @@
     if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud", "Se agrega solicitud para ver empleados solicitud baja", 6))
     {
         gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
-            @if (item.noTrabajadores >= 0)
+            @if (item.noTrabajadores > 0)
             {
                 <a href="@Url.Action("Index", "Empleados", new { id = item.id, status = item.Concepto.descripcion.Trim().ToLower() })">
+                    <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
+                </a>
+            }
+        </text>));
+    }
+    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    {
+        gridColumns.Add(grid.Column(header: "Ver Personal Asignado", format: @<text>
+            @if (item.noTrabajadores > 0)
+            {
+                <a href="@Url.Action("SolicitudEmpleado", "SolicitudesBaja", new { solicitudId = item.id })">
                     <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
                 </a>
             }

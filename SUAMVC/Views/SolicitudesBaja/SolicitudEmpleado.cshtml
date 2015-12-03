@@ -1,0 +1,176 @@
+﻿@model IEnumerable<SUADATOS.Empleado>
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+
+@{
+    ViewBag.Title = "Empleados a modificar";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    suaEntities db = new suaEntities();
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    var solis = TempData["solicitudId"];
+
+    int solicitudId = int.Parse(solis.ToString()); //ViewBag.solicitudId;
+
+    Solicitud solicitud = db.Solicituds.Find(solicitudId);
+
+    String sourceController = "SolicitudesModificacion";
+
+    var grid = new WebGrid(source: Model, rowsPerPage: 10);
+    var tableHtml = string.Empty;
+    var sb = new StringBuilder();
+
+    //Creamos una lista de columnas
+    var gridColumns = new List<WebGridColumn>();
+    gridColumns.Add(
+
+        grid.Column("",
+                   style: "col1",
+                   format: @<text>
+                    @if (!solicitud.Concepto.descripcion.Trim().Equals("Enviado"))
+                    {
+                        <input class="edit-personal display-mode" type="image" src="~/Content/Images/edit.png"
+                               alt="@Language.edit" title="@Language.edit" width="20" height="20" id="@item.id" />
+                        <input class="save-personal edit-mode" type="image" src="~/Content/Images/save-floppy.png"
+                               alt="@Language.guardar" title="@Language.guardar" width="20" height="20" id="@item.id" />
+                        <input class="cancel-capture edit-mode" type="image" src="~/Content/Images/cancel.png"
+                               alt="@Language.bt_cancel" title="@Language.bt_cancel" width="20" height="20" id="@item.id" />
+                    }
+                </text>));
+    gridColumns.Add(grid.Column("empleadoId", "ID", format: @<text>  @if (@item.folioEmpleado != null)
+    {  @item.folioEmpleado }</text>, canSort: false));
+    gridColumns.Add(grid.Column("nombreCompleto", "Nombre", format: @<text> @if (@item.nombre != null)
+    {  @item.nombreCompleto }</text>, canSort: false));
+    gridColumns.Add(grid.Column("nss", "IMSS", format: @<text> @if (@item.nss != null)
+    {  @item.nss }</text>, canSort: false));
+    gridColumns.Add(grid.Column("categoria", "Categoría", format: @<text> @if (@item.categoria != null)
+    {  @item.categoria }</text>, canSort: false));
+
+    gridColumns.Add(grid.Column("fechaAltaImss", "Fecha Ingreso", @<text><div style='width: 6em'>@item.fechaCreacion.ToString("dd-MM-yyyy")</div></text>, null, canSort: false));
+    gridColumns.Add(grid.Column("fechaModificacion", "Fecha Modificación",
+        @<text><div style='width: 6em'>
+                @if (@item.fechaModificacion != null)
+                { @item.fechaModificacion.ToString("dd-MM-yyyy")}
+            </div></text>, null, canSort: false));
+
+    gridColumns.Add(grid.Column("SDI.descripcion", "SDI Actual", canSort: false));
+
+    gridColumns.Add(grid.Column("SDI1.descripcion", "Sdi Modificado",
+        format: @<text>@if (@item.sdi != null)
+        {
+            <span id="SdiId" class="display-mode">@item.sdi1.descripcion</span>
+            @Html.sdiDrownList(usuario.Id, "sdiAlternativoId", "edit-mode")
+        }
+        </text>, canSort: false));
+
+
+
+    gridColumns.Add(grid.Column("banco", "Banco", @<text> @if (@item.banco != null)
+    {@item.banco.descripcion }</text>, canSort: false));
+
+    if (solicitud.Concepto.descripcion.Trim().Equals("Apertura"))
+    {
+        if (SecurityUserModel.verificarPermiso("1", "1", 6))
+        {
+            gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
+                <a href="@Url.Action("desasignarDeSolicitudEmpleado", "Empleados", new { empleadoId = item.id, solicitudId = solicitudId, sourceController = sourceController })">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a>
+            </text>));
+        }
+    }
+
+    sb.Append(grid.GetHtml(
+    columns: grid.Columns(gridColumns.ToArray()),
+    tableStyle: "table table-striped tableSua"
+    ));
+
+    tableHtml = sb.ToString().Trim();
+
+
+}
+
+@section Menu {
+    <div>Modificar Empleados Asignados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+@Html.Hidden("solsId", solicitud.id, new { id = "solsId" })
+
+
+<div class="marqueeFilter">
+    <table style="float:left; margin-top:5px;display:inline-block;">
+        <tr style="text-align:left;vertical-align:bottom;">
+            <td style="padding-top:20px">
+                @Html.Label("Cliente:")
+            </td>
+            <td>
+                @Html.Label(solicitud.Cliente.descripcion)
+            </td>
+            <td style="padding-left:50px">
+                @Html.Label("Proyecto:")
+            </td>
+            <td style="padding-left:5px">
+                @Html.Label(solicitud.Proyecto.descripcion)
+            </td>
+            <td style="padding-left:50px">
+                @Html.Label("Folio:")
+            </td>
+            <td style="padding-left:5px">
+                @Html.Label(solicitud.folioSolicitud)
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+@if (!tableHtml.IsEmpty())
+{
+    using (Html.BeginForm())
+    {
+        <div class="menubar-header">
+            <a href="@Url.Action("Index", "SolicitudesModificacion", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId })">
+                <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+            </a>
+        </div>
+
+        <div id="table-container" class="table-container">
+            @Html.Raw(tableHtml)
+        </div>
+    }
+}
+
+<script>
+    $(function () {
+        $('.edit-mode').hide();
+        $('.edit-personal').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+            return false;
+        });
+        $('.save-personal').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            var empleadoId = $(this).prop('id');
+            var solsId = $("#solsId").val();
+            var sdi = tr.find('#sdiAlternativoId').val();
+
+            $.post(
+                '/Empleados/ModificarSalario',
+                { EmpleadoId: empleadoId, Sdi: sdi, SolicitudId: solsId },
+                function (empleado) {
+
+                }, "json");
+            tr.find('.edit-mode, .display-mode').toggle();
+            $("#target").submit();
+        });
+        $('.cancel-capture').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+            return false;
+        });
+    });
+</script>

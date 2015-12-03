@@ -35,6 +35,7 @@ namespace SUAMVC.Controllers
                 var solicituds = (from s in db.Solicituds
                                   join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
+                                    && !s.Concepto.descripcion.Trim().Contains("Baja")
                                   orderby s.fechaSolicitud descending
                                   select s).ToList();
 

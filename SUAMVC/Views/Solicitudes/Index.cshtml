@@ -125,7 +125,7 @@
     if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud alta", "Se agrega solicitud para ver empleados en solicitud", 6))
     {
         gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
-            @if (item.noTrabajadores >= 0)
+            @if (item.noTrabajadores > 0)
             {
                 <a href="@Url.Action("Index", "Empleados", new { id = item.id, controllerDestiny = "Solicitudes" })">
                     <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
@@ -133,6 +133,7 @@
             }
         </text>));
     }
+    
     if (SecurityUserModel.verificarPermiso("enviar correo solicitud alta", "Enviar mail informativo", 6))
     {
         gridColumns.Add(grid.Column(header: "Enviar Solicitud", format: @<text>
