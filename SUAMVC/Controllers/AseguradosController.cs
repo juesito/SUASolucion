@@ -376,6 +376,62 @@ namespace SUAMVC.Controllers
         }
 
         // GET: Aseguradoes/Delete/5
+        public ActionResult Delete(int id)
+        {
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Asegurado asegurado = db.Asegurados.Find(id);
+            if (asegurado == null)
+            {
+                return HttpNotFound();
+            }
+            return View(asegurado);
+        }
+
+        // POST: Aseguradoes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed2(int id)
+        {
+            var movTemp2 = (from s in db.MovimientosAseguradoes
+                            where s.aseguradoId.Equals(id) 
+                            select s).ToList();
+
+            MovimientosAsegurado movto = new MovimientosAsegurado();
+            if (movTemp2 != null && movTemp2.Count() > 0)
+            {
+                foreach (var movItem in movTemp2)
+                {
+                    movto = movItem;
+                    db.MovimientosAseguradoes.Remove(movto);
+                    db.SaveChanges();
+                }
+            }
+
+            var movTemp = (from s in db.Movimientos
+                            where s.aseguradoId.ToString().Equals(id.ToString())
+                            select s).ToList();
+
+            Movimiento movtos = new Movimiento();
+            if (movTemp != null && movTemp.Count() > 0)
+            {
+                foreach (var movItem in movTemp)
+                {
+                    movtos = movItem;
+                    db.Movimientos.Remove(movtos);
+                    db.SaveChanges();
+                }
+            }
+            Asegurado aseg = db.Asegurados.Find(id);
+            db.Asegurados.Remove(aseg);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        
+        // GET: Aseguradoes/Delete/5
         public ActionResult DeleteMov(int id)
         {
             if (id == 0)

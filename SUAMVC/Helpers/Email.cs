@@ -118,7 +118,7 @@ namespace SUAMVC.Helpers
             client.Credentials = new System.Net.NetworkCredential("info@desarrolloytalento.com", "informacion2014");
             client.Port = 3535;
             client.Host = "smtpout.secureserver.net";//Este es el smtp valido para Gmail
-            client.EnableSsl = true; //Esto es para que vaya a través de SSL que es obligatorio con GMail
+            client.EnableSsl = false; //Esto es para que vaya a través de SSL que es obligatorio con GMail
 
             try
             {

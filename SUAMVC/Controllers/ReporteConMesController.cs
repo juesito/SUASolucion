@@ -23,7 +23,7 @@ namespace SUAMVC.Controllers
 
         // GET: ReporteConMes
         public ActionResult Index(String plazasId, String ejercicioId,
-                                   String clientesId, String usuarioId)
+                                   String clienteId, String usuarioId)
         {
             Usuario user = Session["UsuarioData"] as Usuario;
 
@@ -46,10 +46,10 @@ namespace SUAMVC.Controllers
                                                s.usuarioId.Equals(user.Id)
                                          select s;
 
-            if (!String.IsNullOrEmpty(clientesId))
+            if (!String.IsNullOrEmpty(clienteId))
             {
-                int clienteId = int.Parse(clientesId.Trim());
-                reporteAmortizaciónBim = reporteAmortizaciónBim.Where(s => s.clienteId.Equals(clienteId));
+                int clientesId = int.Parse(clienteId.Trim());
+                reporteAmortizaciónBim = reporteAmortizaciónBim.Where(s => s.clienteId.Equals(clientesId));
             }
             if (!String.IsNullOrEmpty(plazasId))
             {
@@ -174,7 +174,7 @@ namespace SUAMVC.Controllers
         }
 
         [HttpGet]
-        public void ExcelAnualINF(String plazasId, String ejercicioId, String clientesId, String gruposId)
+        public void ExcelAnualINF(String plazasId, String ejercicioId, String clienteId, String gruposId)
         {
             Usuario user = Session["UsuarioData"] as Usuario;
 
@@ -204,10 +204,10 @@ namespace SUAMVC.Controllers
                                                s.usuarioId.Equals(user.Id)
                                          select s;
 
-            if (!String.IsNullOrEmpty(clientesId))
+            if (!String.IsNullOrEmpty(clienteId))
             {
-                int clienteId = int.Parse(clientesId.Trim());
-                reporteAmortizaciónBim = reporteAmortizaciónBim.Where(s => s.clienteId.Equals(clienteId));
+                int clientesId = int.Parse(clienteId.Trim());
+                reporteAmortizaciónBim = reporteAmortizaciónBim.Where(s => s.clienteId.Equals(clientesId));
             }
             if (!String.IsNullOrEmpty(plazasId))
             {
@@ -426,7 +426,7 @@ namespace SUAMVC.Controllers
         }
 
         [HttpGet]
-        public void ExcelAnualINFDet(String plazasId, String ejercicioId, String clientesId, String gruposId)
+        public void ExcelAnualINFDet(String plazasId, String ejercicioId, String clienteId, String gruposId)
         {
             Usuario user = Session["UsuarioData"] as Usuario;
 
@@ -457,10 +457,10 @@ namespace SUAMVC.Controllers
                                                   s.usuarioId.Equals(user.Id)
                                             select s;
 
-            if (!String.IsNullOrEmpty(clientesId))
+            if (!String.IsNullOrEmpty(clienteId))
             {
-                int clienteId = int.Parse(clientesId.Trim());
-                reporteAmortizaciónBimDet = reporteAmortizaciónBimDet.Where(s => s.Cliente.Id.Equals(clienteId));
+                int clientesId = int.Parse(clienteId.Trim());
+                reporteAmortizaciónBimDet = reporteAmortizaciónBimDet.Where(s => s.Cliente.Id.Equals(clientesId));
             }
             if (!String.IsNullOrEmpty(plazasId))
             {
@@ -887,7 +887,7 @@ namespace SUAMVC.Controllers
 
 
         public ActionResult AnualCostoSocial(String plazasId, String ejercicioId,
-                           String clientesId, String usuarioId)
+                           String clienteId, String usuarioId)
         {
             Usuario user = Session["UsuarioData"] as Usuario;
 
@@ -910,10 +910,10 @@ namespace SUAMVC.Controllers
                                                s.usuarioId.Equals(user.Id)
                                          select s;
 
-            if (!String.IsNullOrEmpty(clientesId))
+            if (!String.IsNullOrEmpty(clienteId))
             {
-                int clienteId = int.Parse(clientesId.Trim());
-                reporteAmortizaciónBim = reporteAmortizaciónBim.Where(s => s.clienteId.Equals(clienteId));
+                int clientesId = int.Parse(clienteId.Trim());
+                reporteAmortizaciónBim = reporteAmortizaciónBim.Where(s => s.clienteId.Equals(clientesId));
             }
             if (!String.IsNullOrEmpty(plazasId))
             {

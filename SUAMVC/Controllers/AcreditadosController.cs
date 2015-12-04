@@ -415,7 +415,7 @@ namespace SUAMVC.Controllers
         }
 
         // GET: Acreditados/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int id)
         {
             if (id == null)
             {
@@ -432,8 +432,22 @@ namespace SUAMVC.Controllers
         // POST: Acreditados/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int id)
         {
+            var movTemp = (from s in db.Movimientos
+                           where s.acreditadoId.ToString().Equals(id.ToString())
+                           select s).ToList();
+
+            Movimiento movtos = new Movimiento();
+            if (movTemp != null && movTemp.Count() > 0)
+            {
+                foreach (var movItem in movTemp)
+                {
+                    movtos = movItem;
+                    db.Movimientos.Remove(movtos);
+                    db.SaveChanges();
+                }
+            }
             Acreditado acreditado = db.Acreditados.Find(id);
             db.Acreditados.Remove(acreditado);
             db.SaveChanges();
