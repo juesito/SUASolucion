@@ -5,6 +5,7 @@ using System.Web;
 using System.Net.Mail;
 using SUADATOS;
 using SUAMVC.Models;
+using System.Text.RegularExpressions;
 
 namespace SUAMVC.Helpers
 {
@@ -27,8 +28,14 @@ namespace SUAMVC.Helpers
                 Parametro emailListParameter = ph.getParameterByKey("EMAILLIST");
 
                 if (!String.IsNullOrEmpty(emailListParameter.valorString)) {
-                    DestinatorModel destinator = new DestinatorModel("CIAH" ,emailListParameter.valorString.Trim());
-                    email.to.Add(destinator);
+
+                    string[] substrings = Regex.Split(emailListParameter.valorString.Trim(), ";");
+
+                    foreach (String indice in substrings)
+                    {
+                        DestinatorModel destinator = new DestinatorModel("CIAH", indice);
+                        email.to.Add(destinator);
+                    }
                 }
             }
 
