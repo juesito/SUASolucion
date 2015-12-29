@@ -98,9 +98,18 @@ namespace SUAMVC.Controllers
             solicitud.clienteId = clienteId;
             solicitud.proyectoId = proyectoId;
             solicitud.fechaSolicitud = DateTime.Now;
-            ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
-            solicitud.autoriza = lvc.autorizador;
-            solicitud.valida = lvc.validador;
+            int lvcc = cliente.ListaValidacionClientes.Count();
+            if (lvcc != 0)
+            {
+                ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
+                solicitud.autoriza = lvc.autorizador;
+                solicitud.valida = lvc.validador;
+            }
+            else
+            {
+                solicitud.autoriza = " ";
+                solicitud.valida = " ";
+            }
 
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo");

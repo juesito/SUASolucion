@@ -5,6 +5,7 @@ using System.Web;
 using System.Net.Mail;
 using SUADATOS;
 using SUAMVC.Models;
+using System.Text.RegularExpressions;
 
 namespace SUAMVC.Helpers
 {
@@ -27,8 +28,14 @@ namespace SUAMVC.Helpers
                 Parametro emailListParameter = ph.getParameterByKey("EMAILLIST");
 
                 if (!String.IsNullOrEmpty(emailListParameter.valorString)) {
-                    DestinatorModel destinator = new DestinatorModel("CIAH" ,emailListParameter.valorString.Trim());
-                    email.to.Add(destinator);
+
+                    string[] substrings = Regex.Split(emailListParameter.valorString.Trim(), ";");
+
+                    foreach (String indice in substrings)
+                    {
+                        DestinatorModel destinator = new DestinatorModel("CIAH", indice);
+                        email.to.Add(destinator);
+                    }
                 }
             }
 
@@ -118,7 +125,7 @@ namespace SUAMVC.Helpers
             client.Credentials = new System.Net.NetworkCredential("info@desarrolloytalento.com", "informacion2014");
             client.Port = 3535;
             client.Host = "smtpout.secureserver.net";//Este es el smtp valido para Gmail
-            client.EnableSsl = true; //Esto es para que vaya a través de SSL que es obligatorio con GMail
+            client.EnableSsl = false; //Esto es para que vaya a través de SSL que es obligatorio con GMail
 
             try
             {

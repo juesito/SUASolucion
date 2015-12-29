@@ -50,7 +50,7 @@ namespace SUAMVC.Controllers
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
                                  where s.solicitudId.Equals(idTemp)
-                                 orderby s.id
+                                 orderby s.Empleado.nombreCompleto
                                  select s.Empleado).ToList();
             }//la solicitud no es nulla?
 
@@ -65,7 +65,7 @@ namespace SUAMVC.Controllers
                 empleadosList = (from s in db.SolicitudEmpleadoes
                                  where s.Solicitud.clienteId.Equals(clienteIntId)
                                  && s.Solicitud.proyectoId.Equals(proyectoIntId)
-                                 orderby s.id
+                                 orderby s.Empleado.nombreCompleto
                                  select s.Empleado).ToList();
 
             }//el cliente y el proyecto no son nullos?
@@ -82,19 +82,21 @@ namespace SUAMVC.Controllers
                                  where s.Solicitud.clienteId.Equals(clienteIntId)
                                  && s.Solicitud.proyectoId.Equals(proyectoIntId)
                                  && s.Empleado.folioEmpleado.Trim().Contains(folioId.Trim())
-                                 orderby s.id
+                                 orderby s.Empleado.nombreCompleto
                                  select s.Empleado).ToList();
 
             }//El folio no es null?
             else
             {
-
+                if (!String.IsNullOrEmpty(folioId))
+                {
                 ViewBag.folioId = folioId;
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
                                  where s.Empleado.folioEmpleado.Trim().Contains(folioId.Trim())
-                                 orderby s.id
+                                     orderby s.Empleado.nombreCompleto
                                  select s.Empleado).ToList();
+            }
             }
 
 
@@ -1174,7 +1176,7 @@ namespace SUAMVC.Controllers
                                                 && e.estatus.Equals("A") && s.Solicitud.proyectoId.Equals(proyectoId) //Clientes del mismo proyecto
                                                 && !e.EsquemasPago.descripcion.Equals("IAS")  //Esquema de Pago diferente a IAS
                                                 && s.estatus.Equals("A")  //Solicitud Activa
-                                                orderby s.id
+                                                orderby s.Empleado.nombreCompleto
                                                 select s.Empleado).ToList();
 
                 foreach (Empleado emp in empleadosList)

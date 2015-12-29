@@ -26,7 +26,7 @@ namespace SUAMVC.Controllers
 
         // GET: SumarizadoClientes
         public ActionResult Index(String plazasId, String patronesId, String periodoId,
-            String ejercicioId, String clientesId, String usuarioId)
+            String ejercicioId, String clienteId, String usuarioId)
         {
             SumarizadoClienteModel sumarizadoClienteModel = new SumarizadoClienteModel();
             Usuario user = Session["UsuarioData"] as Usuario;
@@ -61,11 +61,11 @@ namespace SUAMVC.Controllers
             //            var sumarizadoClientes = db.SumarizadoClientes.Include(s => s.Cliente).Include(s => s.Patrone).Include(s => s.Usuario);
 
 
-            if (!String.IsNullOrEmpty(clientesId))
+            if (!String.IsNullOrEmpty(clienteId))
             {
-                @ViewBag.cteId = clientesId;
-                int clienteId = int.Parse(clientesId.Trim());
-                sumarizadoClientes = sumarizadoClientes.Where(s => s.clienteId.Equals(clienteId));
+                @ViewBag.cteId = clienteId;
+                int clientesId = int.Parse(clienteId.Trim());
+                sumarizadoClientes = sumarizadoClientes.Where(s => s.clienteId.Equals(clientesId));
             }
             if (!String.IsNullOrEmpty(plazasId))
             {
@@ -546,7 +546,7 @@ namespace SUAMVC.Controllers
 
 
         public ActionResult ResumenPagosINF(String plazasId, String patronesId, String periodoId,
-                                            String ejercicioId, String clientesId, String gruposId)
+                                            String ejercicioId, String clienteId, String gruposId)
         {
             SumarizadoClienteModel sumarizadoClienteModel = new SumarizadoClienteModel();
             Usuario user = Session["UsuarioData"] as Usuario;
@@ -586,11 +586,11 @@ namespace SUAMVC.Controllers
                                            s.usuarioId.Equals(user.Id) 
                                      select s;
 
-            if (!String.IsNullOrEmpty(clientesId))
+            if (!String.IsNullOrEmpty(clienteId))
             {
-                @ViewBag.cteId = clientesId;
-                int clienteId = int.Parse(clientesId.Trim());
-                sumarizadoClientes = sumarizadoClientes.Where(s => s.clienteId.Equals(clienteId));
+                @ViewBag.cteId = clienteId;
+                int clientesId = int.Parse(clienteId.Trim());
+                sumarizadoClientes = sumarizadoClientes.Where(s => s.clienteId.Equals(clientesId));
             }
             if (!String.IsNullOrEmpty(gruposId))
             {
