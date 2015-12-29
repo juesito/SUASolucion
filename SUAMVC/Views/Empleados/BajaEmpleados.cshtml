@@ -7,15 +7,19 @@
     ViewBag.Title = "Empleados registrados";
     int solicitudId = ViewBag.solicitudId;
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
     if (!WebSecurity.IsAuthenticated)
     {
         Response.Redirect("~/Home/Index");
     }
+    suaEntities db = new suaEntities();
     Usuario usuario = Session["UsuarioData"] as Usuario;
+    Solicitud solicitud = db.Solicituds.Find(solicitudId);
 
     var grid = new WebGrid(source: Model, rowsPerPage: 10);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
+    
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
     gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
@@ -41,11 +45,11 @@
         gridColumns.Add(grid.Column(header: "Ver", format: @<text><a href="@Url.Action("Details", "Empleados", new { id = item.id })"><img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
 
-    if (SecurityUserModel.verificarPermiso("1", "1",3))
+    if (SecurityUserModel.verificarPermiso("1", "1", 3))
     {
         gridColumns.Add(grid.Column(header: "Historial", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("1", "1",3))
+    if (SecurityUserModel.verificarPermiso("1", "1", 3))
     {
         gridColumns.Add(grid.Column(header: "Reportes", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
@@ -69,25 +73,26 @@
 {
     <div class="marqueeFilter">
         <table style="float:left; margin-top:5px;display:inline-block;">
-            <thead>
-                <tr style="text-align:left;vertical-align:bottom;">
-                    <td style="padding-top:15px">
-                        @Html.Label(Language.cliente)
-                    </td>
-                    <td>
-                        @Html.clientesNSDrownList(usuario.Id, "clienteId")
-                    </td>
-                    <td>
-                        @Html.Label("Folio:")
-                    </td>
-                    <td>
-                        @Html.Editor("folioId")
-                    </td>
-                    <td>
-                        <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
-                    </td>
-                </tr>
-            </thead>
+            <tr style="text-align:left;vertical-align:bottom;">
+                <td style="padding-top:20px">
+                    @Html.Label("Cliente:")
+                </td>
+                <td>
+                    @Html.Label(solicitud.Cliente.descripcion)
+                </td>
+                <td style="padding-left:50px">
+                    @Html.Label("Proyecto:")
+                </td>
+                <td style="padding-left:5px">
+                    @Html.Label(solicitud.Proyecto.descripcion)
+                </td>
+                <td style="padding-left:50px">
+                    @Html.Label("Folio:")
+                </td>
+                <td style="padding-left:5px">
+                    @Html.Label(solicitud.folioSolicitud)
+                </td>
+            </tr>
         </table>
     </div>
 }
@@ -102,14 +107,14 @@
     {
 
         <div class="menubar-header">
-                <input type="submit" value="" class="raddEmployee_button" title="Asignar Función" />
+            <input type="submit" value="" class="raddEmployee_button" title="Asignar Función" />
             <a href="@Url.Action("SolicitudEmpleado", "SolicitudesBaja", new { solicitudId = solicitudId })">
                 <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
             </a>
         </div><br />
         <div id="table-container" class="table-container">
             @Html.Raw(tableHtml)
-            
+
         </div>
     }
 }

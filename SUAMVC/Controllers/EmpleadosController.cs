@@ -1135,10 +1135,11 @@ namespace SUAMVC.Controllers
                                         select s.Empleado.id).ToList();
 
 
-
             List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
                                             where s.Solicitud.clienteId.Equals(clienteTempId) 
                                             && !empleadosIds.Contains(s.Empleado.id)
+                                            && s.Solicitud.plazaId.Equals(solicitud.plazaId)
+                                            && s.Empleado.estatus.Equals("A")
                                             orderby s.id
                                             select s.Empleado).ToList();
 
