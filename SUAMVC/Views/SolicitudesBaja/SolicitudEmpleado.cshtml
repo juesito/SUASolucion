@@ -4,7 +4,15 @@
 @using System.Text;
 
 @{
-    ViewBag.Title = "Empleados a modificar";
+    
+    String sourceController = ViewBag.sourceController;
+    if (sourceController.Contains("Baja"))
+    {
+        ViewBag.Title = "Empleados a dar de baja";
+    }
+    else {
+        ViewBag.Title = "Empleados a modificar";
+    }
 
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (!WebSecurity.IsAuthenticated)
@@ -19,7 +27,7 @@
 
     Solicitud solicitud = db.Solicituds.Find(solicitudId);
 
-    String sourceController = "SolicitudesModificacion";
+    
 
     var grid = new WebGrid(source: Model, rowsPerPage: 10);
     var tableHtml = string.Empty;
@@ -96,7 +104,15 @@
 }
 
 @section Menu {
-    <div>Modificar Empleados Asignados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    @if (sourceController.Contains("Baja"))
+    {
+        <div>Empleados Asignados para Baja<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    }
+    else
+    {
+        <div>Empleados Asignados para Modificación <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    }
+    
 }
 @Html.Hidden("solsId", solicitud.id, new { id = "solsId" })
 
@@ -133,7 +149,7 @@
     using (Html.BeginForm())
     {
         <div class="menubar-header">
-            <a href="@Url.Action("Index", "SolicitudesModificacion", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId })">
+            <a href="@Url.Action("Index", sourceController, new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId })">
                 <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
             </a>
         </div>

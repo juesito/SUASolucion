@@ -93,15 +93,23 @@
 }
 
 
+
+
+
 @if (!tableHtml.IsEmpty())
 {
     using (Html.BeginForm("asignarEmpleado", "Empleados", new { solicitudId = solicitudId }))
     {
+
+        <div class="menubar-header">
+                <input type="submit" value="" class="raddEmployee_button" title="Asignar Función" />
+            <a href="@Url.Action("SolicitudEmpleado", "SolicitudesBaja", new { solicitudId = solicitudId })">
+                <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
+            </a>
+        </div><br />
         <div id="table-container" class="table-container">
             @Html.Raw(tableHtml)
-            <div id="i18n-options-container" class="panel-footer">
-                <input type="submit" value="" class="raddEmployee_button" title="Asignar Función" />
-            </div>
+            
         </div>
     }
 }
