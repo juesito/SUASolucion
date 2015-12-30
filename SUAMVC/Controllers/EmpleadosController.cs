@@ -90,13 +90,13 @@ namespace SUAMVC.Controllers
             {
                 if (!String.IsNullOrEmpty(folioId))
                 {
-                    ViewBag.folioId = folioId;
+                ViewBag.folioId = folioId;
 
-                    empleadosList = (from s in db.SolicitudEmpleadoes
-                                     where s.Empleado.folioEmpleado.Trim().Contains(folioId.Trim())
+                empleadosList = (from s in db.SolicitudEmpleadoes
+                                 where s.Empleado.folioEmpleado.Trim().Contains(folioId.Trim())
                                      orderby s.Empleado.nombreCompleto
-                                     select s.Empleado).ToList();
-                }
+                                 select s.Empleado).ToList();
+            }
             }
 
 
@@ -126,21 +126,12 @@ namespace SUAMVC.Controllers
                     int empleadoTempId = int.Parse(empleadoId);
                     empleado = db.Empleados.Find(empleadoTempId);
 
-                    //Obtenemos la solicitud antigua
-                    Solicitud solicitudEmpleado = obtenerSolicitudActiva(empleado.id);
-                    solicitudEmpleado.noTrabajadores = solicitudEmpleado.noTrabajadores - 1;
-                    empleado.estatus = "B";
-                    empleado.fechaBaja = solicitud.fechaBaja;
-
                     //Solicitud para modificar el noTrabjadores
                     solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
 
                     //Creamos el registro en solicitudEmpleados para agregar el empleado a otra solicitud activa
                     crearSolicitudEmpleado(empleado.id, solicitud.id, usuario.Id, "Baja");
 
-                    //empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
-
-                    db.Entry(solicitudEmpleado).State = EntityState.Modified;
                     db.Entry(solicitud).State = EntityState.Modified;
                     db.Entry(empleado).State = EntityState.Modified;
                     db.SaveChanges();
@@ -1140,10 +1131,17 @@ namespace SUAMVC.Controllers
 
             ViewBag.solicitudId = id;
 
+            var empleadosIds = (from s in db.SolicitudEmpleadoes
+                                        where s.estatus.Equals("A")
+                                        select s.Empleado.id).ToList();
+
+
             List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
-                                            join e in db.Empleados on s.empleadoId equals e.id
-                                            where e.estatus.Equals("A")
-                                            orderby s.Empleado.nombreCompleto
+                                            where s.Solicitud.clienteId.Equals(clienteTempId) 
+                                            && !empleadosIds.Contains(s.Empleado.id)
+                                            && s.Solicitud.plazaId.Equals(solicitud.plazaId)
+                                            && s.Empleado.estatus.Equals("A")
+                                            orderby s.id
                                             select s.Empleado).ToList();
 
             foreach (Empleado emp in empleadosList)

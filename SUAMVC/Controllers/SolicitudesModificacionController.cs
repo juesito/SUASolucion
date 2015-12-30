@@ -334,6 +334,7 @@ namespace SUAMVC.Controllers
         {
 
             List<Empleado> listEmpleados = new List<Empleado>();
+            @ViewBag.sourceController = "SolicitudesModificacion";
 
             if (!String.IsNullOrEmpty(solicitudId))
             {

@@ -35,7 +35,7 @@ namespace SUAMVC.Controllers
                 var solicituds = (from s in db.Solicituds
                                   join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
-                                    && !s.Concepto.descripcion.Trim().Contains("Baja")
+                                    && !s.Concepto.descripcion.Trim().Contains("Baja") && !s.Concepto.descripcion.Trim().Contains("Cancelado")
                                   orderby s.fechaSolicitud descending
                                   select s).ToList();
 
@@ -268,6 +268,7 @@ namespace SUAMVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Solicitud solicitud = db.Solicituds.Find(id);
+
             if (solicitud == null)
             {
                 return HttpNotFound();
@@ -285,7 +286,22 @@ namespace SUAMVC.Controllers
         public ActionResult DeleteConfirmed(int id, string clienteId, string proyectoId)
         {
             Solicitud solicitud = db.Solicituds.Find(id);
-            db.Solicituds.Remove(solicitud);
+
+            if (solicitud.noTrabajadores > 0) {
+                List<SolicitudEmpleado> solicitudEmpleados = db.SolicitudEmpleadoes.Where(x => x.solicitudId.Equals(id) && 
+                    x.Concepto.descripcion.Trim().Equals("Baja")
+                    && x.estatus.Trim().Equals("A")).ToList();
+
+                foreach(SolicitudEmpleado solEmp in solicitudEmpleados){
+                    solEmp.estatus = "C";
+                    db.Entry(solEmp).State = EntityState.Modified;
+                }
+            }
+
+            Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("ESTASOL") && s.descripcion.Equals("Cancelado")).First();
+            solicitud.estatusSolicitud = concepto.id;
+
+            db.Entry(solicitud).State = EntityState.Modified;
             db.SaveChanges();
 
             ViewBag.clienteId = solicitud.clienteId;
@@ -533,6 +549,8 @@ namespace SUAMVC.Controllers
 
             List<Empleado> listEmpleados = new List<Empleado>();
 
+            @ViewBag.sourceController = "SolicitudesBaja";
+
             if (!String.IsNullOrEmpty(solicitudId))
             {
                 int solicitudIdTemp = int.Parse(solicitudId);
@@ -541,7 +559,6 @@ namespace SUAMVC.Controllers
                 int clienteTempId = solicitud.clienteId;
 
                 TempData["solicitudId"] = solicitudIdTemp;
-                //ViewBag.solicitudId = solicitudIdTemp;
 
                 //Filtramos solo empleados de solicitudes de alta
                 List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
@@ -559,6 +576,8 @@ namespace SUAMVC.Controllers
 
                 }
             }
+            
+
             return View(listEmpleados);
         }
 
