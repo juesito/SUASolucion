@@ -236,7 +236,6 @@ namespace SUAMVC.Controllers
                 Usuario usuario = Session["UsuarioData"] as Usuario;
                 Solicitud sol = db.Solicituds.Find(solicitudId);
 
-                Boolean founded = th.verificarEmpleadoPorNSSyCliente(empleado.nss.Trim(), sol.clienteId);
 
 
                 empleado.fechaCreacion = DateTime.Now;
@@ -251,6 +250,8 @@ namespace SUAMVC.Controllers
 
                 if (!String.IsNullOrEmpty(empleado.nss))
                 {
+                    Boolean founded = th.verificarEmpleadoPorNSSyCliente(empleado.nss.Trim(), sol.clienteId);
+
                     Asegurado asegurado = th.obtenerAseguradoPorNSS(empleado.nss.Trim());
 
                     if (!(asegurado == null) && !String.IsNullOrEmpty(asegurado.nombre))

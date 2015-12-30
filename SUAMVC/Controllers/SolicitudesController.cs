@@ -135,7 +135,7 @@ namespace SUAMVC.Controllers
             {
                 Usuario usuario = Session["usuarioData"] as Usuario;
                 Cliente cliente = db.Clientes.Find(solicitud.clienteId);
-                ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
+//                ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
                 ToolsHelper th = new ToolsHelper();
                 ParametrosHelper ph = new ParametrosHelper();
 

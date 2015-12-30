@@ -137,7 +137,18 @@ namespace SUAMVC.Controllers
             {
                 Usuario usuario = Session["usuarioData"] as Usuario;
                 Cliente cliente = db.Clientes.Find(solicitud.clienteId);
-                ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
+                int lvcc = cliente.ListaValidacionClientes.Count();
+                if (lvcc != 0)
+                {
+                    ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
+                    solicitud.autoriza = lvc.autorizador;
+                    solicitud.valida = lvc.validador;
+                }
+                else
+                {
+                    solicitud.autoriza = " ";
+                    solicitud.valida = " ";
+                }
                 ToolsHelper th = new ToolsHelper();
                 ParametrosHelper ph = new ParametrosHelper();
 
@@ -148,8 +159,6 @@ namespace SUAMVC.Controllers
 
                 solicitud.fechaSolicitud = DateTime.Now;
                 solicitud.solicita = usuario.nombreUsuario;
-                solicitud.autoriza = lvc.autorizador;
-                solicitud.valida = lvc.validador;
                 solicitud.solicita = usuario.nombreUsuario;
                 solicitud.estatusSolicitud = concepto.id;
                 solicitud.estatusNomina = concepto.id;
