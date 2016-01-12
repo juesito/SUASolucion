@@ -315,8 +315,28 @@ namespace SUAMVC.Controllers
         public ActionResult DeleteConfirmed(int id, string clienteId, string proyectoId)
         {
             Solicitud solicitud = db.Solicituds.Find(id);
-            db.Solicituds.Remove(solicitud);
+
+            if (solicitud.noTrabajadores > 0)
+            {
+                List<SolicitudEmpleado> solicitudEmpleados = db.SolicitudEmpleadoes.Where(x => x.solicitudId.Equals(id) &&
+                    x.Concepto.descripcion.Trim().Equals("Modificacion")
+                    && x.estatus.Trim().Equals("A")).ToList();
+
+                foreach (SolicitudEmpleado solEmp in solicitudEmpleados)
+                {
+                    solEmp.estatus = "C";
+                    db.Entry(solEmp).State = EntityState.Modified;
+                }
+            }
+
+            Concepto concepto = db.Conceptos.Where(s => s.grupo.Equals("ESTASOL") && s.descripcion.Equals("Cancelado")).First();
+            solicitud.estatusSolicitud = concepto.id;
+
+            db.Entry(solicitud).State = EntityState.Modified;
             db.SaveChanges();
+
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
 
             return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
