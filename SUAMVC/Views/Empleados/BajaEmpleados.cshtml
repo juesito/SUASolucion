@@ -107,10 +107,20 @@
     {
 
         <div class="menubar-header">
-            <input type="submit" value="" class="raddEmployee_button" title="Asignar Función" />
-            <a href="@Url.Action("SolicitudEmpleado", "SolicitudesBaja", new { solicitudId = solicitudId })">
-                <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
-            </a>
+            <table>
+                <tr>
+                    <td style="padding-top:10px">
+                        <input type="submit" value="" class="raddEmployee_button" title="Asignar empleados marcados" />
+                    </td>
+                    <td style="padding-left:30px">
+
+                        <a href="@Url.Action("SolicitudEmpleado", "SolicitudesBaja", new { solicitudId = solicitudId })">
+                            <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
+                        </a>
+                    </td>
+
+                </tr>
+            </table>
         </div><br />
         <div id="table-container" class="table-container">
             @Html.Raw(tableHtml)
