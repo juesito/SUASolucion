@@ -26,6 +26,8 @@ namespace SUAMVC.Controllers
         // GET: Solicitudes
         public ActionResult Index(String clienteId, String proyectoId, String folioId)
         {
+            Usuario user = Session["UsuarioData"] as Usuario;
+            SecurityUserModel.llenarPermisos(user.roleId);
 
             if ((!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId)) || !String.IsNullOrEmpty(folioId))
             {

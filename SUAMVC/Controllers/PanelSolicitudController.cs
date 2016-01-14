@@ -15,6 +15,7 @@ using DocumentFormat.OpenXml;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
 using CrystalDecisions.Web;
+using SUAMVC.Models;
 
 namespace SUAMVC.Controllers
 {
@@ -33,6 +34,7 @@ namespace SUAMVC.Controllers
                 ToolsHelper cp = new ToolsHelper();
                 Concepto concepto = cp.obtenerConceptoPorGrupo("ESTASOL", "Apertura");
                 Usuario usuario = Session["UsuarioData"] as Usuario;
+                SecurityUserModel.llenarPermisos(usuario.roleId);
 
                 //Buscamos las solicitudes que puede ver ese usuario
                 //de acuerdo a sus clientes permitidos

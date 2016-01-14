@@ -19,6 +19,7 @@ using SUAMVC.Helpers;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
+using SUAMVC.Models;
 
 namespace SUAMVC.Controllers
 {
@@ -236,6 +237,8 @@ namespace SUAMVC.Controllers
             //{
             //    ViewData["numeroPagina"] = 1;
             //}
+            
+            SecurityUserModel.llenarPermisos(user.roleId);
 
             return View(acreditados.ToList());
         }

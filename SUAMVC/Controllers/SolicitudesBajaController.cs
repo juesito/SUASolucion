@@ -16,6 +16,7 @@ using System.IO;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml;
+using SUAMVC.Models;
 
 namespace SUAMVC.Controllers
 {
@@ -31,6 +32,7 @@ namespace SUAMVC.Controllers
                 ToolsHelper th = new ToolsHelper();
                 Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "baja");
                 Usuario usuario = Session["UsuarioData"] as Usuario;
+                SecurityUserModel.llenarPermisos(usuario.roleId);
 
                 var solicituds = (from s in db.Solicituds
                                   join top in db.TopicosUsuarios on s.clienteId equals top.topicoId

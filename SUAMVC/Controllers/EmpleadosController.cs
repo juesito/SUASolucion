@@ -954,18 +954,15 @@ namespace SUAMVC.Controllers
                                 pais = db.Paises.FirstOrDefault();
                             } //Pais de nacimiento es null?
                             empleado.nacionalidadId = pais.id;
-                            if (pais.descripcion.Trim().Equals("MEXICO"))
+                            if (!String.IsNullOrEmpty(empleadoL.estado))
                             {
-                                if (!String.IsNullOrEmpty(empleadoL.estado))
-                                {
-                                    estado = th.obtenerEstadoPorDescripcion(empleadoL.estado.Trim());
-                                }
+                               estado = th.obtenerEstadoPorDescripcion(empleadoL.estado.Trim());
+                            }
                                 else
                                 {
                                     estado = db.Estados.Find(1);
                                 } // Estado de nacimiento no es null?
                                 empleado.estadoNacimientoId = estado.id;
-                            }
 
                             if (pais.descripcion.ToLower().Trim().Equals("mexico"))
                             {
