@@ -1335,77 +1335,83 @@ namespace SUAMVC.Controllers
 
         // LayOut TarjetasSantander
         [HttpGet]
-        public void crearExcelTarjetaSantander(int solicitudId)
+        public void crearExcelTarjetaSantander(int solicitudId, String banco)
         {
             FileStream fileStream = null;
             MemoryStream mem = new MemoryStream();
             try
             {
 
-                List<Empleado> empleadosList = new List<Empleado>();
+                Banco bank = db.Bancos.Where(b => b.descripcion.ToLower().Trim().Contains(banco.ToLower().Trim())).FirstOrDefault();
 
-                empleadosList = (from s in db.SolicitudEmpleadoes
-                                 where s.estatus.Equals("A")
-                                   && s.solicitudId.Equals(solicitudId)
-                                 orderby s.id
-                                 select s.Empleado).ToList();
-
-                DateTime date = DateTime.Now;
-                String path = @"C:\\SUA\\Exceles\\";
-                String fileName = @"TarjetaSantander-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
-                String fullName = path + fileName;
-
-                if (empleadosList.Count() > 0)
+                if (bank != null)
                 {
+                    List<Empleado> empleadosList = new List<Empleado>();
 
-                    ExcelHelper eh = new ExcelHelper();
-                    //Creamos el objeto del workbook
-                    SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
+                    empleadosList = (from s in db.SolicitudEmpleadoes
+                                     where s.estatus.Equals("A")
+                                       && s.Empleado.bancoId.Equals(bank.id)
+                                       && s.solicitudId.Equals(solicitudId)
+                                     orderby s.id
+                                     select s.Empleado).ToList();
 
-                    WorkbookPart wbp = xl.AddWorkbookPart();
-                    WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
-                    Workbook wb = new Workbook();
-                    FileVersion fv = new FileVersion();
-                    fv.ApplicationName = "Microsoft Office Excel";
+                    DateTime date = DateTime.Now;
+                    String path = @"C:\\SUA\\Exceles\\";
+                    String fileName = @"TarjetaSantander-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                    String fullName = path + fileName;
 
-                    Worksheet ws = new Worksheet();
-                    WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
-                    // add styles to sheet
-                    wbsp.Stylesheet = eh.CreateStylesheet();
-                    wbsp.Stylesheet.Save();
+                    if (empleadosList.Count() > 0)
+                    {
 
-                    SheetData sd = crearContenidoHojaTarjetaSantander(empleadosList, eh);
-                    ws.Append(sd);
-                    wsp.Worksheet = ws;
-                    wsp.Worksheet.Save();
+                        ExcelHelper eh = new ExcelHelper();
+                        //Creamos el objeto del workbook
+                        SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
 
-                    Sheets sheets = new Sheets();
-                    Sheet sheet = new Sheet();
-                    sheet.Name = "rptPanelAltaTarjetaSantander";
-                    sheet.SheetId = 1;
-                    sheet.Id = wbp.GetIdOfPart(wsp);
+                        WorkbookPart wbp = xl.AddWorkbookPart();
+                        WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
+                        Workbook wb = new Workbook();
+                        FileVersion fv = new FileVersion();
+                        fv.ApplicationName = "Microsoft Office Excel";
 
-                    sheets.Append(sheet);
-                    wb.Append(fv);
-                    wb.Append(sheets);
+                        Worksheet ws = new Worksheet();
+                        WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
+                        // add styles to sheet
+                        wbsp.Stylesheet = eh.CreateStylesheet();
+                        wbsp.Stylesheet.Save();
 
-                    xl.WorkbookPart.Workbook = wb;
-                    xl.WorkbookPart.Workbook.Save();
-                    xl.Close();
+                        SheetData sd = crearContenidoHojaTarjetaSantander(empleadosList, eh);
+                        ws.Append(sd);
+                        wsp.Worksheet = ws;
+                        wsp.Worksheet.Save();
 
-                    fileStream = new FileStream(fullName, FileMode.Open);
-                    fileStream.Position = 0;
-                    mem = new MemoryStream();
-                    fileStream.CopyTo(mem);
+                        Sheets sheets = new Sheets();
+                        Sheet sheet = new Sheet();
+                        sheet.Name = "rptPanelAltaTarjetaSantander";
+                        sheet.SheetId = 1;
+                        sheet.Id = wbp.GetIdOfPart(wsp);
 
-                    mem.Position = 0;
-                    Response.ClearContent();
-                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
-                    ToolsHelper th = new ToolsHelper();
-                    Response.ContentType = th.getMimeType(fullName);
-                    Response.BinaryWrite(mem.ToArray());
+                        sheets.Append(sheet);
+                        wb.Append(fv);
+                        wb.Append(sheets);
 
-                    Response.End();
+                        xl.WorkbookPart.Workbook = wb;
+                        xl.WorkbookPart.Workbook.Save();
+                        xl.Close();
+
+                        fileStream = new FileStream(fullName, FileMode.Open);
+                        fileStream.Position = 0;
+                        mem = new MemoryStream();
+                        fileStream.CopyTo(mem);
+
+                        mem.Position = 0;
+                        Response.ClearContent();
+                        Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                        ToolsHelper th = new ToolsHelper();
+                        Response.ContentType = th.getMimeType(fullName);
+                        Response.BinaryWrite(mem.ToArray());
+
+                        Response.End();
+                    }
                 }
             }
             catch (Exception e)
@@ -1423,6 +1429,7 @@ namespace SUAMVC.Controllers
                 mem.Flush();
                 mem.Close();
             }
+        
 
         }
 
@@ -1747,77 +1754,83 @@ namespace SUAMVC.Controllers
 
         // LayOut TarjetaBanorte
         [HttpGet]
-        public void crearExcelTarjetaBanorte(int solicitudId)
+        public void crearExcelTarjetaBanorte(int solicitudId, String banco)
         {
             FileStream fileStream = null;
             MemoryStream mem = new MemoryStream();
             try
             {
 
-                List<Empleado> empleadosList = new List<Empleado>();
+                Banco bank = db.Bancos.Where(b => b.descripcion.ToLower().Trim().Contains(banco.ToLower().Trim())).FirstOrDefault();
 
-                empleadosList = (from s in db.SolicitudEmpleadoes
-                                 where s.estatus.Equals("A")
-                                   && s.solicitudId.Equals(solicitudId)
-                                 orderby s.id
-                                 select s.Empleado).ToList();
-
-                DateTime date = DateTime.Now;
-                String path = @"C:\\SUA\\Exceles\\";
-                String fileName = @"TarjetaBanorte-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
-                String fullName = path + fileName;
-
-                if (empleadosList.Count() > 0)
+                if (bank != null)
                 {
+                    List<Empleado> empleadosList = new List<Empleado>();
 
-                    ExcelHelper eh = new ExcelHelper();
-                    //Creamos el objeto del workbook
-                    SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
+                    empleadosList = (from s in db.SolicitudEmpleadoes
+                                     where s.estatus.Equals("A")
+                                       && s.Empleado.bancoId.Equals(bank.id)
+                                       && s.solicitudId.Equals(solicitudId)
+                                     orderby s.id
+                                     select s.Empleado).ToList();
 
-                    WorkbookPart wbp = xl.AddWorkbookPart();
-                    WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
-                    Workbook wb = new Workbook();
-                    FileVersion fv = new FileVersion();
-                    fv.ApplicationName = "Microsoft Office Excel";
+                    DateTime date = DateTime.Now;
+                    String path = @"C:\\SUA\\Exceles\\";
+                    String fileName = @"TarjetaBanorte-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                    String fullName = path + fileName;
 
-                    Worksheet ws = new Worksheet();
-                    WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
-                    // add styles to sheet
-                    wbsp.Stylesheet = eh.CreateStylesheet();
-                    wbsp.Stylesheet.Save();
+                    if (empleadosList.Count() > 0)
+                    {
 
-                    SheetData sd = crearContenidoHojaTarjetaBanorte(empleadosList, eh);
-                    ws.Append(sd);
-                    wsp.Worksheet = ws;
-                    wsp.Worksheet.Save();
+                        ExcelHelper eh = new ExcelHelper();
+                        //Creamos el objeto del workbook
+                        SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
 
-                    Sheets sheets = new Sheets();
-                    Sheet sheet = new Sheet();
-                    sheet.Name = "rptPanelAltaTarjetaBanorte";
-                    sheet.SheetId = 1;
-                    sheet.Id = wbp.GetIdOfPart(wsp);
+                        WorkbookPart wbp = xl.AddWorkbookPart();
+                        WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
+                        Workbook wb = new Workbook();
+                        FileVersion fv = new FileVersion();
+                        fv.ApplicationName = "Microsoft Office Excel";
 
-                    sheets.Append(sheet);
-                    wb.Append(fv);
-                    wb.Append(sheets);
+                        Worksheet ws = new Worksheet();
+                        WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
+                        // add styles to sheet
+                        wbsp.Stylesheet = eh.CreateStylesheet();
+                        wbsp.Stylesheet.Save();
 
-                    xl.WorkbookPart.Workbook = wb;
-                    xl.WorkbookPart.Workbook.Save();
-                    xl.Close();
+                        SheetData sd = crearContenidoHojaTarjetaBanorte(empleadosList, eh);
+                        ws.Append(sd);
+                        wsp.Worksheet = ws;
+                        wsp.Worksheet.Save();
 
-                    fileStream = new FileStream(fullName, FileMode.Open);
-                    fileStream.Position = 0;
-                    mem = new MemoryStream();
-                    fileStream.CopyTo(mem);
+                        Sheets sheets = new Sheets();
+                        Sheet sheet = new Sheet();
+                        sheet.Name = "rptPanelAltaTarjetaBanorte";
+                        sheet.SheetId = 1;
+                        sheet.Id = wbp.GetIdOfPart(wsp);
 
-                    mem.Position = 0;
-                    Response.ClearContent();
-                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
-                    ToolsHelper th = new ToolsHelper();
-                    Response.ContentType = th.getMimeType(fullName);
-                    Response.BinaryWrite(mem.ToArray());
+                        sheets.Append(sheet);
+                        wb.Append(fv);
+                        wb.Append(sheets);
 
-                    Response.End();
+                        xl.WorkbookPart.Workbook = wb;
+                        xl.WorkbookPart.Workbook.Save();
+                        xl.Close();
+
+                        fileStream = new FileStream(fullName, FileMode.Open);
+                        fileStream.Position = 0;
+                        mem = new MemoryStream();
+                        fileStream.CopyTo(mem);
+
+                        mem.Position = 0;
+                        Response.ClearContent();
+                        Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                        ToolsHelper th = new ToolsHelper();
+                        Response.ContentType = th.getMimeType(fullName);
+                        Response.BinaryWrite(mem.ToArray());
+
+                        Response.End();
+                    }
                 }
             }
             catch (Exception e)
@@ -2176,77 +2189,82 @@ namespace SUAMVC.Controllers
 
         // LayOut TarjetaBancomer
         [HttpGet]
-        public void crearExcelTarjetaBancomer(int solicitudId)
+        public void crearExcelTarjetaBancomer(int solicitudId, String banco)
         {
             FileStream fileStream = null;
             MemoryStream mem = new MemoryStream();
             try
             {
+                Banco bank = db.Bancos.Where(b => b.descripcion.ToLower().Trim().Contains(banco.ToLower().Trim())).FirstOrDefault();
 
-                List<Empleado> empleadosList = new List<Empleado>();
-
-                empleadosList = (from s in db.SolicitudEmpleadoes
-                                 where s.estatus.Equals("A")
-                                   && s.solicitudId.Equals(solicitudId)
-                                 orderby s.id
-                                 select s.Empleado).ToList();
-
-                DateTime date = DateTime.Now;
-                String path = @"C:\\SUA\\Exceles\\";
-                String fileName = @"TarjetaBancomer-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
-                String fullName = path + fileName;
-
-                if (empleadosList.Count() > 0)
+                if (bank != null)
                 {
+                    List<Empleado> empleadosList = new List<Empleado>();
 
-                    ExcelHelper eh = new ExcelHelper();
-                    //Creamos el objeto del workbook
-                    SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
+                    empleadosList = (from s in db.SolicitudEmpleadoes
+                                     where s.estatus.Equals("A")
+                                        && s.Empleado.bancoId.Equals(bank.id)
+                                       && s.solicitudId.Equals(solicitudId)
+                                     orderby s.id
+                                     select s.Empleado).ToList();
 
-                    WorkbookPart wbp = xl.AddWorkbookPart();
-                    WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
-                    Workbook wb = new Workbook();
-                    FileVersion fv = new FileVersion();
-                    fv.ApplicationName = "Microsoft Office Excel";
+                    DateTime date = DateTime.Now;
+                    String path = @"C:\\SUA\\Exceles\\";
+                    String fileName = @"TarjetaBancomer-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                    String fullName = path + fileName;
 
-                    Worksheet ws = new Worksheet();
-                    WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
-                    // add styles to sheet
-                    wbsp.Stylesheet = eh.CreateStylesheet();
-                    wbsp.Stylesheet.Save();
+                    if (empleadosList.Count() > 0)
+                    {
 
-                    SheetData sd = crearContenidoHojaTarjetaBancomer(empleadosList, eh);
-                    ws.Append(sd);
-                    wsp.Worksheet = ws;
-                    wsp.Worksheet.Save();
+                        ExcelHelper eh = new ExcelHelper();
+                        //Creamos el objeto del workbook
+                        SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
 
-                    Sheets sheets = new Sheets();
-                    Sheet sheet = new Sheet();
-                    sheet.Name = "rptPanelAltaTarjetaBancomer";
-                    sheet.SheetId = 1;
-                    sheet.Id = wbp.GetIdOfPart(wsp);
+                        WorkbookPart wbp = xl.AddWorkbookPart();
+                        WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
+                        Workbook wb = new Workbook();
+                        FileVersion fv = new FileVersion();
+                        fv.ApplicationName = "Microsoft Office Excel";
 
-                    sheets.Append(sheet);
-                    wb.Append(fv);
-                    wb.Append(sheets);
+                        Worksheet ws = new Worksheet();
+                        WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
+                        // add styles to sheet
+                        wbsp.Stylesheet = eh.CreateStylesheet();
+                        wbsp.Stylesheet.Save();
 
-                    xl.WorkbookPart.Workbook = wb;
-                    xl.WorkbookPart.Workbook.Save();
-                    xl.Close();
+                        SheetData sd = crearContenidoHojaTarjetaBancomer(empleadosList, eh);
+                        ws.Append(sd);
+                        wsp.Worksheet = ws;
+                        wsp.Worksheet.Save();
 
-                    fileStream = new FileStream(fullName, FileMode.Open);
-                    fileStream.Position = 0;
-                    mem = new MemoryStream();
-                    fileStream.CopyTo(mem);
+                        Sheets sheets = new Sheets();
+                        Sheet sheet = new Sheet();
+                        sheet.Name = "rptPanelAltaTarjetaBancomer";
+                        sheet.SheetId = 1;
+                        sheet.Id = wbp.GetIdOfPart(wsp);
 
-                    mem.Position = 0;
-                    Response.ClearContent();
-                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
-                    ToolsHelper th = new ToolsHelper();
-                    Response.ContentType = th.getMimeType(fullName);
-                    Response.BinaryWrite(mem.ToArray());
+                        sheets.Append(sheet);
+                        wb.Append(fv);
+                        wb.Append(sheets);
 
-                    Response.End();
+                        xl.WorkbookPart.Workbook = wb;
+                        xl.WorkbookPart.Workbook.Save();
+                        xl.Close();
+
+                        fileStream = new FileStream(fullName, FileMode.Open);
+                        fileStream.Position = 0;
+                        mem = new MemoryStream();
+                        fileStream.CopyTo(mem);
+
+                        mem.Position = 0;
+                        Response.ClearContent();
+                        Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                        ToolsHelper th = new ToolsHelper();
+                        Response.ContentType = th.getMimeType(fullName);
+                        Response.BinaryWrite(mem.ToArray());
+
+                        Response.End();
+                    }
                 }
             }
             catch (Exception e)
