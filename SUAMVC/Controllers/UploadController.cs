@@ -1553,11 +1553,31 @@ namespace SUAMVC.Controllers
                     asegurado.salarioDiario = 0;
                 }
             }
-            if (asegurado.fechaBaja.HasValue)
+
+            movTemp2 = (from s in db.MovimientosAseguradoes
+                        where s.aseguradoId.Equals(aseguradoId) &&
+                             (s.CatalogoMovimiento.tipo.Equals("20") || s.CatalogoMovimiento.tipo.Equals("15") ||
+                              s.CatalogoMovimiento.tipo.Equals("16") || s.CatalogoMovimiento.tipo.Equals("17") ||
+                              s.CatalogoMovimiento.tipo.Equals("18") || s.CatalogoMovimiento.tipo.Equals("19") )
+                         orderby s.fechaInicio descending
+                         select s).ToList();
+
+            movto = new MovimientosAsegurado();
+
+            if (movTemp2 != null && movTemp2.Count() > 0)
             {
-                //                asegurado.salarioDiario = 0;
-                //                asegurado.salarioImss = 0;
+                foreach (var movItem in movTemp2)
+                {
+                    movto = movItem;
+                    break;
+                }
+                if (movto.CatalogoMovimiento.tipo.Trim().Equals("16"))
+                {
+                    asegurado.finDescuento = movto.fechaInicio;
+                }
             }
+            
+            
             db.Entry(asegurado).State = EntityState.Modified;
             db.SaveChanges();
 
@@ -1572,6 +1592,7 @@ namespace SUAMVC.Controllers
                 acreditado.sd = Decimal.Parse(asegurado.salarioDiario.ToString());
                 acreditado.sdi = Double.Parse(asegurado.salarioImss.ToString());
                 acreditado.ocupacion = asegurado.ocupacion;
+                acreditado.fechaFinDescuento = asegurado.finDescuento;
 
                 //calcular el descuento tipo uno que ocupa sdi
                 DateTime date = DateTime.Now;

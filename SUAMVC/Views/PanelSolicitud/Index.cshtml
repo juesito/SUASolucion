@@ -240,7 +240,7 @@
         gridColumns.Add(grid.Column(header: "Tarjeta Bancomer", format: @<text>
             @if (item.noTrabajadores > 0)
             {
-                <a href="@Url.Action("crearExcelTarjetaBancomer", "PanelSolicitud", new { solicitudId = item.id, banco = "Bancomer" })">
+                <a href="@Url.Action("crearExcelTarjetaBancomer", "PanelSolicitud", new { solicitudId = item.id, banco = "BBVA" })">
                     <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
                 </a>
             }
