@@ -26,6 +26,9 @@
             @Html.DisplayName(@Language.descripcion)
         </th>
         <th>
+            @Html.DisplayName("Orden")
+        </th>
+        <th>
             @Html.DisplayName(@Language.fechaAlta)
         </th>
         <th>
@@ -45,6 +48,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.orden)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.fechaCreacion)

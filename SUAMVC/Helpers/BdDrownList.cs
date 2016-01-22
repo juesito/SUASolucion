@@ -649,9 +649,15 @@ namespace SUAMVC.Helpers
             List<SelectListItem> listFields = new List<SelectListItem>();
 
             List<Concepto> listConceptos = (from s in db.Conceptos
-                                            where s.grupo.Equals(grupo.Trim())
-                                            orderby s.descripcion
+                                  .Where(s => s.grupo.Equals(grupo.Trim())
+                                   )
+                                  .OrderByDescending(s => s.orden)
                                             select s).ToList();
+                                
+                //(from s in db.Conceptos
+                //                            where s.grupo.Equals(grupo.Trim())
+                //                            orderby s.descripcion
+                //                            select s).ToList();
 
             foreach (Concepto item in listConceptos)
             {

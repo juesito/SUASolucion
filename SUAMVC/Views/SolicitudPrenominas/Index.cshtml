@@ -268,7 +268,8 @@ tableStyle: "table table-striped tableSua"
                         @Html.Label("Año:")
                     </td>
                     <td>
-                        @Html.ejercicioList()
+                        @Html.conceptosDrownList(usuario.Id, "ANIOS", "ejercicioId")
+                        @*@Html.ejercicioList()*@
                     </td>
                     <td>
                         <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
