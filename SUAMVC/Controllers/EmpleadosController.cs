@@ -884,9 +884,8 @@ namespace SUAMVC.Controllers
                             if (solicitud.sdiId != null)
                             {
                                 empleado.sdiId = solicitud.sdiId;
+                                empleado.sdiAlternativoId = solicitud.sdiId;
                             }
-
-
 
                             if (!String.IsNullOrEmpty(empleadoL.sexo))
                             {

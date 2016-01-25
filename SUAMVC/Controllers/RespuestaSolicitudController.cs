@@ -153,7 +153,7 @@ namespace SUAMVC.Controllers
                                 List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
                                                                 join e in db.Empleados on s.empleadoId equals e.id
                                                                 where s.Solicitud.id.Equals(solicitud.id)
-                                                                && e.estatus.Equals("A")
+                                                                && e.estatus.Equals("P")
                                                                 orderby s.id
                                                                 select s.Empleado).ToList();
 
