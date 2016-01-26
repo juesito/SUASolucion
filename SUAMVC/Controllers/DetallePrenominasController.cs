@@ -244,7 +244,13 @@ namespace SUAMVC.Controllers
             dt.ingresos = dt.Empleado.salarioReal;
             dt.diasLaborados = detallePrenomina.diasLaborados;
             dt.gratificacion = (Decimal)detallePrenomina.gratificacion;
-            dt.primaVacacional = (Decimal)detallePrenomina.primaVacacional;
+            if (detallePrenomina.primaVacacional != null)
+            {
+                dt.primaVacacional = (Decimal)detallePrenomina.primaVacacional;
+            }
+            else {
+                dt.primaVacacional = (Decimal)0.0;
+            }
             dt.descuentoInfonavit = (Decimal)detallePrenomina.descuentoInfonavit;
             dt.descuentoFonacot = (Decimal)detallePrenomina.descuentoFonacot;
             dt.descuentoPension = (Decimal)detallePrenomina.descuentoPension;
