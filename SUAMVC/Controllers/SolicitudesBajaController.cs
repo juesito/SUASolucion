@@ -33,7 +33,6 @@ namespace SUAMVC.Controllers
                 Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "baja");
                 Usuario usuario = Session["UsuarioData"] as Usuario;
                 SecurityUserModel.llenarPermisos(usuario.roleId);
-
                 var solicituds = (from s in db.Solicituds
                                   join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
@@ -46,11 +45,11 @@ namespace SUAMVC.Controllers
 
                     ViewBag.clienteId = clienteId;
                     ViewBag.proyectoId = proyectoId;
-                    
+
                     Cliente cliente = db.Clientes.Find(int.Parse(clienteId));
                     Proyecto proyecto = db.Proyectos.Find(int.Parse(proyectoId));
 
-                    if (!cliente.descripcion.ToLower().Contains("seleccion") && 
+                    if (!cliente.descripcion.ToLower().Contains("seleccion") &&
                         !proyecto.descripcion.ToLower().Contains("seleccion"))
                     {
                         solicituds = solicituds.Where(s => s.clienteId.Equals(int.Parse(clienteId))
@@ -75,8 +74,8 @@ namespace SUAMVC.Controllers
             }
 
         }
-            
-        
+
+
         // GET: SolicitudesBaja/Details/5
         public ActionResult Details(int? id)
         {
@@ -226,7 +225,7 @@ namespace SUAMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio")] Solicitud solicitud, string clienteId, string proyectoId)
         {
-                if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 solicitud.fechaSolicitud = DateTime.Now;
 
@@ -250,7 +249,7 @@ namespace SUAMVC.Controllers
                         }
                     }
                 }
-                
+
                 return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
@@ -289,12 +288,14 @@ namespace SUAMVC.Controllers
         {
             Solicitud solicitud = db.Solicituds.Find(id);
 
-            if (solicitud.noTrabajadores > 0) {
-                List<SolicitudEmpleado> solicitudEmpleados = db.SolicitudEmpleadoes.Where(x => x.solicitudId.Equals(id) && 
+            if (solicitud.noTrabajadores > 0)
+            {
+                List<SolicitudEmpleado> solicitudEmpleados = db.SolicitudEmpleadoes.Where(x => x.solicitudId.Equals(id) &&
                     x.Concepto.descripcion.Trim().Equals("Baja")
                     && x.estatus.Trim().Equals("A")).ToList();
 
-                foreach(SolicitudEmpleado solEmp in solicitudEmpleados){
+                foreach (SolicitudEmpleado solEmp in solicitudEmpleados)
+                {
                     solEmp.estatus = "C";
                     db.Entry(solEmp).State = EntityState.Modified;
                 }
@@ -330,7 +331,7 @@ namespace SUAMVC.Controllers
 
                 TempData["message"] = "Solicitud Enviada Satisfactoriamente.";
             }
-            
+
             return RedirectToAction("Index");
         }
 
@@ -384,7 +385,7 @@ namespace SUAMVC.Controllers
                     wbsp.Stylesheet = eh.CreateStylesheet();
                     wbsp.Stylesheet.Save();
 
-                    SheetData sd = crearContenidoHojaSolicitudBaja(solicitudList,eh);
+                    SheetData sd = crearContenidoHojaSolicitudBaja(solicitudList, eh);
                     ws.Append(sd);
                     wsp.Worksheet = ws;
                     wsp.Worksheet.Save();
@@ -494,7 +495,7 @@ namespace SUAMVC.Controllers
             {
                 int i = 0;
                 index = index + 1;
-                    row = eh.addNewCellToRow(index, row, dp.folioSolicitud, headerColumns[i] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.folioSolicitud, headerColumns[i] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 if (dp.Proyecto != null)
@@ -566,8 +567,8 @@ namespace SUAMVC.Controllers
                 List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes
                                                 join e in db.Empleados on s.empleadoId equals e.id
                                                 where s.Solicitud.clienteId.Equals(clienteTempId)
-                                                && s.Solicitud.id.Equals(solicitud.id) && 
-                                                (s.estatus.Equals("A") || s.estatus.Equals("C")) 
+                                                && s.Solicitud.id.Equals(solicitud.id) &&
+                                                (s.estatus.Equals("A") || s.estatus.Equals("C"))
                                                 && e.estatus.Equals("A") && s.Solicitud.proyectoId.Equals(proyectoId)
                                                 orderby s.id
                                                 select s.Empleado).ToList();
@@ -578,7 +579,7 @@ namespace SUAMVC.Controllers
 
                 }
             }
-            
+
 
             return View(listEmpleados);
         }

@@ -836,7 +836,7 @@ namespace SUAMVC.Controllers
                             {
 
                                 log.saveLog("Renglon ->" + counter, "Nombre - Apellido Paterno Campos obligatorios nulos",
-                                    "Carga Empleados Masiva", usuario.Id, "ER");
+                                    "Carga Empleados Masiva", usuario.Id, "ER", solicitudId);
 
                                 counter++;
 
@@ -1111,7 +1111,7 @@ namespace SUAMVC.Controllers
                                         sb.AppendLine();
 
                                             log.saveLog("Renglon ->" + counter, "Reigistro error sistema",
-                                            "Carga Empleados Masiva", usuario.Id, "SE");
+                                            "Carga Empleados Masiva", usuario.Id, "SE", solicitudId);
                                     }
                                 }
                             }
@@ -1121,7 +1121,7 @@ namespace SUAMVC.Controllers
                             {
 
                                 log.saveLog("Renglon ->" + counter, "Registro ya existente " + empleadoL.nombre.Trim(),
-                                    "Carga Empleados Masiva", usuario.Id, "WA");
+                                    "Carga Empleados Masiva", usuario.Id, "WA", solicitudId);
                         }//Se encontro ya el nss y cliente?
                             counter++;
                         }
@@ -1144,6 +1144,7 @@ namespace SUAMVC.Controllers
             int clienteTempId = int.Parse(clienteId);
             Solicitud solicitud = db.Solicituds.Find(id);
 
+            ViewBag.sourceController = "SolicitudesBaja";
 
             ViewBag.solicitudId = id;
 

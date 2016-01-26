@@ -92,6 +92,21 @@ namespace SUAMVC.Controllers
                 solicitudPrenomina.fechaFinal = now;
                 solicitudPrenomina.fechaPago = now;
 
+                int clienteInt = int.Parse(clienteId.Trim());
+                Cliente cliente = db.Clientes.Find(clienteInt);
+                int lvcc = cliente.ListaValidacionClientes.Count();
+                if (lvcc != 0)
+                {
+                    ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
+                    solicitudPrenomina.autoriza = lvc.autorizador;
+                    solicitudPrenomina.valida = lvc.validador;
+                }
+                else
+                {
+                    solicitudPrenomina.autoriza = " ";
+                    solicitudPrenomina.valida = " ";
+                }
+
                 return View(solicitudPrenomina);
             }
 

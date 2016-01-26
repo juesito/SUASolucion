@@ -247,22 +247,22 @@ tableStyle: "table table-striped tableSua"
             <thead>
                 <tr style="text-align:left;vertical-align:bottom;">
                     <td style="padding-top:15px">
-                        @Html.Label(Language.cliente)
+                        @Html.Label(Language.cliente):
                     </td>
                     <td>
                         @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:25px")
                     </td>
-                    <td>
-                        @Html.Label(Language.plaza)
-                    </td>
-                    <td>
-                        @Html.plazasDrownListNS(usuario.Id, "plazaId")
-                    </td>
-                    <td>
-                        @Html.Label("Proyecto:")
+                   <td>
+                        @Html.Label(Language.proyecto):
                     </td>
                     <td>
                         @Html.proyectoDrownList(usuario.Id, "proyectoId")
+                    </td>
+                    <td>
+                        @Html.Label(Language.plaza):
+                    </td>
+                    <td>
+                        @Html.plazasDrownListNS(usuario.Id, "plazaId")
                     </td>
                     <td>
                         @Html.Label("Año:")

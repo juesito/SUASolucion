@@ -110,17 +110,6 @@ format: @<text>
         </text>));
     }
 
-
-    if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud alta", "Se agrega solicitud para ver empleados en solicitud", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
-            <a href="@Url.Action("Index", "Empleados", new { id = item.id })">
-                <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
-            </a>
-        </text>));
-    }
-
-
     sb.Append(grid.GetHtml(
 columns: grid.Columns(gridColumns.ToArray()),
 tableStyle: "table table-striped tableSua"

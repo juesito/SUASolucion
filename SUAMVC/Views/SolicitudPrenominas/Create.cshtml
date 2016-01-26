@@ -73,7 +73,7 @@
                         </td>
                         <th colspan="2"> </th>
                         <td style="padding-top:8px; padding-left:55px">
-                            @Html.Label(@Language.tipoPago + ":", new { style = "width: 150px;" })
+                            @Html.Label(@Language.periodo + ":", new { style = "width: 150px;" })
                         </td>
                         <td style="padding-top:8px">
                             @Html.conceptosDrownList(usuario.Id, "PERISAL", "tipoPagoId")
@@ -92,25 +92,19 @@
                             @Html.ValidationMessageFor(model => model.folioCliente, "", new { @class = "text-danger" })
                         </td>
                         <th colspan="2"> </th>
-                        <td style="padding-top:12px; padding-left:55px">@Html.Label(@Language.fechaInicio + ":")</td>
-                        <td style="padding-top:12px">
-                            @Html.EditorFor(model => model.fechaInicial, new { htmlAttributes = new { @class = "myDate" } })
-                            @Html.ValidationMessageFor(model => model.fechaInicial, "", new { @class = "text-danger" })
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th colspan="4"> </th>
-                        <td style="padding-right:8px; padding-top:12px">@Html.Label(@Language.periodo + ":")</td>
-                        <td style="padding-top:12px">
-                            @Html.conceptosDrownList(usuario.Id, "PARTIPPAG", "periodoId")
-                            @Html.ValidationMessageFor(model => model.periodoId, "", new { @class = "text-danger" })
-                        </td>
-                        <th colspan="2"> </th>
                         <td style="padding-right:8px; padding-top:8px; padding-left:55px">@Html.Label(@Language.tipoContrato + ":")</td>
                         <td style="padding-top:12px">
                             @Html.contratosDrownList(usuario.Id, "tipoContratoId")
                             @Html.ValidationMessageFor(model => model.tipoContratoId, "", new { @class = "text-danger" })
+                        </td>
+                   </tr>
+
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px">@Html.Label(@Language.tipoPago + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.conceptosDrownList(usuario.Id, "PARTIPPAG", "periodoId")
+                            @Html.ValidationMessageFor(model => model.periodoId, "", new { @class = "text-danger" })
                         </td>
                     </tr>
 
@@ -129,6 +123,21 @@
                         </td>
                     </tr>
                     
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px">@Html.Label(@Language.validador + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.Label(Model.valida)
+                            @Html.HiddenFor(model => model.valida)
+                        </td>
+                        <th colspan="2"> </th>
+                        <td style="padding-right:8px; padding-top:8px; padding-left:55px">@Html.Label(@Language.autorizador + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.Label(Model.autoriza)
+                            @Html.HiddenFor(model => model.autoriza)
+                        </td>
+                    </tr>
+
                     <tr>
                         <th colspan="4"> </th>
                         <td >@Html.Label(@Language.observaciones + ":")</td>
@@ -160,6 +169,8 @@
         //$("#ttipoCambio").hide("fast");
 
         $("#monedaId").bind("change", validateExchangeRate);
+        $("#tipoCambio").hide();
+        $('#ttipoCambio').hide();
     });
 
     function validateExchangeRate() {
