@@ -727,11 +727,11 @@ namespace SUAMVC.Controllers
                                     if (acreditado.fechaUltimoCalculo != null)
                                     {
                                         //Validamos que se haya modificado el valor de los parametros para el calculo
-                                        if (DateTime.Compare((DateTime)acreditado.fechaUltimoCalculo, smdfParameter.fechaCreacion) <= 0
-                                        && DateTime.Compare((DateTime)acreditado.fechaUltimoCalculo, sinfonParameter.fechaCreacion) <= 0)
-                                        {
-                                            acreditado = calcularInfonavitInfo(acreditado, rows, tipoDescuento, Decimal.Parse(sinfonParameter.valorMoneda.ToString()), Decimal.Parse(smdfParameter.valorMoneda.ToString()),
-                                                valorDescuento);
+                                        if (DateTime.Compare((DateTime)acreditado.fechaUltimoCalculo,                                           smdfParameter.fechaCreacion) <= 0
+                                                || DateTime.Compare((DateTime)acreditado.fechaUltimoCalculo,                                        sinfonParameter.fechaCreacion) <= 0)
+                                          {
+                                            acreditado = calcularInfonavitInfo(acreditado, rows, tipoDescuento, Decimal.Parse                   (sinfonParameter.valorMoneda.ToString()), Decimal.Parse                                             (smdfParameter.valorMoneda.ToString()),
+                                                     valorDescuento);
 
                                         } //Se ha cambiado los parametros desde la ultima actualización ?
                                     }
@@ -1459,14 +1459,34 @@ namespace SUAMVC.Controllers
                             select s).ToList();
 
             MovimientosAsegurado movto = new MovimientosAsegurado();
+            MovimientosAsegurado movto2 = new MovimientosAsegurado();
+
+            // Se puso esto para cuando tienen incremento de salario y modificación al salario con la misma fecha.
+            // Deberá tomar la modificación al salario como último movimiento.
             if (movTemp2 != null && movTemp2.Count() > 0)
             {
+                int conta2 = 1;
                 foreach (var movItem in movTemp2)
                 {
                     movto = movItem;
-                    break;
+                    if (conta2 == 2 || !movto.CatalogoMovimiento.tipo.Trim().Equals("13"))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        movto2 = movItem;
+                        conta2++;
+                    }
                 }
-
+                if (conta2 == 2)
+                {
+                    if (movto2.CatalogoMovimiento.tipo.Trim().Equals("13") && !movto.CatalogoMovimiento.tipo.Trim().Equals("07"))
+                    {
+                        movto = movto2;
+                    }
+                }
+ 
                 if (movto.CatalogoMovimiento.tipo.Trim().Equals("08"))
                 {
                     asegurado.salarioDiario = Decimal.Parse(movto.sdi);
@@ -1533,11 +1553,31 @@ namespace SUAMVC.Controllers
                     asegurado.salarioDiario = 0;
                 }
             }
-            if (asegurado.fechaBaja.HasValue)
+
+            movTemp2 = (from s in db.MovimientosAseguradoes
+                        where s.aseguradoId.Equals(aseguradoId) &&
+                             (s.CatalogoMovimiento.tipo.Equals("20") || s.CatalogoMovimiento.tipo.Equals("15") ||
+                              s.CatalogoMovimiento.tipo.Equals("16") || s.CatalogoMovimiento.tipo.Equals("17") ||
+                              s.CatalogoMovimiento.tipo.Equals("18") || s.CatalogoMovimiento.tipo.Equals("19") )
+                         orderby s.fechaInicio descending
+                         select s).ToList();
+
+            movto = new MovimientosAsegurado();
+
+            if (movTemp2 != null && movTemp2.Count() > 0)
             {
-                //                asegurado.salarioDiario = 0;
-                //                asegurado.salarioImss = 0;
+                foreach (var movItem in movTemp2)
+                {
+                    movto = movItem;
+                    break;
+                }
+                if (movto.CatalogoMovimiento.tipo.Trim().Equals("16"))
+                {
+                    asegurado.finDescuento = movto.fechaInicio;
+                }
             }
+            
+            
             db.Entry(asegurado).State = EntityState.Modified;
             db.SaveChanges();
 
@@ -1552,6 +1592,7 @@ namespace SUAMVC.Controllers
                 acreditado.sd = Decimal.Parse(asegurado.salarioDiario.ToString());
                 acreditado.sdi = Double.Parse(asegurado.salarioImss.ToString());
                 acreditado.ocupacion = asegurado.ocupacion;
+                acreditado.fechaFinDescuento = asegurado.finDescuento;
 
                 //calcular el descuento tipo uno que ocupa sdi
                 DateTime date = DateTime.Now;

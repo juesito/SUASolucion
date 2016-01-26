@@ -61,7 +61,7 @@
         </text>));
     }
 
-    if (SecurityUserModel.verificarPermiso("addEmp-Prenomina", "Aregegar empleados a prenomina", 6))
+    if (SecurityUserModel.verificarPermiso("addEmp-Prenomina", "Agregar empleados a prenomina", 6))
     {
         gridColumns.Add(grid.Column(header: "Detalle Prenomina", format: @<text><a href="@Url.Action("Index", "DetallePrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/addEmployee.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
@@ -268,7 +268,8 @@ tableStyle: "table table-striped tableSua"
                         @Html.Label("Año:")
                     </td>
                     <td>
-                        @Html.ejercicioList()
+                        @Html.conceptosDrownList(usuario.Id, "ANIOS", "ejercicioId")
+                        @*@Html.ejercicioList()*@
                     </td>
                     <td>
                         <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />

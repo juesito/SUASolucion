@@ -19,6 +19,8 @@ using SUAMVC.Helpers;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
+using SUAMVC.Models;
+
 namespace SUAMVC.Controllers
 {
     public class IncapacidadesController : Controller
@@ -244,6 +246,8 @@ namespace SUAMVC.Controllers
             //{
             //    ViewData["numeroPagina"] = 1;
             //}
+
+            SecurityUserModel.llenarPermisos(user.roleId);
 
             return View(incapacidades.ToList());
         }

@@ -32,7 +32,7 @@ namespace SUAMVC.Controllers
                 ToolsHelper th = new ToolsHelper();
                 Concepto tipoSolicitud = th.obtenerConceptoPorGrupo("SOLCON", "Modificacion");
                 Usuario usuario = Session["UsuarioData"] as Usuario;
-
+                SecurityUserModel.llenarPermisos(usuario.roleId);
 
                 var solicituds = (from s in db.Solicituds
                                   join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
@@ -46,7 +46,7 @@ namespace SUAMVC.Controllers
                     ViewBag.clienteId = clienteId;
                     ViewBag.proyectoId = proyectoId;
 
-                    Cliente cliente = db.Clientes.Find(int.Parse(clienteId));
+                        Cliente cliente = db.Clientes.Find(int.Parse(clienteId));
                     Proyecto proyecto = db.Proyectos.Find(int.Parse(proyectoId));
 
                     if (!cliente.descripcion.ToLower().Contains("seleccion") &&

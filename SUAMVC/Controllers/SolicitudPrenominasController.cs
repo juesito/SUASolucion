@@ -27,6 +27,9 @@ namespace SUAMVC.Controllers
         public ActionResult Index(String clienteId, String proyectoId, String ejercicioId, String plazaId)
         {
 
+            Usuario usuario = Session["UsuarioData"] as Usuario;
+            SecurityUserModel.llenarPermisos(usuario.roleId);
+
             if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId) && !String.IsNullOrEmpty(ejercicioId)
                  && !String.IsNullOrEmpty(plazaId))
             {

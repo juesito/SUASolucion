@@ -13,6 +13,7 @@ using System.IO;
 using DocumentFormat.OpenXml.Packaging;
 using System.Data.OleDb;
 using SUAMVC.Helpers;
+using SUAMVC.Models;
 
 namespace SUAMVC.Controllers
 {
@@ -102,6 +103,7 @@ namespace SUAMVC.Controllers
                 }
             }
 
+            SecurityUserModel.llenarPermisos(user.roleId);
 
             return View(clientes.ToList().OrderBy(p => p.descripcion));
         }
