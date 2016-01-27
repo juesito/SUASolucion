@@ -232,12 +232,25 @@ namespace SUAMVC.Controllers
 
                 empleado.fechaCreacion = DateTime.Now;
                 empleado.usuarioId = usuario.Id;
-                empleado.nombreCompleto = empleado.nombre + " " + empleado.apellidoPaterno + " " + empleado.apellidoMaterno;
+                empleado.nombreCompleto = empleado.apellidoPaterno + " " + empleado.apellidoMaterno + " " + empleado.nombre;
                 //Ponemos el estatus en Pendiente hasta
                 //que se procese la solicitud
                 empleado.estatus = "P";
                 empleado.rfc = empleado.rfc.Trim();
                 empleado.homoclave = empleado.homoclave.Trim();
+                if (empleado.sdiId == null || empleado.sdiId == 0)
+                {
+                    SDI sDiario = (from s in db.SDIs
+                                   where s.clienteId == sol.clienteId
+                                   && s.descripcion.Trim().Equals("0.0")
+                                   select s).FirstOrDefault();
+
+                    if (!String.IsNullOrEmpty(sDiario.descripcion))
+                    {
+                        empleado.sdiId = sDiario.id;
+                      }
+
+                }
                 empleado.sdiAlternativoId = empleado.sdiId;
 
                 if (!String.IsNullOrEmpty(empleado.nss))
@@ -869,7 +882,7 @@ namespace SUAMVC.Controllers
                             }
 
                             empleado.apellidoPaterno = empleadoL.apellidoPaterno.Trim();
-                            empleado.nombreCompleto = empleadoL.nombre.Trim() + " " + empleadoL.apellidoPaterno.Trim() + " " + empleadoL.apellidoMaterno.Trim();
+                            empleado.nombreCompleto = empleadoL.apellidoPaterno.Trim() + " " + empleadoL.apellidoMaterno.Trim() + " " + empleadoL.nombre.Trim();
 
                             empleado.rfc = empleadoL.RFC.Trim();
                             empleado.homoclave = empleadoL.homoclave.Trim();
@@ -894,6 +907,18 @@ namespace SUAMVC.Controllers
                             {
                                 empleado.sdiId = solicitud.sdiId;
                                 empleado.sdiAlternativoId = solicitud.sdiId;
+                            }
+                            else
+                            {
+                               SDI sDiario = (from s in db.SDIs
+                                              where s.clienteId == solicitud.clienteId
+                                              && s.descripcion.Trim().Equals("0.0")
+                                              select s).FirstOrDefault();
+                               if (!String.IsNullOrEmpty(sDiario.descripcion))
+                               {
+                                   empleado.sdiId = sDiario.id;
+                                   empleado.sdiAlternativoId = empleado.sdiId;
+                               }
                             }
 
                             if (!String.IsNullOrEmpty(empleadoL.sexo))

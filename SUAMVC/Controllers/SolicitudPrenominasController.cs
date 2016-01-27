@@ -139,8 +139,8 @@ namespace SUAMVC.Controllers
                 //Asignamos los valores de nuestra solicitud.
                 solicitudPrenomina.fechaSolicitud = DateTime.Now;
                 solicitudPrenomina.noTrabajadores = 0;
-                solicitudPrenomina.autoriza = lvc.autorizador;
-                solicitudPrenomina.valida = lvc.validador;
+//                solicitudPrenomina.autoriza = lvc.autorizador;
+//                solicitudPrenomina.valida = lvc.validador;
                 solicitudPrenomina.usuarioId = usuario.Id;
                 solicitudPrenomina.estatusSolicitud = concepto.id;
                 solicitudPrenomina.solicita = usuario.nombreUsuario.Trim();

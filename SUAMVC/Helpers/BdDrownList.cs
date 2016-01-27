@@ -757,7 +757,7 @@ namespace SUAMVC.Helpers
                                   join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(userId)
                                   && !s.descripcion.Contains("Local")
-                                  orderby s.descripcion
+                                  orderby s.descripcion descending
                                   select s).ToList();
 
             String itemId = "";
@@ -787,7 +787,7 @@ namespace SUAMVC.Helpers
                                   join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(userId)
                                   && !s.descripcion.Contains("Local") && s.clienteId.Equals(clienteId)
-                                  orderby s.descripcion
+                                  orderby s.descripcion descending
                                   select s).ToList();
 
             String itemId = "";

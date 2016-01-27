@@ -98,8 +98,8 @@ namespace SUAMVC.Controllers
                 List<Empleado> empleadosList = new List<Empleado>();
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
-                                 where s.estatus.Equals("A")
-                                   && s.solicitudId.Equals(solicitudId)
+//                                 where s.estatus.Equals("A")
+                                 where s.solicitudId.Equals(solicitudId)
                                  orderby s.id
                                  select s.Empleado).ToList();
 
@@ -401,8 +401,8 @@ namespace SUAMVC.Controllers
                 List<Empleado> empleadosList = new List<Empleado>();
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
-                                 where s.estatus.Equals("A")
-                                   && s.solicitudId.Equals(solicitudId)
+//                                 where s.estatus.Equals("A")
+                                 where s.solicitudId.Equals(solicitudId)
                                  orderby s.id
                                  select s.Empleado).ToList();
 
@@ -887,8 +887,8 @@ namespace SUAMVC.Controllers
                 List<Empleado> empleadosList = new List<Empleado>();
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
-                                 where s.estatus.Equals("A")
-                                   && s.solicitudId.Equals(solicitudId)
+//                                 where s.estatus.Equals("A")
+                                 where s.solicitudId.Equals(solicitudId)
                                  orderby s.id
                                  select s.Empleado).ToList();
 
@@ -1349,8 +1349,8 @@ namespace SUAMVC.Controllers
                     List<Empleado> empleadosList = new List<Empleado>();
 
                     empleadosList = (from s in db.SolicitudEmpleadoes
-                                     where s.estatus.Equals("A")
-                                       && s.Empleado.bancoId.Equals(bank.id)
+//                                     where s.estatus.Equals("A")
+                                     where s.Empleado.bancoId.Equals(bank.id)
                                        && s.solicitudId.Equals(solicitudId)
                                      orderby s.id
                                      select s.Empleado).ToList();
@@ -1768,8 +1768,8 @@ namespace SUAMVC.Controllers
                     List<Empleado> empleadosList = new List<Empleado>();
 
                     empleadosList = (from s in db.SolicitudEmpleadoes
-                                     where s.estatus.Equals("A")
-                                       && s.Empleado.bancoId.Equals(bank.id)
+//                                     where s.estatus.Equals("A")
+                                     where s.Empleado.bancoId.Equals(bank.id)
                                        && s.solicitudId.Equals(solicitudId)
                                      orderby s.id
                                      select s.Empleado).ToList();
@@ -2202,8 +2202,8 @@ namespace SUAMVC.Controllers
                     List<Empleado> empleadosList = new List<Empleado>();
 
                     empleadosList = (from s in db.SolicitudEmpleadoes
-                                     where s.estatus.Equals("A")
-                                        && s.Empleado.bancoId.Equals(bank.id)
+//                                     where s.estatus.Equals("A")
+                                     where s.Empleado.bancoId.Equals(bank.id)
                                        && s.solicitudId.Equals(solicitudId)
                                      orderby s.id
                                      select s.Empleado).ToList();
@@ -2623,8 +2623,8 @@ namespace SUAMVC.Controllers
                 List<Empleado> empleadosList = new List<Empleado>();
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
-                                 where s.estatus.Equals("A")
-                                   && s.solicitudId.Equals(solicitudId)
+//                                 where s.estatus.Equals("A")
+                                 where s.solicitudId.Equals(solicitudId)
                                  orderby s.id
                                  select s.Empleado).ToList();
 
