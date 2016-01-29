@@ -105,7 +105,7 @@ namespace SUAMVC.Controllers
             int lvcc = cliente.ListaValidacionClientes.Count();
             if(lvcc != 0)
             {
-                ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
+                ListaValidacionCliente lvc = cliente.ListaValidacionClientes.FirstOrDefault();
                 solicitud.autoriza = lvc.autorizador;
                 solicitud.valida = lvc.validador;
             }else

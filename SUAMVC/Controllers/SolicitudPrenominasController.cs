@@ -97,7 +97,7 @@ namespace SUAMVC.Controllers
                 int lvcc = cliente.ListaValidacionClientes.Count();
                 if (lvcc != 0)
                 {
-                    ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
+                    ListaValidacionCliente lvc = cliente.ListaValidacionClientes.FirstOrDefault();
                     solicitudPrenomina.autoriza = lvc.autorizador;
                     solicitudPrenomina.valida = lvc.validador;
                 }
@@ -129,7 +129,7 @@ namespace SUAMVC.Controllers
 
                 ToolsHelper th = new ToolsHelper();
                 ParametrosHelper ph = new ParametrosHelper();
-                ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
+//                ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
 
                 //Parametro de folios de solicitud de prenomina
                 Parametro folioAlta = ph.getParameterByKey("FOLSPALTA");

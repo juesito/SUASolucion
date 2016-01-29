@@ -476,7 +476,7 @@ namespace SUAMVC.Controllers
                 System.IO.Directory.CreateDirectory(path2);
             }
             DateTime date = DateTime.Now;
-            System.IO.File.Move(path, Path.Combine(path2, "SUA" + date.ToString("ddMMyyyyHHmm") + ".mdb"));
+            System.IO.File.Move(path, Path.Combine(path2, "SUA" + date.ToString("ddMMyyyyHHmmss") + ".mdb"));
             System.IO.File.Delete(path);
 
             return View("UploadAcreditados");

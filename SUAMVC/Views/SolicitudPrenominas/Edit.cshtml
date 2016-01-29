@@ -28,13 +28,6 @@
 
 @using (Html.BeginForm())
 {
-    <div class="menubar-header">
-        <input type="image" value="Create" src="~/Content/Images/save-floppy.png" class="menuIcon" />
-        
-        <a href="@Url.Action("Index")" style="text-align:right">
-            <img src="~/Content/Images/back.png" title="Regresar Prenominas" alt="regresar" style="border:none;" class="menuIcon" />
-        </a>
-    </div>
     @Html.AntiForgeryToken()
 
     <div class="panel panel-info">
@@ -42,159 +35,133 @@
             Capturar Solicitud
         </div>
 
-        <div class="panel-body" style="font-size:10px; background-color:#c0c0c2">
+        <div class="panel-body" style="font-size:10px" >
             <div class="form-horizontal">
                 <hr />
                 @Html.HiddenFor(model => model.anno)
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                <table style="font-size:10px;margin:0 auto; width:700px; ">
+                <table style="font-size:10px; width:400px; ">
                     <tr>
-                        <td>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.clienteId, "clienteId", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.Label(cliente.descripcion)
-                                </div>
-                            </div>
+                        <th colspan="1"> </th>
+                        <td> @Html.Label(@Language.cliente + ":")</td>
+                        <td style="padding-top:4px; padding-left:8px">   @Html.Label(cliente.descripcion, new { style = "width: 200px;" })</td>
+                        <th colspan="1"> </th>
+                        <td>@Html.Label(@Language.fechaInicio + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.fechaInicial, new { htmlAttributes = new { @class = "myDate" } })
+                            @Html.ValidationMessageFor(model => model.fechaInicial, "", new { @class = "text-danger" })
                         </td>
-                        <td>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.proyectoId, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.Label(proyecto.descripcion)
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.plazaId, "plazaId", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.Label(plaza.descripcion)
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.fechaInicial, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.fechaInicial, new { htmlAttributes = new { @class = "myDate" } })
-                                    @Html.ValidationMessageFor(model => model.fechaInicial, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.fechaFinal, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.fechaFinal, new { htmlAttributes = new { @class = "myDate" } })
-                                    @Html.ValidationMessageFor(model => model.fechaFinal, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.fechaPago, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.fechaPago, new { htmlAttributes = new { @class = "myDate" } })
-                                    @Html.ValidationMessageFor(model => model.fechaPago, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.folioCliente, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.folioCliente)
-                                    @Html.ValidationMessageFor(model => model.folioCliente, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.tipoPagoId, "tipoPagoId", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.conceptosDrownList(usuario.Id, "PERISAL", "tipoPagoId")
-                                    @Html.ValidationMessageFor(model => model.tipoPagoId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                        <th colspan="2"> </th>
+                        <td style="padding-top:12px; padding-left:55px">@Html.Label(@Language.fechaPago + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.EditorFor(model => model.fechaPago, new { htmlAttributes = new { @class = "myDate" } })
+                            @Html.ValidationMessageFor(model => model.fechaPago, "", new { @class = "text-danger" })
                         </td>
                     </tr>
 
                     <tr>
-                        <td>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.periodoId, "periodoId", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.conceptosDrownList(usuario.Id, "PARTIPPAG", "periodoId")
-                                    @Html.ValidationMessageFor(model => model.periodoId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                        <th colspan="1"> </th>
+                        <td>@Html.Label(@Language.proyecto + ":")</td>
+                        <td style="padding-top:2px; padding-left:8px">
+                            @Html.Label(proyecto.descripcion, new { style = "width: 200px;" })
                         </td>
-                        <td>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.tipoContratoId, "tipoContratoId", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.contratosDrownList(usuario.Id, "tipoContratoId")
-                                    @Html.ValidationMessageFor(model => model.tipoContratoId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                        <th colspan="1"> </th>
+                        <td style="padding-right:8px; padding-top:8px">@Html.Label(@Language.fechaFinal + ":", new { style = "width: 100px;" })</td>
+                        <td style="padding-top:12px">
+                            @Html.EditorFor(model => model.fechaFinal, new { htmlAttributes = new { @class = "myDate" } })
+                            @Html.ValidationMessageFor(model => model.fechaFinal, "", new { @class = "text-danger" })
+                        </td>
+                        <th colspan="2"> </th>
+                        <td style="padding-top:8px; padding-left:55px">
+                            @Html.Label(@Language.periodo + ":", new { style = "width: 150px;" })
+                        </td>
+                        <td style="padding-top:8px">
+                            @Html.conceptosDrownList(usuario.Id, "PERISAL", "tipoPagoId")
+                            @Html.ValidationMessageFor(model => model.tipoPagoId, "", new { @class = "text-danger" })
                         </td>
                     </tr>
 
                     <tr>
-                        <td>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.monedaId, "monedaId", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.conceptosDrownList(usuario.Id, "PARMONED", "monedaId")
-                                    @Html.ValidationMessageFor(model => model.monedaId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                        <th colspan="1"> </th>
+                        <td> @Html.Label(@Language.plaza + ":")</td>
+                        <td style="padding-top:2px; padding-left:8px">   @Html.Label(plaza.descripcion)</td>
+                        <th colspan="1"> </th>
+                        <td style="padding-top:12px"> @Html.Label(@Language.folioCliente + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.EditorFor(model => model.folioCliente)
+                            @Html.ValidationMessageFor(model => model.folioCliente, "", new { @class = "text-danger" })
                         </td>
-                        <td>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.tipoCambio, htmlAttributes: new { @class = "control-label col-md-2", id = "ttipoCambio" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.tipoCambio)
-                                    @Html.ValidationMessageFor(model => model.tipoCambio, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                        <th colspan="2"> </th>
+                        <td style="padding-right:8px; padding-top:8px; padding-left:55px">@Html.Label(@Language.tipoContrato + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.contratosDrownList(usuario.Id, "tipoContratoId")
+                            @Html.ValidationMessageFor(model => model.tipoContratoId, "", new { @class = "text-danger" })
                         </td>
                     </tr>
+
                     <tr>
-                        <td>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.observaciones, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                        <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px">@Html.Label(@Language.tipoPago + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.conceptosDrownList(usuario.Id, "PARTIPPAG", "periodoId")
+                            @Html.ValidationMessageFor(model => model.periodoId, "", new { @class = "text-danger" })
                         </td>
                     </tr>
 
-                </table>
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px">@Html.Label(@Language.moneda + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.conceptosDrownList(usuario.Id, "PARMONED", "monedaId")
+                            @Html.ValidationMessageFor(model => model.monedaId, "", new { @class = "text-danger" })
+                        </td>
+                        <th colspan="2"> </th>
+                        <td style="padding-right:8px; padding-top:8px; padding-left:55px">@Html.Label(@Language.tipoCambio + ":", htmlAttributes: new { id = "ttipoCambio" }) </td>
+                        <td style="padding-top:12px">
+                            @Html.EditorFor(model => model.tipoCambio)
+                            @Html.ValidationMessageFor(model => model.tipoCambio, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
 
-                        
-            </div>
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px">@Html.Label(@Language.validador + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.Label(Model.valida)
+                            @Html.HiddenFor(model => model.valida)
+                        </td>
+                        <th colspan="2"> </th>
+                        <td style="padding-right:8px; padding-top:8px; padding-left:55px">@Html.Label(@Language.autorizador + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.Label(Model.autoriza)
+                            @Html.HiddenFor(model => model.autoriza)
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td>@Html.Label(@Language.observaciones + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 3, @style = "width: 200px; " })
+                            @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td style="text-align:right;"><input type="submit" value="@Language.guardar" class="btn btn-primary" /></td>
+                    </tr>
+
+                    </table>
+</div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(@Language.regresar, "Index")
 </div>
 <script>
     $(document).ready(function () {
