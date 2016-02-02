@@ -29,6 +29,7 @@ namespace SUAMVC.Controllers
 
             Usuario usuario = Session["UsuarioData"] as Usuario;
             SecurityUserModel.llenarPermisos(usuario.roleId);
+            ToolsHelper th = new ToolsHelper();
 
             if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId) && !String.IsNullOrEmpty(ejercicioId)
                  && !String.IsNullOrEmpty(plazaId))
@@ -49,7 +50,7 @@ namespace SUAMVC.Controllers
                 int plazaInt = int.Parse(plazaId.Trim());
 
                 solicitudPrenominas = solicitudPrenominas.Where(x => x.clienteId.Equals(clienteInt) &&
-                    x.proyectoId.Equals(proyectoInt) && x.anno.Equals(ejercicioId) && x.plazaId.Equals(plazaInt)).
+                    x.proyectoId.Equals(proyectoInt) && x.anno.Equals(ejercicioId.Trim()) && x.plazaId.Equals(plazaInt)).
                     OrderBy(x => x.fechaSolicitud);
 
                 return View(solicitudPrenominas.ToList());
@@ -84,13 +85,12 @@ namespace SUAMVC.Controllers
                 && !String.IsNullOrEmpty(plazaId))
             {
 
-                Concepto anno = th.obtenerConceptoPorId(int.Parse(ejercicioId));
                 //Agregamos los valores a nuestra solicitud.
                 DateTime now = DateTime.Now;
                 solicitudPrenomina.clienteId = int.Parse(clienteId);
                 solicitudPrenomina.proyectoId = int.Parse(proyectoId);
                 solicitudPrenomina.plazaId = int.Parse(plazaId);
-                solicitudPrenomina.anno = anno.descripcion.Trim();
+                solicitudPrenomina.anno = ejercicioId.Trim();
                 solicitudPrenomina.fechaSolicitud = now;
                 solicitudPrenomina.fechaInicial = now;
                 solicitudPrenomina.fechaFinal = now;
@@ -302,6 +302,42 @@ namespace SUAMVC.Controllers
                 plazaId = solicitudPrenomina.plazaId,
                 ejercicioId = solicitudPrenomina.anno
             });
+        }
+
+        [HttpGet]
+        public void generarLayout(string solicitudId)
+        {
+            int solicitudInt = int.Parse(solicitudId);
+            SolicitudPrenomina sp = db.SolicitudPrenominas.Find(solicitudInt);
+
+            if (sp.Concepto1.descripcion.Trim().Equals("SyS Dias Laborados"))
+            {
+                crearExcelSySdiasLaborados(solicitudInt.ToString());
+            }
+            else if (sp.Concepto1.descripcion.Trim().Equals("SyS Dias Por Ingreso"))
+            {
+                crearExcelSySporIngresos(solicitudInt.ToString());
+            }
+            else if (sp.Concepto1.descripcion.Trim().Equals("IAS"))
+            {
+                crearExcelIAS(solicitudInt.ToString());
+            }
+            else if (sp.Concepto1.descripcion.Trim().Equals("IAS Dias Laborados"))
+            {
+                crearExcelIASdiasLaborados(solicitudInt.ToString());
+            }
+            else if (sp.Concepto1.descripcion.Trim().Equals("Finiquito"))
+            {
+                crearExcelFiniquito(solicitudInt.ToString());
+            }
+            else if (sp.Concepto1.descripcion.Trim().Equals("Aguinaldo"))
+            {
+                crearExcelAguinaldo(solicitudInt.ToString());
+            }
+            else if (sp.Concepto1.descripcion.Trim().Equals("Pago Normal PAC"))
+            {
+                crearExcelPagoNormalPac(solicitudInt.ToString());
+            }
         }
 
         //Lay out Solicitud Prenomina

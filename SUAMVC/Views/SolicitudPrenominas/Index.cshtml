@@ -28,7 +28,10 @@
     {  @item.Proyecto.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("Plaza.descripcion", Language.plaza, format: @<text> @if (@item.PlazaId != null)
     {  @item.Plaza.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("fechaSolicitud", Language.fechaAlta, @<text><div style='width: 6em'>@item.fechaSolicitud.ToString("dd-MM-yyyy")</div></text>, null, canSort: true));
+    gridColumns.Add(grid.Column("Concepto1.descripcion", "Tipo solicitud", format: @<text> @if (@item.Concepto1 != null)
+    {  @item.Concepto1.descripcion }</text>, canSort: true));
+    gridColumns.Add(grid.Column("fechaSolicitud", Language.fechaAlta, @<text><div style='width: 6em'>
+    @item.fechaSolicitud.ToString("dd-MM-yyyy")</div></text>, null, canSort: true));
 
     gridColumns.Add(grid.Column("fechaInicial", Language.fechaInicio, @<text><div style='width: 6em'>
             @if (@item.fechaInicial != null)
@@ -72,7 +75,7 @@
     }
     if (SecurityUserModel.verificarPermiso("Subir Lay Out Personal", "Se agrega solicitud para subir lay out de empleados", 6))
     {
-        gridColumns.Add(grid.Column(header: "Layout Alta Personal", format: @<text>
+        gridColumns.Add(grid.Column(header: "Alta Masiva Personal", format: @<text>
         @if (item.noTrabajadores > 0)
         {
             <a href="@Url.Action("CargarEmpleadosPorExcel", "Empleados", new { id = item.id })">
@@ -83,97 +86,24 @@
     }
     if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout SyS Dias Laborados", 6))
     {
-        gridColumns.Add(grid.Column(header: "SyS Días Laborados", format: @<text>
+        gridColumns.Add(grid.Column(header: "Layout Prenomina", format: @<text>
             @if (item.noTrabajadores > 0)
             {
-                <a href="@Url.Action("crearExcelSySdiasLaborados", "SolicitudPrenominas", new { solicitudId= item.id })">
+                <a href="@Url.Action("generarLayout", "SolicitudPrenominas", new { solicitudId = item.id })">
                     <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
                 </a>
             }
         </text>));
     }
-    if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout SyS Por Ingresos", 6))
-    {
-        gridColumns.Add(grid.Column(header: "SyS Ingresos", format: @<text>
-        @if (item.noTrabajadores > 0)
-        {
-            <a href="@Url.Action("crearExcelSySporIngresos", "SolicitudPrenominas", new { solicitudId = item.id })">
-            <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-            </a>;
-        }
-        </text>));
-    }
-    if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout IAS", 6))
-    {
-        gridColumns.Add(grid.Column(header: "IAS", format: @<text>
-        @if (item.noTrabajadores > 0)
-        {
-            <a href="@Url.Action("crearExcelIAS", "SolicitudPrenominas", new { solicitudId = item.id })">
-            <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-            </a>;
-        }
-        </text>));
-    }
-    if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout IAS Dias Laborados", 6))
-    {
-        gridColumns.Add(grid.Column(header: "IAS Dias Laborados", format: @<text>
-        @if(item.noTrabajadores > 0)
-        {
-            <a href="@Url.Action("crearExcelIASdiasLaborados", "SolicitudPrenominas", new { solicitudId = item.id })">
-            <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-            </a>
-        }
-        </text>));
-    }
-    if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout Finiquito", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Finiquito", format: @<text>
-        @if (item.noTrabajadores > 0)
-        {
-            <a href="@Url.Action("crearExcelFiniquito", "SolicitudPrenominas", new { solicitudId = item.id })">
-                <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-            </a>
-        }
-        </text>));
-    }
-    if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout Aguinaldo", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Aguinaldo", format: @<text>
-        @if(item.noTrabajadores > 0)
-        {
-            <a href="@Url.Action("crearExcelAguinaldo", "SolicitudPrenominas", new { solicitudId = item.id })">
-                <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-            </a>
-                }
-            </text>));
-    }
-    if (SecurityUserModel.verificarPermiso("layOut-Prenomina", "Bajar Layout Pago Normal Pac", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Pago Normal Pac", format: @<text>
-        @if(item.noTrabajadores > 0)
-        {
-            <a href="@Url.Action("crearExcelPagoNormalPac", "SolicitudPrenominas", new { solicitudId = item.id })">
-            <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-            </a>
-        }      
-        </text>));
-    }
+    
 
   
-    gridColumns.Add(grid.Column(header: "Detalle Empleados", format: @<text><a href="@Url.Action("crearExcelDetalleEmpleados", "SolicitudPrenominas", new { solicitudId = item.id })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+    gridColumns.Add(grid.Column(header: "Detalle Empleados", format: @<text>
+        <a href="@Url.Action("crearExcelDetalleEmpleados", "SolicitudPrenominas", new { solicitudId = item.id })">
+            <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
 
 
-    if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud alta", "Se agrega solicitud para ver empleados en solicitud", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
-            @if (item.noTrabajadores >= 0)
-            {
-                <a href="@Url.Action("Index", "Empleados", new { id = item.id })">
-                    <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
-                </a>
-            }
-        </text>));
-    }
+    
     if (SecurityUserModel.verificarPermiso("enviar correo solicitud alta", "Enviar mail informativo", 6))
     {
         gridColumns.Add(grid.Column(header: "Enviar Solicitud", format: @<text>
@@ -191,7 +121,6 @@ columns: grid.Columns(gridColumns.ToArray()),
 tableStyle: "table table-striped tableSua"
 ));
 
-    //tableHtml = sb.ToString().Replace("{}", "<input type='checkbox' id='selectAll' name='slall' />").Trim();
     tableHtml = sb.ToString().Trim();
 
 }
@@ -273,7 +202,7 @@ tableStyle: "table table-striped tableSua"
                         @Html.Label("Año:")
                     </td>
                     <td>
-                        @Html.conceptosDrownList(usuario.Id, "ANIOS", "ejercicioId")
+                        @Html.conceptosAnnoDrownList(usuario.Id, "ejercicioId")
                         @*@Html.ejercicioList()*@
                     </td>
                     <td>

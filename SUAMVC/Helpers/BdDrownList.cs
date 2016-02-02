@@ -654,11 +654,6 @@ namespace SUAMVC.Helpers
                                   .OrderByDescending(s => s.orden)
                                             select s).ToList();
                                 
-                //(from s in db.Conceptos
-                //                            where s.grupo.Equals(grupo.Trim())
-                //                            orderby s.descripcion
-                //                            select s).ToList();
-
             foreach (Concepto item in listConceptos)
             {
                 String itemId = item.id.ToString().Trim();
@@ -667,6 +662,29 @@ namespace SUAMVC.Helpers
                 {
                     itemId = "";
                 }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componentId, listFields);
+
+        }
+
+        public static MvcHtmlString conceptosAnnoDrownList(this HtmlHelper htmlHelper, int userId, string componentId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Concepto> listConceptos = (from s in db.Conceptos
+                                  .Where(s => s.grupo.Equals("ANIOS"))
+                                  .OrderByDescending(s => s.orden)
+                                            select s).ToList();
+
+            foreach (Concepto item in listConceptos)
+            {
+                String itemId = item.descripcion.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                
                 listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             }
 

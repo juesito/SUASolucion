@@ -95,9 +95,9 @@ tableStyle: "table table-striped tableSua"
             <td class="value-label">@Html.Label(solicitud.Plaza.descripcion)</td>
             <td class="value-label">@Html.Label(solicitud.Proyecto.descripcion)</td>
             <td class="value-label">@Html.Label(solicitud.anno)</td>
-            <td class="value-label">@Html.Label(solicitud.fechaInicial.ToString())</td>
-            <td class="value-label">@Html.Label(solicitud.fechaFinal.ToString())</td>
-            <td class="value-label">@Html.Label(solicitud.fechaPago.ToString())</td>
+            <td class="value-label">@Html.Label(solicitud.fechaInicial.ToString("dd MMM yyyy"))</td>
+            <td class="value-label">@Html.Label(solicitud.fechaFinal.ToString("dd MMM yyyy"))</td>
+            <td class="value-label">@Html.Label(solicitud.fechaPago.ToString("dd MMM yyyy"))</td>
             <td class="value-label">@Html.Label(solicitud.Concepto.descripcion)</td>
             <td class="value-label">@Html.Label(solicitud.Concepto1.descripcion)</td>
             <td class="value-label">@Html.Label(solicitud.Concepto2.descripcion)</td>
