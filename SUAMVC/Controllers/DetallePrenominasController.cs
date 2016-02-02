@@ -107,22 +107,27 @@ namespace SUAMVC.Controllers
                 {
 
                     int empleadoIdTemp = int.Parse(empleadoId);
+                    Empleado empleadoSalariado = db.Empleados.Find(empleadoIdTemp); 
+                    
                     DetallePrenomina detallePrenomina = new DetallePrenomina();
 
                     detallePrenomina.empleadoId = empleadoIdTemp;
+                    detallePrenomina.Empleado = empleadoSalariado;
                     detallePrenomina.solicitudId = solicitudIdTemp;
-                    detallePrenomina.diasLaborados = 0;
+                    detallePrenomina.aguinaldo = 0;
+                    detallePrenomina.primaVacacional = 0;
                     detallePrenomina.ingresos = 0;
                     detallePrenomina.gratificacion = 0;
                     detallePrenomina.descuentoFonacot = 0;
                     detallePrenomina.descuentoInfonavit = 0;
                     detallePrenomina.descuentoPension = 0;
-                    detallePrenomina.otrosDescuentos = 0;
-                    detallePrenomina.netoPagar = 0;
+                    detallePrenomina.otrosDescuentos = 0;                    
                     detallePrenomina.premioAsistencia = 0;
                     detallePrenomina.usuarioId = usuario.Id;
                     detallePrenomina.fechaCreacion = date;
                     detallePrenomina.diasLaborados = int.Parse(solicitud.Concepto.valorConcepto);
+
+                    detallePrenomina.netoPagar = detallePrenomina.diasLaborados * int.Parse(empleadoSalariado.SDI.descripcion);
 
                     db.DetallePrenominas.Add(detallePrenomina);
                     db.SaveChanges();
@@ -241,7 +246,7 @@ namespace SUAMVC.Controllers
             DetallePrenomina dt = db.DetallePrenominas.Find(detallePrenomina.id);
             dt.totalSyS = 0;
             
-            dt.ingresos = dt.Empleado.salarioReal;
+            //dt.ingresos = dt.Empleado.salarioReal; hay algo que hacer con el salario Real?
             dt.diasLaborados = detallePrenomina.diasLaborados;
             dt.gratificacion = (Decimal)detallePrenomina.gratificacion;
             if (detallePrenomina.primaVacacional != null)
@@ -251,11 +256,20 @@ namespace SUAMVC.Controllers
             else {
                 dt.primaVacacional = (Decimal)0.0;
             }
+            if (detallePrenomina.aguinaldo != null)
+            {
+                dt.aguinaldo = (Decimal)detallePrenomina.aguinaldo;
+            }
+            else
+            {
+                dt.aguinaldo = (Decimal)0.0;
+            }
             dt.descuentoInfonavit = (Decimal)detallePrenomina.descuentoInfonavit;
             dt.descuentoFonacot = (Decimal)detallePrenomina.descuentoFonacot;
             dt.descuentoPension = (Decimal)detallePrenomina.descuentoPension;
             dt.otrosDescuentos = (Decimal)detallePrenomina.otrosDescuentos;
-            dt.netoPagar = dt.ingresos + dt.gratificacion + dt.primaVacacional -
+            dt.netoPagar = dt.diasLaborados * int.Parse(dt.Empleado.SDI.descripcion);
+            dt.netoPagar = dt.netoPagar + dt.gratificacion + dt.primaVacacional + dt.aguinaldo -
                 dt.descuentoInfonavit - dt.descuentoPension - dt.descuentoFonacot -
                 dt.otrosDescuentos;
             dt.fechaCreacion = DateTime.Now;
@@ -287,6 +301,7 @@ namespace SUAMVC.Controllers
             dtp.diasLaborados = dt.diasLaborados;
             dtp.gratificacion = dt.gratificacion;
             dtp.primaVacacional = dt.primaVacacional;
+            dtp.aguinaldo = dt.aguinaldo;
             dtp.descuentoInfonavit = dt.descuentoInfonavit;
             dtp.descuentoFonacot = dt.descuentoFonacot;
             dtp.otrosDescuentos = dt.otrosDescuentos;
