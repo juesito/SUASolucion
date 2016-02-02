@@ -4,6 +4,16 @@
 @using System.Text;
 
 @{
+    String sourceController = ViewBag.sourceController;
+    if (sourceController.Contains("Baja"))
+    {
+        ViewBag.Title = "Empleados a dar de baja";
+    }
+    else
+    {
+        ViewBag.Title = "Empleados a modificar";
+    }
+
     ViewBag.Title = "Empleados registrados";
     int solicitudId = ViewBag.solicitudId;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -43,15 +53,6 @@
     if (SecurityUserModel.verificarPermiso("1", "1", 3))
     {
         gridColumns.Add(grid.Column(header: "Ver", format: @<text><a href="@Url.Action("Details", "Empleados", new { id = item.id })"><img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
-
-    if (SecurityUserModel.verificarPermiso("1", "1", 3))
-    {
-        gridColumns.Add(grid.Column(header: "Historial", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
-    if (SecurityUserModel.verificarPermiso("1", "1", 3))
-    {
-        gridColumns.Add(grid.Column(header: "Reportes", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
 
     sb.Append(grid.GetHtml(
@@ -109,16 +110,20 @@
         <div class="menubar-header">
             <table>
                 <tr>
-                    <td style="padding-top:10px">
+                    <td style="padding-top:8px">
                         <input type="submit" value="" class="raddEmployee_button" title="Asignar empleados marcados" />
                     </td>
-                    <td style="padding-left:30px">
+                    <td style="padding-left:30px; padding-top:3px">
 
                         <a href="@Url.Action("SolicitudEmpleado", "SolicitudesBaja", new { solicitudId = solicitudId })">
-                            <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
+                            <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" title="Ver empleados asignados" />
                         </a>
                     </td>
-
+                    <td style="padding-left:30px; padding-top:15px">
+                        <a href="@Url.Action("Index", sourceController, new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId })">
+                            <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+                        </a>
+                    </td>
                 </tr>
             </table>
         </div><br />

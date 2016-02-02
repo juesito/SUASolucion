@@ -96,6 +96,21 @@ namespace SUAMVC.Controllers
                 solicitudPrenomina.fechaFinal = now;
                 solicitudPrenomina.fechaPago = now;
 
+                int clienteInt = int.Parse(clienteId.Trim());
+                Cliente cliente = db.Clientes.Find(clienteInt);
+                int lvcc = cliente.ListaValidacionClientes.Count();
+                if (lvcc != 0)
+                {
+                    ListaValidacionCliente lvc = cliente.ListaValidacionClientes.FirstOrDefault();
+                    solicitudPrenomina.autoriza = lvc.autorizador;
+                    solicitudPrenomina.valida = lvc.validador;
+                }
+                else
+                {
+                    solicitudPrenomina.autoriza = " ";
+                    solicitudPrenomina.valida = " ";
+                }
+
                 return View(solicitudPrenomina);
             }
 
@@ -118,7 +133,7 @@ namespace SUAMVC.Controllers
 
                 ToolsHelper th = new ToolsHelper();
                 ParametrosHelper ph = new ParametrosHelper();
-                ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
+//                ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
 
                 //Parametro de folios de solicitud de prenomina
                 Parametro folioAlta = ph.getParameterByKey("FOLSPALTA");
@@ -128,8 +143,8 @@ namespace SUAMVC.Controllers
                 //Asignamos los valores de nuestra solicitud.
                 solicitudPrenomina.fechaSolicitud = DateTime.Now;
                 solicitudPrenomina.noTrabajadores = 0;
-                solicitudPrenomina.autoriza = lvc.autorizador;
-                solicitudPrenomina.valida = lvc.validador;
+//                solicitudPrenomina.autoriza = lvc.autorizador;
+//                solicitudPrenomina.valida = lvc.validador;
                 solicitudPrenomina.usuarioId = usuario.Id;
                 solicitudPrenomina.estatusSolicitud = concepto.id;
                 solicitudPrenomina.solicita = usuario.nombreUsuario.Trim();

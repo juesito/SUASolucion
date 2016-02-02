@@ -146,6 +146,13 @@
         </text>));
     }
 
+    gridColumns.Add(grid.Column(header: "Log", format: @<text>
+                <a href="@Url.Action("Index", "Logs", new { solicitudId = item.id })">
+                    <img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" />
+                </a>
+
+        </text>, canSort: true));
+
     sb.Append(grid.GetHtml(
 columns: grid.Columns(gridColumns.ToArray()),
 tableStyle: "table table-striped tableSua"

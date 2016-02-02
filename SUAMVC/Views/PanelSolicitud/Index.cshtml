@@ -6,6 +6,8 @@
 @{
     ViewBag.Title = "Alta personal";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var isError = TempData["error"];
+    var message = TempData["viewMessage"];
     if (!WebSecurity.IsAuthenticated)
     {
         Response.Redirect("~/Home/Index");
@@ -216,7 +218,8 @@
         gridColumns.Add(grid.Column(header: "Tarjeta Santander", format: @<text>
             @if (item.noTrabajadores > 0)
             {
-                <a href="@Url.Action("crearExcelTarjetaSantander", "PanelSolicitud", new { solicitudId = item.id, banco = "Santander" })">
+                <a href="@Url.Action("crearExcelTarjetaSantander", "PanelSolicitud", new { solicitudId = item.id, banco = "Santander" ,
+                clienteId = ViewBag.clienteId, folioId = ViewBag.folioId, proyectoId = ViewBag.proyectoId, tipoId = ViewBag.tipoId })">
                     <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
                 </a>
             }
@@ -228,7 +231,8 @@
         gridColumns.Add(grid.Column(header: "Tarjeta Banorte", format: @<text>
             @if (item.noTrabajadores > 0)
             {
-                <a href="@Url.Action("crearExcelTarjetaBanorte", "PanelSolicitud", new { solicitudId = item.id, banco = "Banorte" })">
+                <a href="@Url.Action("crearExcelTarjetaBanorte", "PanelSolicitud", new { solicitudId = item.id, banco = "Banorte",
+                clienteId = ViewBag.clienteId, folioId = ViewBag.folioId, proyectoId = ViewBag.proyectoId, tipoId = ViewBag.tipoId })">
                     <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
                 </a>
             }
@@ -240,7 +244,8 @@
         gridColumns.Add(grid.Column(header: "Tarjeta Bancomer", format: @<text>
             @if (item.noTrabajadores > 0)
             {
-                <a href="@Url.Action("crearExcelTarjetaBancomer", "PanelSolicitud", new { solicitudId = item.id, banco = "BBVA" })">
+                <a href="@Url.Action("crearExcelTarjetaBancomer", "PanelSolicitud", new { solicitudId = item.id, banco = "BBVA",
+                clienteId = ViewBag.clienteId, folioId = ViewBag.folioId, proyectoId = ViewBag.proyectoId, tipoId = ViewBag.tipoId })">
                     <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
                 </a>
             }
@@ -308,10 +313,16 @@ tableStyle: "table table-striped tableSua"
                     <td style="padding-left:18px">
                         <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
                     </td>
+                    @if (isError != null && isError.Equals(true))
+                    {
+                        <td style="padding-left:100px; color:red" >
+                            @message
+                        </td>
+                    }
                 </tr>
             </thead>
         </table>
-    </div>
+</div>
 }
 
 

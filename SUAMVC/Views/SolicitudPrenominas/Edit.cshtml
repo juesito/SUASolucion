@@ -4,19 +4,19 @@
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
+    
     if (!WebSecurity.IsAuthenticated)
-    {
-        Response.Redirect("~/Home/Index");
-    }
-    Usuario usuario = Session["UsuarioData"] as Usuario;
-    String msg = TempData["message"] as String;
+        {
+            Response.Redirect("~/Home/Index");
+        }
+        Usuario usuario = Session["UsuarioData"] as Usuario;
+        String msg = TempData["message"] as String;
 
-    suaEntities db = new suaEntities();
+        suaEntities db = new suaEntities();
 
-    Cliente cliente = db.Clientes.Find(Model.clienteId);
-    Proyecto proyecto = db.Proyectos.Find(Model.proyectoId);
-    Plaza plaza = db.Plazas.Find(Model.plazaId);
+        Cliente cliente = db.Clientes.Find(Model.clienteId);
+        Proyecto proyecto = db.Proyectos.Find(Model.proyectoId);
+        Plaza plaza = db.Plazas.Find(Model.plazaId);
 
 
 }
@@ -43,7 +43,7 @@
             Capturar Solicitud
         </div>
 
-        <div class="panel-body" style="font-size:10px; background-color:#c0c0c2">
+        <div class="panel-body" style="font-size:10px" >
             <div class="form-horizontal">
                 @Html.HiddenFor(model => model.id )
                 @Html.HiddenFor(model => model.folioSolicitud)
@@ -95,6 +95,10 @@
                         <td>
                             @Html.DisplayFor(model => model.noTrabajadores)
                         </td>
+                        <td style="padding-top:8px">
+                            @Html.conceptosDrownList(usuario.Id, "PERISAL", "tipoPagoId")
+                            @Html.ValidationMessageFor(model => model.tipoPagoId, "", new { @class = "text-danger" })
+                        </td>
                     </tr>
                 </table>
 
@@ -109,8 +113,8 @@
                             @Html.LabelFor(model => model.folioCliente, htmlAttributes: new { @class = "control-label col-md-2" })
                         </td>
                         <td>
-                            @Html.EditorFor(model => model.folioCliente)
-                            @Html.ValidationMessageFor(model => model.folioCliente, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.folioCliente)
+                                    @Html.ValidationMessageFor(model => model.folioCliente, "", new { @class = "text-danger" })
                         </td>
                         <td>
 
@@ -156,8 +160,8 @@
                             @Html.LabelFor(model => model.periodoId, "periodoId", htmlAttributes: new { @class = "control-label col-md-2" })
                         </td>
                         <td>
-                            @Html.conceptosDrownList(usuario.Id, "PARTIPPAG", "periodoId")
-                            @Html.ValidationMessageFor(model => model.periodoId, "", new { @class = "text-danger" })
+                                    @Html.conceptosDrownList(usuario.Id, "PARTIPPAG", "periodoId")
+                                    @Html.ValidationMessageFor(model => model.periodoId, "", new { @class = "text-danger" })
                         </td>
                         <td>
                             @Html.LabelFor(model => model.tipoContratoId, "tipoContratoId", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -173,31 +177,47 @@
                             @Html.LabelFor(model => model.monedaId, "monedaId", htmlAttributes: new { @class = "control-label col-md-2" })
                         </td>
                         <td>
-                            @Html.conceptosDrownList(usuario.Id, "PARMONED", "monedaId")
-                            @Html.ValidationMessageFor(model => model.monedaId, "", new { @class = "text-danger" })
+                                    @Html.conceptosDrownList(usuario.Id, "PARMONED", "monedaId")
+                                    @Html.ValidationMessageFor(model => model.monedaId, "", new { @class = "text-danger" })
                         </td>
                         <td>
                             @Html.LabelFor(model => model.tipoCambio, htmlAttributes: new { @class = "control-label col-md-2", id = "ttipoCambio" })
                         </td>
                         <td>
-                            @Html.EditorFor(model => model.tipoCambio)
-                            @Html.ValidationMessageFor(model => model.tipoCambio, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.tipoCambio)
+                                    @Html.ValidationMessageFor(model => model.tipoCambio, "", new { @class = "text-danger" })
                         </td>
                     </tr>
+
                     <tr>
-                        <td>
+                        <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px">@Html.Label(@Language.validador + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.Label(Model.valida)
+                            @Html.HiddenFor(model => model.valida)
+                        </td>
+                        <th colspan="2"> </th>
+                        <td style="padding-right:8px; padding-top:8px; padding-left:55px">@Html.Label(@Language.autorizador + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.Label(Model.autoriza)
+                            @Html.HiddenFor(model => model.autoriza)
+                        </td>
+                    </tr>
 
                             @Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
                         </td>
                         <td colspan="2">
                             @Html.EditorFor(model => model.observaciones, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
                         </td>
                     </tr>
 
+                    <tr>
+                        <td></td>
+                        <td style="text-align:right;"><input type="submit" value="@Language.guardar" class="btn btn-primary" /></td>
+                    </tr>
+
                 </table>
-
-
             </div>
         </div>
     </div>

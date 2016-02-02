@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SUADATOS.Log>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+@section Menu {
+    <div><img src="~/Content/Images/people-b.png" width="15" height="15" />Log generado al subir el layout</div>
+}
+
+<table class="table table-striped tableSua">
+    <tr>
+        <th>
+            @Html.DisplayName(@Language.descripcion)
+        </th>
+        <th>
+            @Html.DisplayName("Renglón")
+        </th>
+        <th>
+            @Html.DisplayName("Fecha")
+        </th>
+         <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.error)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.campo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fechaEvento)
+            </td>
+        </tr>
+    }
+
+</table>
