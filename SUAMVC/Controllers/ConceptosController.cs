@@ -17,7 +17,7 @@ namespace SUAMVC.Controllers
         // GET: Conceptos
         public ActionResult Index()
         {
-            var conceptos = db.Conceptos.Include(c => c.Usuario);
+            var conceptos = db.Conceptos.Include(c => c.Usuario).OrderBy(c=> c.grupo);
             return View(conceptos.ToList());
         }
 
@@ -48,7 +48,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,grupo,descripcion,fechaCreacion,usuarioId,orden")] Concepto concepto)
+        public ActionResult Create([Bind(Include = "id,grupo,descripcion,fechaCreacion,usuarioId,orden,valorConcepto")] Concepto concepto)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,grupo,descripcion,fechaCreacion,usuarioId,orden")] Concepto concepto)
+        public ActionResult Edit([Bind(Include = "id,grupo,descripcion,fechaCreacion,usuarioId,orden,valorConcepto")] Concepto concepto)
         {
             if (ModelState.IsValid)
             {

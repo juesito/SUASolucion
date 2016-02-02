@@ -22,9 +22,9 @@ namespace SUADATOS
         public int usuarioId { get; set; }
         public System.DateTime fechaCreacion { get; set; }
     
-        public virtual Concepto Concepto { get; set; }
         public virtual Departamento Departamento { get; set; }
         public virtual Solicitud Solicitud { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual Concepto Concepto { get; set; }
     }
 }

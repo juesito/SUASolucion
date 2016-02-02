@@ -43,7 +43,7 @@
     {  @item.Empleado.nombre }</text>, canSort: true));
     gridColumns.Add(grid.Column("diasLaborados", "DT", format: @<text> @if (@item.diasLaborados != null)
     {
-        <span id="diasLaborados" class="display-mode">@item.diasLaborados</span>
+        <span id="diasLaborados" class="display-mode" style="font-weight:bold; color:green">@item.diasLaborados</span>
         @Html.Editor("DiasLaborados", new { htmlAttributes = new { @class = "edit-mode", size = 3 } })
     }</text>,
                                    canSort: true));
@@ -55,44 +55,50 @@
     {  @item.Empleado.nss }</text>, canSort: true));
     gridColumns.Add(grid.Column("gratificacion", "Gratificacion",
         format: @<text>
-            <span id="gratificacion" class="display-mode">$@item.gratificacion</span>
+            <span id="gratificacion" class="display-mode" style="font-weight:bold; color:green">$@item.gratificacion</span>
             @Html.Editor("Gratificacion", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
         </text>
 , canSort: true));
     gridColumns.Add(grid.Column("primaVacacional", "Prima Vacional",
         format: @<text>
-            <span id="primaVacacional" class="display-mode">$@item.primaVacacional</span>
+            <span id="primaVacacional" class="display-mode" style="font-weight:bold; color:green">$@item.primaVacacional</span>
             @Html.Editor("PrimaVacacional", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
         </text>
 , canSort: true));
+    gridColumns.Add(grid.Column("aguinaldo", "Aguinaldo",
+            format: @<text>
+            <span id="aguinaldo" class="display-mode" style="font-weight:bold; color:green">$@item.aguinaldo</span>
+            @Html.Editor("Aguinaldo", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+            </text>
+, canSort: true));
     gridColumns.Add(grid.Column("descuentoInfonavit", "Infonavit",
 format: @<text>
-            <span id="descuentoInfonavit" class="display-mode">$@item.descuentoInfonavit</span>
+            <span id="descuentoInfonavit" class="display-mode" style="font-weight:bold; color:red">$@item.descuentoInfonavit</span>
             @Html.Editor("DescuentoInfonavit", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
 </text>
 
 , canSort: true));
     gridColumns.Add(grid.Column("descuentoFonacot", "Fonacot",
        format: @<text>
-            <span id="descuentoFonacot" class="display-mode">$@item.descuentoFonacot</span>
+            <span id="descuentoFonacot" class="display-mode" style="font-weight:bold; color:red">$@item.descuentoFonacot</span>
             @Html.Editor("DescuentoFonacot", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
     </text>
 , canSort: true));
     gridColumns.Add(grid.Column("descuentoPension", "Desc. Pensión",
         format: @<text>
-            <span id="descuentoPension" class="display-mode">$@item.descuentoPension</span>
+            <span id="descuentoPension" class="display-mode" style="font-weight:bold; color:red">$@item.descuentoPension</span>
             @Html.Editor("DescuentoPension", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
         </text>
 , canSort: true));
     gridColumns.Add(grid.Column("otrosDescuentos", "Otros Desc.",
         format: @<text>
-            <span id="otrosDescuentos" class="display-mode">$@item.otrosDescuentos</span>
+            <span id="otrosDescuentos" class="display-mode" style="font-weight:bold; color:red">$@item.otrosDescuentos</span>
             @Html.Editor("OtrosDescuentos", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
         </text>
 , canSort: true));
     gridColumns.Add(grid.Column("netoPagar", "Neto Pagar",
         format: @<text>
-            <span id="netoPagar">$@item.netoPagar</span>
+            <span id="netoPagar" style="font-weight:bold; color:blue">$@item.netoPagar</span>
         </text>
 , canSort: true));
     gridColumns.Add(grid.Column("CuentaEmpleado.cuenta", Language.cuentaBancaria, format: @<text> @if (@item.CuentaEmpleado != null)
@@ -106,16 +112,6 @@ format: @<text>
 
             <a href="@Url.Action("Delete", "DetallePrenominas", new { id = item.id })">
                 <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
-            </a>
-        </text>));
-    }
-
-
-    if (SecurityUserModel.verificarPermiso("ver trabajadores en solicitud alta", "Se agrega solicitud para ver empleados en solicitud", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Ver Personal", format: @<text>
-            <a href="@Url.Action("Index", "Empleados", new { id = item.id })">
-                <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" />
             </a>
         </text>));
     }
@@ -161,9 +157,9 @@ tableStyle: "table table-striped tableSua"
             <td class="value-label">@Html.Label(solicitud.Plaza.descripcion)</td>
             <td class="value-label">@Html.Label(solicitud.Proyecto.descripcion)</td>
             <td class="value-label">@Html.Label(solicitud.anno)</td>
-            <td class="value-label">@Html.Label(solicitud.fechaInicial.ToString())</td>
-            <td class="value-label">@Html.Label(solicitud.fechaFinal.ToString())</td>
-            <td class="value-label">@Html.Label(solicitud.fechaPago.ToString())</td>
+            <td class="value-label">@Html.Label(solicitud.fechaInicial.ToString("dd MMM yyyy"))</td>
+            <td class="value-label">@Html.Label(solicitud.fechaFinal.ToString("dd MMM yyyy"))</td>
+            <td class="value-label">@Html.Label(solicitud.fechaPago.ToString("dd MMM yyyy"))</td>
             <td class="value-label">@Html.Label(solicitud.Concepto.descripcion)</td>
             <td class="value-label">@Html.Label(solicitud.Concepto1.descripcion)</td>
             <td class="value-label">@Html.Label(solicitud.Concepto2.descripcion)</td>
@@ -195,6 +191,7 @@ tableStyle: "table table-striped tableSua"
             var dl = tr.find('#diasLaborados').text();
             var gr = tr.find('#gratificacion').text();
             var pv = tr.find('#primaVacacional').text();
+            var ag = tr.find('#aguinaldo').text();
             var di = tr.find('#descuentoInfonavit').text();
             var df = tr.find('#descuentoFonacot').text();
             var dp = tr.find('#descuentoPension').text();
@@ -204,7 +201,8 @@ tableStyle: "table table-striped tableSua"
             var tr = $(this).parents('tr:first');
             tr.find('#DiasLaborados').val(dl);
             tr.find('#Gratificacion').val(gr.replace("$",""));
-            tr.find('#PrimaVacacional').val(pv.replace("$",""));
+            tr.find('#PrimaVacacional').val(pv.replace("$", ""));
+            tr.find('#Aguinaldo').val(ag.replace("$", ""));
             tr.find('#DescuentoInfonavit').val(di.replace("$",""));
             tr.find('#DescuentoFonacot').val(df.replace("$",""));
             tr.find('#DescuentoPension').val(dp.replace("$",""));
@@ -221,6 +219,7 @@ tableStyle: "table table-striped tableSua"
             var diasLaborados_ = tr.find('#DiasLaborados').val();
             var gratificacion_ = tr.find('#Gratificacion').val();
             var primaVacacional_ = tr.find('#PrimaVacacional').val();
+            var aguinaldo_ = tr.find('#Aguinaldo').val();
             var descuentoInfonavit_ = tr.find('#DescuentoInfonavit').val();
             var descuentoFonacot_ = tr.find('#DescuentoFonacot').val();
             var descuentoPension_ = tr.find('#DescuentoPension').val();
@@ -232,6 +231,7 @@ tableStyle: "table table-striped tableSua"
                 diasLaborados: diasLaborados_,
                 gratificacion: gratificacion_,
                 primaVacacional: primaVacacional_,
+                aguinaldo: aguinaldo_,
                 descuentoInfonavit: descuentoInfonavit_,
                 descuentoFonacot: descuentoFonacot_,
                 descuentoPension: descuentoPension_,
@@ -251,6 +251,7 @@ tableStyle: "table table-striped tableSua"
                     tr.find('#diasLaborados').text(data.employee.diasLaborados);
                     tr.find('#gratificacion').text("$" + data.employee.gratificacion);
                     tr.find('#primaVacacional').text("$" + data.employee.primaVacacional);
+                    tr.find('#aguinaldo').text("$" + data.employee.aguinaldo);
                     tr.find('#descuentoInfonavit').text("$" + data.employee.descuentoInfonavit);
                     tr.find('#descuentoFonacot').text("$" + data.employee.descuentoFonacot);
                     tr.find('#descuentoPension').text("$" + data.employee.descuentoPension);

@@ -47,6 +47,7 @@ namespace SUAMVC.Controllers
                 int proyectoInt = int.Parse(proyectoId.Trim());
                 int clienteInt = int.Parse(clienteId.Trim());
                 int plazaInt = int.Parse(plazaId.Trim());
+
                 solicitudPrenominas = solicitudPrenominas.Where(x => x.clienteId.Equals(clienteInt) &&
                     x.proyectoId.Equals(proyectoInt) && x.anno.Equals(ejercicioId) && x.plazaId.Equals(plazaInt)).
                     OrderBy(x => x.fechaSolicitud);
@@ -78,15 +79,18 @@ namespace SUAMVC.Controllers
         public ActionResult Create(String clienteId, String proyectoId, String ejercicioId, String plazaId)
         {
             SolicitudPrenomina solicitudPrenomina = new SolicitudPrenomina();
+            ToolsHelper th = new ToolsHelper();
             if (!String.IsNullOrEmpty(ejercicioId) && !String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId)
                 && !String.IsNullOrEmpty(plazaId))
             {
+
+                Concepto anno = th.obtenerConceptoPorId(int.Parse(ejercicioId));
                 //Agregamos los valores a nuestra solicitud.
                 DateTime now = DateTime.Now;
                 solicitudPrenomina.clienteId = int.Parse(clienteId);
                 solicitudPrenomina.proyectoId = int.Parse(proyectoId);
                 solicitudPrenomina.plazaId = int.Parse(plazaId);
-                solicitudPrenomina.anno = ejercicioId;
+                solicitudPrenomina.anno = anno.descripcion.Trim();
                 solicitudPrenomina.fechaSolicitud = now;
                 solicitudPrenomina.fechaInicial = now;
                 solicitudPrenomina.fechaFinal = now;
@@ -211,8 +215,27 @@ namespace SUAMVC.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(solicitudPrenomina).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    foreach (var failure in ex.EntityValidationErrors)
+                    {
+                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                        foreach (var error in failure.ValidationErrors)
+                        {
+                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                            sb.AppendLine();
+                        }
+                    }
+                }
+
+                return RedirectToAction("Index", new { clienteId = solicitudPrenomina.clienteId, proyectoId = solicitudPrenomina.proyectoId,
+                plazaId = solicitudPrenomina.plazaId, ejercicioId = solicitudPrenomina.anno});
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitudPrenomina.clienteId);
             ViewBag.tipoPagoId = new SelectList(db.Conceptos, "id", "grupo", solicitudPrenomina.tipoPagoId);
@@ -245,9 +268,25 @@ namespace SUAMVC.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             SolicitudPrenomina solicitudPrenomina = db.SolicitudPrenominas.Find(id);
+
+            List<DetallePrenomina> empleados = db.DetallePrenominas.Where(x => x.solicitudId.Equals(id)).ToList();
+
+            foreach (DetallePrenomina empleado in empleados)
+            {
+                db.DetallePrenominas.Remove(empleado);
+            }
+
             db.SolicitudPrenominas.Remove(solicitudPrenomina);
+            
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return RedirectToAction("Index", new
+            {
+                clienteId = solicitudPrenomina.clienteId,
+                proyectoId = solicitudPrenomina.proyectoId,
+                plazaId = solicitudPrenomina.plazaId,
+                ejercicioId = solicitudPrenomina.anno
+            });
         }
 
         //Lay out Solicitud Prenomina

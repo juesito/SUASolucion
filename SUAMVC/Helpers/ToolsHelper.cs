@@ -23,6 +23,13 @@ namespace SUAMVC.Helpers
             return concepto;
         }
 
+        public Concepto obtenerConceptoPorId(int value)
+        {
+            Concepto concepto = db.Conceptos.Find(value);
+
+            return concepto;
+        }
+
         public Asegurado obtenerAseguradoPorNSS(String NSS)
         {
             Asegurado asegurado = db.Asegurados.Where(s => s.numeroAfiliacion.Trim().Equals(NSS)).FirstOrDefault();

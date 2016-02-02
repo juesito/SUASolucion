@@ -31,8 +31,8 @@ namespace SUADATOS
         public System.DateTime fechaCreacion { get; set; }
         public int usuarioId { get; set; }
     
-        public virtual Concepto Concepto { get; set; }
         public virtual Empleado Empleado { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual Concepto Concepto { get; set; }
     }
 }
