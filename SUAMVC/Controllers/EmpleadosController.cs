@@ -1016,7 +1016,7 @@ namespace SUAMVC.Controllers
                             }
                             else
                             {
-                                empleado.calleNumero = "No especificado";
+                                empleado.calleNumero = " ";
                             } //calle y numero no son null?
 
                             if (!String.IsNullOrEmpty(empleadoL.colonia))
@@ -1025,7 +1025,7 @@ namespace SUAMVC.Controllers
                             }
                             else
                             {
-                                empleado.colonia = "No especificado";
+                                empleado.colonia = " ";
                             } // colonia no es null?
 
                             if (!String.IsNullOrEmpty(empleadoL.estadoMunicipio))
@@ -1034,7 +1034,7 @@ namespace SUAMVC.Controllers
                             }
                             else
                             {
-                                empleado.edoMunicipio = "No especificado";
+                                empleado.edoMunicipio = " ";
                             } // Municipio no es null?
 
                             if (!String.IsNullOrEmpty(empleadoL.codioPostal))

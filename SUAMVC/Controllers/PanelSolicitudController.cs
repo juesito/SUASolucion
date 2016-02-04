@@ -594,7 +594,7 @@ namespace SUAMVC.Controllers
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "CLAVE INTERBANCARIA", headerColumns[16] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CLABE INTERBANCARIA", headerColumns[16] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
@@ -749,7 +749,7 @@ namespace SUAMVC.Controllers
                 if (dp.fechaNacimiento != null)
                 {
                     DateTime fechaNacimiento = (DateTime)dp.fechaNacimiento;
-                    row = eh.addNewCellToRow(index, row, dp.fechaNacimiento.ToString(), headerColumns[i + 10] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, fechaNacimiento.ToString(), headerColumns[i + 10] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -823,12 +823,6 @@ namespace SUAMVC.Controllers
                 //row = eh.addNewCellToRow(index, row, dp.periodo., headerColumns[i + 17] + index, 3U, CellValues.String);
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 17] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
-
-                //row = eh.addNewCellToRow(index, row, dp.fonacot, headerColumns[i + 18] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 18] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-
 
                 if (dp.EstadoCivil != null)
                 {
@@ -3195,11 +3189,14 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.categoria, headerColumns[i + 6] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                if (dp.Asegurado.fechaAlta != null)
+                if (dp.Asegurado != null)
                 {
-                    DateTime fechaAlta = (DateTime)dp.Asegurado.fechaAlta;
-                    row = eh.addNewCellToRow(index, row, fechaAlta.ToShortDateString(), headerColumns[i + 7] + index, 3U, CellValues.String);
-                    sheetData.AppendChild(row);
+                    if (dp.Asegurado.fechaAlta != null)
+                    {
+                        DateTime fechaAlta = (DateTime)dp.Asegurado.fechaAlta;
+                        row = eh.addNewCellToRow(index, row, fechaAlta.ToShortDateString(), headerColumns[i + 7] + index, 3U, CellValues.String);
+                        sheetData.AppendChild(row);
+                    }
                 }
                 else
                 {
@@ -3207,11 +3204,14 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.Asegurado.fechaBaja != null)
+                if (dp.Asegurado != null)
                 {
-                    DateTime fechaBaja = (DateTime)dp.Asegurado.fechaBaja;
-                    row = eh.addNewCellToRow(index, row, fechaBaja.ToShortDateString(), headerColumns[i + 8] + index, 3U, CellValues.String);
-                    sheetData.AppendChild(row);
+                    if (dp.Asegurado.fechaBaja != null)
+                    {
+                        DateTime fechaBaja = (DateTime)dp.Asegurado.fechaBaja;
+                        row = eh.addNewCellToRow(index, row, fechaBaja.ToShortDateString(), headerColumns[i + 8] + index, 3U, CellValues.String);
+                        sheetData.AppendChild(row);
+                    }
                 }
                 else
                 {
@@ -3306,7 +3306,7 @@ namespace SUAMVC.Controllers
 
                 if (dp.Pais != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.Pais.naturalez, headerColumns[i + 20] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.Pais.descripcion, headerColumns[i + 20] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else

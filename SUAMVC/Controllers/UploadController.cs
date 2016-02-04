@@ -1455,7 +1455,7 @@ namespace SUAMVC.Controllers
                                  (s.CatalogoMovimiento.tipo.Equals("01") || s.CatalogoMovimiento.tipo.Equals("02") ||
                                   s.CatalogoMovimiento.tipo.Equals("07") || s.CatalogoMovimiento.tipo.Equals("08") ||
                                   s.CatalogoMovimiento.tipo.Equals("13"))
-                            orderby s.fechaInicio descending
+                            orderby s.fechaInicio descending, s.movimientoId
                             select s).ToList();
 
             MovimientosAsegurado movto = new MovimientosAsegurado();
