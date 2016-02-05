@@ -15,24 +15,24 @@
 }
 
 @section Menu {
-    <div>Cargar Pagos - Archivo SUA <img src="~/Content/Images/home.png" width="15" height="15" /></div>
+    <div>Empleados - Actualizar fotografía <img src="~/Content/Images/home.png" width="15" height="15" /></div>
 }
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        Cargar o actualizar los pagos por periodo - Archivo SUA
+        Seleccionar la fotografía que desea subir
     </div>
     <div class="panel-body">
         @using (@Html.BeginForm("GuardarFoto", "Empleados", FormMethod.Post, 
             new { enctype = "multipart/form-data"}))
         {
             @Html.HiddenFor(model => model.id)
-            <div class="marqueeFilter">
+            <div class="marqueeFilter" style="min-height:110px">
                 <table style="float:left; margin-top:5px;display:inline-block;">
                     <tbody>
                         <tr>
-                            <td>@Html.Label("Empleado :")</td>
-                            <td>@Html.DisplayFor(model => model.nombreCompleto)</td>
+                            <td style="padding-top:10px; padding-bottom:20px">@Html.Label("Empleado :")</td>
+                            <td style="padding-top:10px; padding-left:10px; padding-bottom:20px">@Html.DisplayFor(model => model.nombreCompleto)</td>
                         </tr>
                         <tr>
                             <td colspan="4">

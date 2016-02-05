@@ -48,14 +48,14 @@
 }
 
 @section Menu {
-    <div>Archivos empleados<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Documentos <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 <div class="marqueeFilter">
     <table style="float:left; margin-top:5px;display:inline-block;">
         <thead>
             <tr style="text-align:left;vertical-align:bottom;">
-                <td>
+                <td style="padding-top:10px">
                     Empleado:
                 </td>
                 <td>
@@ -64,23 +64,21 @@
                 <td style="padding-left:15px">
                     <b>@ViewBag.nombreEmpleado.Trim()</b>
                 </td>
-                <td style="padding-left:15px">
-                    Tipo de documentos:
+            </tr>
+            <tr style="text-align:left;vertical-align:bottom;">
+                <td style="padding-top:10px; padding-right:10px">
+                    Tipo de documento:
                 </td>
                 <td>
                     <b>@ViewBag.tipoArchivo.Trim()</b>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <a href="@Url.Action("Index", "Empleados", new { id = @ViewBag.empleadoId })">
-                        <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
-                    </a>
-                </td>
-            </tr>
         </thead>
     </table>
 </div>
+<a href="@Url.Action("Index", "Empleados", new { id = @ViewBag.empleadoId })">
+    <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+</a>
 
 
 
