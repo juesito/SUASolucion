@@ -15,8 +15,13 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Logs
-        public ActionResult Index(String solicitudId)
+        public ActionResult Index(String solicitudId, String clienteId, String proyectoId, String folioId)
         {
+            ViewBag.solicitudId = solicitudId;
+            ViewBag.clienteId = clienteId;
+            ViewBag.proyectoId = proyectoId;
+            ViewBag.folioId = folioId;
+
             var logs = from s in db.Logs
                        where solicitudId.Equals(s.solicitudId.ToString())
                        select s; 
@@ -120,6 +125,11 @@ namespace SUAMVC.Controllers
             db.Logs.Remove(log);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult RegresaSolicitudes(String clienteId, String proyectoId, String folioId)
+        {
+            return RedirectToAction("Index", "Solicitudes", new { clienteId = clienteId, proyectoId = proyectoId, folioId = folioId  });
         }
 
         protected override void Dispose(bool disposing)

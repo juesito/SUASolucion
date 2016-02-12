@@ -332,7 +332,9 @@ namespace SUAMVC.Controllers
                 TempData["message"] = "Solicitud Enviada Satisfactoriamente.";
             }
 
-            return RedirectToAction("Index");
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
+            return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
 
         //Lay out SolicitudBaja

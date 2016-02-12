@@ -20,7 +20,10 @@
         solicitud = ViewBag.solicitud as Solicitud;
     }
 
-    var grid = new WebGrid(source: Model.empleados, rowsPerPage: 12, canPage: true);
+    var clienteId = ViewBag.clienteId;
+    var proyectoId = ViewBag.proyectoId;
+    var folioId = ViewBag.folioId;
+    var grid = new WebGrid(source: Model.empleados, rowsPerPage: 5, canPage: true);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
     //Creamos una lista de columnas
@@ -177,12 +180,6 @@
                         <td style="padding-left:8px">
                             @Html.DropDownList("proyectoId", new SelectList(listItems, "Value", "Text"), " Seleccione", "width:200px;height:20px")
                         </td>
-                        <td style="padding-left:12px">
-                            @Html.Label("Folio:")
-                        </td>
-                        <td>
-                            @Html.Editor("folioId")
-                        </td>
                         <td style="padding-left:18px">
                             <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
                         </td>
@@ -223,7 +220,10 @@
 @if (!tableHtml.IsEmpty())
 {
     <div class="menubar-header">
-        <a href="@Url.Action("Index", @ViewBag.controllerDestiny, new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId,
+        <a href="@Url.Action("Index", @ViewBag.controllerDestiny, new
+            {
+                clienteId = ViewBag.clienteId,
+                proyectoId = ViewBag.proyectoId,
             solicitudId = solicitud.id })" style="text-align:right">
             <img src="~/Content/Images/back.png" title="Regresar" alt="Regresar" style="border:none;" class="menuIcon" />
         </a>

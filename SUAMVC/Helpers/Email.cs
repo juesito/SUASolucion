@@ -83,7 +83,7 @@ namespace SUAMVC.Helpers
             else if (tipo.Equals("B"))
             {
                 email.subject = "Folio baja:" + solicitud.folioSolicitud;
-                email.msg = "Se ha generado una nueva solicitud de Alta de Personal con Folio : " + solicitud.folioSolicitud + "del cliente " +
+                email.msg = "Se ha generado una nueva solicitud de Baja de Personal con Folio : " + solicitud.folioSolicitud + "del cliente " +
                     cliente.descripcion.ToUpper() + ", el cual contiene " + solicitud.noTrabajadores +
                     " trabajador(es)";
             }//Es solicitud de Baja de personal?

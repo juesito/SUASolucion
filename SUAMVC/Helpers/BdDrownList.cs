@@ -779,8 +779,8 @@ namespace SUAMVC.Helpers
                                   select s).ToList();
 
             String itemId = "";
-            String descripcion = "Todas";
-            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            String descripcion = "";
+//            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             foreach (SDI item in listSdis)
             {
                 itemId = item.id.ToString().Trim();
@@ -809,8 +809,8 @@ namespace SUAMVC.Helpers
                                   select s).ToList();
 
             String itemId = "";
-            String descripcion = "Todas";
-            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            String descripcion = "";
+//            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
             foreach (SDI item in listSdis)
             {
                 itemId = item.id.ToString().Trim();
