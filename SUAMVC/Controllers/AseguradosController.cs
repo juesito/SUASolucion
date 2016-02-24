@@ -279,6 +279,8 @@ namespace SUAMVC.Controllers
                 return HttpNotFound();
             }
 
+            Usuario user = Session["UsuarioData"] as Usuario;
+            SecurityUserModel.llenarPermisos(user.roleId);
             TempData["idAsegurado"] = id;
             return View(asegurado);
         }

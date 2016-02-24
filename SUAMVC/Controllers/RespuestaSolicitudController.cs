@@ -143,11 +143,29 @@ namespace SUAMVC.Controllers
 
                     //Verficamos si es necesario realizar las acciones pertinentes según el tipo 
                     // de solicitud
+                    Boolean solCerrada = false;
                     if (solicitud.Concepto1.descripcion.Trim().ToLower().Equals("cerrado")
                         && solicitud.Concepto2.descripcion.Trim().ToLower().Equals("cerrado")
                         && solicitud.Concepto3.descripcion.Trim().ToLower().Equals("cerrado")
-                        && solicitud.Concepto1.descripcion.Trim().ToLower().Equals("cerrado")) {
+                        && solicitud.Concepto1.descripcion.Trim().ToLower().Equals("cerrado")
+                        && solicitud.Concepto5.descripcion.Trim().ToLower().Equals("alta"))
+                    {
+                        solCerrada = true;
+                    }
+                    if (solicitud.Concepto1.descripcion.Trim().ToLower().Equals("cerrado")
+                         && solicitud.Concepto5.descripcion.Trim().ToLower().Equals("baja"))
+                    {
+                        solCerrada = true;
+                    }
 
+                    if (solicitud.Concepto3.descripcion.Trim().ToLower().Equals("cerrado")
+                         && solicitud.Concepto5.descripcion.Trim().ToLower().Equals("modificacion")) 
+                    {
+                        solCerrada = true;
+                    }
+
+                    if(solCerrada)
+                    {
                             if (solicitud.Concepto5.descripcion.Trim().ToLower().Equals("alta")) {
 
                                 List<Empleado> empleadosList = (from s in db.SolicitudEmpleadoes

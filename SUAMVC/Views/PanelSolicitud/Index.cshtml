@@ -72,7 +72,7 @@
     {  @item.concepto.descripcion }</text>, canSort: true));
 
 
-    if (!String.IsNullOrEmpty(tipoId) && tipoId.Equals("alta"))
+    if (!String.IsNullOrEmpty(tipoId) && (tipoId.Equals("alta") || tipoId.Equals("baja")))
     {
         if (SecurityUserModel.verificarPermiso("1", "1", 6))
         {
@@ -99,52 +99,58 @@
 
         }
     }
-    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    if (!String.IsNullOrEmpty(tipoId) && (tipoId.Equals("alta") || tipoId.Equals("modificacion")))
     {
+        if (SecurityUserModel.verificarPermiso("1", "1", 6))
+        {
 
-        gridColumns.Add(grid.Column(header: "IMSS.", format: @<text>
-            @if (item.Concepto3.descripcion.ToLower().Trim().Equals("apertura"))
-            {
-                <a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "I" })">
-                    <img src="~/Content/Images/imss.jpg" alt="" style="border:none;" class="icon" title="@item.Concepto3.descripcion.Trim()" />
-                </a>
-            }
-            else if (item.Concepto3.descripcion.ToLower().Trim().Equals("observaciones"))
-            {
-                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
-                    <img src="~/Content/Images/comments.png" alt="" title="@item.Concepto3.descripcion.Trim()" style="border:none;" class="icon" />
-                </a>
-            }
-            else
-            {
-                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
-                    <img src="~/Content/Images/approved.png" alt="" title="@item.Concepto3.descripcion.Trim()" style="border:none;" class="icon" />
-                </a>
-            }
-        </text>));
+            gridColumns.Add(grid.Column(header: "IMSS.", format: @<text>
+                @if (item.Concepto3.descripcion.ToLower().Trim().Equals("apertura"))
+                {
+                    <a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "I" })">
+                        <img src="~/Content/Images/imss.jpg" alt="" style="border:none;" class="icon" title="@item.Concepto3.descripcion.Trim()" />
+                    </a>
+                }
+                else if (item.Concepto3.descripcion.ToLower().Trim().Equals("observaciones"))
+                {
+                    <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                        <img src="~/Content/Images/comments.png" alt="" title="@item.Concepto3.descripcion.Trim()" style="border:none;" class="icon" />
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                        <img src="~/Content/Images/approved.png" alt="" title="@item.Concepto3.descripcion.Trim()" style="border:none;" class="icon" />
+                    </a>
+                }
+            </text>));
+        }
     }
-    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    if (!String.IsNullOrEmpty(tipoId) && tipoId.Equals("alta"))
     {
-        gridColumns.Add(grid.Column(header: "JURID.", format: @<text>
-            @if (item.Concepto2.descripcion.ToLower().Trim().Equals("apertura"))
-            {
-                <a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "J" })">
-                    <img src="~/Content/Images/balance.png" alt="" style="border:none;" class="icon" title="@item.Concepto2.descripcion.Trim()" />
-                </a>
-            }
-            else if (item.Concepto2.descripcion.ToLower().Trim().Equals("observaciones"))
-            {
-                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
-                    <img src="~/Content/Images/comments.png" alt="" title="@item.Concepto2.descripcion.Trim()" style="border:none;" class="icon" />
-                </a>
-            }
-            else
-            {
-                <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
-                    <img src="~/Content/Images/approved.png" alt="" title="@item.Concepto2.descripcion.Trim()" style="border:none;" class="icon" />
-                </a>
-            }
-        </text>));
+        if (SecurityUserModel.verificarPermiso("1", "1", 6))
+        {
+            gridColumns.Add(grid.Column(header: "JURID.", format: @<text>
+                @if (item.Concepto2.descripcion.ToLower().Trim().Equals("apertura"))
+                {
+                    <a href="@Url.Action("Create", "RespuestaSolicitud", new { folioSolicitudId = item.id, departId = "J" })">
+                        <img src="~/Content/Images/balance.png" alt="" style="border:none;" class="icon" title="@item.Concepto2.descripcion.Trim()" />
+                    </a>
+                }
+                else if (item.Concepto2.descripcion.ToLower().Trim().Equals("observaciones"))
+                {
+                    <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                        <img src="~/Content/Images/comments.png" alt="" title="@item.Concepto2.descripcion.Trim()" style="border:none;" class="icon" />
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", "RespuestaSolicitud", new { solicitudId = item.id})">
+                        <img src="~/Content/Images/approved.png" alt="" title="@item.Concepto2.descripcion.Trim()" style="border:none;" class="icon" />
+                    </a>
+                }
+            </text>));
+        }
     }
     if (!String.IsNullOrEmpty(tipoId) && tipoId.Equals("alta"))
     {
@@ -177,79 +183,97 @@
     //gridColumns.Add(grid.Column(header: "Personal", format: @<text><a href="@Url.Action("UploadFile", "Movimientos", new { id = item.id })"><img src="~/Content/Images/people-b.png" alt="" style="border:none;" class="icon" /></a></text>));
     //}
 
-    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    if (!String.IsNullOrEmpty(tipoId) && (tipoId.Equals("alta") || tipoId.Equals("baja")))
     {
-        gridColumns.Add(grid.Column(header: "Afiliación", format: @<text>
-            @if (item.noTrabajadores > 0)
-            {
-                <a href="@Url.Action("crearExcelAfiliacion", "PanelSolicitud", new { solicitudId = item.id })">
-                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-                </a>
-            }
-        </text>));
+        if (SecurityUserModel.verificarPermiso("1", "1", 6))
+        {
+            gridColumns.Add(grid.Column(header: "Afiliación", format: @<text>
+                @if (item.noTrabajadores > 0)
+                {
+                    <a href="@Url.Action("crearExcelAfiliacion", "PanelSolicitud", new { solicitudId = item.id })">
+                        <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                    </a>
+                }
+            </text>));
+        }
     }
-
-    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    if (!String.IsNullOrEmpty(tipoId) && tipoId.Equals("alta"))
     {
-        gridColumns.Add(grid.Column(header: "Jurídico", format: @<text>
-            @if (item.noTrabajadores > 0)
-            {
-                <a href="@Url.Action("crearExcelJuridico", "PanelSolicitud", new { solicitudId = item.id })">
-                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-                </a>
-            }
-        </text>));
+
+        if (SecurityUserModel.verificarPermiso("1", "1", 6))
+        {
+            gridColumns.Add(grid.Column(header: "Jurídico", format: @<text>
+                @if (item.noTrabajadores > 0)
+                {
+                    <a href="@Url.Action("crearExcelJuridico", "PanelSolicitud", new { solicitudId = item.id })">
+                        <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                    </a>
+                }
+            </text>));
+        }
     }
-
-    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    if (!String.IsNullOrEmpty(tipoId) && tipoId.Equals("alta"))
     {
-        gridColumns.Add(grid.Column(header: "Nómina", format: @<text>
-            @if (item.noTrabajadores > 0)
-            {
-                <a href="@Url.Action("crearExcelNomina", "PanelSolicitud", new { solicitudId = item.id })">
-                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-                </a>
-            }
-        </text>));
+
+        if (SecurityUserModel.verificarPermiso("1", "1", 6))
+        {
+            gridColumns.Add(grid.Column(header: "Nómina", format: @<text>
+                @if (item.noTrabajadores > 0)
+                {
+                    <a href="@Url.Action("crearExcelNomina", "PanelSolicitud", new { solicitudId = item.id })">
+                        <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                    </a>
+                }
+            </text>));
+        }
     }
-
-    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    if (!String.IsNullOrEmpty(tipoId) && tipoId.Equals("alta"))
     {
-        gridColumns.Add(grid.Column(header: "Tarjeta Santander", format: @<text>
-            @if (item.noTrabajadores > 0)
-            {
-                <a href="@Url.Action("crearExcelTarjetaSantander", "PanelSolicitud", new { solicitudId = item.id, banco = "Santander" ,
+        if (SecurityUserModel.verificarPermiso("1", "1", 6))
+        {
+            gridColumns.Add(grid.Column(header: "Tarjeta Santander", format: @<text>
+                @if (item.noTrabajadores > 0)
+                {
+                    <a href="@Url.Action("crearExcelTarjetaSantander", "PanelSolicitud", new { solicitudId = item.id, banco = "Santander" ,
                 clienteId = ViewBag.clienteId, folioId = ViewBag.folioId, proyectoId = ViewBag.proyectoId, tipoId = ViewBag.tipoId })">
-                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-                </a>
-            }
-        </text>));
+                        <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                    </a>
+                }
+            </text>));
+        }
     }
 
-    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    if (!String.IsNullOrEmpty(tipoId) && tipoId.Equals("alta"))
     {
-        gridColumns.Add(grid.Column(header: "Tarjeta Banorte", format: @<text>
-            @if (item.noTrabajadores > 0)
-            {
-                <a href="@Url.Action("crearExcelTarjetaBanorte", "PanelSolicitud", new { solicitudId = item.id, banco = "Banorte",
+
+        if (SecurityUserModel.verificarPermiso("1", "1", 6))
+        {
+            gridColumns.Add(grid.Column(header: "Tarjeta Banorte", format: @<text>
+                @if (item.noTrabajadores > 0)
+                {
+                    <a href="@Url.Action("crearExcelTarjetaBanorte", "PanelSolicitud", new { solicitudId = item.id, banco = "Banorte",
                 clienteId = ViewBag.clienteId, folioId = ViewBag.folioId, proyectoId = ViewBag.proyectoId, tipoId = ViewBag.tipoId })">
-                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-                </a>
-            }
-        </text>));
+                        <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                    </a>
+                }
+            </text>));
+        }
     }
 
-    if (SecurityUserModel.verificarPermiso("1", "1", 6))
+    if (!String.IsNullOrEmpty(tipoId) && tipoId.Equals("alta"))
     {
-        gridColumns.Add(grid.Column(header: "Tarjeta Bancomer", format: @<text>
-            @if (item.noTrabajadores > 0)
-            {
-                <a href="@Url.Action("crearExcelTarjetaBancomer", "PanelSolicitud", new { solicitudId = item.id, banco = "BBVA",
+        if (SecurityUserModel.verificarPermiso("1", "1", 6))
+        {
+            gridColumns.Add(grid.Column(header: "Tarjeta Bancomer", format: @<text>
+                @if (item.noTrabajadores > 0)
+                {
+                    <a href="@Url.Action("crearExcelTarjetaBancomer", "PanelSolicitud", new { solicitudId = item.id, banco = "BBVA",
                 clienteId = ViewBag.clienteId, folioId = ViewBag.folioId, proyectoId = ViewBag.proyectoId, tipoId = ViewBag.tipoId })">
-                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-                </a>
-            }
-        </text>));
+                        <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                    </a>
+                }
+            </text>));
+        }
     }
 
     if (SecurityUserModel.verificarPermiso("1", "1", 6))
@@ -315,14 +339,14 @@ tableStyle: "table table-striped tableSua"
                     </td>
                     @if (isError != null && isError.Equals(true))
                     {
-                        <td style="padding-left:100px; color:red" >
+                        <td style="padding-left:100px; color:red">
                             @message
                         </td>
                     }
                 </tr>
             </thead>
         </table>
-</div>
+    </div>
 }
 
 

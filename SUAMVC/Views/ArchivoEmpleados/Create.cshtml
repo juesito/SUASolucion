@@ -8,45 +8,42 @@
     Usuario usuario = Session["UsuarioData"] as Usuario;
 }
 @section Menu {
-    <div>@Language.agregar Archivo Empleados<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>@Language.agregar documentos <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-
-
 <div id="cargarArchivo">
-    @using (@Html.BeginForm("Create", "ArchivosEmpleados", FormMethod.Post,
+    @using (@Html.BeginForm("Create", "ArchivoEmpleados", FormMethod.Post,
             new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         @Html.Hidden("usuarioId", usuario.Id)
         @Html.HiddenFor(model => model.empleadoId)
         @Html.HiddenFor(model => model.Empleado)
-        <div class="marqueeFilter">
-            <table style="float:left; margin-top:5px;display:inline-block;">
-                <tbody>
-                    <tr>
-                        <td>@Html.LabelFor(model => model.tipoArchivo, "tipoArchivo", htmlAttributes: new { @class = "control-label col-md-2" })></td>
-                        <td>
-                            @Html.conceptosDrownList(usuario.Id, "ARCHEMP", "tipoArchivo")
-                            @Html.ValidationMessageFor(model => model.tipoArchivo, "", new { @class = "text-danger" })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="file">
-                                @FileUpload.GetHtml(initialNumberOfFiles: 1,
+    <div class="marqueeFilter" style="min-height:110px">
+        <table style="float:left; margin-top:5px;display:inline-block;">
+                <tr>
+                    <td style="padding-top:10px; padding-bottom:20px">@Html.Label("Tipo de documento:")</td>
+                    <td style="padding-top:10px; padding-left:10px; padding-bottom:20px; min-width:10px">
+                        @Html.conceptosDrownList(usuario.Id, "ARCHEMP", "tipoArchivo")
+                        @Html.ValidationMessageFor(model => model.tipoArchivo, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="file">
+                            @FileUpload.GetHtml(initialNumberOfFiles: 1,
                 allowMoreFilesToBeAdded: false,
                 includeFormTag: true,
                 uploadText: "Cargar Documento")
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                        </div>
+                    </td>
+                </tr>
+                <
+        </table>
+    </div>
     }
 </div>
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Regresar", "Index")
 </div>

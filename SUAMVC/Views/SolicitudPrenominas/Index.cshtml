@@ -2,6 +2,7 @@
 @using SUADATOS
 @using SUAMVC.Models
 @using System.Text;
+@using System.Web.UI.WebControls
 
 @{
     ViewBag.Title = "Index";
@@ -14,7 +15,8 @@
     Usuario usuario = Session["UsuarioData"] as Usuario;
     String msg = TempData["message"] as String;
 
-
+    var listItems = new List<ListItem>();
+    
     var grid = new WebGrid(source: Model, rowsPerPage: 10);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
@@ -178,7 +180,7 @@ tableStyle: "table table-striped tableSua"
         {
             <p style="font-weight:bold;">@msg</p>
         }
-        <table class="input-table">
+        <table style="float:left; margin-top:5px;display:inline-block;">
             <thead>
                 <tr style="text-align:left;vertical-align:bottom;">
                     <td style="padding-top:15px">
@@ -187,26 +189,26 @@ tableStyle: "table table-striped tableSua"
                     <td>
                         @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:25px")
                     </td>
-                   <td>
+                    <td style="padding-left:12px">
                         @Html.Label(Language.proyecto):
                     </td>
-                    <td>
-                        @Html.proyectoDrownList(usuario.Id, "proyectoId")
+                    <td style="padding-left:8px">
+                        @Html.DropDownList("proyectoId", new SelectList(listItems, "Value", "Text"), " Seleccione", "width:200px;height:20px")
                     </td>
-                    <td>
+                    <td style="padding-left:12px">
                         @Html.Label(Language.plaza):
                     </td>
-                    <td>
+                    <td style="padding-left:8px">
                         @Html.plazasDrownListNS(usuario.Id, "plazaId")
                     </td>
-                    <td>
+                    <td style="padding-left:12px">
                         @Html.Label("Año:")
                     </td>
-                    <td>
+                    <td style="padding-left:3px">
                         @Html.conceptosAnnoDrownList(usuario.Id, "ejercicioId")
                         @*@Html.ejercicioList()*@
                     </td>
-                    <td>
+                    <td style="padding-left:18px">
                         <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
                     </td>
                 </tr>

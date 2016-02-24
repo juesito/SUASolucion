@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using SUAMVC.Models;
 using System.Data.Entity.Validation;
 using System.Text;
+using System.Diagnostics;
 
 namespace SUAMVC.Controllers
 {
@@ -79,12 +80,22 @@ namespace SUAMVC.Controllers
                     Where(s => s.solicitudId.Equals(solicitudInt)).
                     Select(s => s.empleadoId).ToList();
 
-                empleados = (from s in db.SolicitudEmpleadoes
-                             where s.Solicitud.clienteId.Equals(clienteId)
-                             && s.Solicitud.proyectoId.Equals(proyectoId)
-                             && !empleadosIds.Contains(s.empleadoId)
-                             orderby s.empleadoId
-                             select s.Empleado).ToList();
+                List<int> solicitudesIds = (from a in db.Solicituds
+                                           where a.clienteId.Equals(clienteId)
+                                           select a.id).ToList();
+
+                empleados = (from e in db.Empleados 
+                             join s in db.SolicitudEmpleadoes
+                             on e.id equals s.empleadoId 
+                             where solicitudesIds.Contains(s.solicitudId)
+                             select  s.Empleado).ToList();
+
+                //empleados = (from s in db.SolicitudEmpleadoes
+                //             where s.Solicitud.clienteId.Equals(clienteId)
+                //             && s.Solicitud.proyectoId.Equals(proyectoId)
+                //             && !empleadosIds.Contains(s.empleadoId)
+                //             orderby s.empleadoId
+                //             select s.Empleado).ToList();
 
 
                 ViewBag.solicitudId = solicitudInt;
@@ -100,12 +111,14 @@ namespace SUAMVC.Controllers
                 Usuario usuario = Session["UsuarioData"] as Usuario;
                 DateTime date = DateTime.Now;
 
+                Debug.WriteLine("solicitudId --> " + solicitudId);
                 int solicitudIdTemp = int.Parse(solicitudId);
                 SolicitudPrenomina solicitud = db.SolicitudPrenominas.Find(solicitudIdTemp);
 
                 foreach (String empleadoId in ids)
                 {
 
+                    Debug.WriteLine("empleadoId --> " + empleadoId);
                     int empleadoIdTemp = int.Parse(empleadoId);
                     Empleado empleadoSalariado = db.Empleados.Find(empleadoIdTemp);
 
@@ -126,9 +139,11 @@ namespace SUAMVC.Controllers
                     detallePrenomina.isr = 0;
                     detallePrenomina.usuarioId = usuario.Id;
                     detallePrenomina.fechaCreacion = date;
+                    Debug.WriteLine("valorConcepto --> " + solicitud.Concepto.valorConcepto);
                     detallePrenomina.diasLaborados = int.Parse(solicitud.Concepto.valorConcepto);
 
-                    detallePrenomina.netoPagar = detallePrenomina.diasLaborados * int.Parse(empleadoSalariado.SDI.descripcion);
+                    Debug.WriteLine("SDI --> " + empleadoSalariado.SDI.descripcion);
+                    detallePrenomina.netoPagar = detallePrenomina.diasLaborados * decimal.Parse(empleadoSalariado.SDI.descripcion);
 
                     db.DetallePrenominas.Add(detallePrenomina);
                     db.SaveChanges();

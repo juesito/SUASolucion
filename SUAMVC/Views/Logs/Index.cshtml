@@ -7,11 +7,21 @@
     {
         Response.Redirect("~/Home/Index");
     }
+    String solicitudId = ViewBag.solicitudId;
+    String clienteId = ViewBag.clienteId;
+    String proyectoId = ViewBag.proyectoId;
+    String folioId = ViewBag.folioId; 
 }
 
 @section Menu {
     <div><img src="~/Content/Images/people-b.png" width="15" height="15" />Log generado al subir el layout</div>
 }
+
+<div style="padding-bottom:15px">
+    @Html.ActionLink("Regresar", "RegresaSolicitudes", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId, folioId = ViewBag.folioId})
+    <a href="@Url.Action("crearExcel", "Logs", new { solicitudId = ViewBag.solicitudId })" style="text-align:right; padding-left:20px">
+        <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
+    </a></div>
 
 <table class="table table-striped tableSua">
     <tr>

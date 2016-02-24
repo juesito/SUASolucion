@@ -7,6 +7,15 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
+using System.Data.Entity.Validation;
+using System.Text;
+using SUAMVC.Helpers;
+using SUAMVC.Models;
+using System.Web.Helpers;
+using System.IO;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml;
 
 namespace SUAMVC.Controllers
 {
@@ -15,8 +24,13 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Logs
-        public ActionResult Index(String solicitudId)
+        public ActionResult Index(String solicitudId, String clienteId, String proyectoId, String folioId)
         {
+            ViewBag.solicitudId = solicitudId;
+            ViewBag.clienteId = clienteId;
+            ViewBag.proyectoId = proyectoId;
+            ViewBag.folioId = folioId;
+
             var logs = from s in db.Logs
                        where solicitudId.Equals(s.solicitudId.ToString())
                        select s; 
@@ -121,6 +135,147 @@ namespace SUAMVC.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public ActionResult RegresaSolicitudes(String clienteId, String proyectoId, String folioId)
+        {
+            return RedirectToAction("Index", "Solicitudes", new { clienteId = clienteId, proyectoId = proyectoId, folioId = folioId  });
+        }
+
+
+        [HttpGet]
+        public void crearExcel(String solicitudId)
+        {
+            ToolsHelper th = new ToolsHelper();
+            FileStream fileStream = null;
+            MemoryStream mem = new MemoryStream();
+            try
+            {
+
+                int idTemp = int.Parse(solicitudId);
+                Solicitud solicitud = db.Solicituds.Find(idTemp);
+
+                var logs = (from s in db.Logs
+                                  where s.solicitudId.ToString().Equals(solicitudId)
+                                  select s).ToList();
+
+                DateTime date = DateTime.Now;
+                String path = @"C:\\SUA\\Exceles\\";
+                String fileName = @"Log-" + solicitud.folioSolicitud.Trim() + "-"+ date.ToString("ddMMyyyyHHmmss") + ".xlsx";
+                String fullName = path + fileName;
+
+                if (logs.Count() > 0)
+                {
+
+                    ExcelHelper eh = new ExcelHelper();
+                    //Creamos el objeto del workbook
+                    SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
+
+                    WorkbookPart wbp = xl.AddWorkbookPart();
+                    WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
+                    DocumentFormat.OpenXml.Spreadsheet.Workbook wb = new Workbook();
+                    FileVersion fv = new FileVersion();
+                    fv.ApplicationName = "Microsoft Office Excel";
+
+                    Worksheet ws = new Worksheet();
+                    WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
+                    // add styles to sheet
+                    wbsp.Stylesheet = eh.CreateStylesheet();
+                    wbsp.Stylesheet.Save();
+
+                    SheetData sd = crearContenidoHojaLog(logs, eh);
+                    ws.Append(sd);
+                    wsp.Worksheet = ws;
+                    wsp.Worksheet.Save();
+
+                    DocumentFormat.OpenXml.Spreadsheet.Sheets sheets = new Sheets();
+                    Sheet sheet = new Sheet();
+                    sheet.Name = "rptPanelSolicitud";
+                    sheet.SheetId = 1;
+                    sheet.Id = wbp.GetIdOfPart(wsp);
+
+                    sheets.Append(sheet);
+                    wb.Append(fv);
+                    wb.Append(sheets);
+
+                    xl.WorkbookPart.Workbook = wb;
+                    xl.WorkbookPart.Workbook.Save();
+                    xl.Close();
+
+                    fileStream = new FileStream(fullName, FileMode.Open);
+                    fileStream.Position = 0;
+                    mem = new MemoryStream();
+                    fileStream.CopyTo(mem);
+
+                    mem.Position = 0;
+                    Response.ClearContent();
+                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                    Response.ContentType = th.getMimeType(fullName);
+                    Response.BinaryWrite(mem.ToArray());
+
+                    Response.End();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+
+            }
+            finally
+            {
+                if (fileStream != null)
+                {
+                    fileStream.Flush();
+                    fileStream.Close();
+                }
+                mem.Flush();
+                mem.Close();
+            }
+        }
+
+        string[] headerColumns = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ" };
+        public SheetData crearContenidoHojaLog(List<Log> logs, ExcelHelper eh)
+        {
+
+            SheetData sheetData = new SheetData();
+            int index = 1;
+
+            //Creamos el Header
+            Row row = new Row();
+
+            index = index + 1;
+            row = eh.addNewCellToRow(index, row, "Log del Layout de Altas", headerColumns[0] + index, 0U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            index = index + 2;
+            row = eh.addNewCellToRow(index, row, "DESCRIPCIÓN", headerColumns[0] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "RENGLON", headerColumns[1] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "FECHA", headerColumns[2] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+
+            //Creamos las celdas que contienen los datos
+            foreach (Log dp in logs)
+            {
+                int i = 0;
+                index++;
+                row = eh.addNewCellToRow(index, row, dp.error, headerColumns[i] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                 row = eh.addNewCellToRow(index, row, dp.campo, headerColumns[i + 1] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.fechaEvento.ToString(), headerColumns[i + 2] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+            }
+
+            return sheetData;
+        }
+
 
         protected override void Dispose(bool disposing)
         {

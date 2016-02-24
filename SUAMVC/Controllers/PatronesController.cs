@@ -79,7 +79,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,registro,rfc,nombre,actividad,domicilio,municipio,codigoPostal,entidad,telefono,remision,zona,delegacion,carEnt,numeroDelegacion,carDel,numSub,tipoConvenio,convenio,inicioAfiliacion,patRep,clase,fraccion,STyPS,Plaza_id,direccionArchivo,porcentajeNomina")] Patrone patrone)
+        public ActionResult Create([Bind(Include = "Id,registro,rfc,nombre,actividad,domicilio,municipio,codigoPostal,entidad,telefono,remision,zona,delegacion,carEnt,numeroDelegacion,carDel,numSub,tipoConvenio,convenio,inicioAfiliacion,patRep,clase,fraccion,STyPS,Plaza_id,direccionArchivo,porcentajeNomina,unidadMedica")] Patrone patrone)
         {
             if (ModelState.IsValid)
             {
@@ -127,7 +127,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,registro,rfc,nombre,actividad,domicilio,municipio,codigoPostal,entidad,telefono,remision,zona,delegacion,carEnt,numeroDelegacion,carDel,numSub,tipoConvenio,convenio,inicioAfiliacion,patRep,clase,fraccion,STyPS,Plaza_id,direccionArchivo,porcentajeNomina")] Patrone patrone)
+        public ActionResult Edit([Bind(Include = "Id,registro,rfc,nombre,actividad,domicilio,municipio,codigoPostal,entidad,telefono,remision,zona,delegacion,carEnt,numeroDelegacion,carDel,numSub,tipoConvenio,convenio,inicioAfiliacion,patRep,clase,fraccion,STyPS,Plaza_id,direccionArchivo,porcentajeNomina,unidadMedica")] Patrone patrone)
         {
             if (ModelState.IsValid)
             {
@@ -325,7 +325,13 @@ namespace SUAMVC.Controllers
             row = eh.addNewCellToRow(index, row, "Carpeta", headerColumns[12] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-           index++;
+            row = eh.addNewCellToRow(index, row, "% sobre nómina", headerColumns[12] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "UMF", headerColumns[12] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+            
+            index++;
             //Create the cells that contain the data.
             foreach (Patrone dp in patrones)
             {
@@ -368,6 +374,12 @@ namespace SUAMVC.Controllers
                 sheetData.AppendChild(row);
                 
                 row = eh.addNewCellToRow(index, row, dp.direccionArchivo, headerColumns[i + 12] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.porcentajeNomina.ToString(), headerColumns[i + 12] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.unidadMedica, headerColumns[i + 12] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
                 
                 index++;
