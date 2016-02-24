@@ -24,7 +24,7 @@ namespace SUAMVC.Controllers
         // status: is from the solicitudes, this is just to know if the solicitud it was sended
         //clienteId: cliente's id
         //proyectoId: proyecto's id
-        public ActionResult Index(String id, String estatus, String controllerDestiny, String clienteId, String proyectoId, String folioId, String status, int page = 1)
+        public ActionResult Index(String id, String estatus, String controllerDestiny, String clienteId, String proyectoId, String folioId, String status, String statusId)
         {
 
             Solicitud solicitud = new Solicitud();
@@ -60,8 +60,8 @@ namespace SUAMVC.Controllers
 
                 int clienteIntId = int.Parse(clienteId);
                 int proyectoIntId = int.Parse(proyectoId);
-                ViewBag.clienteId = clienteId;
-                ViewBag.proyectoId = proyectoId;
+                @ViewBag.clienteId = clienteId;
+                @ViewBag.proyectoId = proyectoId;
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
                                  where s.Solicitud.clienteId.Equals(clienteIntId)
@@ -75,9 +75,9 @@ namespace SUAMVC.Controllers
                 int clienteIntId = int.Parse(clienteId);
                 int proyectoIntId = int.Parse(proyectoId);
 
-                ViewBag.clienteId = clienteId;
-                ViewBag.proyectoId = proyectoId;
-                ViewBag.folioId = folioId;
+                @ViewBag.clienteId = clienteId;
+                @ViewBag.proyectoId = proyectoId;
+                @ViewBag.folioId = folioId;
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
                                  where s.Solicitud.clienteId.Equals(clienteIntId)
@@ -99,12 +99,39 @@ namespace SUAMVC.Controllers
                                      select s.Empleado).ToList();
                 }
             }
+            IEnumerable<Empleado> listaEmpleados = empleadosList.Where(s => !s.fechaBaja.HasValue);
+            if (statusId != null)
+            {
+                @ViewBag.statusId = statusId;
 
+                if (statusId.Trim().Equals("A"))
+                {
+                    ViewBag.statusId = statusId;
+                    listaEmpleados = empleadosList.Where(s => !s.fechaBaja.HasValue);
+                    ViewBag.activos = empleadosList.Where(s => !s.fechaBaja.HasValue).Count();
+                    ViewBag.registros = listaEmpleados.Count();
+                }
+                else if (statusId.Trim().Equals("B"))
+                {
+                    ViewBag.statusId = statusId;
+                    listaEmpleados = empleadosList.Where(s => s.fechaBaja.HasValue);
+                    ViewBag.activos = empleadosList.Where(s => !s.fechaBaja.HasValue).Count();
+                    ViewBag.registros = listaEmpleados.Count();
+                }
+            }
+            else
+            {
+                ViewBag.activos = 0;
+                ViewBag.registros = 0;
+            }
 
+            ViewBag.activos = empleadosList.Where(s => !s.fechaBaja.HasValue).Count();
+            ViewBag.registros = listaEmpleados.Count();
+            
             SolicitudEmpleadoModel solicitudEmpleadoModel = new SolicitudEmpleadoModel();
 
             solicitudEmpleadoModel.solicitud = solicitud;
-            solicitudEmpleadoModel.empleados = empleadosList;
+            solicitudEmpleadoModel.empleados = listaEmpleados.ToList();
 
             return View(solicitudEmpleadoModel);
         }

@@ -39,8 +39,8 @@
                         <input class="cancel-capture edit-mode" type="image" src="~/Content/Images/cancel.png"
        alt="@Language.bt_cancel" title="@Language.bt_cancel" width="20" height="20" id="@item.id" />                        
                     </text>));
-    gridColumns.Add(grid.Column("Empleado.nombre", Language.nombreCompleto, format: @<text> @if (@item.id != null)
-    {  @item.Empleado.nombre }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Empleado.nombreCompleto", Language.nombreCompleto, format: @<text> @if (@item.id != null)
+    {  @item.Empleado.nombreCompleto }</text>, canSort: true));
     gridColumns.Add(grid.Column("diasLaborados", "DT", format: @<text> @if (@item.diasLaborados != null)
     {
         <span id="diasLaborados" class="display-mode" style="font-weight:bold; color:green">@item.diasLaborados</span>
@@ -51,8 +51,6 @@
     {  <p>$@item.Empleado.salarioReal</p> }</text>, canSort: true));
     gridColumns.Add(grid.Column("Empleado.SDI.descripcion", "SDI", format: @<text> @if (@item.Empleado.SDI != null)
     {  <p>$@item.Empleado.SDI.descripcion</p> }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Empleado.nss", "NSS", format: @<text> @if (@item.id != null)
-    {  @item.Empleado.nss }</text>, canSort: true));
     gridColumns.Add(grid.Column("gratificacion", "Gratificacion",
         format: @<text>
             <span id="gratificacion" class="display-mode" style="font-weight:bold; color:green">$@item.gratificacion</span>
@@ -101,8 +99,8 @@ format: @<text>
             <span id="netoPagar" style="font-weight:bold; color:blue">$@item.netoPagar</span>
         </text>
 , canSort: true));
-    gridColumns.Add(grid.Column("CuentaEmpleado.cuenta", Language.cuentaBancaria, format: @<text> @if (@item.CuentaEmpleado != null)
-    {  @item.CuentaEmpleado.cuenta }</text>, canSort: true));
+    gridColumns.Add(grid.Column("Empleado.cuentaBancaria", "Datos Banco", format: @<text> @if (@item.id != null)
+    { @item.Empleado.Banco.descripcion @item.Empleado.cuentaBancaria }</text>, canSort: true));
     gridColumns.Add(grid.Column("Empleado.categoria", Language.categoria, canSort: true));
 
 
@@ -153,7 +151,7 @@ tableStyle: "table table-striped tableSua"
         </tr>
         <tr>
             <td class="value-label">@Html.Label(solicitud.folioSolicitud)</td>
-            <td class="value-label">@Html.Label(solicitud.Cliente.descripcion)</td>
+            <td class="value-label">@Html.Label(solicitud.Cliente.descripcion, new { style = "width: 100%;" })</td>
             <td class="value-label">@Html.Label(solicitud.Plaza.descripcion)</td>
             <td class="value-label">@Html.Label(solicitud.Proyecto.descripcion)</td>
             <td class="value-label">@Html.Label(solicitud.anno)</td>

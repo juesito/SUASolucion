@@ -22,7 +22,7 @@
     var solicitudId = ViewBag.solicitudId;
     var clienteId = ViewBag.clienteId;
     var proyectoId = ViewBag.proyectoId;
-    var folioId = ViewBag.folioId; 
+    var folioId = ViewBag.folioId;
 
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
@@ -90,7 +90,7 @@
                     <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
                 </a>
             }
-            </text>));
+        </text>));
     }
     if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados", 6))
     {
@@ -113,7 +113,7 @@
                     <img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" />
                 </a>
             }
-            </text>));
+        </text>));
     }
     if (SecurityUserModel.verificarPermiso("Subir Lay Out Personal", "Se agrega solicitud para subir lay out de empleados", 6))
     {
@@ -136,7 +136,7 @@
             }
         </text>));
     }
-    
+
     if (SecurityUserModel.verificarPermiso("enviar correo solicitud alta", "Enviar mail informativo", 6))
     {
         gridColumns.Add(grid.Column(header: "Enviar Solicitud", format: @<text>
@@ -150,11 +150,11 @@
     }
 
     gridColumns.Add(grid.Column(header: "Log", format: @<text>
-                <a href="@Url.Action("Index", "Logs", new { solicitudId = item.id, clienteId = clienteId, proyectoId = proyectoId, folioId = folioId })">
-                    <img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" />
-                </a>
+        <a href="@Url.Action("Index", "Logs", new { solicitudId = item.id, clienteId = clienteId, proyectoId = proyectoId, folioId = folioId })">
+            <img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" />
+        </a>
 
-        </text>, canSort: true));
+    </text>, canSort: true));
 
     sb.Append(grid.GetHtml(
 columns: grid.Columns(gridColumns.ToArray()),
@@ -170,11 +170,11 @@ tableStyle: "table table-striped tableSua"
 }
 
 <script language="javascript" type="text/javascript">
-    $( document ).ready(function() {
+    $(document).ready(function () {
         // Handler for .ready() called.
         var clienteIdJs = '@(ViewBag.clienteId)' + " ";
         var proyectoIdJs = '@(ViewBag.proyectoId)' + " ";
-        
+
         if (clienteIdJs != " ") {
             var procemessage = "<option value='0'> Por favor espere...</option>";
             $("#proyectoId").html(procemessage).show();
@@ -194,7 +194,7 @@ tableStyle: "table table-striped tableSua"
                             markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
                         };
 
-                        
+
                     }
                     $("#proyectoId").html(markup).show();
                 },
@@ -231,75 +231,80 @@ tableStyle: "table table-striped tableSua"
 
     }
 </script>
+<div style="padding-bottom:5px">
 
-@if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados", 6)
+    @if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
-{
-    @Html.ActionLink(@Language.agregar, "Create", "Solicitudes", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId }, new { @class = "btn btn-success" })
-}
-  
-@using (Html.BeginForm())
-{
-    <div class="marqueeFilter">
-        <table style="float:left; margin-top:1px;display:inline-block;">
-            <thead>
-                <tr style="text-align:left;vertical-align:bottom;">
-                    <td style="padding-top:15px">
-                        @Html.Label("Cliente:")
-                    </td>
-                    <td>
-                        @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:20px")
-                    </td>
-                    <td style="padding-left:12px">
-                        @Html.Label("Proyecto:")
-                    </td>
-                    <td style="padding-left:8px">                        
-                        @Html.DropDownList("proyectoId", new SelectList(listItems, "Value", "Text"), " Seleccione", "width:200px;height:20px")
-                    </td>
-                    <td style ="padding-left:12px">
-                        @Html.Label("Folio:")
+    {
+        @Html.ActionLink(@Language.agregar, "Create", "Solicitudes", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId }, new { @class = "btn btn-success btn-sm" })
+    }
+</div>    
+
+    @using (Html.BeginForm())
+    {
+        <div class="marqueeFilter">
+            <table style="float:left; margin-top:1px;display:inline-block;">
+                <thead>
+                    <tr style="text-align:left;vertical-align:bottom;">
+                        <td style="padding-top:15px">
+                            @Html.Label("Cliente:")
+                        </td>
+                        <td>
+                            @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:20px")
+                        </td>
+                        <td style="padding-left:12px">
+                            @Html.Label("Proyecto:")
+                        </td>
+                        <td style="padding-left:8px">
+                            @Html.DropDownList("proyectoId", new SelectList(listItems, "Value", "Text"), " Seleccione", "width:200px;height:20px")
+                        </td>
+                        <td style="padding-left:12px">
+                            @Html.Label("Folio:")
                         </td>
                         <td>
                             @Html.Editor("folioId")
                         </td>
-                    <td style="padding-left:18px">
-                        <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
-                    </td>
-                </tr>
-            </thead>
-        </table>
-    </div>
-}
-
-@if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados", 6)
+                        <td style="padding-left:18px">
+                            <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
+                        </td>
+                        @if (SecurityUserModel.verificarPermiso("agregar solicitud alta", "Se agrega solicitud de alta empleados", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
-{
-    @*@Html.ActionLink(@Language.agregar + " " + Language.solicitud, "Create", "Solicitudes",  new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId }, new { @class = "btn btn-success" })*@
-    @*</p>    <a href="@Url.Action("Create", "Solicitudes", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId })">
-        <img src="~/Content/Images/addNew.png" alt="Nueva solicitud" style="border:none;" class="menuIcon" title="@Language.agregar" />
-    </a>*@
-    <a href="@Url.Action("crearExcelSolicitud", "Solicitudes", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })" style="text-align:right">
-        <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
-    </a>
-}
+                        {
+                            @*@Html.ActionLink(@Language.agregar + " " + Language.solicitud, "Create", "Solicitudes",  new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId }, new { @class = "btn btn-success" })*@
+                            @*</p>    <a href="@Url.Action("Create", "Solicitudes", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId })">
+                                    <img src="~/Content/Images/addNew.png" alt="Nueva solicitud" style="border:none;" class="menuIcon" title="@Language.agregar" />
+                                </a>*@
+                            <td style="padding-left:18px;padding-top:15px">
+                                <a href="@Url.Action("crearExcelSolicitud", "Solicitudes", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })" style="text-align:right">
+                                    <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
+                                </a>
+                            </td>
+                        }
 
-@if (!tableHtml.IsEmpty())
-{
-    <div id="table-container" class="table-container">
-        @Html.Raw(tableHtml)
-    </div>
-}
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    }
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("input[name=slall]").change(function () {
-            $('#table-container input[type=checkbox]').each(function () {
-                if ($("input[name=slall]:checked").length == 1) {
-                    this.checked = true;
-                } else {
-                    this.checked = false;
-                }
+
+    @if (!tableHtml.IsEmpty())
+    {
+        <div id="table-container" class="table-container">
+            @Html.Raw(tableHtml)
+        </div>
+    }
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("input[name=slall]").change(function () {
+                $('#table-container input[type=checkbox]').each(function () {
+                    if ($("input[name=slall]:checked").length == 1) {
+                        this.checked = true;
+                    } else {
+                        this.checked = false;
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
