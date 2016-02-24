@@ -109,7 +109,7 @@
         gridColumns.Add(grid.Column(header: "Agregar Personal", format: @<text>
             @if (item.Concepto.descripcion.Trim().Equals("Apertura"))
             {
-                <a href="@Url.Action("Create", "Empleados", new { id = item.id })">
+                <a href="@Url.Action("Create", "Empleados", new { id = item.id, controllerDestiny="Solicitudes" })">
                     <img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" />
                 </a>
             }

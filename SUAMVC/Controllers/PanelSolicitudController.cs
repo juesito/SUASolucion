@@ -320,34 +320,37 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.SDI.descripcion, headerColumns[i + 7] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.categoria, headerColumns[i + 8] + index, 3U, CellValues.String);
+                //row = eh.addNewCellToRow(index, row, dp.categoria, headerColumns[i + 8] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, "1", headerColumns[i + 8] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 if (dp.EsquemasPago != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.EsquemasPago.descripcion, headerColumns[i + 9] + index, 3U, CellValues.String);
+                    //row = eh.addNewCellToRow(index, row, dp.EsquemasPago.descripcion, headerColumns[i + 9] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, "0", headerColumns[i + 9] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
                 {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 9] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, "0", headerColumns[i + 9] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
 
                 if (dp.Asegurado != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.Asegurado.tipoTrabajo, headerColumns[i + 10] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, "0", headerColumns[i + 10] + index, 3U, CellValues.String);
+                    //row = eh.addNewCellToRow(index, row, dp.Asegurado.tipoTrabajo, headerColumns[i + 10] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
                 {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 10] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, "0", headerColumns[i + 10] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
 
                 if (dp.Asegurado != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.Asegurado.salarioImss.ToString(), headerColumns[i + 11] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.Asegurado.Patrone.unidadMedica.ToString(), headerColumns[i + 11] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -358,7 +361,7 @@ namespace SUAMVC.Controllers
 
                 if (dp.Asegurado != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.Asegurado.Cliente.descripcion, headerColumns[i + 12] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.Asegurado.Cliente.claveSua, headerColumns[i + 12] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
