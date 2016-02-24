@@ -122,9 +122,11 @@ namespace SUAMVC.Helpers
             msg.IsBodyHtml = false; //Si vas a enviar un correo con contenido html entonces cambia el valor a true
 
             SmtpClient client = new SmtpClient();
-            client.Credentials = new System.Net.NetworkCredential("info@desarrolloytalento.com", "informacion2014");
-            client.Port = 3535;
-            client.Host = "smtpout.secureserver.net";//Este es el smtp valido para Gmail
+            client.Credentials = new System.Net.NetworkCredential("info@desarrolloytalento.com", "/info2016*");
+            client.Port = 993;
+//            client.Port = 3535;
+//            client.Host = "smtpout.secureserver.net";//Este es el smtp valido para Gmail
+            client.Host = "OUTLOOK.OFFICE365.COM";//Este es el smtp valido para Gmail
             client.EnableSsl = false; //Esto es para que vaya a través de SSL que es obligatorio con GMail
 
             try

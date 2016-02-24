@@ -139,9 +139,9 @@
 
                     </tr>
                     <tr style="padding-top:8px">
-                        <td>@Html.Label(Language.rfc + ":")</td>
+                        <td>@Html.LabelFor(model => model.rfc, Language.rfc + ":", htmlAttributes: new { @class = "control-label col-md-2" })
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.rfc)
+                            @Html.EditorFor(model => model.rfc, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.rfc, "", new { @class = "text-danger" })
                         </td>
                         <td style="padding-top:8px; padding-left:40px"> @Html.Label(Language.homoClave + ":")</td>

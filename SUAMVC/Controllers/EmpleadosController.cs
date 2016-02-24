@@ -421,7 +421,7 @@ namespace SUAMVC.Controllers
                     }
                 }
             }
-
+            TempData["solicitudId"] = solicitudId;
             ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
             ViewBag.esquemaPagoId = new SelectList(db.EsquemasPagoes, "id", "descripcion", empleado.esquemaPagoId);
             ViewBag.estadoCivilId = new SelectList(db.EstadoCivils, "id", "descripcion", empleado.estadoCivilId);

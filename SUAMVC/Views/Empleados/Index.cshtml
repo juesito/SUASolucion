@@ -60,16 +60,21 @@
     {
         gridColumns.Add(grid.Column(header: "Ver", format: @<text><a href="@Url.Action("Details", "Empleados", new { id = item.id })"><img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("modificar empleado", "Se agrega solicitud para editar empleados", 6) && !Model.solicitud.Concepto.descripcion.Trim().Equals("Enviado")
+    if (SecurityUserModel.verificarPermiso("modificar empleado", "Se agrega solicitud para editar empleados", 6)
         )
-               
     {
-        gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Empleados", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+        if (Model.solicitud.Concepto == null || !Model.solicitud.Concepto.descripcion.Trim().Equals("Enviado"))
+        {
+            gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Empleados", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+        }
     }
-    if (SecurityUserModel.verificarPermiso("borrar empleado", "Se agrega solicitud para eliminar empleados", 6) && !Model.solicitud.Concepto.descripcion.Trim().Equals("Enviado")
+    if (SecurityUserModel.verificarPermiso("borrar empleado", "Se agrega solicitud para eliminar empleados", 6)
         )
     {
-        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Empleados", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
+        if (Model.solicitud.Concepto == null || !Model.solicitud.Concepto.descripcion.Trim().Equals("Enviado"))
+        {
+            gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Empleados", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
+        }
     }
     @*if (SecurityUserModel.verificarPermiso("reportes", "Se agrega solicitud para ver reportes", 6))
         {
@@ -224,6 +229,19 @@
                         <table style="margin-left:20px; margin-top:15px; width:100% ">
                             <thead>
                                 <tr>
+                                    <td style="padding-left:10px; height:20px; font-size:10px;width:8%">
+                                        @if (solicitud.id != null)
+                                        {
+                                            <a href="@Url.Action("Index", @ViewBag.controllerDestiny, new
+                {
+                    clienteId = @ViewBag.clienteId,
+                    proyectoId = @ViewBag.proyectoId,
+                solicitudId = solicitud.id })" style="text-align:right">
+                                                <img src="~/Content/Images/back.png" title="Regresar" alt="Regresar" style="border:none;" class="menuIcon" />
+                                            </a>
+                                        }
+                                    </td>
+
                                     <td style="font-size:10px; text-align:right; width:87%">
                                         <p style="font-weight:bold">
                                             @Html.Label("Registros:")
@@ -254,15 +272,6 @@
 
 @if (!tableHtml.IsEmpty())
 {
-    @*<div class="menubar-header">
-            <a href="@Url.Action("Index", @ViewBag.controllerDestiny, new
-                {
-                    clienteId = @ViewBag.clienteId,
-                    proyectoId = @ViewBag.proyectoId,
-                solicitudId = solicitud.id })" style="text-align:right">
-                <img src="~/Content/Images/back.png" title="Regresar" alt="Regresar" style="border:none;" class="menuIcon" />
-            </a>
-        </div>*@
     <div id="table-container" class="table-container">
         @Html.Raw(tableHtml)
     </div>
