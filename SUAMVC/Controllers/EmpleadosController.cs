@@ -36,11 +36,6 @@ namespace SUAMVC.Controllers
                 ViewBag.status = "off";    
             }
 
-            //empleadosList = (from s in db.SolicitudEmpleadoes
-            //                 where s.estatus.Equals("A")
-            //                 orderby s.id
-            //                 select s.Empleado).ToList();
-
             if (!String.IsNullOrEmpty(id))
             {
                 int idTemp = int.Parse(id);
