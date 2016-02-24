@@ -63,11 +63,14 @@
     {
         gridColumns.Add(grid.Column(header: "Ver", format: @<text><a href="@Url.Action("Details", "Empleados", new { id = item.id })"><img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("modificar empleado", "Se agrega solicitud para editar empleados", 6))
+    if (SecurityUserModel.verificarPermiso("modificar empleado", "Se agrega solicitud para editar empleados", 6) && !Model.solicitud.Concepto.descripcion.Trim().Equals("Enviado")
+        )
+               
     {
         gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Empleados", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("borrar empleado", "Se agrega solicitud para eliminar empleados", 6))
+    if (SecurityUserModel.verificarPermiso("borrar empleado", "Se agrega solicitud para eliminar empleados", 6) && !Model.solicitud.Concepto.descripcion.Trim().Equals("Enviado")
+        )
     {
         gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Empleados", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
     }

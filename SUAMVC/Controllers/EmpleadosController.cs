@@ -48,6 +48,9 @@ namespace SUAMVC.Controllers
 
                 ViewBag.solicitud = solicitud;
                 ViewBag.controllerDestiny = controllerDestiny;
+                ViewBag.clienteId = solicitud.clienteId;
+                ViewBag.proyectoId = solicitud.proyectoId;
+                ViewBag.folioId = solicitud.folioSolicitud;
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
                                  where s.solicitudId.Equals(idTemp)
@@ -194,7 +197,7 @@ namespace SUAMVC.Controllers
         }
 
         // GET: Empleados/Create
-        public ActionResult Create(int id)
+        public ActionResult Create(int id, String controllerDestiny)
         {
             Empleado empleado = new Empleado();
             Solicitud solicitud = db.Solicituds.Find(id);
@@ -211,6 +214,7 @@ namespace SUAMVC.Controllers
             ViewBag.estadoNacimientoId = new SelectList(db.Estados, "id", "descripcion", empleado.estadoNacimientoId);
             ViewBag.estadoCivilId = new SelectList(db.EstadoCivils, "id", "descripcion", empleado.estadoCivilId);
             ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion");
+            ViewBag.controllerDestiny = controllerDestiny;
 
             return View(empleado);
         }
@@ -553,7 +557,16 @@ namespace SUAMVC.Controllers
                 }
                 return RedirectToAction("Edit", "Empleados", new { id = empleado.id });
             }
-            return View(empleado);
+            DatosEmpleadoModel datosEmpleadoModel = new DatosEmpleadoModel();
+            Solicitud solicitud = obtenerSolicitudActiva(empleado.id);
+            DocumentoEmpleado documentosEmpleado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)).FirstOrDefault();
+            SalarialesEmpleado salarialesEmpleado = db.SalarialesEmpleadoes.Where(se => se.empleadoId.Equals(empleado.id)).FirstOrDefault();
+            datosEmpleadoModel.solicitud = solicitud;
+            datosEmpleadoModel.empleado = empleado;
+            datosEmpleadoModel.datosEmpleado = documentosEmpleado;
+            datosEmpleadoModel.salarialesEmpleado = salarialesEmpleado;
+
+            return View(datosEmpleadoModel);
         }
 
         [HttpPost]
@@ -767,6 +780,7 @@ namespace SUAMVC.Controllers
         public ActionResult CargarEmpleadosPorExcel(int id)
         {
             ViewBag.solicitud = db.Solicituds.Find(id);
+            ViewBag.controllerDestiny = "Solicitudes";
             return View();
         }
 
@@ -839,6 +853,20 @@ namespace SUAMVC.Controllers
                         Boolean noTotal = false;
                         int counter = 0;
                         int totReg = query.Count();
+
+                        var movTemp2 = (from s in db.Logs
+                                        where s.solicitudId.ToString().Equals(solicitudId)  select s).ToList();
+                        if (movTemp2 != null && movTemp2.Count() > 0)
+                        {
+                            foreach (var movItem in movTemp2)
+                            {
+                                Log logMov = movItem;
+                                db.Logs.Remove(logMov);
+                                db.SaveChanges();
+                            }
+                        }
+
+
                         LogHelper log = new LogHelper();
 
                         foreach (PersonalExcelLayout empleadoL in query)
@@ -916,8 +944,7 @@ namespace SUAMVC.Controllers
                                 else
                                 {
                                     SDI sDiario = (from s in db.SDIs
-                                                   where s.clienteId == solicitud.clienteId
-                                                   && s.descripcion.Trim().Equals("0.0")
+                                                   where  s.descripcion.Trim().Equals("0.0")
                                                    select s).FirstOrDefault();
                                     if (!String.IsNullOrEmpty(sDiario.descripcion))
                                     {

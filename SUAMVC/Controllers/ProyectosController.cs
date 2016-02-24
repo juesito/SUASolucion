@@ -141,7 +141,7 @@ namespace SUAMVC.Controllers
         public ActionResult ObtenerProyectosPorClienteId(int clienteId)
         {
             List<Proyecto> proyectos = new List<Proyecto>();
-            proyectos = db.Proyectos.Where(m => m.clienteId == clienteId).ToList();
+            proyectos = db.Proyectos.Where(m => m.clienteId == clienteId).OrderBy(m => m.descripcion).ToList();
             SelectList proyecto = new SelectList(proyectos, "Id", "descripcion", 0);
             return Json(proyecto);
         }
