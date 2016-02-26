@@ -70,7 +70,7 @@
                 <span id="netoPagar" style="font-weight:bold; color:blue">$@item.netoPagar</span>
             </text>
 , canSort: true));
-        gridColumns.Add(grid.Column("CuentaEmpleado.cuenta", Language.cuentaBancaria, format: @<text> @if (@item.CuentaEmpleado != null)
+        gridColumns.Add(grid.Column("Empleado.cuentaBancaria", "Datos Banco", format: @<text> @if (@item.CuentaEmpleado != null)
         {  @item.CuentaEmpleado.cuenta }</text>, canSort: true));
         gridColumns.Add(grid.Column("Empleado.categoria", Language.categoria, canSort: true));
 

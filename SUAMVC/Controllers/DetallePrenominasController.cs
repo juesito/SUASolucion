@@ -111,14 +111,12 @@ namespace SUAMVC.Controllers
                 Usuario usuario = Session["UsuarioData"] as Usuario;
                 DateTime date = DateTime.Now;
 
-                Debug.WriteLine("solicitudId --> " + solicitudId);
                 int solicitudIdTemp = int.Parse(solicitudId);
                 SolicitudPrenomina solicitud = db.SolicitudPrenominas.Find(solicitudIdTemp);
 
                 foreach (String empleadoId in ids)
                 {
 
-                    Debug.WriteLine("empleadoId --> " + empleadoId);
                     int empleadoIdTemp = int.Parse(empleadoId);
                     Empleado empleadoSalariado = db.Empleados.Find(empleadoIdTemp);
 
@@ -139,12 +137,9 @@ namespace SUAMVC.Controllers
                     detallePrenomina.isr = 0;
                     detallePrenomina.usuarioId = usuario.Id;
                     detallePrenomina.fechaCreacion = date;
-                    Debug.WriteLine("valorConcepto --> " + solicitud.Concepto.valorConcepto);
                     detallePrenomina.diasLaborados = int.Parse(solicitud.Concepto.valorConcepto);
 
-                    Debug.WriteLine("SDI --> " + empleadoSalariado.SDI.descripcion);
                     detallePrenomina.netoPagar = detallePrenomina.diasLaborados * decimal.Parse(empleadoSalariado.SDI.descripcion);
-
                     db.DetallePrenominas.Add(detallePrenomina);
                     db.SaveChanges();
 
