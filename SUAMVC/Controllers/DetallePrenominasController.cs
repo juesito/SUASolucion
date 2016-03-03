@@ -118,7 +118,6 @@ namespace SUAMVC.Controllers
                 foreach (String empleadoId in ids)
                 {
 
-                    Debug.WriteLine("empleadoId --> " + empleadoId);
                     int empleadoIdTemp = int.Parse(empleadoId);
                     Empleado empleadoSalariado = db.Empleados.Find(empleadoIdTemp);
 
@@ -137,13 +136,11 @@ namespace SUAMVC.Controllers
                     detallePrenomina.otrosDescuentos = 0;
                     detallePrenomina.premioAsistencia = 0;
                     detallePrenomina.isr = 0;
+                    detallePrenomina.netoPagar = 0;
                     detallePrenomina.usuarioId = usuario.Id;
                     detallePrenomina.fechaCreacion = date;
-                    Debug.WriteLine("valorConcepto --> " + solicitud.Concepto.valorConcepto);
                     detallePrenomina.diasLaborados = int.Parse(solicitud.Concepto.valorConcepto);
 
-                    Debug.WriteLine("SDI --> " + empleadoSalariado.SDI.descripcion);
-                    detallePrenomina.netoPagar = detallePrenomina.diasLaborados * decimal.Parse(empleadoSalariado.SDI.descripcion);
 
                     db.DetallePrenominas.Add(detallePrenomina);
                     db.SaveChanges();
@@ -270,14 +267,7 @@ namespace SUAMVC.Controllers
                 dt.primaVacacional = (Decimal)0.0;
                 dt.aguinaldo = (Decimal)0.0;
 
-                if (detallePrenomina.ingresos != null)
-                {
-                    dt.ingresos = (Decimal)detallePrenomina.ingresos;
-                }
-                else
-                {
-                    dt.ingresos = (Decimal)0.0;
-                }
+                dt.ingresos = (Decimal)detallePrenomina.ingresos;
                 if (detallePrenomina.isr != null)
                 {
                     dt.isr = (Decimal)detallePrenomina.isr;
@@ -308,6 +298,7 @@ namespace SUAMVC.Controllers
                 //dt.ingresos = dt.Empleado.salarioReal; hay algo que hacer con el salario Real?
                 dt.diasLaborados = detallePrenomina.diasLaborados;
                 dt.gratificacion = (Decimal)detallePrenomina.gratificacion;
+                
                 if (detallePrenomina.primaVacacional != null)
                 {
                     dt.primaVacacional = (Decimal)detallePrenomina.primaVacacional;
@@ -335,6 +326,40 @@ namespace SUAMVC.Controllers
                 dt.fechaCreacion = DateTime.Now;
                 dt.usuarioId = usuario.Id;
 
+            }
+            else if (dt.SolicitudPrenomina.Concepto1.descripcion.ToLower().Trim().Equals("sys dias por ingreso"))
+            {
+                //dt.ingresos = dt.Empleado.salarioReal; hay algo que hacer con el salario Real?
+                dt.diasLaborados = 0;
+                dt.gratificacion = (Decimal)detallePrenomina.gratificacion;
+                dt.ingresos = (Decimal)detallePrenomina.ingresos;
+                if (detallePrenomina.primaVacacional != null)
+                {
+                    dt.primaVacacional = (Decimal)detallePrenomina.primaVacacional;
+                }
+                else
+                {
+                    dt.primaVacacional = (Decimal)0.0;
+                }
+                if (detallePrenomina.aguinaldo != null)
+                {
+                    dt.aguinaldo = (Decimal)detallePrenomina.aguinaldo;
+                }
+                else
+                {
+                    dt.aguinaldo = (Decimal)0.0;
+                }
+                dt.descuentoInfonavit = (Decimal)detallePrenomina.descuentoInfonavit;
+                dt.descuentoFonacot = (Decimal)detallePrenomina.descuentoFonacot;
+                dt.descuentoPension = (Decimal)detallePrenomina.descuentoPension;
+                dt.otrosDescuentos = (Decimal)detallePrenomina.otrosDescuentos;
+                dt.netoPagar = dt.ingresos;
+                dt.netoPagar = dt.netoPagar + dt.gratificacion + dt.primaVacacional + dt.aguinaldo -
+                    dt.descuentoInfonavit - dt.descuentoPension - dt.descuentoFonacot -
+                    dt.otrosDescuentos;
+                dt.fechaCreacion = DateTime.Now;
+                dt.usuarioId = usuario.Id;
+            
             }
 
             //Guardamos los cambios

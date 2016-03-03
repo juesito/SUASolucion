@@ -379,7 +379,7 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.porcentajeNomina.ToString(), headerColumns[i + 12] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.unidadMedica, headerColumns[i + 12] + index, 2U, CellValues.String);
+                //row = eh.addNewCellToRow(index, row, dp.unidadMedica, headerColumns[i + 12] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
                 
                 index++;

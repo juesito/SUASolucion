@@ -350,7 +350,7 @@ namespace SUAMVC.Controllers
 
                 if (dp.Asegurado != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.Asegurado.Patrone.unidadMedica.ToString(), headerColumns[i + 11] + index, 3U, CellValues.String);
+                    //row = eh.addNewCellToRow(index, row, dp.Asegurado.Patrone.unida.ToString(), headerColumns[i + 11] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
