@@ -163,12 +163,7 @@ tableStyle: "table table-striped tableSua"
     @if (SecurityUserModel.verificarPermiso("addSol-Prenomina", "Se agrega solicitud de prenomina", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
-        <a href="@Url.Action("Create", "SolicitudPrenominas", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId, ejercicioId = @ViewBag.ejercicioId, plazaId = @ViewBag.plazaId })">
-            <img src="~/Content/Images/addNew.png" alt="@Language.agregar" style="border:none;" class="menuIcon" title="@Language.agregar" />
-        </a>
-        <a href="@Url.Action("crearExcelSolicitudPrenomina", "SolicitudPrenominas", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId, ejercicioId=ViewBag.ejercicioId, plazaId = ViewBag.plazaId })" style="text-align:right">
-            <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
-        </a>
+        @Html.ActionLink(@Language.agregar, "Create", "SolicitudPrenominas", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId, ejercicioId = @ViewBag.ejercicioId, plazaId = @ViewBag.plazaId }, new { @class = "btn btn-success btn-sm" })
     }
 
 </div>
@@ -211,6 +206,15 @@ tableStyle: "table table-striped tableSua"
                     <td style="padding-left:18px">
                         <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
                     </td>
+                    @if (SecurityUserModel.verificarPermiso("nueva solicitud", "Se agrega solicitud para modificar salario", 6)
+                    && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
+                    {
+                        <td style="padding-left:18px;">
+                            <a href="@Url.Action("crearExcelSolicitudPrenomina", "SolicitudPrenominas", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId, ejercicioId=ViewBag.ejercicioId, plazaId = ViewBag.plazaId })" style="text-align:right">
+                                <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" class="menuIcon" />
+                            </a>
+                        </td>
+                    }
                 </tr>
             </thead>
         </table>

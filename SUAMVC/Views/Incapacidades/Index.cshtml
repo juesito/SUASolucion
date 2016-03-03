@@ -40,9 +40,18 @@
     gridColumns.Add(grid.Column("Asegurado.nombres", "Nombre", @<text><div style='width: 13em'>@item.Asegurado.nombres</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("Asegurado.nombreTemporal", "Nombre", @<text><div style='width: 25em'>@item.Asegurado.nombreTemporal</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("Asegurado.ocupacion", "Ocupación",  @<text><div style='width: 12em'>@item.Asegurado.ocupacion </div></text>, null, canSort: true));
-    gridColumns.Add(grid.Column("tipoIncapacidad", "(1) R. Trab.", @<text> @if (@item.tipoIncapacidad.Equals("1")) { @item.folioIncapacidad} else {@String.Empty} </text>, null, canSort: true));
-    gridColumns.Add(grid.Column("tipoIncapacidad", "(2) Enfermedad", @<text> @if (@item.tipoIncapacidad.Equals("2")) { @item.folioIncapacidad} else {@String.Empty} </text>, null, canSort: true));
-    gridColumns.Add(grid.Column("tipoIncapacidad", "(3) Maternidad", @<text> @if (@item.tipoIncapacidad.Equals("3")) { @item.folioIncapacidad} else {@String.Empty} </text>, null, canSort: true));
+    gridColumns.Add(grid.Column("tipoIncapacidad", "(1) R. Trab.", @<text> @if (@item.tipoIncapacidad.Equals("1"))
+    { @item.folioIncapacidad}
+    else
+    {@String.Empty} </text>, null, canSort: true));
+    gridColumns.Add(grid.Column("tipoIncapacidad", "(2) Enfermedad", @<text> @if (@item.tipoIncapacidad.Equals("2"))
+    { @item.folioIncapacidad}
+    else
+    {@String.Empty} </text>, null, canSort: true));
+    gridColumns.Add(grid.Column("tipoIncapacidad", "(3) Maternidad", @<text> @if (@item.tipoIncapacidad.Equals("3"))
+    { @item.folioIncapacidad}
+    else
+    {@String.Empty} </text>, null, canSort: true));
     gridColumns.Add(grid.Column("fechaAcc", "Fecha Inicio", @<text><div style='width: 6em'>@item.fechaAcc.ToString("dd-MM-yyyy")     </div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("diaSub", "Días Subsidiados", null, null, true));
 
@@ -57,7 +66,7 @@
     {
         gridColumns.Add(grid.Column("Asegurado.fechaModificacion", "Fecha Modificación", @<text><div style='width: 13em'>
                 @if (@item.Asegurado.fechaModificacion != null)
-            { @item.Asegurado.fechaModificacion}
+                { @item.Asegurado.fechaModificacion}
             </div></text>, null, canSort: true));
     }
     gridColumns.Add(grid.Column(header: Language.avisoInc, format:@<text><a href="@Url.Action("ViewAttachment", "Incapacidades", new { id = item.id, option = "I", carga = item.alta })" target="_blank">@ShowPDF(item.alta)</a></text>));
@@ -178,12 +187,12 @@
                         //Etiqueta de No. de registros
                         if (ViewBag.registros != null)
                         {
-                                <div style="margin-right:4px;display:inline-block;vertical-align:top;">
+                            <div style="margin-right:4px;display:inline-block;vertical-align:top;">
 
-                                    <table style="margin-left:20px; margin-top:15px; width:100% ">
-                                        <thead>
-                                            <tr>
-                                                @*<td style="padding-left:15px; text-align:center; width:85%">
+                                <table style="margin-left:20px; margin-top:15px; width:100% ">
+                                    <thead>
+                                        <tr>
+                                            @*<td style="padding-left:15px; text-align:center; width:85%">
                                                     <a href="@Url.Action("Retrocede", "Incapacidades", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
                                                         clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador,
                                                         statusId = @ViewBag.statusId, numeroPagina = @ViewData["numeroPagina"]
@@ -202,32 +211,32 @@
                                                     </a>
                                                 </td>*@
 
-                                                <td style="font-size:10px; text-align:right; width:86%">
+                                            <td style="font-size:10px; text-align:right; width:86%">
+                                                <p style="font-weight:bold">
+                                                    Registros:
+                                                    @Html.Label(Language.registros, Convert.ToString((int)ViewBag.registros))
+                                                </p>
+                                            </td>
+                                            @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
+                                            {
+                                                <td style="padding-left:10px; height:20px; font-size:10px;width:8%">
                                                     <p style="font-weight:bold">
-                                                        Registros:
-                                                        @Html.Label(Language.registros, Convert.ToString((int)ViewBag.registros))
+                                                        Activos:
+                                                        @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
                                                     </p>
                                                 </td>
-                                                @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
-                                                {
-                                                    <td style="padding-left:10px; height:20px; font-size:10px;width:8%">
-                                                        <p style="font-weight:bold">
-                                                            Activos:
-                                                            @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
-                                                        </p>
-                                                    </td>
-                                                }
-                                                <td style="display:inline-block;height:20px; font-size:10px;width:5%;vertical-align:top">
-                                                    @Html.SearchStatusList()
-                                                </td>
-                                            </tr>
+                                            }
+                                            <td style="display:inline-block;height:20px; font-size:10px;width:5%;vertical-align:top">
+                                                @Html.SearchStatusList()
+                                            </td>
+                                        </tr>
 
-                                        </thead>
-                                    </table>
-                                </div>
-                                }
-                                }
-                               
+                                    </thead>
+                                </table>
+                            </div>
+                        }
+}
+
 @using (Html.BeginForm("UploadFilesInc", "Movimientos", FormMethod.Post))
 {
     if (!tableHtml.IsEmpty())
@@ -238,16 +247,16 @@
     }
 }
 
-                                <script type="text/javascript">
-                                    $(document).ready(function () {
-                                        $("input[name=slall]").change(function () {
-                                            $('#table-container input[type=checkbox]').each(function () {
-                                                if ($("input[name=slall]:checked").length == 1) {
-                                                    this.checked = true;
-                                                } else {
-                                                    this.checked = false;
-                                                }
-                                            });
-                                        });
-                                    });
-                                </script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=slall]").change(function () {
+            $('#table-container input[type=checkbox]').each(function () {
+                if ($("input[name=slall]:checked").length == 1) {
+                    this.checked = true;
+                } else {
+                    this.checked = false;
+                }
+            });
+        });
+    });
+</script>

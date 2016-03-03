@@ -111,7 +111,6 @@ namespace SUAMVC.Controllers
                 Usuario usuario = Session["UsuarioData"] as Usuario;
                 DateTime date = DateTime.Now;
 
-                Debug.WriteLine("solicitudId --> " + solicitudId);
                 int solicitudIdTemp = int.Parse(solicitudId);
                 SolicitudPrenomina solicitud = db.SolicitudPrenominas.Find(solicitudIdTemp);
 
@@ -267,7 +266,7 @@ namespace SUAMVC.Controllers
                 dt.primaVacacional = (Decimal)0.0;
                 dt.aguinaldo = (Decimal)0.0;
 
-                dt.ingresos = (Decimal)detallePrenomina.ingresos;
+                    dt.ingresos = (Decimal)detallePrenomina.ingresos;
                 if (detallePrenomina.isr != null)
                 {
                     dt.isr = (Decimal)detallePrenomina.isr;
