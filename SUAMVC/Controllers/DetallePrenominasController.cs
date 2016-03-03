@@ -352,7 +352,7 @@ namespace SUAMVC.Controllers
                 dt.descuentoFonacot = (Decimal)detallePrenomina.descuentoFonacot;
                 dt.descuentoPension = (Decimal)detallePrenomina.descuentoPension;
                 dt.otrosDescuentos = (Decimal)detallePrenomina.otrosDescuentos;
-                dt.netoPagar = dt.ingresos;
+                dt.netoPagar = dt.ingresos * dt.Empleado.salarioReal;
                 dt.netoPagar = dt.netoPagar + dt.gratificacion + dt.primaVacacional + dt.aguinaldo -
                     dt.descuentoInfonavit - dt.descuentoPension - dt.descuentoFonacot -
                     dt.otrosDescuentos;

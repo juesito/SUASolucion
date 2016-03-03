@@ -196,8 +196,6 @@
 
         gridColumns.Add(grid.Column("Empleado.salarioReal", Language.salarioReal, format: @<text> @if (@item.EmpleadoId != null)
         {  <p>$@item.Empleado.salarioReal</p> }</text>, canSort: true));
-        gridColumns.Add(grid.Column("Empleado.SDI.descripcion", "SDI", format: @<text> @if (@item.Empleado.SDI != null)
-        {  <p>$@item.Empleado.SDI.descripcion</p> }</text>, canSort: true));
         gridColumns.Add(grid.Column("Empleado.nss", "NSS", format: @<text> @if (@item.id != null)
         {  @item.Empleado.nss }</text>, canSort: true));
         gridColumns.Add(grid.Column("gratificacion", "Gratificacion",
