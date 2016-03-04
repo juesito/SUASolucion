@@ -1513,27 +1513,27 @@ namespace SUAMVC.Controllers
                 }
                 else if (movto.CatalogoMovimiento.tipo.Trim().Equals("02"))
                 {
-                    //                    asegurado.salarioDiario = 0;
-                    //                    asegurado.salarioImss = 0;
+                    ////                    asegurado.salarioDiario = 0;
+                    ////                    asegurado.salarioImss = 0;
 
-                    SolicitudEmpleado empleado = (from s in db.SolicitudEmpleadoes
-                                                  where s.Solicitud.Cliente.Id.Equals(asegurado.Cliente.Id)
-                                                     && s.Empleado.nss.Equals(asegurado.numeroAfiliacion)
-                                                     && s.Solicitud.tipoSolicitud.Equals(tipoSolicitud.id)
-                                                     && !asegurado.fechaBaja.Equals(null)
-                                                  select s).FirstOrDefault();
+                    //SolicitudEmpleado empleado = (from s in db.SolicitudEmpleadoes
+                    //                              where s.Solicitud.Cliente.Id.Equals(asegurado.Cliente.Id)
+                    //                                 && s.Empleado.nss.Equals(asegurado.numeroAfiliacion)
+                    //                                 && s.Solicitud.tipoSolicitud.Equals(tipoSolicitud.id)
+                    //                                 && !asegurado.fechaBaja.Equals(null)
+                    //                              select s).FirstOrDefault();
 
-                    if (empleado != null)
-                    {
+                    //if (empleado != null)
+                    //{
 
-                        Empleado empleadoSapyn = (from s in db.Empleados
-                                                  where s.id.Equals(empleado.empleadoId)
-                                                  select s).FirstOrDefault();
-                        empleadoSapyn.estatus = "B";
-                        empleadoSapyn.fechaBaja = asegurado.fechaBaja;
-                        db.Entry(empleadoSapyn).State = EntityState.Modified;
-                        db.SaveChanges();
-                    }
+                    //    Empleado empleadoSapyn = (from s in db.Empleados
+                    //                              where s.id.Equals(empleado.empleadoId)
+                    //                              select s).FirstOrDefault();
+                    //    empleadoSapyn.estatus = "B";
+                    //    empleadoSapyn.fechaBaja = asegurado.fechaBaja;
+                    //    db.Entry(empleadoSapyn).State = EntityState.Modified;
+//                        db.SaveChanges();
+ //                   }
                 }
             }
             else
@@ -1649,39 +1649,39 @@ namespace SUAMVC.Controllers
                 db.SaveChanges();
             }
 
-            SolicitudEmpleado empleadoSolicitud = (from s in db.SolicitudEmpleadoes
-                                                   where s.Solicitud.Cliente.Id.Equals(asegurado.Cliente.Id)
-                                                      && s.Empleado.nss.Equals(asegurado.numeroAfiliacion)
-                                                      && s.Solicitud.tipoSolicitud.Equals(tipoSolicitud.id)
-                                                      && asegurado.fechaBaja.Equals(null)
-                                                   select s).FirstOrDefault();
+            //SolicitudEmpleado empleadoSolicitud = (from s in db.SolicitudEmpleadoes
+            //                                       where s.Solicitud.Cliente.Id.Equals(asegurado.Cliente.Id)
+            //                                          && s.Empleado.nss.Equals(asegurado.numeroAfiliacion)
+            //                                          && s.Solicitud.tipoSolicitud.Equals(tipoSolicitud.id)
+            //                                          && asegurado.fechaBaja.Equals(null)
+            //                                       select s).FirstOrDefault();
 
-            if (empleadoSolicitud != null)
-            {
+            //if (empleadoSolicitud != null)
+            //{
 
-                SDI sDiario = (from s in db.SDIs
-                               where s.clienteId == asegurado.ClienteId
-                               && s.descripcion.Trim().Equals(asegurado.salarioImss.ToString().Trim())
-                               select s).FirstOrDefault();
+            //    SDI sDiario = (from s in db.SDIs
+            //                   where s.clienteId == asegurado.ClienteId
+            //                   && s.descripcion.Trim().Equals(asegurado.salarioImss.ToString().Trim())
+            //                   select s).FirstOrDefault();
 
-                if (sDiario == null)
-                {
-                    sDiario = new SDI();
-                    sDiario.descripcion = asegurado.salarioImss.ToString();
-                    sDiario.fechaCreacion = DateTime.Now;
-                    sDiario.usuarioId = 1;
-                    sDiario.clienteId = asegurado.Cliente.Id;
-                    db.SDIs.Add(sDiario);
-                    db.SaveChanges();
-                }
+            //    if (sDiario == null)
+            //    {
+            //        sDiario = new SDI();
+            //        sDiario.descripcion = asegurado.salarioImss.ToString();
+            //        sDiario.fechaCreacion = DateTime.Now;
+            //        sDiario.usuarioId = 1;
+            //        sDiario.clienteId = asegurado.Cliente.Id;
+            //        db.SDIs.Add(sDiario);
+            //        db.SaveChanges();
+            //    }
 
-                Empleado empleadoSapyn = (from s in db.Empleados
-                                          where s.id.Equals(empleadoSolicitud.empleadoId)
-                                          select s).FirstOrDefault();
-                empleadoSapyn.sdiId = sDiario.id;
-                db.Entry(empleadoSapyn).State = EntityState.Modified;
-                db.SaveChanges();
-            }
+            //    Empleado empleadoSapyn = (from s in db.Empleados
+            //                              where s.id.Equals(empleadoSolicitud.empleadoId)
+            //                              select s).FirstOrDefault();
+            //    empleadoSapyn.sdiId = sDiario.id;
+            //    db.Entry(empleadoSapyn).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //}
 
         }
 
