@@ -65,7 +65,7 @@
     {
         if (Model.solicitud.Concepto == null || !Model.solicitud.Concepto.descripcion.Trim().Equals("Enviado"))
         {
-            gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Empleados", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+            gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Empleados", new { id = item.id, solicitudId = solicitud.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
         }
     }
     if (SecurityUserModel.verificarPermiso("borrar empleado", "Se agrega solicitud para eliminar empleados", 6)
@@ -156,13 +156,9 @@
 </script>
 
 
-
-
-
 @section Menu {
     <div>Empleados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
-
 
 @using (Html.BeginForm(null, null, FormMethod.Get))
 {
@@ -221,74 +217,82 @@
         </table>
     </div>
 
-                //Etiqueta de No. de registros
-                if (ViewBag.registros != null)
-                {
-                    <div style="margin-right:4px;display:inline-block;vertical-align:top;">
+ }
 
-                        <table style="margin-left:20px; margin-top:15px; width:100% ">
-                            <thead>
-                                <tr>
-                                    <td style="padding-left:10px; height:20px; font-size:10px;width:8%">
-                                        @if (solicitud.id != null)
-                                        {
-                                            <a href="@Url.Action("Index", @ViewBag.controllerDestiny, new
+@if (!tableHtml.IsEmpty())
+{
+    using (Html.BeginForm("eliminarMasiva", "Empleados", new { solicitudId = solicitud.id }))
+    {
+        if (ViewBag.registros != null)
+        {
+            <div style="margin-right:4px;display:inline-block;vertical-align:top;">
+
+                <table style="margin-left:20px; margin-top:15px; width:100% ">
+                    <thead>
+                        <tr>
+                            @if (solicitud.id != 0)
+                            {
+                            <td style="padding-left:10px; height:20px; font-size:10px;">
+                                <input type="submit" value="" class="raddEmployee_button" title="Eiminar de forma masiva" />
+                            </td>
+                            }
+                            <td style="padding-left:10px; height:20px; font-size:10px;width:8%">
+                                @if (solicitud.id != null)
+                                {
+                                    <a href="@Url.Action("Index", @ViewBag.controllerDestiny, new
                 {
                     clienteId = @ViewBag.clienteId,
                     proyectoId = @ViewBag.proyectoId,
                 solicitudId = solicitud.id })" style="text-align:right">
-                                                <img src="~/Content/Images/back.png" title="Regresar" alt="Regresar" style="border:none;" class="menuIcon" />
-                                            </a>
-                                        }
-                                    </td>
+                                        <img src="~/Content/Images/back.png" title="Regresar" alt="Regresar" style="border:none;" class="menuIcon" />
+                                    </a>
+                                }
+                            </td>
 
-                                    <td style="font-size:10px; text-align:right; width:87%">
-                                        <p style="font-weight:bold">
-                                            @Html.Label("Registros:")
-                                            @Html.Label(Convert.ToString((int)ViewBag.registros), new { style = "padding-left: 5px; padding-right:7px" })
-                                        </p>
-                                    </td>
-                                    @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
-                                    {
-                                        <td style="padding-left:10px; height:20px; font-size:10px;width:8%">
-                                            <p style="font-weight:bold">
-                                                @Html.Label("Activos:")
-                                                @Html.Label(Convert.ToString((int)ViewBag.activos), new { style = "padding-left: 5px;" })
-                                            </p>
-                                        </td>
-                                    }
-                                    <td style="display:inline-block;height:20px; font-size:10px;width:5%;vertical-align:top">
-                                        @Html.SearchStatusList()
-                                    </td>
-                                </tr>
+                            <td style="font-size:10px; text-align:right; width:80%">
+                                <p style="font-weight:bold">
+                                    @Html.Label("Registros:")
+                                    @Html.Label(Convert.ToString((int)ViewBag.registros), new { style = "padding-left: 5px; padding-right:7px" })
+                                </p>
+                            </td>
+                            @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
+                            {
+                                <td style="padding-left:10px; height:20px; font-size:10px;width:8%">
+                                    <p style="font-weight:bold">
+                                        @Html.Label("Activos:")
+                                        @Html.Label(Convert.ToString((int)ViewBag.activos), new { style = "padding-left: 5px;" })
+                                    </p>
+                                </td>
+                            }
+                            <td style="display:inline-block;height:20px; font-size:10px;width:5%;vertical-align:top">
+                                @Html.SearchStatusList()
+                            </td>
+                        </tr>
 
-                            </thead>
-                        </table>
-                    </div>
-                }
+                    </thead>
+                </table>
+            </div>
+        }
+
+            <div id="table-container" class="table-container">
+                @Html.Raw(tableHtml)
+            </div>
+    }
 }
 
 
-
-@if (!tableHtml.IsEmpty())
-{
-    <div id="table-container" class="table-container">
-        @Html.Raw(tableHtml)
-    </div>
-}
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("input[name=slall]").change(function () {
-            $('#table-container input[type=checkbox]').each(function () {
-                if ($("input[name=slall]:checked").length == 1) {
-                    this.checked = true;
-                } else {
-                    this.checked = false;
-                }
-            });
-        });
-    });
-</script>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $("input[name=slall]").change(function () {
+                            $('#table-container input[type=checkbox]').each(function () {
+                                if ($("input[name=slall]:checked").length == 1) {
+                                    this.checked = true;
+                                } else {
+                                    this.checked = false;
+                                }
+                            });
+                        });
+                    });
+                </script>
 
 

@@ -481,6 +481,7 @@ namespace SUAMVC.Controllers
             datosEmpleadoModel.empleado = empleado;
             datosEmpleadoModel.datosEmpleado = documentosEmpleado;
             datosEmpleadoModel.salarialesEmpleado = salarialesEmpleado;
+            ViewBag.solicitudId = id;
 
             return View(datosEmpleadoModel);
         }
@@ -553,10 +554,10 @@ namespace SUAMVC.Controllers
                     empleadoModificado.observaciones = empleado.observaciones.Trim().ToUpper();
                 }
 
-                if (!string.IsNullOrEmpty(empleado.Estado.descripcion))
-                {
-                    empleadoModificado.Estado.descripcion = empleado.Estado.descripcion.Trim().ToUpper();
-                }
+                //if (!string.IsNullOrEmpty(empleado.Estado.descripcion))
+                //{
+                //    empleadoModificado.Estado.descripcion = empleado.Estado.descripcion.Trim().ToUpper();
+                //}
 
                 try
                 {
@@ -577,7 +578,9 @@ namespace SUAMVC.Controllers
                         }
                     }
                 }
-                return RedirectToAction("Edit", "Empleados", new { id = empleado.id });
+//                ViewBag.solicitudId = solicitudId;
+                return RedirectToAction("Index", "Empleados");
+//                return RedirectToAction("Edit", "Empleados", new { id = empleado.id });
             }
             DatosEmpleadoModel datosEmpleadoModel = new DatosEmpleadoModel();
             Solicitud solicitud = obtenerSolicitudActiva(empleado.id);
@@ -1609,8 +1612,36 @@ namespace SUAMVC.Controllers
             return RedirectToAction("SolicitudEmpleado", sourceController.Trim(), new { solicitudId = solicitudId });
         }
 
+        public ActionResult eliminarMasiva(String[] ids, string solicitudId)
+        {
+            Empleado empleado = new Empleado();
+            int solicitudTempId = int.Parse(solicitudId);
+            Solicitud solicitud = db.Solicituds.Find(solicitudTempId);
 
+            ToolsHelper th = new ToolsHelper();
 
+            if (ids != null && ids.Length > 0)
+            {
+                foreach (String empleadoId in ids)
+                {
+                    //buscar el empleadoiD en db.Empleados 
+                    int empleadoTempId = int.Parse(empleadoId);
+                    empleado = db.Empleados.Find(empleadoTempId);
+
+                    Solicitud solicitudTemp = obtenerSolicitudActiva(empleadoTempId);
+                    solicitudTemp.noTrabajadores = solicitudTemp.noTrabajadores - 1;
+
+                    SolicitudEmpleado solEmp = db.SolicitudEmpleadoes.Where(se => se.solicitudId.Equals(solicitudTemp.id)
+                        && se.empleadoId.Equals(empleadoTempId)).FirstOrDefault();
+
+                    db.SolicitudEmpleadoes.Remove(solEmp);
+                    db.Entry(solicitudTemp).State = EntityState.Modified;
+                    db.Empleados.Remove(empleado);
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("index", "Solicitudes", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId, id = solicitud.id, });
+        }
 
         protected override void Dispose(bool disposing)
         {
