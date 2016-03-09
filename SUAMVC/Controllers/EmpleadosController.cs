@@ -29,6 +29,8 @@ namespace SUAMVC.Controllers
 
             Solicitud solicitud = new Solicitud();
             List<Empleado> empleadosList = new List<Empleado>();
+            ToolsHelper cp = new ToolsHelper();
+            Concepto concepto = cp.obtenerConceptoPorGrupo("SOLCON", "Alta");
 
             ViewBag.status = "on";
             if (String.IsNullOrEmpty(status))
@@ -49,52 +51,58 @@ namespace SUAMVC.Controllers
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
                                  where s.solicitudId.Equals(idTemp)
+                                 && s.Solicitud.tipoSolicitud.Equals(concepto.id)
                                  orderby s.Empleado.nombreCompleto
                                  select s.Empleado).ToList();
             }//la solicitud no es nulla?
-
-            if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId) && String.IsNullOrEmpty(folioId))
-            {
-
-                int clienteIntId = int.Parse(clienteId);
-                int proyectoIntId = int.Parse(proyectoId);
-                @ViewBag.clienteId = clienteId;
-                @ViewBag.proyectoId = proyectoId;
-
-                empleadosList = (from s in db.SolicitudEmpleadoes
-                                 where s.Solicitud.clienteId.Equals(clienteIntId)
-                                 && s.Solicitud.proyectoId.Equals(proyectoIntId)
-                                 orderby s.Empleado.nombreCompleto
-                                 select s.Empleado).ToList();
-
-            }//el cliente y el proyecto no son nullos?
-            else if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId) && !String.IsNullOrEmpty(folioId))
-            {
-                int clienteIntId = int.Parse(clienteId);
-                int proyectoIntId = int.Parse(proyectoId);
-
-                @ViewBag.clienteId = clienteId;
-                @ViewBag.proyectoId = proyectoId;
-                @ViewBag.folioId = folioId;
-
-                empleadosList = (from s in db.SolicitudEmpleadoes
-                                 where s.Solicitud.clienteId.Equals(clienteIntId)
-                                 && s.Solicitud.proyectoId.Equals(proyectoIntId)
-                                 && s.Empleado.folioEmpleado.Trim().Contains(folioId.Trim())
-                                 orderby s.Empleado.nombreCompleto
-                                 select s.Empleado).ToList();
-
-            }//El folio no es null?
             else
             {
-                if (!String.IsNullOrEmpty(folioId))
+                if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId) && String.IsNullOrEmpty(folioId))
                 {
-                    ViewBag.folioId = folioId;
+
+                    int clienteIntId = int.Parse(clienteId);
+                    int proyectoIntId = int.Parse(proyectoId);
+                    @ViewBag.clienteId = clienteId;
+                    @ViewBag.proyectoId = proyectoId;
 
                     empleadosList = (from s in db.SolicitudEmpleadoes
-                                     where s.Empleado.folioEmpleado.Trim().Contains(folioId.Trim())
+                                     where s.Solicitud.clienteId.Equals(clienteIntId)
+                                     && s.Solicitud.proyectoId.Equals(proyectoIntId)
+                                     && s.Solicitud.tipoSolicitud.Equals(concepto.id)
                                      orderby s.Empleado.nombreCompleto
                                      select s.Empleado).ToList();
+
+                }//el cliente y el proyecto no son nullos?
+                else if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId) && !String.IsNullOrEmpty(folioId))
+                {
+                    int clienteIntId = int.Parse(clienteId);
+                    int proyectoIntId = int.Parse(proyectoId);
+
+                    @ViewBag.clienteId = clienteId;
+                    @ViewBag.proyectoId = proyectoId;
+                    @ViewBag.folioId = folioId;
+
+                    empleadosList = (from s in db.SolicitudEmpleadoes
+                                     where s.Solicitud.clienteId.Equals(clienteIntId)
+                                     && s.Solicitud.proyectoId.Equals(proyectoIntId)
+                                     && s.Empleado.folioEmpleado.Trim().Contains(folioId.Trim())
+                                     && s.Solicitud.tipoSolicitud.Equals(concepto.id)
+                                     orderby s.Empleado.nombreCompleto
+                                     select s.Empleado).ToList();
+
+                }//El folio no es null?
+                else
+                {
+                    if (!String.IsNullOrEmpty(folioId))
+                    {
+                        ViewBag.folioId = folioId;
+
+                        empleadosList = (from s in db.SolicitudEmpleadoes
+                                         where s.Empleado.folioEmpleado.Trim().Contains(folioId.Trim())
+                                         && s.Solicitud.tipoSolicitud.Equals(concepto.id)
+                                         orderby s.Empleado.nombreCompleto
+                                         select s.Empleado).ToList();
+                    }
                 }
             }
             IEnumerable<Empleado> listaEmpleados = empleadosList.Where(s => !s.fechaBaja.HasValue);
@@ -171,7 +179,7 @@ namespace SUAMVC.Controllers
 
 
         // GET: Empleados/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, String controllerDestiny, String clienteId, String proyectoId, String folioId)
         {
             if (id == null)
             {
@@ -214,6 +222,15 @@ namespace SUAMVC.Controllers
             datosEmpleadoModel.empleado = empleado;
             datosEmpleadoModel.datosEmpleado = documentosEmpleado;
             datosEmpleadoModel.salarialesEmpleado = salarialesEmpleado;
+
+            if (!String.IsNullOrEmpty(controllerDestiny))
+            {
+                ViewBag.controllerDestiny = controllerDestiny;
+                ViewBag.solicitud = solicitud;
+            }
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
+            ViewBag.folioId = solicitud.folioSolicitud;
 
             return View(datosEmpleadoModel);
         }
@@ -434,7 +451,7 @@ namespace SUAMVC.Controllers
         }
 
         // GET: Empleados/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, String controllerDestiny, String clienteId, String proyectoId, String folioId)
         {
             if (id == null)
             {
@@ -483,6 +500,15 @@ namespace SUAMVC.Controllers
             datosEmpleadoModel.salarialesEmpleado = salarialesEmpleado;
             ViewBag.solicitudId = id;
 
+            if (!String.IsNullOrEmpty(controllerDestiny))
+            {
+                ViewBag.controllerDestiny = controllerDestiny;
+                ViewBag.solicitud = solicitud;
+            }
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
+            ViewBag.folioId = solicitud.folioSolicitud;
+
             return View(datosEmpleadoModel);
         }
 
@@ -491,7 +517,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,rfc,homoclave,curp,categoria, fechaNacimiento,email,observaciones")] Empleado empleado, int sexoId)
+        public ActionResult Edit([Bind(Include = "id,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,rfc,homoclave,curp,categoria, fechaNacimiento,email,observaciones")] Empleado empleado, int sexoId, String controllerDestiny, String clienteId, String proyectoId, String folioId)
         {
             if (ModelState.IsValid)
             {
@@ -558,6 +584,15 @@ namespace SUAMVC.Controllers
                 //{
                 //    empleadoModificado.Estado.descripcion = empleado.Estado.descripcion.Trim().ToUpper();
                 //}
+                Solicitud solicitudTmp = obtenerSolicitudActiva(empleado.id);
+                if (!String.IsNullOrEmpty(controllerDestiny))
+                {
+                    ViewBag.controllerDestiny = controllerDestiny;
+                    ViewBag.solicitud = solicitudTmp;
+                }
+                ViewBag.clienteId = solicitudTmp.clienteId;
+                ViewBag.proyectoId = solicitudTmp.proyectoId;
+                ViewBag.folioId = solicitudTmp.folioSolicitud;
 
                 try
                 {
@@ -578,12 +613,17 @@ namespace SUAMVC.Controllers
                         }
                     }
                 }
-//                ViewBag.solicitudId = solicitudId;
-                return RedirectToAction("Index", "Empleados");
-//                return RedirectToAction("Edit", "Empleados", new { id = empleado.id });
+                if (!String.IsNullOrEmpty(controllerDestiny))
+                {
+                    return RedirectToAction("Index", "Empleados", new { id = solicitudTmp.id, controllerDestiny = controllerDestiny, clienteId = clienteId, proyectoId = proyectoId });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Empleados", new { clienteId = clienteId, proyectoId = proyectoId });
+                }
             }
-            DatosEmpleadoModel datosEmpleadoModel = new DatosEmpleadoModel();
             Solicitud solicitud = obtenerSolicitudActiva(empleado.id);
+            DatosEmpleadoModel datosEmpleadoModel = new DatosEmpleadoModel();
             DocumentoEmpleado documentosEmpleado = db.DocumentoEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)).FirstOrDefault();
             SalarialesEmpleado salarialesEmpleado = db.SalarialesEmpleadoes.Where(se => se.empleadoId.Equals(empleado.id)).FirstOrDefault();
             datosEmpleadoModel.solicitud = solicitud;
@@ -708,17 +748,28 @@ namespace SUAMVC.Controllers
         }
 
         // GET: Empleados/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, String controllerDestiny, String clienteId, String proyectoId, String folioId)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Empleado empleado = db.Empleados.Find(id);
+            Solicitud solicitud = obtenerSolicitudActiva(empleado.id);
             if (empleado == null)
             {
                 return HttpNotFound();
             }
+
+            if (!String.IsNullOrEmpty(controllerDestiny))
+            {
+                ViewBag.controllerDestiny = controllerDestiny;
+                ViewBag.solicitud = solicitud;
+            }
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
+            ViewBag.folioId = solicitud.folioSolicitud;
+            
             return View(empleado);
         }
 
