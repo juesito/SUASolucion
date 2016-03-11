@@ -615,11 +615,11 @@ namespace SUAMVC.Controllers
                 }
                 if (!String.IsNullOrEmpty(controllerDestiny))
                 {
-                    return RedirectToAction("Index", "Empleados", new { id = solicitudTmp.id, controllerDestiny = controllerDestiny, clienteId = clienteId, proyectoId = proyectoId });
+                    return RedirectToAction("Index", "Empleados", new { id = solicitudTmp.id, controllerDestiny = controllerDestiny, clienteId = solicitudTmp.clienteId, proyectoId = solicitudTmp.proyectoId });
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Empleados", new { clienteId = clienteId, proyectoId = proyectoId });
+                    return RedirectToAction("Index", "Empleados", new { clienteId = solicitudTmp.clienteId, proyectoId = solicitudTmp.proyectoId });
                 }
             }
             Solicitud solicitud = obtenerSolicitudActiva(empleado.id);

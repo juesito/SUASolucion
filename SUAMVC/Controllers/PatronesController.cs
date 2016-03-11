@@ -325,10 +325,10 @@ namespace SUAMVC.Controllers
             row = eh.addNewCellToRow(index, row, "Carpeta", headerColumns[12] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "% sobre nómina", headerColumns[12] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "% sobre nómina", headerColumns[13] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "UMF", headerColumns[12] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "UMF", headerColumns[14] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
             
             index++;
@@ -376,10 +376,10 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.direccionArchivo, headerColumns[i + 12] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.porcentajeNomina.ToString(), headerColumns[i + 12] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.porcentajeNomina.ToString(), headerColumns[i + 13] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                //row = eh.addNewCellToRow(index, row, dp.unidadMedica, headerColumns[i + 12] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.unidadMedica, headerColumns[i + 14] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
                 
                 index++;
