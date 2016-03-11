@@ -20,10 +20,7 @@
         solicitud = ViewBag.solicitud as Solicitud;
     }
 
-    var clienteId = ViewBag.clienteId;
-    var proyectoId = ViewBag.proyectoId;
-    var folioId = ViewBag.folioId;
-    var grid = new WebGrid(source: Model.empleados, rowsPerPage: 5, canPage: true);
+    var grid = new WebGrid(source: Model.empleados, rowsPerPage: 12, canPage: true);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
     //Creamos una lista de columnas
@@ -38,7 +35,7 @@
     gridColumns.Add(grid.Column("nombre", "Nombre", format: @<text> @if (@item.nombre != null)
     {  @item.nombre }</text>, canSort: true));
     gridColumns.Add(grid.Column("nss", "Nss", format: @<text> @if (@item.nss != null)
-        {  @item.nss }</text>, canSort: true));
+    {  @item.nss }</text>, canSort: true));
     gridColumns.Add(grid.Column("sdi.descripcion", "Sdi", format: @<text> @if (@item.sdi != null)
     {  @item.sdi.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("salarioReal", "Salario Real", format: @<text> @if (@item.salarioReal != null)
@@ -61,23 +58,28 @@
     {  @item.Asegurado.Patrone.registro }</text>, canSort: true));
     if (SecurityUserModel.verificarPermiso("ver empleados", "Se agrega solicitud para ver empleados", 6))
     {
-        gridColumns.Add(grid.Column(header: "Ver", format: @<text><a href="@Url.Action("Details", "Empleados", new { id = item.id })"><img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" /></a></text>));
+        gridColumns.Add(grid.Column(header: "Ver", format: @<text><a href="@Url.Action("Details", "Empleados", new { id = item.id, controllerDestiny = ViewBag.controllerDestiny })"><img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" /></a></text>));
     }
-    if (SecurityUserModel.verificarPermiso("modificar empleado", "Se agrega solicitud para editar empleados", 6) && !Model.solicitud.Concepto.descripcion.Trim().Equals("Enviado")
-        )
-               
-    {
-        gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Empleados", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
-    if (SecurityUserModel.verificarPermiso("borrar empleado", "Se agrega solicitud para eliminar empleados", 6) && !Model.solicitud.Concepto.descripcion.Trim().Equals("Enviado")
+    if (SecurityUserModel.verificarPermiso("modificar empleado", "Se agrega solicitud para editar empleados", 6)
         )
     {
-        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Empleados", new { id = item.id })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
+        if (Model.solicitud.Concepto == null || !Model.solicitud.Concepto.descripcion.Trim().Equals("Enviado"))
+        {
+            gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Empleados", new { id = item.id, solicitudId = solicitud.id, controllerDestiny = ViewBag.controllerDestiny })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+        }
+    }
+    if (SecurityUserModel.verificarPermiso("borrar empleado", "Se agrega solicitud para eliminar empleados", 6)
+        )
+    {
+        if (Model.solicitud.Concepto == null || !Model.solicitud.Concepto.descripcion.Trim().Equals("Enviado"))
+        {
+            gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Empleados", new { id = item.id, controllerDestiny = ViewBag.controllerDestiny })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
+        }
     }
     @*if (SecurityUserModel.verificarPermiso("reportes", "Se agrega solicitud para ver reportes", 6))
-    {
-        gridColumns.Add(grid.Column(header: "Reportes", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }*@
+        {
+            gridColumns.Add(grid.Column(header: "Reportes", format: @<text><a href="@Url.Action("Create", "Empleados", new { id = item.id })"><img src="~/Content/Images/report.png" alt="" style="border:none;" class="icon" /></a></text>));
+        }*@
 
 
     sb.Append(grid.GetHtml(
@@ -154,15 +156,11 @@
 </script>
 
 
-
-
-
 @section Menu {
     <div>Empleados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Get))
 {
     <div class="marqueeFilter">
         <table style="float:left; margin-top:5px;display:inline-block;">
@@ -187,7 +185,7 @@
                             <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
                         </td>
                     </tr>
-                   
+
                 }
                 else
                 {
@@ -210,7 +208,7 @@
                         <td style="padding-left:15px;">
                             @Html.Label("Proyecto:")
                         </td>
-                        <td>
+                        <td style="padding-left:5px;">
                             @Html.Label(solicitud.Proyecto.descripcion)
                         </td>
                     </tr>
@@ -218,36 +216,83 @@
             </thead>
         </table>
     </div>
-}
+
+ }
 
 @if (!tableHtml.IsEmpty())
 {
-    <div class="menubar-header">
-        <a href="@Url.Action("Index", @ViewBag.controllerDestiny, new
-            {
-                clienteId = ViewBag.clienteId,
-                proyectoId = ViewBag.proyectoId,
-            solicitudId = solicitud.id })" style="text-align:right">
-            <img src="~/Content/Images/back.png" title="Regresar" alt="Regresar" style="border:none;" class="menuIcon" />
-        </a>
-    </div>
-    <div id="table-container" class="table-container">
-        @Html.Raw(tableHtml)
-    </div>
+    using (Html.BeginForm("eliminarMasiva", "Empleados", new { solicitudId = solicitud.id }))
+    {
+        if (ViewBag.registros != null)
+        {
+            <div style="margin-right:4px;display:inline-block;vertical-align:top;">
+
+                <table style="margin-left:20px; margin-top:15px; width:100% ">
+                    <thead>
+                        <tr>
+                            @if (ViewBag.solicitud != null)
+                            {
+                            <td style="padding-left:10px; height:20px; font-size:10px;">
+                                <input type="submit" value="" class="raddEmployee_button" title="Eiminar de forma masiva" />
+                            </td>
+                            }
+                            <td style="padding-left:10px; height:20px; font-size:10px;width:8%">
+                                @if (ViewBag.solicitud != null)
+                                {
+                                    <a href="@Url.Action("Index", @ViewBag.controllerDestiny, new
+                {
+                    clienteId = @ViewBag.clienteId,
+                    proyectoId = @ViewBag.proyectoId,
+                solicitudId = solicitud.id })" style="text-align:right">
+                                        <img src="~/Content/Images/back.png" title="Regresar" alt="Regresar" style="border:none;" class="menuIcon" />
+                                    </a>
+                                }
+                            </td>
+
+                            <td style="font-size:10px; text-align:right; width:80%">
+                                <p style="font-weight:bold">
+                                    @Html.Label("Registros:")
+                                    @Html.Label(Convert.ToString((int)ViewBag.registros), new { style = "padding-left: 5px; padding-right:7px" })
+                                </p>
+                            </td>
+                            @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
+                            {
+                                <td style="padding-left:10px; height:20px; font-size:10px;width:8%">
+                                    <p style="font-weight:bold">
+                                        @Html.Label("Activos:")
+                                        @Html.Label(Convert.ToString((int)ViewBag.activos), new { style = "padding-left: 5px;" })
+                                    </p>
+                                </td>
+                            }
+                            <td style="display:inline-block;height:20px; font-size:10px;width:5%;vertical-align:top">
+                                @Html.SearchStatusList()
+                            </td>
+                        </tr>
+
+                    </thead>
+                </table>
+            </div>
+        }
+
+            <div id="table-container" class="table-container">
+                @Html.Raw(tableHtml)
+            </div>
+    }
 }
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("input[name=slall]").change(function () {
-            $('#table-container input[type=checkbox]').each(function () {
-                if ($("input[name=slall]:checked").length == 1) {
-                    this.checked = true;
-                } else {
-                    this.checked = false;
-                }
-            });
-        });
-    });
-</script>
+
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $("input[name=slall]").change(function () {
+                            $('#table-container input[type=checkbox]').each(function () {
+                                if ($("input[name=slall]:checked").length == 1) {
+                                    this.checked = true;
+                                } else {
+                                    this.checked = false;
+                                }
+                            });
+                        });
+                    });
+                </script>
 
 

@@ -2041,6 +2041,381 @@ namespace SUAMVC.Controllers
             return sheetData;
         }
 
+        public ActionResult CargarPrenominaSYSDiasExcel(String solicitudId)
+        {
+
+            if (!String.IsNullOrEmpty(solicitudId))
+            {
+                ToolsHelper th = new ToolsHelper();
+                int solicitudAct = int.Parse(solicitudId);
+                Solicitud solicitud = db.Solicituds.Find(solicitudAct);
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+                DateTime date = DateTime.Now;
+
+                if (Request.Files.Count > 0)
+                {
+                    var file = Request.Files[0];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        ExcelHelper ex = new ExcelHelper();
+
+                        String fileName = @"C:\SUA\Layouts\" + date.ToString("ddMMyyyyHHmmss") + "-" + file.FileName.Trim();
+                        file.SaveAs(fileName.Trim());
+                        LinqToExcelProvider provider = new LinqToExcelProvider(fileName.Trim());
+
+                        provider.readExcel("Layout");
+
+                        var query = (from row in provider.GetWorkSheet("Layout")
+                                     let item = new PersonalExcelLayout
+                                     {
+                                         //APATERNO	AMATERNO	NOMBRE	DIAS	TOTAL SYS	
+                                         //GRATIFICACIONES	PRIMA_VACACIONAL	INFONAVIT	FONACOT 	
+                                         //DESCPENSION	DESCREEMBOL	OTROSDESC	CUENTA	BANCO	CATEGORIA
+
+                                         nombre = Convert.ToString(row.Field<Object>("NOMBRE")),
+                                         apellidoMaterno = Convert.ToString(row.Field<Object>("AMATERNO")),
+                                         apellidoPaterno = Convert.ToString(row.Field<Object>("APATERNO")),
+                                         creditoInfonavit = Convert.ToString(row.Field<Object>("INFONAVIT")),
+                                         cuentaBanco = Convert.ToString(row.Field<Object>("CUENTA")),
+                                         banco = Convert.ToString(row.Field<Object>("BANCO")),
+                                         categoria = Convert.ToString(row.Field<Object>("CATEGORIA")),
+
+                                     }
+                                     select item).ToList();
+
+
+                        Sexo sexo = new Sexo();
+                        EstadoCivil estadoCivil = new EstadoCivil();
+                        Pais pais = new Pais();
+                        Estado estado = new Estado();
+                        Municipio municipio = new Municipio();
+                        Banco banco = new Banco();
+                        Asegurado asegurado = new Asegurado();
+                        Boolean founded = false;
+                        int counter = 1;
+                        LogHelper log = new LogHelper();
+
+                        foreach (PersonalExcelLayout empleadoL in query)
+                        {
+                            Empleado empleado = new Empleado();
+                            founded = false;
+
+                            if (String.IsNullOrEmpty(empleadoL.nombre) && String.IsNullOrEmpty(empleadoL.apellidoPaterno))
+                            {
+
+                                log.saveLog("Renglon ->" + counter, "Nombre - Apellido Paterno Campos obligatorios nulos",
+                                    "Carga Empleados Masiva", usuario.Id, "ER", solicitudId);
+
+                                counter++;
+
+                                break;
+                            }
+
+                            if (!String.IsNullOrEmpty(empleadoL.nss))
+                            {
+                                empleado.nss = empleadoL.nss.Trim();
+                                Empleado empleadoAlterno = th.obtenerEmpleadoPorNSS(empleadoL.nss.Trim());
+
+                                founded = th.verificarEmpleadoPorNSSyCliente(empleadoL.nss.Trim(), solicitud.clienteId);
+                            }
+
+                            if (!founded)
+                            {
+
+                                asegurado = th.obtenerAseguradoPorNSS(empleado.nss.Trim());
+
+                                if (!(asegurado == null) && !String.IsNullOrEmpty(asegurado.nombre))
+                                {
+                                    empleado.aseguradoId = asegurado.id;
+                                }
+
+                                empleado.nombre = empleadoL.nombre.Trim();
+                                empleado.apellidoMaterno = empleadoL.apellidoMaterno.Trim();
+                                if (String.IsNullOrEmpty(empleadoL.apellidoMaterno))
+                                {
+                                    empleadoL.apellidoMaterno = " ";
+                                }
+
+                                empleado.apellidoPaterno = empleadoL.apellidoPaterno.Trim();
+                                empleado.nombreCompleto = empleadoL.apellidoPaterno.Trim() + " " + empleadoL.apellidoMaterno.Trim() + " " + empleadoL.nombre.Trim();
+
+                                empleado.rfc = empleadoL.RFC.Trim();
+                                empleado.homoclave = empleadoL.homoclave.Trim();
+
+
+                                if (!String.IsNullOrEmpty(empleadoL.curp))
+                                {
+                                    if (empleadoL.curp.Trim().Length > 17)
+                                    {
+                                        empleado.curp = empleadoL.curp.Trim().Substring(0, 18);
+                                    }
+                                    else
+                                    {
+                                        empleado.curp = empleadoL.curp.Trim();
+                                    }
+                                }
+                                if (solicitud.esquemaId != null)
+                                {
+                                    empleado.esquemaPagoId = solicitud.esquemaId;
+                                }
+                                if (solicitud.sdiId != null)
+                                {
+                                    empleado.sdiId = solicitud.sdiId;
+                                    empleado.sdiAlternativoId = solicitud.sdiId;
+                                }
+                                else
+                                {
+                                    SDI sDiario = (from s in db.SDIs
+                                                   where s.clienteId == solicitud.clienteId
+                                                   && s.descripcion.Trim().Equals("0.0")
+                                                   select s).FirstOrDefault();
+                                    if (!String.IsNullOrEmpty(sDiario.descripcion))
+                                    {
+                                        empleado.sdiId = sDiario.id;
+                                        empleado.sdiAlternativoId = empleado.sdiId;
+                                    }
+                                }
+
+                                if (!String.IsNullOrEmpty(empleadoL.sexo))
+                                {
+                                    sexo = th.obtenerSexoPorDescripcion(empleadoL.sexo.Trim());
+                                    if (sexo.descripcion.Trim().Equals("Masculino"))
+                                    {
+                                        empleado.foto = "~/Content/Images/male.png";
+                                    }
+                                    else
+                                    {
+                                        empleado.foto = "~/Content/Images/female.png";
+                                    }
+                                }
+                                else
+                                {
+                                    sexo = db.Sexos.Find(1);
+                                }// el sexo no es null?
+
+                                empleado.sexoId = sexo.id;
+
+                                if (String.IsNullOrEmpty(empleadoL.salarioReal))
+                                {
+                                    empleadoL.salarioReal = "0";
+                                }//El salario real es null?
+
+                                empleado.salarioReal = Decimal.Parse(empleadoL.salarioReal);
+                                empleado.categoria = empleadoL.categoria.Trim();
+
+                                if (!String.IsNullOrEmpty(empleadoL.fechaAltaImss))
+                                {
+                                    empleado.fechaAltaImss = Convert.ToDateTime(empleadoL.fechaAltaImss.Trim());
+                                }// Fecha alta Imms no es null?
+
+                                if (!String.IsNullOrEmpty(empleadoL.fechaNacimiento))
+                                {
+                                    empleado.fechaNacimiento = Convert.ToDateTime(empleadoL.fechaNacimiento.Trim());
+                                } // Fecha de nacimiento no es null?
+
+                                if (!String.IsNullOrEmpty(empleadoL.creditoInfonavit))
+                                {
+                                    empleado.creditoInfonavit = empleadoL.creditoInfonavit.Trim();
+                                    empleado.tieneInfonavit = 1;
+                                }
+                                else
+                                {
+                                    empleado.tieneInfonavit = 0;
+                                }// Tiene infonavit el empleado ?
+
+                                if (!String.IsNullOrEmpty(empleadoL.estadoCivil))
+                                {
+                                    estadoCivil = th.obtenerEstadoCivilPorDescripcion(empleadoL.estadoCivil.Trim());
+                                }
+                                else
+                                {
+                                    estadoCivil = db.EstadoCivils.Find(1);
+                                }
+                                empleado.estadoCivilId = estadoCivil.id;
+
+                                if (!String.IsNullOrEmpty(empleadoL.pais))
+                                {
+                                    pais = th.obtenerPaisPorDescripcion(empleadoL.pais.Trim());
+                                }
+                                else
+                                {
+                                    pais = db.Paises.FirstOrDefault();
+                                } //Pais de nacimiento es null?
+                                empleado.nacionalidadId = pais.id;
+                                if (!String.IsNullOrEmpty(empleadoL.estado))
+                                {
+                                    estado = th.obtenerEstadoPorDescripcion(empleadoL.estado.Trim());
+                                }
+                                else
+                                {
+                                    estado = db.Estados.Find(1);
+                                } // Estado de nacimiento no es null?
+                                empleado.estadoNacimientoId = estado.id;
+
+                                if (pais.descripcion.ToLower().Trim().Equals("mexico"))
+                                {
+                                    if (!String.IsNullOrEmpty(empleadoL.municipio))
+                                    {
+                                        municipio = th.obtenerMunicipioPorDescripcion(empleadoL.municipio.Trim());
+                                    }
+                                    else
+                                    {
+                                        municipio = db.Municipios.Find(2);
+                                    } // municipio de nacimiento no es null?
+                                    empleado.municipioNacimientoId = municipio.id;
+                                }
+
+                                if (!String.IsNullOrEmpty(empleadoL.calleNumero))
+                                {
+                                    empleado.calleNumero = empleadoL.calleNumero.Trim();
+                                }
+                                else
+                                {
+                                    empleado.calleNumero = "No especificado";
+                                } //calle y numero no son null?
+
+                                if (!String.IsNullOrEmpty(empleadoL.colonia))
+                                {
+                                    empleado.colonia = empleadoL.colonia.Trim();
+                                }
+                                else
+                                {
+                                    empleado.colonia = "No especificado";
+                                } // colonia no es null?
+
+                                if (!String.IsNullOrEmpty(empleadoL.estadoMunicipio))
+                                {
+                                    empleado.edoMunicipio = empleadoL.estadoMunicipio.Trim();
+                                }
+                                else
+                                {
+                                    empleado.edoMunicipio = "No especificado";
+                                } // Municipio no es null?
+
+                                if (!String.IsNullOrEmpty(empleadoL.codioPostal))
+                                {
+                                    empleado.codigoPostal = empleadoL.codioPostal.Trim();
+                                }//codigo postal no es null?
+
+                                if (!String.IsNullOrEmpty(empleadoL.cuentaBanco))
+                                {
+                                    empleado.cuentaBancaria = empleadoL.cuentaBanco.Trim();
+                                }//cuenta banco no es null?
+
+                                if (!String.IsNullOrEmpty(empleadoL.cuentaClabe))
+                                {
+                                    empleado.cuentaClabe = empleadoL.cuentaClabe.Trim();
+                                } // cuenta clabe no es null?
+
+                                if (!String.IsNullOrEmpty(empleadoL.email))
+                                {
+                                    empleado.email = empleadoL.email.Trim();
+                                }//email no es null?
+
+                                if (!String.IsNullOrEmpty(empleadoL.tramitarCuenta))
+                                {
+                                    if (empleadoL.tramitarCuenta.Equals("Si"))
+                                    {
+                                        empleado.tramitarTarjeta = 1;
+                                    }
+                                    else
+                                    {
+                                        empleado.tramitarTarjeta = 0;
+                                    }
+                                }
+                                else
+                                {
+                                    empleado.tramitarTarjeta = 0;
+                                }//tramitar cuenta no es null?
+
+                                if (!String.IsNullOrEmpty(empleadoL.banco))
+                                {
+                                    banco = th.obtenerBancoPorDescripcion(empleadoL.banco.Trim());
+                                }
+                                else
+                                {
+                                    banco = db.Bancos.Find(1);
+                                }// banco no es null?
+                                empleado.bancoId = banco.id;
+
+                                if (!String.IsNullOrEmpty(empleadoL.observaciones))
+                                {
+                                    empleado.observaciones = empleadoL.observaciones.Trim();
+                                } // observaciones no es null
+
+
+                                empleado.usuarioId = usuario.Id;
+                                //Ponemos en pendiente el empleado hasta que se 
+                                //procese
+                                empleado.estatus = "P";
+
+
+                                try
+                                {
+                                    if (!founded)
+                                    {
+                                        empleado.fechaCreacion = DateTime.Now;
+                                        db.Empleados.Add(empleado);
+                                    }
+                                    else
+                                    {
+                                        empleado.fechaModificacion = DateTime.Now;
+                                    }
+
+
+                                    db.SaveChanges();
+                                    //crearSolicitudEmpleado(empleado.id, solicitud.id, usuario.Id, "Alta");
+
+                                    //Obtenemos la solicitud par modificar el noTrabjadores
+                                    //a su vez con ella obtener el folio de Solicitud para generar el folioEmpleado
+                                    solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
+
+                                    empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
+
+                                    //Preparamos las entidades para guardar
+                                    db.Entry(empleado).State = EntityState.Modified;
+                                    db.Entry(solicitud).State = EntityState.Modified;
+                                    db.SaveChanges();
+
+                                }
+                                catch (DbEntityValidationException exm)
+                                {
+                                    StringBuilder sb = new StringBuilder();
+
+                                    foreach (var failure in exm.EntityValidationErrors)
+                                    {
+                                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                                        foreach (var error in failure.ValidationErrors)
+                                        {
+                                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                                            sb.AppendLine();
+
+                                            log.saveLog("Renglon ->" + counter, "Reigistro error sistema",
+                                            "Carga Empleados Masiva", usuario.Id, "SE", solicitudId);
+                                        }
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+
+                                log.saveLog("Renglon ->" + counter, "Registro ya existente " + empleadoL.nombre.Trim(),
+                                    "Carga Empleados Masiva", usuario.Id, "WA", solicitudId);
+                            }//Se encontro ya el nss y cliente?
+                            counter++;
+                        }
+
+                    }
+
+                }
+                return RedirectToAction("Index", "Solicitudes", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
+            }
+
+            return RedirectToAction("CargarEmpleadosPorExcel", "Empleados", new { id = solicitudId });
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

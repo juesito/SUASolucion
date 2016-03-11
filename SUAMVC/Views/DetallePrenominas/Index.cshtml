@@ -28,92 +28,238 @@
 
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
-    //gridColumns.Add(grid.Column(format: @<text><input type="checkbox" name="ids" value="@item.id" /></text>, header: "{}"));
-    gridColumns.Add(grid.Column("",
-                    style: "col1",
-                    format: @<text>
-                        <input class="edit-personal display-mode" type="image" src="~/Content/Images/edit.png"
-       alt="@Language.edit" title="@Language.edit" width="20" height="20" id="@item.id" />
-                        <input class="save-personal edit-mode" type="image" src="~/Content/Images/save-floppy.png"
-       alt="@Language.guardar" title="@Language.guardar" width="20" height="20" id="@item.id" />
-                        <input class="cancel-capture edit-mode" type="image" src="~/Content/Images/cancel.png"
-       alt="@Language.bt_cancel" title="@Language.bt_cancel" width="20" height="20" id="@item.id" />                        
-                    </text>));
-    gridColumns.Add(grid.Column("Empleado.nombre", Language.nombreCompleto, format: @<text> @if (@item.id != null)
-    {  @item.Empleado.nombre }</text>, canSort: true));
-    gridColumns.Add(grid.Column("diasLaborados", "DT", format: @<text> @if (@item.diasLaborados != null)
+
+    if (solicitud.Concepto1.descripcion.Trim().Equals("IAS"))
     {
-        <span id="diasLaborados" class="display-mode" style="font-weight:bold; color:green">@item.diasLaborados</span>
-        @Html.Editor("DiasLaborados", new { htmlAttributes = new { @class = "edit-mode", size = 3 } })
-    }</text>,
-                                   canSort: true));
-    gridColumns.Add(grid.Column("Empleado.salarioReal", Language.salarioReal, format: @<text> @if (@item.EmpleadoId != null)
-    {  <p>$@item.Empleado.salarioReal</p> }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Empleado.SDI.descripcion", "SDI", format: @<text> @if (@item.Empleado.SDI != null)
-    {  <p>$@item.Empleado.SDI.descripcion</p> }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Empleado.nss", "NSS", format: @<text> @if (@item.id != null)
-    {  @item.Empleado.nss }</text>, canSort: true));
-    gridColumns.Add(grid.Column("gratificacion", "Gratificacion",
-        format: @<text>
-            <span id="gratificacion" class="display-mode" style="font-weight:bold; color:green">$@item.gratificacion</span>
-            @Html.Editor("Gratificacion", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
-        </text>
-, canSort: true));
-    gridColumns.Add(grid.Column("primaVacacional", "Prima Vacional",
-        format: @<text>
-            <span id="primaVacacional" class="display-mode" style="font-weight:bold; color:green">$@item.primaVacacional</span>
-            @Html.Editor("PrimaVacacional", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
-        </text>
-, canSort: true));
-    gridColumns.Add(grid.Column("aguinaldo", "Aguinaldo",
+        gridColumns.Add(grid.Column("",
+                        style: "col1",
+                        format: @<text>
+                            <input class="edit-personal display-mode" type="image" src="~/Content/Images/edit.png"
+                                   alt="@Language.edit" title="@Language.edit" width="20" height="20" id="@item.id" />
+                            <input class="save-personal edit-mode" type="image" src="~/Content/Images/save-floppy.png"
+                                   alt="@Language.guardar" title="@Language.guardar" width="20" height="20" id="@item.id" />
+                            <input class="cancel-capture edit-mode" type="image" src="~/Content/Images/cancel.png"
+                                   alt="@Language.bt_cancel" title="@Language.bt_cancel" width="20" height="20" id="@item.id" />
+                        </text>));
+        gridColumns.Add(grid.Column("Empleado.nombreCompleto", Language.nombreCompleto, format: @<text> @if (@item.id != null)
+        {  @item.Empleado.nombre }</text>, canSort: true));
+
+        gridColumns.Add(grid.Column("ingresos", "Ingresos",
             format: @<text>
-            <span id="aguinaldo" class="display-mode" style="font-weight:bold; color:green">$@item.aguinaldo</span>
-            @Html.Editor("Aguinaldo", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+                <span id="ingresos" class="display-mode" style="font-weight:bold; color:red">$@item.ingresos</span>
+                @Html.Editor("Ingresos", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
             </text>
 , canSort: true));
-    gridColumns.Add(grid.Column("descuentoInfonavit", "Infonavit",
-format: @<text>
-            <span id="descuentoInfonavit" class="display-mode" style="font-weight:bold; color:red">$@item.descuentoInfonavit</span>
-            @Html.Editor("DescuentoInfonavit", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
-</text>
-
-, canSort: true));
-    gridColumns.Add(grid.Column("descuentoFonacot", "Fonacot",
-       format: @<text>
-            <span id="descuentoFonacot" class="display-mode" style="font-weight:bold; color:red">$@item.descuentoFonacot</span>
-            @Html.Editor("DescuentoFonacot", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
-    </text>
-, canSort: true));
-    gridColumns.Add(grid.Column("descuentoPension", "Desc. Pensión",
-        format: @<text>
-            <span id="descuentoPension" class="display-mode" style="font-weight:bold; color:red">$@item.descuentoPension</span>
-            @Html.Editor("DescuentoPension", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
-        </text>
-, canSort: true));
-    gridColumns.Add(grid.Column("otrosDescuentos", "Otros Desc.",
-        format: @<text>
-            <span id="otrosDescuentos" class="display-mode" style="font-weight:bold; color:red">$@item.otrosDescuentos</span>
-            @Html.Editor("OtrosDescuentos", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
-        </text>
-, canSort: true));
-    gridColumns.Add(grid.Column("netoPagar", "Neto Pagar",
-        format: @<text>
-            <span id="netoPagar" style="font-weight:bold; color:blue">$@item.netoPagar</span>
-        </text>
-, canSort: true));
-    gridColumns.Add(grid.Column("CuentaEmpleado.cuenta", Language.cuentaBancaria, format: @<text> @if (@item.CuentaEmpleado != null)
-    {  @item.CuentaEmpleado.cuenta }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Empleado.categoria", Language.categoria, canSort: true));
 
 
-    if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados", 6))
+        gridColumns.Add(grid.Column("isr", "ISR",
+            format: @<text>
+                <span id="isr" class="display-mode" style="font-weight:bold; color:red">$@item.isr</span>
+                @Html.Editor("Isr", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+            </text>
+, canSort: true));
+
+        gridColumns.Add(grid.Column("otrosDescuentos", "Otros Desc.",
+            format: @<text>
+                <span id="otrosDescuentos" class="display-mode" style="font-weight:bold; color:red">$@item.otrosDescuentos</span>
+                @Html.Editor("OtrosDescuentos", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+            </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("netoPagar", "Neto Pagar",
+            format: @<text>
+                <span id="netoPagar" style="font-weight:bold; color:blue">$@item.netoPagar</span>
+            </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("Empleado.cuentaBancaria", "Datos Banco", format: @<text> @if (@item.CuentaEmpleado != null)
+        {  @item.CuentaEmpleado.cuenta }</text>, canSort: true));
+        gridColumns.Add(grid.Column("Empleado.categoria", Language.categoria, canSort: true));
+
+
+        if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados", 6))
+        {
+            gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
+
+                <a href="@Url.Action("Delete", "DetallePrenominas", new { id = item.id })">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a>
+            </text>));
+        }
+    }
+    else if (solicitud.Concepto1.descripcion.Trim().Equals("SyS Dias Laborados"))
     {
-        gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
+        gridColumns.Add(grid.Column("",
+                        style: "col1",
+                        format: @<text>
+                            <input class="edit-personal display-mode" type="image" src="~/Content/Images/edit.png"
+                                   alt="@Language.edit" title="@Language.edit" width="20" height="20" id="@item.id" />
+                            <input class="save-personal edit-mode" type="image" src="~/Content/Images/save-floppy.png"
+                                   alt="@Language.guardar" title="@Language.guardar" width="20" height="20" id="@item.id" />
+                            <input class="cancel-capture edit-mode" type="image" src="~/Content/Images/cancel.png"
+                                   alt="@Language.bt_cancel" title="@Language.bt_cancel" width="20" height="20" id="@item.id" />
+                        </text>));
+        gridColumns.Add(grid.Column("Empleado.nombreCompleto", Language.nombreCompleto, format: @<text> @if (@item.id != null)
+        {  @item.Empleado.nombre }</text>, canSort: true));
+        gridColumns.Add(grid.Column("diasLaborados", "DT", format: @<text> @if (@item.diasLaborados != null)
+        {
+            <span id="diasLaborados" class="display-mode" style="font-weight:bold; color:green">@item.diasLaborados</span>
+            @Html.Editor("DiasLaborados", new { htmlAttributes = new { @class = "edit-mode", size = 3 } })
+        }</text>,
+                                   canSort: true));
+        gridColumns.Add(grid.Column("Empleado.salarioReal", Language.salarioReal, format: @<text> @if (@item.EmpleadoId != null)
+        {  <p>$@item.Empleado.salarioReal</p> }</text>, canSort: true));
+        gridColumns.Add(grid.Column("Empleado.SDI.descripcion", "SDI", format: @<text> @if (@item.Empleado.SDI != null)
+        {  <p>$@item.Empleado.SDI.descripcion</p> }</text>, canSort: true));
+        gridColumns.Add(grid.Column("gratificacion", "Gratificacion",
+            format: @<text>
+                <span id="gratificacion" class="display-mode" style="font-weight:bold; color:green">$@item.gratificacion</span>
+                @Html.Editor("Gratificacion", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+            </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("primaVacacional", "Prima Vacional",
+            format: @<text>
+                <span id="primaVacacional" class="display-mode" style="font-weight:bold; color:green">$@item.primaVacacional</span>
+                @Html.Editor("PrimaVacacional", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+            </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("aguinaldo", "Aguinaldo",
+                format: @<text>
+                <span id="aguinaldo" class="display-mode" style="font-weight:bold; color:green">$@item.aguinaldo</span>
+                @Html.Editor("Aguinaldo", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+                </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("descuentoInfonavit", "Infonavit",
+    format: @<text>
+                <span id="descuentoInfonavit" class="display-mode" style="font-weight:bold; color:red">$@item.descuentoInfonavit</span>
+                @Html.Editor("DescuentoInfonavit", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+    </text>
 
-            <a href="@Url.Action("Delete", "DetallePrenominas", new { id = item.id })">
-                <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
-            </a>
-        </text>));
+, canSort: true));
+        gridColumns.Add(grid.Column("descuentoFonacot", "Fonacot",
+           format: @<text>
+                <span id="descuentoFonacot" class="display-mode" style="font-weight:bold; color:red">$@item.descuentoFonacot</span>
+                @Html.Editor("DescuentoFonacot", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+        </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("descuentoPension", "Desc. Pensión",
+            format: @<text>
+                <span id="descuentoPension" class="display-mode" style="font-weight:bold; color:red">$@item.descuentoPension</span>
+                @Html.Editor("DescuentoPension", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+            </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("otrosDescuentos", "Otros Desc.",
+            format: @<text>
+                <span id="otrosDescuentos" class="display-mode" style="font-weight:bold; color:red">$@item.otrosDescuentos</span>
+                @Html.Editor("OtrosDescuentos", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+            </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("netoPagar", "Neto Pagar",
+            format: @<text>
+                <span id="netoPagar" style="font-weight:bold; color:blue">$@item.netoPagar</span>
+            </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("Empleado.cuentaBancaria", "Datos Banco", format: @<text> @if (@item.CuentaEmpleado != null)
+        {  @item.CuentaEmpleado.cuenta }</text>, canSort: true));
+        gridColumns.Add(grid.Column("Empleado.categoria", Language.categoria, canSort: true));
+
+
+        if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados", 6))
+        {
+            gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
+
+                <a href="@Url.Action("Delete", "DetallePrenominas", new { id = item.id })">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a>
+            </text>));
+        }
+    }
+    else if (solicitud.Concepto1.descripcion.ToLower().Trim().Equals("sys dias por ingreso"))
+    {
+
+        gridColumns.Add(grid.Column("",
+                        style: "col1",
+                        format: @<text>
+                            <input class="edit-personal display-mode" type="image" src="~/Content/Images/edit.png"
+                                   alt="@Language.edit" title="@Language.edit" width="20" height="20" id="@item.id" />
+                            <input class="save-personal edit-mode" type="image" src="~/Content/Images/save-floppy.png"
+                                   alt="@Language.guardar" title="@Language.guardar" width="20" height="20" id="@item.id" />
+                            <input class="cancel-capture edit-mode" type="image" src="~/Content/Images/cancel.png"
+                                   alt="@Language.bt_cancel" title="@Language.bt_cancel" width="20" height="20" id="@item.id" />
+                        </text>));
+        gridColumns.Add(grid.Column("Empleado.nombre", Language.nombreCompleto, format: @<text> @if (@item.id != null)
+        {  @item.Empleado.nombre }</text>, canSort: true));
+        gridColumns.Add(grid.Column("ingresos", "Ingresos",
+            format: @<text>
+                <span id="ingresos" class="display-mode" style="font-weight:bold; color:red">$@item.ingresos</span>
+                @Html.Editor("Ingresos", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+            </text>
+, canSort: true));
+
+        gridColumns.Add(grid.Column("Empleado.salarioReal", Language.salarioReal, format: @<text> @if (@item.EmpleadoId != null)
+        {  <p>$@item.Empleado.salarioReal</p> }</text>, canSort: true));
+        gridColumns.Add(grid.Column("Empleado.nss", "NSS", format: @<text> @if (@item.id != null)
+        {  @item.Empleado.nss }</text>, canSort: true));
+        gridColumns.Add(grid.Column("gratificacion", "Gratificacion",
+            format: @<text>
+                <span id="gratificacion" class="display-mode" style="font-weight:bold; color:green">$@item.gratificacion</span>
+                @Html.Editor("Gratificacion", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+            </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("primaVacacional", "Prima Vacional",
+            format: @<text>
+                <span id="primaVacacional" class="display-mode" style="font-weight:bold; color:green">$@item.primaVacacional</span>
+                @Html.Editor("PrimaVacacional", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+            </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("aguinaldo", "Aguinaldo",
+                format: @<text>
+                <span id="aguinaldo" class="display-mode" style="font-weight:bold; color:green">$@item.aguinaldo</span>
+                @Html.Editor("Aguinaldo", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+                </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("descuentoInfonavit", "Infonavit",
+    format: @<text>
+                <span id="descuentoInfonavit" class="display-mode" style="font-weight:bold; color:red">$@item.descuentoInfonavit</span>
+                @Html.Editor("DescuentoInfonavit", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+    </text>
+
+, canSort: true));
+        gridColumns.Add(grid.Column("descuentoFonacot", "Fonacot",
+           format: @<text>
+                <span id="descuentoFonacot" class="display-mode" style="font-weight:bold; color:red">$@item.descuentoFonacot</span>
+                @Html.Editor("DescuentoFonacot", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+        </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("descuentoPension", "Desc. Pensión",
+            format: @<text>
+                <span id="descuentoPension" class="display-mode" style="font-weight:bold; color:red">$@item.descuentoPension</span>
+                @Html.Editor("DescuentoPension", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+            </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("otrosDescuentos", "Otros Desc.",
+            format: @<text>
+                <span id="otrosDescuentos" class="display-mode" style="font-weight:bold; color:red">$@item.otrosDescuentos</span>
+                @Html.Editor("OtrosDescuentos", new { htmlAttributes = new { @class = "edit-mode", size = 5 } })
+            </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("netoPagar", "Neto Pagar",
+            format: @<text>
+                <span id="netoPagar" style="font-weight:bold; color:blue">$@item.netoPagar</span>
+            </text>
+, canSort: true));
+        gridColumns.Add(grid.Column("CuentaEmpleado.cuenta", Language.cuentaBancaria, format: @<text> @if (@item.CuentaEmpleado != null)
+        {  @item.CuentaEmpleado.cuenta }</text>, canSort: true));
+        gridColumns.Add(grid.Column("Empleado.categoria", Language.categoria, canSort: true));
+
+
+        if (SecurityUserModel.verificarPermiso("eliminar solcitud alta", "Se agrega solicitud para eliminar empleados", 6))
+        {
+            gridColumns.Add(grid.Column(header: "Eliminar", format: @<text>
+
+                <a href="@Url.Action("Delete", "DetallePrenominas", new { id = item.id })">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a>
+            </text>));
+        }
     }
 
 
@@ -134,7 +280,7 @@ tableStyle: "table table-striped tableSua"
 <div class="marqueeFilter">
     @if (String.IsNullOrEmpty(msg))
     {
-    <p style="font-weight:bold;">@msg</p>
+        <p style="font-weight:bold;">@msg</p>
     }
     <table class="input-table">
         <tr>
@@ -162,7 +308,7 @@ tableStyle: "table table-striped tableSua"
             <td class="value-label">@Html.Label(solicitud.fechaPago.ToString("dd MMM yyyy"))</td>
             <td class="value-label">@Html.Label(solicitud.Concepto.descripcion)</td>
             <td class="value-label">@Html.Label(solicitud.Concepto1.descripcion)</td>
-            <td class="value-label">@Html.Label(solicitud.Concepto3.descripcion)</td>
+            <td class="value-label">@Html.Label(solicitud.Concepto2.descripcion)</td>
             <td></td>
         </tr>
     </table>
@@ -196,17 +342,23 @@ tableStyle: "table table-striped tableSua"
             var df = tr.find('#descuentoFonacot').text();
             var dp = tr.find('#descuentoPension').text();
             var dot = tr.find('#otrosDescuentos').text();
-            
+            var isr = tr.find('#isr').text();
+            var ingresos = tr.find('#ingresos').text();
+
+
             tr.find('.edit-mode, .display-mode').toggle();
             var tr = $(this).parents('tr:first');
             tr.find('#DiasLaborados').val(dl);
-            tr.find('#Gratificacion').val(gr.replace("$",""));
+            tr.find('#Gratificacion').val(gr.replace("$", ""));
             tr.find('#PrimaVacacional').val(pv.replace("$", ""));
             tr.find('#Aguinaldo').val(ag.replace("$", ""));
-            tr.find('#DescuentoInfonavit').val(di.replace("$",""));
-            tr.find('#DescuentoFonacot').val(df.replace("$",""));
-            tr.find('#DescuentoPension').val(dp.replace("$",""));
-            tr.find('#OtrosDescuentos').val(dot.replace("$",""));
+            tr.find('#DescuentoInfonavit').val(di.replace("$", ""));
+            tr.find('#DescuentoFonacot').val(df.replace("$", ""));
+            tr.find('#DescuentoPension').val(dp.replace("$", ""));
+            tr.find('#OtrosDescuentos').val(dot.replace("$", ""));
+            tr.find('#isr').val(isr.replace("$", ""));
+            tr.find('#ingresos').val(ingresos.replace("$", ""));
+
         });
         $('.cancel-capture').on('click', function () {
             var tr = $(this).parents('tr:first');
@@ -224,6 +376,8 @@ tableStyle: "table table-striped tableSua"
             var descuentoFonacot_ = tr.find('#DescuentoFonacot').val();
             var descuentoPension_ = tr.find('#DescuentoPension').val();
             var otrosDescuentos_ = tr.find('#OtrosDescuentos').val();
+            var isr_ = tr.find('#Isr').val();
+            var ingresos_ = tr.find('#Ingresos').val();
 
             //Creamos la entidad a pasar como parametro.
             var detallePrenomina = {
@@ -235,7 +389,9 @@ tableStyle: "table table-striped tableSua"
                 descuentoInfonavit: descuentoInfonavit_,
                 descuentoFonacot: descuentoFonacot_,
                 descuentoPension: descuentoPension_,
-                otrosDescuentos: otrosDescuentos_
+                otrosDescuentos: otrosDescuentos_,
+                isr: isr_,
+                ingresos: ingresos_
             }
 
 
@@ -257,6 +413,8 @@ tableStyle: "table table-striped tableSua"
                     tr.find('#descuentoPension').text("$" + data.employee.descuentoPension);
                     tr.find('#otrosDescuentos').text("$" + data.employee.otrosDescuentos);
                     tr.find('#netoPagar').text("$" + data.employee.netoPagar);
+                    tr.find('#isr').text("$" + data.employee.isr);
+                    tr.find('#ingresos').text("$" + data.employee.ingresos);
                 },
                 error: function (response) {
                     alert('error');
