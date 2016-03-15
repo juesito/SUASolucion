@@ -1,0 +1,451 @@
+﻿@model SUADATOS.Empleado
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    suaEntities db = new suaEntities();
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+
+    //Asignamos la solicitud
+    var sol = TempData["solicitudId"];
+    int solicitudId = int.Parse(sol.ToString());
+    Solicitud solicitud = db.Solicituds.Find(solicitudId);
+
+    Model.esquemaPagoId = solicitud.esquemaId ?? default(int);
+    Model.EsquemasPago = solicitud.EsquemasPago;
+    Model.sdiId = solicitud.sdiId ?? default(int);
+    Model.SDI = solicitud.SDI;
+
+    bool editMode = true;
+    if (ViewBag.editMode != null)
+    {
+        editMode = ViewBag.editMode;
+    }
+
+}
+
+<script language="javascript" type="text/javascript">
+    function obtenerMunicipios(_estadoId) {
+        var procemessage = "<option value='0'> Por favor espere...</option>";
+        $("#municipioId").html(procemessage).show();
+        var url = "/Municipios/ObtenerMunicipiosPorId/";
+
+        $.ajax({
+            url: url,
+            data: { estadoId: _estadoId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "<option value='0'>Seleccione municipio</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#municipioId").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+
+    function validarNss(_nss) {
+
+        var url = "/Empleados/validarNss/";
+
+        $.ajax({
+            url: url,
+            data: { nss: _nss },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+
+            },
+            error: function (response) {
+                alert("Error :" + response);
+            }
+        });
+    }
+</script>
+
+@section Menu {
+    <div>Modificar Empleado por Solicitud <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+@using (Html.BeginForm("Edit2", "Empleados"))
+{
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.Hidden("solicitudId", solicitudId)
+    @Html.HiddenFor(model => model.esquemaPagoId)
+    @Html.HiddenFor(model => model.sdiId)
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Modificar Empleado
+        </div>
+        <div class="panel-body" style="font-size:10px;">
+            <table style="margin: 0 auto;">
+                <thead>
+                    <tr style="background-color:#2E538A; color:white; min-height:40px; font-size:15px;">
+                        <th colspan="6" style="margin: 0 auto; text-align:center;">@Html.Label("Folio de Solicitud: " + solicitud.folioSolicitud + "    Cliente: " + solicitud.Cliente.descripcion)</th>
+                    </tr>
+                </thead>
+                <tbody style="margin-top:50px; padding-top:50px;">
+                    <tr>
+                        @if (solicitud.EsquemasPago != null && solicitud.EsquemasPago.descripcion.Trim().Equals("SyS"))
+                        {
+                            <td style="padding-top:8px">
+                                @Html.Label(Language.nss + ":")
+                            </td>
+                            <td style="padding-top:8px">
+                                @Html.EditorFor(model => model.nss, new { htmlAttributes = new { @onchange = "javascript:validarNss(this.value);" } })
+                                @Html.ValidationMessageFor(model => model.nss, "", new { @class = "text-danger" })
+                            </td>
+                            <td style="padding-top:8px; padding-left:40px">
+                                @Html.Label(Language.fechaAltaImss + ":")
+                            </td>
+                            <td style="padding-top:8px">
+                                @Html.EditorFor(model => model.fechaAltaImss, new { htmlAttributes = new { @class = "myImmsDate" } })
+                                @Html.ValidationMessageFor(model => model.fechaAltaImss, "", new { @class = "text-danger" })
+                            </td>
+                        }
+                    </tr>
+
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.apellidoPaterno + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.apellidoPaterno)
+                            @Html.ValidationMessageFor(model => model.apellidoPaterno, "", new { @class = "text-danger" })
+                        </td>
+                        <td style="padding-top:8px; padding-left:40px">
+                            @Html.Label(Language.apellidoMaterno + ":")
+                        </td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.apellidoMaterno)
+                            @Html.ValidationMessageFor(model => model.apellidoMaterno, "", new { @class = "text-danger" })
+                        </td>
+                        <td style="padding-top:8px; padding-left:40px">
+                            @Html.Label(Language.nombre + ":")
+                        </td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.nombre)
+                            @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                        </td>
+                        <td></td>
+
+                    </tr>
+                    <tr style="padding-top:8px">
+                        <td>@Html.LabelFor(model => model.rfc, Language.rfc + ":", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.rfc, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.rfc, "", new { @class = "text-danger" })
+                        </td>
+                        <td style="padding-top:8px; padding-left:40px"> @Html.Label(Language.homoClave + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.homoclave)
+                            @Html.ValidationMessageFor(model => model.homoclave, "", new { @class = "text-danger" })
+                        </td>
+                        <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.curp + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.curp)
+                            @Html.ValidationMessageFor(model => model.curp, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.sexo + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.DropDownList("sexoId")
+                            @Html.ValidationMessageFor(model => model.sexoId, "", new { @class = "text-danger" })
+                        </td>
+                        <td style="padding-left:40px; padding-top:8px">@Html.Label(Language.esquema + ":")</td>
+                        <td>
+                            @Html.DisplayFor(model => model.EsquemasPago.descripcion, new { @Id = "esquemaPago" })
+                        </td>
+                        @if (!Model.EsquemasPago.descripcion.Trim().Equals("IAS"))
+                        {
+                            <td style="padding-left:40px; padding-top:8px">@Html.Label(Language.sdi + ":")</td>
+                            <td style="padding-top:8px">
+                                $ @Html.DisplayFor(model => model.SDI.descripcion)
+                            </td>
+                        }
+
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.salarioReal + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.salarioReal)
+                            @Html.ValidationMessageFor(model => model.salarioReal, "", new { @class = "text-danger" })
+                        </td>
+                        <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.categoria + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.categoria, new { htmlAttributes = new { @id = "categoriaAuto" } })
+                            @Html.ValidationMessageFor(model => model.categoria, "", new { @class = "text-danger" })
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.tieneInfonavit + "?:")</td>
+                        <td style="padding-top:8px">
+                            @Html.Label("Si")
+                            @Html.RadioButtonFor(model => model.tieneInfonavit, "1", new { htmlAttributes = new { @class = "form-control", name = "tieneInfonavit" } })
+                            @Html.Label("No")
+                            @Html.RadioButtonFor(model => model.tieneInfonavit, "0", new { htmlAttributes = new { @class = "form-control", name = "tieneInfonavit" } })
+                            @Html.ValidationMessageFor(model => model.tieneInfonavit, "", new { @class = "text-danger" })
+                        </td>
+                        <td style="padding-top:8px; padding-left:40px">
+                            @Html.Label(Language.noCredito + ":", htmlAttributes: new { id = "creditoInfonavitTxt" })
+                        </td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.creditoInfonavit, new { htmlAttributes = new { id = "creditoInfonavit" } })
+                            @Html.ValidationMessageFor(model => model.creditoInfonavit, "", new { @class = "text-danger" })
+                        </td>
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.estadoCivil + ":")</td>
+                        <td style="padding-top:8px">
+                            @if (editMode)
+                            {
+                                @Html.DropDownList("estadoCivilId")
+                                @Html.ValidationMessageFor(model => model.estadoCivilId, "", new { @class = "text-danger" })
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.EstadoCivil.descripcion)
+                            }
+                        </td>
+                        <td style="padding-top:8px; padding-left:40px">
+                            @Html.Label(Language.fechaNacimiento + ":")
+                        </td>
+                       
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new { @class = "myBornDate" } })
+                            @Html.ValidationMessageFor(model => model.fechaNacimiento, "", new { @class = "text-danger" })
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.estadoNacimiento + ":", htmlAttributes: new { id = "estadoIdTxt" })</td>
+                        <td style="padding-top:8px">
+                            @if (editMode)
+                            {
+                                @Html.DropDownList("estadoNacimientoId", null, new { @id = "estadoId", @style = "width:140px;", @onchange = "javascript:obtenerMunicipios(this.value);" })
+                                @Html.ValidationMessageFor(model => model.estadoNacimientoId, "", new { @class = "text-danger" })
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.Estado.descripcion)
+                            }
+                        </td>
+                        <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.municipioNacimiento + ":", htmlAttributes: new { id = "municipioIdTxt" })</td>
+                        <td style="padding-top:8px">
+                            @if (editMode)
+                            {
+
+                                @Html.DropDownList("municipioNacimientoId", null, htmlAttributes: new { id = "municipioId" })
+                                @Html.ValidationMessageFor(model => model.municipioNacimientoId, "", new { @class = "text-danger" })
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.Municipio.descripcion)
+                            }
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.nacionalidad + ":")</td>
+                        <td style="padding-top:8px">
+                            @if (editMode)
+                            {
+                                @Html.paisesDrownList(usuario.Id, "nacionalidadId")
+                                @Html.ValidationMessageFor(model => model.nacionalidadId, "", new { @class = "text-danger" })
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.Pais.descripcion)
+                            }
+                        </td>
+                        <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.calleNumero + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.calleNumero)
+                            @Html.ValidationMessageFor(model => model.calleNumero, "", new { @class = "text-danger" })
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.Colonia + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.colonia)
+                            @Html.ValidationMessageFor(model => model.colonia, "", new { @class = "text-danger" })
+                        </td>
+
+                        <td style="padding-top:8px; padding-left:40px">
+                            @Html.Label(Language.municipio + ":")
+                        </td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.edoMunicipio)
+                            @Html.ValidationMessageFor(model => model.edoMunicipio, "", new { @class = "text-danger" })
+                        </td>
+                        <td style="padding-top:8px; padding-left:40px"> @Html.Label(Language.CP + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.codigoPostal)
+                            @Html.ValidationMessageFor(model => model.codigoPostal, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.tramitarTrajeta + "?:", htmlAttributes: new { id = "tramitarTarjetaTxt" })</td>
+                        <td style="padding-top:8px">
+                            @Html.Label("Si")
+                            @Html.RadioButtonFor(model => model.tramitarTarjeta, "1", new { htmlAttributes = new { @class = "form-control", name = "tramitarTarjeta" } })
+                            @Html.Label("No")
+                            @Html.RadioButtonFor(model => model.tramitarTarjeta, "0", new { htmlAttributes = new { @class = "form-control", name = "tramitarTarjeta" } })
+                            @Html.ValidationMessageFor(model => model.tramitarTarjeta, "", new { @class = "text-danger" })
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.banco + ":", htmlAttributes: new { id = "bancoTxt" })</td>
+                        <td style="padding-top:8px">
+                            @if (editMode)
+                            {
+                                @Html.DropDownList("bancoId", null, htmlAttributes: new { id = "bancoDownList" })
+                                @Html.ValidationMessageFor(model => model.bancoId, "", new { @class = "text-danger" })
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.Banco.descripcion)
+                            }
+                        </td>
+
+                        <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.cuentaBancaria + ":", htmlAttributes: new { id = "cuentaTxt" })</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.cuentaBancaria, new { htmlAttributes = new { id = "cuenta" } })
+                            @Html.ValidationMessageFor(model => model.cuentaBancaria, "", new { @class = "text-danger" })
+                        </td>
+                        <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.cuentaClabe + ":", htmlAttributes: new { id = "cuentaClabeTxt" })</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.cuentaClabe, new { htmlAttributes = new { id = "cuentaClabe" } })
+                            @Html.ValidationMessageFor(model => model.cuentaClabe, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.email + ":")</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.email)
+                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                        </td>
+
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top:8px">@Html.Label(Language.observaciones + ":")</td>
+                        <td style="padding-top:8px" >
+                            @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 3 })
+                        </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    <tr>
+                        <td style="text-align:left;">
+                            <a href="@Url.Action("Index", "Solicitudes")">
+                                @Html.ActionLink(@Language.regresar, "Index", new { id = ViewBag.solicitud.id, controllerDestiny = ViewBag.controllerDestiny, clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
+                            </a>
+                        </td>
+                        <td style="text-align:left;"><input type="submit" value="@Language.guardar" class="btn btn-primary" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+
+<div>
+</div>
+
+<script>
+    $(window).load(function () {
+
+        $("input[name=tramitarTarjeta]").change(function () {
+            var msg = $(this).val();
+            validateCuenta(msg);
+        });
+
+        $("#paisId").bind("change", validatePais);
+    });
+    $(document).ready(function () {
+
+        $("#categoriaAuto").autocomplete({
+            source: '/Empleados/obtenerCategorias'
+        });
+
+        $("input[name=tieneInfonavit]").change(function () {
+            var msg = $(this).val();
+            validateInfonavit(msg);
+        });
+
+        $("input[name=tramitarTarjeta]").change(function () {
+            var msg = $(this).val();
+            validateCuenta(msg);
+        });
+
+        $("#paisId").bind("change", validatePais);
+    });
+
+    function validateCuenta(msg) {
+        if (msg == '1') {
+            $("#cuenta").hide("slow");
+            $('#cuentaTxt').hide("slow");
+            $("#cuentaClabe").hide("slow");
+            $("#cuentaClabeTxt").hide("slow");
+        } else {
+            $(window).load(function () {
+                // Run code
+            });
+            $("#cuenta").show();
+            $('#cuentaTxt').show();
+            $("#cuentaClabe").show();
+            $("#cuentaClabeTxt").show();
+        }
+    }
+
+    function validateInfonavit(msg) {
+        if (msg == '0') {
+            $("#creditoInfonavit").hide("slow");
+            $('#creditoInfonavitTxt').hide("slow");
+        } else {
+            $(window).load(function () {
+                // Run code
+            });
+            $("#creditoInfonavit").show();
+            $('#creditoInfonavitTxt').show();
+        }
+    }
+
+    function validatePais() {
+        var msg = $("#paisId :selected").text();
+        if (msg.toLowerCase() != 'mexico' && msg.toLowerCase() != 'mexico') {
+            $("#municipioId").hide("slow");
+            $("#municipioIdTxt").hide("slow");
+            $('#estadoId').hide("slow");
+            $('#estadoIdTxt').hide("slow");
+        } else {
+            $("#municipioId").show();
+            $("#municipioIdTxt").show();
+            $('#estadoId').show();
+            $('#estadoIdTxt').show();
+        }
+    }
+</script>

@@ -138,7 +138,10 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.empleado.fechaNacimiento, "Date")
+                    @if (Model.empleado.fechaNacimiento != null)
+                    { 
+                       @Html.DisplayFor(model => model.empleado.fechaNacimiento, "Date")
+                    }
                 </dd>
                 <dt>
                     @Html.Label(Language.estado):

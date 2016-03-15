@@ -37,7 +37,7 @@ namespace SUAMVC.Controllers
                                   join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
                                     && !s.Concepto.descripcion.Trim().Contains("Baja") && !s.Concepto.descripcion.Trim().Contains("Cancelado")
-                                  orderby s.fechaSolicitud descending
+                                  orderby s.folioSolicitud descending
                                   select s).ToList();
 
                 if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId))
@@ -114,6 +114,10 @@ namespace SUAMVC.Controllers
                 solicitud.valida = " ";
             }
 
+            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
+            ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo");
+            ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion");
+            ViewBag.conceptoBaja = new SelectList(db.Conceptos, "id", "descripcion");
             return View(solicitud);
         }
 
@@ -122,7 +126,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,fechaBaja,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio")] Solicitud solicitud)
+        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,fechaBaja,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio,conceptoBaja")] Solicitud solicitud)
         {
             if (ModelState.IsValid)
             {
@@ -212,9 +216,10 @@ namespace SUAMVC.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
-            ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", solicitud.plazaId);
-            ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion", solicitud.proyectoId);
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.plazaId = solicitud.plazaId;
+            ViewBag.proyectoId = solicitud.proyectoId;
+//            ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion", solicitud.proyectoId);
             return View(solicitud);
         }
 
@@ -223,11 +228,11 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio")] Solicitud solicitud, string clienteId, string proyectoId)
+        public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,fechaBaja,esquemaId,sdiId,contratoId,fechaInicioContrato,fechaTerminoContrato,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio, tipoSolicitud,conceptoBaja")] Solicitud solicitud, string clienteId, string proyectoId)
         {
             if (ModelState.IsValid)
             {
-                solicitud.fechaSolicitud = DateTime.Now;
+                solicitud.fechaModificacion = DateTime.Now;
 
                 db.Entry(solicitud).State = EntityState.Modified;
 
@@ -252,9 +257,9 @@ namespace SUAMVC.Controllers
 
                 return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
             }
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
+//            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitud.clienteId);
             ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", solicitud.plazaId);
-            ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion", solicitud.proyectoId);
+ //           ViewBag.proyectoId = new SelectList(db.Proyectos, "id", "descripcion", solicitud.proyectoId);
 
             ViewBag.clienteId = solicitud.clienteId;
             ViewBag.proyectoId = solicitud.proyectoId;

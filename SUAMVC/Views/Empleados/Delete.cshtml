@@ -284,7 +284,6 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input name="Eliminar" type="submit" value="@Language.eliminar" class="btn btn-success" />
             @if (ViewBag.solicitud == null)
             {
                 <a href="@Url.Action("Index", "Empleados")">
@@ -293,11 +292,13 @@
             }
             else
             {
+
                 <a href="@Url.Action("Index", "Empleados")">
                     @Html.ActionLink(@Language.regresar, "Index", new { id = ViewBag.solicitud.id, controllerDestiny = ViewBag.controllerDestiny, clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
                 </a>
             }
 
+           <input type="submit" value="Eliminar" class="btn btn-primary" />
 
         </div>
     }
