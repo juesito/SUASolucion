@@ -44,8 +44,8 @@
     {  @item.Concepto.descripcion }</text>, canSort: true));
     gridColumns.Add(grid.Column("Concepto3.descripcion", "Estatus IMSS", format: @<text> @if (@item.estatusJuridico != null)
     {  @item.Concepto3.descripcion }</text>, canSort: true));
-    gridColumns.Add(grid.Column("Concepto2.descripcion", "Estatus Jurid.", format: @<text> @if (@item.estatusAfiliado != null)
-    {  @item.Concepto2.descripcion }</text>, canSort: true));
+    @*gridColumns.Add(grid.Column("Concepto2.descripcion", "Estatus Jurid.", format: @<text> @if (@item.estatusAfiliado != null)
+    {  @item.Concepto2.descripcion }</text>, canSort: true));*@
 
 
     if (SecurityUserModel.verificarPermiso("modificar solicitud", "Se agrega solicitud para editar solicitud modificar salario", 6))
@@ -115,13 +115,14 @@ tableStyle: "table table-striped tableSua"
     <div>Modificación de Solicitudes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<div class="menubar-header">
+<div style="padding-bottom:5px">
     @if (SecurityUserModel.verificarPermiso("nueva solicitud", "Se agrega solicitud para modificar salario", 6)
         && !String.IsNullOrEmpty(ViewBag.ClienteId) && !String.IsNullOrEmpty(ViewBag.proyectoId))
     {
         @Html.ActionLink(@Language.agregar, "Create", "SolicitudesModificacion", new { clienteId = @ViewBag.clienteId, proyectoId = @ViewBag.proyectoId }, new { @class = "btn btn-success btn-sm" })
-     }
+    }
 </div>
+
 
 @using (Html.BeginForm())
 {

@@ -41,7 +41,7 @@ namespace SUAMVC.Controllers
                 var solicituds = (from s in db.Solicituds
                                   join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
-                                  orderby s.fechaSolicitud
+                                  orderby s.fechaEnvio
                                   select s).ToList();
 
 
@@ -94,6 +94,7 @@ namespace SUAMVC.Controllers
             MemoryStream mem = new MemoryStream();
             try
             {
+                Solicitud sol = db.Solicituds.Find(solicitudId);
 
                 List<Empleado> empleadosList = new List<Empleado>();
 
@@ -127,7 +128,7 @@ namespace SUAMVC.Controllers
                     wbsp.Stylesheet = eh.CreateStylesheet();
                     wbsp.Stylesheet.Save();
 
-                    SheetData sd = crearContenidoHojaAfiliacion(empleadosList, eh);
+                    SheetData sd = crearContenidoHojaAfiliacion(empleadosList, eh, sol);
                     ws.Append(sd);
                     wsp.Worksheet = ws;
                     wsp.Worksheet.Save();
@@ -181,7 +182,7 @@ namespace SUAMVC.Controllers
 
 
         string[] headerColumns = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ" };
-        public SheetData crearContenidoHojaAfiliacion(List<Empleado> empleados, ExcelHelper eh)
+        public SheetData crearContenidoHojaAfiliacion(List<Empleado> empleados, ExcelHelper eh, Solicitud sol)
         {
 
             SheetData sheetData = new SheetData();
@@ -200,178 +201,212 @@ namespace SUAMVC.Controllers
             row = eh.addNewCellToRow(index, row, "Folio:", headerColumns[0] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
+            row = eh.addNewCellToRow(index, row, sol.folioSolicitud, headerColumns[1] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
             index = index + 2;
-            row = eh.addNewCellToRow(index, row, "Número de Seguro Social", headerColumns[0] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "#", headerColumns[0] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "RFC", headerColumns[1] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Número de Seguro Social", headerColumns[1] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "CURP", headerColumns[2] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "RFC", headerColumns[2] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Primer Apellido", headerColumns[3] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CURP", headerColumns[3] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Segundo Apellido", headerColumns[4] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Primer Apellido", headerColumns[4] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Nombre", headerColumns[5] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Segundo Apellido", headerColumns[5] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Fecha Alta", headerColumns[6] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Nombre", headerColumns[6] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Salario Diario Integrado", headerColumns[7] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Fecha Alta", headerColumns[7] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Tipo de Trabajador", headerColumns[8] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Salario Diario Integrado", headerColumns[8] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Tipo de Salario", headerColumns[9] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Tipo de Trabajador", headerColumns[9] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Tipo de Jornada", headerColumns[10] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Tipo de Salario", headerColumns[10] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Unidad Médica Familiar", headerColumns[11] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Tipo de Jornada", headerColumns[11] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-
-            row = eh.addNewCellToRow(index, row, "Clave del Trabajador", headerColumns[12] + index, 4U, CellValues.String);
-            sheetData.AppendChild(row);
-
-
-            row = eh.addNewCellToRow(index, row, "Credito Infonavit", headerColumns[13] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Unidad Médica Familiar", headerColumns[12] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "Código Postal", headerColumns[14] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Clave del Trabajador", headerColumns[13] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "Observaciones", headerColumns[15] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Credito Infonavit", headerColumns[14] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "Movimiento", headerColumns[16] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Código Postal", headerColumns[15] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "Fecha SUA", headerColumns[17] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Observaciones", headerColumns[16] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "Registro Patronal", headerColumns[18] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Movimiento", headerColumns[17] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+
+            row = eh.addNewCellToRow(index, row, "Fecha SUA", headerColumns[18] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+
+            row = eh.addNewCellToRow(index, row, "Registro Patronal", headerColumns[19] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
             //Creamos las celdas que contienen los datos
+            int consecutivo = 0;
             foreach (Empleado dp in empleados)
             {
                 int i = 0;
                 index = index + 1;
+                consecutivo = consecutivo + 1;
+
+                row = eh.addNewCellToRow(index, row, consecutivo.ToString(), headerColumns[i] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
 
                 if (dp.nss != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.nss, headerColumns[i] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.nss, headerColumns[i+1] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
                 {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i+1] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
 
-                row = eh.addNewCellToRow(index, row, dp.rfc, headerColumns[i + 1] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                 if (dp.rfc != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.rfc, headerColumns[i + 2] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                 else
+                 {
+                     row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 2] + index, 3U, CellValues.String);
+                     sheetData.AppendChild(row);
+                 }
 
                 if (dp.curp != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.curp, headerColumns[i + 2] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.curp, headerColumns[i + 3] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
                 {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 2] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 3] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
 
-                row = eh.addNewCellToRow(index, row, dp.apellidoMaterno, headerColumns[i + 3] + index, 3U, CellValues.String);
+                if (dp.apellidoMaterno != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.apellidoMaterno, headerColumns[i + 4] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 4] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i + 5] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i + 4] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 5] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 6] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 if (dp.fechaAltaImss != null)
                 {
                     DateTime fechaAltaImss = (DateTime)dp.fechaAltaImss;
-                    row = eh.addNewCellToRow(index, row, fechaAltaImss.ToShortDateString(), headerColumns[i + 6] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, fechaAltaImss.ToShortDateString(), headerColumns[i + 7] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
                 {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 6] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 7] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
 
-                row = eh.addNewCellToRow(index, row, dp.SDI.descripcion, headerColumns[i + 7] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                if (dp.SDI != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.SDI.descripcion, headerColumns[i + 8] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 8] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
 
                 //row = eh.addNewCellToRow(index, row, dp.categoria, headerColumns[i + 8] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, "1", headerColumns[i + 8] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, "1", headerColumns[i + 9] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 if (dp.EsquemasPago != null)
                 {
                     //row = eh.addNewCellToRow(index, row, dp.EsquemasPago.descripcion, headerColumns[i + 9] + index, 3U, CellValues.String);
-                    row = eh.addNewCellToRow(index, row, "0", headerColumns[i + 9] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, "0", headerColumns[i + 10] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
                 {
-                    row = eh.addNewCellToRow(index, row, "0", headerColumns[i + 9] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, "0", headerColumns[i + 10] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
 
                 if (dp.Asegurado != null)
                 {
-                    row = eh.addNewCellToRow(index, row, "0", headerColumns[i + 10] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, "0", headerColumns[i + 11] + index, 3U, CellValues.String);
                     //row = eh.addNewCellToRow(index, row, dp.Asegurado.tipoTrabajo, headerColumns[i + 10] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
                 {
-                    row = eh.addNewCellToRow(index, row, "0", headerColumns[i + 10] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, "0", headerColumns[i + 11] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
 
                 if (dp.Asegurado != null)
                 {
-                    //row = eh.addNewCellToRow(index, row, dp.Asegurado.Patrone.unida.ToString(), headerColumns[i + 11] + index, 3U, CellValues.String);
-                    sheetData.AppendChild(row);
-                }
-                else
-                {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 11] + index, 3U, CellValues.String);
-                    sheetData.AppendChild(row);
-                }
 
-                if (dp.Asegurado != null)
-                {
-                    row = eh.addNewCellToRow(index, row, dp.Asegurado.Cliente.claveSua, headerColumns[i + 12] + index, 3U, CellValues.String);
-                    sheetData.AppendChild(row);
+                    if (!String.IsNullOrEmpty(dp.Asegurado.Patrone.unidadMedica))
+                    {
+                        row = eh.addNewCellToRow(index, row, dp.Asegurado.Patrone.unidadMedica.ToString(), headerColumns[i + 12] + index, 3U, CellValues.String);
+                        sheetData.AppendChild(row);
+                    }
+                    else
+                    {
+                        row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 12] + index, 3U, CellValues.String);
+                        sheetData.AppendChild(row);
+                    }
                 }
                 else
                 {
                     row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 12] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
-                if (dp.creditoInfonavit != null)
+
+                if (dp.Asegurado != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.creditoInfonavit, headerColumns[i + 13] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.Asegurado.Cliente.claveSua, headerColumns[i + 13] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -379,10 +414,9 @@ namespace SUAMVC.Controllers
                     row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 13] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
-
-                if (dp.codigoPostal != null)
+                if (dp.creditoInfonavit != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.codigoPostal, headerColumns[i + 14] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.creditoInfonavit, headerColumns[i + 14] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -391,9 +425,9 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.observaciones != null)
+                if (dp.codigoPostal != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.observaciones, headerColumns[i + 15] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.codigoPostal, headerColumns[i + 15] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -401,29 +435,40 @@ namespace SUAMVC.Controllers
                     row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 15] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
-                row = eh.addNewCellToRow(index, row, dp.estatus, headerColumns[i + 16] + index, 3U, CellValues.String);
+
+                if (dp.observaciones != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.observaciones, headerColumns[i + 16] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 16] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                row = eh.addNewCellToRow(index, row, dp.estatus, headerColumns[i + 17] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 if (dp.fechaCreacion != null)
                 {
                     DateTime fechaCreacion = (DateTime)dp.fechaCreacion;
-                    row = eh.addNewCellToRow(index, row, fechaCreacion.ToShortDateString(), headerColumns[i + 17] + index, 3U, CellValues.String);
-                    sheetData.AppendChild(row);
-                }
-                else
-                {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 17] + index, 3U, CellValues.String);
-                    sheetData.AppendChild(row);
-                }
-
-                if (dp.Asegurado != null)
-                {
-                    row = eh.addNewCellToRow(index, row, dp.Asegurado.Patrone.nombre, headerColumns[i + 18] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, fechaCreacion.ToShortDateString(), headerColumns[i + 18] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
                 {
                     row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 18] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.Asegurado != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.Asegurado.Patrone.registro, headerColumns[i + 19] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 19] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 //                index++;
@@ -440,6 +485,8 @@ namespace SUAMVC.Controllers
             MemoryStream mem = new MemoryStream();
             try
             {
+
+                Solicitud sol = db.Solicituds.Find(solicitudId);
 
                 List<Empleado> empleadosList = new List<Empleado>();
 
@@ -473,7 +520,7 @@ namespace SUAMVC.Controllers
                     wbsp.Stylesheet = eh.CreateStylesheet();
                     wbsp.Stylesheet.Save();
 
-                    SheetData sd = crearContenidoHojaNomina(empleadosList, eh);
+                    SheetData sd = crearContenidoHojaNomina(empleadosList, eh, sol);
                     ws.Append(sd);
                     wsp.Worksheet = ws;
                     wsp.Worksheet.Save();
@@ -524,7 +571,7 @@ namespace SUAMVC.Controllers
             }
         }
 
-        public SheetData crearContenidoHojaNomina(List<Empleado> empleados, ExcelHelper eh)
+        public SheetData crearContenidoHojaNomina(List<Empleado> empleados, ExcelHelper eh, Solicitud sol)
         {
 
             SheetData sheetData = new SheetData();
@@ -543,175 +590,192 @@ namespace SUAMVC.Controllers
             row = eh.addNewCellToRow(index, row, "Folio:", headerColumns[0] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
+            row = eh.addNewCellToRow(index, row, sol.folioSolicitud, headerColumns[1] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
             index = index + 2;
-            row = eh.addNewCellToRow(index, row, "APELLIDO PATERNO", headerColumns[0] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "#", headerColumns[0] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "APELLIDO MATERNO", headerColumns[1] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "APELLIDO PATERNO", headerColumns[1] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "NOMBRE", headerColumns[2] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "APELLIDO MATERNO", headerColumns[2] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "IMSS", headerColumns[3] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "NOMBRE", headerColumns[3] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "CATEGORÍA", headerColumns[4] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "IMSS", headerColumns[4] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "SEXO", headerColumns[5] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CATEGORÍA", headerColumns[5] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "FECHA INGRESO", headerColumns[6] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "SEXO", headerColumns[6] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "RFC", headerColumns[7] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "FECHA INGRESO", headerColumns[7] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "HOMOCLAVE", headerColumns[8] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "RFC", headerColumns[8] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "CURP", headerColumns[9] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "HOMOCLAVE", headerColumns[9] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "FECHA NACIMIENTO", headerColumns[10] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CURP", headerColumns[10] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "ESTADO NACIMIENTO", headerColumns[11] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "FECHA NACIMIENTO", headerColumns[11] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-
-            row = eh.addNewCellToRow(index, row, "MUNICIPIO NACIMIENTO", headerColumns[12] + index, 4U, CellValues.String);
-            sheetData.AppendChild(row);
-
-
-            row = eh.addNewCellToRow(index, row, "TIPO NÓMINA", headerColumns[13] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "ESTADO NACIMIENTO", headerColumns[12] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "BANCO", headerColumns[14] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "MUNICIPIO NACIMIENTO", headerColumns[13] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "CUENTA", headerColumns[15] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "TIPO NÓMINA", headerColumns[14] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "CLABE INTERBANCARIA", headerColumns[16] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "BANCO", headerColumns[15] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "PERIODO", headerColumns[17] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CUENTA", headerColumns[16] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "ESTADO CIVIL", headerColumns[18] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CLABE INTERBANCARIA", headerColumns[17] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "INFONAVIT", headerColumns[19] + index, 4U, CellValues.String);
+
+            row = eh.addNewCellToRow(index, row, "PERIODO", headerColumns[18] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "DEPARTAMENTO CLIENTE", headerColumns[20] + index, 4U, CellValues.String);
+
+            row = eh.addNewCellToRow(index, row, "ESTADO CIVIL", headerColumns[19] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "CALLE NUMERO", headerColumns[21] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "INFONAVIT", headerColumns[20] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "COLONIA", headerColumns[22] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "DEPARTAMENTO CLIENTE", headerColumns[21] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "ESTADO MUNICIPIO", headerColumns[23] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CALLE NUMERO", headerColumns[22] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "CÓDIGO POSTAL", headerColumns[24] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "COLONIA", headerColumns[23] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "ACTIVIDADES", headerColumns[25] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "ESTADO MUNICIPIO", headerColumns[24] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "DOMICILIO OFICINA", headerColumns[26] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CÓDIGO POSTAL", headerColumns[25] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "FECHA ANTIGÜEDAD", headerColumns[27] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "ACTIVIDADES", headerColumns[26] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "SALARIO VSM", headerColumns[28] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "DOMICILIO OFICINA", headerColumns[27] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "JORNADA LABORAL", headerColumns[29] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "FECHA ANTIGÜEDAD", headerColumns[28] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "DIAS DE DESCANSO", headerColumns[30] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "SALARIO VSM", headerColumns[29] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "SALARIO NOMINAL", headerColumns[31] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "JORNADA LABORAL", headerColumns[30] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "DIAS DE VACACIONES", headerColumns[32] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "DIAS DE DESCANSO", headerColumns[31] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "PORCENTAJE PRIMA", headerColumns[33] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "SALARIO NOMINAL", headerColumns[32] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "DIAS AGUINALDO", headerColumns[34] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "DIAS DE VACACIONES", headerColumns[33] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "OTROS", headerColumns[35] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "PORCENTAJE PRIMA", headerColumns[34] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "CORREO", headerColumns[36] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "DIAS AGUINALDO", headerColumns[35] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "FECHA SUA", headerColumns[37] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "OTROS", headerColumns[36] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "MOVIMIENTO", headerColumns[38] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CORREO", headerColumns[37] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "REGISTRO PATRONAL", headerColumns[39] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "FECHA SUA", headerColumns[38] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "ID EMPLEADO", headerColumns[40] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "MOVIMIENTO", headerColumns[39] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "ID CLIENTE", headerColumns[41] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "REGISTRO PATRONAL", headerColumns[40] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "CLIENTE", headerColumns[42] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "ID EMPLEADO", headerColumns[41] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "ID CLIENTE", headerColumns[42] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "CLIENTE", headerColumns[43] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
             //Creamos las celdas que contienen los datos
+            int consecutivo = 0;
             foreach (Empleado dp in empleados)
             {
                 int i = 0;
                 index = index + 1;
-                row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i] + index, 3U, CellValues.String);
+                consecutivo = consecutivo +1;
+
+                row = eh.addNewCellToRow(index, row, consecutivo.ToString(), headerColumns[i] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.apellidoMaterno, headerColumns[i + 1] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i + 1] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 2] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                if (dp.nss != null)
+                if (dp.apellidoMaterno != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.nss, headerColumns[i + 3] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.apellidoMaterno, headerColumns[i + 2] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
                 {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 3] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 2] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
 
-                row = eh.addNewCellToRow(index, row, dp.categoria, headerColumns[i + 4] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 3] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                if (dp.Sexo != null)
+                if (dp.nss != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.Sexo.descripcion, headerColumns[i + 5] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.nss, headerColumns[i + 4] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 4] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.categoria != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.categoria, headerColumns[i + 5] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -720,10 +784,9 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.Asegurado != null)
+                if (dp.Sexo != null)
                 {
-                    DateTime fechaAlta = (DateTime)dp.Asegurado.fechaAlta;
-                    row = eh.addNewCellToRow(index, row, fechaAlta.ToShortDateString(), headerColumns[i + 6] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.Sexo.descripcion, headerColumns[i + 6] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -732,15 +795,32 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                row = eh.addNewCellToRow(index, row, dp.rfc, headerColumns[i + 7] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                row = eh.addNewCellToRow(index, row, dp.homoclave, headerColumns[i + 8] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                if (dp.curp != null)
+                if (dp.Asegurado != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.curp, headerColumns[i + 9] + index, 3U, CellValues.String);
+                    DateTime fechaAlta = (DateTime)dp.Asegurado.fechaAlta;
+                    row = eh.addNewCellToRow(index, row, fechaAlta.ToShortDateString(), headerColumns[i + 7] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 7] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.rfc != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.rfc, headerColumns[i + 8] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 8] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.homoclave != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.homoclave, headerColumns[i + 9] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -749,10 +829,9 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.fechaNacimiento != null)
+                if (dp.curp != null)
                 {
-                    DateTime fechaNacimiento = (DateTime)dp.fechaNacimiento;
-                    row = eh.addNewCellToRow(index, row, fechaNacimiento.ToString(), headerColumns[i + 10] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.curp, headerColumns[i + 10] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -761,26 +840,27 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
+                if (dp.fechaNacimiento != null)
+                {
+                    DateTime fechaNacimiento = (DateTime)dp.fechaNacimiento;
+                    row = eh.addNewCellToRow(index, row, fechaNacimiento.ToShortDateString(), headerColumns[i + 11] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 11] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
                 if (dp.estadoNacimientoId != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.estadoNacimientoId.ToString(), headerColumns[i + 11] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.Estado.descripcion, headerColumns[i + 12] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
 
                 if (dp.municipioNacimientoId != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.municipioNacimientoId.ToString(), headerColumns[i + 12] + index, 3U, CellValues.String);
-                    sheetData.AppendChild(row);
-                }
-                else
-                {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 12] + index, 3U, CellValues.String);
-                    sheetData.AppendChild(row);
-                }
-
-                if (dp.Asegurado != null)
-                {
-                    row = eh.addNewCellToRow(index, row, dp.Asegurado.tipoDescuento, headerColumns[i + 13] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.Municipio.descripcion, headerColumns[i + 13] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -789,9 +869,9 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.Banco != null)
+                if (sol.EsquemasPago != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.Banco.descripcion, headerColumns[i + 14] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, sol.EsquemasPago.descripcion, headerColumns[i + 14] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -800,10 +880,9 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-
-                if (dp.cuentaBancaria != null)
+                if (dp.Banco != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.cuentaBancaria, headerColumns[i + 15] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.Banco.descripcion, headerColumns[i + 15] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -812,9 +891,10 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.cuentaClabe != null)
+
+                if (dp.cuentaBancaria != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.cuentaClabe, headerColumns[i + 16] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.cuentaBancaria, headerColumns[i + 16] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -823,8 +903,19 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
+                if (dp.cuentaClabe != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.cuentaClabe, headerColumns[i + 17] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 17] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
                 //row = eh.addNewCellToRow(index, row, dp.periodo., headerColumns[i + 17] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 17] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 18] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 if (dp.EstadoCivil != null)
@@ -847,14 +938,38 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 21] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.calleNumero, headerColumns[i + 22] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                if (dp.calleNumero != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.calleNumero, headerColumns[i + 22] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 22] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
 
-                row = eh.addNewCellToRow(index, row, dp.colonia, headerColumns[i + 23] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                if (dp.colonia != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.colonia, headerColumns[i + 23] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 23] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
 
-                row = eh.addNewCellToRow(index, row, dp.edoMunicipio, headerColumns[i + 24] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                if (dp.edoMunicipio != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.edoMunicipio, headerColumns[i + 24] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 24] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
 
                 if (dp.codigoPostal != null)
                 {
@@ -923,19 +1038,45 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 36] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.email, headerColumns[i + 37] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                //row = eh.addNewCellToRow(index, row, dp.fechaSUA, headerColumns[i + 38] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 38] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                row = eh.addNewCellToRow(index, row, dp.estatus, headerColumns[i + 39] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                if (dp.email != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.email, headerColumns[i + 37] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 37] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
 
                 if (dp.Asegurado != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.Asegurado.Patrone.nombre, headerColumns[i + 40] + index, 3U, CellValues.String);
+
+                    var movTemp = (from s in db.MovimientosAseguradoes
+                                  .Where(s => s.aseguradoId.Equals(dp.Asegurado.id))
+                                  .OrderByDescending(s => s.fechaInicio)
+                                   select s).FirstOrDefault();
+
+                    DateTime fechaSua = (DateTime)movTemp.fechaInicio;
+                    row = eh.addNewCellToRow(index, row, fechaSua.ToShortDateString(), headerColumns[i + 38] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+
+                    row = eh.addNewCellToRow(index, row, movTemp.CatalogoMovimiento.descripcion, headerColumns[i + 39] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 38] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 39] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.Asegurado != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.Asegurado.Patrone.registro, headerColumns[i + 40] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -948,12 +1089,10 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 41] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                //row = eh.addNewCellToRow(index, row, dp.Cliente.id, headerColumns[i + 42] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 42] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, sol.Cliente.claveSua, headerColumns[i + 42] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                //row = eh.addNewCellToRow(index, row, dp.Cliente.descripcion, headerColumns[i + 43] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 43] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, sol.Cliente.descripcion, headerColumns[i + 43] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 //                index++;
@@ -972,6 +1111,8 @@ namespace SUAMVC.Controllers
             try
             {
 
+                Solicitud sol = db.Solicituds.Find(solicitudId); 
+                
                 List<Empleado> empleadosList = new List<Empleado>();
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
@@ -1004,7 +1145,7 @@ namespace SUAMVC.Controllers
                     wbsp.Stylesheet = eh.CreateStylesheet();
                     wbsp.Stylesheet.Save();
 
-                    SheetData sd = crearContenidoHojaJuridico(empleadosList, eh);
+                    SheetData sd = crearContenidoHojaJuridico(empleadosList, eh, sol);
                     ws.Append(sd);
                     wsp.Worksheet = ws;
                     wsp.Worksheet.Save();
@@ -1055,7 +1196,7 @@ namespace SUAMVC.Controllers
             }
         }
 
-        public SheetData crearContenidoHojaJuridico(List<Empleado> empleados, ExcelHelper eh)
+        public SheetData crearContenidoHojaJuridico(List<Empleado> empleados, ExcelHelper eh, Solicitud sol)
         {
 
             SheetData sheetData = new SheetData();
@@ -1074,163 +1215,204 @@ namespace SUAMVC.Controllers
             row = eh.addNewCellToRow(index, row, "Folio:", headerColumns[0] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
+            row = eh.addNewCellToRow(index, row, sol.folioSolicitud, headerColumns[1] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
             index = index + 2;
-            row = eh.addNewCellToRow(index, row, "Primer Apellido", headerColumns[0] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "#", headerColumns[0] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Segundo Apellido", headerColumns[1] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Primer Apellido", headerColumns[1] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Nombre", headerColumns[2] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Segundo Apellido", headerColumns[2] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Categoria", headerColumns[3] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Nombre", headerColumns[3] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Salario Real", headerColumns[4] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Categoria", headerColumns[4] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "RFC", headerColumns[5] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Salario Real", headerColumns[5] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Homoclave", headerColumns[6] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "RFC", headerColumns[6] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "CURP", headerColumns[7] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Homoclave", headerColumns[7] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "NSS", headerColumns[8] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CURP", headerColumns[8] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Credito Infonavit", headerColumns[9] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "NSS", headerColumns[9] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Sexo", headerColumns[10] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Credito Infonavit", headerColumns[10] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Estado Civil", headerColumns[11] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Sexo", headerColumns[11] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-
-            row = eh.addNewCellToRow(index, row, "Fecha de Nacimiento", headerColumns[12] + index, 4U, CellValues.String);
-            sheetData.AppendChild(row);
-
-
-            row = eh.addNewCellToRow(index, row, "Edad", headerColumns[13] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Estado Civil", headerColumns[12] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "País de Nacimiento", headerColumns[14] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Fecha de Nacimiento", headerColumns[13] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "Estado de Nacimiento", headerColumns[15] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Edad", headerColumns[14] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "Municipio de Nacimiento", headerColumns[16] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "País de Nacimiento", headerColumns[15] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "Calle Número", headerColumns[17] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Estado de Nacimiento", headerColumns[16] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "Colonia", headerColumns[18] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Municipio de Nacimiento", headerColumns[17] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "CP", headerColumns[19] + index, 4U, CellValues.String);
+
+            row = eh.addNewCellToRow(index, row, "Calle Número", headerColumns[18] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Estado Municipio", headerColumns[20] + index, 4U, CellValues.String);
+
+            row = eh.addNewCellToRow(index, row, "Colonia", headerColumns[19] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Banco", headerColumns[21] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CP", headerColumns[20] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Cuenta Bancaria", headerColumns[22] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Estado Municipio", headerColumns[21] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Clave Interbancaria", headerColumns[23] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Banco", headerColumns[22] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Correo Electrónico", headerColumns[24] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Cuenta Bancaria", headerColumns[23] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Fecha Inicio Contrato", headerColumns[25] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Clave Interbancaria", headerColumns[24] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Fecha Final Contrato", headerColumns[26] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Correo Electrónico", headerColumns[25] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Duración de Contrato", headerColumns[27] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Fecha Inicio Contrato", headerColumns[26] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Telefono Particular", headerColumns[28] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Fecha Final Contrato", headerColumns[27] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Celular", headerColumns[29] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Duración de Contrato", headerColumns[28] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Licencia", headerColumns[30] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Telefono Particular", headerColumns[29] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Tipo de Sangre", headerColumns[31] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Celular", headerColumns[30] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "En Caso de Accidente Avisar a:", headerColumns[32] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Licencia", headerColumns[31] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Parentesco", headerColumns[33] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Tipo de Sangre", headerColumns[32] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Domicilio", headerColumns[34] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "En Caso de Accidente Avisar a:", headerColumns[33] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Teléfono", headerColumns[35] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Parentesco", headerColumns[34] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Se Identifica con (Tipo de Documento)", headerColumns[36] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Domicilio", headerColumns[35] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Folio Identificación", headerColumns[37] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Teléfono", headerColumns[36] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Escolaridad", headerColumns[38] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Se Identifica con (Tipo de Documento)", headerColumns[37] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Observaciones", headerColumns[39] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Folio Identificación", headerColumns[38] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Escolaridad", headerColumns[39] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Observaciones", headerColumns[40] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
             //Creamos las celdas que contienen los datos
+            int consecutivo = 0;
             foreach (Empleado dp in empleados)
             {
                 int i = 0;
                 index = index + 1;
-                row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i] + index, 3U, CellValues.String);
+                consecutivo = consecutivo + 1;
+
+                row = eh.addNewCellToRow(index, row, consecutivo.ToString(), headerColumns[i] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.apellidoMaterno, headerColumns[i + 1] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i + 1] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 2] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                row = eh.addNewCellToRow(index, row, dp.categoria, headerColumns[i + 3] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                row = eh.addNewCellToRow(index, row, dp.SDI.descripcion, headerColumns[i + 4] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                row = eh.addNewCellToRow(index, row, dp.rfc, headerColumns[i + 5] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                row = eh.addNewCellToRow(index, row, dp.homoclave, headerColumns[i + 6] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                if (dp.curp != null)
+                if (dp.apellidoMaterno != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.curp, headerColumns[i + 7] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.apellidoMaterno, headerColumns[i + 2] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 2] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 3] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                if (dp.categoria != null)
+                {
+                   row = eh.addNewCellToRow(index, row, dp.categoria, headerColumns[i + 4] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 4] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.SDI != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.SDI.descripcion, headerColumns[i + 5] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 5] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.rfc != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.rfc, headerColumns[i + 6] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 6] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.rfc != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.homoclave, headerColumns[i + 7] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -1239,9 +1421,9 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.nss != null)
+                if (dp.curp != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.nss, headerColumns[i + 8] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.curp, headerColumns[i + 8] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -1250,9 +1432,9 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.creditoInfonavit != null)
+                if (dp.nss != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.creditoInfonavit, headerColumns[i + 9] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.nss, headerColumns[i + 9] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -1261,9 +1443,9 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.Sexo != null)
+                if (dp.creditoInfonavit != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.Sexo.descripcion, headerColumns[i + 10] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.creditoInfonavit, headerColumns[i + 10] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -1272,9 +1454,9 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.EstadoCivil != null)
+                if (dp.Sexo != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.EstadoCivil.descripcion, headerColumns[i + 11] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.Sexo.descripcion, headerColumns[i + 11] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -1283,10 +1465,9 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.fechaNacimiento != null)
+                if (dp.EstadoCivil != null)
                 {
-                    DateTime fechaNacimiento = (DateTime)dp.fechaNacimiento;
-                    row = eh.addNewCellToRow(index, row, fechaNacimiento.ToShortDateString(), headerColumns[i + 12] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.EstadoCivil.descripcion, headerColumns[i + 12] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -1295,26 +1476,26 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                //row = eh.addNewCellToRow(index, row, dp.edad, headerColumns[i + 13] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 13] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-
-                if (dp.Asegurado != null)
+                if (dp.fechaNacimiento != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.Pais.descripcion, headerColumns[i + 14] + index, 3U, CellValues.String);
+                    DateTime fechaNacimiento = (DateTime)dp.fechaNacimiento;
+                    row = eh.addNewCellToRow(index, row, fechaNacimiento.ToShortDateString(), headerColumns[i + 13] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
                 {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 14] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 13] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.Estado != null)
-                {
+                //row = eh.addNewCellToRow(index, row, dp.edad, headerColumns[i + 13] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 14] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
 
-                    row = eh.addNewCellToRow(index, row, dp.Estado.descripcion, headerColumns[i + 15] + index, 3U, CellValues.String);
+
+                if (dp.Pais != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.Pais.descripcion, headerColumns[i + 15] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -1323,9 +1504,10 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.Municipio != null)
+                if (dp.Estado != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.Municipio.descripcion, headerColumns[i + 16] + index, 3U, CellValues.String);
+
+                    row = eh.addNewCellToRow(index, row, dp.Estado.descripcion, headerColumns[i + 16] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -1334,15 +1516,31 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                row = eh.addNewCellToRow(index, row, dp.calleNumero, headerColumns[i + 17] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                row = eh.addNewCellToRow(index, row, dp.colonia, headerColumns[i + 18] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                if (dp.codigoPostal != null)
+                if (dp.Municipio != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.codigoPostal, headerColumns[i + 19] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.Municipio.descripcion, headerColumns[i + 17] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 17] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.calleNumero != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.calleNumero, headerColumns[i + 18] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 18] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.calleNumero != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.colonia, headerColumns[i + 19] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -1351,26 +1549,34 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                row = eh.addNewCellToRow(index, row, dp.edoMunicipio, headerColumns[i + 20] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                row = eh.addNewCellToRow(index, row, dp.Banco.descripcion, headerColumns[i + 21] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                if (dp.cuentaBancaria != null)
+                if (dp.codigoPostal != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.cuentaBancaria, headerColumns[i + 22] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.codigoPostal, headerColumns[i + 20] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
                 {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 22] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 20] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.cuentaClabe != null)
+                if (dp.edoMunicipio != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.cuentaClabe, headerColumns[i + 23] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.edoMunicipio, headerColumns[i + 21] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 20] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                row = eh.addNewCellToRow(index, row, dp.Banco.descripcion, headerColumns[i + 22] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                if (dp.cuentaBancaria != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.cuentaBancaria, headerColumns[i + 23] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -1379,9 +1585,9 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.email != null)
+                if (dp.cuentaClabe != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.email, headerColumns[i + 24] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.cuentaClabe, headerColumns[i + 24] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -1390,59 +1596,70 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                //row = eh.addNewCellToRow(index, row, dp.fechaInicio, headerColumns[i + 25] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 25] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                if (dp.email != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.email, headerColumns[i + 25] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 25] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
 
-                //row = eh.addNewCellToRow(index, row, dp.Solicitud.fechaTerminoContrato, headerColumns[i + 26] + index, 3U, CellValues.String);
+                //row = eh.addNewCellToRow(index, row, dp.fechaInicio, headerColumns[i + 25] + index, 3U, CellValues.String);
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 26] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                //row = eh.addNewCellToRow(index, row, dp.duracionContrato, headerColumns[i + 27] + index, 3U, CellValues.String);
+                //row = eh.addNewCellToRow(index, row, dp.Solicitud.fechaTerminoContrato, headerColumns[i + 26] + index, 3U, CellValues.String);
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 27] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.duracionContrato, headerColumns[i + 27] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 28] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
 
                 //row = eh.addNewCellToRow(index, row, dp.DocumentoEmpleadoes.telefono, headerColumns[i + 28] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 28] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 29] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 //row = eh.addNewCellToRow(index, row, dp.DocumentoEmpleadoes.celular, headerColumns[i + 29] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 29] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 30] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
 
                 //row = eh.addNewCellToRow(index, row, dp.DocumentoEmpleadoes.licencia, headerColumns[i + 30] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 30] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                //row = eh.addNewCellToRow(index, row, dp.DocumentoEmpleadoes.tipoSangre, headerColumns[i + 31] + index, 3U, CellValues.String);
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 31] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                //row = eh.addNewCellToRow(index, row, dp.avisarA, headerColumns[i + 32] + index, 3U, CellValues.String);
+                //row = eh.addNewCellToRow(index, row, dp.DocumentoEmpleadoes.tipoSangre, headerColumns[i + 31] + index, 3U, CellValues.String);
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 32] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.avisarA, headerColumns[i + 32] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 33] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
 
                 //row = eh.addNewCellToRow(index, row, dp.Parentesco.descripcion, headerColumns[i + 33] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 33] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 34] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 //row = eh.addNewCellToRow(index, row, dp.Parentesco.domicilio, headerColumns[i + 34] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 34] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 35] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 //row = eh.addNewCellToRow(index, row, dp.FamiliaresEmpleadoes.telefonoCasa, headerColumns[i + 35] + index, 3U, CellValues.String);
                 if (dp.FamiliaresEmpleadoes.Count() > 0)
                 {
                     FamiliaresEmpleado fe = dp.FamiliaresEmpleadoes.FirstOrDefault();
-                    row = eh.addNewCellToRow(index, row, fe.telefonoCasa, headerColumns[i + 35] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, fe.telefonoCasa, headerColumns[i + 36] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
                 {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 35] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 36] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
 
@@ -1453,25 +1670,25 @@ namespace SUAMVC.Controllers
                 }
                 else
                     //row = eh.addNewCellToRow(index, row, dp.DocumentoEmpleadoes.tipoDocumento, headerColumns[i + 36] + index, 3U, CellValues.String);
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 36] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 37] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 //row = eh.addNewCellToRow(index, row, dp.DocumentoEmpleadoes.folioIdentificacion, headerColumns[i + 37] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 37] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 38] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 //row = eh.addNewCellToRow(index, row, dp.escolaridad, headerColumns[i + 38] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 38] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 39] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 if (dp.observaciones != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.observaciones, headerColumns[i + 39] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.observaciones, headerColumns[i + 40] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
                 {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 39] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 40] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
 
@@ -1941,6 +2158,8 @@ namespace SUAMVC.Controllers
             {
                 List<Empleado> empleadosList = new List<Empleado>();
 
+                Solicitud sol = db.Solicituds.Find(solicitudId); 
+                
                 empleadosList = (from s in db.SolicitudEmpleadoes
                                  //                               where s.estatus.Equals("A")
                                  where s.Empleado.bancoId.Equals(bank.id)
@@ -1977,7 +2196,7 @@ namespace SUAMVC.Controllers
                         wbsp.Stylesheet = eh.CreateStylesheet();
                         wbsp.Stylesheet.Save();
 
-                        SheetData sd = crearContenidoHojaTarjetaBanorte(empleadosList, eh);
+                        SheetData sd = crearContenidoHojaTarjetaBanorte(empleadosList, eh, sol);
                         ws.Append(sd);
                         wsp.Worksheet = ws;
                         wsp.Worksheet.Save();
@@ -2041,7 +2260,7 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Index", new { clienteId, folioId, proyectoId, tipoId });
         }
 
-        public SheetData crearContenidoHojaTarjetaBanorte(List<Empleado> empleados, ExcelHelper eh)
+        public SheetData crearContenidoHojaTarjetaBanorte(List<Empleado> empleados, ExcelHelper eh, Solicitud sol)
         {
 
             SheetData sheetData = new SheetData();
@@ -2060,8 +2279,11 @@ namespace SUAMVC.Controllers
             row = eh.addNewCellToRow(index, row, "Folio:", headerColumns[0] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
+            row = eh.addNewCellToRow(index, row, sol.folioSolicitud, headerColumns[1] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
             index = index + 2;
-            row = eh.addNewCellToRow(index, row, "ID", headerColumns[0] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "#", headerColumns[0] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
             row = eh.addNewCellToRow(index, row, "NOMBRE", headerColumns[1] + index, 4U, CellValues.String);
@@ -2178,13 +2400,14 @@ namespace SUAMVC.Controllers
 
 
             //Creamos las celdas que contienen los datos
+            int consecutivo = 0;
             foreach (Empleado dp in empleados)
             {
                 int i = 0;
                 index = index + 1;
+                consecutivo = consecutivo + 1;
 
-                //row = eh.addNewCellToRow(index, row, dp.id, headerColumns[i] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, consecutivo.ToString(), headerColumns[i] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 1] + index, 3U, CellValues.String);
@@ -2218,8 +2441,17 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                row = eh.addNewCellToRow(index, row, dp.fechaNacimiento.ToString(), headerColumns[i + 8] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                if (dp.fechaNacimiento != null)
+                {
+                    DateTime fechaNacimiento = (DateTime)dp.fechaNacimiento;
+                    row = eh.addNewCellToRow(index, row, fechaNacimiento.ToShortDateString(), headerColumns[i + 8] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 8] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
 
                 if (dp.EstadoCivil != null)
                 {
@@ -2292,7 +2524,7 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.Pais.naturalez != null)
+                if (dp.Pais != null)
                 {
                     row = eh.addNewCellToRow(index, row, dp.Pais.naturalez, headerColumns[i + 16] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
@@ -2319,8 +2551,17 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 18] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.fechaCreacion.ToString(), headerColumns[i + 19] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                if (dp.fechaCreacion != null)
+                {
+                    DateTime fechaCreacion = (DateTime)dp.fechaCreacion;
+                    row = eh.addNewCellToRow(index, row, fechaCreacion.ToShortDateString(), headerColumns[i + 19] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 19] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
 
                 row = eh.addNewCellToRow(index, row, dp.calleNumero, headerColumns[i + 20] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
@@ -2388,32 +2629,49 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.email, headerColumns[i + 31] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                //row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 32] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 32] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 32] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                //row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i + 33] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 33] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i + 33] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                //row = eh.addNewCellToRow(index, row, dp.apellidoMaterno, headerColumns[i + 34] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 34] + index, 3U, CellValues.String);
+                if (dp.apellidoMaterno != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.apellidoMaterno, headerColumns[i + 34] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 36] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                row = eh.addNewCellToRow(index, row, "HERMANO ", headerColumns[i + 35] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
+                if (dp.Sexo != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.Sexo.descripcion, headerColumns[i + 36] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 36] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
 
-                //row = eh.addNewCellToRow(index, row, dp.parentesco, headerColumns[i + 35] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 35] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
+                if (dp.fechaNacimiento != null)
+                {
+                    DateTime fechaNac = (DateTime)dp.fechaNacimiento;
+                    row = eh.addNewCellToRow(index, row, fechaNac.ToShortDateString(), headerColumns[i + 37] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 37] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
 
-                //row = eh.addNewCellToRow(index, row, dp.sexo, headerColumns[i + 36] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 36] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                //row = eh.addNewCellToRow(index, row, dp.fechaNacimiento, headerColumns[i + 37] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 37] + index, 3U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                //              index++;
             }
 
             return sheetData;
@@ -2713,7 +2971,7 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.Pais.naturalez != null)
+                if (dp.Pais != null)
                 {
                     row = eh.addNewCellToRow(index, row, dp.Pais.naturalez, headerColumns[i + 7] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
@@ -2891,6 +3149,8 @@ namespace SUAMVC.Controllers
 
                 List<Empleado> empleadosList = new List<Empleado>();
 
+                Solicitud sol = db.Solicituds.Find(solicitudId); 
+                
                 empleadosList = (from s in db.SolicitudEmpleadoes
                                  //                                 where s.estatus.Equals("A")
                                  where s.solicitudId.Equals(solicitudId)
@@ -2921,7 +3181,7 @@ namespace SUAMVC.Controllers
                     wbsp.Stylesheet = eh.CreateStylesheet();
                     wbsp.Stylesheet.Save();
 
-                    SheetData sd = crearContenidoHojaDetalleEmpleados(empleadosList, eh);
+                    SheetData sd = crearContenidoHojaDetalleEmpleados(empleadosList, eh, sol);
                     ws.Append(sd);
                     wsp.Worksheet = ws;
                     wsp.Worksheet.Save();
@@ -2974,7 +3234,7 @@ namespace SUAMVC.Controllers
         }
 
 
-        public SheetData crearContenidoHojaDetalleEmpleados(List<Empleado> empleados, ExcelHelper eh)
+        public SheetData crearContenidoHojaDetalleEmpleados(List<Empleado> empleados, ExcelHelper eh, Solicitud sol)
         {
 
             SheetData sheetData = new SheetData();
@@ -2993,8 +3253,11 @@ namespace SUAMVC.Controllers
             row = eh.addNewCellToRow(index, row, "Folio:", headerColumns[0] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
+            row = eh.addNewCellToRow(index, row, sol.folioSolicitud, headerColumns[1] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
             index = index + 2;
-            row = eh.addNewCellToRow(index, row, "ID SAPYN", headerColumns[0] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "#", headerColumns[0] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
             row = eh.addNewCellToRow(index, row, "APELLIDO PATERNO", headerColumns[1] + index, 4U, CellValues.String);
@@ -3018,151 +3281,817 @@ namespace SUAMVC.Controllers
             row = eh.addNewCellToRow(index, row, "FECHA DE INGRESO", headerColumns[7] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "FECHA DE BAJA", headerColumns[8] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "SEXO", headerColumns[8] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "SEXO", headerColumns[9] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "RFC", headerColumns[9] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "RFC", headerColumns[10] + index, 4U, CellValues.String);
-            sheetData.AppendChild(row);
-
-            row = eh.addNewCellToRow(index, row, "HOMOCLAVE", headerColumns[11] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "HOMOCLAVE", headerColumns[10] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "CURP", headerColumns[12] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CURP", headerColumns[11] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "SDI", headerColumns[13] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "SDI", headerColumns[12] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "SALARIO REAL", headerColumns[14] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "SALARIO REAL", headerColumns[13] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "SALARIO MENSUAL", headerColumns[15] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "SALARIO MENSUAL", headerColumns[14] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "BANCO CUENTA", headerColumns[16] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "BANCO CUENTA", headerColumns[15] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "FECHA NACIMIENTO", headerColumns[17] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "FECHA NACIMIENTO", headerColumns[16] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
-            row = eh.addNewCellToRow(index, row, "ESTADO DE NACIMIENTO", headerColumns[18] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "ESTADO DE NACIMIENTO", headerColumns[17] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "MUNICIPIO DE NACIMIENTO", headerColumns[19] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "MUNICIPIO DE NACIMIENTO", headerColumns[18] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "NACIONALIDAD", headerColumns[20] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "NACIONALIDAD", headerColumns[19] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "CORREO", headerColumns[21] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CORREO", headerColumns[20] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "ESTADO CIVIL", headerColumns[22] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "ESTADO CIVIL", headerColumns[21] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "CALLE NUMERO", headerColumns[23] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CALLE NUMERO", headerColumns[22] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "COLONIA", headerColumns[24] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "COLONIA", headerColumns[23] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "C.P.", headerColumns[25] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "C.P.", headerColumns[24] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "DOMICILIO OFICINA", headerColumns[26] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "DOMICILIO OFICINA", headerColumns[25] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "FECHA DE ANTIGÜEDAD", headerColumns[27] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "FECHA DE ANTIGÜEDAD", headerColumns[26] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "SALARIO VSM", headerColumns[28] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "SALARIO VSM", headerColumns[27] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "JORNADA LABORAL", headerColumns[29] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "JORNADA LABORAL", headerColumns[28] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "DIAS DE DESCANSO", headerColumns[30] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "DIAS DE DESCANSO", headerColumns[29] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "SALARIO NOMINAL", headerColumns[31] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "SALARIO NOMINAL", headerColumns[30] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "DIAS DE VACACIONES", headerColumns[32] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "DIAS DE VACACIONES", headerColumns[31] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "PRIMA VACACIONAL", headerColumns[33] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "PRIMA VACACIONAL", headerColumns[32] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "DIAS DE AGUINALDO", headerColumns[34] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "DIAS DE AGUINALDO", headerColumns[33] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "OTROS", headerColumns[35] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "OTROS", headerColumns[34] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "TELEFONO", headerColumns[36] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "TELEFONO", headerColumns[35] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "TIPO DE SANGRE", headerColumns[37] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "TIPO DE SANGRE", headerColumns[36] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "EN CASO DE ACCIDENTE LLAMAR A:", headerColumns[38] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "EN CASO DE ACCIDENTE LLAMAR A:", headerColumns[37] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "PARENTESO", headerColumns[39] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "PARENTESO", headerColumns[38] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "TELEFONO FAMILIAR", headerColumns[40] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "TELEFONO FAMILIAR", headerColumns[39] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "SALARIO HORA EXTRA", headerColumns[41] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "SALARIO HORA EXTRA", headerColumns[40] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "CREDITO INFONAVIT", headerColumns[42] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "CREDITO INFONAVIT", headerColumns[41] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "REGIMEN INFONAVIT", headerColumns[43] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "REGIMEN INFONAVIT", headerColumns[42] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "MONTO INFONAVIT", headerColumns[44] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "MONTO INFONAVIT", headerColumns[43] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "FONACOT", headerColumns[45] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "FONACOT", headerColumns[44] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "% PENSION", headerColumns[46] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "% PENSION", headerColumns[45] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "IMPORTE PENSION", headerColumns[47] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "IMPORTE PENSION", headerColumns[46] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "PERIODO", headerColumns[48] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "PERIODO", headerColumns[47] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "DOCUMENTOS", headerColumns[49] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "DOCUMENTOS", headerColumns[48] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "FOTO", headerColumns[50] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "FOTO", headerColumns[49] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
 
             //Creamos las celdas que contienen los datos
+            int consecutivo = 0;
             foreach (Empleado dp in empleados)
             {
                 int i = 0;
                 index = index + 1;
+                consecutivo = consecutivo + 1;
 
-                //row = eh.addNewCellToRow(index, row, dp.sapynId, headerColumns[i] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, consecutivo.ToString(), headerColumns[i] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i + 1] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                if (dp.apellidoMaterno != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.apellidoMaterno, headerColumns[i + 2] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 2] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 3] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                if (dp.nss != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.nss, headerColumns[i + 4] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 4] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                row = eh.addNewCellToRow(index, row, sol.Cliente.claveCliente, headerColumns[i + 5] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                if (dp.categoria != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.categoria, headerColumns[i + 6] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 6] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.Asegurado != null)
+                {
+                    if (dp.Asegurado.fechaAlta != null)
+                    {
+                        DateTime fechaAlta = (DateTime)dp.Asegurado.fechaAlta;
+                        row = eh.addNewCellToRow(index, row, fechaAlta.ToShortDateString(), headerColumns[i + 7] + index, 3U, CellValues.String);
+                        sheetData.AppendChild(row);
+                    }
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 7] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.Sexo != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.Sexo.descripcion, headerColumns[i + 8] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 8] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.rfc != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.rfc, headerColumns[i + 9] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 9] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.homoclave != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.homoclave, headerColumns[i + 10] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 10] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.curp != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.curp, headerColumns[i + 11] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 11] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.SDI != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.SDI.descripcion, headerColumns[i + 12] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 12] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                //Convertir a decimales dp.salarioReal
+                if (dp.salarioReal != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.salarioReal.ToString(), headerColumns[i + 13] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 13] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                //row = eh.addNewCellToRow(index, row, dp.salarioMensual.ToString(), headerColumns[i + 15] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 14] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Banco.descripcion, headerColumns[i + 15] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+
+                if (dp.fechaNacimiento != null)
+                {
+                    DateTime fechaNacimiento = (DateTime)dp.fechaNacimiento;
+                    row = eh.addNewCellToRow(index, row, fechaNacimiento.ToShortDateString(), headerColumns[i + 16] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 16] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.Estado != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.Estado.descripcion, headerColumns[i + 17] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 17] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.Municipio != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.Municipio.descripcion, headerColumns[i + 18] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 18] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.Pais != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.Pais.descripcion, headerColumns[i + 19] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 19] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.email != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.email, headerColumns[i + 20] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 20] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.EstadoCivil != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.EstadoCivil.descripcion, headerColumns[i + 21] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 21] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.calleNumero != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.calleNumero, headerColumns[i + 22] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 22] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.colonia != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.colonia, headerColumns[i + 23] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 23] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.codigoPostal != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.codigoPostal, headerColumns[i + 24] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 24] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                //row = eh.addNewCellToRow(index, row, dp.domicilioOficina, headerColumns[i + 26] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 25] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.archivosEmpleado.fechaAntiguedad, headerColumns[i + 27] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 26] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.Acreditados.vsm, headerColumns[i + 28] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 27] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.Acreditados.jornada, headerColumns[i + 29] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 28] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.Acreditados.diasdescanso, headerColumns[i + 29] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 29] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.Asegurado.salarioNominal, headerColumns[i + 30] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 30] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.DocumentoEmpleado.diasVacaciones, headerColumns[i + 31] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 31] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.porcentajePrima, headerColumns[i + 32] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 32] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.DocumentoEmpleado.diasAguinaldo, headerColumns[i + 33] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 33] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.otros, headerColumns[i + 34] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 34] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.telefono, headerColumns[i + 35] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 35] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.tipoSangre, headerColumns[i + 36] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 36] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.enCasoAccidenteLlamara:, headerColumns[i + 37] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 37] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.parentesco, headerColumns[i + 38] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 38] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.FamiliaresEmpleado.telefonoCasa, headerColumns[i + 39] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 39] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.salarioHoraExtra, headerColumns[i + 40] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 40] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.creditoInfonavit, headerColumns[i + 41] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 41] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.regimenInfonavit, headerColumns[i + 42] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 42] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.montoInfonavit, headerColumns[i + 43] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 43] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.fonacot, headerColumns[i + 44] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 44] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.pension, headerColumns[i + 45] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 45] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.importePension, headerColumns[i + 46] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 46] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.periodo, headerColumns[i + 47] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 47] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.documentos, headerColumns[i + 48] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 48] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //row = eh.addNewCellToRow(index, row, dp.foto, headerColumns[i + 49] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 49] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                //                index++;
+            }
+
+            return sheetData;
+        }
+
+        public void launchReport()
+        {
+
+            Response.Redirect("~/Reports/ReportViewer.aspx");
+
+            //String serverName = "Driver={SQL Server Native Client 10.0};Server=MXQRMN-PC025WWD\\SQLEXPRESS";
+            //rp.SetDatabaseLogon("root", "jeargaqu", serverName, "sua", false);
+            //rp.VerifyDatabase();
+            //rp.Refresh();
+
+            //CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
+            //crystalReportViewer.ReportSource = rp;
+            //crystalReportViewer.DisplayToolbar = true;
+            // rp.SetDatabaseLogon("root", "jeargaqu", serverName, "sua", false);
+            // rp.VerifyDatabase();
+            // rp.Refresh();
+
+            CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
+            //crystalReportViewer.ReportSource = rp;
+            crystalReportViewer.DisplayToolbar = true;
+
+            //Response.Buffer = false;
+            //Response.ClearContent();
+            //Response.ClearHeaders();
+
+            //try
+            //{
+            //    Stream stream = rp.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            //    return File(stream, "application/rpt", "miReporte.pdf");
+            //}
+            //catch (Exception e) {
+            //    throw;
+            //}
+        }
+
+        //Lay Out Detalle Empleado
+        [HttpGet]
+        public void crearExcelDetalleEmpleadosBajas(int solicitudId)
+        {
+            FileStream fileStream = null;
+            MemoryStream mem = new MemoryStream();
+            try
+            {
+
+                List<Empleado> empleadosList = new List<Empleado>();
+
+                Solicitud sol = db.Solicituds.Find(solicitudId);
+
+                empleadosList = (from s in db.SolicitudEmpleadoes
+                                 //                                 where s.estatus.Equals("A")
+                                 where s.solicitudId.Equals(solicitudId)
+                                 orderby s.id
+                                 select s.Empleado).ToList();
+
+                DateTime date = DateTime.Now;
+                String path = @"C:\\SUA\\Exceles\\";
+                String fileName = @"DetalleEmpleados-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fullName = path + fileName;
+
+                if (empleadosList.Count() > 0)
+                {
+
+                    ExcelHelper eh = new ExcelHelper();
+                    //Creamos el objeto del workbook
+                    SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
+
+                    WorkbookPart wbp = xl.AddWorkbookPart();
+                    WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
+                    Workbook wb = new Workbook();
+                    FileVersion fv = new FileVersion();
+                    fv.ApplicationName = "Microsoft Office Excel";
+
+                    Worksheet ws = new Worksheet();
+                    WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
+                    // add styles to sheet
+                    wbsp.Stylesheet = eh.CreateStylesheet();
+                    wbsp.Stylesheet.Save();
+
+                    SheetData sd = crearContenidoHojaDetalleEmpleados(empleadosList, eh, sol);
+                    ws.Append(sd);
+                    wsp.Worksheet = ws;
+                    wsp.Worksheet.Save();
+
+                    Sheets sheets = new Sheets();
+                    Sheet sheet = new Sheet();
+                    sheet.Name = "rptPanelDetalleEmpleados";
+                    sheet.SheetId = 1;
+                    sheet.Id = wbp.GetIdOfPart(wsp);
+
+                    sheets.Append(sheet);
+                    wb.Append(fv);
+                    wb.Append(sheets);
+
+                    xl.WorkbookPart.Workbook = wb;
+                    xl.WorkbookPart.Workbook.Save();
+                    xl.Close();
+
+                    fileStream = new FileStream(fullName, FileMode.Open);
+                    fileStream.Position = 0;
+                    mem = new MemoryStream();
+                    fileStream.CopyTo(mem);
+
+                    mem.Position = 0;
+                    Response.ClearContent();
+                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                    ToolsHelper th = new ToolsHelper();
+                    Response.ContentType = th.getMimeType(fullName);
+                    Response.BinaryWrite(mem.ToArray());
+
+                    Response.End();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+
+            }
+            finally
+            {
+                if (fileStream != null)
+                {
+                    fileStream.Flush();
+                    fileStream.Close();
+                }
+                mem.Flush();
+                mem.Close();
+            }
+
+        }
+
+
+        public SheetData crearContenidoHojaDetalleEmpleadosBaja(List<Empleado> empleados, ExcelHelper eh, Solicitud sol)
+        {
+
+            SheetData sheetData = new SheetData();
+            int index = 1;
+
+            //Creamos el Header
+            Row row = new Row();
+            row = eh.addNewCellToRow(index, row, "Titulo del Excel", headerColumns[0] + index, 0U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            index = index + 1;
+            row = eh.addNewCellToRow(index, row, "DETALLE EMPLEADO", headerColumns[0] + index, 0U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            index = index + 2;
+            row = eh.addNewCellToRow(index, row, "Folio:", headerColumns[0] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, sol.folioSolicitud, headerColumns[1] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            index = index + 2;
+            row = eh.addNewCellToRow(index, row, "#", headerColumns[0] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "ID SAPYN", headerColumns[1] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "APELLIDO PATERNO", headerColumns[2] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "APELLIDO MATERNO", headerColumns[3] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "NOMBRE", headerColumns[4] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "NSS", headerColumns[5] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "CODIGO CLIENTE", headerColumns[6] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "CATEGORIA", headerColumns[7] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "FECHA DE INGRESO", headerColumns[8] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "FECHA DE BAJA", headerColumns[9] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "SEXO", headerColumns[10] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "RFC", headerColumns[11] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "HOMOCLAVE", headerColumns[12] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+
+            row = eh.addNewCellToRow(index, row, "CURP", headerColumns[13] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+
+            row = eh.addNewCellToRow(index, row, "SDI", headerColumns[14] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+
+            row = eh.addNewCellToRow(index, row, "SALARIO REAL", headerColumns[15] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+
+            row = eh.addNewCellToRow(index, row, "SALARIO MENSUAL", headerColumns[16] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+
+            row = eh.addNewCellToRow(index, row, "BANCO CUENTA", headerColumns[17] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+
+            row = eh.addNewCellToRow(index, row, "FECHA NACIMIENTO", headerColumns[18] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+
+            row = eh.addNewCellToRow(index, row, "ESTADO DE NACIMIENTO", headerColumns[19] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "MUNICIPIO DE NACIMIENTO", headerColumns[20] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "NACIONALIDAD", headerColumns[21] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "CORREO", headerColumns[22] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "ESTADO CIVIL", headerColumns[23] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "CALLE NUMERO", headerColumns[24] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "COLONIA", headerColumns[25] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "C.P.", headerColumns[26] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "DOMICILIO OFICINA", headerColumns[27] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "FECHA DE ANTIGÜEDAD", headerColumns[28] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "SALARIO VSM", headerColumns[29] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "JORNADA LABORAL", headerColumns[30] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "DIAS DE DESCANSO", headerColumns[31] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "SALARIO NOMINAL", headerColumns[32] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "DIAS DE VACACIONES", headerColumns[33] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "PRIMA VACACIONAL", headerColumns[34] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "DIAS DE AGUINALDO", headerColumns[35] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "OTROS", headerColumns[36] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "TELEFONO", headerColumns[37] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "TIPO DE SANGRE", headerColumns[38] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "EN CASO DE ACCIDENTE LLAMAR A:", headerColumns[39] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "PARENTESO", headerColumns[40] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "TELEFONO FAMILIAR", headerColumns[41] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "SALARIO HORA EXTRA", headerColumns[42] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "CREDITO INFONAVIT", headerColumns[43] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "REGIMEN INFONAVIT", headerColumns[44] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "MONTO INFONAVIT", headerColumns[45] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "FONACOT", headerColumns[46] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "% PENSION", headerColumns[47] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "IMPORTE PENSION", headerColumns[48] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "PERIODO", headerColumns[49] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "DOCUMENTOS", headerColumns[50] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "FOTO", headerColumns[51] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+
+            //Creamos las celdas que contienen los datos
+            int consecutivo = 0;
+            foreach (Empleado dp in empleados)
+            {
+                int i = 0;
+                index = index + 1;
+                consecutivo = consecutivo + 1;
+
+                row = eh.addNewCellToRow(index, row, consecutivo.ToString(), headerColumns[i] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i + 1] + index, 3U, CellValues.String);
@@ -3185,8 +4114,7 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                //row = eh.addNewCellToRow(index, row, dp.codigoCliente, headerColumns[i + 5] + index, 3U, CellValues.String);
-                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 5] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, sol.Cliente.claveCliente, headerColumns[i + 5] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 row = eh.addNewCellToRow(index, row, dp.categoria, headerColumns[i + 6] + index, 3U, CellValues.String);
@@ -3462,40 +4390,462 @@ namespace SUAMVC.Controllers
             return sheetData;
         }
 
-        public void launchReport()
+        //Lay Out Afiliacion
+        [HttpGet]
+        public void crearExcelAfiliacionBaja(int solicitudId)
+        {
+            FileStream fileStream = null;
+            MemoryStream mem = new MemoryStream();
+            try
+            {
+                Solicitud sol = db.Solicituds.Find(solicitudId);
+
+                List<Empleado> empleadosList = new List<Empleado>();
+
+                empleadosList = (from s in db.SolicitudEmpleadoes
+                                 //                                 where s.estatus.Equals("A")
+                                 where s.solicitudId.Equals(solicitudId)
+                                 orderby s.id
+                                 select s.Empleado).ToList();
+
+                DateTime date = DateTime.Now;
+                String path = @"C:\\SUA\\Exceles\\";
+                String fileName = @"Afiliacion-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fullName = path + fileName;
+
+                if (empleadosList.Count() > 0)
+                {
+
+                    ExcelHelper eh = new ExcelHelper();
+                    //Creamos el objeto del workbook
+                    SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
+
+                    WorkbookPart wbp = xl.AddWorkbookPart();
+                    WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
+                    Workbook wb = new Workbook();
+                    FileVersion fv = new FileVersion();
+                    fv.ApplicationName = "Microsoft Office Excel";
+
+                    Worksheet ws = new Worksheet();
+                    WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
+                    // add styles to sheet
+                    wbsp.Stylesheet = eh.CreateStylesheet();
+                    wbsp.Stylesheet.Save();
+
+                    SheetData sd = crearContenidoHojaAfiliacionBaja(empleadosList, eh, sol);
+                    ws.Append(sd);
+                    wsp.Worksheet = ws;
+                    wsp.Worksheet.Save();
+
+                    Sheets sheets = new Sheets();
+                    Sheet sheet = new Sheet();
+                    sheet.Name = "rptPanelAltaIMSS";
+                    sheet.SheetId = 1;
+                    sheet.Id = wbp.GetIdOfPart(wsp);
+
+                    sheets.Append(sheet);
+                    wb.Append(fv);
+                    wb.Append(sheets);
+
+                    xl.WorkbookPart.Workbook = wb;
+                    xl.WorkbookPart.Workbook.Save();
+                    xl.Close();
+
+                    fileStream = new FileStream(fullName, FileMode.Open);
+                    fileStream.Position = 0;
+                    mem = new MemoryStream();
+                    fileStream.CopyTo(mem);
+
+                    mem.Position = 0;
+                    Response.ClearContent();
+                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                    ToolsHelper th = new ToolsHelper();
+                    Response.ContentType = th.getMimeType(fullName);
+                    Response.BinaryWrite(mem.ToArray());
+
+                    Response.End();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+
+            }
+            finally
+            {
+                if (fileStream != null)
+                {
+                    fileStream.Flush();
+                    fileStream.Close();
+                }
+                mem.Flush();
+                mem.Close();
+            }
+
+        }
+
+
+        public SheetData crearContenidoHojaAfiliacionBaja(List<Empleado> empleados, ExcelHelper eh, Solicitud sol)
         {
 
-            Response.Redirect("~/Reports/ReportViewer.aspx");
+            SheetData sheetData = new SheetData();
+            int index = 1;
 
-            //String serverName = "Driver={SQL Server Native Client 10.0};Server=MXQRMN-PC025WWD\\SQLEXPRESS";
-            //rp.SetDatabaseLogon("root", "jeargaqu", serverName, "sua", false);
-            //rp.VerifyDatabase();
-            //rp.Refresh();
+            //Creamos el Header
+            Row row = new Row();
+            row = eh.addNewCellToRow(index, row, "Titulo del Excel", headerColumns[0] + index, 0U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            //CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
-            //crystalReportViewer.ReportSource = rp;
-            //crystalReportViewer.DisplayToolbar = true;
-            // rp.SetDatabaseLogon("root", "jeargaqu", serverName, "sua", false);
-            // rp.VerifyDatabase();
-            // rp.Refresh();
+            index = index + 1;
+            row = eh.addNewCellToRow(index, row, "BAJA DE PERSONAL IMSS", headerColumns[0] + index, 0U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
-            //crystalReportViewer.ReportSource = rp;
-            crystalReportViewer.DisplayToolbar = true;
+            index = index + 2;
+            row = eh.addNewCellToRow(index, row, "Folio:", headerColumns[0] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            //Response.Buffer = false;
-            //Response.ClearContent();
-            //Response.ClearHeaders();
+            row = eh.addNewCellToRow(index, row, sol.folioSolicitud, headerColumns[1] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
 
-            //try
-            //{
-            //    Stream stream = rp.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            //    return File(stream, "application/rpt", "miReporte.pdf");
-            //}
-            //catch (Exception e) {
-            //    throw;
-            //}
+            index = index + 2;
+            row = eh.addNewCellToRow(index, row, "#", headerColumns[0] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Número de Seguro Social", headerColumns[1] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+             row = eh.addNewCellToRow(index, row, "Primer Apellido", headerColumns[2] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Segundo Apellido", headerColumns[3] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Nombre(s)", headerColumns[4] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Fecha baja", headerColumns[5] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Causa baja", headerColumns[6] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Clave del trabajador", headerColumns[7] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+            
+            //Creamos las celdas que contienen los datos
+            int consecutivo = 0;
+            foreach (Empleado dp in empleados)
+            {
+                int i = 0;
+                index = index + 1;
+                consecutivo = consecutivo + 1;
+
+                row = eh.addNewCellToRow(index, row, consecutivo.ToString(), headerColumns[i] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                if (dp.nss != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.nss, headerColumns[i + 1] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 1] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i + 2] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                if (dp.apellidoMaterno != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.apellidoMaterno, headerColumns[i + 3] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 3] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 4] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                if (dp.fechaBaja != null)
+                {
+                    DateTime fechaBaja = (DateTime)dp.fechaBaja;
+                    row = eh.addNewCellToRow(index, row, fechaBaja.ToShortDateString(), headerColumns[i + 5] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 5] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (sol.conceptoBaja != null)
+                {
+                    row = eh.addNewCellToRow(index, row, sol.conceptoBaja.ToString(), headerColumns[i + 6] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 6] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 7] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+            }
+
+            return sheetData;
         }
+
+        //Lay Out Afiliacion
+        [HttpGet]
+        public void crearExcelAfiliacionModif(int solicitudId)
+        {
+            FileStream fileStream = null;
+            MemoryStream mem = new MemoryStream();
+            try
+            {
+                Solicitud sol = db.Solicituds.Find(solicitudId);
+
+                List<Empleado> empleadosList = new List<Empleado>();
+
+                empleadosList = (from s in db.SolicitudEmpleadoes
+                                 //                                 where s.estatus.Equals("A")
+                                 where s.solicitudId.Equals(solicitudId)
+                                 orderby s.id
+                                 select s.Empleado).ToList();
+
+                DateTime date = DateTime.Now;
+                String path = @"C:\\SUA\\Exceles\\";
+                String fileName = @"Afiliacion-" + date.ToString("ddMMyyyyHHmm") + ".xlsx";
+                String fullName = path + fileName;
+
+                if (empleadosList.Count() > 0)
+                {
+
+                    ExcelHelper eh = new ExcelHelper();
+                    //Creamos el objeto del workbook
+                    SpreadsheetDocument xl = SpreadsheetDocument.Create(fullName, SpreadsheetDocumentType.Workbook);
+
+                    WorkbookPart wbp = xl.AddWorkbookPart();
+                    WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
+                    Workbook wb = new Workbook();
+                    FileVersion fv = new FileVersion();
+                    fv.ApplicationName = "Microsoft Office Excel";
+
+                    Worksheet ws = new Worksheet();
+                    WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
+                    // add styles to sheet
+                    wbsp.Stylesheet = eh.CreateStylesheet();
+                    wbsp.Stylesheet.Save();
+
+                    SheetData sd = crearContenidoHojaAfiliacionModif(empleadosList, eh, sol);
+                    ws.Append(sd);
+                    wsp.Worksheet = ws;
+                    wsp.Worksheet.Save();
+
+                    Sheets sheets = new Sheets();
+                    Sheet sheet = new Sheet();
+                    sheet.Name = "rptPanelAltaIMSS";
+                    sheet.SheetId = 1;
+                    sheet.Id = wbp.GetIdOfPart(wsp);
+
+                    sheets.Append(sheet);
+                    wb.Append(fv);
+                    wb.Append(sheets);
+
+                    xl.WorkbookPart.Workbook = wb;
+                    xl.WorkbookPart.Workbook.Save();
+                    xl.Close();
+
+                    fileStream = new FileStream(fullName, FileMode.Open);
+                    fileStream.Position = 0;
+                    mem = new MemoryStream();
+                    fileStream.CopyTo(mem);
+
+                    mem.Position = 0;
+                    Response.ClearContent();
+                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                    ToolsHelper th = new ToolsHelper();
+                    Response.ContentType = th.getMimeType(fullName);
+                    Response.BinaryWrite(mem.ToArray());
+
+                    Response.End();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+
+            }
+            finally
+            {
+                if (fileStream != null)
+                {
+                    fileStream.Flush();
+                    fileStream.Close();
+                }
+                mem.Flush();
+                mem.Close();
+            }
+
+        }
+
+
+        public SheetData crearContenidoHojaAfiliacionModif(List<Empleado> empleados, ExcelHelper eh, Solicitud sol)
+        {
+
+            SheetData sheetData = new SheetData();
+            int index = 1;
+
+            //Creamos el Header
+            Row row = new Row();
+            row = eh.addNewCellToRow(index, row, "Titulo del Excel", headerColumns[0] + index, 0U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            index = index + 1;
+            row = eh.addNewCellToRow(index, row, "BAJA DE PERSONAL IMSS", headerColumns[0] + index, 0U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            index = index + 2;
+            row = eh.addNewCellToRow(index, row, "Folio:", headerColumns[0] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, sol.folioSolicitud, headerColumns[1] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            index = index + 2;
+            row = eh.addNewCellToRow(index, row, "#", headerColumns[0] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Número de Seguro Social", headerColumns[1] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "CURP", headerColumns[2] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Primer Apellido", headerColumns[3] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Segundo Apellido", headerColumns[4] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Nombre(s)", headerColumns[5] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Fecha modificación", headerColumns[6] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "SDI", headerColumns[7] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Tipo de trabajador", headerColumns[8] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Tipo de salario", headerColumns[9] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Tipo deJornada", headerColumns[10] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+            
+            row = eh.addNewCellToRow(index, row, "Clave del trabajador", headerColumns[11] + index, 4U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            //Creamos las celdas que contienen los datos
+            int consecutivo = 0;
+            foreach (Empleado dp in empleados)
+            {
+                int i = 0;
+                index = index + 1;
+                consecutivo = consecutivo + 1;
+
+                row = eh.addNewCellToRow(index, row, consecutivo.ToString(), headerColumns[i] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                if (dp.nss != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.nss, headerColumns[i + 1] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 1] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.curp != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.curp, headerColumns[i + 2] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 2] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i + 3] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                if (dp.apellidoMaterno != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.apellidoMaterno, headerColumns[i + 4] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 4] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 5] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                if (dp.fechaModificacion != null)
+                {
+                    DateTime fechaModif = (DateTime)dp.fechaModificacion;
+                    row = eh.addNewCellToRow(index, row, fechaModif.ToShortDateString(), headerColumns[i + 6] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 6] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.SDI != null)
+                {
+                    row = eh.addNewCellToRow(index, row, dp.SDI.descripcion, headerColumns[i + 7] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 7] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                row = eh.addNewCellToRow(index, row, "1", headerColumns[i + 8] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, "0", headerColumns[i + 9] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, "0", headerColumns[i + 10] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 11] + index, 3U, CellValues.String);
+                sheetData.AppendChild(row);
+
+            }
+
+            return sheetData;
+        }
+
 
         protected override void Dispose(bool disposing)
         {

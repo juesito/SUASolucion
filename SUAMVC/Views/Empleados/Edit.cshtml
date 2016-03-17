@@ -214,11 +214,31 @@
                         @Html.ValidationMessageFor(model => model.empleado.observaciones, "", new { @class = "text-danger" })
                     </dd>
                     <dt style="margin-top:30px;">
-                        <a href="@Url.Action("Index", "Empleados")">
-                            <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
-                        </a>
+                        @if (ViewBag.solicitud == null)
+                        {
+                            <a href="@Url.Action("Index", "Empleados")">
+                                @Html.ActionLink(@Language.regresar, "Index", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index", "Empleados")">
+                                @Html.ActionLink(@Language.regresar, "Index", new { id = ViewBag.solicitud.id, controllerDestiny = ViewBag.controllerDestiny, clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
+                            </a>
+                        }
                     </dt>
-                    <dd style="margin-top:30px;"><input name="Guadar" type="submit" value="@Language.guardar" class="btn btn-success" /></dd>
+                    <dd style="margin-top:30px;">
+                        @if (ViewBag.solicitud == null)
+                        {
+                            var clienteId = ViewBag.clienteId;
+                            var proyectoId = ViewBag.proyectoId;
+                        }
+                        else
+                        {
+                            var id = ViewBag.solicitud.id;
+                            var controllerDestiny = ViewBag.controllerDestiny;
+                        }
+                       <input name="Guadar" type="submit" value="@Language.guardar" class="btn btn-success" /></dd>
                 </dl>
             </div>
             <!-- marquesina de la derecha -->
@@ -379,9 +399,18 @@
                         </a>
                     </dd>
                     <dt style="margin-top:30px;">
-                        <a href="@Url.Action("Index", "Empleados")">
-                            <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
-                        </a>
+                        @if (ViewBag.solicitud == null)
+                        {
+                            <a href="@Url.Action("Index", "Empleados")">
+                                @Html.ActionLink(@Language.regresar, "Index", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index", "Empleados")">
+                                @Html.ActionLink(@Language.regresar, "Index", new { id = ViewBag.solicitud.id, controllerDestiny = ViewBag.controllerDestiny, clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
+                            </a>
+                        }
                     </dt>
                     <dd style="margin-top:30px;"><input name="Guadar" type="submit" value="@Language.guardar" class="btn btn-success" /></dd>
                 </dl>
@@ -573,9 +602,18 @@
                         @Html.conceptosDrownList(usuario.Id, "PERISAL", "periodoId")
                     </dd>
                     <dt style="margin-top:100px;">
-                        <a href="@Url.Action("Index", "Empleados")">
-                            <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
-                        </a>
+                        @if (ViewBag.solicitud == null)
+                        {
+                            <a href="@Url.Action("Index", "Empleados")">
+                                @Html.ActionLink(@Language.regresar, "Index", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index", "Empleados")">
+                                @Html.ActionLink(@Language.regresar, "Index", new { id = ViewBag.solicitud.id, controllerDestiny = ViewBag.controllerDestiny, clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
+                            </a>
+                        }
                     </dt>
                     <dd style="margin-top:100px;"><input name="Guadar" type="submit" value="@Language.guardar" class="btn btn-success" /></dd>
 

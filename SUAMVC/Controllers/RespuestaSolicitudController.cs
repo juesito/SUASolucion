@@ -235,6 +235,7 @@ namespace SUAMVC.Controllers
                             //Cerramos la solicitud
                             Concepto estatusCerrado = th.obtenerConceptoPorGrupo("ESTASOL", "Cerrado");
                             solicitud.estatusSolicitud = estatusCerrado.id;
+                            solicitud.fechaEnvio = DateTime.Now;
 
                             db.Entry(solicitud).State = EntityState.Modified;
                             db.SaveChanges();

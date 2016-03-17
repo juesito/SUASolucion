@@ -138,7 +138,10 @@
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.empleado.fechaNacimiento, "Date")
+                    @if (Model.empleado.fechaNacimiento != null)
+                    { 
+                       @Html.DisplayFor(model => model.empleado.fechaNacimiento, "Date")
+                    }
                 </dd>
                 <dt>
                     @Html.Label(Language.estado):
@@ -172,9 +175,18 @@
                     @Html.DisplayFor(model => model.empleado.observaciones, new { htmlAttributes = new { @class = "form-control" } })
                 </dd>
                 <dt style="margin-top:30px;">
-                    <a href="@Url.Action("Index", "Empleados")">
-                        <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
-                    </a>
+                    @if (ViewBag.solicitud == null)
+                    {
+                        <a href="@Url.Action("Index", "Empleados")">
+                            @Html.ActionLink(@Language.regresar, "Index", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Empleados")">
+                            @Html.ActionLink(@Language.regresar, "Index", new { id = ViewBag.solicitud.id, controllerDestiny = ViewBag.controllerDestiny, clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
+                        </a>
+                    }
                 </dt>
             </dl>
         </div>
@@ -328,9 +340,18 @@
                             </a>
                         </dd>
                         <dt style="margin-top:30px;">
+                        @if (ViewBag.solicitud == null)
+                        {
+                             <a href="@Url.Action("Index", "Empleados")">
+                                  @Html.ActionLink(@Language.regresar, "Index", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
+                                </a>
+                        }
+                        else
+                        {
                             <a href="@Url.Action("Index", "Empleados")">
-                                <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+                                @Html.ActionLink(@Language.regresar, "Index", new { id = ViewBag.solicitud.id, controllerDestiny = ViewBag.controllerDestiny, clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
                             </a>
+                        }
                         </dt>
 </dl>
             </div>
@@ -503,9 +524,18 @@
                         @Html.DisplayFor(model => model.salarialesEmpleado.Concepto.descripcion)
                     </dd>
                     <dt style="margin-top:30px;">
-                        <a href="@Url.Action("Index", "Empleados")">
-                            <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
-                        </a>
+                        @if (ViewBag.solicitud == null)
+                        {
+                            <a href="@Url.Action("Index", "Empleados")">
+                                @Html.ActionLink(@Language.regresar, "Index", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index", "Empleados")">
+                                @Html.ActionLink(@Language.regresar, "Index", new { id = ViewBag.solicitud.id, controllerDestiny = ViewBag.controllerDestiny, clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
+                            </a>
+                        }
                     </dt>
                 </dl>
             </div>

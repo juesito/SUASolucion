@@ -6,6 +6,19 @@ using System.Net.Mail;
 using SUADATOS;
 using SUAMVC.Models;
 using System.Text.RegularExpressions;
+using System.Data;
+using System.Data.Entity;
+using System.Net;
+using System.Web.Mvc;
+
+
+using System.Data.Entity.Validation;
+using System.Text;
+using SUAMVC.Helpers;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml;
+using System.IO;
 
 namespace SUAMVC.Helpers
 {
@@ -50,11 +63,25 @@ namespace SUAMVC.Helpers
                                select d).First();
 
             ////Obtenemos el email del cliente
-            //if (!String.IsNullOrEmpty(cliente.email)) {
-            //    DestinatorModel destinator = new DestinatorModel(cliente.nombre.Trim(), cliente.email.Trim());
-            //    email.to.Add(destinator);
-            //}
+            if (!String.IsNullOrEmpty(cliente.email)) {
+                DestinatorModel destinator = new DestinatorModel("CIAH", cliente.email.Trim());
+                email.to.Add(destinator);
+            }
 
+            // Mail del usuaria logueado
+            if (!String.IsNullOrEmpty(solicitud.Usuario.email))
+            {
+                DestinatorModel destinator = new DestinatorModel("CIAH", solicitud.Usuario.email.Trim());
+                email.to.Add(destinator);
+            }
+
+            // Mail del ejecutivo del cliente
+            if (!String.IsNullOrEmpty(cliente.Usuario.email))
+            {
+                DestinatorModel destinator = new DestinatorModel("CIAH", cliente.Usuario.email.Trim());
+                email.to.Add(destinator);
+            }
+         
             ////Emails adicionales del cliente si es que tiene capturados
             //foreach (ListaValidacionCliente lvc in cliente.ListaValidacionClientes) {
             //    if (!String.IsNullOrEmpty(lvc.emailAutorizador)) {
@@ -123,11 +150,11 @@ namespace SUAMVC.Helpers
 
             SmtpClient client = new SmtpClient();
             client.Credentials = new System.Net.NetworkCredential("info@desarrolloytalento.com", "/info2016*");
-            client.Port = 993;
+            client.Port = 587;
 //            client.Port = 3535;
 //            client.Host = "smtpout.secureserver.net";//Este es el smtp valido para Gmail
-            client.Host = "OUTLOOK.OFFICE365.COM";//Este es el smtp valido para Gmail
-            client.EnableSsl = false; //Esto es para que vaya a través de SSL que es obligatorio con GMail
+            client.Host = "smtp.office365.com";//Este es el smtp valido para Gmail
+            client.EnableSsl = true; //Esto es para que vaya a través de SSL que es obligatorio con GMail
 
             try
             {
