@@ -1,0 +1,105 @@
+﻿@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+@{
+    ViewBag.Title = "CargarEmpleadosPorExcel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+
+    Solicitud solicitud = new Solicitud();
+    if (ViewBag.solicitud != null)
+    {
+        solicitud = ViewBag.solicitud as Solicitud;
+    }
+
+}
+
+@section Menu {
+    <div>Cargar Empleados por Layout<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+<div class="marqueeFilter">
+    <table style="float:left; margin-top:5px;display:inline-block;">
+        <thead>
+            <tr style="text-align:left;vertical-align:bottom;">
+                <td style=" padding-top:20px">
+                    @Html.Label("Cliente:")
+                </td>
+                <td>
+                    @Html.Label(solicitud.Cliente.descripcion)
+                </td>
+                <td style="padding-left:30px;">
+                    @Html.Label("Proyecto:")
+                </td>
+                <td style="padding-left:5px">
+                    @Html.Label(solicitud.Proyecto.descripcion)
+                </td>
+                <td style="padding-left:30px">
+                    @Html.Label("Folio:")
+                </td>
+                <td style="padding-left:5px">
+                    @Html.Label(solicitud.folioSolicitud)
+                </td>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div class="menubar-header">
+    <a href="@Url.Action("Index", "SolicitudPrenominas", new {clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId,
+            solicitudId = solicitud.id })" style="text-align:right">
+        <img src="~/Content/Images/back.png" title="Regresar" alt="Regresar" style="border:none;" class="menuIcon" />
+    </a>
+    <a href="@Url.Action("DownLoadLayout", "SolicitudPrenominas")" style=" padding-left:20px">
+        <img src="~/Content/Images/xls.png" title="Descargar Layout" alt="Descargar Layout" style="border:none;" class="menuIcon" />
+    </a>
+</div>
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Cargar archivo de empleados de un layout de excel
+    </div>
+    <div class="panel-body">
+        @using (@Html.BeginForm("CargarPrenominaSYSDiasExcel", "SolicitudPrenominas", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+        {
+            @Html.Hidden("SolicitudId", solicitud.id)
+
+            if (!IsPost)
+            {
+                <div class="file">
+                    @FileUpload.GetHtml(initialNumberOfFiles: 1,
+                allowMoreFilesToBeAdded: false,
+                includeFormTag: true,
+                uploadText: "Cargar Excel Prenominas")
+                </div>
+
+            }
+            else
+            {
+                <h1>Cargado</h1>
+            }
+
+        }
+    </div>
+    <div class="panel-body">
+        ESPECIFICACIONES PARA ENVIAR EL ARCHIVO:
+    </div>
+    <div style="padding-left:15px">
+        Deberá guardarse en formato Excel 97-2003
+    </div>
+    <div style="padding-left:15px; padding-top:8px">
+        El nombre de la hoja deberá ser 'Layout'
+    </div>
+    <div style="padding-left:15px; padding-top:8px">
+        Las columnas obligatorias son:  AP_PATERNO, NOMBRE, RFC, NSS, FECHA_ALTA, TRAMITAR_CUENTA, BANCO.
+    </div>
+    <div style="padding-left:15px; padding-top:8px; padding-bottom:30px">
+        La descripción el las columnas SEXO, ESTADO_CIVIL, PAIS, ESTADO, MUNICIPIO, CATEGORIA y BANCO
+        deberán coincidir con la descripción que está en la hoja de Catalogos.
+    </div>
+</div>
+

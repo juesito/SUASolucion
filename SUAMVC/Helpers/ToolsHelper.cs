@@ -259,5 +259,18 @@ namespace SUAMVC.Helpers
             return movimiento;
         }
 
+       public Empleado verificarEmpleadoPorClienteProyecto(String nombre, String apellidoMaterno, String apellidoPaterno, int clienteId, int proyectoId)
+       {
+           SolicitudEmpleado solEmpleado = db.SolicitudEmpleadoes.Where(s => s.Empleado.nombre.Trim().ToLower().Equals(nombre.Trim().ToLower())
+                                                && s.Empleado.apellidoMaterno.Trim().ToLower().Equals(apellidoMaterno.Trim().ToLower())
+                                                && s.Empleado.apellidoPaterno.Trim().ToLower().Equals(apellidoPaterno.Trim().ToLower())
+                                                && s.Solicitud.clienteId.Equals(clienteId) && s.Solicitud.proyectoId.Equals(proyectoId)
+                                                && s.Solicitud.Concepto.descripcion.Equals("Apertura")
+               ).FirstOrDefault();
+
+           return solEmpleado.Empleado;
+
+       }
+
     }
 }

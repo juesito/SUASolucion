@@ -133,7 +133,7 @@ namespace SUAMVC.Controllers
 
                 ToolsHelper th = new ToolsHelper();
                 ParametrosHelper ph = new ParametrosHelper();
-//                ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
+                //                ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
 
                 //Parametro de folios de solicitud de prenomina
                 Parametro folioAlta = ph.getParameterByKey("FOLSPALTA");
@@ -143,8 +143,8 @@ namespace SUAMVC.Controllers
                 //Asignamos los valores de nuestra solicitud.
                 solicitudPrenomina.fechaSolicitud = DateTime.Now;
                 solicitudPrenomina.noTrabajadores = 0;
-//                solicitudPrenomina.autoriza = lvc.autorizador;
-//                solicitudPrenomina.valida = lvc.validador;
+                //                solicitudPrenomina.autoriza = lvc.autorizador;
+                //                solicitudPrenomina.valida = lvc.validador;
                 solicitudPrenomina.usuarioId = usuario.Id;
                 solicitudPrenomina.estatusSolicitud = concepto.id;
                 solicitudPrenomina.solicita = usuario.nombreUsuario.Trim();
@@ -249,8 +249,13 @@ namespace SUAMVC.Controllers
                     }
                 }
 
-                return RedirectToAction("Index", new { clienteId = solicitudPrenomina.clienteId, proyectoId = solicitudPrenomina.proyectoId,
-                plazaId = solicitudPrenomina.plazaId, ejercicioId = solicitudPrenomina.anno});
+                return RedirectToAction("Index", new
+                {
+                    clienteId = solicitudPrenomina.clienteId,
+                    proyectoId = solicitudPrenomina.proyectoId,
+                    plazaId = solicitudPrenomina.plazaId,
+                    ejercicioId = solicitudPrenomina.anno
+                });
             }
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", solicitudPrenomina.clienteId);
             ViewBag.tipoPagoId = new SelectList(db.Conceptos, "id", "grupo", solicitudPrenomina.tipoPagoId);
@@ -292,7 +297,7 @@ namespace SUAMVC.Controllers
             }
 
             db.SolicitudPrenominas.Remove(solicitudPrenomina);
-            
+
             db.SaveChanges();
 
             return RedirectToAction("Index", new
@@ -1544,7 +1549,8 @@ namespace SUAMVC.Controllers
                     row = eh.addNewCellToRow(index, row, dp.Empleado.cuentaBancaria.ToString(), headerColumns[i + 16] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
-                else {
+                else
+                {
                     row = eh.addNewCellToRow(index, row, "No Cuenta", headerColumns[i + 16] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
@@ -2041,6 +2047,14 @@ namespace SUAMVC.Controllers
             return sheetData;
         }
 
+
+        public ActionResult CargarEmpleadosPorExcel(int id)
+        {
+            ViewBag.solicitud = db.Solicituds.Find(id);
+            ViewBag.controllerDestiny = "Solicitudes";
+            return View();
+        }
+
         public ActionResult CargarPrenominaSYSDiasExcel(String solicitudId)
         {
 
@@ -2048,7 +2062,7 @@ namespace SUAMVC.Controllers
             {
                 ToolsHelper th = new ToolsHelper();
                 int solicitudAct = int.Parse(solicitudId);
-                Solicitud solicitud = db.Solicituds.Find(solicitudAct);
+                SolicitudPrenomina solicitud = db.SolicitudPrenominas.Find(solicitudAct);
                 Usuario usuario = Session["UsuarioData"] as Usuario;
                 DateTime date = DateTime.Now;
 
@@ -2067,314 +2081,208 @@ namespace SUAMVC.Controllers
                         provider.readExcel("Layout");
 
                         var query = (from row in provider.GetWorkSheet("Layout")
-                                     let item = new PersonalExcelLayout
+                                     let item = new PrenominaExcelLayout
                                      {
-                                         //APATERNO	AMATERNO	NOMBRE	DIAS	TOTAL SYS	
-                                         //GRATIFICACIONES	PRIMA_VACACIONAL	INFONAVIT	FONACOT 	
-                                         //DESCPENSION	DESCREEMBOL	OTROSDESC	CUENTA	BANCO	CATEGORIA
+                                         //NOMBRE	APATERNO	AMATERNO	NSS	DT	GRATIFICACION	PVACACIONAL	
+                                         //AGUINALDO	DINFONAVIT	DFONACOT	DPENSION	ODESC
+
 
                                          nombre = Convert.ToString(row.Field<Object>("NOMBRE")),
                                          apellidoMaterno = Convert.ToString(row.Field<Object>("AMATERNO")),
                                          apellidoPaterno = Convert.ToString(row.Field<Object>("APATERNO")),
-                                         creditoInfonavit = Convert.ToString(row.Field<Object>("INFONAVIT")),
-                                         cuentaBanco = Convert.ToString(row.Field<Object>("CUENTA")),
-                                         banco = Convert.ToString(row.Field<Object>("BANCO")),
-                                         categoria = Convert.ToString(row.Field<Object>("CATEGORIA")),
+                                         dt = Convert.ToInt32(row.Field<Object>("DT")),
+                                         nss = Convert.ToString(row.Field<Object>("NSS")),
+                                         ingresos = Convert.ToDecimal(row.Field<Object>("INGRESOS")),
+                                         primaVacacional = Convert.ToDecimal(row.Field<Object>("PVACACIONAL")),
+                                         gratificacion = Convert.ToDecimal(row.Field<Object>("GRATIFICACION")),
+                                         aguinaldo = Convert.ToDecimal(row.Field<Object>("AGUINALDO")),
+                                         descuentoInfonavit = Convert.ToDecimal(row.Field<Object>("DINFONAVIT")),
+                                         descuentoFonacot = Convert.ToDecimal(row.Field<Object>("DFONACOT")),
+                                         descuentoPension = Convert.ToDecimal(row.Field<Object>("DPENSION")),
+                                         otrosDescuentos = Convert.ToDecimal(row.Field<Object>("ODESC")),
+                                         isr = Convert.ToDecimal(row.Field<Object>("ISR")),
 
                                      }
                                      select item).ToList();
 
 
-                        Sexo sexo = new Sexo();
-                        EstadoCivil estadoCivil = new EstadoCivil();
-                        Pais pais = new Pais();
-                        Estado estado = new Estado();
-                        Municipio municipio = new Municipio();
-                        Banco banco = new Banco();
-                        Asegurado asegurado = new Asegurado();
                         Boolean founded = false;
                         int counter = 1;
                         LogHelper log = new LogHelper();
 
-                        foreach (PersonalExcelLayout empleadoL in query)
+                        foreach (PrenominaExcelLayout empleadoL in query)
                         {
                             Empleado empleado = new Empleado();
                             founded = false;
 
-                            if (String.IsNullOrEmpty(empleadoL.nombre) && String.IsNullOrEmpty(empleadoL.apellidoPaterno))
+                            // Validamos los campos basicos por tipo de pago
+                            if (solicitud.Concepto1.descripcion.ToLower().Trim().Equals("ias"))
                             {
 
-                                log.saveLog("Renglon ->" + counter, "Nombre - Apellido Paterno Campos obligatorios nulos",
-                                    "Carga Empleados Masiva", usuario.Id, "ER", solicitudId);
+                                Boolean error = false;
 
-                                counter++;
+                                if (empleadoL.ingresos == 0) {
+                                    log.saveLog("Renglon ->" + counter, "El campo ingresos no puede ser cero. Tipo pago IAS",
+                                        "Carga Prenomina Masiva", usuario.Id, "ER", solicitudId);
+                                }
 
-                                break;
+                                if (empleadoL.isr == 0)
+                                {
+                                    log.saveLog("Renglon ->" + counter, "El campo isr no puede ser cero. Tipo pago IAS",
+                                        "Carga Prenomina Masiva", usuario.Id, "ER", solicitudId);
+                                }
+
+                                if (error)
+                                {
+                                    counter++;
+
+                                    break;
+                                }
+                            }
+                            else if (solicitud.Concepto1.descripcion.ToLower().Trim().Equals("sys dias laborados"))
+                            {
+                                Boolean error = false;
+
+                                if (empleadoL.dt == 0)
+                                {
+                                    log.saveLog("Renglon ->" + counter, "El campo dias trabajados no puede ser cero. Tipo pago SYS dias laborados",
+                                        "Carga Prenomina Masiva", usuario.Id, "ER", solicitudId);
+                                    error = true;
+                                }
+
+                                if (empleado.SDI.descripcion.Trim().Equals("0"))
+                                {
+                                    log.saveLog("Renglon ->" + counter, "El valor SDI del empleado no puede ser cero. Tipo pago SYS dias laborados",
+                                        "Carga Prenomina Masiva", usuario.Id, "ER", solicitudId);
+                                    error = true;
+                                }
+
+                                if (error)
+                                {
+                                    counter++;
+
+                                    break;
+                                }
+                            }
+                            else if (solicitud.Concepto1.descripcion.ToLower().Trim().Equals("sys dias por ingreso"))
+                            {
+
+                                Boolean error = false;
+
+                                if (empleadoL.ingresos == 0)
+                                {
+                                    log.saveLog("Renglon ->" + counter, "El campo ingresos no puede ser cero. Tipo pago IAS",
+                                        "Carga Prenomina Masiva", usuario.Id, "ER", solicitudId);
+                                }
+
+                                if (empleado.salarioReal == 0)
+                                {
+                                    log.saveLog("Renglon ->" + counter, "El campo Salario Real del empleado no puede ser cero. Tipo pago SYS dias por ingreso",
+                                        "Carga Prenomina Masiva", usuario.Id, "ER", solicitudId);
+                                }
+
+
+                                if (error)
+                                {
+                                    counter++;
+
+                                    break;
+                                }
                             }
 
+                            //Se valida que el nss no sea null
                             if (!String.IsNullOrEmpty(empleadoL.nss))
                             {
                                 empleado.nss = empleadoL.nss.Trim();
-                                Empleado empleadoAlterno = th.obtenerEmpleadoPorNSS(empleadoL.nss.Trim());
+                                empleado = th.obtenerEmpleadoPorNSS(empleadoL.nss.Trim());
 
                                 founded = th.verificarEmpleadoPorNSSyCliente(empleadoL.nss.Trim(), solicitud.clienteId);
                             }
+                            else
+                            {
+                                log.saveLog("Renglon ->" + counter, "NSS esta nulo",
+                                    "Carga Prenomina Masiva", usuario.Id, "WA", solicitudId);
 
-                            if (!founded)
+                                counter++;
+
+
+                                if (String.IsNullOrEmpty(empleadoL.nombre) || String.IsNullOrEmpty(empleadoL.apellidoPaterno)
+                                || String.IsNullOrEmpty(empleadoL.apellidoMaterno))
+                                {
+
+                                    log.saveLog("Renglon ->" + counter, "Nombre - Apellido Paterno - Apellido Materno. Campos obligatorios nulos",
+                                        "Carga Prenomina Masiva", usuario.Id, "ER", solicitudId);
+
+                                    counter++;
+
+                                    break;
+                                }
+                                else
+                                {
+
+                                    empleado = th.verificarEmpleadoPorClienteProyecto(empleadoL.nombre, empleadoL.apellidoMaterno, empleadoL.apellidoPaterno, solicitud.clienteId, solicitud.proyectoId);
+
+                                    founded = (empleado != null);
+                                }
+
+                            }
+
+
+                            if (founded)
                             {
 
-                                asegurado = th.obtenerAseguradoPorNSS(empleado.nss.Trim());
+                                DetallePrenomina detallePrenomina = new DetallePrenomina();
 
-                                if (!(asegurado == null) && !String.IsNullOrEmpty(asegurado.nombre))
+                                detallePrenomina.solicitudId = solicitud.id;
+                                detallePrenomina.empleadoId = empleado.id;
+                                detallePrenomina.diasLaborados = empleadoL.dt;
+                                detallePrenomina.ingresos = empleadoL.ingresos;
+                                detallePrenomina.gratificacion = empleadoL.gratificacion;
+                                detallePrenomina.primaVacacional = empleadoL.primaVacacional;
+                                detallePrenomina.aguinaldo = empleadoL.aguinaldo;
+                                detallePrenomina.descuentoInfonavit = empleadoL.descuentoInfonavit;
+                                detallePrenomina.descuentoFonacot = empleadoL.descuentoFonacot;
+                                detallePrenomina.descuentoPension = empleadoL.descuentoPension;
+                                detallePrenomina.otrosDescuentos = empleadoL.otrosDescuentos;
+                                detallePrenomina.isr = empleadoL.isr;
+
+                                detallePrenomina.fechaCreacion = DateTime.Now;
+                                detallePrenomina.usuarioId = usuario.Id;
+
+
+                                if (solicitud.Concepto1.descripcion.ToLower().Trim().Equals("ias"))
                                 {
-                                    empleado.aseguradoId = asegurado.id;
+                                    detallePrenomina.netoPagar = detallePrenomina.ingresos - detallePrenomina.otrosDescuentos - detallePrenomina.isr;
                                 }
-
-                                empleado.nombre = empleadoL.nombre.Trim();
-                                empleado.apellidoMaterno = empleadoL.apellidoMaterno.Trim();
-                                if (String.IsNullOrEmpty(empleadoL.apellidoMaterno))
+                                else if (solicitud.Concepto1.descripcion.ToLower().Trim().Equals("sys dias laborados"))
                                 {
-                                    empleadoL.apellidoMaterno = " ";
+                                    
+                                    detallePrenomina.netoPagar = detallePrenomina.diasLaborados * int.Parse(empleado.SDI.descripcion);
+                                    detallePrenomina.netoPagar = detallePrenomina.netoPagar + detallePrenomina.gratificacion + detallePrenomina.primaVacacional + detallePrenomina.aguinaldo -
+                                        detallePrenomina.descuentoInfonavit - detallePrenomina.descuentoPension - detallePrenomina.descuentoFonacot -
+                                        detallePrenomina.otrosDescuentos;
+                                    
                                 }
-
-                                empleado.apellidoPaterno = empleadoL.apellidoPaterno.Trim();
-                                empleado.nombreCompleto = empleadoL.apellidoPaterno.Trim() + " " + empleadoL.apellidoMaterno.Trim() + " " + empleadoL.nombre.Trim();
-
-                                empleado.rfc = empleadoL.RFC.Trim();
-                                empleado.homoclave = empleadoL.homoclave.Trim();
-
-
-                                if (!String.IsNullOrEmpty(empleadoL.curp))
+                                else if (solicitud.Concepto1.descripcion.ToLower().Trim().Equals("sys dias por ingreso"))
                                 {
-                                    if (empleadoL.curp.Trim().Length > 17)
-                                    {
-                                        empleado.curp = empleadoL.curp.Trim().Substring(0, 18);
-                                    }
-                                    else
-                                    {
-                                        empleado.curp = empleadoL.curp.Trim();
-                                    }
+
+                                    detallePrenomina.netoPagar = detallePrenomina.ingresos * empleado.salarioReal;
+                                    detallePrenomina.netoPagar = detallePrenomina.netoPagar + detallePrenomina.gratificacion + detallePrenomina.primaVacacional + detallePrenomina.aguinaldo -
+                                        detallePrenomina.descuentoInfonavit - detallePrenomina.descuentoPension - detallePrenomina.descuentoFonacot -
+                                        detallePrenomina.otrosDescuentos;
                                 }
-                                if (solicitud.esquemaId != null)
-                                {
-                                    empleado.esquemaPagoId = solicitud.esquemaId;
-                                }
-                                if (solicitud.sdiId != null)
-                                {
-                                    empleado.sdiId = solicitud.sdiId;
-                                    empleado.sdiAlternativoId = solicitud.sdiId;
-                                }
-                                else
-                                {
-                                    SDI sDiario = (from s in db.SDIs
-                                                   where s.clienteId == solicitud.clienteId
-                                                   && s.descripcion.Trim().Equals("0.0")
-                                                   select s).FirstOrDefault();
-                                    if (!String.IsNullOrEmpty(sDiario.descripcion))
-                                    {
-                                        empleado.sdiId = sDiario.id;
-                                        empleado.sdiAlternativoId = empleado.sdiId;
-                                    }
-                                }
-
-                                if (!String.IsNullOrEmpty(empleadoL.sexo))
-                                {
-                                    sexo = th.obtenerSexoPorDescripcion(empleadoL.sexo.Trim());
-                                    if (sexo.descripcion.Trim().Equals("Masculino"))
-                                    {
-                                        empleado.foto = "~/Content/Images/male.png";
-                                    }
-                                    else
-                                    {
-                                        empleado.foto = "~/Content/Images/female.png";
-                                    }
-                                }
-                                else
-                                {
-                                    sexo = db.Sexos.Find(1);
-                                }// el sexo no es null?
-
-                                empleado.sexoId = sexo.id;
-
-                                if (String.IsNullOrEmpty(empleadoL.salarioReal))
-                                {
-                                    empleadoL.salarioReal = "0";
-                                }//El salario real es null?
-
-                                empleado.salarioReal = Decimal.Parse(empleadoL.salarioReal);
-                                empleado.categoria = empleadoL.categoria.Trim();
-
-                                if (!String.IsNullOrEmpty(empleadoL.fechaAltaImss))
-                                {
-                                    empleado.fechaAltaImss = Convert.ToDateTime(empleadoL.fechaAltaImss.Trim());
-                                }// Fecha alta Imms no es null?
-
-                                if (!String.IsNullOrEmpty(empleadoL.fechaNacimiento))
-                                {
-                                    empleado.fechaNacimiento = Convert.ToDateTime(empleadoL.fechaNacimiento.Trim());
-                                } // Fecha de nacimiento no es null?
-
-                                if (!String.IsNullOrEmpty(empleadoL.creditoInfonavit))
-                                {
-                                    empleado.creditoInfonavit = empleadoL.creditoInfonavit.Trim();
-                                    empleado.tieneInfonavit = 1;
-                                }
-                                else
-                                {
-                                    empleado.tieneInfonavit = 0;
-                                }// Tiene infonavit el empleado ?
-
-                                if (!String.IsNullOrEmpty(empleadoL.estadoCivil))
-                                {
-                                    estadoCivil = th.obtenerEstadoCivilPorDescripcion(empleadoL.estadoCivil.Trim());
-                                }
-                                else
-                                {
-                                    estadoCivil = db.EstadoCivils.Find(1);
-                                }
-                                empleado.estadoCivilId = estadoCivil.id;
-
-                                if (!String.IsNullOrEmpty(empleadoL.pais))
-                                {
-                                    pais = th.obtenerPaisPorDescripcion(empleadoL.pais.Trim());
-                                }
-                                else
-                                {
-                                    pais = db.Paises.FirstOrDefault();
-                                } //Pais de nacimiento es null?
-                                empleado.nacionalidadId = pais.id;
-                                if (!String.IsNullOrEmpty(empleadoL.estado))
-                                {
-                                    estado = th.obtenerEstadoPorDescripcion(empleadoL.estado.Trim());
-                                }
-                                else
-                                {
-                                    estado = db.Estados.Find(1);
-                                } // Estado de nacimiento no es null?
-                                empleado.estadoNacimientoId = estado.id;
-
-                                if (pais.descripcion.ToLower().Trim().Equals("mexico"))
-                                {
-                                    if (!String.IsNullOrEmpty(empleadoL.municipio))
-                                    {
-                                        municipio = th.obtenerMunicipioPorDescripcion(empleadoL.municipio.Trim());
-                                    }
-                                    else
-                                    {
-                                        municipio = db.Municipios.Find(2);
-                                    } // municipio de nacimiento no es null?
-                                    empleado.municipioNacimientoId = municipio.id;
-                                }
-
-                                if (!String.IsNullOrEmpty(empleadoL.calleNumero))
-                                {
-                                    empleado.calleNumero = empleadoL.calleNumero.Trim();
-                                }
-                                else
-                                {
-                                    empleado.calleNumero = "No especificado";
-                                } //calle y numero no son null?
-
-                                if (!String.IsNullOrEmpty(empleadoL.colonia))
-                                {
-                                    empleado.colonia = empleadoL.colonia.Trim();
-                                }
-                                else
-                                {
-                                    empleado.colonia = "No especificado";
-                                } // colonia no es null?
-
-                                if (!String.IsNullOrEmpty(empleadoL.estadoMunicipio))
-                                {
-                                    empleado.edoMunicipio = empleadoL.estadoMunicipio.Trim();
-                                }
-                                else
-                                {
-                                    empleado.edoMunicipio = "No especificado";
-                                } // Municipio no es null?
-
-                                if (!String.IsNullOrEmpty(empleadoL.codioPostal))
-                                {
-                                    empleado.codigoPostal = empleadoL.codioPostal.Trim();
-                                }//codigo postal no es null?
-
-                                if (!String.IsNullOrEmpty(empleadoL.cuentaBanco))
-                                {
-                                    empleado.cuentaBancaria = empleadoL.cuentaBanco.Trim();
-                                }//cuenta banco no es null?
-
-                                if (!String.IsNullOrEmpty(empleadoL.cuentaClabe))
-                                {
-                                    empleado.cuentaClabe = empleadoL.cuentaClabe.Trim();
-                                } // cuenta clabe no es null?
-
-                                if (!String.IsNullOrEmpty(empleadoL.email))
-                                {
-                                    empleado.email = empleadoL.email.Trim();
-                                }//email no es null?
-
-                                if (!String.IsNullOrEmpty(empleadoL.tramitarCuenta))
-                                {
-                                    if (empleadoL.tramitarCuenta.Equals("Si"))
-                                    {
-                                        empleado.tramitarTarjeta = 1;
-                                    }
-                                    else
-                                    {
-                                        empleado.tramitarTarjeta = 0;
-                                    }
-                                }
-                                else
-                                {
-                                    empleado.tramitarTarjeta = 0;
-                                }//tramitar cuenta no es null?
-
-                                if (!String.IsNullOrEmpty(empleadoL.banco))
-                                {
-                                    banco = th.obtenerBancoPorDescripcion(empleadoL.banco.Trim());
-                                }
-                                else
-                                {
-                                    banco = db.Bancos.Find(1);
-                                }// banco no es null?
-                                empleado.bancoId = banco.id;
-
-                                if (!String.IsNullOrEmpty(empleadoL.observaciones))
-                                {
-                                    empleado.observaciones = empleadoL.observaciones.Trim();
-                                } // observaciones no es null
-
-
-                                empleado.usuarioId = usuario.Id;
-                                //Ponemos en pendiente el empleado hasta que se 
-                                //procese
-                                empleado.estatus = "P";
 
 
                                 try
                                 {
-                                    if (!founded)
-                                    {
-                                        empleado.fechaCreacion = DateTime.Now;
-                                        db.Empleados.Add(empleado);
-                                    }
-                                    else
-                                    {
-                                        empleado.fechaModificacion = DateTime.Now;
-                                    }
 
-
+                                    db.DetallePrenominas.Add(detallePrenomina);
                                     db.SaveChanges();
-                                    //crearSolicitudEmpleado(empleado.id, solicitud.id, usuario.Id, "Alta");
 
                                     //Obtenemos la solicitud par modificar el noTrabjadores
-                                    //a su vez con ella obtener el folio de Solicitud para generar el folioEmpleado
                                     solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
 
-                                    empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
-
                                     //Preparamos las entidades para guardar
-                                    db.Entry(empleado).State = EntityState.Modified;
                                     db.Entry(solicitud).State = EntityState.Modified;
                                     db.SaveChanges();
 
@@ -2410,10 +2318,31 @@ namespace SUAMVC.Controllers
                     }
 
                 }
-                return RedirectToAction("Index", "Solicitudes", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
+                return RedirectToAction("Index", "SolicitudPrenominas", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
             }
 
-            return RedirectToAction("CargarEmpleadosPorExcel", "Empleados", new { id = solicitudId });
+            return RedirectToAction("CargarEmpleadosPorExcel", "SolicitudPrenominas", new { id = solicitudId });
+        }
+
+        public void DownLoadLayout()
+        {
+            FileStream fileStream = null;
+            MemoryStream mem = new MemoryStream();
+
+            fileStream = new FileStream("C:\\SUA\\Layouts\\Layout-Alta-Prenomina.xlsx", FileMode.Open);
+            fileStream.Position = 0;
+            mem = new MemoryStream();
+            fileStream.CopyTo(mem);
+            fileStream.Close();
+
+            mem.Position = 0;
+            Response.ClearContent();
+            Response.AddHeader("content-disposition", "attachment; filename=Layout-Alta-Prenomina.xlsx");
+            ToolsHelper th = new ToolsHelper();
+            Response.ContentType = th.getMimeType("C:\\SUA\\Layouts\\Layout-Alta-Prenomina.xlsx");
+            Response.BinaryWrite(mem.ToArray());
+
+            Response.End();
         }
 
         protected override void Dispose(bool disposing)

@@ -80,7 +80,7 @@
         gridColumns.Add(grid.Column(header: "Alta Masiva Personal", format: @<text>
         @if (item.noTrabajadores > 0)
         {
-            <a href="@Url.Action("CargarEmpleadosPorExcel", "Empleados", new { id = item.id })">
+            <a href="@Url.Action("CargarEmpleadosPorExcel", "SolicitudPrenominas", new { id = item.id })">
                 <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
             </a>
         }
