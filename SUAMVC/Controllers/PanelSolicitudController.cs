@@ -24,68 +24,73 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: PanelSolicitud
-        public ActionResult Index(String clienteId, String folioId, String proyectoId, String tipoId)
+        public ActionResult Index(String tipoId)
         {
 
-            if ((!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId)) ||
-                (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(tipoId))
-                || !String.IsNullOrEmpty(folioId))
+            ToolsHelper cp = new ToolsHelper();
+            Concepto concepto = cp.obtenerConceptoPorGrupo("ESTASOL", "Apertura");
+            Concepto concepto2 = cp.obtenerConceptoPorGrupo("ESTASOL", "Cerrado");
+            Usuario usuario = Session["UsuarioData"] as Usuario;
+            SecurityUserModel.llenarPermisos(usuario.roleId);
+
+            //Buscamos las solicitudes que puede ver ese usuario
+            //de acuerdo a sus clientes permitidos
+            var solicituds = (from s in db.Solicituds
+                              join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
+                              where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
+                              orderby s.fechaEnvio
+                              select s).ToList();
+
+
+            if (!String.IsNullOrEmpty(tipoId))
             {
-                ToolsHelper cp = new ToolsHelper();
-                Concepto concepto = cp.obtenerConceptoPorGrupo("ESTASOL", "Apertura");
-                Usuario usuario = Session["UsuarioData"] as Usuario;
-                SecurityUserModel.llenarPermisos(usuario.roleId);
+                ViewBag.tipoId = tipoId;
+                int tipo = int.Parse(tipoId);
+                Concepto conceptoTipo = db.Conceptos.Find(tipo);
+                ViewBag.tipo = conceptoTipo.descripcion.Trim().ToLower();
+                solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(int.Parse(tipoId))).ToList();
 
-                //Buscamos las solicitudes que puede ver ese usuario
-                //de acuerdo a sus clientes permitidos
-                var solicituds = (from s in db.Solicituds
-                                  join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
-                                  where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
-                                  orderby s.fechaEnvio
-                                  select s).ToList();
-
-
-                if (!String.IsNullOrEmpty(clienteId))
-                {
-
-                    Cliente cliente = db.Clientes.Find(int.Parse(clienteId));
-                    ViewBag.clienteId = clienteId;
-                    if (!cliente.descripcion.ToLower().Contains("seleccion"))
-                    {
-                        solicituds = solicituds.Where(s => s.clienteId.Equals(int.Parse(clienteId))).ToList();
-                    }
-                }// Se va a filtrar por cliente  y proyecto?
-                if (!String.IsNullOrEmpty(proyectoId))
-                {
-                    ViewBag.proyectoId = proyectoId;
-                    solicituds = solicituds.Where(s => s.proyectoId.Equals(int.Parse(proyectoId))).ToList();
-
-                }// Se va a filtrar por cliente  y proyecto?
-                if (!String.IsNullOrEmpty(tipoId))
-                {
-                    ViewBag.tipoId = tipoId;
-                    int tipo = int.Parse(tipoId);
-                    Concepto conceptoTipo = db.Conceptos.Find(tipo);
-                    ViewBag.tipo = conceptoTipo.descripcion.Trim().ToLower();
-                    solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(int.Parse(tipoId))).ToList();
-
-                }// Se va a filtrar por tipo?
-                if (!String.IsNullOrEmpty(folioId))
-                {
-                    solicituds = solicituds.Where(s => s.folioSolicitud.Contains(folioId)).ToList();
-                }//Se va a filtrar por folio?
-                solicituds = solicituds.Where(s => !s.estatusSolicitud.Equals(concepto.id)).ToList();
-
-                return View(solicituds.ToList());
-            }
-            else
-            {
-                var solicituds = new List<Solicitud>();
-                return View(solicituds);
             }
 
+            solicituds = solicituds.Where(s => !s.estatusSolicitud.Equals(concepto.id)).ToList();
+            solicituds = solicituds.Where(s => !s.estatusSolicitud.Equals(concepto2.id)).ToList();
+
+            return View(solicituds.ToList());
         }
 
+        public ActionResult IndexCerradas(String tipoId)
+        {
+
+            ToolsHelper cp = new ToolsHelper();
+            Concepto concepto = cp.obtenerConceptoPorGrupo("ESTASOL", "Apertura");
+            Concepto concepto2 = cp.obtenerConceptoPorGrupo("ESTASOL", "Cerrado");
+            Usuario usuario = Session["UsuarioData"] as Usuario;
+            SecurityUserModel.llenarPermisos(usuario.roleId);
+
+            //Buscamos las solicitudes que puede ver ese usuario
+            //de acuerdo a sus clientes permitidos
+            var solicituds = (from s in db.Solicituds
+                              join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
+                              where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
+                              orderby s.fechaEnvio
+                              select s).ToList();
+
+
+            if (!String.IsNullOrEmpty(tipoId))
+            {
+                ViewBag.tipoId = tipoId;
+                int tipo = int.Parse(tipoId);
+                Concepto conceptoTipo = db.Conceptos.Find(tipo);
+                ViewBag.tipo = conceptoTipo.descripcion.Trim().ToLower();
+                solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(int.Parse(tipoId))).ToList();
+
+            }
+
+            solicituds = solicituds.Where(s => !s.estatusSolicitud.Equals(concepto.id)).ToList();
+            solicituds = solicituds.Where(s => s.estatusSolicitud.Equals(concepto2.id)).ToList();
+
+            return View(solicituds.ToList());
+        }
         //Lay Out Afiliacion
         [HttpGet]
         public void crearExcelAfiliacion(int solicitudId)
@@ -285,25 +290,25 @@ namespace SUAMVC.Controllers
 
                 if (dp.nss != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.nss, headerColumns[i+1] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.nss, headerColumns[i + 1] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
                 {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i+1] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 1] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
 
-                 if (dp.rfc != null)
+                if (dp.rfc != null)
                 {
                     row = eh.addNewCellToRow(index, row, dp.rfc, headerColumns[i + 2] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
-                 else
-                 {
-                     row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 2] + index, 3U, CellValues.String);
-                     sheetData.AppendChild(row);
-                 }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 2] + index, 3U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
 
                 if (dp.curp != null)
                 {
@@ -740,7 +745,7 @@ namespace SUAMVC.Controllers
             {
                 int i = 0;
                 index = index + 1;
-                consecutivo = consecutivo +1;
+                consecutivo = consecutivo + 1;
 
                 row = eh.addNewCellToRow(index, row, consecutivo.ToString(), headerColumns[i] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
@@ -1111,8 +1116,8 @@ namespace SUAMVC.Controllers
             try
             {
 
-                Solicitud sol = db.Solicituds.Find(solicitudId); 
-                
+                Solicitud sol = db.Solicituds.Find(solicitudId);
+
                 List<Empleado> empleadosList = new List<Empleado>();
 
                 empleadosList = (from s in db.SolicitudEmpleadoes
@@ -1379,7 +1384,7 @@ namespace SUAMVC.Controllers
 
                 if (dp.categoria != null)
                 {
-                   row = eh.addNewCellToRow(index, row, dp.categoria, headerColumns[i + 4] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.categoria, headerColumns[i + 4] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -2158,8 +2163,8 @@ namespace SUAMVC.Controllers
             {
                 List<Empleado> empleadosList = new List<Empleado>();
 
-                Solicitud sol = db.Solicituds.Find(solicitudId); 
-                
+                Solicitud sol = db.Solicituds.Find(solicitudId);
+
                 empleadosList = (from s in db.SolicitudEmpleadoes
                                  //                               where s.estatus.Equals("A")
                                  where s.Empleado.bancoId.Equals(bank.id)
@@ -3149,8 +3154,8 @@ namespace SUAMVC.Controllers
 
                 List<Empleado> empleadosList = new List<Empleado>();
 
-                Solicitud sol = db.Solicituds.Find(solicitudId); 
-                
+                Solicitud sol = db.Solicituds.Find(solicitudId);
+
                 empleadosList = (from s in db.SolicitudEmpleadoes
                                  //                                 where s.estatus.Equals("A")
                                  where s.solicitudId.Equals(solicitudId)
@@ -4514,7 +4519,7 @@ namespace SUAMVC.Controllers
             row = eh.addNewCellToRow(index, row, "Número de Seguro Social", headerColumns[1] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
-             row = eh.addNewCellToRow(index, row, "Primer Apellido", headerColumns[2] + index, 4U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Primer Apellido", headerColumns[2] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
             row = eh.addNewCellToRow(index, row, "Segundo Apellido", headerColumns[3] + index, 4U, CellValues.String);
@@ -4531,7 +4536,7 @@ namespace SUAMVC.Controllers
 
             row = eh.addNewCellToRow(index, row, "Clave del trabajador", headerColumns[7] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-            
+
             //Creamos las celdas que contienen los datos
             int consecutivo = 0;
             foreach (Empleado dp in empleados)
@@ -4752,7 +4757,7 @@ namespace SUAMVC.Controllers
 
             row = eh.addNewCellToRow(index, row, "Tipo deJornada", headerColumns[10] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
-            
+
             row = eh.addNewCellToRow(index, row, "Clave del trabajador", headerColumns[11] + index, 4U, CellValues.String);
             sheetData.AppendChild(row);
 
@@ -4845,6 +4850,87 @@ namespace SUAMVC.Controllers
 
             return sheetData;
         }
+
+        public ActionResult crearAltasIDSE(int solicitudId, String tipoId)
+        {
+            ViewBag.tipoId = tipoId;
+
+            Solicitud sol = db.Solicituds.Find(solicitudId);
+
+            List<Empleado> empleadosList = new List<Empleado>();
+
+            empleadosList = (from s in db.SolicitudEmpleadoes
+                             //                                 where s.estatus.Equals("A")
+                             where s.solicitudId.Equals(solicitudId)
+                             orderby s.id
+                             select s.Empleado).ToList();
+
+            DateTime date = DateTime.Now;
+            String path = @"C:\\SUA\\Exceles\\";
+            String fileName = @"IDSE-" + date.ToString("ddMMyyyyHHmm") + ".txt";
+            String fullName = path + fileName;
+
+            if (empleadosList.Count() > 0)
+            {
+                try
+                {
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName);
+                    foreach (Empleado dp in empleadosList)
+                    {
+
+                        String linea = sol.Patrone.registro;
+                        if (dp.nss != null)
+                        {
+                            linea = linea + dp.nss;
+                        }
+                        linea = linea +  dp.apellidoPaterno.PadLeft(27,' ') ;
+
+                        if (dp.apellidoMaterno != null)
+                        {
+                                       linea =linea + dp.apellidoMaterno.PadLeft(27,' ');
+                        }
+
+                        linea = linea + dp.nombre.PadLeft(27, ' ');
+                        linea = linea + dp.SDI.descripcion.PadRight(6, '0') +
+                                       "000000" + "111";
+
+                        if (dp.fechaAltaImss != null)
+                        {
+                            DateTime fechaAltaImss = (DateTime)sol.fechaInicioContrato;
+                            linea = linea + fechaAltaImss.ToShortDateString();
+                        }
+
+                        if (dp.UMF != null)
+                        {
+                            linea = linea + dp.UMF;
+
+                        }else
+                        {
+                            linea = linea + "000";
+                        }
+                         linea = linea + "  " + "08"  + sol.Patrone.delegacion.Trim() + "400" + sol.Cliente.claveCliente.PadLeft(10,' ') +
+                                       " " + dp.curp + "9" +
+                                       "\r";
+                        sw.WriteLine(linea);
+                    }
+                    sw.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.Write(ex);
+                }
+//                Console.ReadKey();
+            }
+            return RedirectToAction("Index", new { tipoId });
+        }
+
+        // GET: Aseguradoes/Delete/5
+        public ActionResult IDSE(int solicitudId, String tipoId)
+        {
+            return View();
+ //           return RedirectToAction("Adicionales", new { solicitudId, tipoId });
+        }
+
 
 
         protected override void Dispose(bool disposing)

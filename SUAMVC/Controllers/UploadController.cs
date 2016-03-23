@@ -265,6 +265,7 @@ namespace SUAMVC.Controllers
                             patron.clase = rows["CLASE"].ToString();
                             patron.fraccion = rows["FRACCION"].ToString();
                             patron.STyPS = rows["STyPS"].ToString();
+                            patron.estatus = "A";
 
                             //Guardamos el patron
                             try

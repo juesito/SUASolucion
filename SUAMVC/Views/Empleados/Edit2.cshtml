@@ -82,7 +82,6 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.Hidden("solicitudId", solicitudId)
     @Html.HiddenFor(model => model.esquemaPagoId)
-    @Html.HiddenFor(model => model.sdiId)
     <div class="panel panel-info">
         <div class="panel-heading">
             Modificar Empleado
@@ -169,7 +168,8 @@
                         {
                             <td style="padding-left:40px; padding-top:8px">@Html.Label(Language.sdi + ":")</td>
                             <td style="padding-top:8px">
-                                $ @Html.DisplayFor(model => model.SDI.descripcion)
+                                @Html.sdiDrownList(usuario.Id, "sdiId", solicitud.clienteId, "width:100px;height:25px", false)
+                                @Html.ValidationMessageFor(model => model.sdiId, "", new { @class = "text-danger" })
                             </td>
                         }
 
@@ -340,6 +340,11 @@
                         <td style="padding-top:8px">
                             @Html.EditorFor(model => model.email)
                             @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                        </td>
+                        <td style="padding-top:8px; padding-left:40px">@Html.Label("UMF:", htmlAttributes: new { id = "cuentaClabeTxt" })</td>
+                        <td style="padding-top:8px">
+                            @Html.EditorFor(model => model.UMF, new { htmlAttributes = new { id = "UMF" } })
+                            @Html.ValidationMessageFor(model => model.UMF, "", new { @class = "text-danger" })
                         </td>
 
                         <td></td>

@@ -131,11 +131,12 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaTerminoContrato,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio,fechaInicioContrato")] Solicitud solicitud)
+        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaTerminoContrato,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio,fechaInicioContrato,regPatronalId")] Solicitud solicitud)
         {
             if (ModelState.IsValid)
             {
                 Usuario usuario = Session["usuarioData"] as Usuario;
+                Plaza plazaFol = db.Plazas.Find(solicitud.plazaId);
                 Cliente cliente = db.Clientes.Find(solicitud.clienteId);
 //                ListaValidacionCliente lvc = cliente.ListaValidacionClientes.First();
                 ToolsHelper th = new ToolsHelper();
@@ -165,7 +166,7 @@ namespace SUAMVC.Controllers
                 {
                     db.Solicituds.Add(solicitud);
                     db.SaveChanges();
-                    solicitud.folioSolicitud = folioAlta.valorString.Trim().PadLeft(5, '0') + "A" + solicitud.Cliente.Plaza.cveCorta.Trim();
+                    solicitud.folioSolicitud = folioAlta.valorString.Trim().PadLeft(5, '0') + "A" + plazaFol.cveCorta.Trim();
                     int folAlta = int.Parse(folioAlta.valorString.Trim());
                     folAlta = folAlta + 1;
                     folioAlta.valorString = folAlta.ToString();
@@ -235,7 +236,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicioContrato,fechaTerminoContrato,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio, tipoSolicitud")] Solicitud solicitud, string clienteId, string proyectoId)
+        public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicioContrato,fechaTerminoContrato,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio,tipoSolicitud,regPatronalId")] Solicitud solicitud, string clienteId, string proyectoId)
         {
             if (ModelState.IsValid)
             {
@@ -306,8 +307,23 @@ namespace SUAMVC.Controllers
         public ActionResult DeleteConfirmed(int id, string clienteId, string proyectoId)
         {
             Solicitud solicitud = db.Solicituds.Find(id);
+            if (solicitud.noTrabajadores > 0)
+            {
+                List<SolicitudEmpleado> solicitudEmpleados = db.SolicitudEmpleadoes.Where(x => x.solicitudId.Equals(id) &&
+                    x.Concepto.descripcion.Trim().Equals("Alta")
+                    && x.estatus.Trim().Equals("A")).ToList();
+
+                foreach (SolicitudEmpleado solEmp in solicitudEmpleados)
+                {
+                    db.SolicitudEmpleadoes.Remove(solEmp);
+                    Empleado emp = db.Empleados.Find(solEmp.empleadoId);
+                    db.Empleados.Remove(emp);
+                }
+            }
+
             db.Solicituds.Remove(solicitud);
             db.SaveChanges();
+            
             return RedirectToAction("Index", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
 

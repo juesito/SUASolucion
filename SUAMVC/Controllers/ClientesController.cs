@@ -147,7 +147,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,nombre,direccionFiscal,contacto,telefono,direccionOficina,email,actividadPrincipal,fechaContratacion,empresaFacturadoraId,tipoClienteId,numeroCuenta,tipoServicioId,Plaza_id,Grupo_id,ejecutivoContadorId")] Cliente cliente)
+        public ActionResult Create([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,nombre,direccionFiscal,contacto,telefono,direccionOficina,email,actividadPrincipal,fechaContratacion,empresaFacturadoraId,tipoClienteId,numeroCuenta,tipoServicioId,Plaza_id,Grupo_id,ejecutivoContadorId,emailContacto")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -221,7 +221,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,nombre,direccionFiscal,contacto,telefono,direccionOficina,email,actividadPrincipal,fechaContratacion,empresaFacturadoraId,tipoClienteId,numeroCuenta,tipoServicioId,Plaza_id,Grupo_id,ejecutivoContadorId")] Cliente cliente)
+        public ActionResult Edit([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,nombre,direccionFiscal,contacto,telefono,direccionOficina,email,actividadPrincipal,fechaContratacion,empresaFacturadoraId,tipoClienteId,numeroCuenta,tipoServicioId,Plaza_id,Grupo_id,ejecutivoContadorId,emailContacto")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -457,7 +457,7 @@ namespace SUAMVC.Controllers
             row = eh.addNewCellToRow(index, row, "Dirección Oficina", headerColumns3[7] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "E-mail", headerColumns3[8] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "E-mail contacto", headerColumns3[8] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
             row = eh.addNewCellToRow(index, row, "Actividad principal", headerColumns3[9] + index, 5U, CellValues.String);
@@ -485,6 +485,9 @@ namespace SUAMVC.Controllers
             sheetData.AppendChild(row);
 
             row = eh.addNewCellToRow(index, row, "Tipo de servicio", headerColumns3[17] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Email envío solicitud", headerColumns3[18] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
             index++;
@@ -517,7 +520,7 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.direccionOficina, headerColumns3[i + 7] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.email, headerColumns3[i + 8] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.emailContacto, headerColumns3[i + 8] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 row = eh.addNewCellToRow(index, row, dp.actividadPrincipal, headerColumns3[i + 9] + index, 2U, CellValues.String);
@@ -551,6 +554,8 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.tipoServicioId.ToString(), headerColumns3[i + 17] + index, 2U, CellValues.Number);
                 sheetData.AppendChild(row);
 
+                row = eh.addNewCellToRow(index, row, dp.email.ToString(), headerColumns3[i + 18] + index, 2U, CellValues.Number);
+                sheetData.AppendChild(row);
 
                 index++;
             }

@@ -18,6 +18,14 @@
 
     //Creamos una lista de columnas
     var gridColumns = new List<WebGridColumn>();
+    if (SecurityUserModel.verificarPermiso("Patrones", "Editar patron", 3))
+    {
+        gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Patrones", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
+    if (SecurityUserModel.verificarPermiso("Patrones", "Consultar detalle", 3))
+    {
+        gridColumns.Add(grid.Column(header: "Detalle", format: @<text><a href="@Url.Action("Details", "Patrones", new { id = item.id })"><img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" /></a></text>));
+    }
     gridColumns.Add(grid.Column("registro", "Registro Patronal", @<text><div style='width: 8em'>@item.registro</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("Plaza.cveCorta", "ID Plaza", @<text><div style='width: 4em'>@item.Plaza.cveCorta</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("rfc", "RFC", @<text><div style='width: 9em'>@item.rfc</div></text> , null, canSort: true));
@@ -33,14 +41,7 @@
     gridColumns.Add(grid.Column("direccionArchivo", "Carpeta", null, null, true));
     gridColumns.Add(grid.Column("porcentajeNomina", "% sobre nómina", null, null, true));
     gridColumns.Add(grid.Column("unidadMedica", "UMF", null, null, true));
-    if (SecurityUserModel.verificarPermiso("Patrones", "Editar patron", 3))
-    { 
-        gridColumns.Add(grid.Column(header: "Editar", format: @<text><a href="@Url.Action("Edit", "Patrones", new { id = item.id })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
-    if (SecurityUserModel.verificarPermiso("Patrones", "Consultar detalle", 3))
-    { 
-        gridColumns.Add(grid.Column(header: "Detalle", format: @<text><a href="@Url.Action("Details", "Patrones", new { id = item.id })"><img src="~/Content/Images/list.png" alt="" style="border:none;" class="icon" /></a></text>));
-    }
+    gridColumns.Add(grid.Column("estatus", "Estatus", null, null, true));
 
     sb.Append(grid.GetHtml(
         columns: grid.Columns(gridColumns.ToArray()),

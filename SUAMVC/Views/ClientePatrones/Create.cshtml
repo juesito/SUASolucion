@@ -1,0 +1,67 @@
+﻿@model SUADATOS.ClientePatrone
+@using SUADATOS
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    Cliente cliente = new Cliente();
+    if (ViewBag.clienteId != null)
+    {
+        int clienteTempId = int.Parse(ViewBag.clienteId as string);
+        suaEntities db = new suaEntities();
+        cliente = db.Clientes.Find(clienteTempId);
+    }
+}
+@section Menu {
+    <div>Patrones por cliente<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.Hidden("usuarioId", usuario.Id)
+    @Html.Hidden("clienteId", cliente.Id)
+    @Html.AntiForgeryToken()
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Capturar Patrones
+        </div>
+        <div class="panel-body" style="font-size:10px;">
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.Label(Language.cliente, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Label(cliente.descripcion, new { clienteId = @ViewBag.clienteId })
+                        @*new { style = "width: 200px;" },*@
+                        @*@Html.clientesNSDrownList(usuario.Id)*@
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.patronesId, "patronId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <td>@Html.patronesNoChangeKeysDrownList(usuario.Id)</td>
+                        @Html.ValidationMessageFor(model => model.patronesId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group" style="margin-top:10px;">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="@Language.guardar" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="@Url.Action("Index", "ClientePatrones")">
+        @Html.ActionLink(@Language.regresar, "Index", new { clienteId = ViewBag.clienteId })
+    </a>
+</div>
