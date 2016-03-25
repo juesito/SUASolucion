@@ -128,9 +128,11 @@ namespace SUAMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,fechaBaja,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio,conceptoBaja")] Solicitud solicitud)
         {
+            var errors = ModelState.Values.SelectMany(v => v.Errors); 
             if (ModelState.IsValid)
             {
                 Usuario usuario = Session["usuarioData"] as Usuario;
+                Plaza plazaFol = db.Plazas.Find(solicitud.plazaId);
                 Cliente cliente = db.Clientes.Find(solicitud.clienteId);
                 int lvcc = cliente.ListaValidacionClientes.Count();
                 if (lvcc != 0)
@@ -172,7 +174,7 @@ namespace SUAMVC.Controllers
                 try
                 {
                     db.SaveChanges();
-                    solicitud.folioSolicitud = folioBaja.valorString.Trim().PadLeft(5, '0') + "B" + solicitud.Cliente.Plaza.cveCorta.Trim();
+                    solicitud.folioSolicitud = folioBaja.valorString.Trim().PadLeft(5, '0') + "B" + plazaFol.cveCorta.Trim();
                     int folBaja = int.Parse(folioBaja.valorString.Trim());
                     folBaja = folBaja + 1;
                     folioBaja.valorString = folBaja.ToString();

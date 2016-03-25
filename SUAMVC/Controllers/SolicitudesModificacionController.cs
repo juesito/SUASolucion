@@ -130,6 +130,7 @@ namespace SUAMVC.Controllers
             if (ModelState.IsValid)
             {
                 Usuario usuario = Session["usuarioData"] as Usuario;
+                Plaza plazaFol = db.Plazas.Find(solicitud.plazaId);
                 Cliente cliente = db.Clientes.Find(solicitud.clienteId);
                 int lvcc = cliente.ListaValidacionClientes.Count();
                 if (lvcc != 0)
@@ -171,7 +172,7 @@ namespace SUAMVC.Controllers
                 try
                 {
                     db.SaveChanges();
-                    solicitud.folioSolicitud = folioModificacion.valorString.Trim().PadLeft(5, '0') + "MS" + solicitud.Cliente.Plaza.cveCorta.Trim();
+                    solicitud.folioSolicitud = folioModificacion.valorString.Trim().PadLeft(5, '0') + "MS" + plazaFol.cveCorta.Trim();
                     int folModificacion = int.Parse(folioModificacion.valorString.Trim());
                     folModificacion = folModificacion + 1;
                     folioModificacion.valorString = folModificacion.ToString();

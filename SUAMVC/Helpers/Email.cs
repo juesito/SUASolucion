@@ -63,9 +63,15 @@ namespace SUAMVC.Helpers
                                select d).First();
 
             ////Obtenemos el email del cliente
-            if (!String.IsNullOrEmpty(cliente.email)) {
-                DestinatorModel destinator = new DestinatorModel("CIAH", cliente.email.Trim());
-                email.to.Add(destinator);
+            if (!String.IsNullOrEmpty(cliente.emailContacto)) {
+
+                string[] substrings = Regex.Split(cliente.emailContacto.Trim(), ";");
+
+                foreach (String indice in substrings)
+                {
+                    DestinatorModel destinator = new DestinatorModel("CIAH", indice);
+                    email.to.Add(destinator);
+                }
             }
 
             // Mail del usuaria logueado
@@ -76,12 +82,15 @@ namespace SUAMVC.Helpers
             }
 
             // Mail del ejecutivo del cliente
-            if (!String.IsNullOrEmpty(cliente.Usuario.email))
+            if (cliente.Usuario != null)
             {
-                DestinatorModel destinator = new DestinatorModel("CIAH", cliente.Usuario.email.Trim());
-                email.to.Add(destinator);
+
+                if (!String.IsNullOrEmpty(cliente.Usuario.email))
+                {
+                    DestinatorModel destinator = new DestinatorModel("CIAH", cliente.Usuario.email.Trim());
+                    email.to.Add(destinator);
+                }
             }
-         
             ////Emails adicionales del cliente si es que tiene capturados
             //foreach (ListaValidacionCliente lvc in cliente.ListaValidacionClientes) {
             //    if (!String.IsNullOrEmpty(lvc.emailAutorizador)) {

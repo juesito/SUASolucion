@@ -68,13 +68,13 @@
 
     gridColumns.Add(grid.Column("SDI.descripcion", "SDI Actual", canSort: false));
 
-    gridColumns.Add(grid.Column("SDI1.descripcion", "Sdi Modificado",
+    @*gridColumns.Add(grid.Column("SDI1.descripcion", "Sdi Modificado",
         format: @<text>@if (@item.sdi != null)
         {
             <span id="SdiId" class="display-mode">@item.sdi1.descripcion</span>
             @Html.sdiDrownList(usuario.Id, "sdiAlternativoId", "edit-mode")
         }
-        </text>, canSort: false));
+        </text>, canSort: false));*@
 
 
 

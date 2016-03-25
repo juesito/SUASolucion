@@ -895,8 +895,45 @@ namespace SUAMVC.Helpers
             }
 
             return htmlHelper.DropDownList(componenteId, listFields);
-
-
         }
+
+        public static MvcHtmlString cteDrownList(this HtmlHelper htmlHelper, int userId, String componenteId, int clienteId, String htmlclass, Boolean incTodas)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<ClientePatrone> listPatrones = (from s in db.ClientePatrones.ToList()
+                                  join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
+                                  where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(userId)
+                                  && s.clienteId.Equals(clienteId)
+                                  orderby s.Patrone.nombre descending
+                                  select s).ToList();
+
+            String itemId = "";
+            String descripcion = "";
+            //            listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            foreach (ClientePatrone item in listPatrones)
+            {
+                itemId = item.patronesId.ToString().Trim();
+                descripcion = item.Patrone.registro.Trim() +"-" + item.Patrone.nombre.Trim();
+                if (descripcion.Contains("Todao") || descripcion.Contains("Seleccion"))
+                {
+                    itemId = "";
+                    if (incTodas)
+                    {
+                        listFields.Add(new SelectListItem { Value = itemId, Text = descripcion });
+                    }
+                }
+                else
+                {
+                    listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+                }
+
+            }
+
+            return htmlHelper.DropDownList(componenteId, listFields, new { @class = htmlclass });
+        }
+
     }
 }

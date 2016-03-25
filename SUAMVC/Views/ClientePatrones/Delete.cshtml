@@ -1,0 +1,75 @@
+﻿@model SUADATOS.ClientePatrone
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+@section Menu {
+    <div>Patrones por cliente<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        ¿Desea eliminar este registro?
+    </div>
+    <div class="panel-body" style="font-size:10px;">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.fechaCreacion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fechaCreacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.usuarioId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.usuarioId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Cliente.claveCliente)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Cliente.claveCliente)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Patrone.registro)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Patrone.registro)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group" style="margin-top:10px;">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Eliminar" class="btn btn-primary" />
+                </div>
+            </div>
+        }
+
+    </div>
+    </div>
+
+
+
+<div>
+    <a href="@Url.Action("Index", "ClientePatrones")">
+        @Html.ActionLink(@Language.regresar, "Index", new {clienteId = ViewBag.clienteId })
+    </a>
+</div>

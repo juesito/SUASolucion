@@ -70,7 +70,7 @@
     {  @item.observaciones }</text>, canSort: true));
     gridColumns.Add(grid.Column("noTrabajadores", "No. Trab.", format: @<text> @if (@item.noTrabajadores != null)
     {  @item.noTrabajadores }</text>, canSort: true));
-    gridColumns.Add(grid.Column("concepto.descripcion", "Estatus Solicitud", format: @<text> @if (@item.estatusSolicitud != null)
+    gridColumns.Add(grid.Column("concepto.descripcioin", "Estatus Solicitud", format: @<text> @if (@item.estatusSolicitud != null)
     {  @item.concepto.descripcion }</text>, canSort: true));
 
 
@@ -189,16 +189,16 @@
     {
 
         if (SecurityUserModel.verificarPermiso("1", "1", 6))
-            {
-                gridColumns.Add(grid.Column(header: "Afiliación", format: @<text>
-                    @if (item.noTrabajadores > 0)
-                    {
-                        <a href="@Url.Action("crearExcelAfiliacionBaja", "PanelSolicitud", new { solicitudId = item.id })">
-                            <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-                        </a>
-                    }
-                </text>));
-            }
+        {
+            gridColumns.Add(grid.Column(header: "Afiliación", format: @<text>
+                @if (item.noTrabajadores > 0)
+                {
+                    <a href="@Url.Action("crearExcelAfiliacionBaja", "PanelSolicitud", new { solicitudId = item.id })">
+                        <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                    </a>
+                }
+            </text>));
+        }
     }
     else
     {
@@ -225,14 +225,6 @@
                     @if (item.noTrabajadores > 0)
                     {
                         <a href="@Url.Action("crearExcelAfiliacion", "PanelSolicitud", new { solicitudId = item.id })">
-                            <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-                        </a>
-                    }
-                </text>));
-                gridColumns.Add(grid.Column(header: "IDSE", format: @<text>
-                    @if (item.noTrabajadores > 0)
-                    {
-                        <a href="@Url.Action("IDSE", "PanelSolicitud", new { solicitudId = item.id , tipoId = ViewBag.tipoId})">
                             <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
                         </a>
                     }
@@ -325,13 +317,13 @@
         if (SecurityUserModel.verificarPermiso("1", "1", 6))
         {
             gridColumns.Add(grid.Column(header: "Detalle Empleados", format: @<text>
-            @if (item.noTrabajadores > 0)
-            {
-                <a href="@Url.Action("crearExcelDetalleEmpleadosBaja", "PanelSolicitud", new { solicitudId = item.id })">
-                    <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
-                </a>
-            }
-        </text>));
+                @if (item.noTrabajadores > 0)
+                {
+                    <a href="@Url.Action("crearExcelDetalleEmpleadosBaja", "PanelSolicitud", new { solicitudId = item.id })">
+                        <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                    </a>
+                }
+            </text>));
         }
     }
     else
@@ -348,20 +340,20 @@
             </text>));
         }
     }
-        sb.Append(grid.GetHtml(
-    columns: grid.Columns(gridColumns.ToArray()),
-    tableStyle: "table table-striped tableSua"
-    ));
+    sb.Append(grid.GetHtml(
+columns: grid.Columns(gridColumns.ToArray()),
+tableStyle: "table table-striped tableSua"
+));
 
-        tableHtml = sb.ToString().Replace("{}", "<input type='checkbox' id='selectAll' name='slall' />").Trim();
-    }
+    tableHtml = sb.ToString().Replace("{}", "<input type='checkbox' id='selectAll' name='slall' />").Trim();
+}
 
 @section Menu {
-    <div>Panel solicitudes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Panel solicitudes cerradas <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("IndexCerradas", "PanelSolicitud", FormMethod.Post))
 {
     <div class="marqueeFilter">
 

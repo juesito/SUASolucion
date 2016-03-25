@@ -1,0 +1,95 @@
+﻿@model IEnumerable<SUADATOS.ClientePatrone>
+@using SUADATOS
+@using SUAMVC.Models
+@using System.Text;
+@using System.Web.UI.WebControls
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+    var listItems = new List<ListItem>();
+    var clienteId = ViewBag.clienteId;
+}
+
+@section Menu {
+    <div>Patrones por cliente<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+<div style="padding-bottom:5px">
+    @if (!String.IsNullOrEmpty(ViewBag.clienteId))
+    {
+        @Html.ActionLink(@Language.agregar, "Create", "ClientePatrones", new { clienteId = clienteId }, new { @class = "btn btn-success btn-sm" })
+    }
+</div>
+
+@using (Html.BeginForm())
+{
+    <div class="marqueeFilter">
+        <table style="float:left; margin-top:5px;display:inline-block;">
+            <thead>
+                <tr style="text-align:left;vertical-align:bottom;">
+                    <td style="padding-top:15px">
+                        @Html.Label("Cliente:")
+                    </td>
+                    <td>
+                        @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:20px")
+                    </td>
+                    <td style="padding-left:18px">
+                        <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
+                    </td>
+                </tr>
+
+            </thead>
+        </table>
+    </div>
+}
+
+<table class="table table-striped tableSua">
+    <tr>
+        <th>
+            @Html.DisplayName(@Language.patron)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.descripcion)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.fechaAlta)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.usuarioAlta)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patrone.registro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patrone.nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fechaCreacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
+            </td>
+            <td>
+                @*<a href="@Url.Action("Edit","ClientePatrones", new { id = item.id })" title="@Language.edit">
+                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+                </a>|*@
+                <a href="@Url.Action("Delete", "ClientePatrones", new { id = item.id })" title="@Language.borrar">
+                    <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
