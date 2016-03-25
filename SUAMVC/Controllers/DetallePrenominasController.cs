@@ -287,17 +287,43 @@ namespace SUAMVC.Controllers
                 dt.descuentoFonacot = (Decimal)0.0;
                 dt.descuentoPension = (Decimal)0.0;
 
-                dt.netoPagar = dt.ingresos - dt.otrosDescuentos - dt.isr;
+                dt.totalIAS = dt.ingresos;
+
+                dt.netoPagar = dt.totalIAS - dt.otrosDescuentos - dt.isr;
                 dt.fechaCreacion = DateTime.Now;
                 dt.usuarioId = usuario.Id;
 
+            }
+            if (dt.SolicitudPrenomina.Concepto1.descripcion.ToLower().Trim().Equals("ias dias laborados"))
+            {
+
+                dt.diasLaborados = detallePrenomina.diasLaborados;
+                dt.reembolso = detallePrenomina.reembolso;
+
+                if (detallePrenomina.otrosDescuentos != null)
+                {
+                    dt.otrosDescuentos = (Decimal)detallePrenomina.otrosDescuentos;
+                }
+                else
+                {
+                    dt.otrosDescuentos = (Decimal)0.0;
+                }
+                dt.descuentoInfonavit = (Decimal)0.0;
+                dt.descuentoFonacot = (Decimal)0.0;
+                dt.descuentoPension = (Decimal)0.0;
+
+                dt.totalIAS = dt.diasLaborados * dt.Empleado.salarioReal;
+
+                dt.netoPagar = dt.totalIAS - dt.reembolso - dt.otrosDescuentos;
+                dt.fechaCreacion = DateTime.Now;
+                dt.usuarioId = usuario.Id;
             }
             else if (dt.SolicitudPrenomina.Concepto1.descripcion.ToLower().Trim().Equals("sys dias laborados"))
             {
                 //dt.ingresos = dt.Empleado.salarioReal; hay algo que hacer con el salario Real?
                 dt.diasLaborados = detallePrenomina.diasLaborados;
                 dt.gratificacion = (Decimal)detallePrenomina.gratificacion;
-                
+
                 if (detallePrenomina.primaVacacional != null)
                 {
                     dt.primaVacacional = (Decimal)detallePrenomina.primaVacacional;
@@ -318,8 +344,12 @@ namespace SUAMVC.Controllers
                 dt.descuentoFonacot = (Decimal)detallePrenomina.descuentoFonacot;
                 dt.descuentoPension = (Decimal)detallePrenomina.descuentoPension;
                 dt.otrosDescuentos = (Decimal)detallePrenomina.otrosDescuentos;
-                dt.netoPagar = dt.diasLaborados * int.Parse(dt.Empleado.SDI.descripcion);
-                dt.netoPagar = dt.netoPagar + dt.gratificacion + dt.primaVacacional + dt.aguinaldo -
+
+
+                dt.totalSyS = dt.diasLaborados * int.Parse(dt.Empleado.SDI.descripcion);
+                dt.totalSyS = dt.totalSyS + dt.gratificacion + dt.primaVacacional + dt.aguinaldo;
+
+                dt.netoPagar = dt.totalSyS -
                     dt.descuentoInfonavit - dt.descuentoPension - dt.descuentoFonacot -
                     dt.otrosDescuentos;
                 dt.fechaCreacion = DateTime.Now;
@@ -352,13 +382,15 @@ namespace SUAMVC.Controllers
                 dt.descuentoFonacot = (Decimal)detallePrenomina.descuentoFonacot;
                 dt.descuentoPension = (Decimal)detallePrenomina.descuentoPension;
                 dt.otrosDescuentos = (Decimal)detallePrenomina.otrosDescuentos;
-                dt.netoPagar = dt.ingresos * dt.Empleado.salarioReal;
-                dt.netoPagar = dt.netoPagar + dt.gratificacion + dt.primaVacacional + dt.aguinaldo -
-                    dt.descuentoInfonavit - dt.descuentoPension - dt.descuentoFonacot -
+
+                dt.totalSyS = dt.ingresos * dt.Empleado.salarioReal;
+
+                dt.totalSyS = dt.totalSyS + dt.gratificacion + dt.primaVacacional + dt.aguinaldo;
+                dt.netoPagar = dt.totalSyS - dt.descuentoInfonavit - dt.descuentoPension - dt.descuentoFonacot -
                     dt.otrosDescuentos;
                 dt.fechaCreacion = DateTime.Now;
                 dt.usuarioId = usuario.Id;
-            
+
             }
 
             //Guardamos los cambios
@@ -394,7 +426,10 @@ namespace SUAMVC.Controllers
             dtp.descuentoPension = dt.descuentoPension;
             dtp.netoPagar = dt.netoPagar;
             dtp.isr = dt.isr;
+            dtp.reembolso = dt.reembolso;
             dtp.ingresos = dt.ingresos;
+            dtp.totalIAS = dt.totalIAS;
+            dtp.totalSyS = dt.totalSyS;
 
             return Json(new { employee = dtp }, JsonRequestBehavior.AllowGet);
 

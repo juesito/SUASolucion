@@ -10,7 +10,7 @@ namespace SUAMVC.Helpers
     public class CrystalReports
     {
         private String reportName {get; set;}
-        private String path = @"C:\\SUA\\Layouts\\";
+        //private String path = @"C:\\SUA\\Layouts\\";
 
         public CrystalReports() { }
 
