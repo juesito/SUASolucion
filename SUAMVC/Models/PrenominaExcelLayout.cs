@@ -21,5 +21,6 @@ namespace SUAMVC.Models
         public decimal descuentoPension { get; set; }
         public decimal otrosDescuentos { get; set; }
         public decimal isr { get; set; }
+        public decimal reembolso { get; set; }
     }
 }

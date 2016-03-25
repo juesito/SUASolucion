@@ -2101,6 +2101,7 @@ namespace SUAMVC.Controllers
                                          descuentoPension = Convert.ToDecimal(row.Field<Object>("DPENSION")),
                                          otrosDescuentos = Convert.ToDecimal(row.Field<Object>("ODESC")),
                                          isr = Convert.ToDecimal(row.Field<Object>("ISR")),
+                                         reembolso = Convert.ToDecimal(row.Field<Object>("REEMBOLSO")),
 
                                      }
                                      select item).ToList();
@@ -2130,6 +2131,24 @@ namespace SUAMVC.Controllers
                                 {
                                     log.saveLog("Renglon ->" + counter, "El campo isr no puede ser cero. Tipo pago IAS",
                                         "Carga Prenomina Masiva", usuario.Id, "ER", solicitudId);
+                                }
+
+                                if (error)
+                                {
+                                    counter++;
+
+                                    break;
+                                }
+                            }
+                            else if (solicitud.Concepto1.descripcion.ToLower().Trim().Equals("ias dias laborados"))
+                            {
+                                Boolean error = false;
+
+                                if (empleadoL.dt == 0)
+                                {
+                                    log.saveLog("Renglon ->" + counter, "El campo dias trabajados no puede ser cero. Tipo pago IAS dias laborados",
+                                        "Carga Prenomina Masiva", usuario.Id, "ER", solicitudId);
+                                    error = true;
                                 }
 
                                 if (error)
@@ -2245,6 +2264,7 @@ namespace SUAMVC.Controllers
                                 detallePrenomina.descuentoPension = empleadoL.descuentoPension;
                                 detallePrenomina.otrosDescuentos = empleadoL.otrosDescuentos;
                                 detallePrenomina.isr = empleadoL.isr;
+                                detallePrenomina.reembolso = empleadoL.reembolso;
 
                                 detallePrenomina.fechaCreacion = DateTime.Now;
                                 detallePrenomina.usuarioId = usuario.Id;
@@ -2252,23 +2272,31 @@ namespace SUAMVC.Controllers
 
                                 if (solicitud.Concepto1.descripcion.ToLower().Trim().Equals("ias"))
                                 {
-                                    detallePrenomina.netoPagar = detallePrenomina.ingresos - detallePrenomina.otrosDescuentos - detallePrenomina.isr;
+                                    detallePrenomina.totalIAS = detallePrenomina.ingresos;
+                                    detallePrenomina.netoPagar = detallePrenomina.totalIAS - detallePrenomina.otrosDescuentos - detallePrenomina.isr;
+                                }
+                                if (solicitud.Concepto1.descripcion.ToLower().Trim().Equals("ias dias laborados"))
+                                {
+                                    detallePrenomina.totalIAS = detallePrenomina.diasLaborados * empleado.salarioReal;
+                                    detallePrenomina.netoPagar = detallePrenomina.totalIAS - detallePrenomina.reembolso - detallePrenomina.otrosDescuentos;
                                 }
                                 else if (solicitud.Concepto1.descripcion.ToLower().Trim().Equals("sys dias laborados"))
                                 {
-                                    
-                                    detallePrenomina.netoPagar = detallePrenomina.diasLaborados * int.Parse(empleado.SDI.descripcion);
-                                    detallePrenomina.netoPagar = detallePrenomina.netoPagar + detallePrenomina.gratificacion + detallePrenomina.primaVacacional + detallePrenomina.aguinaldo -
-                                        detallePrenomina.descuentoInfonavit - detallePrenomina.descuentoPension - detallePrenomina.descuentoFonacot -
+
+                                    detallePrenomina.totalSyS = detallePrenomina.diasLaborados * int.Parse(empleado.SDI.descripcion);
+
+                                    detallePrenomina.totalSyS = detallePrenomina.totalSyS + detallePrenomina.gratificacion + detallePrenomina.primaVacacional + detallePrenomina.aguinaldo;
+                                    detallePrenomina.netoPagar = detallePrenomina.totalSyS - detallePrenomina.descuentoInfonavit - detallePrenomina.descuentoPension - detallePrenomina.descuentoFonacot -
                                         detallePrenomina.otrosDescuentos;
-                                    
+
                                 }
                                 else if (solicitud.Concepto1.descripcion.ToLower().Trim().Equals("sys dias por ingreso"))
                                 {
 
-                                    detallePrenomina.netoPagar = detallePrenomina.ingresos * empleado.salarioReal;
-                                    detallePrenomina.netoPagar = detallePrenomina.netoPagar + detallePrenomina.gratificacion + detallePrenomina.primaVacacional + detallePrenomina.aguinaldo -
-                                        detallePrenomina.descuentoInfonavit - detallePrenomina.descuentoPension - detallePrenomina.descuentoFonacot -
+                                    detallePrenomina.totalSyS = detallePrenomina.ingresos * empleado.salarioReal;
+                                    detallePrenomina.totalSyS = detallePrenomina.totalSyS + detallePrenomina.gratificacion + detallePrenomina.primaVacacional + detallePrenomina.aguinaldo;
+
+                                    detallePrenomina.netoPagar = detallePrenomina.totalSyS - detallePrenomina.descuentoInfonavit - detallePrenomina.descuentoPension - detallePrenomina.descuentoFonacot -
                                         detallePrenomina.otrosDescuentos;
                                 }
 

@@ -1421,22 +1421,65 @@ namespace SUAMVC.Controllers
             return View(listEmpleados);
         }
 
+        [HttpPost]
         public ActionResult validarNss(String nss)
         {
             ToolsHelper th = new ToolsHelper();
-            Empleado empleado = th.obtenerEmpleadoPorNSS(nss.Trim());
+            Empleado empleadoTemp = th.obtenerEmpleadoPorNSS(nss.Trim());
 
-            if (empleado == null)
+            Empleado empleado = new Empleado();
+            if (empleadoTemp == null)
             {
-                ViewBag.editMode = true;
-                return Json("");
+                //ViewBag.editMode = true;
+                empleado = new Empleado();
+                empleado.nombre = "No encontrado";
+                empleado.apellidoMaterno = "No encontrado";
+                empleado.nss = nss.Trim();
+                
             }
             else
             {
-                ViewBag.editMode = false;
-                // Json(new { ok = true, newurl = Url.Action("Create") });
-                return RedirectToAction("Create", "Empleados", empleado);
+                empleado.id = empleadoTemp.id;
+                
+                empleado.nss = empleadoTemp.nss;
+                empleado.rfc = empleadoTemp.rfc;
+                empleado.curp = empleadoTemp.curp;
+                empleado.email = empleadoTemp.email;
+                empleado.nombre = empleadoTemp.nombre;
+                empleado.sexoId = empleadoTemp.sexoId;
+                empleado.homoclave = empleadoTemp.homoclave;
+                empleado.fechaNacimiento = empleadoTemp.fechaNacimiento;
+                empleado.apellidoMaterno = empleadoTemp.apellidoMaterno;
+                empleado.apellidoPaterno = empleadoTemp.apellidoPaterno;
+
+                empleado.colonia = empleadoTemp.colonia;
+                empleado.edoMunicipio = empleadoTemp.edoMunicipio;
+                empleado.nacionalidadId = empleadoTemp.nacionalidadId;
+                empleado.estadoNacimientoId = empleadoTemp.estadoNacimientoId;
+                empleado.municipioNacimientoId = empleadoTemp.municipioNacimientoId;
+
+                empleado.categoria = empleadoTemp.categoria;
+                empleado.salarioReal = empleadoTemp.salarioReal;
+                empleado.fechaAltaImss = empleadoTemp.fechaAltaImss;
+                empleado.estadoCivilId = empleadoTemp.estadoCivilId;
+                
+                empleado.calleNumero = empleadoTemp.calleNumero;
+                empleado.codigoPostal = empleadoTemp.codigoPostal;
+                empleado.tieneInfonavit = empleadoTemp.tieneInfonavit;
+                empleado.creditoInfonavit = empleadoTemp.creditoInfonavit;
+                
+
+                empleado.bancoId = empleadoTemp.bancoId;
+                empleado.cuentaClabe = empleadoTemp.cuentaClabe;
+                empleado.observaciones = empleadoTemp.observaciones;
+                empleado.cuentaBancaria = empleadoTemp.cuentaBancaria;
+                empleado.tramitarTarjeta = empleadoTemp.tramitarTarjeta;
+
+
+                //ViewBag.editMode = false;
             }
+
+            return Json(new { employee = empleado }, JsonRequestBehavior.AllowGet);
         }
 
         public Solicitud obtenerSolicitudActiva(int empleadoId)

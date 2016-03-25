@@ -52,23 +52,7 @@
 
     }
 
-    function validarNss(_nss) {
-
-        var url = "/Empleados/validarNss/";
-
-        $.ajax({
-            url: url,
-            data: { nss: _nss },
-            cache: false,
-            type: "POST",
-            success: function (data) {
-
-            },
-            error: function (response) {
-                alert("Error :" + response);
-            }
-        });
-    }
+    
 </script>
 
 @section Menu {
@@ -88,7 +72,7 @@
             Capturar Empleado
         </div>
         <div class="panel-body" style="font-size:10px;">
-            <table style="margin: 0 auto;">
+            <table style="margin: 0 auto;" id="myCapture">
                 <thead>
                     <tr style="background-color:#2E538A; color:white; min-height:40px; font-size:15px;">
                         <th colspan="6" style="margin: 0 auto; text-align:center;">@Html.Label("Folio de Solicitud: " + solicitud.folioSolicitud + "    Cliente: " + solicitud.Cliente.descripcion)</th>
@@ -102,14 +86,14 @@
                                 @Html.Label(Language.nss + ":")
                             </td>
                             <td style="padding-top:8px">
-                                @Html.EditorFor(model => model.nss, new { htmlAttributes = new { @onchange = "javascript:validarNss(this.value);" } })
+                                @Html.EditorFor(model => model.nss, new { htmlAttributes = new { @Id = "nss", @onchange = "javascript:validarNss(this.value);" } })
                                 @Html.ValidationMessageFor(model => model.nss, "", new { @class = "text-danger" })
                             </td>
                             <td style="padding-top:8px; padding-left:40px">
                                 @Html.Label(Language.fechaAltaImss + ":")
                             </td>
                             <td style="padding-top:8px">
-                                @Html.EditorFor(model => model.fechaAltaImss, new { htmlAttributes = new { @class = "myImmsDate" } })
+                                @Html.EditorFor(model => model.fechaAltaImss, new { htmlAttributes = new { @Id = "fechaImms", @class = "myImmsDate" } })
                                 @Html.ValidationMessageFor(model => model.fechaAltaImss, "", new { @class = "text-danger" })
                             </td>
                         }
@@ -118,21 +102,21 @@
                     <tr>
                         <td style="padding-top:8px">@Html.Label(Language.apellidoPaterno + ":")</td>
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.apellidoPaterno)
+                            @Html.EditorFor(model => model.apellidoPaterno, new { htmlAttributes = new { @Id = "apellidoPaterno", size = 15 } })
                             @Html.ValidationMessageFor(model => model.apellidoPaterno, "", new { @class = "text-danger" })
                         </td>
                         <td style="padding-top:8px; padding-left:40px">
                             @Html.Label(Language.apellidoMaterno + ":")
                         </td>
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.apellidoMaterno)
+                            @Html.EditorFor(model => model.apellidoMaterno, new { htmlAttributes = new { @Id = "apellidoMaterno", size = 15 } })
                             @Html.ValidationMessageFor(model => model.apellidoMaterno, "", new { @class = "text-danger" })
                         </td>
                         <td style="padding-top:8px; padding-left:40px">
                             @Html.Label(Language.nombre + ":")
                         </td>
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.nombre)
+                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @Id = "nombre", size = 15 } })
                             @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
                         </td>
                         <td></td>
@@ -141,24 +125,24 @@
                     <tr style="padding-top:8px">
                         <td>@Html.LabelFor(model => model.rfc, Language.rfc + ":", htmlAttributes: new { @class = "control-label col-md-2" })
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.rfc, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.rfc, new { htmlAttributes = new { @Id = "rfc" } })
                             @Html.ValidationMessageFor(model => model.rfc, "", new { @class = "text-danger" })
                         </td>
                         <td style="padding-top:8px; padding-left:40px"> @Html.Label(Language.homoClave + ":")</td>
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.homoclave)
+                            @Html.EditorFor(model => model.homoclave, new { htmlAttributes = new { @Id = "homoClave" } })
                             @Html.ValidationMessageFor(model => model.homoclave, "", new { @class = "text-danger" })
                         </td>
                         <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.curp + ":")</td>
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.curp)
+                            @Html.EditorFor(model => model.curp, new { htmlAttributes = new { @Id = "curp" } })
                             @Html.ValidationMessageFor(model => model.curp, "", new { @class = "text-danger" })
                         </td>
                     </tr>
                     <tr>
                         <td style="padding-top:8px">@Html.Label(Language.sexo + ":")</td>
                         <td style="padding-top:8px">
-                            @Html.DropDownList("sexoId")
+                            @Html.DropDownList("sexoId", null, htmlAttributes: new { id = "sexoId" })
                             @Html.ValidationMessageFor(model => model.sexoId, "", new { @class = "text-danger" })
                         </td>
                         <td style="padding-left:40px; padding-top:8px">@Html.Label(Language.esquema + ":")</td>
@@ -179,7 +163,7 @@
                     <tr>
                         <td style="padding-top:8px">@Html.Label(Language.salarioReal + ":")</td>
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.salarioReal)
+                            @Html.EditorFor(model => model.salarioReal, new { htmlAttributes = new { @Id = "salarioReal" } })
                             @Html.ValidationMessageFor(model => model.salarioReal, "", new { @class = "text-danger" })
                         </td>
                         <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.categoria + ":")</td>
@@ -211,7 +195,7 @@
                         <td style="padding-top:8px">
                             @if (editMode)
                             {
-                                @Html.DropDownList("estadoCivilId")
+                                @Html.DropDownList("estadoCivilId", null, htmlAttributes: new { id = "estadoCivilId" })
                                 @Html.ValidationMessageFor(model => model.estadoCivilId, "", new { @class = "text-danger" })
                             }
                             else
@@ -224,7 +208,7 @@
                         </td>
                        
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new { @class = "myBornDate" } })
+                            @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new {@Id = "fechaNacimiento", @class = "myBornDate" } })
                             @Html.ValidationMessageFor(model => model.fechaNacimiento, "", new { @class = "text-danger" })
                         </td>
                         <td></td>
@@ -274,7 +258,7 @@
                         </td>
                         <td style="padding-top:8px; padding-left:40px">@Html.Label(Language.calleNumero + ":")</td>
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.calleNumero)
+                            @Html.EditorFor(model => model.calleNumero, new { htmlAttributes = new { @Id = "calleNumero" } })
                             @Html.ValidationMessageFor(model => model.calleNumero, "", new { @class = "text-danger" })
                         </td>
                         <td></td>
@@ -283,7 +267,7 @@
                     <tr>
                         <td style="padding-top:8px">@Html.Label(Language.Colonia + ":")</td>
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.colonia)
+                            @Html.EditorFor(model => model.colonia, new { htmlAttributes = new { @Id = "colonia" } })
                             @Html.ValidationMessageFor(model => model.colonia, "", new { @class = "text-danger" })
                         </td>
 
@@ -291,12 +275,12 @@
                             @Html.Label(Language.municipio + ":")
                         </td>
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.edoMunicipio)
+                            @Html.EditorFor(model => model.edoMunicipio, new { htmlAttributes = new { @Id = "edoMunicipio" } })
                             @Html.ValidationMessageFor(model => model.edoMunicipio, "", new { @class = "text-danger" })
                         </td>
                         <td style="padding-top:8px; padding-left:40px"> @Html.Label(Language.CP + ":")</td>
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.codigoPostal)
+                            @Html.EditorFor(model => model.codigoPostal, new { htmlAttributes = new { @Id = "codigoPostal" } })
                             @Html.ValidationMessageFor(model => model.codigoPostal, "", new { @class = "text-danger" })
                         </td>
                     </tr>
@@ -338,7 +322,7 @@
                     <tr>
                         <td style="padding-top:8px">@Html.Label(Language.email + ":")</td>
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.email)
+                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { id = "email"} })
                             @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
                         </td>
 
@@ -350,7 +334,7 @@
                     <tr>
                         <td style="padding-top:8px">@Html.Label(Language.observaciones + ":")</td>
                         <td style="padding-top:8px" >
-                            @Html.TextAreaFor(model => model.observaciones, new { @class = "form-control", rows = 3 })
+                            @Html.TextAreaFor(model => model.observaciones, new { @Id = "observaciones",@class = "form-control", rows = 3 })
                         </td>
                             <td></td>
                             <td></td>
@@ -446,5 +430,57 @@
             $('#estadoId').show();
             $('#estadoIdTxt').show();
         }
+    }
+
+    function validarNss(_nss) {
+        var tr = $("#myCapture").parents('tr:first');
+        var url = "/Empleados/validarNss/";
+        var empleado = {
+            nss: _nss
+        }
+
+
+        $.ajax({
+            dataType: "json",
+            traditional: true,
+            url: url,
+            data: empleado,
+            cache: false,
+            type: "POST",
+            success: function (data) {
+
+                $('#rfc').val(data.employee.rfc);
+                $('#curp').val(data.employee.curp);
+                $('#email').val(data.employee.email);
+                $('#nombre').val(data.employee.nombre);
+                $('#sexoId').val(data.employee.sexoId);
+                $('#colonia').val(data.employee.colonia);
+                $('#homoClave').val(data.employee.homoClave);
+                $('#bancoDownList').val(data.employee.bancoId);
+                $('#salarioReal').val(data.employee.salarioReal);
+                $('#fechaImms').val(data.employee.fechaAltaImss);
+                $('#categoriaAuto').val(data.employee.categoria);
+                $('#calleNumero').val(data.employee.calleNumero);
+                $('#cuentaClabe').val(data.employee.cuentaClabe);
+                $('#codigoPostal').val(data.employee.codigoPostal);
+                $('#edoMunicipio').val(data.employee.edoMunicipio);
+                $('#estadoId').val(data.employee.estadoNacimientoId);
+                $('#observaciones').val(data.employee.observaciones);
+                $('#estadoCivilId').val(data.employee.estadoCivilId);
+                $('#nacionalidadId').val(data.employee.nacionalidadId);
+                $('#cuentaBancaria').val(data.employee.cuentaBancaria);
+                $('#tieneInfonavit').val(data.employee.tieneInfonavit);
+                $('#apellidoMaterno').val(data.employee.apellidoMaterno);
+                $('#apellidoPaterno').val(data.employee.apellidoPaterno);
+                $('#municipioId').val(data.employee.municipioNacimientoId);
+                $('#creditoInfonavit').val(data.employee.creditoInfonavit);
+                $('#tramitarTarjeta').val(data.employee.tramitarTarjeta);
+                
+                
+            },
+            error: function (response) {
+                alert("Error :" + response);
+            }
+        });
     }
 </script>
