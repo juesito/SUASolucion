@@ -429,6 +429,22 @@ namespace SUAMVC.Controllers
                     db.SaveChanges();
                 }
             }
+
+            var incapacidades = (from s in db.Incapacidades
+                           where s.aseguradoId.ToString().Equals(id.ToString())
+                           select s).ToList();
+
+            Incapacidade inc = new Incapacidade();
+            if (incapacidades != null && incapacidades.Count() > 0)
+            {
+                foreach (var movItem in incapacidades)
+                {
+                    inc = movItem;
+                    db.Incapacidades.Remove(inc);
+                    db.SaveChanges();
+                }
+            }
+
             Asegurado aseg = db.Asegurados.Find(id);
             db.Asegurados.Remove(aseg);
             db.SaveChanges();

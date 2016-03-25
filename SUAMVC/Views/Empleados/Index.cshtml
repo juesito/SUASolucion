@@ -58,14 +58,23 @@
     {  @item.Asegurado.Patrone.registro }</text>, canSort: true));
     if (SecurityUserModel.verificarPermiso("ver empleados", "Se agrega solicitud para ver empleados", 6))
     {
-        gridColumns.Add(grid.Column(header: "Ver", format: @<text><a href="@Url.Action("Details", "Empleados", new { id = item.id, controllerDestiny = ViewBag.controllerDestiny })"><img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" /></a></text>));
+        if (ViewBag.solicitud == null)
+        {
+            gridColumns.Add(grid.Column(header: "Ver", format: @<text><a href="@Url.Action("Details", "Empleados", new { id = item.id, controllerDestiny = ViewBag.controllerDestiny })"><img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" /></a></text>));
+        }
     }
     if (SecurityUserModel.verificarPermiso("modificar empleado", "Se agrega solicitud para editar empleados", 6)
         )
     {
         if (Model.solicitud.Concepto == null || !Model.solicitud.Concepto.descripcion.Trim().Equals("Enviado"))
         {
-            gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Empleados", new { id = item.id, solicitudId = solicitud.id, controllerDestiny = ViewBag.controllerDestiny })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+            if (ViewBag.solicitud == null)
+            {
+                gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Empleados", new { id = item.id, solicitudId = solicitud.id, controllerDestiny = ViewBag.controllerDestiny })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+                                                                                                                                                                                                                                                                                                                       }
+            else { 
+                gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit2", "Empleados", new { id = item.id, solicitudId = solicitud.id, controllerDestiny = ViewBag.controllerDestiny })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
+            }
         }
     }
     if (SecurityUserModel.verificarPermiso("borrar empleado", "Se agrega solicitud para eliminar empleados", 6)
@@ -73,7 +82,7 @@
     {
         if (Model.solicitud.Concepto == null || !Model.solicitud.Concepto.descripcion.Trim().Equals("Enviado"))
         {
-            gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Empleados", new { id = item.id, controllerDestiny = ViewBag.controllerDestiny })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
+            gridColumns.Add(grid.Column(header: "Eliminar", format: @<text><a href="@Url.Action("Delete", "Empleados", new { id = item.id, solicitudId = solicitud.id, controllerDestiny = ViewBag.controllerDestiny })"><img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" /></a></text>));
         }
     }
     @*if (SecurityUserModel.verificarPermiso("reportes", "Se agrega solicitud para ver reportes", 6))

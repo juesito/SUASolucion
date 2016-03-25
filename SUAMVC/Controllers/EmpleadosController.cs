@@ -12,6 +12,7 @@ using SUAMVC.Models;
 using System.Data.Entity.Validation;
 using System.Text;
 using System.IO;
+using System.Globalization;
 
 namespace SUAMVC.Controllers
 {
@@ -57,7 +58,7 @@ namespace SUAMVC.Controllers
             }//la solicitud no es nulla?
             else
             {
-                if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId) && String.IsNullOrEmpty(folioId))
+                if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId) && String.IsNullOrEmpty(folioId) && !proyectoId.Equals("0"))
                 {
 
                     int clienteIntId = int.Parse(clienteId);
@@ -103,6 +104,21 @@ namespace SUAMVC.Controllers
                                          orderby s.Empleado.nombreCompleto
                                          select s.Empleado).ToList();
                     }
+                    else
+                    {
+                        if (!String.IsNullOrEmpty(clienteId) && proyectoId.Equals("0") )
+                        {
+                            int clienteIntId = int.Parse(clienteId);
+                            @ViewBag.clienteId = clienteId;
+
+                            empleadosList = (from s in db.SolicitudEmpleadoes
+                                             where s.Solicitud.clienteId.Equals(clienteIntId)
+                                             && s.Solicitud.tipoSolicitud.Equals(concepto.id)
+                                             orderby s.Empleado.nombreCompleto
+                                             select s.Empleado).ToList();
+                        }
+                    }
+
                 }
             }
             IEnumerable<Empleado> listaEmpleados = empleadosList.Where(s => !s.fechaBaja.HasValue);
@@ -164,11 +180,29 @@ namespace SUAMVC.Controllers
                     solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
 
                     //Creamos el registro en solicitudEmpleados para agregar el empleado a otra solicitud activa
-                    crearSolicitudEmpleado(empleado.id, solicitud.id, usuario.Id, "Baja");
+                    try
+                    {
+                        crearSolicitudEmpleado(empleado.id, solicitud.id, usuario.Id, "Baja");
 
-                    db.Entry(solicitud).State = EntityState.Modified;
-                    db.Entry(empleado).State = EntityState.Modified;
-                    db.SaveChanges();
+                        db.Entry(solicitud).State = EntityState.Modified;
+                        db.Entry(empleado).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                catch (DbEntityValidationException ex)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    foreach (var failure in ex.EntityValidationErrors)
+                    {
+                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                        foreach (var error in failure.ValidationErrors)
+                        {
+                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                            sb.AppendLine();
+                        }
+                    }
+                }
+
                 }
 
             }
@@ -239,9 +273,10 @@ namespace SUAMVC.Controllers
         public ActionResult Create(int id, String controllerDestiny)
         {
             Empleado empleado = new Empleado();
+
             Solicitud solicitud = db.Solicituds.Find(id);
 
-            empleado.fechaNacimiento = DateTime.Now;
+ //           empleado.fechaNacimiento = DateTime.Now;
             empleado.tramitarTarjeta = 0;
             empleado.tieneInfonavit = 1;
             empleado.esquemaPagoId = solicitud.esquemaId;
@@ -263,15 +298,13 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,nombreCompleto,rfc,homoclave,curp,sexoId,sdiId,esquemaPagoId,salarioReal,categoria,tieneInfonavit,creditoInfonavit,estadoCivilId,fechaNacimiento,nacionalidadId,estadoNacimientoId,municipioNacimientoId,calleNumero,colonia,edoMunicipio,codigoPostal,tramitarTarjeta,bancoId,cuentaBancaria,email,observaciones,usuarioId,fechaCreacion,estatus")] Empleado empleado, int solicitudId)
+        public ActionResult Create([Bind(Include = "id,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,nombreCompleto,rfc,homoclave,curp,sexoId,sdiId,esquemaPagoId,salarioReal,categoria,tieneInfonavit,creditoInfonavit,estadoCivilId,fechaNacimiento,nacionalidadId,estadoNacimientoId,municipioNacimientoId,calleNumero,colonia,edoMunicipio,codigoPostal,tramitarTarjeta,bancoId,cuentaBancaria,email,observaciones,usuarioId,fechaCreacion,estatus,UMF")] Empleado empleado, int solicitudId)
         {
             if (ModelState.IsValid)
             {
                 ToolsHelper th = new ToolsHelper();
                 Usuario usuario = Session["UsuarioData"] as Usuario;
                 Solicitud sol = db.Solicituds.Find(solicitudId);
-
-
 
                 empleado.fechaCreacion = DateTime.Now;
                 empleado.usuarioId = usuario.Id;
@@ -284,8 +317,7 @@ namespace SUAMVC.Controllers
                 if (empleado.sdiId == null || empleado.sdiId == 0)
                 {
                     SDI sDiario = (from s in db.SDIs
-                                   where s.clienteId == sol.clienteId
-                                   && s.descripcion.Trim().Equals("0.0")
+                                   where s.descripcion.Trim().Equals("0.0")
                                    select s).FirstOrDefault();
 
                     if (!String.IsNullOrEmpty(sDiario.descripcion))
@@ -294,6 +326,7 @@ namespace SUAMVC.Controllers
                     }
 
                 }
+                empleado.fechaNacimiento = DateTime.ParseExact(empleado.rfc.Substring(4, 6), "ddMMyyyy", CultureInfo.InvariantCulture);
                 empleado.sdiAlternativoId = empleado.sdiId;
 
                 if (!String.IsNullOrEmpty(empleado.nss))
@@ -414,14 +447,21 @@ namespace SUAMVC.Controllers
                     Solicitud solicitud = obtenerSolicitudActiva(empleado.id);
                     solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
 
-                    empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
+                    Cliente folCliente = db.Clientes.Find(solicitud.clienteId);
+                    if (solicitud.Cliente.folioConsec == null)
+                    {
+                        solicitud.Cliente.folioConsec = 1;
+                    }
+                    empleado.folioEmpleado = solicitud.Cliente.folioConsec.ToString().PadLeft(5, '0') + solicitud.Cliente.claveCliente.Trim();
+                    folCliente.folioConsec = folCliente.folioConsec + 1;
 
                     //Preparamos las entidades para guardar
+
+                    db.Entry(folCliente).State = EntityState.Modified;
                     db.Entry(empleado).State = EntityState.Modified;
                     db.Entry(solicitud).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index", "Solicitudes", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
-
                 }
                 catch (DbEntityValidationException ex)
                 {
@@ -776,7 +816,7 @@ namespace SUAMVC.Controllers
         // POST: Empleados/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, String controllerDestiny, String clienteId, String proyectoId, String folioId)
         {
             Empleado empleado = db.Empleados.Find(id);
 
@@ -790,7 +830,17 @@ namespace SUAMVC.Controllers
             db.Entry(solicitud).State = EntityState.Modified;
             db.Empleados.Remove(empleado);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            if (!String.IsNullOrEmpty(controllerDestiny))
+            {
+                ViewBag.controllerDestiny = controllerDestiny;
+                ViewBag.solicitud = solicitud;
+            }
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
+            ViewBag.folioId = solicitud.folioSolicitud;
+
+            return RedirectToAction("Index", "Empleados", new { id = solicitud.id, controllerDestiny = controllerDestiny, clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId });
         }
 
         /*
@@ -1032,10 +1082,11 @@ namespace SUAMVC.Controllers
                                 if (!String.IsNullOrEmpty(empleadoL.sexo))
                                 {
                                     sexo = th.obtenerSexoPorDescripcion(empleadoL.sexo.Trim());
+                                    empleado.foto = "~/Content/Images/camera.png";
                                     if (sexo != null)
                                     {
                                         empleado.sexoId = sexo.id;
-                                        if (sexo.descripcion.Trim().Equals("Masculino"))
+                                        if (sexo.descripcion.Trim().Equals("MASCULINO"))
                                         {
                                             empleado.foto = "~/Content/Images/male.png";
                                         }
@@ -1048,15 +1099,10 @@ namespace SUAMVC.Controllers
                                     {
                                         log.saveLog("Renglon ->" + counter, "Sexo - Descripción inválida",
                                          "Carga Empleados Masiva", usuario.Id, "ER", solicitudId);
-                                        saleBreak = true;
+                                        //saleBreak = true;
                                         //                                        break;
                                     }
                                 }
-                                else
-                                {
-                                    sexo = db.Sexos.Find(1);
-                                    empleado.sexoId = sexo.id;
-                                }// el sexo no es null?
 
                                 if (String.IsNullOrEmpty(empleadoL.salarioReal))
                                 {
@@ -1093,18 +1139,13 @@ namespace SUAMVC.Controllers
                                     {
                                         log.saveLog("Renglon ->" + counter, "Estado civil - Descripción inválida",
                                                      "Carga Empleados Masiva", usuario.Id, "ER", solicitudId);
-                                        saleBreak = true;
+                                        //                                        saleBreak = true;
                                         //                                        break;
                                     }
                                     else
                                     {
                                         empleado.estadoCivilId = estadoCivil.id;
                                     }
-                                }
-                                else
-                                {
-                                    estadoCivil = db.EstadoCivils.Find(1);
-                                    empleado.estadoCivilId = estadoCivil.id;
                                 }
 
                                 if (!String.IsNullOrEmpty(empleadoL.pais))
@@ -1114,7 +1155,7 @@ namespace SUAMVC.Controllers
                                     {
                                         log.saveLog("Renglon ->" + counter, "Pais - Descripción inválida",
                                                      "Carga Empleados Masiva", usuario.Id, "ER", solicitudId);
-                                        saleBreak = true;
+                                        //                                        saleBreak = true;
                                         //                                        break;
                                     }
                                     else
@@ -1122,11 +1163,6 @@ namespace SUAMVC.Controllers
                                         empleado.nacionalidadId = pais.id;
                                     }
                                 }
-                                else
-                                {
-                                    pais = db.Paises.FirstOrDefault();
-                                    empleado.nacionalidadId = pais.id;
-                                } //Pais de nacimiento es null?
                                 if (!String.IsNullOrEmpty(empleadoL.estado.Trim()))
                                 {
                                     estado = th.obtenerEstadoPorDescripcion(empleadoL.estado.Trim());
@@ -1134,7 +1170,7 @@ namespace SUAMVC.Controllers
                                     {
                                         log.saveLog("Renglon ->" + counter, "Estado - Descripción inválida",
                                                     "Carga Empleados Masiva", usuario.Id, "ER", solicitudId);
-                                        saleBreak = true;
+                                        // saleBreak = true;
                                         //                                        break;
                                     }
                                     else
@@ -1142,16 +1178,11 @@ namespace SUAMVC.Controllers
                                         empleado.estadoNacimientoId = estado.id;
                                     }
                                 }
-                                else
-                                {
-                                    estado = db.Estados.Find(1);
-                                    empleado.estadoNacimientoId = estado.id;
-                                } // Estado de nacimiento no es null?
 
-                                if (pais != null)
-                                {
-                                    if (pais.descripcion.ToLower().Trim().Equals("mexico"))
-                                    {
+//                                if (pais != null)
+//                                {
+//                                    if (pais.descripcion.ToLower().Trim().Equals("mexico"))
+//                                    {
                                         if (!String.IsNullOrEmpty(empleadoL.municipio.Trim()))
                                         {
                                             municipio = th.obtenerMunicipioPorDescripcion(empleadoL.municipio.Trim());
@@ -1159,7 +1190,7 @@ namespace SUAMVC.Controllers
                                             {
                                                 log.saveLog("Renglon ->" + counter, "Municipio de nacimiento - Descripción inválida",
                                                              "Carga Empleados Masiva", usuario.Id, "ER", solicitudId);
-                                                saleBreak = true;
+                                                //                                                saleBreak = true;
                                                 //                                            break;
                                             }
                                             else
@@ -1167,13 +1198,8 @@ namespace SUAMVC.Controllers
                                                 empleado.municipioNacimientoId = municipio.id;
                                             }
                                         }
-                                        else
-                                        {
-                                            municipio = db.Municipios.Find(2);
-                                            empleado.municipioNacimientoId = municipio.id;
-                                        } // municipio de nacimiento no es null?
-                                    }
-                                }
+  //                                  }
+  //                              }
 
                                 if (!String.IsNullOrEmpty(empleadoL.calleNumero))
                                 {
@@ -1255,8 +1281,9 @@ namespace SUAMVC.Controllers
                                 }
                                 else
                                 {
-                                    banco = db.Bancos.Find(1);
-                                    empleado.bancoId = banco.id;
+                                    log.saveLog("Renglon ->" + counter, "Banco - Dato obligatorio",
+                                                 "Carga Empleados Masiva", usuario.Id, "ER", solicitudId);
+                                    saleBreak = true;
                                 }// banco no es null?
 
                                 if (!String.IsNullOrEmpty(empleadoL.observaciones))
@@ -1292,9 +1319,20 @@ namespace SUAMVC.Controllers
                                         //a su vez con ella obtener el folio de Solicitud para generar el folioEmpleado
                                         solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
 
-                                        empleado.folioEmpleado = solicitud.folioSolicitud.Trim() + "-" + empleado.id.ToString().PadLeft(5, '0');
+                                        Cliente folCliente = db.Clientes.Find(solicitud.clienteId);
+                                        if (solicitud.Cliente.folioConsec == null)
+                                        {
+                                            empleado.folioEmpleado = (solicitud.Cliente.folioConsec + 1).ToString().PadLeft(5, '0') + solicitud.Cliente.claveCliente.Trim();
+                                            folCliente.folioConsec = +2;
+                                        }
+                                        else
+                                        {
+                                            empleado.folioEmpleado = solicitud.Cliente.folioConsec.ToString().PadLeft(5, '0') + solicitud.Cliente.claveCliente.Trim();
+                                            folCliente.folioConsec = +1;
+                                        }
 
                                         //Preparamos las entidades para guardar
+                                        db.Entry(folCliente).State = EntityState.Modified;
                                         db.Entry(empleado).State = EntityState.Modified;
                                         db.Entry(solicitud).State = EntityState.Modified;
                                         db.SaveChanges();
@@ -1406,7 +1444,7 @@ namespace SUAMVC.Controllers
                                                 && !s.Solicitud.id.Equals(solicitud.id)
                                                 && e.estatus.Equals("A") && s.Solicitud.proyectoId.Equals(proyectoId) //Clientes del mismo proyecto
                                                 && !e.EsquemasPago.descripcion.Equals("IAS")  //Esquema de Pago diferente a IAS
-                                                && s.estatus.Equals("A")  //Solicitud Activa
+//                                                && s.estatus.Equals("A")  //Solicitud Activa
                                                 orderby s.Empleado.nombreCompleto
                                                 select s.Empleado).ToList();
 
@@ -1434,8 +1472,8 @@ namespace SUAMVC.Controllers
             else
             {
                 ViewBag.editMode = false;
-                // Json(new { ok = true, newurl = Url.Action("Create") });
-                return RedirectToAction("Create", "Empleados", empleado);
+                //Json(new { ok = true, newurl = Url.Action("Create") });
+                return RedirectToAction("Edit2", "Empleados", empleado);
             }
         }
 
@@ -1444,7 +1482,7 @@ namespace SUAMVC.Controllers
 
             Solicitud solicitud = (from s in db.SolicitudEmpleadoes
                                    where s.empleadoId.Equals(empleadoId)
-                                   && s.estatus.Equals("A")
+ //                                  && s.estatus.Equals("A")
                                    select s.Solicitud).FirstOrDefault();
             return solicitud;
         }
@@ -1478,7 +1516,24 @@ namespace SUAMVC.Controllers
 
 
             db.SolicitudEmpleadoes.Add(solicitudEmpleado);
+            try{
+
             db.SaveChanges();
+                            }
+                catch (DbEntityValidationException ex)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    foreach (var failure in ex.EntityValidationErrors)
+                    {
+                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                        foreach (var error in failure.ValidationErrors)
+                        {
+                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                            sb.AppendLine();
+                        }
+                    }
+                }
 
         }
 
@@ -1692,6 +1747,179 @@ namespace SUAMVC.Controllers
                 }
             }
             return RedirectToAction("index", "Solicitudes", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId, id = solicitud.id, });
+        }
+
+        // GET: Empleados/Edit/5
+        public ActionResult Edit2(int? id, String controllerDestiny, String clienteId, String proyectoId, String folioId)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Empleado empleado = db.Empleados.Find(id);
+
+            if (empleado == null)
+            {
+                return HttpNotFound();
+            }
+
+            //Obtenemos la solicitud del empleado
+            Solicitud solicitud = obtenerSolicitudActiva(empleado.id);
+            TempData["solicitudId"] = solicitud.id;
+            ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
+            ViewBag.municipioNacimientoId = new SelectList(db.Municipios, "id", "descripcion", empleado.municipioNacimientoId);
+            ViewBag.nacionalidadId = new SelectList(db.Paises, "id", "descripcion", empleado.nacionalidadId);
+            ViewBag.estadoNacimientoId = new SelectList(db.Estados, "id", "descripcion", empleado.estadoNacimientoId);
+            ViewBag.estadoCivilId = new SelectList(db.EstadoCivils, "id", "descripcion", empleado.estadoCivilId);
+            ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion", empleado.sexoId);
+            ViewBag.nacionalidad = new SelectList(db.Paises, "id", "descripcion", empleado.nacionalidadId);
+            ViewBag.controllerDestiny = controllerDestiny;
+
+            if (!String.IsNullOrEmpty(controllerDestiny))
+            {
+                ViewBag.controllerDestiny = controllerDestiny;
+                ViewBag.solicitud = solicitud;
+            }
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
+            ViewBag.folioId = solicitud.folioSolicitud;
+
+            return View(empleado);
+        }
+
+        // POST: Empleados/Create
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit2([Bind(Include = "id,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,rfc,homoclave,curp,categoria,salarioReal,estadoCivilId,creditoInfonavit,tieneInfonavit,calleNumero,colonia,codigoPostal,estadoNacimientoId,nacionalidadId,municipioNacimientoId,edoMunicipio,tramitarTarjeta,bancoId,cuentaBancaria,cuentaClabe,fechaModificacion,fechaNacimiento,email,observaciones,UMF")] Empleado empleado, int sexoId, int nacionalidadId, int bancoId, String clienteId, String proyectoId, String folioId)
+        {
+            if (ModelState.IsValid)
+            {
+                ToolsHelper th = new ToolsHelper();
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+
+                Empleado empleadoModificado = db.Empleados.Find(empleado.id);
+
+                if (!String.IsNullOrEmpty(empleado.nss))
+                {
+                    empleadoModificado.nss = empleado.nss.Trim().ToUpper();
+                }
+
+                empleadoModificado.fechaAltaImss = empleado.fechaAltaImss;
+
+                if (!String.IsNullOrEmpty(empleado.apellidoMaterno))
+                {
+                    empleadoModificado.apellidoMaterno = empleado.apellidoMaterno.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.apellidoPaterno))
+                {
+                    empleadoModificado.apellidoPaterno = empleado.apellidoPaterno.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.nombre))
+                {
+                    empleadoModificado.nombre = empleado.nombre.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.rfc))
+                {
+                    empleadoModificado.rfc = empleado.rfc.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.homoclave))
+                {
+                    empleadoModificado.homoclave = empleado.homoclave.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.curp))
+                {
+                    empleadoModificado.curp = empleado.curp.Trim().ToUpper();
+                }
+
+                empleadoModificado.sexoId = sexoId;
+                empleadoModificado.salarioReal = empleado.salarioReal;
+
+                if (!String.IsNullOrEmpty(empleado.categoria))
+                {
+                    empleadoModificado.categoria = empleado.categoria.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.creditoInfonavit))
+                {
+                    empleadoModificado.creditoInfonavit = empleado.creditoInfonavit.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.calleNumero))
+                {
+                    empleadoModificado.calleNumero = empleado.calleNumero.Trim().ToUpper();
+                }
+
+                if (!String.IsNullOrEmpty(empleado.colonia))
+                {
+                    empleadoModificado.colonia = empleado.colonia.Trim().ToUpper();
+                }
+                empleadoModificado.estadoCivilId = empleado.estadoCivilId;
+                empleadoModificado.fechaNacimiento = empleado.fechaNacimiento;
+                empleadoModificado.nacionalidadId = nacionalidadId;
+                empleadoModificado.estadoNacimientoId = empleado.estadoNacimientoId;
+                empleadoModificado.municipioNacimientoId = empleado.municipioNacimientoId;
+                empleadoModificado.edoMunicipio = empleado.edoMunicipio;
+                empleadoModificado.codigoPostal = empleado.codigoPostal;
+                empleadoModificado.email = empleado.email;
+                empleadoModificado.bancoId = bancoId;
+                empleadoModificado.cuentaBancaria = empleado.cuentaBancaria;
+                empleadoModificado.cuentaClabe = empleado.cuentaClabe;
+
+                if (!String.IsNullOrEmpty(empleado.observaciones))
+                {
+                    empleadoModificado.observaciones = empleado.observaciones.Trim().ToUpper();
+                }
+
+                if (empleado.Estado != null)
+                {
+                    empleadoModificado.Estado.descripcion = empleado.Estado.descripcion.Trim().ToUpper();
+                }
+                Solicitud solicitudTmp = obtenerSolicitudActiva(empleado.id);
+
+                ViewBag.controllerDestiny = "Solicitudes";
+                ViewBag.solicitud = solicitudTmp;
+                ViewBag.clienteId = solicitudTmp.clienteId;
+                ViewBag.proyectoId = solicitudTmp.proyectoId;
+                ViewBag.folioId = solicitudTmp.folioSolicitud;
+
+                try
+                {
+                    db.Entry(empleadoModificado).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    foreach (var failure in ex.EntityValidationErrors)
+                    {
+                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                        foreach (var error in failure.ValidationErrors)
+                        {
+                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                            sb.AppendLine();
+                        }
+                    }
+                }
+                    return RedirectToAction("Index", "Empleados", new { id = solicitudTmp.id, controllerDestiny = "Solicitudes", clienteId = solicitudTmp.clienteId, proyectoId = solicitudTmp.proyectoId });
+            }
+
+            return View(empleado);
+        }
+
+        [HttpPost]
+        public ActionResult ObtenerDatosPorNSS(int clienteId)
+        {
+            Empleado empleado = new Empleado();
+            empleado = db.Empleados.Where(m => m.Solicitud.clienteId == clienteId).FirstOrDefault();
+            return Json(empleado);
         }
 
         protected override void Dispose(bool disposing)
