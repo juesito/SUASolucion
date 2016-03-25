@@ -935,5 +935,33 @@ namespace SUAMVC.Helpers
             return htmlHelper.DropDownList(componenteId, listFields, new { @class = htmlclass });
         }
 
+        //Regresa el campo valor y no el ID
+        public static MvcHtmlString conceptosDrownListValor(this HtmlHelper htmlHelper, int userId, string grupo, string componentId)
+        {
+
+            db = new suaEntities();
+            List<SelectListItem> listFields = new List<SelectListItem>();
+
+            List<Concepto> listConceptos = (from s in db.Conceptos
+                                  .Where(s => s.grupo.Equals(grupo.Trim())
+                                   )
+                                  .OrderByDescending(s => s.orden)
+                                            select s).ToList();
+
+            foreach (Concepto item in listConceptos)
+            {
+                String itemId = item.valorConcepto.ToString().Trim();
+                String descripcion = item.descripcion.Trim();
+                if (descripcion.Contains("Todas"))
+                {
+                    itemId = "";
+                }
+                listFields.Add(new SelectListItem { Value = itemId, Text = descripcion.Trim() });
+            }
+
+            return htmlHelper.DropDownList(componentId, listFields);
+
+        }
+
     }
 }

@@ -4851,17 +4851,20 @@ namespace SUAMVC.Controllers
             return sheetData;
         }
 
-        public ActionResult crearAltasIDSE(int solicitudId, String tipoId)
+        [HttpPost]
+        public ActionResult crearAltasIDSE(String solicitudId, String tipoId, String trabajador, String salario, String jornada)
         {
             ViewBag.tipoId = tipoId;
+            ViewBag.solcitudId=solicitudId;
+            int solicitud = int.Parse(solicitudId.Trim());
 
-            Solicitud sol = db.Solicituds.Find(solicitudId);
+            Solicitud sol = db.Solicituds.Find(solicitud);
 
             List<Empleado> empleadosList = new List<Empleado>();
 
             empleadosList = (from s in db.SolicitudEmpleadoes
                              //                                 where s.estatus.Equals("A")
-                             where s.solicitudId.Equals(solicitudId)
+                             where s.solicitudId.Equals(solicitud)
                              orderby s.id
                              select s.Empleado).ToList();
 
@@ -4891,13 +4894,13 @@ namespace SUAMVC.Controllers
                         }
 
                         linea = linea + dp.nombre.PadLeft(27, ' ');
-                        linea = linea + dp.SDI.descripcion.PadRight(6, '0') +
-                                       "000000" + "111";
+                        linea = linea + dp.SDI.descripcion.PadRight(6, '0') + "000000";
+                        linea = linea + trabajador + salario + jornada;
 
                         if (dp.fechaAltaImss != null)
                         {
                             DateTime fechaAltaImss = (DateTime)sol.fechaInicioContrato;
-                            linea = linea + fechaAltaImss.ToShortDateString();
+                            linea = linea + fechaAltaImss.ToString("ddMMyyyy");
                         }
 
                         if (dp.UMF != null)
@@ -4925,10 +4928,12 @@ namespace SUAMVC.Controllers
         }
 
         // GET: Aseguradoes/Delete/5
-        public ActionResult IDSE(int solicitudId, String tipoId)
+        public ActionResult Adicionales(int solicitudId, String tipoId)
         {
+            ViewBag.solicitudId = solicitudId;
+            ViewBag.tipoId = tipoId;
             return View();
- //           return RedirectToAction("Adicionales", new { solicitudId, tipoId });
+            //            return RedirectToAction("Adicionales", new { solicitudId, tipoId });
         }
 
 

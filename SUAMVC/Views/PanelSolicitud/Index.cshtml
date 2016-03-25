@@ -232,7 +232,7 @@
                 gridColumns.Add(grid.Column(header: "IDSE", format: @<text>
                     @if (item.noTrabajadores > 0)
                     {
-                        <a href="@Url.Action("IDSE", "PanelSolicitud", new { solicitudId = item.id , tipoId = ViewBag.tipoId})">
+                        <a href="@Url.Action("Adicionales", "PanelSolicitud", new { solicitudId = item.id , tipoId = ViewBag.tipoId})">
                             <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
                         </a>
                     }
