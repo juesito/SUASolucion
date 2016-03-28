@@ -32,6 +32,9 @@
                 <img src="~/Content/Images/edit.png" alt="" cc class="icon" />
             </a></text>));
     }
+    gridColumns.Add(grid.Column(header: "Patrones", format: @<text><a href="@Url.Action("Index", "ClientePatrones", new { id = item.id })">
+            <img src="~/Content/Images/addNew.png" alt="" style="text-align:center;" class="icon" />
+        </a></text>));
     gridColumns.Add(grid.Column("claveCliente", "ID Cliente", null, null, true));
     gridColumns.Add(grid.Column("claveSUA", "Clave SUA", null, null, true));
     gridColumns.Add(grid.Column("rfc", "RFC", null, null, true));
@@ -88,6 +91,12 @@
     <div>Catálogo de Clientes <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
+@if (SecurityUserModel.verificarPermiso("Clientes", "Crear cliente", 2))
+{
+    <p>
+        @Html.ActionLink("Crear Cliente", "Create", "Clientes", new { @class = "btn btn-success" })
+    </p>
+}
 
 @using (Html.BeginForm(null, null, FormMethod.Get))
 {
@@ -163,12 +172,6 @@
         </div>
     </div>
 
-}
-@if (SecurityUserModel.verificarPermiso("Clientes", "Crear cliente", 2))
-{
-    <p>
-        @Html.ActionLink("Crear Cliente", "Create", "Clientes", new { @class = "btn btn-success" })
-    </p>
 }
 
 @if (!tableHtml.IsEmpty())

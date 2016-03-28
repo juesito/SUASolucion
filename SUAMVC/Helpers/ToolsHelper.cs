@@ -46,8 +46,8 @@ namespace SUAMVC.Helpers
 
         public Boolean obtenerEmpleadoPorNSSyCliente(String NSS, int clienteId)
         {
-            int existe = db.SolicitudEmpleadoes.Where(s => s.Empleado.nss.Trim().ToLower().Equals(NSS.Trim().ToLower())
-                                                 && s.Solicitud.clienteId.Equals(clienteId) ).Count();
+            int existe = db.Asegurados.Where(s => s.numeroAfiliacion.Trim().ToLower().Equals(NSS.Trim().ToLower())
+                                                 && s.ClienteId.ToString().Equals(clienteId.ToString()) ).Count();
 
             return (existe > 0);
         }

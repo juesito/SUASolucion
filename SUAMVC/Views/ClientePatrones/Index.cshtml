@@ -13,41 +13,17 @@
     }
     Usuario usuario = Session["UsuarioData"] as Usuario;
     var listItems = new List<ListItem>();
-    var clienteId = ViewBag.clienteId;
+    Cliente cliente = TempData["cliente"] as Cliente;
 }
 
 @section Menu {
-    <div>Patrones por cliente<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Registros patronales por cliente<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
-<div style="padding-bottom:5px">
-    @if (!String.IsNullOrEmpty(ViewBag.clienteId))
-    {
-        @Html.ActionLink(@Language.agregar, "Create", "ClientePatrones", new { clienteId = clienteId }, new { @class = "btn btn-success btn-sm" })
-    }
-</div>
-
-@using (Html.BeginForm())
-{
-    <div class="marqueeFilter">
-        <table style="float:left; margin-top:5px;display:inline-block;">
-            <thead>
-                <tr style="text-align:left;vertical-align:bottom;">
-                    <td style="padding-top:15px">
-                        @Html.Label("Cliente:")
-                    </td>
-                    <td>
-                        @Html.clientesDrownList(usuario.Id, "clienteId", "javascript:obtenerProyectos(this.value);", "width:200px;height:20px")
-                    </td>
-                    <td style="padding-left:18px">
-                        <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
-                    </td>
-                </tr>
-
-            </thead>
-        </table>
-    </div>
-}
+<p>
+    @Html.ActionLink(@Language.agregar, "Create", "ClientePatrones", new { clienteId = cliente.Id }, new { @class = "btn btn-success" })
+</p>
+<p>Registros patronales para el cliente: @cliente.descripcion</p>
 
 <table class="table table-striped tableSua">
     <tr>
@@ -82,9 +58,6 @@
                 @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
             </td>
             <td>
-                @*<a href="@Url.Action("Edit","ClientePatrones", new { id = item.id })" title="@Language.edit">
-                    <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
-                </a>|*@
                 <a href="@Url.Action("Delete", "ClientePatrones", new { id = item.id })" title="@Language.borrar">
                     <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
                 </a>
@@ -93,3 +66,7 @@
     }
 
 </table>
+<div>
+    @Html.ActionLink(@Language.regresar, "Index", "Clientes")
+</div>
+

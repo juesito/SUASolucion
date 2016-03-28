@@ -15,18 +15,19 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: ClientePatrones
-        public ActionResult Index(String clienteId)
+        public ActionResult Index(String id)
         {
-            if (!String.IsNullOrEmpty(clienteId))
+            if (!String.IsNullOrEmpty(id))
             {
 
                 var ctePatrones = db.ClientePatrones.ToList();
 
-                if (!String.IsNullOrEmpty(clienteId))
+                if (!String.IsNullOrEmpty(id))
                 {
-                    int clienteTempId = int.Parse(clienteId.Trim());
+                    int clienteTempId = int.Parse(id.Trim());
                     ctePatrones = ctePatrones.Where(p => p.clienteId.Equals(clienteTempId)).OrderBy(p => p.Patrone.nombre).ToList();
-                    ViewBag.clienteId = clienteId;
+                    Cliente cliente = db.Clientes.Find(clienteTempId);
+                    TempData["cliente"] = cliente;
                 }
 
                 return View(ctePatrones.ToList());
@@ -54,7 +55,9 @@ namespace SUAMVC.Controllers
         // GET: ClientePatrones/Create
         public ActionResult Create(String clienteId)
         {
-            ViewBag.clienteId = clienteId;
+            int idTemp = int.Parse(clienteId);
+            Cliente cliente = db.Clientes.Find(idTemp);
+            TempData["cliente"] = cliente;
             ViewBag.patronId = new SelectList(db.Patrones, "Id", "registro");
             return View();
         }
@@ -76,6 +79,8 @@ namespace SUAMVC.Controllers
                 if (patronTemp.Equals(null) || patronTemp.Count() == 0)
                 {
                     Usuario usuario = Session["UsuarioData"] as Usuario;
+                    Cliente cliente = db.Clientes.Find(clientePatrone.clienteId);
+                    TempData["cliente"] = cliente;
 
                     clientePatrone.fechaCreacion = DateTime.Now;
                     clientePatrone.usuarioId = usuario.Id;
@@ -83,7 +88,7 @@ namespace SUAMVC.Controllers
                     db.ClientePatrones.Add(clientePatrone);
                     db.SaveChanges();
                 }
-                return RedirectToAction("Index", new { clienteId = clientePatrone.clienteId });
+                return RedirectToAction("Index", new { id = clientePatrone.clienteId });
             }
 
             ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente", clientePatrone.clienteId);
@@ -142,7 +147,8 @@ namespace SUAMVC.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.clienteId = clientePatrone.clienteId;
+            Cliente cliente = db.Clientes.Find(id);
+            TempData["cliente"] = cliente;
             return View(clientePatrone);
         }
 
@@ -153,10 +159,11 @@ namespace SUAMVC.Controllers
         {
             ClientePatrone clientePatrone = db.ClientePatrones.Find(id);
             int clienteIdTmp = clientePatrone.clienteId;
-            ViewBag.clienteId = clienteIdTmp;
+            Cliente cliente = db.Clientes.Find(id);
+            TempData["cliente"] = cliente;
             db.ClientePatrones.Remove(clientePatrone);
             db.SaveChanges();
-            return RedirectToAction("Index", new { clienteId = clienteIdTmp });
+            return RedirectToAction("Index", new { id = clienteIdTmp });
         }
 
         protected override void Dispose(bool disposing)

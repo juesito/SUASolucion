@@ -1342,12 +1342,12 @@ namespace SUAMVC.Controllers
                                         if (solicitud.Cliente.folioConsec == null)
                                         {
                                             empleado.folioEmpleado = (solicitud.Cliente.folioConsec + 1).ToString().PadLeft(5, '0') + solicitud.Cliente.claveCliente.Trim();
-                                            folCliente.folioConsec = +2;
+                                            folCliente.folioConsec = folCliente.folioConsec + 2;
                                         }
                                         else
                                         {
                                             empleado.folioEmpleado = solicitud.Cliente.folioConsec.ToString().PadLeft(5, '0') + solicitud.Cliente.claveCliente.Trim();
-                                            folCliente.folioConsec = +1;
+                                            folCliente.folioConsec = folCliente.folioConsec + 1;
                                         }
 
                                         //Preparamos las entidades para guardar
@@ -1989,7 +1989,7 @@ namespace SUAMVC.Controllers
         public ActionResult ObtenerDatosPorNSS(int clienteId)
         {
             Empleado empleado = new Empleado();
-            empleado = db.Empleados.Where(m => m.Solicitud.clienteId == clienteId).FirstOrDefault();
+//            empleado = db.Empleados.Where(m => m.Solicitud.clienteId == clienteId).FirstOrDefault();
             return Json(empleado);
         }
 

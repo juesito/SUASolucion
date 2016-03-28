@@ -28,7 +28,7 @@ namespace SUAMVC.Controllers
         private suaEntities db = new suaEntities();
 
         // GET: Patrones
-        public ActionResult Index(String plazasId)
+        public ActionResult Index(String plazasId, String statusId)
         {
             Usuario user = Session["UsuarioData"] as Usuario;
 
@@ -46,6 +46,25 @@ namespace SUAMVC.Controllers
                 int plazaIdTemp = int.Parse(plazasId);
                 patrones = patrones.Where(p => p.Plaza.id.Equals(plazaIdTemp));
             }
+
+            if (statusId != null)
+            {
+                @ViewBag.statusId = statusId;
+
+                if (statusId.Trim().Equals("A"))
+                {
+                    ViewBag.activos = patrones.Where(s => s.Concepto.descripcion.Equals("Activo")).Count();
+                    patrones = patrones.Where(s => s.Concepto.descripcion.Equals("Activo"));
+                }
+                else if (statusId.Trim().Equals("B"))
+                {
+                    ViewBag.activos = patrones.Where(s => s.Concepto.descripcion.Equals("Inactivo")).Count();
+                    patrones = patrones.Where(s => s.Concepto.descripcion.Equals("Inactivo"));
+                }
+            }
+
+            ViewBag.activos = patrones.Where(s => s.Concepto.descripcion.Equals("Activo")).Count();
+            ViewBag.registros = patrones.Count();
 
             patrones.OrderBy(p => p.nombre);
 

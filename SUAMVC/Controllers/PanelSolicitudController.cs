@@ -4871,7 +4871,7 @@ namespace SUAMVC.Controllers
                              select s.Empleado).ToList();
 
             DateTime date = DateTime.Now;
-            String path = @"C:\\SUA\\Exceles\\";
+            String path = @"C:\\SUA03\\Exceles\\";
             String fileName = @"IDSE-" + date.ToString("ddMMyyyyHHmm") + ".txt";
             String fullName = path + fileName;
 
@@ -4896,7 +4896,11 @@ namespace SUAMVC.Controllers
                         }
 
                         linea = linea + dp.nombre.Trim().PadRight(27, ' ');
-                        linea = linea + dp.SDI.descripcion.Trim().PadLeft(6, '0') + "000000";
+                        int longitud = dp.SDI.descripcion.Trim().Length;
+                        String punto = ".";
+                        int posDec = dp.SDI.descripcion.Trim().IndexOf(punto);
+                        String varSDI = dp.SDI.descripcion.Trim().Substring(0, longitud - posDec ) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                        linea = linea + varSDI.Trim().PadLeft(6, '0') + "000000";
                         linea = linea + trabajador.Trim() + salario.Trim() + jornada.Trim();
 
                         if (dp.fechaAltaImss != null)
@@ -4916,14 +4920,21 @@ namespace SUAMVC.Controllers
                         linea = linea + "  ";
                         linea = linea + dp.tipoMovto.Trim();
                         linea = linea + sol.Patrone.delegacion.Trim() + "400";
-                        linea = linea + sol.Cliente.claveCliente.Trim().PadRight(10, ' ') +
+                        linea = linea + "          " +
                                        " " + dp.curp.Trim() + "9" +
                                        "\r";
                         sw.WriteLine(linea);
                     }
                     sw.Close();
-                    MessageBox.Show("Se ha creado el archivo " + fullName, "Archivo SUA",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                    Response.ClearContent();
+                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                    ToolsHelper th = new ToolsHelper();
+                    Response.ContentType = th.getMimeType(fullName);
+//                    Response.BinaryWrite(mem.ToArray());
+
+                    Response.End();
+//                    MessageBox.Show("Se ha creado el archivo " + fullName, "Archivo SUA",
+//                    MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
                 }
                 catch (Exception ex)
                 {

@@ -64,8 +64,36 @@
             <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="30" height="30" />
         </a>
     </p>
-}
 
+                       if (ViewBag.registros != null)
+                        {
+
+    <table style="margin-left:20px; margin-top:15px; width:100% ">
+        <thead>
+            <tr>
+                <td style="font-size:10px; text-align:right; width:86%">
+                    <p style="font-weight:bold">
+                        Registros:
+                        @Html.Label(Language.registros, Convert.ToString((int)ViewBag.registros))
+                    </p>
+                </td>
+                @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
+                {
+                    <td style="padding-left:10px; height:20px; font-size:10px;width:8%">
+                        <p style="font-weight:bold">
+                            Activos:
+                            @Html.Label("Activos: ", Convert.ToString((int)ViewBag.activos))
+                        </p>
+                    </td>
+                }
+                <td style="display:inline-block;height:20px; font-size:10px;width:5%;vertical-align:top">
+                    @Html.SearchStatusList()
+                </td>
+            </tr>
+
+        </thead>
+    </table>
+}                           }
 @if (!tableHtml.IsEmpty())
 {
     @Html.Raw(tableHtml)
