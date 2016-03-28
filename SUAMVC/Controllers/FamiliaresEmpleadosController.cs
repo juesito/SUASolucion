@@ -58,12 +58,15 @@ namespace SUAMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                Usuario usuario = Session["UsuarioData"] as Usuario;
+                familiaresEmpleado.usuarioId = usuario.Id;
+                familiaresEmpleado.fechaCreacion = DateTime.Now;
+                familiaresEmpleado.nombreCompleto = familiaresEmpleado.apellidoPaterno.Trim() + " " + familiaresEmpleado.apellidoMaterno.Trim() + " " + familiaresEmpleado.nombre.Trim();
                 db.FamiliaresEmpleadoes.Add(familiaresEmpleado);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
 
-            return View(familiaresEmpleado);
+            return RedirectToAction("Edit", "Empleados", new { id = familiaresEmpleado.empleadoId });
         }
 
         // GET: FamiliaresEmpleados/Edit/5

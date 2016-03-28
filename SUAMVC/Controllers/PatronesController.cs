@@ -119,6 +119,7 @@ namespace SUAMVC.Controllers
                 return HttpNotFound();
             }
             ViewBag.Plaza_id = new SelectList(db.Plazas, "id", "descripcion", patrone.Plaza_id);
+            ViewBag.estatus = new SelectList(db.Conceptos, "id", "descripcion", patrone.estatus);
             return View(patrone);
         }
 
@@ -145,6 +146,7 @@ namespace SUAMVC.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Plaza_id = new SelectList(db.Plazas, "id", "descripcion", patrone.Plaza_id);
+            ViewBag.estatus = new SelectList(db.Conceptos, "id", "descripcion", patrone.estatus);
             return View(patrone);
         }
 
@@ -385,7 +387,7 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.unidadMedica, headerColumns[i + 14] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.estatus, headerColumns[i + 15] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.Concepto.descripcion, headerColumns[i + 15] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 index++;

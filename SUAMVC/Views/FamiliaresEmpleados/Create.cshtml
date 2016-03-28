@@ -21,6 +21,7 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.empleadoId)
     
     <div class="form-horizontal">
         <h4>FamiliaresEmpleado</h4>
@@ -99,7 +100,8 @@
     </div>
 }
 <div style="display:inline-block;font-size:10px;">
-    <a href="@Url.Action("Index", "FamiliaresEmpleados", new { empleadoId = empleadoId })">
+    <a href="@Url.Action("Edit", "Empleados", new { id = empleadoId })">
         <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
     </a>
 </div>
+

@@ -11,7 +11,7 @@
 }
 
 @section Menu {
-    <div>Ver empleado : @Html.DisplayFor(model => model.empleado.nombreCompleto)<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Modificar empleado : @Html.DisplayFor(model => model.empleado.nombreCompleto)<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 <script language="javascript" type="text/javascript">
@@ -130,6 +130,12 @@
                         @Html.EditorFor(model => model.empleado.categoria)
                     </dd>
                     <dt style="padding-top:8px">
+                        @Html.DisplayName("ID Nómina:"):
+                    </dt>
+                    <dd style="padding-top:8px">
+                        @Html.EditorFor(model => model.empleado.idNomina)
+                    </dd>
+                    <dt style="padding-top:8px">
                         @Html.DisplayName(@Language.fechaAlta):
                     </dt>
 
@@ -148,7 +154,8 @@
                     </dt>
 
                     <dd style="padding-top:8px">
-                        @Html.sexosDrownList(usuario.Id)
+                        @Html.DropDownList("sexoId")
+                        @Html.ValidationMessageFor(model => model.empleado.sexoId, "", new { @class = "text-danger" })
                     </dd>
                     <dt style="padding-top:8px">
                         @Html.DisplayName(@Language.rfc):
@@ -200,6 +207,7 @@
 
                     <dd style="padding-top:8px">
                         @Html.paisesDrownList(usuario.Id, "nacionalidadId")
+                        @Html.ValidationMessageFor(model => model.empleado.nacionalidadId, "", new { @class = "text-danger" })
                     </dd>
                     <dt style="padding-top:8px">
                         @Html.Label(Language.email):
@@ -390,11 +398,11 @@
 
                     <dd style="padding-top:8px">
                         <a href="@Url.Action("create", "FamiliaresEmpleados" , new { empleadoid=Model.empleado.id })"
-                           title="Cargar Documentos">
+                           title="Agregar un dato familiar">
                             <img src="~/Content/Images/people-b.png" alt="" style="border:none;" class="icon" />
                         </a>
                         <a href="@Url.Action("index", "FamiliaresEmpleados" , new { empleadoid=Model.empleado.id })"
-                           title="Cargar Documentos">
+                           title="Ver datos familiares">
                             <img src="~/Content/Images/fileSearch.png" alt="" style="border:none;" class="icon" />
                         </a>
                     </dd>
@@ -448,7 +456,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a href="@Url.Action("index", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Documentos V" })"
+                                <a href="@Url.Action("index", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Documento" })"
                                    title="Ver documentos">
                                     <img src="~/Content/Images/pdf.gif" alt="" style="border:none;" class="icon" />
                                 </a>
@@ -472,7 +480,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a href="@Url.Action("index", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Psicometrico" })"
+                                <a href="@Url.Action("index", "ArchivoEmpleados" , new { empleadoid=Model.empleado.id, tipo = "Psicometria" })"
                                    title="Ver documentos">
                                     <img src="~/Content/Images/history.png" alt="" style="border:none;" class="icon" />
                                 </a>
@@ -547,10 +555,25 @@
                     <dd style="padding-top:8px">
                         @Html.EditorFor(model => model.salarialesEmpleado.salarioHrsExtra)
                     </dd>
+
                     <dt style="padding-top:8px">
-                        @Html.Label(Language.numeroCuenta):
+                        @Html.Label(@Language.banco):
                     </dt>
 
+                    <dd style="padding-top:8px">
+                        @Html.DropDownList("bancoId", null, htmlAttributes: new { id = "bancoDownList" })
+                    </dd>
+
+                    <dt style="padding-top:8px">
+                        @Html.Label(@Language.numeroCuenta):
+                    </dt>
+                    <dd style="padding-top:8px">
+                        @Html.EditorFor(model => model.empleado.cuentaBancaria)
+                    </dd>
+
+                    <dt style="padding-top:8px">
+                        @Html.Label("Agregar cuentas"):
+                    </dt>
                     <dd style="padding-top:8px">
                         @Html.cuentasPorEmpleadoDrownList(usuario.Id, "bancoId")
                         <a href="@Url.Action("index", "CuentaEmpleados" , new { empleadoid=Model.empleado.id })"
@@ -558,6 +581,13 @@
                             <img src="~/Content/Images/bank.png" alt="" style="border:none;" class="icon" />
                         </a>
                     </dd>
+                    <dt style="padding-top:8px">
+                        @Html.Label("Cuenta Clabe"):
+                    </dt>
+                    <dd style="padding-top:8px">
+                        @Html.EditorFor(model => model.empleado.cuentaClabe)
+                    </dd>
+
                     <dt style="padding-top:8px">
                         @Html.Label(@Language.noCredito):
                     </dt>
@@ -601,7 +631,7 @@
                     <dd style="padding-top:8px">
                         @Html.conceptosDrownList(usuario.Id, "PERISAL", "periodoId")
                     </dd>
-                    <dt style="margin-top:100px;">
+                    <dt style="margin-top:70px;">
                         @if (ViewBag.solicitud == null)
                         {
                             <a href="@Url.Action("Index", "Empleados")">
@@ -615,7 +645,7 @@
                             </a>
                         }
                     </dt>
-                    <dd style="margin-top:100px;"><input name="Guadar" type="submit" value="@Language.guardar" class="btn btn-success" /></dd>
+                    <dd style="margin-top:70px;"><input name="Guadar" type="submit" value="@Language.guardar" class="btn btn-success" /></dd>
 
                 </dl>
             </div>
@@ -672,6 +702,22 @@
                 <dd style="padding-top:8px">
                     @Html.DisplayFor(model => model.empleado.Asegurado.Patrone.nombre)
                 </dd>
+
+                <dt style="margin-top:100px;">
+                    @if (ViewBag.solicitud == null)
+                    {
+                        <a href="@Url.Action("Index", "Empleados")">
+                            @Html.ActionLink(@Language.regresar, "Index", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Empleados")">
+                            @Html.ActionLink(@Language.regresar, "Index", new { id = ViewBag.solicitud.id, controllerDestiny = ViewBag.controllerDestiny, clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
+                        </a>
+                    }
+                </dt>
+
             </dl>
         </div>
         <!-- marquesina de la derecha -->

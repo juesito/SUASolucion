@@ -16,6 +16,7 @@ using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
 using CrystalDecisions.Web;
 using SUAMVC.Models;
+using System.Windows.Forms;
 
 namespace SUAMVC.Controllers
 {
@@ -42,15 +43,16 @@ namespace SUAMVC.Controllers
                               select s).ToList();
 
 
-            if (!String.IsNullOrEmpty(tipoId))
+            if (String.IsNullOrEmpty(tipoId))
             {
+                Concepto conc = cp.obtenerConceptoPorGrupo("SOLCON", "Alta");
+                tipoId = conc.id.ToString();
+            }
                 ViewBag.tipoId = tipoId;
                 int tipo = int.Parse(tipoId);
                 Concepto conceptoTipo = db.Conceptos.Find(tipo);
                 ViewBag.tipo = conceptoTipo.descripcion.Trim().ToLower();
                 solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(int.Parse(tipoId))).ToList();
-
-            }
 
             solicituds = solicituds.Where(s => !s.estatusSolicitud.Equals(concepto.id)).ToList();
             solicituds = solicituds.Where(s => !s.estatusSolicitud.Equals(concepto2.id)).ToList();
@@ -4884,18 +4886,18 @@ namespace SUAMVC.Controllers
                         String linea = sol.Patrone.registro;
                         if (dp.nss != null)
                         {
-                            linea = linea + dp.nss;
+                            linea = linea + dp.nss.Substring(0,10);
                         }
-                        linea = linea +  dp.apellidoPaterno.PadLeft(27,' ') ;
+                        linea = linea +  dp.apellidoPaterno.Trim().PadRight(27,' ') ;
 
                         if (dp.apellidoMaterno != null)
                         {
-                                       linea =linea + dp.apellidoMaterno.PadLeft(27,' ');
+                                       linea =linea + dp.apellidoMaterno.Trim().PadRight(27,' ');
                         }
 
-                        linea = linea + dp.nombre.PadLeft(27, ' ');
-                        linea = linea + dp.SDI.descripcion.PadRight(6, '0') + "000000";
-                        linea = linea + trabajador + salario + jornada;
+                        linea = linea + dp.nombre.Trim().PadRight(27, ' ');
+                        linea = linea + dp.SDI.descripcion.Trim().PadLeft(6, '0') + "000000";
+                        linea = linea + trabajador.Trim() + salario.Trim() + jornada.Trim();
 
                         if (dp.fechaAltaImss != null)
                         {
@@ -4905,24 +4907,103 @@ namespace SUAMVC.Controllers
 
                         if (dp.UMF != null)
                         {
-                            linea = linea + dp.UMF;
+                            linea = linea + dp.UMF.Substring(0,2);
 
                         }else
                         {
                             linea = linea + "000";
                         }
-                         linea = linea + "  " + "08"  + sol.Patrone.delegacion.Trim() + "400" + sol.Cliente.claveCliente.PadLeft(10,' ') +
-                                       " " + dp.curp + "9" +
+                        linea = linea + "  ";
+                        linea = linea + dp.tipoMovto.Trim();
+                        linea = linea + sol.Patrone.delegacion.Trim() + "400";
+                        linea = linea + sol.Cliente.claveCliente.Trim().PadRight(10, ' ') +
+                                       " " + dp.curp.Trim() + "9" +
                                        "\r";
                         sw.WriteLine(linea);
                     }
                     sw.Close();
+                    MessageBox.Show("Se ha creado el archivo " + fullName, "Archivo SUA",
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
                 }
                 catch (Exception ex)
                 {
                     Console.Write(ex);
                 }
 //                Console.ReadKey();
+            }
+            return RedirectToAction("Index", new { tipoId });
+        }
+
+        [HttpPost]
+        public ActionResult crearAltasSUA(String solicitudId, String tipoId, String trabajador, String jornada)
+        {
+            ViewBag.tipoId = tipoId;
+            ViewBag.solcitudId = solicitudId;
+            int solicitud = int.Parse(solicitudId.Trim());
+
+            Solicitud sol = db.Solicituds.Find(solicitud);
+
+            List<Empleado> empleadosList = new List<Empleado>();
+
+            empleadosList = (from s in db.SolicitudEmpleadoes
+                             //                                 where s.estatus.Equals("A")
+                             where s.solicitudId.Equals(solicitud)
+                             orderby s.id
+                             select s.Empleado).ToList();
+
+            DateTime date = DateTime.Now;
+            String path = @"C:\\SUA\\Exceles\\";
+            String fileName = @"SUA-" + date.ToString("ddMMyyyyHHmm") + ".txt";
+            String fullName = path + fileName;
+
+            if (empleadosList.Count() > 0)
+            {
+                try
+                {
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName);
+                    foreach (Empleado dp in empleadosList)
+                    {
+
+                        String linea = sol.Patrone.registro;
+                        if (dp.nss != null)
+                        {
+                            linea = linea + dp.nss.Substring(0, 10);
+                        }
+                        linea = linea + dp.rfc.Trim();
+                        linea = linea + dp.homoclave.Trim();
+                        linea = linea + dp.curp.Trim();
+                        String nombre = dp.apellidoPaterno.Trim() + "$";
+
+                        if (dp.apellidoMaterno != null)
+                        {
+                            nombre = nombre + dp.apellidoMaterno.Trim() + "$";
+                        }
+
+                        nombre = nombre + dp.nombre.Trim();
+                        linea = linea + nombre.Trim().PadRight(50, ' ');
+                        linea = linea + trabajador.Trim() + jornada.Trim();
+
+                        if (dp.fechaAltaImss != null)
+                        {
+                            DateTime fechaAltaImss = (DateTime)sol.fechaInicioContrato;
+                            linea = linea + fechaAltaImss.ToString("ddMMyyyy");
+                        }
+
+                        linea = linea + dp.SDI.descripcion.Trim().PadLeft(7, '0') ;
+
+                        linea = linea + sol.Cliente.claveCliente.Trim().PadRight(17, ' ') + "\r";
+
+                        sw.WriteLine(linea);
+                    }
+                    sw.Close();
+                    MessageBox.Show("Se ha creado el archivo "+fullName, "Archivo SUA",
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                }
+                catch (Exception ex)
+                {
+                    Console.Write(ex);
+                }
+                //                Console.ReadKey();
             }
             return RedirectToAction("Index", new { tipoId });
         }
@@ -4936,6 +5017,13 @@ namespace SUAMVC.Controllers
             //            return RedirectToAction("Adicionales", new { solicitudId, tipoId });
         }
 
+        public ActionResult AdicionalesSUA(int solicitudId, String tipoId)
+        {
+            ViewBag.solicitudId = solicitudId;
+            ViewBag.tipoId = tipoId;
+            return View();
+            //            return RedirectToAction("Adicionales", new { solicitudId, tipoId });
+        }
 
 
         protected override void Dispose(bool disposing)

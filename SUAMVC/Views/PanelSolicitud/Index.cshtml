@@ -237,6 +237,14 @@
                         </a>
                     }
                 </text>));
+                gridColumns.Add(grid.Column(header: "SUA", format: @<text>
+                    @if (item.noTrabajadores > 0)
+                    {
+                        <a href="@Url.Action("AdicionalesSUA", "PanelSolicitud", new { solicitudId = item.id , tipoId = ViewBag.tipoId})">
+                            <img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" />
+                        </a>
+                    }
+                </text>));
             }
         }
     }
@@ -390,7 +398,7 @@
 }
 
 
-@if (!tableHtml.IsEmpty() && !String.IsNullOrEmpty(tipoId))
+@if (!tableHtml.IsEmpty() )
 {
     <div id="table-container" class="table-container">
         @Html.Raw(tableHtml)

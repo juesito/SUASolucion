@@ -18,6 +18,9 @@
     <div>Empleados - Actualizar fotografía <img src="~/Content/Images/home.png" width="15" height="15" /></div>
 }
 
+
+
+
 <div class="panel panel-primary">
     <div class="panel-heading">
         Seleccionar la fotografía que desea subir
@@ -47,6 +50,9 @@
                     </tbody>
                 </table>
             </div>
+    <div style="padding-bottom:15px">
+        @Html.ActionLink("Regresar", "Edit", new { id = empleadoId, clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId, solicitudId = "0" })
+    </div>
         }
     </div>
     @if (isError != null)

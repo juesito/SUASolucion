@@ -44,6 +44,14 @@ namespace SUAMVC.Helpers
             return empleado;
         }
 
+        public Boolean obtenerEmpleadoPorNSSyCliente(String NSS, int clienteId)
+        {
+            int existe = db.SolicitudEmpleadoes.Where(s => s.Empleado.nss.Trim().ToLower().Equals(NSS.Trim().ToLower())
+                                                 && s.Solicitud.clienteId.Equals(clienteId) ).Count();
+
+            return (existe > 0);
+        }
+
         public Acreditado obtenerAcreditadoPorNSS(String NSS)
         {
             var acreditadoTemp = db.Acreditados.Where(s => s.numeroAfiliacion.Trim().Equals(NSS)).FirstOrDefault();

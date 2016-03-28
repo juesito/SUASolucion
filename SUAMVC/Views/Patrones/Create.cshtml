@@ -1,8 +1,11 @@
 ﻿@model SUADATOS.Patrone
+@using SUADATOS
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+
     if (!WebSecurity.IsAuthenticated)
     {
         Response.Redirect("~/Home/Index");
@@ -240,7 +243,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.estatus, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.estatus, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.conceptosDrownList(usuario.Id, "ESTASIS", "estaus")
                 @Html.ValidationMessageFor(model => model.estatus, "", new { @class = "text-danger" })
             </div>
         </div>

@@ -1,0 +1,64 @@
+﻿@model SUADATOS.Pago
+@using SUADATOS
+@using System.Text;
+
+@{
+    ViewBag.Title = "Upload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    var message = @TempData["viewMessage"];
+    var isError = TempData["error"];
+    var solicitudId = ViewBag.solicitudId;
+    var tipoId = ViewBag.tipoId;
+    Usuario usuario = Session["UsuarioData"] as Usuario;
+}
+
+@section Menu {
+    <div>Datos adicionales para SUA <img src="~/Content/Images/home.png" width="15" height="15" /></div>
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Captura
+    </div>
+    <div class="panel-body">
+        @using (@Html.BeginForm("crearAltasSUA", "PanelSolicitud", new { solicitudId, tipoId }, FormMethod.Post))
+        {
+            @Html.Hidden("usuarioId", usuario.Id)
+            <div class="marqueeFilter">
+                <table style="float:left; margin-top:10px;display:inline-block;">
+                    <tbody>
+                        <tr>
+                            <td style="padding-top:25px; padding-right:5px">
+                            <td>@Html.Label("trabajador", "Tipo de trabajador:")</td>
+                            <td>
+                                @Html.conceptosDrownListValor(usuario.Id, "TIPOTRAB", "trabajador")
+                            </td>
+
+                            <td style="font-weight:bold; padding-left:10px">
+                            <td>@Html.Label("jornada", "Semana o jornada reducida::")</td>
+                            <td>
+                                @Html.conceptosDrownListValor(usuario.Id, "JORNADA", "jornada")
+                            <td rowspan="2" style="padding-left:15px">
+                                <input type="submit" value="Generar SUA" class="btn btn-success" style="width:80px; height:30px; font-size:10px;" />
+                            </td>
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+    @if (isError != null)
+    {
+        if (isError.Equals(false))
+        {
+            <p><span class="label label-success">@message</span></p>
+        }
+        else
+        {
+            <p><span class="label label-danger">@message</span></p>
+        }
+    }
+</div>

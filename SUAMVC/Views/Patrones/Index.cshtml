@@ -41,14 +41,15 @@
     gridColumns.Add(grid.Column("direccionArchivo", "Carpeta", null, null, true));
     gridColumns.Add(grid.Column("porcentajeNomina", "% sobre nómina", null, null, true));
     gridColumns.Add(grid.Column("unidadMedica", "UMF", null, null, true));
-    gridColumns.Add(grid.Column("estatus", "Estatus", null, null, true));
+    gridColumns.Add(grid.Column("Concepto.descripcion", "Estatus", format: @<text> @if (@item.estatus != null)
+    {  @item.Concepto.descripcion }</text>, canSort: true));
 
     sb.Append(grid.GetHtml(
         columns: grid.Columns(gridColumns.ToArray()),
                         tableStyle: "table table-striped tableSua"
                     ));
 
-    tableHtml = sb.ToString().Trim();                                                                                                                                                                                                                             
+    tableHtml = sb.ToString().Trim();
 
 }
 

@@ -108,6 +108,7 @@ namespace SUAMVC.Controllers
                 Empleado empleado = db.Empleados.Find(emplId);
                 archivoEmpleado.Empleado = empleado;
                 archivoEmpleado.empleadoId = empleado.id;
+                ViewBag.empleadoId = empleado.id;
             }
 
             return View(archivoEmpleado);
@@ -151,13 +152,13 @@ namespace SUAMVC.Controllers
                         }
                     }
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Edit", "Empleados", new { id = archivoEmpleado.empleadoId });
                 }
 
             }
 
             ViewBag.tipoArchivo = new SelectList(db.Conceptos, "id", "grupo", archivoEmpleado.tipoArchivo);
-            ViewBag.empleadoId = new SelectList(db.Empleados, "id", "folioEmpleado", archivoEmpleado.empleadoId);
+            ViewBag.empleadoId = archivoEmpleado.empleadoId;
             ViewBag.usuarioId = new SelectList(db.Usuarios, "Id", "nombreUsuario", archivoEmpleado.usuarioId);
             return View(archivoEmpleado);
         }

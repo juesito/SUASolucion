@@ -206,9 +206,9 @@
                         <td style="padding-top:8px; padding-left:40px">
                             @Html.Label(Language.fechaNacimiento + ":")
                         </td>
-                       
+
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new {@Id = "fechaNacimiento", @class = "myBornDate" } })
+                            @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new { @Id = "fechaNacimiento", @class = "myBornDate" } })
                             @Html.ValidationMessageFor(model => model.fechaNacimiento, "", new { @class = "text-danger" })
                         </td>
                         <td></td>
@@ -322,10 +322,10 @@
                     <tr>
                         <td style="padding-top:8px">@Html.Label(Language.email + ":")</td>
                         <td style="padding-top:8px">
-                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { id = "email"} })
+                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { id = "email" } })
                             @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
                         </td>
-                        <td style="padding-top:8px; padding-left:40px">@Html.Label( "UMF:", htmlAttributes: new { id = "cuentaClabeTxt" })</td>
+                        <td style="padding-top:8px; padding-left:40px">@Html.Label("UMF:", htmlAttributes: new { id = "cuentaClabeTxt" })</td>
                         <td style="padding-top:8px">
                             @Html.EditorFor(model => model.UMF, new { htmlAttributes = new { id = "UMF" } })
                             @Html.ValidationMessageFor(model => model.UMF, "", new { @class = "text-danger" })
@@ -338,14 +338,14 @@
                     </tr>
                     <tr>
                         <td style="padding-top:8px">@Html.Label(Language.observaciones + ":")</td>
-                        <td style="padding-top:8px" >
-                            @Html.TextAreaFor(model => model.observaciones, new { @Id = "observaciones",@class = "form-control", rows = 3 })
+                        <td style="padding-top:8px">
+                            @Html.TextAreaFor(model => model.observaciones, new { @Id = "observaciones", @class = "form-control", rows = 3 })
                         </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
                     <tr>
                         <td style="text-align:left;"><input type="submit" value="@Language.agregar" class="btn btn-primary" /></td>
                     </tr>
@@ -445,8 +445,6 @@
         var empleado = {
             nss: _nss
         }
-
-
         $.ajax({
             dataType: "json",
             traditional: true,
@@ -465,7 +463,7 @@
                 $('#homoClave').val(data.employee.homoClave);
                 $('#bancoDownList').val(data.employee.bancoId);
                 $('#salarioReal').val(data.employee.salarioReal);
-                $('#fechaImms').val(data.employee.fechaAltaImss);
+                //$('#fechaImms').val(data.employee.fechaIMSS);
                 $('#categoriaAuto').val(data.employee.categoria);
                 $('#calleNumero').val(data.employee.calleNumero);
                 $('#cuentaClabe').val(data.employee.cuentaClabe);
@@ -482,23 +480,19 @@
                 $('#municipioId').val(data.employee.municipioNacimientoId);
                 $('#creditoInfonavit').val(data.employee.creditoInfonavit);
                 $('#tramitarTarjeta').val(data.employee.tramitarTarjeta);
-                
-                
+                //$('#fechaNacimiento').val(data.employee.fechaNacimiento);
+                $('#UFM').val(data.employee.UFM);
+
             },
             error: function (response) {
                 alert("Error :" + response);
             }
         });
     }
-            });
-        };
-
-
-    });
 
     function obtenerDatos(_clienteId) {
-//        var procemessage = "<option value='0'> Por favor espere...</option>";
-//        $("#proyectoId").html(procemessage).show();
+        //        var procemessage = "<option value='0'> Por favor espere...</option>";
+        //        $("#proyectoId").html(procemessage).show();
         var url = "/Empleados/ObtenerDatosPorNSS/";
 
         $.ajax({
@@ -516,9 +510,6 @@
         });
 
     }
-</script>
-
-
 
 
 </script>

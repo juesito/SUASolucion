@@ -287,7 +287,7 @@ namespace SUAMVC.Controllers
             ViewBag.nacionalidadId = new SelectList(db.Paises, "id", "descripcion", empleado.nacionalidadId);
             ViewBag.estadoNacimientoId = new SelectList(db.Estados, "id", "descripcion", empleado.estadoNacimientoId);
             ViewBag.estadoCivilId = new SelectList(db.EstadoCivils, "id", "descripcion", empleado.estadoCivilId);
-            ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion");
+            ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion", empleado.sexoId);
             ViewBag.controllerDestiny = controllerDestiny;
 
             return View(empleado);
@@ -298,7 +298,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,nombreCompleto,rfc,homoclave,curp,sexoId,sdiId,esquemaPagoId,salarioReal,categoria,tieneInfonavit,creditoInfonavit,estadoCivilId,fechaNacimiento,nacionalidadId,estadoNacimientoId,municipioNacimientoId,calleNumero,colonia,edoMunicipio,codigoPostal,tramitarTarjeta,bancoId,cuentaBancaria,email,observaciones,usuarioId,fechaCreacion,estatus,UMF")] Empleado empleado, int solicitudId)
+        public ActionResult Create([Bind(Include = "id,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,nombreCompleto,rfc,homoclave,curp,sexoId,sdiId,esquemaPagoId,salarioReal,categoria,tieneInfonavit,creditoInfonavit,estadoCivilId,fechaNacimiento,nacionalidadId,estadoNacimientoId,municipioNacimientoId,calleNumero,colonia,edoMunicipio,codigoPostal,tramitarTarjeta,bancoId,cuentaBancaria,email,observaciones,usuarioId,fechaCreacion,estatus,UMF,tipoMovto,cuentaClabe")] Empleado empleado, int solicitudId)
         {
             if (ModelState.IsValid)
             {
@@ -326,9 +326,10 @@ namespace SUAMVC.Controllers
                     }
 
                 }
-                empleado.fechaNacimiento = DateTime.ParseExact(empleado.rfc.Substring(4, 6), "ddMMyyyy", CultureInfo.InvariantCulture);
+                empleado.fechaNacimiento = DateTime.ParseExact(empleado.rfc.Substring(4, 6), "yyMMdd", CultureInfo.InvariantCulture);
                 empleado.sdiAlternativoId = empleado.sdiId;
 
+                empleado.tipoMovto = "01";
                 if (!String.IsNullOrEmpty(empleado.nss))
                 {
                     Boolean founded = th.verificarEmpleadoPorNSSyCliente(empleado.nss.Trim(), sol.clienteId);
@@ -339,6 +340,11 @@ namespace SUAMVC.Controllers
                     {
                         empleado.aseguradoId = asegurado.id;
                     }
+                    if (th.obtenerEmpleadoPorNSSyCliente(empleado.nss.Trim(), sol.clienteId))
+                    {
+                        empleado.tipoMovto = "08";
+                    }
+                    db.Empleados.Add(empleado);
                 }
 
                 //Obtenemos el sexo del empleado
@@ -433,8 +439,6 @@ namespace SUAMVC.Controllers
                     empleado.estatus = empleado.estatus.Trim().ToUpper();
                 }
 
-
-                db.Empleados.Add(empleado);
 
 
                 try
@@ -533,6 +537,8 @@ namespace SUAMVC.Controllers
             ViewBag.estadoNacimientoId = new SelectList(db.Estados, "id", "descripcion", empleado.estadoNacimientoId);
             ViewBag.municipioNacimientoId = new SelectList(db.Municipios, "id", "descripcion", empleado.municipioNacimientoId);
             ViewBag.nacionalidadId = new SelectList(db.Paises, "id", "descripcion", empleado.nacionalidadId);
+            ViewBag.bancoId = new SelectList(db.Bancos, "id", "descripcion", empleado.bancoId);
+            ViewBag.sexoId = new SelectList(db.Sexos, "id", "descripcion", empleado.sexoId);
 
             datosEmpleadoModel.solicitud = solicitud;
             datosEmpleadoModel.empleado = empleado;
@@ -557,7 +563,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,rfc,homoclave,curp,categoria, fechaNacimiento,email,observaciones")] Empleado empleado, int sexoId, String controllerDestiny, String clienteId, String proyectoId, String folioId)
+        public ActionResult Edit([Bind(Include = "id,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,rfc,homoclave,curp,categoria, fechaNacimiento,email,observaciones,idNomina,nacionalidadId,estadoNacimientoId,municipioNacimientoId")] Empleado empleado, int sexoId, String controllerDestiny, String clienteId, String proyectoId, String folioId)
         {
             if (ModelState.IsValid)
             {
@@ -607,23 +613,20 @@ namespace SUAMVC.Controllers
                     empleadoModificado.categoria = empleado.categoria.Trim().ToUpper();
                 }
 
-                //empleadoModificado.estadoCivilId = empleado.estadoCivilId;
+                empleadoModificado.estadoCivilId = empleado.estadoCivilId;
                 empleadoModificado.categoria = empleado.categoria;
                 empleadoModificado.fechaNacimiento = empleado.fechaNacimiento;
-                //empleadoModificado.nacionalidadId = paisId;
-                //empleadoModificado.estadoNacimientoId = empleado.estadoNacimientoId;
-                //empleadoModificado.municipioNacimientoId = empleado.municipioNacimientoId;
+                empleadoModificado.nacionalidadId = empleado.nacionalidadId;
+                empleadoModificado.estadoNacimientoId = empleado.estadoNacimientoId;
+                empleadoModificado.municipioNacimientoId = empleado.municipioNacimientoId;
                 empleadoModificado.email = empleado.email;
+                empleadoModificado.idNomina = empleado.idNomina;
 
                 if (!String.IsNullOrEmpty(empleado.observaciones))
                 {
                     empleadoModificado.observaciones = empleado.observaciones.Trim().ToUpper();
                 }
 
-                //if (!string.IsNullOrEmpty(empleado.Estado.descripcion))
-                //{
-                //    empleadoModificado.Estado.descripcion = empleado.Estado.descripcion.Trim().ToUpper();
-                //}
                 Solicitud solicitudTmp = obtenerSolicitudActiva(empleado.id);
                 if (!String.IsNullOrEmpty(controllerDestiny))
                 {
@@ -706,6 +709,7 @@ namespace SUAMVC.Controllers
                     documentoEmpleadoModificado.diasAguinaldo = datosEmpleado.diasAguinaldo;
                     documentoEmpleadoModificado.otros = datosEmpleado.otros;
                     documentoEmpleadoModificado.tipoSangre = datosEmpleado.tipoSangre;
+                    documentoEmpleadoModificado.telefono = datosEmpleado.telefono;
 
                     db.Entry(documentoEmpleadoModificado).State = EntityState.Modified;
                 }
@@ -726,6 +730,7 @@ namespace SUAMVC.Controllers
                     documentoEmpleadoModificado.tipoSangre = datosEmpleado.tipoSangre;
                     documentoEmpleadoModificado.fechaCreacion = DateTime.Now;
                     documentoEmpleadoModificado.usuarioId = usuario.Id;
+                    documentoEmpleadoModificado.telefono = datosEmpleado.telefono;
 
                     db.DocumentoEmpleadoes.Add(documentoEmpleadoModificado);
                 }
@@ -737,7 +742,7 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Edit", "Empleados", new { id = empleado.id });
         }
 
-        public ActionResult GuardarSalariales([Bind(Include = "id,salarioReal,creditoInfonavit")] Empleado empleado,
+        public ActionResult GuardarSalariales([Bind(Include = "id,salarioReal,creditoInfonavit,cuentaClabe")] Empleado empleado,
             [Bind(Include = "salarioMensual, salarioHrsExtra, montoInfonavit,importeFonacot,porcientoPension, periodoId, importePension")] SalarialesEmpleado salarialesEmpleado, int bancoId)
         {
             if (ModelState.IsValid)
@@ -747,6 +752,7 @@ namespace SUAMVC.Controllers
                 empleadoModificado.salarioReal = empleado.salarioReal;
                 empleadoModificado.bancoId = bancoId;
                 empleadoModificado.creditoInfonavit = empleado.creditoInfonavit;
+                empleadoModificado.cuentaClabe = empleado.cuentaClabe;
 
                 SalarialesEmpleado documentoEmpleadoModificado = db.SalarialesEmpleadoes.Where(de => de.empleadoId.Equals(empleado.id)).FirstOrDefault();
 
@@ -1121,8 +1127,13 @@ namespace SUAMVC.Controllers
                                 {
                                     empleado.fechaNacimiento = Convert.ToDateTime(empleadoL.fechaNacimiento.Trim());
                                 } // Fecha de nacimiento no es null?
-
-                                if (!String.IsNullOrEmpty(empleadoL.creditoInfonavit))
+                                else
+                                {
+                                    if (!String.IsNullOrEmpty(empleadoL.RFC.Trim())){
+                                        empleado.fechaNacimiento = DateTime.ParseExact(empleado.rfc.Substring(4, 6), "yyMMdd", CultureInfo.InvariantCulture);
+                                }
+                                }
+                              if (!String.IsNullOrEmpty(empleadoL.creditoInfonavit))
                                 {
                                     empleado.creditoInfonavit = empleadoL.creditoInfonavit.Trim();
                                     empleado.tieneInfonavit = 1;
@@ -1296,6 +1307,14 @@ namespace SUAMVC.Controllers
                                 //Ponemos en pendiente el empleado hasta que se 
                                 //procese
                                 empleado.estatus = "P";
+                                if (th.obtenerEmpleadoPorNSSyCliente(empleado.nss.Trim(), solicitud.clienteId))
+                                {
+                                    empleado.tipoMovto = "08";
+                                }
+                                else
+                                {
+                                    empleado.tipoMovto = "01";
+                                }
 
                                 if (!saleBreak)
                                 {
@@ -1459,24 +1478,76 @@ namespace SUAMVC.Controllers
             return View(listEmpleados);
         }
 
+        [HttpPost]
         public ActionResult validarNss(String nss)
         {
             ToolsHelper th = new ToolsHelper();
-            Empleado empleado = th.obtenerEmpleadoPorNSS(nss.Trim());
+            Empleado empleadoTemp = th.obtenerEmpleadoPorNSS(nss.Trim());
 
-            if (empleado == null)
+            Empleado empleado = new Empleado();
+            if (empleadoTemp == null)
             {
-                ViewBag.editMode = true;
-                return Json("");
+                //ViewBag.editMode = true;
+                empleado = new Empleado();
+                empleado.nombre = " ";
+                empleado.apellidoMaterno = " ";
+                empleado.nss = nss.Trim();
+                empleado.tipoMovto = "01";
+                empleado.tramitarTarjeta = 0;
+                empleado.tieneInfonavit = 1;
+                empleado.bancoId = 1;
+                empleado.nacionalidadId = 1;
+                empleado.estadoCivilId = 1;
+                empleado.sexoId = 1;
+
             }
             else
             {
-                ViewBag.editMode = false;
-                //Json(new { ok = true, newurl = Url.Action("Create") });
-                return RedirectToAction("Edit2", "Empleados", empleado);
-            }
-        }
+                empleado.id = empleadoTemp.id;
 
+                empleado.nss = empleadoTemp.nss;
+                empleado.rfc = empleadoTemp.rfc;
+                empleado.homoclave = empleadoTemp.homoclave;
+                empleado.curp = empleadoTemp.curp;
+                empleado.email = empleadoTemp.email;
+                empleado.nombre = empleadoTemp.nombre;
+                empleado.sexoId = empleadoTemp.sexoId;
+                empleado.homoclave = empleadoTemp.homoclave;
+                empleado.fechaNacimiento = empleadoTemp.fechaNacimiento;
+                empleado.apellidoMaterno = empleadoTemp.apellidoMaterno;
+                empleado.apellidoPaterno = empleadoTemp.apellidoPaterno;
+
+                empleado.colonia = empleadoTemp.colonia;
+                empleado.edoMunicipio = empleadoTemp.edoMunicipio;
+                empleado.nacionalidadId = empleadoTemp.nacionalidadId;
+                empleado.estadoNacimientoId = empleadoTemp.estadoNacimientoId;
+                empleado.municipioNacimientoId = empleadoTemp.municipioNacimientoId;
+
+                empleado.categoria = empleadoTemp.categoria;
+                empleado.salarioReal = empleadoTemp.salarioReal;
+                empleado.fechaAltaImss = empleadoTemp.fechaAltaImss;
+                empleado.estadoCivilId = empleadoTemp.estadoCivilId;
+
+                empleado.calleNumero = empleadoTemp.calleNumero;
+                empleado.codigoPostal = empleadoTemp.codigoPostal;
+                empleado.tieneInfonavit = empleadoTemp.tieneInfonavit;
+                empleado.creditoInfonavit = empleadoTemp.creditoInfonavit;
+
+
+                empleado.bancoId = empleadoTemp.bancoId;
+                empleado.cuentaClabe = empleadoTemp.cuentaClabe;
+                empleado.observaciones = empleadoTemp.observaciones;
+                empleado.cuentaBancaria = empleadoTemp.cuentaBancaria;
+                empleado.tramitarTarjeta = empleadoTemp.tramitarTarjeta;
+                empleado.UMF = empleadoTemp.UMF;
+                empleado.tipoMovto = "08";
+
+
+                //ViewBag.editMode = false;
+            }
+
+            return Json(new { employee = empleado }, JsonRequestBehavior.AllowGet);
+        }
         public Solicitud obtenerSolicitudActiva(int empleadoId)
         {
 
@@ -1792,7 +1863,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit2([Bind(Include = "id,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,rfc,homoclave,curp,categoria,salarioReal,estadoCivilId,creditoInfonavit,tieneInfonavit,calleNumero,colonia,codigoPostal,estadoNacimientoId,nacionalidadId,municipioNacimientoId,edoMunicipio,tramitarTarjeta,bancoId,cuentaBancaria,cuentaClabe,fechaModificacion,fechaNacimiento,email,observaciones,UMF")] Empleado empleado, int sexoId, int nacionalidadId, int bancoId, String clienteId, String proyectoId, String folioId)
+        public ActionResult Edit2([Bind(Include = "id,nss,fechaAltaImss,apellidoMaterno,apellidoPaterno,nombre,rfc,homoclave,curp,categoria,salarioReal,estadoCivilId,creditoInfonavit,tieneInfonavit,calleNumero,colonia,codigoPostal,estadoNacimientoId,nacionalidadId,municipioNacimientoId,edoMunicipio,tramitarTarjeta,bancoId,cuentaBancaria,cuentaClabe,fechaModificacion,fechaNacimiento,email,observaciones,UMF,tipoMovto,cuentaClabe")] Empleado empleado, int sexoId, int nacionalidadId, int bancoId, String clienteId, String proyectoId, String folioId)
         {
             if (ModelState.IsValid)
             {
