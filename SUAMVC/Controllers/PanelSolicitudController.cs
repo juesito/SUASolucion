@@ -4856,6 +4856,7 @@ namespace SUAMVC.Controllers
         [HttpPost]
         public ActionResult crearAltasIDSE(String solicitudId, String tipoId, String trabajador, String salario, String jornada)
         {
+            FileStream fileStream = null;
             ViewBag.tipoId = tipoId;
             ViewBag.solcitudId=solicitudId;
             int solicitud = int.Parse(solicitudId.Trim());
@@ -4886,20 +4887,47 @@ namespace SUAMVC.Controllers
                         String linea = sol.Patrone.registro;
                         if (dp.nss != null)
                         {
-                            linea = linea + dp.nss.Substring(0,10);
+                            linea = linea + " "+ dp.nss.Substring(0,10);
+                        }
+                        else
+                        {
+                            linea = linea + "           ";
                         }
                         linea = linea +  dp.apellidoPaterno.Trim().PadRight(27,' ') ;
 
                         if (dp.apellidoMaterno != null)
                         {
-                                       linea =linea + dp.apellidoMaterno.Trim().PadRight(27,' ');
+                           linea =linea + dp.apellidoMaterno.Trim().PadRight(27,' ');
                         }
-
+                        else
+                        {
+                            linea = linea + "                          ";
+                        }
                         linea = linea + dp.nombre.Trim().PadRight(27, ' ');
-                        int longitud = dp.SDI.descripcion.Trim().Length;
+                        int longitud = dp.SDI.descripcion.Trim().Length ;
                         String punto = ".";
                         int posDec = dp.SDI.descripcion.Trim().IndexOf(punto);
-                        String varSDI = dp.SDI.descripcion.Trim().Substring(0, longitud - posDec ) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                        String varSDI = "";
+                        if (posDec == -1)
+                        {
+                            varSDI = dp.SDI.descripcion.Trim();
+
+                        }
+                        else
+                        {
+                            if (longitud == 6)
+                            {
+                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 3) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                            }
+                            if (longitud == 5)
+                            {
+                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 2) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                            }
+                            if (longitud == 7)
+                            {
+                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 4) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                            }
+                        }
                         linea = linea + varSDI.Trim().PadLeft(6, '0') + "000000";
                         linea = linea + trabajador.Trim() + salario.Trim() + jornada.Trim();
 
@@ -4920,17 +4948,34 @@ namespace SUAMVC.Controllers
                         linea = linea + "  ";
                         linea = linea + dp.tipoMovto.Trim();
                         linea = linea + sol.Patrone.delegacion.Trim() + "400";
-                        linea = linea + "          " +
-                                       " " + dp.curp.Trim() + "9" +
-                                       "\r";
+                        linea = linea + "          " + " ";
+                        if (dp.curp != null)
+                        {
+                            linea = linea + dp.curp.Trim();
+                        }
+                        else
+                        {
+                            linea = linea + "                  ";
+                        }
+                        linea = linea + "9" + "\r";
                         sw.WriteLine(linea);
                     }
                     sw.Close();
+                    MemoryStream mem = new MemoryStream();
+
+
+                    fileStream = new FileStream(fullName, FileMode.Open);
+                    fileStream.Position = 0;
+                    
+                    mem = new MemoryStream();
+                    fileStream.CopyTo(mem);
+
+                    mem.Position = 0;
                     Response.ClearContent();
                     Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
                     ToolsHelper th = new ToolsHelper();
                     Response.ContentType = th.getMimeType(fullName);
-//                    Response.BinaryWrite(mem.ToArray());
+                    Response.BinaryWrite(mem.ToArray());
 
                     Response.End();
 //                    MessageBox.Show("Se ha creado el archivo " + fullName, "Archivo SUA",
@@ -4948,6 +4993,7 @@ namespace SUAMVC.Controllers
         [HttpPost]
         public ActionResult crearAltasSUA(String solicitudId, String tipoId, String trabajador, String jornada)
         {
+            FileStream fileStream = null;
             ViewBag.tipoId = tipoId;
             ViewBag.solcitudId = solicitudId;
             int solicitud = int.Parse(solicitudId.Trim());
@@ -4963,7 +5009,7 @@ namespace SUAMVC.Controllers
                              select s.Empleado).ToList();
 
             DateTime date = DateTime.Now;
-            String path = @"C:\\SUA\\Exceles\\";
+            String path = @"C:\\SUA03\\Exceles\\";
             String fileName = @"SUA-" + date.ToString("ddMMyyyyHHmm") + ".txt";
             String fullName = path + fileName;
 
@@ -4975,14 +5021,40 @@ namespace SUAMVC.Controllers
                     foreach (Empleado dp in empleadosList)
                     {
 
-                        String linea = sol.Patrone.registro;
+                        String linea = sol.Patrone.registro.Trim();
                         if (dp.nss != null)
                         {
-                            linea = linea + dp.nss.Substring(0, 10);
+                            linea = linea + " "+ dp.nss.Substring(0, 10);
                         }
-                        linea = linea + dp.rfc.Trim();
-                        linea = linea + dp.homoclave.Trim();
-                        linea = linea + dp.curp.Trim();
+                        else
+                        {
+                            linea = linea + "         ";
+                        }
+                        if (!String.IsNullOrEmpty(dp.rfc))
+                        {
+                            linea = linea + dp.rfc.Trim();
+                        }
+                        else
+                        {
+                            linea = linea + "          ";
+                        }
+
+                        if (!String.IsNullOrEmpty(dp.homoclave))
+                        {
+                            linea = linea + dp.homoclave.Trim();
+                        }
+                        else
+                        {
+                            linea = linea + "   ";
+                        }
+                        if (dp.curp != null)
+                        {
+                            linea = linea + dp.curp.Trim();
+                        }
+                        else
+                        {
+                            linea = linea + "                  ";
+                        }
                         String nombre = dp.apellidoPaterno.Trim() + "$";
 
                         if (dp.apellidoMaterno != null)
@@ -5000,15 +5072,55 @@ namespace SUAMVC.Controllers
                             linea = linea + fechaAltaImss.ToString("ddMMyyyy");
                         }
 
-                        linea = linea + dp.SDI.descripcion.Trim().PadLeft(7, '0') ;
+                        int longitud = dp.SDI.descripcion.Trim().Length ;
+                        String punto = ".";
+                        int posDec = dp.SDI.descripcion.Trim().IndexOf(punto);
+                        String varSDI = "";
+                        if (posDec == -1)
+                        {
+                            varSDI = dp.SDI.descripcion.Trim();
+
+                        }
+                        else
+                        {
+                            if (longitud == 6)
+                            {
+                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 3) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                            }
+                            if (longitud == 5)
+                            {
+                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 2) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                            }
+                            if (longitud == 7)
+                            {
+                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 4) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                            }
+                            
+                        }
+                        linea = linea + varSDI.Trim().PadLeft(7, '0') + "000000";
 
                         linea = linea + sol.Cliente.claveCliente.Trim().PadRight(17, ' ') + "\r";
 
                         sw.WriteLine(linea);
                     }
                     sw.Close();
-                    MessageBox.Show("Se ha creado el archivo "+fullName, "Archivo SUA",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                    MemoryStream mem = new MemoryStream();
+
+
+                    fileStream = new FileStream(fullName, FileMode.Open);
+                    fileStream.Position = 0;
+
+                    mem = new MemoryStream();
+                    fileStream.CopyTo(mem);
+
+                    mem.Position = 0;
+                    Response.ClearContent();
+                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                    ToolsHelper th = new ToolsHelper();
+                    Response.ContentType = th.getMimeType(fullName);
+                    Response.BinaryWrite(mem.ToArray());
+
+                    Response.End();
                 }
                 catch (Exception ex)
                 {
