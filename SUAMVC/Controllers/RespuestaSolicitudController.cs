@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
 using SUAMVC.Helpers;
+using System.Text;
 
 namespace SUAMVC.Controllers
 {
@@ -147,7 +149,7 @@ namespace SUAMVC.Controllers
                     if (solicitud.Concepto1.descripcion.Trim().ToLower().Equals("cerrado")
                         && solicitud.Concepto2.descripcion.Trim().ToLower().Equals("cerrado")
                         && solicitud.Concepto3.descripcion.Trim().ToLower().Equals("cerrado")
-                        && solicitud.Concepto1.descripcion.Trim().ToLower().Equals("cerrado")
+                        && solicitud.Concepto4.descripcion.Trim().ToLower().Equals("cerrado")
                         && solicitud.Concepto5.descripcion.Trim().ToLower().Equals("alta"))
                     {
                         solCerrada = true;
@@ -238,7 +240,24 @@ namespace SUAMVC.Controllers
                             solicitud.fechaEnvio = DateTime.Now;
 
                             db.Entry(solicitud).State = EntityState.Modified;
-                            db.SaveChanges();
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (DbEntityValidationException ex)
+                            {
+                                StringBuilder sb = new StringBuilder();
+
+                                foreach (var failure in ex.EntityValidationErrors)
+                                {
+                                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                                    foreach (var error in failure.ValidationErrors)
+                                    {
+                                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                                        sb.AppendLine();
+                                    }
+                                }
+                            }
                     
                     }
 

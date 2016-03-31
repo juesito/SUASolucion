@@ -25,11 +25,12 @@ namespace SUAMVC.Controllers
         // status: is from the solicitudes, this is just to know if the solicitud it was sended
         //clienteId: cliente's id
         //proyectoId: proyecto's id
-        public ActionResult Index(String id, String estatus, String controllerDestiny, String clienteId, String proyectoId, String folioId, String status, String statusId)
+        public ActionResult Index(String id, String estatus, String controllerDestiny, String clienteId, String proyectoId, String folioId, String status, String statusId, String opcion, String valor)
         {
 
             Solicitud solicitud = new Solicitud();
             List<Empleado> empleadosList = new List<Empleado>();
+
             ToolsHelper cp = new ToolsHelper();
             Concepto concepto = cp.obtenerConceptoPorGrupo("SOLCON", "Alta");
 
@@ -121,7 +122,22 @@ namespace SUAMVC.Controllers
 
                 }
             }
-            IEnumerable<Empleado> listaEmpleados = empleadosList.Where(s => !s.fechaBaja.HasValue);
+
+            IEnumerable<Empleado> listaEmpleados = empleadosList;
+
+            if (!String.IsNullOrEmpty(opcion))
+            {
+                switch (opcion)
+                {
+                    case "1":
+                        listaEmpleados = listaEmpleados.Where(s => s.nss.Contains(valor));
+                        break;
+                    case "2":
+                        listaEmpleados = listaEmpleados.Where(s => s.nombreCompleto.Contains(valor));
+                        break;
+                }
+            }
+
             if (statusId != null)
             {
                 @ViewBag.statusId = statusId;
@@ -129,25 +145,20 @@ namespace SUAMVC.Controllers
                 if (statusId.Trim().Equals("A"))
                 {
                     ViewBag.statusId = statusId;
-                    listaEmpleados = empleadosList.Where(s => !s.fechaBaja.HasValue);
-                    ViewBag.activos = empleadosList.Where(s => !s.fechaBaja.HasValue).Count();
+                    listaEmpleados = listaEmpleados.Where(s => !s.fechaBaja.HasValue);
+                    ViewBag.activos = listaEmpleados.Where(s => !s.fechaBaja.HasValue).Count();
                     ViewBag.registros = listaEmpleados.Count();
                 }
                 else if (statusId.Trim().Equals("B"))
                 {
                     ViewBag.statusId = statusId;
-                    listaEmpleados = empleadosList.Where(s => s.fechaBaja.HasValue);
-                    ViewBag.activos = empleadosList.Where(s => !s.fechaBaja.HasValue).Count();
+                    listaEmpleados = listaEmpleados.Where(s => s.fechaBaja.HasValue);
+                    ViewBag.activos = listaEmpleados.Where(s => !s.fechaBaja.HasValue).Count();
                     ViewBag.registros = listaEmpleados.Count();
                 }
             }
-            else
-            {
-                ViewBag.activos = 0;
-                ViewBag.registros = 0;
-            }
 
-            ViewBag.activos = empleadosList.Where(s => !s.fechaBaja.HasValue).Count();
+            ViewBag.activos = listaEmpleados.Where(s => !s.fechaBaja.HasValue).Count();
             ViewBag.registros = listaEmpleados.Count();
             
             SolicitudEmpleadoModel solicitudEmpleadoModel = new SolicitudEmpleadoModel();
@@ -159,12 +170,14 @@ namespace SUAMVC.Controllers
         }
 
         //agregar empleado
-        public ActionResult asignarEmpleado(String[] ids, string solicitudId)
+        public ActionResult asignarEmpleado(String[] ids, string solicitudId, string sua)
         {
             Empleado empleado = new Empleado();
+            Asegurado asegurado = new Asegurado();
             Usuario usuario = Session["UsuarioData"] as Usuario;
             int solicitudTempId = int.Parse(solicitudId);
             Solicitud solicitud = db.Solicituds.Find(solicitudTempId);
+            Cliente folCliente = db.Clientes.Find(solicitud.clienteId);
 
             ToolsHelper th = new ToolsHelper();
 
@@ -174,7 +187,35 @@ namespace SUAMVC.Controllers
                 {
                     //buscar el empleadoiD en db.Empleados y cambia el estatus a B. con la fecha de baja de la solicitud
                     int empleadoTempId = int.Parse(empleadoId);
-                    empleado = db.Empleados.Find(empleadoTempId);
+                    if(sua.Equals("SUA"))
+                    {
+                        asegurado = db.Asegurados.Find(empleadoTempId);
+                        empleado.solicitudId = 0;
+                        empleado.folioEmpleado = solicitud.Cliente.folioConsec.ToString().PadLeft(5, '0') + solicitud.Cliente.claveCliente.Trim();
+                        folCliente.folioConsec = folCliente.folioConsec + 1;
+                        empleado.nss = asegurado.numeroAfiliacion;
+                        empleado.fechaAltaImss = asegurado.fechaAlta;
+                        empleado.apellidoMaterno = asegurado.apellidoMaterno;
+                        empleado.apellidoPaterno = asegurado.apellidoPaterno;
+                        empleado.nombre = asegurado.nombres;
+                        empleado.nombreCompleto = asegurado.apellidoPaterno + " " + asegurado.apellidoMaterno + " " + asegurado.nombres;
+                        empleado.rfc = asegurado.RFC.Substring(0,10);
+                        empleado.curp = asegurado.CURP;
+                        empleado.fechaCreacion = DateTime.Now;
+                        empleado.fechaBaja = solicitud.fechaBaja;
+                        Banco bancoId = th.obtenerBancoPorDescripcion("BBV");
+                        empleado.bancoId = bancoId.id;
+                        empleado.estatus = "B";
+                        empleado.usuarioId = usuario.Id;
+                        empleado.foto = "~/Content/Images/camera.png";
+                        db.Empleados.Add(empleado);
+                        db.Entry(folCliente).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        empleado = db.Empleados.Find(empleadoTempId);
+                    }
 
                     //Solicitud para modificar el noTrabjadores
                     solicitud.noTrabajadores = solicitud.noTrabajadores + 1;
@@ -329,7 +370,7 @@ namespace SUAMVC.Controllers
                 empleado.fechaNacimiento = DateTime.ParseExact(empleado.rfc.Substring(4, 6), "yyMMdd", CultureInfo.InvariantCulture);
                 empleado.sdiAlternativoId = empleado.sdiId;
 
-                empleado.tipoMovto = "01";
+                empleado.tipoMovto = "08";
                 if (!String.IsNullOrEmpty(empleado.nss))
                 {
                     Boolean founded = th.verificarEmpleadoPorNSSyCliente(empleado.nss.Trim(), sol.clienteId);
@@ -339,10 +380,6 @@ namespace SUAMVC.Controllers
                     if (!(asegurado == null) && !String.IsNullOrEmpty(asegurado.nombre))
                     {
                         empleado.aseguradoId = asegurado.id;
-                    }
-                    if (th.obtenerEmpleadoPorNSSyCliente(empleado.nss.Trim(), sol.clienteId))
-                    {
-                        empleado.tipoMovto = "08";
                     }
                     db.Empleados.Add(empleado);
                 }
@@ -1307,14 +1344,7 @@ namespace SUAMVC.Controllers
                                 //Ponemos en pendiente el empleado hasta que se 
                                 //procese
                                 empleado.estatus = "P";
-                                if (th.obtenerEmpleadoPorNSSyCliente(empleado.nss.Trim(), solicitud.clienteId))
-                                {
-                                    empleado.tipoMovto = "08";
-                                }
-                                else
-                                {
-                                    empleado.tipoMovto = "01";
-                                }
+                                empleado.tipoMovto = "08";
 
                                 if (!saleBreak)
                                 {
@@ -1369,7 +1399,7 @@ namespace SUAMVC.Controllers
                                                 sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
                                                 sb.AppendLine();
 
-                                                log.saveLog("Renglon ->" + counter, "Reigistro error sistema",
+                                                log.saveLog("Renglon ->" + counter, "Reigistro error sistema "+error.PropertyName.Trim(),
                                                 "Carga Empleados Masiva", usuario.Id, "SE", solicitudId);
                                             }
                                         }
@@ -1492,7 +1522,7 @@ namespace SUAMVC.Controllers
                 empleado.nombre = " ";
                 empleado.apellidoMaterno = " ";
                 empleado.nss = nss.Trim();
-                empleado.tipoMovto = "01";
+                empleado.tipoMovto = "08";
                 empleado.tramitarTarjeta = 0;
                 empleado.tieneInfonavit = 1;
                 empleado.bancoId = 1;
@@ -1991,6 +2021,26 @@ namespace SUAMVC.Controllers
             Empleado empleado = new Empleado();
 //            empleado = db.Empleados.Where(m => m.Solicitud.clienteId == clienteId).FirstOrDefault();
             return Json(empleado);
+        }
+
+        public ActionResult ActivaVariable(String buscador, String id, String estatus, String controllerDestiny, String clienteId, String proyectoId, String folioId, String status, String statusId, String opcion, String valor)
+        {
+            if (buscador != null)
+            {
+                if (!buscador.Equals("1"))
+                {
+                    TempData["buscador"] = "1";
+                }
+                else
+                {
+                    TempData["buscador"] = "0";
+                }
+            }
+            else
+            {
+                TempData["buscador"] = "1";
+            }
+            return RedirectToAction("Index", new { id, estatus, controllerDestiny, clienteId, proyectoId, folioId, status, statusId, opcion, valor});
         }
 
         protected override void Dispose(bool disposing)

@@ -5,6 +5,11 @@
 @using System.Web.UI.WebControls
 
 @{
+    var buscar = "0";
+    if (TempData["buscador"] != null)
+    {
+        buscar = TempData["buscador"] as String;
+    }
     ViewBag.Title = "Empleados registrados";
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (!WebSecurity.IsAuthenticated)
@@ -71,8 +76,9 @@
             if (ViewBag.solicitud == null)
             {
                 gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit", "Empleados", new { id = item.id, solicitudId = solicitud.id, controllerDestiny = ViewBag.controllerDestiny })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
-                                                                                                                                                                                                                                                                                                                       }
-            else { 
+            }
+            else
+            {
                 gridColumns.Add(grid.Column(header: "Modificar", format: @<text><a href="@Url.Action("Edit2", "Empleados", new { id = item.id, solicitudId = solicitud.id, controllerDestiny = ViewBag.controllerDestiny })"><img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" /></a></text>));
             }
         }
@@ -190,7 +196,7 @@
                         <td style="padding-left:8px">
                             @Html.DropDownList("proyectoId", new SelectList(listItems, "Value", "Text"), " Seleccione", "width:200px;height:20px")
                         </td>
-                        <td style="padding-left:18px">
+                        <td style="padding-left:28px">
                             <input type="submit" value="" class="rsearch_button" title="@Language.consulta" />
                         </td>
                     </tr>
@@ -224,9 +230,77 @@
                 }
             </thead>
         </table>
+        <div style="margin-left:20px; margin-top:10px; padding-left:30px">
+            <table style="margin-left:20px; margin-top:10px; padding-left:30px">
+                <thead>
+                    <tr style="padding-left:25px">
+
+                        <td style="padding-right:20px; padding-top:10px; padding-left:25px">
+                            <a href="@Url.Action("ActivaVariable", "Empleados", new
+                            {
+                                buscador = @TempData["buscador"],
+                                clienteId = @ViewBag.clienteId,
+                                opcion = @ViewBag.opBuscador,
+                                valor = @ViewBag.valBuscador,
+                                proyectoId = @ViewBag.proyectoId,
+                                folioId = @ViewBag.folioId
+                            })">
+                                @if (buscar.Equals("1"))
+                                {
+                                    <img src="~/Content/Images/hide.png" alt="@Language.advanceSearch"
+                                         title="@Language.advanceSearch" style="border:none;" width="30" height="25" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/Images/show.png" alt="@Language.advanceSearch"
+                                         title="@Language.advanceSearch" style="border:none;" width="30" height="25" />
+
+                                }
+                            </a>
+                        </td>
+                        @if (buscar.Equals("1"))
+                        {
+                            <td style="padding-left:15px; padding-top:10px"><b>@Language.criterio</b></td>
+                            <td style="padding-top:10px">@Html.FieldsAvailablesToFilterEmpleados()</td>
+                            <td style="padding-left:15px; padding-top:10px">@Html.Label("valor", Language.valor)</td>
+                            <td style="padding-top:10px">@Html.TextBox("valor")</td>
+                            <td style="padding-left:20px; padding-top:10px"><input type="submit" value="" class="rsearch_button" title="@Language.consulta" /></td>
+                        }
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div >
+
+        <table style="margin-left:20px; margin-top:15px; width:100% ">
+            <thead>
+                <tr>
+                    <td style="font-size:10px; text-align:right; width:80%">
+                        <p style="font-weight:bold">
+                            @Html.Label("Registros:")
+                            @Html.Label(Convert.ToString((int)ViewBag.registros), new { style = "padding-left: 5px; padding-right:7px" })
+                        </p>
+                    </td>
+                    @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
+                    {
+                        <td style="padding-left:10px; height:20px; font-size:10px;width:8%">
+                            <p style="font-weight:bold">
+                                @Html.Label("Activos:")
+                                @Html.Label(Convert.ToString((int)ViewBag.activos), new { style = "padding-left: 5px;" })
+                            </p>
+                        </td>
+                    }
+                    <td style="display:inline-block;height:20px; font-size:10px;width:5%;vertical-align:top">
+                        @Html.SearchStatusList()
+                    </td>
+                </tr>
+
+            </thead>
+        </table>
     </div>
 
- }
+}
 
 @if (!tableHtml.IsEmpty())
 {
@@ -234,18 +308,12 @@
     {
         if (ViewBag.registros != null)
         {
-            <div style="margin-right:4px;display:inline-block;vertical-align:top;">
+            <div>
 
-                <table style="margin-left:20px; margin-top:15px; width:100% ">
+                <table>
                     <thead>
                         <tr>
-                            @if (ViewBag.solicitud != null)
-                            {
-                            <td style="padding-left:10px; height:20px; font-size:10px;">
-                                <input type="submit" value="" class="raddEmployee_button" title="Eiminar de forma masiva" />
-                            </td>
-                            }
-                            <td style="padding-left:10px; height:20px; font-size:10px;width:8%">
+                            <td>
                                 @if (ViewBag.solicitud != null)
                                 {
                                     <a href="@Url.Action("Index", @ViewBag.controllerDestiny, new
@@ -257,25 +325,13 @@
                                     </a>
                                 }
                             </td>
-
-                            <td style="font-size:10px; text-align:right; width:80%">
-                                <p style="font-weight:bold">
-                                    @Html.Label("Registros:")
-                                    @Html.Label(Convert.ToString((int)ViewBag.registros), new { style = "padding-left: 5px; padding-right:7px" })
-                                </p>
-                            </td>
-                            @if (ViewBag.statusId == null || ViewBag.statusId.Equals(""))
+                            @if (ViewBag.solicitud != null)
                             {
-                                <td style="padding-left:10px; height:20px; font-size:10px;width:8%">
-                                    <p style="font-weight:bold">
-                                        @Html.Label("Activos:")
-                                        @Html.Label(Convert.ToString((int)ViewBag.activos), new { style = "padding-left: 5px;" })
-                                    </p>
+                                <td style="padding-left:10px; height:20px; font-size:10px;">
+                                    <input type="submit" value="" class="raddEmployee_button" title="Eiminar de forma masiva" />
                                 </td>
                             }
-                            <td style="display:inline-block;height:20px; font-size:10px;width:5%;vertical-align:top">
-                                @Html.SearchStatusList()
-                            </td>
+
                         </tr>
 
                     </thead>
@@ -283,25 +339,25 @@
             </div>
         }
 
-            <div id="table-container" class="table-container">
-                @Html.Raw(tableHtml)
-            </div>
+        <div id="table-container" class="table-container">
+            @Html.Raw(tableHtml)
+        </div>
     }
 }
 
 
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $("input[name=slall]").change(function () {
-                            $('#table-container input[type=checkbox]').each(function () {
-                                if ($("input[name=slall]:checked").length == 1) {
-                                    this.checked = true;
-                                } else {
-                                    this.checked = false;
-                                }
-                            });
-                        });
-                    });
-                </script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[name=slall]").change(function () {
+            $('#table-container input[type=checkbox]').each(function () {
+                if ($("input[name=slall]:checked").length == 1) {
+                    this.checked = true;
+                } else {
+                    this.checked = false;
+                }
+            });
+        });
+    });
+</script>
 
 

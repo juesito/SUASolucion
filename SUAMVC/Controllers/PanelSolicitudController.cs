@@ -4873,10 +4873,17 @@ namespace SUAMVC.Controllers
 
             DateTime date = DateTime.Now;
             String path = @"C:\\SUA03\\Exceles\\";
-            String fileName = @"IDSE-" + date.ToString("ddMMyyyyHHmm") + ".txt";
+//            String fileName = @"IDSE-" + date.ToString("ddMMyyyyHHmmss") + ".txt";
+            String fileName = @"REINGRES.dat";
             String fullName = path + fileName;
-
-            if (empleadosList.Count() > 0)
+            if (System.IO.File.Exists(fullName))
+            {
+                System.IO.File.Delete(fullName);
+            }
+            int totEmpleados = empleadosList.Count();
+            String linea = "";
+            String delegacion = "";
+            if (totEmpleados > 0)
             {
                 try
                 {
@@ -4884,14 +4891,14 @@ namespace SUAMVC.Controllers
                     foreach (Empleado dp in empleadosList)
                     {
 
-                        String linea = sol.Patrone.registro;
+                        linea = sol.Patrone.registro;
                         if (dp.nss != null)
                         {
-                            linea = linea + " "+ dp.nss.Substring(0,10);
+                            linea = linea + dp.nss.Substring(0,11);
                         }
                         else
                         {
-                            linea = linea + "           ";
+                            linea = linea + "            ";
                         }
                         linea = linea +  dp.apellidoPaterno.Trim().PadRight(27,' ') ;
 
@@ -4911,7 +4918,6 @@ namespace SUAMVC.Controllers
                         if (posDec == -1)
                         {
                             varSDI = dp.SDI.descripcion.Trim();
-
                         }
                         else
                         {
@@ -4947,11 +4953,12 @@ namespace SUAMVC.Controllers
                         }
                         linea = linea + "  ";
                         linea = linea + dp.tipoMovto.Trim();
-                        linea = linea + sol.Patrone.delegacion.Trim() + "400";
+                        delegacion = sol.Patrone.delegacion.Trim().Substring(0,2) + "400";
+                        linea = linea + sol.Patrone.delegacion.Trim().Substring(0,2) + "400";
                         linea = linea + "          " + " ";
                         if (dp.curp != null)
                         {
-                            linea = linea + dp.curp.Trim();
+                            linea = linea + dp.curp.Trim().PadRight(18,' ');
                         }
                         else
                         {
@@ -4960,6 +4967,13 @@ namespace SUAMVC.Controllers
                         linea = linea + "9" + "\r";
                         sw.WriteLine(linea);
                     }
+                    String linea2 = "";
+                    
+                    linea = linea2.PadRight(13, '*') + linea2.PadRight(43, ' ') + totEmpleados.ToString().PadLeft(6, '0') +                   linea2.PadRight(71, ' ') + delegacion.PadRight(5, ' ') + linea2.PadRight(29, ' ') + "9";
+
+                    sw.WriteLine(linea);
+                    sw.Flush();
+                    sw.Dispose();
                     sw.Close();
                     MemoryStream mem = new MemoryStream();
 
@@ -4978,14 +4992,11 @@ namespace SUAMVC.Controllers
                     Response.BinaryWrite(mem.ToArray());
 
                     Response.End();
-//                    MessageBox.Show("Se ha creado el archivo " + fullName, "Archivo SUA",
-//                    MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
                 }
                 catch (Exception ex)
                 {
                     Console.Write(ex);
                 }
-//                Console.ReadKey();
             }
             return RedirectToAction("Index", new { tipoId });
         }
@@ -5010,7 +5021,7 @@ namespace SUAMVC.Controllers
 
             DateTime date = DateTime.Now;
             String path = @"C:\\SUA03\\Exceles\\";
-            String fileName = @"SUA-" + date.ToString("ddMMyyyyHHmm") + ".txt";
+            String fileName = @"SUA-" + date.ToString("ddMMyyyyHHmmss") + ".txt";
             String fullName = path + fileName;
 
             if (empleadosList.Count() > 0)
@@ -5024,15 +5035,15 @@ namespace SUAMVC.Controllers
                         String linea = sol.Patrone.registro.Trim();
                         if (dp.nss != null)
                         {
-                            linea = linea + " "+ dp.nss.Substring(0, 10);
+                            linea = linea + dp.nss.Substring(0, 11);
                         }
                         else
                         {
-                            linea = linea + "         ";
+                            linea = linea + "          ";
                         }
                         if (!String.IsNullOrEmpty(dp.rfc))
                         {
-                            linea = linea + dp.rfc.Trim();
+                            linea = linea + dp.rfc.Trim().PadRight(10, ' ');
                         }
                         else
                         {
@@ -5041,7 +5052,7 @@ namespace SUAMVC.Controllers
 
                         if (!String.IsNullOrEmpty(dp.homoclave))
                         {
-                            linea = linea + dp.homoclave.Trim();
+                            linea = linea + dp.homoclave.Trim().PadRight(3,' ');
                         }
                         else
                         {
@@ -5049,7 +5060,7 @@ namespace SUAMVC.Controllers
                         }
                         if (dp.curp != null)
                         {
-                            linea = linea + dp.curp.Trim();
+                            linea = linea + dp.curp.Trim().PadRight(18,' ');
                         }
                         else
                         {
@@ -5095,7 +5106,6 @@ namespace SUAMVC.Controllers
                             {
                                 varSDI = dp.SDI.descripcion.Trim().Substring(0, 4) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
                             }
-                            
                         }
                         linea = linea + varSDI.Trim().PadLeft(7, '0') + "000000";
 

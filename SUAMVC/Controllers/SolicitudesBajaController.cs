@@ -593,7 +593,6 @@ namespace SUAMVC.Controllers
             return View(listEmpleados);
         }
 
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -574,9 +574,8 @@ namespace SUAMVC.Controllers
                     if (!patronDescripcion.Equals(""))
                     {
                         var patronTemp = from b in db.Patrones
-                                         where b.registro.Equals(patronDescripcion.Trim())
+                                         where b.registro.Equals(patronDescripcion.Trim()) && b.Concepto.descripcion.Equals("Activo")
                                          select b;
-
 
                         if (patronTemp != null && patronTemp.Count() > 0)
                         {
@@ -925,9 +924,8 @@ namespace SUAMVC.Controllers
                     if (!patronDescripcion.Equals(""))
                     {
                         var patronTemp = from b in db.Patrones
-                                         where b.registro.Equals(patronDescripcion.Trim())
+                                         where b.registro.Equals(patronDescripcion.Trim()) && b.Concepto.descripcion.Equals("Activo")
                                          select b;
-
 
                         if (patronTemp != null && patronTemp.Count() > 0)
                         {
@@ -952,11 +950,6 @@ namespace SUAMVC.Controllers
                         Asegurado asegurado = new Asegurado();
                         String numAfil = rows["NUM_AFIL"].ToString().Trim();
     
-                        if(numAfil.Trim().Equals("94987804047"))
-                        {
-                            numAfil = rows["NUM_AFIL"].ToString().Trim();
-                        }
-
                         //Revisamos la existencia del registro
                         var aseguradoExist = from b in db.Asegurados
                                              where b.Patrone.registro.Equals(patron.registro.Trim())
@@ -1717,7 +1710,7 @@ namespace SUAMVC.Controllers
                     if (!regPatron.Equals(""))
                     {
                         var patronTemp = from b in db.Patrones
-                                         where b.registro.Equals(regPatron.Trim())
+                                         where b.registro.Equals(regPatron.Trim()) && b.Concepto.descripcion.Equals("Activo")
                                          select b;
 
                         if (patronTemp != null && patronTemp.Count() > 0)

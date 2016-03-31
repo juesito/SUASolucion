@@ -16,6 +16,7 @@
 
     ViewBag.Title = "Empleados registrados";
     int solicitudId = ViewBag.solicitudId;
+    String sua = ViewBag.sua;
     Layout = "~/Views/Shared/_Layout.cshtml";
     
     if (!WebSecurity.IsAuthenticated)
@@ -37,9 +38,9 @@
     {  @item.folioEmpleado }</text>, canSort: true));
     gridColumns.Add(grid.Column("nombreCompleto", "Nombre", format: @<text> @if (@item.nombre != null)
     {  @item.nombreCompleto }</text>, canSort: true));
-    gridColumns.Add(grid.Column("nss", "IMSS", format: @<text> @if (@item.nss != null)
+    gridColumns.Add(grid.Column("nss", "NSS", format: @<text> @if (@item.nss != null)
     {  @item.nss }</text>, canSort: true));
-    gridColumns.Add(grid.Column("categoria", "Categoría", format: @<text> @if (@item.sdi != null)
+    gridColumns.Add(grid.Column("sdi", "SDI", format: @<text> @if (@item.sdi != null)
     {  @item.sdi.descripcion }</text>, canSort: true));
 
 
@@ -104,24 +105,27 @@
 
 @if (!tableHtml.IsEmpty())
 {
-    using (Html.BeginForm("asignarEmpleado", "Empleados", new { solicitudId = solicitudId }))
+    using (Html.BeginForm("asignarEmpleado", "Empleados", new { solicitudId = solicitudId, sua = ViewBag.sua }))
     {
 
         <div class="menubar-header">
             <table>
                 <tr>
+                    <td style="padding-left:30px; padding-top:15px">
+                        <a href="@Url.Action("Index", sourceController, new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId })">
+                            <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
+                        </a>
+                    </td>
                     <td style="padding-top:8px">
                         <input type="submit" value="" class="raddEmployee_button" title="Asignar empleados marcados" />
+                    </td>
+                    <td style="padding-top:8px">
+                        <input type="submit" value="" class="raddEmployee_button" title="Empleados SUA" />
                     </td>
                     <td style="padding-left:30px; padding-top:3px">
 
                         <a href="@Url.Action("SolicitudEmpleado", "SolicitudesBaja", new { solicitudId = solicitudId })">
                             <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" title="Ver empleados asignados" />
-                        </a>
-                    </td>
-                    <td style="padding-left:30px; padding-top:15px">
-                        <a href="@Url.Action("Index", sourceController, new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId })">
-                            <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
                         </a>
                     </td>
                 </tr>
