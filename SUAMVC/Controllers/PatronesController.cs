@@ -138,7 +138,7 @@ namespace SUAMVC.Controllers
                 return HttpNotFound();
             }
             ViewBag.Plaza_id = new SelectList(db.Plazas, "id", "descripcion", patrone.Plaza_id);
-            ViewBag.estatus = new SelectList(db.Conceptos, "id", "descripcion", patrone.estatus);
+            ViewBag.estatus = patrone.estatus;
             return View(patrone);
         }
 

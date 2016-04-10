@@ -13,6 +13,10 @@
     <div> Cátalogo de Usuarios <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
+<p>
+    @Html.ActionLink("Crear Usuario", "Create", "Usuarios", new { @class = "btn btn-success" })
+</p>
+
 @grid.GetHtml(
     columns:
         grid.Columns(
@@ -35,7 +39,5 @@
                 </a></text>)),
                                             tableStyle: "table table-striped tableSua"
                             )
-<p>
-    @Html.ActionLink("Crear Usuario", "Create", "Usuarios", new { @class = "btn btn-success" })
-</p>
+
 

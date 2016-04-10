@@ -114,7 +114,8 @@ namespace SUAMVC.Controllers
                 solicitud.valida = " ";
             }
 
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
+            ViewBag.clienteId = clienteId;
+            ViewBag.proyectoId = proyectoId;
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo");
             ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion");
             ViewBag.conceptoBaja = new SelectList(db.Conceptos, "id", "descripcion");
@@ -126,7 +127,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,fechaBaja,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio,conceptoBaja")] Solicitud solicitud)
+        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,fechaBaja,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio,conceptoBaja,regPatronalId")] Solicitud solicitud)
         {
             var errors = ModelState.Values.SelectMany(v => v.Errors); 
             if (ModelState.IsValid)
@@ -230,7 +231,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,fechaBaja,esquemaId,sdiId,contratoId,fechaInicioContrato,fechaTerminoContrato,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio, tipoSolicitud,conceptoBaja")] Solicitud solicitud, string clienteId, string proyectoId)
+        public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,fechaBaja,esquemaId,sdiId,contratoId,fechaInicioContrato,fechaTerminoContrato,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio, tipoSolicitud,conceptoBaja,regPatronalId")] Solicitud solicitud, string clienteId, string proyectoId)
         {
             if (ModelState.IsValid)
             {

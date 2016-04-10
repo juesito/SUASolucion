@@ -48,6 +48,8 @@ namespace SUAMVC.Controllers
         // GET: Usuarios/Create
         public ActionResult Create()
         {
+            ViewBag.valida = false;
+
             ViewBag.plazaId = new SelectList((from s in db.Plazas.ToList()
                                                where s.indicador.Equals("U")
                                                orderby s.descripcion
@@ -82,17 +84,28 @@ namespace SUAMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,nombreUsuario,contrasena,departamentoId,claveUsuario,email,apellidoMaterno,apellidoPaterno,estatus,fechaIngreso,roleId,plazaId")] Usuario usuario)
         {
+            ViewBag.valida = false;
+
             if (ModelState.IsValid)
             {
-                usuario.claveUsuario = usuario.claveUsuario.ToUpper();
-                usuario.nombreUsuario = usuario.nombreUsuario.ToUpper();
-                usuario.apellidoMaterno = usuario.apellidoMaterno.ToUpper();
-                usuario.apellidoPaterno = usuario.apellidoPaterno.ToUpper();
-                usuario.fechaIngreso = DateTime.Now;
-                usuario.estatus = "A";
-                db.Usuarios.Add(usuario);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                Usuario userTmp = db.Usuarios.Where(p => p.claveUsuario.Equals(usuario.claveUsuario.Trim())).FirstOrDefault();
+
+                if (userTmp == null)
+                {
+                    usuario.claveUsuario = usuario.claveUsuario.ToUpper();
+                    usuario.nombreUsuario = usuario.nombreUsuario.ToUpper();
+                    usuario.apellidoMaterno = usuario.apellidoMaterno.ToUpper();
+                    usuario.apellidoPaterno = usuario.apellidoPaterno.ToUpper();
+                    usuario.fechaIngreso = DateTime.Now;
+                    usuario.estatus = "A";
+                    db.Usuarios.Add(usuario);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.valida = true;
+                }
             }
 
             Usuario user = Session["UsuarioData"] as Usuario;
@@ -118,6 +131,7 @@ namespace SUAMVC.Controllers
                                                      descripcion = s.descripcion
                                                  }), "id", "descripcion", usuario.roleId);
             }
+            ViewBag.departamentoId = new SelectList(db.Departamentos, "id", "descripcion");
             return View(usuario);
         }
 

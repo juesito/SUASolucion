@@ -211,6 +211,14 @@ namespace SUAMVC.Helpers
             {
                 mimeType = "application/msword";
             }
+            else if (extension.Trim().Equals(".dat"))
+            {
+                mimeType = "application/octet-stream";
+            }
+            else if (extension.Trim().Equals(".txt"))
+            {
+                mimeType = "text/plain";
+            }
             else if (extension.Trim().Equals(".docx"))
             {
                 mimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";

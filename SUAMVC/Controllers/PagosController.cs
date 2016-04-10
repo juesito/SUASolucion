@@ -288,6 +288,7 @@ namespace SUAMVC.Controllers
                                         detallePago.Asegurado = asegurado;
                                         detallePago.patronId = patron.Id;
                                         detallePago.Patrone = patron;
+                                        detallePago.clienteId = asegurado.ClienteId;
                                         detallePago.cuotaFija = 0;
                                         detallePago.expa = 0;
                                         detallePago.pdp = 0;
@@ -666,6 +667,7 @@ namespace SUAMVC.Controllers
                                                 detallePago2.Pago = pago;
                                                 detallePago2.aseguradoId = asegurado.id;
                                                 detallePago2.Asegurado = asegurado;
+                                                detallePago2.clienteId = asegurado.ClienteId;
                                                 detallePago2.patronId = patron.Id;
                                                 detallePago2.Patrone = patron;
 

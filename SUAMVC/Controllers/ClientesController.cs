@@ -127,7 +127,7 @@ namespace SUAMVC.Controllers
         public ActionResult Create()
         {
             ViewBag.EmpresaFacturacion_id = new SelectList(db.Empresas);
-
+            ViewBag.valida = false;
 
             ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
                                                where s.indicador.Equals("U")
@@ -149,6 +149,7 @@ namespace SUAMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,claveCliente,claveSua,rfc,descripcion,nombre,direccionFiscal,contacto,telefono,direccionOficina,email,actividadPrincipal,fechaContratacion,empresaFacturadoraId,tipoClienteId,numeroCuenta,tipoServicioId,Plaza_id,Grupo_id,ejecutivoContadorId,emailContacto")] Cliente cliente)
         {
+            ViewBag.valida = false;
             if (ModelState.IsValid)
             {
                 Cliente clienteTemp = db.Clientes.Where(p => p.rfc.Equals(cliente.rfc.Trim())).FirstOrDefault();
@@ -178,6 +179,10 @@ namespace SUAMVC.Controllers
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
+                else
+                {
+                    ViewBag.valida = true;
+                }
             }
 
             ViewBag.Plaza_id = new SelectList((from s in db.Plazas.ToList()
@@ -195,6 +200,7 @@ namespace SUAMVC.Controllers
         // GET: Clientes/Edit/5
         public ActionResult Edit(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -554,7 +560,7 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.tipoServicioId.ToString(), headerColumns3[i + 17] + index, 2U, CellValues.Number);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.email.ToString(), headerColumns3[i + 18] + index, 2U, CellValues.Number);
+                row = eh.addNewCellToRow(index, row, dp.email, headerColumns3[i + 18] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 index++;

@@ -4873,12 +4873,17 @@ namespace SUAMVC.Controllers
 
             DateTime date = DateTime.Now;
             String path = @"C:\\SUA03\\Exceles\\";
-//            String fileName = @"IDSE-" + date.ToString("ddMMyyyyHHmmss") + ".txt";
-            String fileName = @"REINGRES.dat";
+            String path2 = @"C:\\SUA\\Exceles\\";
+            //            String fileName = @"IDSE-" + date.ToString("ddMMyyyyHHmmss") + ".txt";
+            String fileName = @"REINGRES.txt";
+            String fileName2 = @"REINGRES";
+            String fileName3 = @"REINGRES.xls";
             String fullName = path + fileName;
-            if (System.IO.File.Exists(fullName))
+            String fullName2 = path2 + fileName2;
+            String fullName3 = path2 + fileName3;
+            if (System.IO.File.Exists(fullName3))
             {
-                System.IO.File.Delete(fullName);
+                System.IO.File.Delete(fullName3);
             }
             int totEmpleados = empleadosList.Count();
             String linea = "";
@@ -4887,7 +4892,7 @@ namespace SUAMVC.Controllers
             {
                 try
                 {
-                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName);
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName3);
                     foreach (Empleado dp in empleadosList)
                     {
 
@@ -4976,13 +4981,27 @@ namespace SUAMVC.Controllers
                     sw.Dispose();
                     sw.Close();
                     MemoryStream mem = new MemoryStream();
+                    if (System.IO.File.Exists(fullName2))
+                    {
+                        System.IO.File.Delete(fullName2);
+                    }
+                    if (System.IO.File.Exists(fullName))
+                    {
+                        System.IO.File.Delete(fullName);
+                    }
+                    System.IO.File.Copy(fullName3, Path.Combine(path, fileName), true);
+                    System.IO.File.Copy(fullName3, Path.Combine(path, fileName2), true);
+//                    System.IO.File.Move(fullName, Path.Combine(path2, fileName2));
 
+                    fileStream = new FileStream(fullName2, FileMode.Open);
 
-                    fileStream = new FileStream(fullName, FileMode.Open);
+//                    System.IO.File.Copy(System.IO.Path.Combine(path, fileName), System.IO.Path.Combine(path, fileName2), true);
+
                     fileStream.Position = 0;
                     
                     mem = new MemoryStream();
                     fileStream.CopyTo(mem);
+                    fileStream.Close();
 
                     mem.Position = 0;
                     Response.ClearContent();
@@ -5141,6 +5160,131 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Index", new { tipoId });
         }
 
+        [HttpGet]
+        public ActionResult crearBajasIDSE(String solicitudId, String tipoId)
+        {
+            FileStream fileStream = null;
+            ViewBag.tipoId = tipoId;
+            ViewBag.solcitudId = solicitudId;
+            int solicitud = int.Parse(solicitudId.Trim());
+
+            Solicitud sol = db.Solicituds.Find(solicitud);
+
+            List<Empleado> empleadosList = new List<Empleado>();
+
+            empleadosList = (from s in db.SolicitudEmpleadoes
+                             //                                 where s.estatus.Equals("A")
+                             where s.solicitudId.Equals(solicitud)
+                             orderby s.id
+                             select s.Empleado).ToList();
+
+            DateTime date = DateTime.Now;
+            String path = @"C:\\SUA03\\Exceles\\";
+            //            String fileName = @"IDSE-" + date.ToString("ddMMyyyyHHmmss") + ".txt";
+            String fileName = @"BAJAS.txt";
+            String fileName2 = @"BAJAS";
+            String fullName = path + fileName;
+            String fullName2 = path + fileName2;
+            if (System.IO.File.Exists(fullName))
+            {
+                System.IO.File.Delete(fullName);
+            }
+            int totEmpleados = empleadosList.Count();
+            String linea = "";
+            String delegacion = "";
+            if (totEmpleados > 0)
+            {
+                try
+                {
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName);
+                    foreach (Empleado dp in empleadosList)
+                    {
+
+                        linea = sol.Patrone.registro;
+                        if (dp.nss != null)
+                        {
+                            linea = linea + dp.nss.Substring(0, 11);
+                        }
+                        else
+                        {
+                            linea = linea + "            ";
+                        }
+                        linea = linea + dp.apellidoPaterno.Trim().PadRight(27, ' ');
+
+                        if (dp.apellidoMaterno != null)
+                        {
+                            linea = linea + dp.apellidoMaterno.Trim().PadRight(27, ' ');
+                        }
+                        else
+                        {
+                            linea = linea + "                          ";
+                        }
+                        linea = linea + dp.nombre.Trim().PadRight(27, ' ');
+                        linea = linea + "000000000000000";
+                        if (sol.fechaBaja != null)
+                        {
+                            DateTime fechaBaja = (DateTime)sol.fechaBaja;
+                            linea = linea + fechaBaja.ToString("ddMMyyyy");
+                        }
+                        linea = linea + "     ";
+                        linea = linea + dp.tipoMovto.Trim();
+                        linea = linea + sol.Patrone.delegacion.Trim().Substring(0, 2) + "400";
+                        linea = linea + "          " + " ";
+                        if (dp.curp != null)
+                        {
+                            linea = linea + dp.curp.Trim().PadRight(18, ' ');
+                        }
+                        else
+                        {
+                            linea = linea + "                  ";
+                        }
+                        linea = linea + "9" + "\r";
+                        sw.WriteLine(linea);
+                    }
+                    String linea2 = "";
+
+                    linea = linea2.PadRight(13, '*') + linea2.PadRight(43, ' ') + totEmpleados.ToString().PadLeft(6, '0') + linea2.PadRight(71, ' ') + delegacion.PadRight(5, ' ') + linea2.PadRight(29, ' ') + "9";
+
+                    sw.WriteLine(linea);
+                    sw.Flush();
+                    sw.Dispose();
+                    sw.Close();
+                    MemoryStream mem = new MemoryStream();
+                    if (System.IO.File.Exists(fullName2))
+                    {
+                        System.IO.File.Delete(fullName2);
+                    }
+                    System.IO.File.Move(fullName, Path.Combine(path, fileName2));
+
+
+                    fileStream = new FileStream(fullName2, FileMode.Open);
+
+                    //                    System.IO.File.Copy(System.IO.Path.Combine(path, fileName), System.IO.Path.Combine(path, fileName2), true);
+
+                    fileStream.Position = 0;
+
+                    mem = new MemoryStream();
+                    fileStream.CopyTo(mem);
+                    fileStream.Close();
+
+                    mem.Position = 0;
+                    Response.ClearContent();
+                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName2);
+                    ToolsHelper th = new ToolsHelper();
+                    Response.ContentType = th.getMimeType(fullName2);
+                    Response.BinaryWrite(mem.ToArray());
+
+                    Response.End();
+                }
+                catch (Exception ex)
+                {
+                    Console.Write(ex);
+                }
+            }
+            return RedirectToAction("Index", new { tipoId });
+        }
+
+        
         // GET: Aseguradoes/Delete/5
         public ActionResult Adicionales(int solicitudId, String tipoId)
         {

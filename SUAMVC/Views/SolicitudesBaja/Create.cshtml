@@ -38,7 +38,7 @@
                         <td style="padding-top:8px"> @Html.Label(@Language.cliente + ":")</td>
                         <td style="padding-top:8px; padding-left:8px">   @Html.Label(cliente.descripcion, new { style = "width: 200px;" })</td>
                         <th colspan="1"> </th>
-                        <td >@Html.Label(@Language.plaza + ":")</td>
+                        <td>@Html.Label(@Language.plaza + ":")</td>
                         <td style="padding-top:8px">
                             @Html.plazasDrownNoAllList(usuario.Id, "plazaId")
                             @Html.ValidationMessageFor(model => model.plazaId, "", new { @class = "text-danger" })
@@ -66,6 +66,13 @@
                     </tr>
                     <tr>
                         <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px">@Html.Label(@Language.registroPatronal + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.cteDrownList(usuario.Id, "regPatronalId", cliente.Id, "width:100px;height:25px", false)
+                            @Html.ValidationMessageFor(model => model.regPatronalId, "", new { @class = "text-danger" })
+                    <tr>
+                    <tr>
+                        <th colspan="4"> </th>
                         <td style="padding-top:6px">@Html.Label(@Language.validador + ":")</td>
                         <td style="padding-top:12px">
                             @Html.Label(Model.valida)
@@ -74,7 +81,7 @@
                     </tr>
                     <tr>
                         <th colspan="4"> </th>
-                        <td style="padding-top:7px" >@Html.Label(@Language.autorizador + ":")</td>
+                        <td style="padding-top:7px">@Html.Label(@Language.autorizador + ":")</td>
                         <td style="padding-top:12px">
                             @Html.Label(Model.autoriza)
                             @Html.HiddenFor(model => model.autoriza)
@@ -102,6 +109,6 @@
 }
 
 <div>
-    @Html.ActionLink(@Language.regresar, "Index")
+    @Html.ActionLink(@Language.regresar, "Index", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
 </div>
 

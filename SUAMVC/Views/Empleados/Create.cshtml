@@ -13,6 +13,8 @@
     var sol = TempData["solicitudId"];
     int solicitudId = int.Parse(sol.ToString());
     Solicitud solicitud = db.Solicituds.Find(solicitudId);
+    var message = TempData["viewMessage"];
+
 
     Model.esquemaPagoId = solicitud.esquemaId ?? default(int);
     Model.EsquemasPago = solicitud.EsquemasPago;
@@ -83,9 +85,11 @@
                         {
                             <td style="padding-top:8px">
                                 @Html.Label(Language.nss + ":")
+                                @message
                             </td>
                             <td style="padding-top:8px">
-                                @Html.EditorFor(model => model.nss, new { htmlAttributes = new { @Id = "nss", @onchange = "javascript:validarNss(this.value);" } })
+                                @Html.EditorFor(model => model.nss, new { htmlAttributes = new { @Id = "nss" } })
+@*                                @Html.EditorFor(model => model.nss, new { htmlAttributes = new { @Id = "nss", @onchange = "javascript:validarNss(this.value);" } })*@
                                 @Html.ValidationMessageFor(model => model.nss, "", new { @class = "text-danger" })
                             </td>
                             <td style="padding-top:8px; padding-left:40px">
@@ -372,7 +376,7 @@
         });
 
         $("#paisId").bind("change", validatePais);
-        $("#nss").bind("change", obtenerDatos);
+        //$("#nss").bind("change", obtenerDatos);
     });
 
     $(document).ready(function () {
@@ -439,56 +443,56 @@
         }
     }
 
-    function validarNss(_nss) {
-        var tr = $("#myCapture").parents('tr:first');
-        var url = "/Empleados/validarNss/";
-        var empleado = {
-            nss: _nss
-        }
-        $.ajax({
-            dataType: "json",
-            traditional: true,
-            url: url,
-            data: empleado,
-            cache: false,
-            type: "POST",
-            success: function (data) {
+    //function validarNss(_nss) {
+    //    var tr = $("#myCapture").parents('tr:first');
+    //    var url = "/Empleados/validarNss/";
+    //    var empleado = {
+    //        nss: _nss
+    //    }
+    //    $.ajax({
+    //        dataType: "json",
+    //        traditional: true,
+    //        url: url,
+    //        data: empleado,
+    //        cache: false,
+    //        type: "POST",
+    //        success: function (data) {
 
-                $('#rfc').val(data.employee.rfc);
-                $('#curp').val(data.employee.curp);
-                $('#email').val(data.employee.email);
-                $('#nombre').val(data.employee.nombre);
-                $('#sexoId').val(data.employee.sexoId);
-                $('#colonia').val(data.employee.colonia);
-                $('#homoClave').val(data.employee.homoClave);
-                $('#bancoDownList').val(data.employee.bancoId);
-                $('#salarioReal').val(data.employee.salarioReal);
-                //$('#fechaImms').val(data.employee.fechaIMSS);
-                $('#categoriaAuto').val(data.employee.categoria);
-                $('#calleNumero').val(data.employee.calleNumero);
-                $('#cuentaClabe').val(data.employee.cuentaClabe);
-                $('#codigoPostal').val(data.employee.codigoPostal);
-                $('#edoMunicipio').val(data.employee.edoMunicipio);
-                $('#estadoId').val(data.employee.estadoNacimientoId);
-                $('#observaciones').val(data.employee.observaciones);
-                $('#estadoCivilId').val(data.employee.estadoCivilId);
-                $('#nacionalidadId').val(data.employee.nacionalidadId);
-                $('#cuentaBancaria').val(data.employee.cuentaBancaria);
-                $('#tieneInfonavit').val(data.employee.tieneInfonavit);
-                $('#apellidoMaterno').val(data.employee.apellidoMaterno);
-                $('#apellidoPaterno').val(data.employee.apellidoPaterno);
-                $('#municipioId').val(data.employee.municipioNacimientoId);
-                $('#creditoInfonavit').val(data.employee.creditoInfonavit);
-                $('#tramitarTarjeta').val(data.employee.tramitarTarjeta);
-                //$('#fechaNacimiento').val(data.employee.fechaNacimiento);
-                $('#UFM').val(data.employee.UFM);
+    //            $('#rfc').val(data.employee.rfc);
+    //            $('#curp').val(data.employee.curp);
+    //            $('#email').val(data.employee.email);
+    //            $('#nombre').val(data.employee.nombre);
+    //            $('#sexoId').val(data.employee.sexoId);
+    //            $('#colonia').val(data.employee.colonia);
+    //            $('#homoClave').val(data.employee.homoClave);
+    //            $('#bancoDownList').val(data.employee.bancoId);
+    //            $('#salarioReal').val(data.employee.salarioReal);
+    //            //$('#fechaImms').val(data.employee.fechaIMSS);
+    //            $('#categoriaAuto').val(data.employee.categoria);
+    //            $('#calleNumero').val(data.employee.calleNumero);
+    //            $('#cuentaClabe').val(data.employee.cuentaClabe);
+    //            $('#codigoPostal').val(data.employee.codigoPostal);
+    //            $('#edoMunicipio').val(data.employee.edoMunicipio);
+    //            $('#estadoId').val(data.employee.estadoNacimientoId);
+    //            $('#observaciones').val(data.employee.observaciones);
+    //            $('#estadoCivilId').val(data.employee.estadoCivilId);
+    //            $('#nacionalidadId').val(data.employee.nacionalidadId);
+    //            $('#cuentaBancaria').val(data.employee.cuentaBancaria);
+    //            $('#tieneInfonavit').val(data.employee.tieneInfonavit);
+    //            $('#apellidoMaterno').val(data.employee.apellidoMaterno);
+    //            $('#apellidoPaterno').val(data.employee.apellidoPaterno);
+    //            $('#municipioId').val(data.employee.municipioNacimientoId);
+    //            $('#creditoInfonavit').val(data.employee.creditoInfonavit);
+    //            $('#tramitarTarjeta').val(data.employee.tramitarTarjeta);
+    //            //$('#fechaNacimiento').val(data.employee.fechaNacimiento);
+    //            $('#UFM').val(data.employee.UFM);
 
-            },
-            error: function (response) {
-                alert("Error :" + response);
-            }
-        });
-    }
+    //        },
+    //        error: function (response) {
+    //            alert("Error :" + response);
+    //        }
+    //    });
+    //}
 
     function obtenerDatos(_clienteId) {
         //        var procemessage = "<option value='0'> Por favor espere...</option>";

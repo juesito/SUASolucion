@@ -18,7 +18,15 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="panel panel-info">
+    if (ViewBag.valida)
+    {
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>¡Error!</strong> Clave de usuario duplicada, favor de verificar...
+    </div>
+}
+
+        <div class="panel panel-info">
         <div class="panel-heading">
             Capturar Usuario
         </div>

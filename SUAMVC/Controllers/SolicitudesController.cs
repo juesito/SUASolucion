@@ -114,6 +114,8 @@ namespace SUAMVC.Controllers
                 solicitud.valida = " ";
             }
 
+            ViewBag.clienteId = clienteId;
+            ViewBag.proyectoId = proyectoId;
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo");
             ViewBag.estatusNomina = new SelectList(db.Conceptos, "id", "grupo");
             ViewBag.estatusJuridico = new SelectList(db.Conceptos, "id", "grupo");
