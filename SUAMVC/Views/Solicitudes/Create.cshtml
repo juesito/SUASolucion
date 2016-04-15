@@ -24,7 +24,15 @@
     @Html.HiddenFor(model => model.proyectoId)
     @Html.HiddenFor(model => model.fechaSolicitud)
 
-    <div class="panel panel-info">
+    if (ViewBag.valida)
+    {
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Error!</strong> La fecha de inicio de contrato es necesaria, favor de verificar...
+        </div>
+    }
+
+        <div class="panel panel-info">
         <div class="panel-heading">
             Capturar Solicitud
         </div>

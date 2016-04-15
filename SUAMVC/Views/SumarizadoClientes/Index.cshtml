@@ -58,7 +58,7 @@
             {  @item.Patrone.Plaza.cveCorta }</text>, canSort: true));
             if (SecurityUserModel.verificarPermiso("1", "1", 6 ))
             {
-                gridColumns.Add(grid.Column(header: "Excel", format: @<text><a href="@Url.Action("MakeExcel", "SumarizadoClientes", new { @anio = item.anno, @mes = item.mes, @idPatron = item.patronId, @idCliente = item.cliente.claveCliente })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
+                gridColumns.Add(grid.Column(header: "Excel", format: @<text><a href="@Url.Action("MakeExcel", "SumarizadoClientes", new { @anio = item.anno, @mes = item.mes, @idPatron = item.patronId, @idCliente = item.clienteId })"><img src="~/Content/Images/xls.png" alt="" style="border:none;" class="icon" /></a></text>));
             }
 
             sb.Append(grid.GetHtml(

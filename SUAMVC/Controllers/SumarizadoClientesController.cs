@@ -232,7 +232,7 @@ namespace SUAMVC.Controllers
 
                 Pago pago = db.Pagos.Where(p => p.patronId.Equals(idPatronTemp) && p.anno.Equals(anio) && p.mes.Equals(mes)).FirstOrDefault();
 
-                List<DetallePago> detallePago = db.DetallePagoes.Where(r => r.pagoId.Equals(pago.id) && r.Asegurado.Cliente.claveCliente.Trim().Equals(idCliente.Trim())).ToList();
+                List<DetallePago> detallePago = db.DetallePagoes.Where(r => r.pagoId.Equals(pago.id) && r.clienteId.ToString().Trim().Equals(idCliente.Trim())).ToList();
 
                 DateTime date = DateTime.Now;
                 String path = @"C:\\SUA\\Exceles\\";

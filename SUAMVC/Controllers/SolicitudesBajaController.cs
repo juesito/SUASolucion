@@ -27,6 +27,8 @@ namespace SUAMVC.Controllers
         // GET: SolicitudesBaja
         public ActionResult Index(string clienteId, String folioId, String proyectoId)
         {
+            Usuario user = Session["UsuarioData"] as Usuario;
+            SecurityUserModel.llenarPermisos(user.roleId);
             if ((!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId)) || !String.IsNullOrEmpty(folioId))
             {
                 ToolsHelper th = new ToolsHelper();
@@ -94,6 +96,8 @@ namespace SUAMVC.Controllers
         // GET: SolicitudesBaja/Create
         public ActionResult Create(int clienteId, int proyectoId)
         {
+            ViewBag.valida = false;
+
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo");
 
             Solicitud solicitud = new Solicitud();
@@ -129,7 +133,7 @@ namespace SUAMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,fechaBaja,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio,conceptoBaja,regPatronalId")] Solicitud solicitud)
         {
-            var errors = ModelState.Values.SelectMany(v => v.Errors); 
+            ViewBag.valida = false;
             if (ModelState.IsValid)
             {
                 Usuario usuario = Session["usuarioData"] as Usuario;
@@ -170,31 +174,37 @@ namespace SUAMVC.Controllers
                 solicitud.noTrabajadores = 0;
                 solicitud.tipoSolicitud = tipoSolicitud.id;
                 db.Solicituds.Add(solicitud);
-
-
-                try
+                if(solicitud.fechaBaja.Equals(null))
                 {
-                    db.SaveChanges();
-                    solicitud.folioSolicitud = folioBaja.valorString.Trim().PadLeft(5, '0') + "B" + plazaFol.cveCorta.Trim();
-                    int folBaja = int.Parse(folioBaja.valorString.Trim());
-                    folBaja = folBaja + 1;
-                    folioBaja.valorString = folBaja.ToString();
-
-                    db.Entry(folioBaja).State = EntityState.Modified;
-                    db.Entry(solicitud).State = EntityState.Modified;
-                    db.SaveChanges();
+                    ViewBag.valida = true;
+                    return View(solicitud);
                 }
-                catch (DbEntityValidationException ex)
+                else
                 {
-                    StringBuilder sb = new StringBuilder();
-
-                    foreach (var failure in ex.EntityValidationErrors)
+                    try
                     {
-                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
-                        foreach (var error in failure.ValidationErrors)
+                        db.SaveChanges();
+                        solicitud.folioSolicitud = folioBaja.valorString.Trim().PadLeft(5, '0') + "B" + plazaFol.cveCorta.Trim();
+                        int folBaja = int.Parse(folioBaja.valorString.Trim());
+                        folBaja = folBaja + 1;
+                        folioBaja.valorString = folBaja.ToString();
+
+                        db.Entry(folioBaja).State = EntityState.Modified;
+                        db.Entry(solicitud).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    catch (DbEntityValidationException ex)
+                    {
+                        StringBuilder sb = new StringBuilder();
+
+                        foreach (var failure in ex.EntityValidationErrors)
                         {
-                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
-                            sb.AppendLine();
+                            sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                            foreach (var error in failure.ValidationErrors)
+                            {
+                                sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                                sb.AppendLine();
+                            }
                         }
                     }
                 }

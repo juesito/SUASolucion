@@ -95,6 +95,7 @@ namespace SUAMVC.Controllers
         // GET: SolicitudesModificacion/Create
         public ActionResult Create(int clienteId, int proyectoId)
         {
+            ViewBag.valida = false;
             Solicitud solicitud = new Solicitud();
             Cliente cliente = db.Clientes.Find(clienteId);
             solicitud.clienteId = clienteId;
@@ -113,7 +114,8 @@ namespace SUAMVC.Controllers
                 solicitud.valida = " ";
             }
 
-            ViewBag.clienteId = new SelectList(db.Clientes, "Id", "claveCliente");
+            ViewBag.clienteId = clienteId;
+            ViewBag.proyectoId = proyectoId;
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo");
             ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion");
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion");
@@ -125,8 +127,9 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,fechaModificacion,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio")] Solicitud solicitud)
+        public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,fechaModificacion,esquemaId,sdiId,contratoId,fechaInicial,fechaFinal,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio,regPatronalId")] Solicitud solicitud)
         {
+            ViewBag.valida = false;
             if (ModelState.IsValid)
             {
                 Usuario usuario = Session["usuarioData"] as Usuario;
@@ -167,32 +170,38 @@ namespace SUAMVC.Controllers
                 solicitud.tipoSolicitud = tipoSolicitud.id;
                 solicitud.usuarioId = usuario.Id;
                 db.Solicituds.Add(solicitud);
-
-
-                try
+                if (solicitud.fechaModificacion.Equals(null))
                 {
-                    db.SaveChanges();
-                    solicitud.folioSolicitud = folioModificacion.valorString.Trim().PadLeft(5, '0') + "MS" + plazaFol.cveCorta.Trim();
-                    int folModificacion = int.Parse(folioModificacion.valorString.Trim());
-                    folModificacion = folModificacion + 1;
-                    folioModificacion.valorString = folModificacion.ToString();
-
-
-                    db.Entry(folioModificacion).State = EntityState.Modified;
-                    db.Entry(solicitud).State = EntityState.Modified;
-                    db.SaveChanges();
+                    ViewBag.valida = true;
+                    return View(solicitud);
                 }
-                catch (DbEntityValidationException ex)
+                else
                 {
-                    StringBuilder sb = new StringBuilder();
-
-                    foreach (var failure in ex.EntityValidationErrors)
+                    try
                     {
-                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
-                        foreach (var error in failure.ValidationErrors)
+                        db.SaveChanges();
+                        solicitud.folioSolicitud = folioModificacion.valorString.Trim().PadLeft(5, '0') + "MS" + plazaFol.cveCorta.Trim();
+                        int folModificacion = int.Parse(folioModificacion.valorString.Trim());
+                        folModificacion = folModificacion + 1;
+                        folioModificacion.valorString = folModificacion.ToString();
+
+
+                        db.Entry(folioModificacion).State = EntityState.Modified;
+                        db.Entry(solicitud).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    catch (DbEntityValidationException ex)
+                    {
+                        StringBuilder sb = new StringBuilder();
+
+                        foreach (var failure in ex.EntityValidationErrors)
                         {
-                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
-                            sb.AppendLine();
+                            sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                            foreach (var error in failure.ValidationErrors)
+                            {
+                                sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                                sb.AppendLine();
+                            }
                         }
                     }
                 }
@@ -201,6 +210,8 @@ namespace SUAMVC.Controllers
 
             ViewBag.estatusSolicitud = new SelectList(db.Conceptos, "id", "grupo", solicitud.estatusSolicitud);
             ViewBag.plazaId = new SelectList(db.Plazas, "id", "descripcion", solicitud.plazaId);
+            ViewBag.clienteId = solicitud.clienteId;
+            ViewBag.proyectoId = solicitud.proyectoId;
             ViewBag.sdiId = new SelectList(db.SDIs, "id", "descripcion", solicitud.sdiId);
 
             return View(solicitud);
@@ -232,7 +243,7 @@ namespace SUAMVC.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicioContrato,fechaTerminoContrato,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio, tipoSolicitud")] Solicitud solicitud, string clienteId, string proyectoId)
+        public ActionResult Edit([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicioContrato,fechaTerminoContrato,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio, tipoSolicitud, regPatronalId")] Solicitud solicitud, string clienteId, string proyectoId)
         {
             if (ModelState.IsValid)
             {

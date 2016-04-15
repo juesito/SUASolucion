@@ -97,6 +97,7 @@ namespace SUAMVC.Controllers
         // GET: Solicitudes/Create
         public ActionResult Create(int clienteId, int proyectoId)
         {
+            ViewBag.valida = false;
             Solicitud solicitud = new Solicitud();
             Cliente cliente = db.Clientes.Find(clienteId);
             solicitud.clienteId = clienteId;
@@ -135,6 +136,7 @@ namespace SUAMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,folioSolicitud,clienteId,plazaId,fechaSolicitud,esquemaId,sdiId,contratoId,fechaInicial,fechaTerminoContrato,tipoPersonalId,solicita,valida,autoriza,noTrabajadores,observaciones,estatusSolicitud,estatusNomina,estatusAfiliado,estatusJuridico,estatusTarjeta,usuarioId,proyectoId,fechaEnvio,fechaInicioContrato,regPatronalId")] Solicitud solicitud)
         {
+            ViewBag.valida = false;
             if (ModelState.IsValid)
             {
                 Usuario usuario = Session["usuarioData"] as Usuario;
@@ -163,32 +165,39 @@ namespace SUAMVC.Controllers
                 solicitud.folioSolicitud = "";
                 solicitud.noTrabajadores = 0;
                 solicitud.tipoSolicitud = tipoSolicitud.id;
-
-                try
+                if (solicitud.fechaInicioContrato.Equals(null))
                 {
-                    db.Solicituds.Add(solicitud);
-                    db.SaveChanges();
-                    solicitud.folioSolicitud = folioAlta.valorString.Trim().PadLeft(5, '0') + "A" + plazaFol.cveCorta.Trim();
-                    int folAlta = int.Parse(folioAlta.valorString.Trim());
-                    folAlta = folAlta + 1;
-                    folioAlta.valorString = folAlta.ToString();
-
-
-                    db.Entry(folioAlta).State = EntityState.Modified;
-                    db.Entry(solicitud).State = EntityState.Modified;
-                    db.SaveChanges();
+                    ViewBag.valida = true;
+                    return View(solicitud);
                 }
-                catch (DbEntityValidationException ex)
+                else
                 {
-                    StringBuilder sb = new StringBuilder();
-
-                    foreach (var failure in ex.EntityValidationErrors)
+                    try
                     {
-                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
-                        foreach (var error in failure.ValidationErrors)
+                        db.Solicituds.Add(solicitud);
+                        db.SaveChanges();
+                        solicitud.folioSolicitud = folioAlta.valorString.Trim().PadLeft(5, '0') + "A" + plazaFol.cveCorta.Trim();
+                        int folAlta = int.Parse(folioAlta.valorString.Trim());
+                        folAlta = folAlta + 1;
+                        folioAlta.valorString = folAlta.ToString();
+
+
+                        db.Entry(folioAlta).State = EntityState.Modified;
+                        db.Entry(solicitud).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    catch (DbEntityValidationException ex)
+                    {
+                        StringBuilder sb = new StringBuilder();
+
+                        foreach (var failure in ex.EntityValidationErrors)
                         {
-                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
-                            sb.AppendLine();
+                            sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                            foreach (var error in failure.ValidationErrors)
+                            {
+                                sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                                sb.AppendLine();
+                            }
                         }
                     }
                 }

@@ -13,7 +13,7 @@
 
   
 @section Menu {
-    <div>Solicitud de Modificación de Empleados <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+    <div>Solicitud de Modificación de salario <img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
 }
 
 @using (Html.BeginForm())
@@ -24,7 +24,15 @@
     @Html.HiddenFor(model => model.proyectoId)
     @Html.HiddenFor(model => model.fechaSolicitud)
 
-    <div class="panel panel-info">
+    if (ViewBag.valida)
+    {
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>¡Error!</strong> La fecha de Baja es necesaria, favor de verificar...
+        </div>
+    }
+
+        <div class="panel panel-info">
         <div class="panel-heading">
             Capturar Solicitud 
         </div>
@@ -69,6 +77,13 @@
                     </tr>
                     <tr>
                         <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px">@Html.Label(@Language.registroPatronal + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.cteDrownList(usuario.Id, "regPatronalId", cliente.Id, "width:100px;height:25px", false)
+                            @Html.ValidationMessageFor(model => model.regPatronalId, "", new { @class = "text-danger" })
+                    <tr>
+                    <tr>
+                        <th colspan="4"> </th>
                         <td style="padding-top:6px" >@Html.Label(@Language.validador + ":")</td>
                         <td style="padding-top:12px">
                             @Html.Label(Model.valida)
@@ -104,5 +119,5 @@
 }
 
 <div>
-    @Html.ActionLink(@Language.regresar, "Index")
+    @Html.ActionLink(@Language.regresar, "Index", new { clienteId = ViewBag.clienteId, proyectoId = ViewBag.proyectoId })
 </div>

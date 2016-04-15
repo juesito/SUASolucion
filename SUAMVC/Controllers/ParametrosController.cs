@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SUADATOS;
+using SUAMVC.Models;
 
 namespace SUAMVC.Controllers
 {
@@ -17,6 +18,8 @@ namespace SUAMVC.Controllers
         // GET: Parametros
         public ActionResult Index()
         {
+            Usuario user = Session["UsuarioData"] as Usuario;
+            SecurityUserModel.llenarPermisos(user.roleId);
             return View(db.Parametros.ToList());
         }
 

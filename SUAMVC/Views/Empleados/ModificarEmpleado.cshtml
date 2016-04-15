@@ -106,15 +106,25 @@
         <div class="menubar-header">
             <table>
                 <tr>
-                    <td style="padding-top:10px">
+                    <td style="padding-top:15px">
                         <a href="@Url.Action("Index", "SolicitudesModificacion", new { clienteId = solicitud.clienteId, proyectoId = solicitud.proyectoId })">
                             <p><img src="~/Content/Images/back.png" alt="" style="border:none;float:left;clear:both; " class="icon" />@Language.regresar</p>
                         </a>
                     </td>
-                    <td style="padding-left:30px">
-                        <input type="submit" value="" class="raddEmployee_button" title="Asignar empleado" id="saveAll" />
+                    <td style="padding-left:30px; padding-top:8px">
+                        <input type="submit" value="" class="raddEmployee_button" title="Asignar empleados marcados" />
                     </td>
+                    <td style="padding-left:30px; padding-top:8px">
+                        <a href="@Url.Action("ModificarEmpleadoSUA", "Empleados", new { solicitudId = solicitud.id, clienteId = solicitud.clienteId})">
+                            <img src="~/Content/Images/upload-blue.png" alt="" style="border:none;" class="icon" title="Seleccionar empleados SUA" />
+                        </a>
+                    </td>
+                    <td style="padding-left:30px; padding-top:3px">
 
+                        <a href="@Url.Action("SolicitudEmpleado", "SolicitudesModificacion", new { solicitudId = solicitudId })">
+                            <img src="~/Content/Images/see.png" alt="" style="border:none;" class="icon" title="Ver empleados asignados" />
+                        </a>
+                    </td>
                 </tr>
             </table>
         </div>

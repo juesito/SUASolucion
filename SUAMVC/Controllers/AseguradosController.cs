@@ -302,17 +302,27 @@ namespace SUAMVC.Controllers
                         break;
                     }//Definimos los valores para la plaza
 
+                    var fileNameP = "C:\\SUA\\Asegurados\\" + asegurado.numeroAfiliacion + asegurado.Patrone.registro.Trim() + "\\" + option + "\\" + movto.nombreArchivo.Trim();
                     var fileName = "C:\\SUA\\Asegurados\\" + asegurado.numeroAfiliacion + "\\" + option + "\\" + movto.nombreArchivo.Trim();
 
-                    if (System.IO.File.Exists(fileName))
+                    if (System.IO.File.Exists(fileNameP))
                     {
-                        FileStream fs = new FileStream(fileName, FileMode.Open);
+                        FileStream fs = new FileStream(fileNameP, FileMode.Open);
 
                         return File(fs, "application/pdf");
                     }
                     else
                     {
-                        return RedirectToAction("Index");
+                        if (System.IO.File.Exists(fileName))
+                        {
+                            FileStream fs = new FileStream(fileName, FileMode.Open);
+
+                            return File(fs, "application/pdf");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index");
+                        }
                     }
                 }
                 else
@@ -1000,95 +1010,96 @@ namespace SUAMVC.Controllers
             {
                 Usuario user = Session["UsuarioData"] as Usuario;
 
-            var plazasAsignadas = (from x in db.TopicosUsuarios
-                                   where x.usuarioId.Equals(user.Id)
-                                   && x.tipo.Equals("P")
-                                   select x.topicoId);
+                var plazasAsignadas = (from x in db.TopicosUsuarios
+                                       where x.usuarioId.Equals(user.Id)
+                                       && x.tipo.Equals("P")
+                                       select x.topicoId);
 
-            var clientesAsignados = (from x in db.TopicosUsuarios
-                                     where x.usuarioId.Equals(user.Id)
-                                     && x.tipo.Equals("C")
-                                     select x.topicoId);
+                var clientesAsignados = (from x in db.TopicosUsuarios
+                                         where x.usuarioId.Equals(user.Id)
+                                         && x.tipo.Equals("C")
+                                         select x.topicoId);
 
-            var gruposAsignados = (from s in db.Grupos
-                                   join cli in db.Clientes on s.Id equals cli.Grupo_id
-                                   join top in db.TopicosUsuarios on cli.Id equals top.topicoId
-                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
-                                   orderby s.claveGrupo
-                                   select s.Id);
+                var gruposAsignados = (from s in db.Grupos
+                                       join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                       join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                       where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                       orderby s.claveGrupo
+                                       select s.Id);
 
-            ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
-                                               join top in db.TopicosUsuarios on s.id equals top.topicoId
-                                               where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
-                                               orderby s.descripcion
-                                               select new
-                                               {
-                                                   id = s.id,
-                                                   FUllName = s.descripcion
-                                               }).Distinct(), "id", "FullName");
+                ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
+                                                   join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                                   where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                                                   orderby s.descripcion
+                                                   select new
+                                                   {
+                                                       id = s.id,
+                                                       FUllName = s.descripcion
+                                                   }).Distinct(), "id", "FullName");
 
-            ViewBag.clientesId = new SelectList((from s in db.Clientes.ToList()
-                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
-                                                 where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
-                                                 orderby s.descripcion
-                                                 select new
-                                                 {
-                                                     id = s.Id,
-                                                     FUllName = s.claveCliente + " - " + s.descripcion
-                                                 }).Distinct(), "id", "FullName");
+                ViewBag.clientesId = new SelectList((from s in db.Clientes.ToList()
+                                                     join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                     where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                                     orderby s.descripcion
+                                                     select new
+                                                     {
+                                                         id = s.Id,
+                                                         FUllName = s.claveCliente + " - " + s.descripcion
+                                                     }).Distinct(), "id", "FullName");
 
-            ViewBag.gruposId = new SelectList((from s in db.Grupos.ToList()
-                                               join cli in db.Clientes on s.Id equals cli.Grupo_id
-                                               join top in db.TopicosUsuarios on cli.Id equals top.topicoId
-                                               where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
-                                               orderby s.claveGrupo
-                                               select new
-                                               {
-                                                   id = s.Id,
-                                                   FUllName = s.claveGrupo + " - " + s.nombreCorto
-                                               }).Distinct(), "id", "FullName");
+                ViewBag.gruposId = new SelectList((from s in db.Grupos.ToList()
+                                                   join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                                   join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                                   orderby s.claveGrupo
+                                                   select new
+                                                   {
+                                                       id = s.Id,
+                                                       FUllName = s.claveGrupo + " - " + s.nombreCorto
+                                                   }).Distinct(), "id", "FullName");
 
-            List<Asegurado> list = new List<Asegurado>();
-            var asegurados = from s in db.Asegurados
-                             join cli in db.Clientes on s.ClienteId equals cli.Id
-                             where s.fechaBaja.HasValue.Equals(null) &&
-                             plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
-                                   clientesAsignados.Contains(s.Cliente.Id) &&
-                                   gruposAsignados.Contains(s.Cliente.Grupo_id) 
-                                   
-                             orderby s.numeroAfiliacion
-                             select s;
+                List<Asegurado> list = new List<Asegurado>();
+                var asegurados = from s in db.Asegurados
+                                 join cli in db.Clientes on s.ClienteId equals cli.Id
+                                 where plazasAsignadas.Contains(s.Cliente.Plaza_id) &&
+                                       clientesAsignados.Contains(s.Cliente.Id) &&
+                                       gruposAsignados.Contains(s.Cliente.Grupo_id)
+                                 orderby s.numeroAfiliacion
+                                 select s;
 
-            //Comenzamos los filtros
-            if (!String.IsNullOrEmpty(plazasId))
-            {
-                @ViewBag.pzaId = plazasId;
-                int idPlaza = int.Parse(plazasId.Trim());
-                asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
-            }
+                //Comenzamos los filtros
+                if (!String.IsNullOrEmpty(plazasId))
+                {
+                    @ViewBag.pzaId = plazasId;
+                    int idPlaza = int.Parse(plazasId.Trim());
+                    asegurados = asegurados.Where(s => s.Cliente.Plaza_id.Equals(idPlaza));
+                }
 
-            if (!String.IsNullOrEmpty(clientesId))
-            {
-                @ViewBag.cteId = clientesId;
-                int idCliente = int.Parse(clientesId.Trim());
-                asegurados = asegurados.Where(s => s.Cliente.Id.Equals(idCliente));
-            }
+                if (!String.IsNullOrEmpty(clientesId))
+                {
+                    @ViewBag.cteId = clientesId;
+                    int idCliente = int.Parse(clientesId.Trim());
+                    asegurados = asegurados.Where(s => s.Cliente.Id.Equals(idCliente));
+                }
 
-            if (!String.IsNullOrEmpty(gruposId))
-            {
-                @ViewBag.gpoId = gruposId;
-                int idGrupo = int.Parse(gruposId.Trim());
-                asegurados = asegurados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
-            }
+                if (!String.IsNullOrEmpty(gruposId))
+                {
+                    @ViewBag.gpoId = gruposId;
+                    int idGrupo = int.Parse(gruposId.Trim());
+                    asegurados = asegurados.Where(s => s.Cliente.Grupo_id.Equals(idGrupo));
+                }
 
-            list = asegurados.ToList();
-            IEnumerable<IGrouping<String, Asegurado>> groups = list.GroupBy(x => x.numeroAfiliacion).Where(nombre => nombre.Count() > 1);
-            IEnumerable<Asegurado> smths = groups.SelectMany(group => group);
-            List<Asegurado> newList = smths.ToList();
+                asegurados = asegurados.Where(s => s.fechaBaja.Equals(null));
+                list = asegurados.ToList();
+                IEnumerable<IGrouping<String, Asegurado>> groups = list.GroupBy(x => x.numeroAfiliacion).Where(nombre => nombre.Count() > 1);
 
-            List<Asegurado> allCust = new List<Asegurado>();
 
-               allCust = newList;
+                IEnumerable<Asegurado> smths = groups.SelectMany(group => group);
+                List<Asegurado> newList = smths.ToList();
+
+                List<Asegurado> allCust = new List<Asegurado>();
+
+                allCust = newList;
 
                 DateTime date = DateTime.Now;
                 String path = @"C:\\SUA\\Exceles\\";

@@ -17,6 +17,7 @@ using CrystalDecisions.Shared;
 using CrystalDecisions.Web;
 using SUAMVC.Models;
 using System.Windows.Forms;
+using System.Text;
 
 namespace SUAMVC.Controllers
 {
@@ -4866,7 +4867,7 @@ namespace SUAMVC.Controllers
             List<Empleado> empleadosList = new List<Empleado>();
 
             empleadosList = (from s in db.SolicitudEmpleadoes
-                             //                                 where s.estatus.Equals("A")
+                             where s.estatus.Equals("A")
                              where s.solicitudId.Equals(solicitud)
                              orderby s.id
                              select s.Empleado).ToList();
@@ -4874,16 +4875,13 @@ namespace SUAMVC.Controllers
             DateTime date = DateTime.Now;
             String path = @"C:\\SUA03\\Exceles\\";
             String path2 = @"C:\\SUA\\Exceles\\";
-            //            String fileName = @"IDSE-" + date.ToString("ddMMyyyyHHmmss") + ".txt";
             String fileName = @"REINGRES.txt";
             String fileName2 = @"REINGRES";
-            String fileName3 = @"REINGRES.xls";
             String fullName = path + fileName;
             String fullName2 = path2 + fileName2;
-            String fullName3 = path2 + fileName3;
-            if (System.IO.File.Exists(fullName3))
+            if (System.IO.File.Exists(fullName2))
             {
-                System.IO.File.Delete(fullName3);
+                System.IO.File.Delete(fullName2);
             }
             int totEmpleados = empleadosList.Count();
             String linea = "";
@@ -4892,7 +4890,7 @@ namespace SUAMVC.Controllers
             {
                 try
                 {
-                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName3);
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName, false, Encoding.ASCII);
                     foreach (Empleado dp in empleadosList)
                     {
 
@@ -4942,7 +4940,7 @@ namespace SUAMVC.Controllers
                         linea = linea + varSDI.Trim().PadLeft(6, '0') + "000000";
                         linea = linea + trabajador.Trim() + salario.Trim() + jornada.Trim();
 
-                        if (dp.fechaAltaImss != null)
+                        if (sol.fechaInicioContrato != null)
                         {
                             DateTime fechaAltaImss = (DateTime)sol.fechaInicioContrato;
                             linea = linea + fechaAltaImss.ToString("ddMMyyyy");
@@ -4950,7 +4948,7 @@ namespace SUAMVC.Controllers
 
                         if (dp.UMF != null)
                         {
-                            linea = linea + dp.UMF.Substring(0,2);
+                            linea = linea + dp.UMF.Substring(0,3);
 
                         }else
                         {
@@ -4959,7 +4957,7 @@ namespace SUAMVC.Controllers
                         linea = linea + "  ";
                         linea = linea + dp.tipoMovto.Trim();
                         delegacion = sol.Patrone.delegacion.Trim().Substring(0,2) + "400";
-                        linea = linea + sol.Patrone.delegacion.Trim().Substring(0,2) + "400";
+                        linea = linea + delegacion;
                         linea = linea + "          " + " ";
                         if (dp.curp != null)
                         {
@@ -4969,12 +4967,13 @@ namespace SUAMVC.Controllers
                         {
                             linea = linea + "                  ";
                         }
-                        linea = linea + "9" + "\r";
+                        linea = linea + "9";
+//                        linea = linea + "9" + "\nl";
                         sw.WriteLine(linea);
                     }
                     String linea2 = "";
                     
-                    linea = linea2.PadRight(13, '*') + linea2.PadRight(43, ' ') + totEmpleados.ToString().PadLeft(6, '0') +                   linea2.PadRight(71, ' ') + delegacion.PadRight(5, ' ') + linea2.PadRight(29, ' ') + "9";
+                    linea = linea2.PadRight(13, '*') + linea2.PadRight(43, ' ') + totEmpleados.ToString().PadLeft(6, '0') + linea2.PadRight(71, ' ') + delegacion.PadRight(5, ' ') + linea2.PadRight(29, ' ') + "9";
 
                     sw.WriteLine(linea);
                     sw.Flush();
@@ -4985,17 +4984,9 @@ namespace SUAMVC.Controllers
                     {
                         System.IO.File.Delete(fullName2);
                     }
-                    if (System.IO.File.Exists(fullName))
-                    {
-                        System.IO.File.Delete(fullName);
-                    }
-                    System.IO.File.Copy(fullName3, Path.Combine(path, fileName), true);
-                    System.IO.File.Copy(fullName3, Path.Combine(path, fileName2), true);
-//                    System.IO.File.Move(fullName, Path.Combine(path2, fileName2));
+                    System.IO.File.Move(fullName, Path.Combine(path2, fileName2));
 
                     fileStream = new FileStream(fullName2, FileMode.Open);
-
-//                    System.IO.File.Copy(System.IO.Path.Combine(path, fileName), System.IO.Path.Combine(path, fileName2), true);
 
                     fileStream.Position = 0;
                     
@@ -5005,9 +4996,9 @@ namespace SUAMVC.Controllers
 
                     mem.Position = 0;
                     Response.ClearContent();
-                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName2);
                     ToolsHelper th = new ToolsHelper();
-                    Response.ContentType = th.getMimeType(fullName);
+                    Response.ContentType = th.getMimeType(fullName2);
                     Response.BinaryWrite(mem.ToArray());
 
                     Response.End();
@@ -5021,7 +5012,7 @@ namespace SUAMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult crearAltasSUA(String solicitudId, String tipoId, String trabajador, String jornada)
+        public ActionResult crearAltasSUA(String solicitudId, String tipoId, String trabajador, String jornada, String altaORein)
         {
             FileStream fileStream = null;
             ViewBag.tipoId = tipoId;
@@ -5032,131 +5023,267 @@ namespace SUAMVC.Controllers
 
             List<Empleado> empleadosList = new List<Empleado>();
 
-            empleadosList = (from s in db.SolicitudEmpleadoes
-                             //                                 where s.estatus.Equals("A")
-                             where s.solicitudId.Equals(solicitud)
-                             orderby s.id
-                             select s.Empleado).ToList();
+               empleadosList = (from s in db.SolicitudEmpleadoes
+                                 where s.estatus.Equals("A")
+                                 && s.solicitudId.Equals(solicitud)
+                                 orderby s.id
+                                 select s.Empleado).ToList();
 
-            DateTime date = DateTime.Now;
-            String path = @"C:\\SUA03\\Exceles\\";
-            String fileName = @"SUA-" + date.ToString("ddMMyyyyHHmmss") + ".txt";
-            String fullName = path + fileName;
+               if (altaORein.Equals("1"))        // Alta
+               {
+                   DateTime date = DateTime.Now;
+                   String path = @"C:\\SUA03\\Exceles\\";
+                   String fileName = @"A_SUA.txt";
+                   String fullName = path + fileName;
+                   if (System.IO.File.Exists(fullName))
+                   {
+                       System.IO.File.Delete(fullName);
+                   }
+                   int totEmpleados = empleadosList.Count();
+                   String linea = "";
+                   if (totEmpleados > 0)
+                   {
+                       try
+                       {
+                           System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName, false, Encoding.ASCII);
+                           foreach (Empleado dp in empleadosList)
+                           {
+                               var aseguradoA = (from s in db.Asegurados
+                                                 where s.numeroAfiliacion.Equals(dp.nss)
+                                                 && s.PatroneId.ToString().Trim().Equals(sol.regPatronalId.ToString().Trim())
+                                                 && !s.fechaBaja.HasValue
+                                                 select s.id).ToList();
+                               var aseguradoB = (from s in db.Asegurados
+                                                 where s.numeroAfiliacion.Equals(dp.nss)
+                                                 && s.PatroneId.ToString().Trim().Equals(sol.regPatronalId.ToString().Trim())
+                                                 && s.fechaBaja.HasValue
+                                                 select s.id).ToList();
 
-            if (empleadosList.Count() > 0)
-            {
-                try
-                {
-                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName);
-                    foreach (Empleado dp in empleadosList)
-                    {
+                               if ((aseguradoA.Equals(null) || aseguradoA.Count() == 0) && aseguradoB.Count() == 0)
+                               {
 
-                        String linea = sol.Patrone.registro.Trim();
-                        if (dp.nss != null)
-                        {
-                            linea = linea + dp.nss.Substring(0, 11);
-                        }
-                        else
-                        {
-                            linea = linea + "          ";
-                        }
-                        if (!String.IsNullOrEmpty(dp.rfc))
-                        {
-                            linea = linea + dp.rfc.Trim().PadRight(10, ' ');
-                        }
-                        else
-                        {
-                            linea = linea + "          ";
-                        }
+                                   linea = sol.Patrone.registro.Trim();
+                                   if (dp.nss != null)
+                                   {
+                                       linea = linea + dp.nss.Substring(0, 11);
+                                   }
+                                   else
+                                   {
+                                       linea = linea + "          ";
+                                   }
+                                       if (!String.IsNullOrEmpty(dp.rfc))
+                                       {
+                                           linea = linea + dp.rfc.Trim().PadRight(10, ' ');
+                                       }
+                                       else
+                                       {
+                                           linea = linea + "          ";
+                                       }
 
-                        if (!String.IsNullOrEmpty(dp.homoclave))
-                        {
-                            linea = linea + dp.homoclave.Trim().PadRight(3,' ');
-                        }
-                        else
-                        {
-                            linea = linea + "   ";
-                        }
-                        if (dp.curp != null)
-                        {
-                            linea = linea + dp.curp.Trim().PadRight(18,' ');
-                        }
-                        else
-                        {
-                            linea = linea + "                  ";
-                        }
-                        String nombre = dp.apellidoPaterno.Trim() + "$";
+                                       if (!String.IsNullOrEmpty(dp.homoclave))
+                                       {
+                                           linea = linea + dp.homoclave.Trim().PadRight(3, ' ');
+                                       }
+                                       else
+                                       {
+                                           linea = linea + "   ";
+                                       }
+                                       if (dp.curp != null)
+                                       {
+                                           linea = linea + dp.curp.Trim().PadRight(18, ' ');
+                                       }
+                                       else
+                                       {
+                                           linea = linea + "                  ";
+                                       }
+                                       String nombre = dp.apellidoPaterno.Trim() + "$";
 
-                        if (dp.apellidoMaterno != null)
-                        {
-                            nombre = nombre + dp.apellidoMaterno.Trim() + "$";
-                        }
+                                       if (dp.apellidoMaterno != null)
+                                       {
+                                           nombre = nombre + dp.apellidoMaterno.Trim() + "$";
+                                       }
 
-                        nombre = nombre + dp.nombre.Trim();
-                        linea = linea + nombre.Trim().PadRight(50, ' ');
-                        linea = linea + trabajador.Trim() + jornada.Trim();
+                                       nombre = nombre + dp.nombre.Trim();
+                                       linea = linea + nombre.Trim().PadRight(50, ' ');
+                                       linea = linea + trabajador.Trim() + jornada.Trim();
 
-                        if (dp.fechaAltaImss != null)
-                        {
-                            DateTime fechaAltaImss = (DateTime)sol.fechaInicioContrato;
-                            linea = linea + fechaAltaImss.ToString("ddMMyyyy");
-                        }
+                                   if (sol.fechaInicioContrato != null)
+                                   {
+                                       DateTime fechaAltaImss = (DateTime)sol.fechaInicioContrato;
+                                       linea = linea + fechaAltaImss.ToString("ddMMyyyy");
+                                   }
+                                   int longitud = dp.SDI.descripcion.Trim().Length;
+                                   String punto = ".";
+                                   int posDec = dp.SDI.descripcion.Trim().IndexOf(punto);
+                                   String varSDI = "";
+                                   if (posDec == -1)
+                                   {
+                                       varSDI = dp.SDI.descripcion.Trim();
 
-                        int longitud = dp.SDI.descripcion.Trim().Length ;
-                        String punto = ".";
-                        int posDec = dp.SDI.descripcion.Trim().IndexOf(punto);
-                        String varSDI = "";
-                        if (posDec == -1)
-                        {
-                            varSDI = dp.SDI.descripcion.Trim();
+                                   }
+                                   else
+                                   {
+                                       if (longitud == 6)
+                                       {
+                                           varSDI = dp.SDI.descripcion.Trim().Substring(0, 3) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                                       }
+                                       if (longitud == 5)
+                                       {
+                                           varSDI = dp.SDI.descripcion.Trim().Substring(0, 2) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                                       }
+                                       if (longitud == 7)
+                                       {
+                                           varSDI = dp.SDI.descripcion.Trim().Substring(0, 4) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                                       }
+                                   }
+                                   linea = linea + varSDI.Trim().PadLeft(7, '0');
 
-                        }
-                        else
-                        {
-                            if (longitud == 6)
-                            {
-                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 3) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
-                            }
-                            if (longitud == 5)
-                            {
-                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 2) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
-                            }
-                            if (longitud == 7)
-                            {
-                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 4) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
-                            }
-                        }
-                        linea = linea + varSDI.Trim().PadLeft(7, '0') + "000000";
+                                       linea = linea + sol.Cliente.claveCliente.Trim().PadRight(44, ' ');
 
-                        linea = linea + sol.Cliente.claveCliente.Trim().PadRight(17, ' ') + "\r";
+                                   sw.WriteLine(linea);
+                               }
+                           }
+                           sw.Flush();
+                           sw.Dispose();
+                           sw.Close();
+                           MemoryStream mem = new MemoryStream();
 
-                        sw.WriteLine(linea);
-                    }
-                    sw.Close();
-                    MemoryStream mem = new MemoryStream();
+                           fileStream = new FileStream(fullName, FileMode.Open);
 
+                           fileStream.Position = 0;
 
-                    fileStream = new FileStream(fullName, FileMode.Open);
-                    fileStream.Position = 0;
+                           mem = new MemoryStream();
+                           fileStream.CopyTo(mem);
+                           fileStream.Close();
 
-                    mem = new MemoryStream();
-                    fileStream.CopyTo(mem);
+                           mem.Position = 0;
+                           Response.ClearContent();
+                           Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                           ToolsHelper th = new ToolsHelper();
+                           Response.ContentType = th.getMimeType(fullName);
+                           Response.BinaryWrite(mem.ToArray());
 
-                    mem.Position = 0;
-                    Response.ClearContent();
-                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
-                    ToolsHelper th = new ToolsHelper();
-                    Response.ContentType = th.getMimeType(fullName);
-                    Response.BinaryWrite(mem.ToArray());
+                           Response.End();
 
-                    Response.End();
-                }
-                catch (Exception ex)
-                {
-                    Console.Write(ex);
-                }
-                //                Console.ReadKey();
-            }
+                       }
+                       catch (Exception ex)
+                       {
+                           Console.Write(ex);
+                       }
+                   }
+               }
+               else
+               {
+                   DateTime date = DateTime.Now;
+                   String path = @"C:\\SUA03\\Exceles\\";
+                   String fileName = @"R_SUA.txt";
+                   String fullName = path + fileName;
+                   if (System.IO.File.Exists(fullName))
+                   {
+                       System.IO.File.Delete(fullName);
+                   }
+                   int totEmpleados = empleadosList.Count();
+                   String linea = "";
+                   if (totEmpleados > 0)
+                   {
+                       try
+                       {
+                           System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName, false, Encoding.ASCII);
+                           foreach (Empleado dp in empleadosList)
+                           {
+                               var aseguradoA = (from s in db.Asegurados
+                                                 where s.numeroAfiliacion.Equals(dp.nss)
+                                                 && s.PatroneId.ToString().Trim().Equals(sol.regPatronalId.ToString().Trim())
+                                                 && !s.fechaBaja.HasValue
+                                                 select s.id).ToList();
+                               var aseguradoB = (from s in db.Asegurados
+                                                 where s.numeroAfiliacion.Equals(dp.nss)
+                                                 && s.PatroneId.ToString().Trim().Equals(sol.regPatronalId.ToString().Trim())
+                                                 && s.fechaBaja.HasValue
+                                                 select s.id).ToList();
+
+                               if ((aseguradoA.Equals(null) || aseguradoA.Count() == 0) &&  aseguradoB.Count() > 0)
+                               {
+                                   linea = sol.Patrone.registro.Trim();
+                                   if (dp.nss != null)
+                                   {
+                                       linea = linea + dp.nss.Substring(0, 11);
+                                   }
+                                   else
+                                   {
+                                       linea = linea + "          ";
+                                   }
+                                       linea = linea + "08";
+
+                                   if (sol.fechaInicioContrato != null)
+                                   {
+                                       DateTime fechaAltaImss = (DateTime)sol.fechaInicioContrato;
+                                       linea = linea + fechaAltaImss.ToString("ddMMyyyy");
+                                   }
+                                   else
+                                   {
+                                       linea = linea + "        ";
+                                   }
+                                   linea = linea + "          ";
+                                   int longitud = dp.SDI.descripcion.Trim().Length;
+                                   String punto = ".";
+                                   int posDec = dp.SDI.descripcion.Trim().IndexOf(punto);
+                                   String varSDI = "";
+                                   if (posDec == -1)
+                                   {
+                                       varSDI = dp.SDI.descripcion.Trim();
+
+                                   }
+                                   else
+                                   {
+                                       if (longitud == 6)
+                                       {
+                                           varSDI = dp.SDI.descripcion.Trim().Substring(0, 3) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                                       }
+                                       if (longitud == 5)
+                                       {
+                                           varSDI = dp.SDI.descripcion.Trim().Substring(0, 2) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                                       }
+                                       if (longitud == 7)
+                                       {
+                                           varSDI = dp.SDI.descripcion.Trim().Substring(0, 4) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                                       }
+                                   }
+                                   linea = linea + varSDI.Trim().PadLeft(7, '0');
+
+                                   sw.WriteLine(linea);
+                               }
+                           }
+                           sw.Flush();
+                           sw.Dispose();
+                           sw.Close();
+                           MemoryStream mem = new MemoryStream();
+
+                           fileStream = new FileStream(fullName, FileMode.Open);
+
+                           fileStream.Position = 0;
+
+                           mem = new MemoryStream();
+                           fileStream.CopyTo(mem);
+                           fileStream.Close();
+
+                           mem.Position = 0;
+                           Response.ClearContent();
+                           Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                           ToolsHelper th = new ToolsHelper();
+                           Response.ContentType = th.getMimeType(fullName);
+                           Response.BinaryWrite(mem.ToArray());
+
+                           Response.End();
+
+                       }
+                       catch (Exception ex)
+                       {
+                           Console.Write(ex);
+                       }
+                   }
+
+               }
             return RedirectToAction("Index", new { tipoId });
         }
 
@@ -5173,21 +5300,21 @@ namespace SUAMVC.Controllers
             List<Empleado> empleadosList = new List<Empleado>();
 
             empleadosList = (from s in db.SolicitudEmpleadoes
-                             //                                 where s.estatus.Equals("A")
+                             where s.estatus.Equals("A")
                              where s.solicitudId.Equals(solicitud)
                              orderby s.id
                              select s.Empleado).ToList();
 
             DateTime date = DateTime.Now;
             String path = @"C:\\SUA03\\Exceles\\";
-            //            String fileName = @"IDSE-" + date.ToString("ddMMyyyyHHmmss") + ".txt";
-            String fileName = @"BAJAS.txt";
-            String fileName2 = @"BAJAS";
+            String path2 = @"C:\\SUA\\Exceles\\";
+            String fileName = @"BAJA.txt";
+            String fileName2 = @"BAJA";
             String fullName = path + fileName;
-            String fullName2 = path + fileName2;
-            if (System.IO.File.Exists(fullName))
+            String fullName2 = path2 + fileName2;
+            if (System.IO.File.Exists(fullName2))
             {
-                System.IO.File.Delete(fullName);
+                System.IO.File.Delete(fullName2);
             }
             int totEmpleados = empleadosList.Count();
             String linea = "";
@@ -5196,10 +5323,9 @@ namespace SUAMVC.Controllers
             {
                 try
                 {
-                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName);
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName, false, Encoding.ASCII);
                     foreach (Empleado dp in empleadosList)
                     {
-
                         linea = sol.Patrone.registro;
                         if (dp.nss != null)
                         {
@@ -5229,16 +5355,10 @@ namespace SUAMVC.Controllers
                         linea = linea + "     ";
                         linea = linea + dp.tipoMovto.Trim();
                         linea = linea + sol.Patrone.delegacion.Trim().Substring(0, 2) + "400";
-                        linea = linea + "          " + " ";
-                        if (dp.curp != null)
-                        {
-                            linea = linea + dp.curp.Trim().PadRight(18, ' ');
-                        }
-                        else
-                        {
-                            linea = linea + "                  ";
-                        }
-                        linea = linea + "9" + "\r";
+                        linea = linea + "          ";
+                        Concepto conceptoBaja = db.Conceptos.Find(sol.conceptoBaja);
+                        linea = linea + conceptoBaja.valorConcepto.Trim();
+                        linea = linea + "                  9";
                         sw.WriteLine(linea);
                     }
                     String linea2 = "";
@@ -5254,12 +5374,9 @@ namespace SUAMVC.Controllers
                     {
                         System.IO.File.Delete(fullName2);
                     }
-                    System.IO.File.Move(fullName, Path.Combine(path, fileName2));
-
+                    System.IO.File.Move(fullName, Path.Combine(path2, fileName2));
 
                     fileStream = new FileStream(fullName2, FileMode.Open);
-
-                    //                    System.IO.File.Copy(System.IO.Path.Combine(path, fileName), System.IO.Path.Combine(path, fileName2), true);
 
                     fileStream.Position = 0;
 
@@ -5284,9 +5401,368 @@ namespace SUAMVC.Controllers
             return RedirectToAction("Index", new { tipoId });
         }
 
-        
+        [HttpGet]
+        public ActionResult crearBajasSUA(String solicitudId, String tipoId)
+        {
+            FileStream fileStream = null;
+            ViewBag.tipoId = tipoId;
+            ViewBag.solcitudId = solicitudId;
+            int solicitud = int.Parse(solicitudId.Trim());
+
+            Solicitud sol = db.Solicituds.Find(solicitud);
+
+            List<Empleado> empleadosList = new List<Empleado>();
+
+            empleadosList = (from s in db.SolicitudEmpleadoes
+                             where s.estatus.Equals("A")
+                             where s.solicitudId.Equals(solicitud)
+                             orderby s.id
+                             select s.Empleado).ToList();
+
+            DateTime date = DateTime.Now;
+            String path = @"C:\\SUA03\\Exceles\\";
+            String fileName = @"B_SUA.txt";
+            String fullName = path + fileName;
+            if (System.IO.File.Exists(fullName))
+            {
+                System.IO.File.Delete(fullName);
+            }
+            int totEmpleados = empleadosList.Count();
+            String linea = "";
+            if (totEmpleados > 0)
+            {
+                try
+                {
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName, false, Encoding.ASCII);
+                    foreach (Empleado dp in empleadosList)
+                    {
+                        linea = sol.Patrone.registro.Trim();
+                        if (dp.nss != null)
+                        {
+                            linea = linea + dp.nss.Substring(0, 11);
+                        }
+                        else
+                        {
+                            linea = linea + "          ";
+                        }
+                        Concepto conceptoBaja = db.Conceptos.Find(sol.conceptoBaja);
+                        linea = linea + "0" + conceptoBaja.valorConcepto.Trim();
+                        if (dp.fechaBaja != null)
+                        {
+                            DateTime fechaBaja = (DateTime)sol.fechaBaja;
+                            linea = linea + fechaBaja.ToString("ddMMyyyy");
+                        }
+                        else
+                        {
+                            linea = linea + "        ";
+                        }
+                        linea = linea + "          0000000";
+
+                        sw.WriteLine(linea);
+                    }
+                    sw.Flush();
+                    sw.Dispose();
+                    sw.Close();
+                    MemoryStream mem = new MemoryStream();
+
+                    fileStream = new FileStream(fullName, FileMode.Open);
+
+                    fileStream.Position = 0;
+
+                    mem = new MemoryStream();
+                    fileStream.CopyTo(mem);
+                    fileStream.Close();
+
+                    mem.Position = 0;
+                    Response.ClearContent();
+                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                    ToolsHelper th = new ToolsHelper();
+                    Response.ContentType = th.getMimeType(fullName);
+                    Response.BinaryWrite(mem.ToArray());
+
+                    Response.End();
+                }
+                catch (Exception ex)
+                {
+                    Console.Write(ex);
+                }
+            }
+            return RedirectToAction("Index", new { tipoId });
+        }
+
+        [HttpPost]
+        public ActionResult crearModIDSE(String solicitudId, String tipoId, String trabajador, String salario, String jornada)
+        {
+            FileStream fileStream = null;
+            ViewBag.tipoId = tipoId;
+            ViewBag.solcitudId = solicitudId;
+            int solicitud = int.Parse(solicitudId.Trim());
+
+            Solicitud sol = db.Solicituds.Find(solicitud);
+
+            List<Empleado> empleadosList = new List<Empleado>();
+
+            empleadosList = (from s in db.SolicitudEmpleadoes
+                             where s.estatus.Equals("A")
+                             where s.solicitudId.Equals(solicitud)
+                             orderby s.id
+                             select s.Empleado).ToList();
+
+            DateTime date = DateTime.Now;
+            String path = @"C:\\SUA03\\Exceles\\";
+            String path2 = @"C:\\SUA\\Exceles\\";
+            String fileName = @"SALARIOS.txt";
+            String fileName2 = @"SALARIOS";
+            String fullName = path + fileName;
+            String fullName2 = path2 + fileName2;
+            if (System.IO.File.Exists(fullName2))
+            {
+                System.IO.File.Delete(fullName2);
+            }
+            int totEmpleados = empleadosList.Count();
+            String linea = "";
+            String delegacion = "";
+            if (totEmpleados > 0)
+            {
+                try
+                {
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName, false, Encoding.ASCII);
+                    foreach (Empleado dp in empleadosList)
+                    {
+
+                        linea = sol.Patrone.registro;
+                        if (dp.nss != null)
+                        {
+                            linea = linea + dp.nss.Substring(0, 11);
+                        }
+                        else
+                        {
+                            linea = linea + "            ";
+                        }
+                        linea = linea + dp.apellidoPaterno.Trim().PadRight(27, ' ');
+
+                        if (dp.apellidoMaterno != null)
+                        {
+                            linea = linea + dp.apellidoMaterno.Trim().PadRight(27, ' ');
+                        }
+                        else
+                        {
+                            linea = linea + "                          ";
+                        }
+                        linea = linea + dp.nombre.Trim().PadRight(27, ' ');
+                        int longitud = dp.SDI.descripcion.Trim().Length;
+                        String punto = ".";
+                        int posDec = dp.SDI.descripcion.Trim().IndexOf(punto);
+                        String varSDI = "";
+                        if (posDec == -1)
+                        {
+                            varSDI = dp.SDI.descripcion.Trim();
+                        }
+                        else
+                        {
+                            if (longitud == 6)
+                            {
+                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 3) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                            }
+                            if (longitud == 5)
+                            {
+                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 2) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                            }
+                            if (longitud == 7)
+                            {
+                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 4) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                            }
+                        }
+                        linea = linea + varSDI.Trim().PadLeft(6, '0') ;
+                        linea = linea + "      " + trabajador.Trim() + salario.Trim() + jornada.Trim();
+
+                        if (dp.fechaModificacion != null)
+                        {
+                            DateTime fechaMod = (DateTime)sol.fechaModificacion;
+                            linea = linea + fechaMod.ToString("ddMMyyyy");
+                        }
+
+                        linea = linea + "     ";
+                        linea = linea + dp.tipoMovto.Trim();
+                        delegacion = sol.Patrone.delegacion.Trim().Substring(0, 2) + "400";
+                        linea = linea + delegacion;
+                        linea = linea + "          " + " ";
+                        if (dp.curp != null)
+                        {
+                            linea = linea + dp.curp.Trim().PadRight(18, ' ');
+                        }
+                        else
+                        {
+                            linea = linea + "                  ";
+                        }
+                        linea = linea + "9";
+                        //                        linea = linea + "9" + "\nl";
+                        sw.WriteLine(linea);
+                    }
+                    String linea2 = "";
+
+                    linea = linea2.PadRight(13, '*') + linea2.PadRight(43, ' ') + totEmpleados.ToString().PadLeft(6, '0') + linea2.PadRight(71, ' ') + delegacion.PadRight(5, ' ') + linea2.PadRight(29, ' ') + "9";
+
+                    sw.WriteLine(linea);
+                    sw.Flush();
+                    sw.Dispose();
+                    sw.Close();
+                    MemoryStream mem = new MemoryStream();
+                    if (System.IO.File.Exists(fullName2))
+                    {
+                        System.IO.File.Delete(fullName2);
+                    }
+                    System.IO.File.Move(fullName, Path.Combine(path2, fileName2));
+
+                    fileStream = new FileStream(fullName2, FileMode.Open);
+
+                    fileStream.Position = 0;
+
+                    mem = new MemoryStream();
+                    fileStream.CopyTo(mem);
+                    fileStream.Close();
+
+                    mem.Position = 0;
+                    Response.ClearContent();
+                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName2);
+                    ToolsHelper th = new ToolsHelper();
+                    Response.ContentType = th.getMimeType(fullName2);
+                    Response.BinaryWrite(mem.ToArray());
+
+                    Response.End();
+                }
+                catch (Exception ex)
+                {
+                    Console.Write(ex);
+                }
+            }
+            return RedirectToAction("Index", new { tipoId });
+        }
+
+
+        [HttpGet]
+        public ActionResult crearModSUA(String solicitudId, String tipoId)
+        {
+            FileStream fileStream = null;
+            ViewBag.tipoId = tipoId;
+            ViewBag.solcitudId = solicitudId;
+            int solicitud = int.Parse(solicitudId.Trim());
+
+            Solicitud sol = db.Solicituds.Find(solicitud);
+
+            List<Empleado> empleadosList = new List<Empleado>();
+
+            empleadosList = (from s in db.SolicitudEmpleadoes
+                             where s.estatus.Equals("A")
+                             where s.solicitudId.Equals(solicitud)
+                             orderby s.id
+                             select s.Empleado).ToList();
+
+            DateTime date = DateTime.Now;
+            String path = @"C:\\SUA03\\Exceles\\";
+            String fileName = @"Mod_Sua.txt";
+            String fullName = path + fileName;
+            if (System.IO.File.Exists(fullName))
+            {
+                System.IO.File.Delete(fullName);
+            }
+            int totEmpleados = empleadosList.Count();
+            String linea = "";
+            if (totEmpleados > 0)
+            {
+                try
+                {
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fullName, false, Encoding.ASCII);
+                    foreach (Empleado dp in empleadosList)
+                    {
+                        linea = sol.Patrone.registro.Trim();
+                        if (dp.nss != null)
+                        {
+                            linea = linea + dp.nss.Substring(0, 11);
+                        }
+                        else
+                        {
+                            linea = linea + "          ";
+                        }
+                        linea = linea + "08";
+                        if (dp.fechaModificacion != null)
+                        {
+                            DateTime fechaMod = (DateTime)sol.fechaModificacion;
+                            linea = linea + fechaMod.ToString("ddMMyyyy");
+                        }
+                        else
+                        {
+                            linea = linea + "        ";
+                        }
+                        linea = linea + "          ";
+                        int longitud = dp.SDI.descripcion.Trim().Length;
+                        String punto = ".";
+                        int posDec = dp.SDI.descripcion.Trim().IndexOf(punto);
+                        String varSDI = "";
+                        if (posDec == -1)
+                        {
+                            varSDI = dp.SDI.descripcion.Trim();
+                        }
+                        else
+                        {
+                            if (longitud == 6)
+                            {
+                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 3) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                            }
+                            if (longitud == 5)
+                            {
+                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 2) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                            }
+                            if (longitud == 7)
+                            {
+                                varSDI = dp.SDI.descripcion.Trim().Substring(0, 4) + dp.SDI.descripcion.Trim().Substring(posDec + 1, 2);
+                            }
+                        }
+                        linea = linea + varSDI.Trim().PadLeft(7, '0') ;
+
+                        sw.WriteLine(linea);
+                    }
+                    sw.Flush();
+                    sw.Dispose();
+                    sw.Close();
+                    MemoryStream mem = new MemoryStream();
+
+                    fileStream = new FileStream(fullName, FileMode.Open);
+
+                    fileStream.Position = 0;
+
+                    mem = new MemoryStream();
+                    fileStream.CopyTo(mem);
+                    fileStream.Close();
+
+                    mem.Position = 0;
+                    Response.ClearContent();
+                    Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
+                    ToolsHelper th = new ToolsHelper();
+                    Response.ContentType = th.getMimeType(fullName);
+                    Response.BinaryWrite(mem.ToArray());
+
+                    Response.End();
+                }
+                catch (Exception ex)
+                {
+                    Console.Write(ex);
+                }
+            }
+            return RedirectToAction("Index", new { tipoId });
+        }
+
         // GET: Aseguradoes/Delete/5
         public ActionResult Adicionales(int solicitudId, String tipoId)
+        {
+            ViewBag.solicitudId = solicitudId;
+            ViewBag.tipoId = tipoId;
+            return View();
+            //            return RedirectToAction("Adicionales", new { solicitudId, tipoId });
+        }
+
+        // GET: Aseguradoes/Delete/5
+        public ActionResult AdicionalesModif(int solicitudId, String tipoId)
         {
             ViewBag.solicitudId = solicitudId;
             ViewBag.tipoId = tipoId;

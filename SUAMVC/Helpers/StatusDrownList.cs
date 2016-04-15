@@ -192,5 +192,17 @@ namespace SUAMVC.Helpers
                 new SelectListItem { Text = "2021", Value = "2021" }
             }, new { onchange = "submit()" });
         }
+
+        public static MvcHtmlString SuaModificacion(this HtmlHelper htmlHelper)
+        {
+
+            List<SelectListItem> listFields = new List<SelectListItem> {
+                              new SelectListItem {Value = "1", Text = "Alta"},
+                              new SelectListItem {Value = "2", Text = "Reingreso"},
+          };
+
+            return htmlHelper.DropDownList("altaORein", listFields);
+        }
+    
     }
 }

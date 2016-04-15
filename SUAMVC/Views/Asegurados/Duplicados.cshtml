@@ -101,7 +101,7 @@
                         <td style="padding-right:10px; padding-left:10px" rowspan="2">
                             @if (SecurityUserModel.verificarPermiso("Asegurados", "Descargar excel", 3))
                             {
-                            <a href="@Url.Action(" getexcelduplicados", "Asegurados" , new {plazasid=@ViewBag.pzaId, clientesid=@ViewBag.cteId,
+                            <a href="@Url.Action("Getexcelduplicados", "Asegurados" , new {plazasid=@ViewBag.pzaId, clientesid=@ViewBag.cteId,
                                gruposid=@ViewBag.gpoId})" style="text-align:right">
                                 <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="35" height="35" />
                             </a>

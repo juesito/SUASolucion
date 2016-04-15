@@ -5,6 +5,8 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
     Usuario usuario = Session["UsuarioData"] as Usuario;
+    suaEntities db = new suaEntities();
+    Cliente cliente = db.Clientes.Find(Model.clienteId);
     if (!WebSecurity.IsAuthenticated || usuario == null)
     {
         Response.Redirect("~/Home/Index");
@@ -77,8 +79,14 @@
                             @Html.sdiDrownList(Model.Usuario.Id, "sdiId", Model.Cliente.Id, "width:100px;height:25px", false)
                             @Html.ValidationMessageFor(model => model.sdiId, "", new { @class = "text-danger" })
                         </td>
-
                     </tr>
+                    <tr>
+                        <th colspan="4"> </th>
+                        <td style="padding-right:8px; padding-top:12px">@Html.Label(@Language.registroPatronal + ":")</td>
+                        <td style="padding-top:12px">
+                            @Html.cteDrownList(usuario.Id, "regPatronalId", cliente.Id, "width:100px;height:25px", false)
+                            @Html.ValidationMessageFor(model => model.regPatronalId, "", new { @class = "text-danger" })
+                    <tr>
                     <tr>
                         <th colspan="4"> </th>
                         <td style="padding-top:6px" >@Html.Label(@Language.validador + ":")</td>

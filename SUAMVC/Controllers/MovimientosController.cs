@@ -187,7 +187,7 @@ namespace SUAMVC.Controllers
 
                     if (file != null && file.ContentLength > 0)
                     {
-                        String path = "C:\\SUA\\Asegurados\\" + asegurado.numeroAfiliacion + "\\" + movimiento.tipo + "\\"; //Path.Combine("C:\\SUA\\", uploadModel.subFolder);
+                        String path = "C:\\SUA\\Asegurados\\" + asegurado.numeroAfiliacion + asegurado.Patrone.registro.Trim() + "\\" + movimiento.tipo + "\\"; //Path.Combine("C:\\SUA\\", uploadModel.subFolder);
                         if (!System.IO.File.Exists(path))
                         {
                             System.IO.Directory.CreateDirectory(path);
@@ -287,7 +287,7 @@ namespace SUAMVC.Controllers
                         if (file != null && file.ContentLength > 0)
                         {
 
-                            String path = "C:\\SUA\\Asegurados\\" + asegurado.numeroAfiliacion + "\\" + model.movimiento.tipo + "\\";
+                            String path = "C:\\SUA\\Asegurados\\" + asegurado.numeroAfiliacion + asegurado.Patrone.registro.Trim() + "\\" + model.movimiento.tipo + "\\";
                             if (!System.IO.File.Exists(path))
                             {
                                 System.IO.Directory.CreateDirectory(path);
@@ -411,7 +411,7 @@ namespace SUAMVC.Controllers
 
                     if (file != null && file.ContentLength > 0)
                     {
-                        String path = "C:\\SUA\\Acreditados\\" + acreditado.numeroAfiliacion + "\\" + movimiento.tipo + "\\"; //Path.Combine("C:\\SUA\\", uploadModel.subFolder);
+                        String path = "C:\\SUA\\Acreditados\\" + acreditado.numeroAfiliacion + acreditado.Patrone.registro.Trim() + "\\" + movimiento.tipo + "\\"; //Path.Combine("C:\\SUA\\", uploadModel.subFolder);
                         if (!System.IO.File.Exists(path))
                         {
                             System.IO.Directory.CreateDirectory(path);
@@ -486,7 +486,7 @@ namespace SUAMVC.Controllers
 
                     if (file != null && file.ContentLength > 0)
                     {
-                        String path = "C:\\SUA\\Incapacidades\\" + asegurado.Asegurado.numeroAfiliacion + "\\" + movimiento.tipo + "\\"; //Path.Combine("C:\\SUA\\", uploadModel.subFolder);
+                        String path = "C:\\SUA\\Incapacidades\\" + asegurado.Asegurado.numeroAfiliacion + asegurado.Asegurado.Patrone.registro.Trim() + "\\" + movimiento.tipo + "\\"; //Path.Combine("C:\\SUA\\", uploadModel.subFolder);
                         if (!System.IO.File.Exists(path))
                         {
                             System.IO.Directory.CreateDirectory(path);

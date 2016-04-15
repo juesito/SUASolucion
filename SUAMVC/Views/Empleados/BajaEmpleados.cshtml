@@ -16,7 +16,6 @@
 
     ViewBag.Title = "Empleados registrados";
     int solicitudId = ViewBag.solicitudId;
-    String sua = ViewBag.sua;
     Layout = "~/Views/Shared/_Layout.cshtml";
     
     if (!WebSecurity.IsAuthenticated)
@@ -151,7 +150,3 @@
         });
     });
 </script>
-
-
-
-

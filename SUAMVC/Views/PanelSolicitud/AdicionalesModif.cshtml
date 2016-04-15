@@ -17,7 +17,7 @@
 }
 
 @section Menu {
-    <div>Datos adicionales para SUA <img src="~/Content/Images/home.png" width="15" height="15" /></div>
+    <div>Datos adicionales para IDSE <img src="~/Content/Images/home.png" width="15" height="15" /></div>
 }
 
 <div class="panel panel-primary">
@@ -25,12 +25,13 @@
         Captura
     </div>
     <div class="panel-body">
-        @using (@Html.BeginForm("crearAltasSUA", "PanelSolicitud", new { solicitudId, tipoId }, FormMethod.Post))
+        @using (@Html.BeginForm("crearModIDSE", "PanelSolicitud", new { solicitudId, tipoId }, FormMethod.Post))
         {
             @Html.Hidden("usuarioId", usuario.Id)
             <div class="marqueeFilter">
                 <table style="float:left; margin-top:10px;display:inline-block;">
                     <tbody>
+                        <tr>
                         <tr>
                             <td style="padding-top:25px; padding-right:5px">
                             <td>@Html.Label("trabajador", "Tipo de trabajador:")</td>
@@ -39,19 +40,18 @@
                             </td>
 
                             <td style="font-weight:bold; padding-left:10px">
-                            <td>@Html.Label("jornada", "Semana o jornada reducida:")</td>
+                            <td>@Html.Label("salario", "Tipo de salario::")</td>
                             <td>
-                                @Html.conceptosDrownListValor(usuario.Id, "JORNADA", "jornada")
+                                @Html.conceptosDrownListValor(usuario.Id, "SALARIO", "salario")
 
                             <td style="font-weight:bold; padding-left:10px">
-                            <td>@Html.Label("altaORein", "SUA:")</td>
+                            <td>@Html.Label("jornada", "Semana o jornada reducida::")</td>
                             <td>
-                                @Html.SuaModificacion()
-
+                                @Html.conceptosDrownListValor(usuario.Id, "JORNADA", "jornada")
                             <td rowspan="2" style="padding-left:15px">
-                                <input type="submit" value="Generar SUA" class="btn btn-success" style="width:80px; height:30px; font-size:10px;" />
+                                <input type="submit" value="Generar IDSE" class="btn btn-success" style="width:80px; height:30px; font-size:10px;" />
                             </td>
-                    </tbody>
+</tbody>
                 </table>
             </div>
         }
@@ -69,5 +69,5 @@
     }
 </div>
 <div>
-    @Html.ActionLink(@Language.regresar, "Index", "PanelSolicitud")
+    @Html.ActionLink(@Language.regresar, "Index", "PanelSolicitud", new { tipoId = ViewBag.tipoId })
 </div>

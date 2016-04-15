@@ -12,6 +12,7 @@ using SUAMVC.Models;
 using System.Data.Entity.Validation;
 using System.Text;
 using System.Diagnostics;
+using SUAMVC.Models;
 
 namespace SUAMVC.Controllers
 {
@@ -252,7 +253,7 @@ namespace SUAMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult updateEmployee(DetallePrenomina detallePrenomina)
+        public ActionResult updateEmployee(  DetallePrenomina detallePrenomina)
         {
             Usuario usuario = Session["UsuarioData"] as Usuario;
             DetallePrenomina dt = db.DetallePrenominas.Find(detallePrenomina.id);
