@@ -49,6 +49,8 @@
     gridColumns.Add(grid.Column("ocupacion", "Ocupación",  @<text><div style='width: 12em'>@item.ocupacion </div></text>, null, canSort: true));
     gridColumns.Add(grid.Column("Cliente.Plaza.cveCorta", "ID.Plaza", null, null, true));
     gridColumns.Add(grid.Column("extranjero", "Extranjero", null, null, true));
+    gridColumns.Add(grid.Column("Patrone.unidadMedica", "UMF", null, null, true));
+    gridColumns.Add(grid.Column("paginaInfo", "Crédito", null, null, true));
 
     if (SecurityUserModel.verificarPermiso("Asegurados", "Ver columna creacion", 3))
     {
@@ -112,7 +114,8 @@
                         <b>@Language.patron:</b>
                     </td>
                     <td>
-                        @Html.DropDownList("patronesId", "Todos")
+                        @Html.patronesDrownList(usuario.Id)
+                        @*@Html.DropDownList("patronesId", "Todos")*@
                     </td>
                     <td>
                         <b>@Language.grupo:</b>

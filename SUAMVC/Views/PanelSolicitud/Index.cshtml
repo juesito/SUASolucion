@@ -27,6 +27,7 @@
     var gridColumns = new List<WebGridColumn>();
     gridColumns.Add(grid.Column("Cliente.claveSua", Language.cliente, format: @<text> @item.Cliente.claveSua</text>, canSort: true));
     gridColumns.Add(grid.Column("Proyecto.descripcion", Language.proyecto, format: @<text> @item.Proyecto.descripcion</text>, canSort: true));
+    gridColumns.Add(grid.Column("Patrone.registro", Language.registroPatronal, format: @<text> @item.Patrone.registro</text>, canSort: true));
     gridColumns.Add(grid.Column("folioSolicitud", Language.folioSolicitud, format: @<text> @item.folioSolicitud</text>, canSort: true));
     gridColumns.Add(grid.Column("Plaza.descripcion", Language.plaza, format: @<text> @if (@item.PlazaId != null)
     {  @item.Plaza.descripcion }</text>, canSort: true));

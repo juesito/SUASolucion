@@ -22,7 +22,7 @@
         solicitud = db.SolicitudPrenominas.Find(solicitudInt);
     }
 
-    var grid = new WebGrid(source: Model, rowsPerPage: 10, ajaxUpdateContainerId: "gridContent");
+    var grid = new WebGrid(source: Model, rowsPerPage: 10);
     var tableHtml = string.Empty;
     var sb = new StringBuilder();
 
@@ -179,11 +179,6 @@
         }</text>,
                                    canSort: false));
 
-        gridColumns.Add(grid.Column("DiasLaborados", "DTA", format: @<text><input type="text" id="ids" value="@item.diasLaborados" /></text>));
-
-
-
-
         gridColumns.Add(grid.Column("Empleado.salarioReal", Language.salarioReal, format: @<text> @if (@item.EmpleadoId != null)
         {  <p>$@item.Empleado.salarioReal</p> }</text>, canSort: false));
 
@@ -227,7 +222,7 @@
             </text>));
         }
 
-        
+
     }
     else if (solicitud.Concepto1.descripcion.ToLower().Trim().Equals("sys dias por ingreso"))
     {
@@ -274,12 +269,12 @@
                 </text>
 , canSort: true));
 
-        gridColumns.Add(grid.Column("TotalSyS", "Total SyS", 
+        gridColumns.Add(grid.Column("TotalSyS", "Total SyS",
             format: @<text> @if (@item.totalSyS != null)
             {
                 <span id="totalSyS" style="font-weight:bold; color:green">$@item.totalSyS</span>
-            }                                  
-</text>, canSort: false));
+            }
+            </text>, canSort: false));
 
         gridColumns.Add(grid.Column("descuentoInfonavit", "Infonavit",
     format: @<text>
@@ -395,172 +390,110 @@ tableStyle: "table table-striped tableSua"
 }
 
 <script>
-    $(document).ready(function () {
-
-        $('.ids').on('click', function () {
-
-        var tr = $(this).parents('tr:first');
-        var id_ = $(this).prop('id');
-        var diasLaborados_ = tr.find('#DiasLaborados').val();
-        var gratificacion_ = tr.find('#Gratificacion').val();
-        var primaVacacional_ = tr.find('#PrimaVacacional').val();
-        var aguinaldo_ = tr.find('#Aguinaldo').val();
-        var descuentoInfonavit_ = tr.find('#DescuentoInfonavit').val();
-        var descuentoFonacot_ = tr.find('#DescuentoFonacot').val();
-        var descuentoPension_ = tr.find('#DescuentoPension').val();
-        var otrosDescuentos_ = tr.find('#OtrosDescuentos').val();
-        var isr_ = tr.find('#Isr').val();
-        var ingresos_ = tr.find('#Ingresos').val();
-        var reembolso_ = tr.find('#Reembolso').val();
-
-        //Creamos la entidad a pasar como parametro.
-        var detallePrenomina = {
-            id: id_,
-            diasLaborados: diasLaborados_,
-            gratificacion: gratificacion_,
-            primaVacacional: primaVacacional_,
-            aguinaldo: aguinaldo_,
-            descuentoInfonavit: descuentoInfonavit_,
-            descuentoFonacot: descuentoFonacot_,
-            descuentoPension: descuentoPension_,
-            otrosDescuentos: otrosDescuentos_,
-            isr: isr_,
-            ingresos: ingresos_,
-            reembolso: reembolso_
-        }
+    $(function () {
+        $('.edit-mode').hide();
+        $('.edit-personal').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            var dl = tr.find('#diasLaborados').text();
+            var gr = tr.find('#gratificacion').text();
+            var pv = tr.find('#primaVacacional').text();
+            var ag = tr.find('#aguinaldo').text();
+            var di = tr.find('#descuentoInfonavit').text();
+            var df = tr.find('#descuentoFonacot').text();
+            var dp = tr.find('#descuentoPension').text();
+            var dot = tr.find('#otrosDescuentos').text();
+            var isr = tr.find('#isr').text();
+            var ingresos = tr.find('#ingresos').text();
+            var reembolso = tr.find('#reembolso').text();
 
 
-        $.ajax({
-            url: "/DetallePrenominas/updateEmployee/",
-            data: detallePrenomina,
-            dataType: "json",
-            traditional: true,
-            cache: false,
-            type: "POST",
-            success: function (data) {
-                tr.find('#diasLaborados').text(data.employee.diasLaborados);
-                tr.find('#gratificacion').text("$" + data.employee.gratificacion);
-                tr.find('#primaVacacional').text("$" + data.employee.primaVacacional);
-                tr.find('#aguinaldo').text("$" + data.employee.aguinaldo);
-                tr.find('#descuentoInfonavit').text("$" + data.employee.descuentoInfonavit);
-                tr.find('#descuentoFonacot').text("$" + data.employee.descuentoFonacot);
-                tr.find('#descuentoPension').text("$" + data.employee.descuentoPension);
-                tr.find('#otrosDescuentos').text("$" + data.employee.otrosDescuentos);
-                tr.find('#netoPagar').text("$" + data.employee.netoPagar);
-                tr.find('#isr').text("$" + data.employee.isr);
-                tr.find('#ingresos').text("$" + data.employee.ingresos);
-                tr.find('#reembolso').text("$" + data.employee.reembolso);
-                tr.find('#totalIAS').text("$" + data.employee.totalIAS);
-                tr.find('#totalSyS').text("$" + data.employee.totalSyS);
-            },
-            error: function (response) {
-                alert('error');
+            tr.find('.edit-mode, .display-mode').toggle();
+            var tr = $(this).parents('tr:first');
+            tr.find('#DiasLaborados').val(dl);
+            tr.find('#Gratificacion').val(gr.replace("$", ""));
+            tr.find('#PrimaVacacional').val(pv.replace("$", ""));
+            tr.find('#Aguinaldo').val(ag.replace("$", ""));
+            tr.find('#DescuentoInfonavit').val(di.replace("$", ""));
+            tr.find('#DescuentoFonacot').val(df.replace("$", ""));
+            tr.find('#DescuentoPension').val(dp.replace("$", ""));
+            tr.find('#OtrosDescuentos').val(dot.replace("$", ""));
+            tr.find('#Isr').val(isr.replace("$", ""));
+            tr.find('#Ingresos').val(ingresos.replace("$", ""));
+            tr.find('#Reembolso').val(ingresos.replace("$", ""));
+
+        });
+        $('.cancel-capture').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+        });
+
+        $('.save-personal').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            var id_ = $(this).prop('id');
+            var diasLaborados_ = tr.find('#DiasLaborados').val();
+            var gratificacion_ = tr.find('#Gratificacion').val();
+            var primaVacacional_ = tr.find('#PrimaVacacional').val();
+            var aguinaldo_ = tr.find('#Aguinaldo').val();
+            var descuentoInfonavit_ = tr.find('#DescuentoInfonavit').val();
+            var descuentoFonacot_ = tr.find('#DescuentoFonacot').val();
+            var descuentoPension_ = tr.find('#DescuentoPension').val();
+            var otrosDescuentos_ = tr.find('#OtrosDescuentos').val();
+            var isr_ = tr.find('#Isr').val();
+            var ingresos_ = tr.find('#Ingresos').val();
+            var reembolso_ = tr.find('#Reembolso').val();
+
+            //Creamos la entidad a pasar como parametro.
+            var detallePrenomina = {
+                id: id_,
+                diasLaborados: diasLaborados_,
+                gratificacion: gratificacion_,
+                primaVacacional: primaVacacional_,
+                aguinaldo: aguinaldo_,
+                descuentoInfonavit: descuentoInfonavit_,
+                descuentoFonacot: descuentoFonacot_,
+                descuentoPension: descuentoPension_,
+                otrosDescuentos: otrosDescuentos_,
+                isr: isr_,
+                ingresos: ingresos_,
+                reembolso: reembolso_
             }
-        })
-    
 
 
-
-        $(function () {
-            $('.edit-mode').hide();
-            $('.edit-personal').on('click', function () {
-                var tr = $(this).parents('tr:first');
-                var dl = tr.find('#diasLaborados').text();
-                var gr = tr.find('#gratificacion').text();
-                var pv = tr.find('#primaVacacional').text();
-                var ag = tr.find('#aguinaldo').text();
-                var di = tr.find('#descuentoInfonavit').text();
-                var df = tr.find('#descuentoFonacot').text();
-                var dp = tr.find('#descuentoPension').text();
-                var dot = tr.find('#otrosDescuentos').text();
-                var isr = tr.find('#isr').text();
-                var ingresos = tr.find('#ingresos').text();
-                var reembolso = tr.find('#reembolso').text();
-
-
-                tr.find('.edit-mode, .display-mode').toggle();
-                var tr = $(this).parents('tr:first');
-                tr.find('#DiasLaborados').val(dl);
-                tr.find('#Gratificacion').val(gr.replace("$", ""));
-                tr.find('#PrimaVacacional').val(pv.replace("$", ""));
-                tr.find('#Aguinaldo').val(ag.replace("$", ""));
-                tr.find('#DescuentoInfonavit').val(di.replace("$", ""));
-                tr.find('#DescuentoFonacot').val(df.replace("$", ""));
-                tr.find('#DescuentoPension').val(dp.replace("$", ""));
-                tr.find('#OtrosDescuentos').val(dot.replace("$", ""));
-                tr.find('#Isr').val(isr.replace("$", ""));
-                tr.find('#Ingresos').val(ingresos.replace("$", ""));
-                tr.find('#Reembolso').val(ingresos.replace("$", ""));
-
-            });
-            $('.cancel-capture').on('click', function () {
-                var tr = $(this).parents('tr:first');
-                tr.find('.edit-mode, .display-mode').toggle();
-            });
-
-            $('.save-personal').on('click', function () {
-                var tr = $(this).parents('tr:first');
-                var id_ = $(this).prop('id');
-                var diasLaborados_ = tr.find('#DiasLaborados').val();
-                var gratificacion_ = tr.find('#Gratificacion').val();
-                var primaVacacional_ = tr.find('#PrimaVacacional').val();
-                var aguinaldo_ = tr.find('#Aguinaldo').val();
-                var descuentoInfonavit_ = tr.find('#DescuentoInfonavit').val();
-                var descuentoFonacot_ = tr.find('#DescuentoFonacot').val();
-                var descuentoPension_ = tr.find('#DescuentoPension').val();
-                var otrosDescuentos_ = tr.find('#OtrosDescuentos').val();
-                var isr_ = tr.find('#Isr').val();
-                var ingresos_ = tr.find('#Ingresos').val();
-                var reembolso_ = tr.find('#Reembolso').val();
-
-                //Creamos la entidad a pasar como parametro.
-                var detallePrenomina = {
-                    id: id_,
-                    diasLaborados: diasLaborados_,
-                    gratificacion: gratificacion_,
-                    primaVacacional: primaVacacional_,
-                    aguinaldo: aguinaldo_,
-                    descuentoInfonavit: descuentoInfonavit_,
-                    descuentoFonacot: descuentoFonacot_,
-                    descuentoPension: descuentoPension_,
-                    otrosDescuentos: otrosDescuentos_,
-                    isr: isr_,
-                    ingresos: ingresos_,
-                    reembolso: reembolso_
+            $.ajax({
+                url: "/DetallePrenominas/updateEmployee/",
+                data: detallePrenomina,
+                dataType: "json",
+                traditional: true,
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    tr.find('#diasLaborados').text(data.employee.diasLaborados);
+                    tr.find('#gratificacion').text("$" + data.employee.gratificacion);
+                    tr.find('#primaVacacional').text("$" + data.employee.primaVacacional);
+                    tr.find('#aguinaldo').text("$" + data.employee.aguinaldo);
+                    tr.find('#descuentoInfonavit').text("$" + data.employee.descuentoInfonavit);
+                    tr.find('#descuentoFonacot').text("$" + data.employee.descuentoFonacot);
+                    tr.find('#descuentoPension').text("$" + data.employee.descuentoPension);
+                    tr.find('#otrosDescuentos').text("$" + data.employee.otrosDescuentos);
+                    tr.find('#netoPagar').text("$" + data.employee.netoPagar);
+                    tr.find('#isr').text("$" + data.employee.isr);
+                    tr.find('#ingresos').text("$" + data.employee.ingresos);
+                    tr.find('#reembolso').text("$" + data.employee.reembolso);
+                    tr.find('#totalIAS').text("$" + data.employee.totalIAS);
+                    tr.find('#totalSyS').text("$" + data.employee.totalSyS);
+                },
+                error: function (response) {
+                    alert('error');
                 }
-
-
-                $.ajax({
-                    url: "/DetallePrenominas/updateEmployee/",
-                    data: detallePrenomina,
-                    dataType: "json",
-                    traditional: true,
-                    cache: false,
-                    type: "POST",
-                    success: function (data) {
-                        tr.find('#diasLaborados').text(data.employee.diasLaborados);
-                        tr.find('#gratificacion').text("$" + data.employee.gratificacion);
-                        tr.find('#primaVacacional').text("$" + data.employee.primaVacacional);
-                        tr.find('#aguinaldo').text("$" + data.employee.aguinaldo);
-                        tr.find('#descuentoInfonavit').text("$" + data.employee.descuentoInfonavit);
-                        tr.find('#descuentoFonacot').text("$" + data.employee.descuentoFonacot);
-                        tr.find('#descuentoPension').text("$" + data.employee.descuentoPension);
-                        tr.find('#otrosDescuentos').text("$" + data.employee.otrosDescuentos);
-                        tr.find('#netoPagar').text("$" + data.employee.netoPagar);
-                        tr.find('#isr').text("$" + data.employee.isr);
-                        tr.find('#ingresos').text("$" + data.employee.ingresos);
-                        tr.find('#reembolso').text("$" + data.employee.reembolso);
-                        tr.find('#totalIAS').text("$" + data.employee.totalIAS);
-                        tr.find('#totalSyS').text("$" + data.employee.totalSyS);
-                    },
-                    error: function (response) {
-                        alert('error');
-                    }
-                });
-
-                tr.find('.edit-mode, .display-mode').toggle();
             });
-        }
+
+            tr.find('.edit-mode, .display-mode').toggle();
+        });
+
+    })
 </script>
 
-<script src="~/Scripts/jquery-1.7.1.js"></script>
+
+
+        @*gridColumns.Add(grid.Column("DiasLaborados", "DTA", format: @<text><input type="text" id="ids" value="@item.diasLaborados" /></text>));*@
+

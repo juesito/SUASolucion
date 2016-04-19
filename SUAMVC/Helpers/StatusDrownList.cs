@@ -203,6 +203,11 @@ namespace SUAMVC.Helpers
 
             return htmlHelper.DropDownList("altaORein", listFields);
         }
-    
+
+        public static MvcHtmlString SelectDedPer(this HtmlHelper htmlHelper)
+        {
+            return htmlHelper.DropDownList("dedPer", new List<SelectListItem>() { new SelectListItem { Text = "PERCEPCIÓN", Value = "P" }, new SelectListItem { Text = "DEDUCCIÓN", Value = "D" } } );
+        }
+
     }
 }

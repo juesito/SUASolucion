@@ -40,7 +40,7 @@ namespace SUAMVC.Controllers
             var solicituds = (from s in db.Solicituds
                               join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
                               where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
-                              orderby s.fechaEnvio
+                              orderby s.fechaEnvio descending
                               select s).ToList();
 
 
@@ -56,8 +56,7 @@ namespace SUAMVC.Controllers
                 solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(int.Parse(tipoId))).ToList();
 
             solicituds = solicituds.Where(s => !s.estatusSolicitud.Equals(concepto.id)).ToList();
-            solicituds = solicituds.Where(s => !s.estatusSolicitud.Equals(concepto2.id)).ToList();
-
+            solicituds = solicituds.Where(s => !s.estatusSolicitud.Equals(concepto2.id)).OrderByDescending(s => s.fechaEnvio).ToList();
             return View(solicituds.ToList());
         }
 
@@ -4955,7 +4954,7 @@ namespace SUAMVC.Controllers
                             linea = linea + "000";
                         }
                         linea = linea + "  ";
-                        linea = linea + dp.tipoMovto.Trim();
+                        linea = linea + "01";    // dp.tipoMovto.Trim();
                         delegacion = sol.Patrone.delegacion.Trim().Substring(0,2) + "400";
                         linea = linea + delegacion;
                         linea = linea + "          " + " ";
@@ -5353,7 +5352,7 @@ namespace SUAMVC.Controllers
                             linea = linea + fechaBaja.ToString("ddMMyyyy");
                         }
                         linea = linea + "     ";
-                        linea = linea + dp.tipoMovto.Trim();
+                        linea = linea + "02";    //dp.tipoMovto.Trim();
                         linea = linea + sol.Patrone.delegacion.Trim().Substring(0, 2) + "400";
                         linea = linea + "          ";
                         Concepto conceptoBaja = db.Conceptos.Find(sol.conceptoBaja);
@@ -5583,7 +5582,7 @@ namespace SUAMVC.Controllers
                         }
 
                         linea = linea + "     ";
-                        linea = linea + dp.tipoMovto.Trim();
+                        linea = linea + "07";           //dp.tipoMovto.Trim();
                         delegacion = sol.Patrone.delegacion.Trim().Substring(0, 2) + "400";
                         linea = linea + delegacion;
                         linea = linea + "          " + " ";

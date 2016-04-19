@@ -1,4 +1,4 @@
-﻿@model SUADATOS.Banco
+﻿@model SUADATOS.ConceptosPrenómina
 
 @{
     ViewBag.Title = "Details";
@@ -8,7 +8,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Banco</h4>
+    <h4>Conceptos Prenómina</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -17,6 +17,22 @@
 
         <dd>
             @Html.DisplayFor(model => model.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.encabezado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.encabezado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dedPer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dedPer)
         </dd>
 
         <dt>

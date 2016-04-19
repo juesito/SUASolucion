@@ -115,7 +115,7 @@ namespace SUAMVC.Helpers
             List<Patrone> list = (from s in db.Patrones.ToList()
                                   join top in db.TopicosUsuarios on s.Id equals top.topicoId
                                   where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(userId)
-                                  orderby s.registro
+                                  orderby s.nombre
                                   select s).ToList();
 
 
@@ -147,7 +147,7 @@ namespace SUAMVC.Helpers
             List<Patrone> list = (from s in db.Patrones.ToList()
                                   join top in db.TopicosUsuarios on s.Id equals top.topicoId
                                   where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(userId)
-                                  orderby s.registro
+                                  orderby s.nombre
                                   select s).ToList();
 
 
@@ -179,7 +179,7 @@ namespace SUAMVC.Helpers
             List<Patrone> list = (from s in db.Patrones.ToList()
                                   join top in db.TopicosUsuarios on s.Id equals top.topicoId
                                   where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(userId)
-                                  orderby s.registro
+                                  orderby s.nombre
                                   select s).ToList();
 
 

@@ -559,28 +559,34 @@ namespace SUAMVC.Controllers
             row = eh.addNewCellToRow(index, row, "Ocupación", headerColumns[8] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Riesgo de trabajo", headerColumns[9] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "(1) R. Trab.", headerColumns[9] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Fecha Inicio", headerColumns[10] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "(2) Enfermedad", headerColumns[10] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Dias subsidiados", headerColumns[11] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "(3) Maternidad", headerColumns[11] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Fecha Alta", headerColumns[12] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Fecha Inicio", headerColumns[12] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Extranjero", headerColumns[13] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Dias subsidiados", headerColumns[14] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "ID.Plaza", headerColumns[14] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Fecha Alta", headerColumns[14] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Fecha Creación", headerColumns[15] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Extranjero", headerColumns[15] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Fecha Modificación", headerColumns[16] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "ID.Plaza", headerColumns[16] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Fecha Creación", headerColumns[17] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Fecha Modificación", headerColumns[18] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
             index++;
@@ -616,33 +622,63 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.Asegurado.ocupacion, headerColumns[i + 8] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.tieRie, headerColumns[i + 9] + index, 2U, CellValues.String);
-                sheetData.AppendChild(row);
+                if (dp.tipoIncapacidad.Equals("1"))
+                {
+                    row = eh.addNewCellToRow(index, row, dp.folioIncapacidad, headerColumns[i + 9] + index, 2U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 9] + index, 2U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
 
+                if (dp.tipoIncapacidad.Equals("2"))
+                {
+                    row = eh.addNewCellToRow(index, row, dp.folioIncapacidad, headerColumns[i + 10] + index, 2U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 10] + index, 2U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                if (dp.tipoIncapacidad.Equals("3"))
+                {
+                    row = eh.addNewCellToRow(index, row, dp.folioIncapacidad, headerColumns[i + 11] + index, 2U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 11] + index, 2U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                
                 String var1 = String.Format("{0:dd/MM/yyyy}", dp.fechaAcc);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 10] + index, 2U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                var1 = String.Format("{0:###,##0}", dp.diaSub);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 11] + index, 2U, CellValues.String);
-                sheetData.AppendChild(row);
-
-                var1 = String.Format("{0:dd/MM/yyyy}", dp.Asegurado.fechaAlta);
                 row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 12] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.Asegurado.extranjero, headerColumns[i + 13] + index, 2U, CellValues.String);
+                var1 = String.Format("{0:###,##0}", dp.diaSub);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 13] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.Asegurado.Cliente.Plaza.cveCorta, headerColumns[i + 14] + index, 2U, CellValues.String);
+                var1 = String.Format("{0:dd/MM/yyyy}", dp.Asegurado.fechaAlta);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 14] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Asegurado.extranjero, headerColumns[i + 15] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Asegurado.Cliente.Plaza.cveCorta, headerColumns[i + 16] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 var1 = String.Format("{0:dd/MM/yyyy}", dp.Asegurado.fechaCreacion);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 15] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 17] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 var1 = String.Format("{0:dd/MM/yyyy}", dp.Asegurado.fechaModificacion);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 16] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 18] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 index++;
@@ -709,6 +745,177 @@ namespace SUAMVC.Controllers
                 ViewData["numeroPagina"] = numeroPagina;
             }
             return RedirectToAction("Index", new { plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId, numeroPagina });
+        }
+
+        public ActionResult IndexVigentes(String plazasId, String patronesId, String clientesId,
+            String gruposId, String currentPlaza, String currentPatron, String currentCliente,
+            String currentGrupo, String opcion, String valor, String statusId, String numeroPagina, int page = 1, String sortOrder = null,
+            String lastSortOrder = null)
+        {
+
+            Usuario user = Session["UsuarioData"] as Usuario;
+
+            setVariables(plazasId, patronesId, clientesId, gruposId, opcion, valor, statusId, numeroPagina);
+
+            var plazasAsignadas = (from x in db.TopicosUsuarios
+                                   where x.usuarioId.Equals(user.Id)
+                                   && x.tipo.Equals("P")
+                                   select x.topicoId);
+
+            var patronesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("B")
+                                     select x.topicoId);
+
+            var clientesAsignados = (from x in db.TopicosUsuarios
+                                     where x.usuarioId.Equals(user.Id)
+                                     && x.tipo.Equals("C")
+                                     select x.topicoId);
+
+            var gruposAsignados = (from s in db.Grupos
+                                   join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                   join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                   orderby s.claveGrupo
+                                   select s.Id);
+
+            ViewBag.plazasId = new SelectList((from s in db.Plazas.ToList()
+                                               join top in db.TopicosUsuarios on s.id equals top.topicoId
+                                               where top.tipo.Trim().Equals("P") && top.usuarioId.Equals(user.Id)
+                                               orderby s.descripcion
+                                               select new
+                                               {
+                                                   id = s.id,
+                                                   FUllName = s.descripcion
+                                               }).Distinct(), "id", "FullName");
+
+            ViewBag.patronesId = new SelectList((from s in db.Patrones.ToList()
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("B") && top.usuarioId.Equals(user.Id)
+                                                 orderby s.registro
+                                                 select new
+                                                 {
+                                                     id = s.Id,
+                                                     FullName = s.registro + " - " + s.nombre
+                                                 }).Distinct(), "id", "FullName", null);
+
+            ViewBag.clientesId = new SelectList((from s in db.Clientes.ToList()
+                                                 join top in db.TopicosUsuarios on s.Id equals top.topicoId
+                                                 where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                                 orderby s.descripcion
+                                                 select new
+                                                 {
+                                                     id = s.Id,
+                                                     FUllName = s.claveCliente + " - " + s.descripcion
+                                                 }).Distinct(), "id", "FullName");
+
+            ViewBag.gruposId = new SelectList((from s in db.Grupos.ToList()
+                                               join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                               join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                               where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                               orderby s.claveGrupo
+                                               select new
+                                               {
+                                                   id = s.Id,
+                                                   FUllName = s.claveGrupo + " - " + s.nombreCorto
+                                               }).Distinct(), "id", "FullName");
+
+            //Query principal
+            var incapacidades = from s in db.Incapacidades
+                                join cli in db.Clientes on s.Asegurado.ClienteId equals cli.Id
+                                where plazasAsignadas.Contains(s.Asegurado.Cliente.Plaza_id) &&
+                                      clientesAsignados.Contains(s.Asegurado.Cliente.Id) &&
+                                      patronesAsignados.Contains(s.Asegurado.PatroneId) &&
+                                      gruposAsignados.Contains(s.Asegurado.Cliente.Grupo_id) &&
+                                      s.fecTer >= DateTime.Now
+                                orderby s.Asegurado.nombreTemporal
+                                select s;
+
+            //Comenzamos los filtros
+            if (!String.IsNullOrEmpty(plazasId))
+            {
+                @ViewBag.pzaId = plazasId;
+                int idPlaza = int.Parse(plazasId.Trim());
+                incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Plaza_id.Equals(idPlaza));
+            }
+            if (!String.IsNullOrEmpty(patronesId))
+            {
+                @ViewBag.patId = patronesId;
+                int idPatron = int.Parse(patronesId.Trim());
+                incapacidades = incapacidades.Where(s => s.Asegurado.PatroneId.Equals(idPatron));
+            }
+
+            if (!String.IsNullOrEmpty(clientesId))
+            {
+                @ViewBag.cteId = clientesId;
+                int idCliente = int.Parse(clientesId.Trim());
+                incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Id.Equals(idCliente));
+            }
+
+            if (!String.IsNullOrEmpty(gruposId))
+            {
+                @ViewBag.gpoId = gruposId;
+                int idGrupo = int.Parse(gruposId.Trim());
+                incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Grupo_id.Equals(idGrupo));
+            }
+
+            if (!String.IsNullOrEmpty(opcion))
+            {
+
+                switch (opcion)
+                {
+                    case "1":
+                        incapacidades = incapacidades.Where(s => s.Asegurado.Patrone.registro.Contains(valor));
+                        break;
+                    case "2":
+                        incapacidades = incapacidades.Where(s => s.Asegurado.numeroAfiliacion.Contains(valor));
+                        break;
+                    case "3":
+                        incapacidades = incapacidades.Where(s => s.Asegurado.CURP.Contains(valor));
+                        break;
+                    case "4":
+                        incapacidades = incapacidades.Where(s => s.Asegurado.RFC.Contains(valor));
+                        break;
+                    case "5":
+                        incapacidades = incapacidades.Where(s => s.Asegurado.nombreTemporal.Contains(valor));
+                        break;
+                    case "6":
+                        incapacidades = incapacidades.Where(s => s.Asegurado.fechaAlta.ToString().Contains(valor));
+                        break;
+                    case "11":
+                        incapacidades = incapacidades.Where(s => s.Asegurado.ocupacion.Contains(valor));
+                        break;
+                    case "12":
+                        incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Plaza.cveCorta.Contains(valor));
+                        break;
+                    case "13":
+                        incapacidades = incapacidades.Where(s => s.Asegurado.extranjero.Contains(valor));
+                        break;
+                }
+            }
+
+            if (statusId != null)
+            {
+                @ViewBag.statusId = statusId;
+
+                if (statusId.Trim().Equals("A"))
+                {
+                    ViewBag.statusId = statusId;
+                    incapacidades = incapacidades.Where(s => !s.Asegurado.fechaBaja.HasValue);
+                }
+                else if (statusId.Trim().Equals("B"))
+                {
+                    ViewBag.statusId = statusId;
+                    incapacidades = incapacidades.Where(s => s.Asegurado.fechaBaja.HasValue);
+                }
+            }
+
+            ViewBag.activos = incapacidades.Where(s => !s.Asegurado.fechaBaja.HasValue).Count();
+            ViewBag.registros = incapacidades.Count();
+
+            SecurityUserModel.llenarPermisos(user.roleId);
+
+            return View(incapacidades.ToList());
         }
 
         protected override void Dispose(bool disposing)

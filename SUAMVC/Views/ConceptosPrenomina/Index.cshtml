@@ -1,0 +1,80 @@
+﻿@model IEnumerable<SUADATOS.ConceptosPrenómina>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!WebSecurity.IsAuthenticated)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+}
+
+@section menu {
+    <div>Conceptos de prenómina<img src="~/Content/Images/people-b.png" width="15" height="15" /></div>
+}
+
+<p>
+    @Html.ActionLink(@Language.agregar + " Concepto" , "Create", "ConceptosPrenomina", new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName(@Language.descripcion)
+        </th>
+        <th>
+            @Html.DisplayName("Encabezado")
+        </th>
+        <th>
+            @Html.DisplayName(@Language.tipo)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.fechaModificacion)
+        </th>
+        <th>
+            @Html.DisplayName(@Language.usuarioAlta)
+        </th>
+        <th>
+            @Html.DisplayName(Language.edit)
+
+            @Html.DisplayName(Language.borrar)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.encabezado)
+        </td>
+        @if (item.dedPer.Equals("P")){
+        <td>
+            PERCEPCIÓN
+        </td>
+        }
+        else
+        {
+            <td>
+                DEDUCCIÓN
+            </td>
+        }
+         <td>
+            @Html.DisplayFor(modelItem => item.fechaCreacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Usuario.nombreUsuario)
+        </td>
+        <td>
+            <a href="@Url.Action("Edit","ConceptosPrenomina", new { id = item.id })" title="@Language.edit">
+                <img src="~/Content/Images/edit.png" alt="" style="border:none;" class="icon" />
+            </a>|
+            <a href="@Url.Action("Delete", "ConceptosPrenomina", new { id = item.id })" title="@Language.borrar">
+                <img src="~/Content/Images/delete.png" alt="" style="border:none;" class="icon" />
+            </a>
+        </td>
+    </tr>
+}
+
+</table>
