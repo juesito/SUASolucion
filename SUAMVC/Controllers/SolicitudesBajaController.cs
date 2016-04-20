@@ -39,7 +39,7 @@ namespace SUAMVC.Controllers
                                   join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
                                   where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
                                     && !s.Concepto.descripcion.Trim().Contains("Baja") && !s.Concepto.descripcion.Trim().Contains("Cancelado")
-                                  orderby s.folioSolicitud descending
+                                  orderby s.fechaSolicitud descending
                                   select s).ToList();
 
                 if (!String.IsNullOrEmpty(clienteId) && !String.IsNullOrEmpty(proyectoId))

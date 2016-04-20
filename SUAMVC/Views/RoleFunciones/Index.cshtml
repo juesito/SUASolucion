@@ -104,7 +104,7 @@
 <div id="contenedor">
     @if (!tableHtml.IsEmpty())
     {
-        using (Html.BeginForm("asignarFuncion", "RoleFunciones", new { roleId = @vRoleId, moduleId = @vModuleId }, FormMethod.Post))
+        using (Html.BeginForm("asignarConcepto", "ArmadoPrenominas", new { roleId = @vRoleId, moduleId = @vModuleId }, FormMethod.Post))
         {
             <div id="lgcontenedor-interno" class="panel panel-default">
                 <div class="panel-heading">Funciones sin asignar</div>

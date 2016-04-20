@@ -141,13 +141,13 @@ namespace SUAMVC.Controllers
 
             //Query principal
             var incapacidades = from s in db.Incapacidades
-                             join cli in db.Clientes on s.Asegurado.ClienteId equals cli.Id
-                             where plazasAsignadas.Contains(s.Asegurado.Cliente.Plaza_id) &&
-                                   clientesAsignados.Contains(s.Asegurado.Cliente.Id) &&
-                                   patronesAsignados.Contains(s.Asegurado.PatroneId) &&
-                                   gruposAsignados.Contains(s.Asegurado.Cliente.Grupo_id)
-                             orderby s.Asegurado.nombreTemporal
-                             select s;
+                                join cli in db.Clientes on s.Asegurado.ClienteId equals cli.Id
+                                where plazasAsignadas.Contains(s.Asegurado.Cliente.Plaza_id) &&
+                                      clientesAsignados.Contains(s.Asegurado.Cliente.Id) &&
+                                      patronesAsignados.Contains(s.Asegurado.PatroneId) &&
+                                      gruposAsignados.Contains(s.Asegurado.Cliente.Grupo_id)
+                                orderby s.Asegurado.nombreTemporal
+                                select s;
 
             //Comenzamos los filtros
             if (!String.IsNullOrEmpty(plazasId))
@@ -231,7 +231,7 @@ namespace SUAMVC.Controllers
             ViewBag.activos = incapacidades.Where(s => !s.Asegurado.fechaBaja.HasValue).Count();
             ViewBag.registros = incapacidades.Count();
 
-//            incapacidades = incapacidades.OrderBy(s => s.Asegurado.nombreTemporal);
+            //            incapacidades = incapacidades.OrderBy(s => s.Asegurado.nombreTemporal);
             //var incapacidades2 = incapacidades.OrderBy(s => s.Asegurado.nombreTemporal).Take(12).ToList();
             //if (numeroPagina != null)
             //{
@@ -308,7 +308,7 @@ namespace SUAMVC.Controllers
             }
         }
 
-         // GET: Aseguradoes/Delete/5
+        // GET: Aseguradoes/Delete/5
         public ActionResult DeleteMov(int id)
         {
             if (id == 0)
@@ -336,7 +336,7 @@ namespace SUAMVC.Controllers
 
         [HttpGet]
         public void GetExcel(String plazasId, String patronesId, String clientesId,
-            String gruposId, String opcion, String valor, String statusId)
+            String gruposId, String opcion, String valor, String statusId, String vigente)
         {
 
             FileStream fileStream = null;
@@ -344,112 +344,139 @@ namespace SUAMVC.Controllers
             try
             {
                 Usuario user = Session["UsuarioData"] as Usuario;
-            var plazasAsignadas = (from x in db.TopicosUsuarios
-                                   where x.usuarioId.Equals(user.Id)
-                                   && x.tipo.Equals("P")
-                                   select x.topicoId);
+                var plazasAsignadas = (from x in db.TopicosUsuarios
+                                       where x.usuarioId.Equals(user.Id)
+                                       && x.tipo.Equals("P")
+                                       select x.topicoId);
 
-            var clientesAsignados = (from x in db.TopicosUsuarios
-                                     where x.usuarioId.Equals(user.Id)
-                                     && x.tipo.Equals("C")
-                                     select x.topicoId);
+                var clientesAsignados = (from x in db.TopicosUsuarios
+                                         where x.usuarioId.Equals(user.Id)
+                                         && x.tipo.Equals("C")
+                                         select x.topicoId);
 
-            var patronesAsignados = (from x in db.TopicosUsuarios
-                                     where x.usuarioId.Equals(user.Id)
-                                     && x.tipo.Equals("B")
-                                     select x.topicoId);
+                var patronesAsignados = (from x in db.TopicosUsuarios
+                                         where x.usuarioId.Equals(user.Id)
+                                         && x.tipo.Equals("B")
+                                         select x.topicoId);
 
-            List<Incapacidade> allCust = new List<Incapacidade>();
+                var gruposAsignados = (from s in db.Grupos
+                                       join cli in db.Clientes on s.Id equals cli.Grupo_id
+                                       join top in db.TopicosUsuarios on cli.Id equals top.topicoId
+                                       where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(user.Id)
+                                       orderby s.claveGrupo
+                                       select s.Id);
 
-            var incapacidades = from s in db.Incapacidades
-                             join cli in db.Clientes on s.Asegurado.ClienteId equals cli.Id
-                             where plazasAsignadas.Contains(s.Asegurado.Cliente.Plaza_id) &&
-                                   clientesAsignados.Contains(s.Asegurado.Cliente.Id) &&
-                                   patronesAsignados.Contains(s.Asegurado.PatroneId)
-                             select s;
+                List<Incapacidade> allCust = new List<Incapacidade>();
+                var incapacidades = from s in db.Incapacidades
+                                    select s;
 
-            if (!String.IsNullOrEmpty(plazasId))
-            {
-                @ViewBag.pzaId = plazasId;
-                int idPlaza = int.Parse(plazasId.Trim());
-                incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Plaza_id.Equals(idPlaza));
-            }
-            if (!String.IsNullOrEmpty(patronesId))
-            {
-                @ViewBag.patId = patronesId;
-                int idPatron = int.Parse(patronesId.Trim());
-                incapacidades = incapacidades.Where(s => s.Asegurado.PatroneId.Equals(idPatron));
-            }
-
-            if (!String.IsNullOrEmpty(clientesId))
-            {
-                @ViewBag.cteId = clientesId;
-                int idCliente = int.Parse(clientesId.Trim());
-                incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Id.Equals(idCliente));
-            }
-
-            if (!String.IsNullOrEmpty(gruposId))
-            {
-                @ViewBag.gpoId = gruposId;
-                int idGrupo = int.Parse(gruposId.Trim());
-                incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Grupo_id.Equals(idGrupo));
-            }
-
-            if (!String.IsNullOrEmpty(opcion))
-            {
-                @ViewBag.opBuscador = opcion;
-                @ViewBag.valBuscador = valor;
-                TempData["buscador"] = "0";
-
-                switch (opcion)
+                if (vigente.Equals("V"))
                 {
-                    case "1":
-                        incapacidades = incapacidades.Where(s => s.Asegurado.Patrone.registro.Contains(valor));
-                        break;
-                    case "2":
-                        incapacidades = incapacidades.Where(s => s.Asegurado.numeroAfiliacion.Contains(valor));
-                        break;
-                    case "3":
-                        incapacidades = incapacidades.Where(s => s.Asegurado.CURP.Contains(valor));
-                        break;
-                    case "4":
-                        incapacidades = incapacidades.Where(s => s.Asegurado.RFC.Contains(valor));
-                        break;
-                    case "5":
-                        incapacidades = incapacidades.Where(s => s.Asegurado.nombreTemporal.Contains(valor));
-                        break;
-                    case "6":
-                        incapacidades = incapacidades.Where(s => s.Asegurado.fechaAlta.ToString().Contains(valor));
-                        break;
-                    case "11":
-                        incapacidades = incapacidades.Where(s => s.Asegurado.ocupacion.Contains(valor));
-                        break;
-                    case "12":
-                        incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Plaza.cveCorta.Contains(valor));
-                        break;
-                    case "13":
-                        incapacidades = incapacidades.Where(s => s.Asegurado.extranjero.Contains(valor));
-                        break;
+                    incapacidades = from s in db.Incapacidades
+                                    join cli in db.Clientes on s.Asegurado.ClienteId equals cli.Id
+                                    where plazasAsignadas.Contains(s.Asegurado.Cliente.Plaza_id) &&
+                                          clientesAsignados.Contains(s.Asegurado.Cliente.Id) &&
+                                          patronesAsignados.Contains(s.Asegurado.PatroneId) &&
+                                          gruposAsignados.Contains(s.Asegurado.Cliente.Grupo_id) &&
+                                          s.fecTer >= DateTime.Now
+                                    orderby s.Asegurado.nombreTemporal
+                                    select s;
                 }
-            }
-
-            if (statusId != null)
-            {
-                @ViewBag.statusId = statusId;
-
-                if (statusId.Trim().Equals("A"))
+                else
                 {
-                    ViewBag.statusId = statusId;
-                    incapacidades = incapacidades.Where(s => !s.Asegurado.fechaBaja.HasValue);
+                    incapacidades = from s in db.Incapacidades
+                                    join cli in db.Clientes on s.Asegurado.ClienteId equals cli.Id
+                                    where plazasAsignadas.Contains(s.Asegurado.Cliente.Plaza_id) &&
+                                          clientesAsignados.Contains(s.Asegurado.Cliente.Id) &&
+                                          patronesAsignados.Contains(s.Asegurado.PatroneId) &&
+                                          gruposAsignados.Contains(s.Asegurado.Cliente.Grupo_id)
+                                    orderby s.Asegurado.nombreTemporal
+                                    select s;
                 }
-                else if (statusId.Trim().Equals("B"))
-                {
-                    ViewBag.statusId = statusId;
-                    incapacidades = incapacidades.Where(s => s.Asegurado.fechaBaja.HasValue);
-                }
-            }
 
-            allCust = incapacidades.ToList();
+
+                if (!String.IsNullOrEmpty(plazasId))
+                {
+                    @ViewBag.pzaId = plazasId;
+                    int idPlaza = int.Parse(plazasId.Trim());
+                    incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Plaza_id.Equals(idPlaza));
+                }
+                if (!String.IsNullOrEmpty(patronesId))
+                {
+                    @ViewBag.patId = patronesId;
+                    int idPatron = int.Parse(patronesId.Trim());
+                    incapacidades = incapacidades.Where(s => s.Asegurado.PatroneId.Equals(idPatron));
+                }
+
+                if (!String.IsNullOrEmpty(clientesId))
+                {
+                    @ViewBag.cteId = clientesId;
+                    int idCliente = int.Parse(clientesId.Trim());
+                    incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Id.Equals(idCliente));
+                }
+
+                if (!String.IsNullOrEmpty(gruposId))
+                {
+                    @ViewBag.gpoId = gruposId;
+                    int idGrupo = int.Parse(gruposId.Trim());
+                    incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Grupo_id.Equals(idGrupo));
+                }
+
+                if (!String.IsNullOrEmpty(opcion))
+                {
+                    @ViewBag.opBuscador = opcion;
+                    @ViewBag.valBuscador = valor;
+                    TempData["buscador"] = "0";
+
+                    switch (opcion)
+                    {
+                        case "1":
+                            incapacidades = incapacidades.Where(s => s.Asegurado.Patrone.registro.Contains(valor));
+                            break;
+                        case "2":
+                            incapacidades = incapacidades.Where(s => s.Asegurado.numeroAfiliacion.Contains(valor));
+                            break;
+                        case "3":
+                            incapacidades = incapacidades.Where(s => s.Asegurado.CURP.Contains(valor));
+                            break;
+                        case "4":
+                            incapacidades = incapacidades.Where(s => s.Asegurado.RFC.Contains(valor));
+                            break;
+                        case "5":
+                            incapacidades = incapacidades.Where(s => s.Asegurado.nombreTemporal.Contains(valor));
+                            break;
+                        case "6":
+                            incapacidades = incapacidades.Where(s => s.Asegurado.fechaAlta.ToString().Contains(valor));
+                            break;
+                        case "11":
+                            incapacidades = incapacidades.Where(s => s.Asegurado.ocupacion.Contains(valor));
+                            break;
+                        case "12":
+                            incapacidades = incapacidades.Where(s => s.Asegurado.Cliente.Plaza.cveCorta.Contains(valor));
+                            break;
+                        case "13":
+                            incapacidades = incapacidades.Where(s => s.Asegurado.extranjero.Contains(valor));
+                            break;
+                    }
+                }
+
+                if (statusId != null)
+                {
+                    @ViewBag.statusId = statusId;
+
+                    if (statusId.Trim().Equals("A"))
+                    {
+                        ViewBag.statusId = statusId;
+                        incapacidades = incapacidades.Where(s => !s.Asegurado.fechaBaja.HasValue);
+                    }
+                    else if (statusId.Trim().Equals("B"))
+                    {
+                        ViewBag.statusId = statusId;
+                        incapacidades = incapacidades.Where(s => s.Asegurado.fechaBaja.HasValue);
+                    }
+                }
+
+                allCust = incapacidades.ToList();
 
                 DateTime date = DateTime.Now;
                 String path = @"C:\\SUA\\Exceles\\";
@@ -556,37 +583,46 @@ namespace SUAMVC.Controllers
             row = eh.addNewCellToRow(index, row, "Nombre Completo", headerColumns[7] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Ocupación", headerColumns[8] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Ubicación", headerColumns[8] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "(1) R. Trab.", headerColumns[9] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Ocupación", headerColumns[9] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "(2) Enfermedad", headerColumns[10] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "(1) R. Trab.", headerColumns[10] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "(3) Maternidad", headerColumns[11] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "(2) Enfermedad", headerColumns[11] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Fecha Inicio", headerColumns[12] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "(3) Maternidad", headerColumns[12] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Fecha Inicio", headerColumns[13] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
             row = eh.addNewCellToRow(index, row, "Dias subsidiados", headerColumns[14] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Fecha Alta", headerColumns[14] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Fecha término", headerColumns[15] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Extranjero", headerColumns[15] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Tipo de incapacidad", headerColumns[16] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "ID.Plaza", headerColumns[16] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Fecha Alta", headerColumns[17] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Fecha Creación", headerColumns[17] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "Extranjero", headerColumns[18] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
-            row = eh.addNewCellToRow(index, row, "Fecha Modificación", headerColumns[18] + index, 5U, CellValues.String);
+            row = eh.addNewCellToRow(index, row, "ID.Plaza", headerColumns[19] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Fecha Creación", headerColumns[20] + index, 5U, CellValues.String);
+            sheetData.AppendChild(row);
+
+            row = eh.addNewCellToRow(index, row, "Fecha Modificación", headerColumns[21] + index, 5U, CellValues.String);
             sheetData.AppendChild(row);
 
             index++;
@@ -619,21 +655,13 @@ namespace SUAMVC.Controllers
                 row = eh.addNewCellToRow(index, row, dp.Asegurado.nombreTemporal, headerColumns[i + 7] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.Asegurado.ocupacion, headerColumns[i + 8] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.Asegurado.Cliente.claveCliente, headerColumns[i + 8] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Asegurado.ocupacion, headerColumns[i + 9] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 if (dp.tipoIncapacidad.Equals("1"))
-                {
-                    row = eh.addNewCellToRow(index, row, dp.folioIncapacidad, headerColumns[i + 9] + index, 2U, CellValues.String);
-                    sheetData.AppendChild(row);
-                }
-                else
-                {
-                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 9] + index, 2U, CellValues.String);
-                    sheetData.AppendChild(row);
-                }
-
-                if (dp.tipoIncapacidad.Equals("2"))
                 {
                     row = eh.addNewCellToRow(index, row, dp.folioIncapacidad, headerColumns[i + 10] + index, 2U, CellValues.String);
                     sheetData.AppendChild(row);
@@ -644,7 +672,7 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                if (dp.tipoIncapacidad.Equals("3"))
+                if (dp.tipoIncapacidad.Equals("2"))
                 {
                     row = eh.addNewCellToRow(index, row, dp.folioIncapacidad, headerColumns[i + 11] + index, 2U, CellValues.String);
                     sheetData.AppendChild(row);
@@ -654,31 +682,50 @@ namespace SUAMVC.Controllers
                     row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 11] + index, 2U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
-                
-                String var1 = String.Format("{0:dd/MM/yyyy}", dp.fechaAcc);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 12] + index, 2U, CellValues.String);
-                sheetData.AppendChild(row);
 
-                var1 = String.Format("{0:###,##0}", dp.diaSub);
+                if (dp.tipoIncapacidad.Equals("3"))
+                {
+                    row = eh.addNewCellToRow(index, row, dp.folioIncapacidad, headerColumns[i + 12] + index, 2U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+                else
+                {
+                    row = eh.addNewCellToRow(index, row, " ", headerColumns[i + 12] + index, 2U, CellValues.String);
+                    sheetData.AppendChild(row);
+                }
+
+                String var1 = String.Format("{0:dd/MM/yyyy}", dp.fechaAcc);
                 row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 13] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                var1 = String.Format("{0:dd/MM/yyyy}", dp.Asegurado.fechaAlta);
+                var1 = String.Format("{0:###,##0}", dp.diaSub);
                 row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 14] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.Asegurado.extranjero, headerColumns[i + 15] + index, 2U, CellValues.String);
+                var1 = String.Format("{0:dd/MM/yyyy}", dp.fecTer);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 15] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                row = eh.addNewCellToRow(index, row, dp.Asegurado.Cliente.Plaza.cveCorta, headerColumns[i + 16] + index, 2U, CellValues.String);
+
+                row = eh.addNewCellToRow(index, row, dp.conInc, headerColumns[i + 16] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
-                var1 = String.Format("{0:dd/MM/yyyy}", dp.Asegurado.fechaCreacion);
+                var1 = String.Format("{0:dd/MM/yyyy}", dp.Asegurado.fechaAlta);
                 row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 17] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
+                row = eh.addNewCellToRow(index, row, dp.Asegurado.extranjero, headerColumns[i + 18] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                row = eh.addNewCellToRow(index, row, dp.Asegurado.Cliente.Plaza.cveCorta, headerColumns[i + 19] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
+                var1 = String.Format("{0:dd/MM/yyyy}", dp.Asegurado.fechaCreacion);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 20] + index, 2U, CellValues.String);
+                sheetData.AppendChild(row);
+
                 var1 = String.Format("{0:dd/MM/yyyy}", dp.Asegurado.fechaModificacion);
-                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 18] + index, 2U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, var1, headerColumns[i + 21] + index, 2U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 index++;

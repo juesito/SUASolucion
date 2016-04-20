@@ -40,7 +40,7 @@ namespace SUAMVC.Controllers
             var solicituds = (from s in db.Solicituds
                               join top in db.TopicosUsuarios on s.clienteId equals top.topicoId
                               where top.tipo.Trim().Equals("C") && top.usuarioId.Equals(usuario.Id)
-                              orderby s.fechaEnvio descending
+                              orderby s.fechaSolicitud descending
                               select s).ToList();
 
 
@@ -56,7 +56,7 @@ namespace SUAMVC.Controllers
                 solicituds = solicituds.Where(s => s.tipoSolicitud.Equals(int.Parse(tipoId))).ToList();
 
             solicituds = solicituds.Where(s => !s.estatusSolicitud.Equals(concepto.id)).ToList();
-            solicituds = solicituds.Where(s => !s.estatusSolicitud.Equals(concepto2.id)).OrderByDescending(s => s.fechaEnvio).ToList();
+            solicituds = solicituds.Where(s => !s.estatusSolicitud.Equals(concepto2.id)).OrderByDescending(s => s.fechaSolicitud).ToList();
             return View(solicituds.ToList());
         }
 
@@ -325,7 +325,7 @@ namespace SUAMVC.Controllers
 
                 if (dp.apellidoMaterno != null)
                 {
-                    row = eh.addNewCellToRow(index, row, dp.apellidoMaterno, headerColumns[i + 4] + index, 3U, CellValues.String);
+                    row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i + 4] + index, 3U, CellValues.String);
                     sheetData.AppendChild(row);
                 }
                 else
@@ -334,7 +334,7 @@ namespace SUAMVC.Controllers
                     sheetData.AppendChild(row);
                 }
 
-                row = eh.addNewCellToRow(index, row, dp.apellidoPaterno, headerColumns[i + 5] + index, 3U, CellValues.String);
+                row = eh.addNewCellToRow(index, row, dp.apellidoMaterno, headerColumns[i + 5] + index, 3U, CellValues.String);
                 sheetData.AppendChild(row);
 
                 row = eh.addNewCellToRow(index, row, dp.nombre, headerColumns[i + 6] + index, 3U, CellValues.String);
@@ -4954,7 +4954,7 @@ namespace SUAMVC.Controllers
                             linea = linea + "000";
                         }
                         linea = linea + "  ";
-                        linea = linea + "01";    // dp.tipoMovto.Trim();
+                        linea = linea + "08";    // dp.tipoMovto.Trim();
                         delegacion = sol.Patrone.delegacion.Trim().Substring(0,2) + "400";
                         linea = linea + delegacion;
                         linea = linea + "          " + " ";

@@ -38,7 +38,8 @@
     gridColumns.Add(grid.Column("Asegurado.apellidoPaterno", "Apellido Paterno", null, null, true));
     gridColumns.Add(grid.Column("Asegurado.apellidoMaterno", "Apellido Materno", null, null, true));
     gridColumns.Add(grid.Column("Asegurado.nombres", "Nombre", @<text><div style='width: 13em'>@item.Asegurado.nombres</div></text> , null, canSort: true));
-    gridColumns.Add(grid.Column("Asegurado.nombreTemporal", "Nombre", @<text><div style='width: 22em'>@item.Asegurado.nombreTemporal</div></text> , null, canSort: true));
+    gridColumns.Add(grid.Column("Asegurado.nombreTemporal", "Nombre completo", @<text><div style='width: 22em'>@item.Asegurado.nombreTemporal</div></text> , null, canSort: true));
+    gridColumns.Add(grid.Column("Asegurado.Cliente.claveCliente", "Ubicación", @<text><div style='width: 6em'>@item.Asegurado.Cliente.claveCliente</div></text> , null, canSort: true));
     gridColumns.Add(grid.Column("Asegurado.ocupacion", "Ocupación", null, null, canSort: true));
     gridColumns.Add(grid.Column("tipoIncapacidad", "(1)     R. Trabajo", @<text> @if (@item.tipoIncapacidad.Equals("1"))
     { @item.folioIncapacidad}
@@ -136,8 +137,8 @@
                         @if (SecurityUserModel.verificarPermiso("Incapacidades", "Descargar excel", 3))
                         {
                             <a href="@Url.Action("GetExcel", "Incapacidades", new{ plazasId = @ViewBag.pzaId, patronesId = @ViewBag.patId,
-                                clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador, statusId = @ViewBag.statusId
-                                })" style="text-align:right">
+                                clientesId = @ViewBag.cteId, gruposId = @ViewBag.gpoId, opcion = @ViewBag.opBuscador, valor = @ViewBag.valBuscador, statusId = @ViewBag.statusId,
+                                vigente = "T"})" style="text-align:right">
                                 <img src="~/Content/Images/xls.png" title="@Language.toExcel" alt="@Language.toExcel" style="border:none;" width="35" height="35" />
                             </a>
                         }
